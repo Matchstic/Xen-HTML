@@ -110,7 +110,7 @@
                 
                 [testingSpecs addObject:specifier];
             } else {
-                // Just an edit cell, because fuck it.
+                // Just an edit cell, because why not!
                 PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:label
                                                                         target:self
                                                                            set:@selector(setPreferenceValue:specifier:)
@@ -160,7 +160,18 @@
 }
 
 -(id)readPreferenceValue:(PSSpecifier*)spec {
-    return [_options objectForKey:spec.properties[@"key"]];
+    id value = [_options objectForKey:spec.properties[@"key"]];
+    
+    if (!value) {
+        for (NSDictionary *item in _plist) {
+            if ([[item objectForKey:@"name"] isEqualToString:spec.properties[@"key"]]) {
+                value = [item objectForKey:@"default"];
+                break;
+            }
+        }
+    }
+        
+    return value;
 }
 
 -(void)viewWillAppear:(BOOL)view {

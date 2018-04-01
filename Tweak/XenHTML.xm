@@ -29,6 +29,12 @@
  3. Change build target
  */
 
+#pragma mark Private headers
+
+///////////////////////////////////////////////////////////////////
+// Sorry about this, too lazy to resolve before open-sourcing
+///////////////////////////////////////////////////////////////////
+
 @interface WebScriptObject : NSObject
 @end
 
@@ -319,7 +325,7 @@ static XENDashBoardWebViewController *iOS10ForegroundWrapperController;
 static id dashBoardMainPageViewController;
 static id dashBoardMainPageContentViewController;
 
-#pragma mark Layout LS web views (<= iOS 9)
+#pragma mark Layout LS web views (iOS 9)
 
 %hook SBLockScreenView
 
@@ -745,7 +751,7 @@ static id dashBoardMainPageContentViewController;
 
 %end
 
-#pragma mark Destroy UI on unlock (<= iOS 9)
+#pragma mark Destroy UI on unlock (iOS 9)
 
 %hook SBLockScreenViewController
 
@@ -818,7 +824,7 @@ static id dashBoardMainPageContentViewController;
 
 %end
 
-#pragma mark Handle orientation (<= iOS 9)
+#pragma mark Handle orientation (iOS 9)
 
 %hook SBLockScreenViewController
 
@@ -871,7 +877,7 @@ static id dashBoardMainPageContentViewController;
 
 %end
 
-#pragma mark Handle issues with notifications list view (<= iOS 9)
+#pragma mark Handle issues with notifications list view (iOS 9)
 
 %hook SBLockScreenNotificationListController
 
@@ -1009,7 +1015,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
  * Thus, some settings need to be axed to compensate.
  */
 
-#pragma mark Same sized status bar (<= iOS 9)
+#pragma mark Same sized status bar (iOS 9)
 
 %hook SBLockScreenViewController
 
@@ -1017,7 +1023,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
     return [XENHResources lsenabled] && [XENHResources useSameSizedStatusBar] ? 0 : %orig;
 }
 
-#pragma mark Hide LS status bar (<= iOS 9)
+#pragma mark Hide LS status bar (iOS 9)
 
 - (_Bool)showsSpringBoardStatusBar {
     return [XENHResources lsenabled] && [XENHResources hideStatusBar] ? NO : %orig;
@@ -1055,7 +1061,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 
 %end
 
-#pragma mark Clock in status bar (<= iOS 9)
+#pragma mark Clock in status bar (iOS 9)
 
 %hook SBLockScreenViewController
 
@@ -1220,7 +1226,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide STU view if necessary (<= iOS 9)
+#pragma mark Hide STU view if necessary (iOS 9)
 
 %hook SBLockScreenView
 
@@ -1342,7 +1348,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide camera (and Handoff) grabbers (<= iOS 9)
+#pragma mark Hide camera (and Handoff) grabbers (iOS 9)
 
 %hook SBLockScreenView
 
@@ -1472,7 +1478,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Lockscreen dim duration adjustments (<= iOS 9)
+#pragma mark Lockscreen dim duration adjustments (iOS 9)
 
 %hook SBBacklightController
 
@@ -1534,8 +1540,7 @@ void cancelIdleTimer() {
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
     
-    XENlog(@"_setUILocked: %d", arg1);
-    
+    XENlog(@"Hiding SBHTML due to locking of the device");
     [sbhtmlViewController setPaused:arg1];
 }
 
@@ -1677,7 +1682,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide LockHTML when the display is off. (<= iOS 9)
+#pragma mark Hide LockHTML when the display is off. (iOS 9)
 
 %hook SBLockScreenViewController
 
@@ -2261,7 +2266,7 @@ static XENHTapGestureRecognizer *tap;
 
 %end
 
-#pragma mark Properly handle media controls on lockscreen (<= iOS 9)
+#pragma mark Properly handle media controls on lockscreen (iOS 9)
 
 static void hideForegroundIfNeeded() {
     BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
@@ -2491,7 +2496,7 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-#pragma mark Hide widget for notifications if needed. (<= iOS 9)
+#pragma mark Hide widget for notifications if needed. (iOS 9)
 
 static void hideForegroundForLSNotifIfNeeded() {
     if ([XENHResources LSFadeForegroundForNotifications] && ![XENHResources LSInStateNotificationsHidden]) {
@@ -2573,8 +2578,6 @@ static void showForegroundForLSNotifIfNeeded() {
 }
 
 %end
-
-// TODO: Also, provide support here for Xen Notifications.
 
 #pragma mark Properly handle media controls and notification on lockscreen (iOS 11)
 
@@ -2841,8 +2844,8 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
             objc_registerClassPair($XENDashBoardWebViewController);
         }
                 
-        // XXX: Load up Xen before we do, as this allows to ensure better compatibility between the two.
-        // i.e., XenHTML is in control of everything.
+        // XXX: Load up Xen Lockscreen before we do, as this allows to ensure better compatibility between the two.
+        // i.e., Xen HTML is in control of everything.
         dlopen("/Library/MobileSubstrate/DynamicLibraries/Xen.dylib", RTLD_NOW);
         
         // XXX: Load Priority Hub too.

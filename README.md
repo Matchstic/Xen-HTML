@@ -6,7 +6,11 @@ Xen HTML provides users the ability to display any HTML-based widget on the Lock
 
 ### Building
 
-This project requires iOSOpenDev
+This project requires iOSOpenDev. Dependant third-party libraries and private headers are included within this repository to make life easier.
+
+### Notes for development
+
+`XenHTML.xm` is rather horrendous; its got too many headers inline, and all modifications in SpringBoard are contained within the same file. Sorry about that.
 
 ### License
 

@@ -121,7 +121,7 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBAllowTouch;
 +(BOOL)SBUseLegacyMode;
 
-// Extra shit
+// Extra stuff
 +(void)setCurrentOrientation:(int)orient;
 +(int)getCurrentOrientation;
 
