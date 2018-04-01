@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Media Controls</string>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Hide Foreground Widget For:</string>
+			<key>footerText</key>
+			<string>Configure behaviour alongside the stock media controls</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSFadeForegroundForMedia</string>
+			<key>label</key>
+			<string>Controls UI</string>
+			<key>minVer</key>
+			<real>9.0</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSFadeForegroundForArtwork</string>
+			<key>label</key>
+			<string>Artwork</string>
+			<key>minVer</key>
+			<real>9.0</real>
+			<key>maxVer</key>
+			<real>9.3</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Miscellaneous</string>
+			<key>minVer</key>
+			<real>9.0</real>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSHideArtwork</string>
+			<key>label</key>
+			<string>Hide Media Artwork</string>
+			<key>minVer</key>
+			<real>9.0</real>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+	</array>
+</dict>
+</plist>

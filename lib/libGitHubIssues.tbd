@@ -1,0 +1,41 @@
+---
+archs:           [ armv7, arm64 ]
+platform:        ios
+install-name:    /usr/lib/libGitHubIssues.dylib
+exports:         
+  - archs:           [ armv7, arm64 ]
+    symbols:         []
+    objc-classes:    [ _GICommentComposeController, 
+                       _GIIssueComposeController, _GIIssueDetailTableController, 
+                       _GIIssuesCommentTableCell, _GIIssuesLabelView, _GIIssuesTableViewCell, 
+                       _GIIssuesViewController, _GILoginController, _GIResources, 
+                       _GIRootViewController, _GIUserViewController ]
+    objc-ivars:      [ _GIIssuesCommentTableCell.__viewHeight,
+                       _GICommentComposeController._delegate, _GICommentComposeController._issue, 
+                       _GICommentComposeController._textView, _GIIssueComposeController._delegate, 
+                       _GIIssueComposeController._separator, _GIIssueComposeController._textView, 
+                       _GIIssueComposeController._titleField, _GIIssueDetailTableController._dataSource, 
+                       _GIIssueDetailTableController._issue, _GIIssuesCommentTableCell._avatarView, 
+                       _GIIssuesCommentTableCell._bodyLabel, _GIIssuesCommentTableCell._comment, 
+                       _GIIssuesCommentTableCell._commentDateLabel, _GIIssuesCommentTableCell._userLabel, 
+                       _GIIssuesLabelView._label, _GIIssuesTableViewCell.__viewHeight, 
+                       _GIIssuesTableViewCell._bodyLabel, _GIIssuesTableViewCell._closeOpenIndicator, 
+                       _GIIssuesTableViewCell._commentsLabel, _GIIssuesTableViewCell._issue, 
+                       _GIIssuesTableViewCell._labelRegionView, _GIIssuesTableViewCell._titleLabel, 
+                       _GIIssuesTableViewCell._updatedAtLabel, _GIIssuesTableViewCell._userImageView, 
+                       _GIIssuesTableViewCell._userLabel, _GIIssuesTableViewCell._usingExtras, 
+                       _GIIssuesViewController._dataSource, _GIIssuesViewController._segmented, 
+                       _GIIssuesViewController._showNewIssueAfterAuthentication, 
+                       _GIIssuesViewController._spinner, _GILoginController._backer, 
+                       _GILoginController._cancelButton, _GILoginController._createAccount, 
+                       _GILoginController._delegate, _GILoginController._explainLabel, 
+                       _GILoginController._headerImageView, _GILoginController._loginButton, 
+                       _GILoginController._password, _GILoginController._separatorView, 
+                       _GILoginController._spinny, _GILoginController._state, 
+                       _GILoginController._twoFAButton, _GILoginController._twoFactorAuthPassword, 
+                       _GILoginController._username, _GIUserViewController._backgroundAvatarView, 
+                       _GIUserViewController._centraliserView, _GIUserViewController._effectView, 
+                       _GIUserViewController._emailLabel, _GIUserViewController._foregroundAvatarView, 
+                       _GIUserViewController._logoutButton, _GIUserViewController._nameLabel, 
+                       _GIUserViewController._separatorView, _GIUserViewController._vibrancyView ]
+...

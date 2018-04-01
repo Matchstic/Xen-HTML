@@ -1,0 +1,2862 @@
+/*
+ *  Xen HTML: Fancy pants HTML on your lockscreen
+ *
+ *  The second tweak in Xen Suite.
+ *
+ *  Copyright (c) Matt Clarke, 2015
+ *
+*/
+
+#import "XENHWebViewController.h"
+#import "XENHResources.h"
+#import "XENHTouchPassThroughView.h"
+
+#include "WebCycript.h"
+#include <dlfcn.h>
+#include <JavaScriptCore/JSContextRef.h> // For debug support
+#import "XENHTapGestureRecognizer.h"
+#import "XENSetupWindow.h"
+#import <objc/runtime.h>
+
+#pragma mark Comment in/out for Simulator support!
+
+//%config(generator=internal);
+
+/*
+ Other steps to compile for actual device again:
+ 1. Make CydiaSubstrate linking required
+ 2. Turn on symbol stripping
+ 3. Change build target
+ */
+
+@interface WebScriptObject : NSObject
+@end
+
+@interface WebFrame : NSObject
+- (id)dataSource;
+- (OpaqueJSContext*)globalContext;
+@end
+
+@interface WebView : NSObject
+-(void)setPreferencesIdentifier:(id)arg1;
+-(void)_setAllowsMessaging:(BOOL)arg1;
+-(void)setScriptDebugDelegate:(id)delegate;
+@end
+
+@class WebView;
+@class WebScriptCallFrame;
+
+@interface WebScriptCallFrame
+- (NSString *)functionName;
+@end
+
+@interface UIWebDocumentView : UIView
+-(WebView*)webView;
+@end
+
+@interface UIWebView (Apple)
+- (void)webView:(WebView *)view addMessageToConsole:(NSDictionary *)message;
+- (void)webView:(WebView *)webview didClearWindowObject:(WebScriptObject *)window forFrame:(id)frame;
+-(UIWebDocumentView*)_documentView;
+@end
+
+@interface SBLockScreenScrollView : UIView
+@end
+
+@interface SBLockScreenNotificationListController : NSObject
+-(NSArray*)_xenhtml_listItems;
+@end
+
+@interface SBLockScreenNotificationListView : UIView
+@property(assign, nonatomic) SBLockScreenNotificationListController *delegate;
+@end
+
+@interface PHContainerView : UIView
+@property (readonly) NSString* selectedAppID;
+@end
+
+@interface SBHomeScreenViewController : UIViewController
+-(void)_xenhtml_addTouchRecogniser;
+@end
+
+@interface SBHomeScreenView : UIView
+@end
+
+@interface FBProcessState : NSObject <NSCopying>
+
+- (int)effectiveVisibility;
+- (BOOL)isForeground;
+- (BOOL)isRunning;
+- (int)pid;
+- (int)taskState;
+- (int)visibility;
+
+@end
+
+@interface FBSystemService : NSObject
++ (id)sharedInstance;
+- (void)exitAndRelaunch:(bool)arg1;
+- (void)shutdownAndReboot:(bool)arg1;
+@end
+
+@interface SBBacklightController : NSObject
++(id)sharedInstance;
+-(void)resetLockScreenIdleTimer;
+-(void)cancelLockScreenIdleTimer;
+@property(readonly, nonatomic) _Bool screenIsOn;
+@end
+
+@interface SBIdleTimerGlobalCoordinator : NSObject
++ (id)sharedInstance;
+- (void)resetIdleTimer;
+@end
+
+@interface SBRootIconListView : UIView
+@end
+
+@interface UITapGestureRecognizer (Private)
+@property (nonatomic, readonly) NSArray *touches;
+@end
+
+@interface SBLockScreenManager : NSObject
++(instancetype)sharedInstance;
+- (void)setBioUnlockingDisabled:(BOOL)disabled forRequester:(id)requester;
+- (id)lockScreenViewController;
+@property(readonly) _Bool isUILocked;
+@end
+
+@interface SpringBoard : UIApplication
+-(void)_relaunchSpringBoardNow;
+- (id)_accessibilityFrontMostApplication;
+@end
+
+@interface SBFLockScreenDateView : UIView
+@end
+
+@interface SBLockScreenView : UIView
+- (void)_layoutBottomLeftGrabberView;
+- (void)_layoutCameraGrabberView;
+- (void)_layoutGrabberView:(UIView*)view atTop:(BOOL)top;
+- (void)_xenhtml_addBackgroundTouchIfNeeded:(UIView*)view;
+@end
+
+@interface SBDashBoardView : UIView
+@property(strong, nonatomic) UIView *backgroundView;
+@property(strong, nonatomic) UIView *wallpaperEffectView;
+@property(readonly, nonatomic) UIView *slideableContentView;
+@end
+
+@interface SBUIProudLockIconView : UIView
+- (NSInteger)state;
+@end
+
+@interface SBDashBoardProudLockViewController : UIViewController
+- (void)_setIconVisible:(_Bool)arg1 animated:(_Bool)arg2;
+@end
+
+@interface _NowPlayingArtView : UIView
+@end
+
+@interface SBTelephonyManager : NSObject
++ (id)sharedTelephonyManager;
+- (_Bool)inCall;
+@end
+
+@interface SBConferenceManager : NSObject
++ (id)sharedInstance;
+- (_Bool)inFaceTime;
+@end
+
+// iOS 10 additions.
+@interface SBDashBoardBehavior : NSObject
++ (id)behaviorForProvider:(id)arg1;
++ (id)behavior;
+@property(nonatomic) unsigned int restrictedCapabilities;
+@property(nonatomic) int notificationBehavior;
+@property(nonatomic) int scrollingMode;
+@property(nonatomic) int idleWarnMode;
+@property(nonatomic) int idleTimerMode;
+@property(nonatomic) int idleTimerDuration;
+@end
+
+@interface SBLockScreenManager (iOS10)
+- (void)setBiometricAutoUnlockingDisabled:(_Bool)arg1 forReason:(id)arg2;
+
+@end
+
+@interface SBDashBoardPageViewController : UIViewController
+- (void)aggregateBehavior:(id)arg1;
+- (void)aggregateAppearance:(id)arg1;
+@end
+
+@interface SBDashBoardAppearance : NSObject
+- (void)addComponent:(id)arg1;
+- (void)unionAppearance:(id)arg1;
+@property(copy, nonatomic) NSSet *components;
+- (void)removeComponent:(id)arg1;
+@end
+
+@interface SBDashBoardComponent : NSObject
++ (id)tinting;
++ (id)wallpaper;
++ (id)slideableContent;
++ (id)pageContent;
++ (id)pageControl;
++ (id)statusBar;
++ (id)dateView;
+@property(nonatomic) CGPoint offset;
+@property(nonatomic) long long type;
+- (id)offset:(CGPoint)arg1;
+- (id)legibilitySettings:(id)arg1;
+- (id)view:(id)arg1;
+- (id)value:(id)arg1;
+- (id)string:(id)arg1;
+- (id)flag:(long long)arg1;
+- (id)hidden:(_Bool)arg1;
+- (id)identifier:(id)arg1;
+- (id)priority:(long long)arg1;
+@end
+
+@interface SBDashBoardViewControllerBase : UIViewController
+- (void)registerView:(id)arg1 forRole:(long long)arg2;
+- (void)unregisterView:(id)arg1;
+@end
+
+@interface SBDashBoardNotificationAdjunctListViewController : SBDashBoardViewControllerBase
+@property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
+@end
+
+@interface XENDashBoardWebViewController : SBDashBoardViewControllerBase
+@property (nonatomic, retain) UIView *webview;
+@property (nonatomic, retain) UIGestureRecognizer *notificationsPullUpGesture;
+-(void)setWebView:(UIView*)view;
+-(void)unregisterView;
+-(void)setNotificationsGesture:(UIGestureRecognizer*)gestureRecognizer;
+@end
+
+@interface SBDashBoardPresentationViewController : SBDashBoardViewControllerBase
+- (void)dismissContentViewController:(id)arg1 animated:(_Bool)arg2;
+- (void)presentContentViewController:(id)arg1 animated:(_Bool)arg2;
+@end
+
+@interface SBDashBoardNotificationListViewController : SBDashBoardViewControllerBase
+@property(readonly, nonatomic) _Bool hasContent;
+@end
+
+@interface SBDashBoardMainPageContentViewController : SBDashBoardPresentationViewController
+@property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
+@property(readonly, nonatomic) SBDashBoardNotificationListViewController *notificationListViewController;
+@property(readonly, copy, nonatomic) SBDashBoardBehavior *activeBehavior;
+@end
+
+@interface SBDashBoardMainPageViewController : SBDashBoardPageViewController
+@property(readonly, nonatomic) SBDashBoardMainPageContentViewController *contentViewController;
+@end
+
+@interface SBDashBoardViewController : UIViewController
+@property(nonatomic) unsigned long long lastSettledPageIndex;
+-(unsigned long long)_indexOfMainPage;
+@end
+
+@interface UIGestureRecognizer (touch)
+- (void)_touchesBegan:(NSSet*)touches withEvent:(UIEvent *)event;
+- (void)_touchesMoved:(NSSet*)touches withEvent:(UIEvent *)event;
+- (void)_touchesEnded:(NSSet*)touches withEvent:(UIEvent *)event;
+- (void)_touchesCancelled:(NSSet*)touches withEvent:(UIEvent *)event;
+@end
+
+@interface UITouch (touch)
+- (void)setView:(id)arg1;
+@end
+
+@interface SBFolderIconBackgroundView : UIView
+@end
+
+@interface SBIconLegibilityLabelView : UIView
+@end
+
+@interface SBMainDisplayLayoutState : NSObject
+@property(readonly, nonatomic) long long unlockedEnvironmentMode;
+@end
+
+@interface SBWorkspaceApplicationSceneTransitionContext : NSObject
+@property(readonly, nonatomic) SBMainDisplayLayoutState *layoutState;
+@end
+
+@interface SBMainWorkspaceTransitionRequest : NSObject
+@property(copy, nonatomic) NSString *eventLabel;
+@property(retain, nonatomic) SBWorkspaceApplicationSceneTransitionContext *applicationContext;
+@end
+
+@interface SBDashBoardCombinedListViewController : SBDashBoardViewControllerBase
+@property(nonatomic, getter=isNotificationContentHidden) _Bool notificationContentHidden;
+- (void)_updateListViewContentInset;
+@end
+
+@interface SBIconController : UIViewController
+@end
+
+static void hideForegroundForLSNotifIfNeeded();
+static void showForegroundForLSNotifIfNeeded();
+
+void resetIdleTimer();
+void cancelIdleTimer();
+
+static XENHSetupWindow *setupWindow;
+
+%group SpringBoard
+
+static XENHWebViewController *backgroundViewController;
+static XENHWebViewController *foregroundViewController;
+static XENHWebViewController *sbhtmlViewController;
+static PHContainerView * __weak phContainerView;
+static UIView * __weak lsView;
+static NSMutableArray *foregroundHiddenRequesters;
+static XENHTapGestureRecognizer *lsBackgroundForwarder;
+static BOOL iOS10ForegroundAddAttempted = NO;
+static XENDashBoardWebViewController *iOS10ForegroundWrapperController;
+
+static id dashBoardMainPageViewController;
+static id dashBoardMainPageContentViewController;
+
+#pragma mark Layout LS web views (<= iOS 9)
+
+%hook SBLockScreenView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources lsenabled]) {
+        backgroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        foregroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+}
+
+-(id)initWithFrame:(CGRect)frame {
+    BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+    
+    int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+    [XENHResources setCurrentOrientation:orientation];
+    
+    UIView *orig = %orig;
+    lsView = orig;
+    
+    if ([XENHResources lsenabled]) {
+        // Add bottommost webview.
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+            if (!backgroundViewController)
+                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
+            else
+                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+            
+            [orig insertSubview:backgroundViewController.view atIndex:0];
+        }
+    
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+            if (!foregroundViewController)
+                foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
+            else
+                [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+            
+#if TARGET_IPHONE_SIMULATOR==0
+            [MSHookIvar<UIView*>(orig, "_foregroundLockContentView") addSubview:foregroundViewController.view];
+#endif
+        }
+    }
+    
+    return (SBLockScreenView*)orig;
+}
+
+%end
+
+#pragma mark Layout LS web views (iOS 10+)
+
+%hook SBDashBoardView
+
+// This is called *every* lock event on iOS 10, and once per respring on iOS 11.
+- (id)initWithFrame:(CGRect)arg1 {
+    SBDashBoardView *orig = %orig;
+    lsView = orig;
+    
+    XENlog(@"SBDashBoardView -initWithFrame:");
+    
+    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    
+    if (isiOS10 && [XENHResources lsenabled]) {
+        // Make sure we initialise our UI with the right orientation.
+        BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+        
+        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+        [XENHResources setCurrentOrientation:orientation];
+        
+        // Add bottommost webview.
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+            if (!backgroundViewController)
+                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
+            else
+                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+            
+            [orig.backgroundView insertSubview:backgroundViewController.view atIndex:0];
+        }
+    }
+    
+    return (SBDashBoardView*)orig;
+}
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources lsenabled]) {
+        backgroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        foregroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        if (self.wallpaperEffectView)
+            [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:self.wallpaperEffectView];
+        else
+            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+    }
+}
+
+-(void)setMainPageView:(UIView*)view {
+    %orig;
+    
+    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    
+    // We ONLY want this to run on iOS 10.
+    if (isiOS10) {
+        if (!iOS10ForegroundAddAttempted && [XENHResources lsenabled]) {
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+                if (!foregroundViewController)
+                    foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
+                    else
+                        [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+                
+                // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
+                // and then feed that to the isolating controller to present.
+                
+                iOS10ForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+                [iOS10ForegroundWrapperController setWebView:foregroundViewController.view];
+                
+                // Feed to the isolating controller.
+                if (dashBoardMainPageViewController) {
+                    // iOS 10
+                    [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] presentContentViewController:iOS10ForegroundWrapperController animated:NO];
+                }
+                
+                hideForegroundForLSNotifIfNeeded();
+            }
+            
+            iOS10ForegroundAddAttempted = YES;
+        }
+    }
+}
+
+- (void)viewControllerWillAppear {
+    %orig;
+    
+    // On iOS 11, this is called whenever Dashboard is shown.
+    // i.e., on lock and on NC display.
+    
+    // Alright; add background and foreground webviews to the LS!
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0 && [XENHResources lsenabled]) {
+        // Make sure we initialise our UI with the right orientation.
+        BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+        
+        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+        [XENHResources setCurrentOrientation:orientation];
+        
+        XENlog(@"Adding webviews to Dashboard if needed...");
+        
+        // Foreground HTML -> SBDashBoardMainPageContentViewController approach
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+            if (!foregroundViewController)
+                foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
+            else
+                [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+            
+            // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
+            // and then feed that to the isolating controller to present.
+            
+            if (!iOS10ForegroundWrapperController) {
+                iOS10ForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+            }
+            
+            [iOS10ForegroundWrapperController setWebView:foregroundViewController.view];
+            
+            [dashBoardMainPageContentViewController presentContentViewController:iOS10ForegroundWrapperController animated:NO];
+        }
+        
+        // Now for the background.
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+            if (!backgroundViewController)
+                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
+            else
+                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+            
+            // Not using self.backgroundView now as that goes weird when swiping to the camera
+            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+        }
+    }
+}
+
+#pragma mark Fix background controller being hidden when going to the camera (iOS 11)
+
+- (void)setWallpaperEffectView:(UIView*)wallpaperEffectView {
+    %orig;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0 && [XENHResources lsenabled]) {
+        if (wallpaperEffectView) {
+            [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:wallpaperEffectView];
+        } else {
+            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+        }
+    }
+}
+
+#pragma mark Destroy UI on unlock (iOS 11)
+
+- (void)viewControllerDidDisappear {
+    %orig;
+    
+    // On iOS 11, this is called whenever dashboard is hidden.
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
+        XENlog(@"Unloading background HTML if present...");
+        
+        [backgroundViewController unloadView];
+        [backgroundViewController.view removeFromSuperview];
+        backgroundViewController = nil;
+        
+        XENlog(@"Unloading foreground HTML if present...");
+        
+        [foregroundViewController unloadView];
+        [foregroundViewController.view removeFromSuperview];
+        foregroundViewController = nil;
+        
+        if (iOS10ForegroundWrapperController) {
+            
+            [[(UIViewController*)iOS10ForegroundWrapperController view] removeFromSuperview];
+            [(UIViewController*)iOS10ForegroundWrapperController removeFromParentViewController];
+            
+            iOS10ForegroundWrapperController = nil;
+        }
+        
+        [foregroundHiddenRequesters removeAllObjects];
+        foregroundHiddenRequesters = nil;
+        
+        lsBackgroundForwarder = nil;
+    }
+}
+
+%end
+
+#pragma mark Fix touch through to the LS notifications gesture. (iOS 11)
+
+%hook SBDashBoardMainPageView
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // This class is also in iOS 10.
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        return %orig;
+    }
+    
+    UIView *orig = %orig;
+    
+    if (!foregroundViewController) {
+        return orig;
+    }
+    
+    UIView *outview = orig;
+    
+    if ([(UIView*)orig class] == objc_getClass("NCNotificationListCollectionView")) {
+        // We allow scrolling/touching the widget in the lower 20% of the display if the user
+        // has toggled ON Prioritise Touch in Widget, else prevent swiping to old notifications.
+        
+        if (![XENHResources LSWidgetScrollPriority] && point.y >= SCREEN_HEIGHT*0.81) {
+            outview = orig;
+        } else {
+            outview = [iOS10ForegroundWrapperController.view hitTest:point withEvent:event];
+        
+            if (!outview)
+                outview = orig;
+        }
+    }
+    
+    return outview;
+    
+    // _UIDragAutoScrollGestureRecognizer is what handles the pull-up gesture for notifications.
+}
+
+%end
+
+#pragma mark Backing view controller for LS foreground webview. (iOS 10+)
+
+%hook XENDashBoardWebViewController
+
+%property (nonatomic, assign) UIView *webview;
+
+- (long long)presentationTransition {
+    return 1;
+}
+
+- (long long)presentationPriority {
+    return 1; // notifications are 4, artwork is 2. Higher is greater priority.
+}
+
+- (long long)presentationType {
+    // artwork is 2, notifications is 1. Fullscreen or not? Blur or not?
+    return 1;
+}
+
+- (long long)scrollingStrategy {
+    return 1; // Not sure, but this is what artwork uses.
+}
+
+/*
+ * We were defining an SBDashBoardRegion. However, it appears Apple check whether any overlap,
+ * and if any do, the higher priority one is the only one displayed.
+ */
+
+%new
+-(void)setWebView:(UIView*)view {
+    self.webview = view;
+    [self.view insertSubview:self.webview atIndex:0];
+    
+    //[self registerView:self.webview forRole:1];
+}
+
+%new
+-(void)unregisterView {
+    //[self unregisterView:self.webview];
+
+}
+
+-(void)viewDidLayoutSubviews {
+    %orig;
+    
+    self.webview.frame = self.view.bounds;
+}
+
+%end
+
+%hook SBDashBoardMainPageContentViewController
+
+-(id)init {
+    id orig = %orig;
+    
+    dashBoardMainPageContentViewController = orig;
+    
+    return orig;
+}
+
+%end
+
+// Doesn't exist in iOS 11!
+%hook SBDashBoardMainPageViewController
+
+-(id)init {
+    id orig = %orig;
+    
+    dashBoardMainPageViewController = orig;
+    
+    return orig;
+}
+
+#pragma mark Hide clock (iOS 10)
+
+// This is to remove the dateView and pageControl on our pages.
+- (void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 1) {
+        SBDashBoardComponent *dateView = [[objc_getClass("SBDashBoardComponent") dateView] hidden:YES];
+        [arg1 addComponent:dateView];
+    }
+}
+
+%end
+
+#pragma mark Hide clock (iOS 11)
+
+%hook SBDashBoardMainPageContentViewController
+
+- (void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
+    %orig;
+    
+    // This class is also in iOS 10.
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        return;
+    }
+    
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 1) {
+        SBDashBoardComponent *dateView;
+        
+        for (SBDashBoardComponent *component in arg1.components) {
+            if (component.type == 1) {
+                dateView = component;
+                break;
+            }
+        }
+        
+        [arg1 removeComponent:dateView];
+        
+        dateView = [[objc_getClass("SBDashBoardComponent") dateView] hidden:YES];
+        [arg1 addComponent:dateView];
+        
+    // Make sure to re-enable LS clock if needed
+    } else if (![XENHResources lsenabled] || [XENHResources _hideClock10] != 1) {
+        SBDashBoardComponent *dateView;
+        
+        for (SBDashBoardComponent *component in arg1.components) {
+            if (component.type == 1) {
+                dateView = component;
+                break;
+            }
+        }
+        
+        [arg1 removeComponent:dateView];
+        
+        dateView = [[objc_getClass("SBDashBoardComponent") dateView] hidden:NO];
+        [arg1 addComponent:dateView];
+    }
+}
+
+%end
+
+#pragma Hide Torch and Camera (iOS 11+)
+
+%hook SBDashBoardQuickActionsViewController
+
+- (_Bool)hasCamera {
+    if ([XENHResources lsenabled] && [XENHResources LSHideTorchAndCamera]) {
+        return NO;
+    }
+    
+    return %orig;
+}
+
+- (_Bool)hasFlashlight {
+    if ([XENHResources lsenabled] && [XENHResources LSHideTorchAndCamera]) {
+        return NO;
+    }
+    
+    return %orig;
+}
+
+%end
+
+#pragma mark Destroy UI on unlock (<= iOS 9)
+
+%hook SBLockScreenViewController
+
+-(void)_releaseLockScreenView {
+    %orig;
+    
+    if ([XENHResources lsenabled]) {
+        [backgroundViewController unloadView];
+        [backgroundViewController.view removeFromSuperview];
+        backgroundViewController = nil;
+    
+        [foregroundViewController unloadView];
+        [foregroundViewController.view removeFromSuperview];
+        foregroundViewController = nil;
+        
+        [foregroundHiddenRequesters removeAllObjects];
+        foregroundHiddenRequesters = nil;
+        
+        lsBackgroundForwarder = nil;
+    }
+}
+
+%end
+
+#pragma mark Destroy UI on unlock (iOS 10)
+
+/*
+ * We were destroying the UI in -deactivate, but the problem with this approach is that this is called
+ * when things like the power down UI are shown, and thus is not suitable for this.
+ *
+ * In addition, we need to be unloading our resources AFTER the containing SBAlertWindow has fully 
+ * deallocated. Otherwise, when -resignFirstResponder is called to the underlying WKContentView,
+ * we will hit a SIGSEGV due to its _webView iVar being undefined.
+ */
+
+%hook SBDashBoardViewController
+
+- (void)displayDidDisappear {
+    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    
+    if (isiOS10 && [XENHResources lsenabled]) {
+        XENlog(@"Unloading background HTML if present...");
+        
+        [backgroundViewController unloadView];
+        [backgroundViewController.view removeFromSuperview];
+        backgroundViewController = nil;
+        
+        if (iOS10ForegroundWrapperController) {
+            [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] dismissContentViewController:iOS10ForegroundWrapperController animated:NO];
+            
+            iOS10ForegroundWrapperController = nil;
+        }
+        
+        XENlog(@"Unloading foreground HTML if present...");
+        
+        [foregroundViewController unloadView];
+        [foregroundViewController.view removeFromSuperview];
+        foregroundViewController = nil;
+        
+        [foregroundHiddenRequesters removeAllObjects];
+        foregroundHiddenRequesters = nil;
+        
+        lsBackgroundForwarder = nil;
+        
+        iOS10ForegroundAddAttempted = NO;
+    }
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Handle orientation (<= iOS 9)
+
+%hook SBLockScreenViewController
+
+- (void)willRotateToInterfaceOrientation:(int)interfaceOrientation duration:(double)duration {
+    %orig;
+    
+    if ([XENHResources lsenabled]) {
+        [XENHResources setCurrentOrientation:interfaceOrientation];
+    
+        [UIView animateWithDuration:duration animations:^{
+            [backgroundViewController rotateToOrientation:interfaceOrientation];
+            [foregroundViewController rotateToOrientation:interfaceOrientation];
+        }];
+    }
+}
+
+%end
+
+#pragma mark Handle orientation (iOS 10+)
+
+%hook SBDashBoardViewController
+
+- (void)viewWillTransitionToSize:(CGSize)arg1 withTransitionCoordinator:(id)arg2 {
+    %orig;
+    
+    [arg2 animateAlongsideTransition:^(id  _Nonnull context) {
+        
+        if ([XENHResources lsenabled]) {
+            // In reality, our UI only cares if it is landscape or portrait. The type for each doesn't
+            // matter. Therefore, we can do:
+            
+            int orientation = 1; // Portrait.
+            if (arg1.width == SCREEN_MAX_LENGTH) {
+                orientation = 3;
+            }
+            
+            [XENHResources setCurrentOrientation:orientation];
+            
+            [backgroundViewController rotateToOrientation:orientation];
+            [foregroundViewController rotateToOrientation:orientation];
+            
+            backgroundViewController.view.frame = CGRectMake(0, 0, arg1.width, arg1.height);
+            foregroundViewController.view.frame = CGRectMake(0, 0, arg1.width, arg1.height);
+        }
+        
+    } completion:^(id  _Nonnull context) {
+
+    }];
+}
+
+%end
+
+#pragma mark Handle issues with notifications list view (<= iOS 9)
+
+%hook SBLockScreenNotificationListController
+
+%new
+-(NSArray*)_xenhtml_listItems {
+#if TARGET_IPHONE_SIMULATOR==0
+    return MSHookIvar<NSMutableArray*>(self, "_listItems");
+#else
+    return nil;
+#endif
+}
+
+%end
+
+static BOOL allowNotificationViewTouchForIsGrouped() {
+    // if Xen/Priority Hub installed, allow touch when notifs present due to being minimised.
+    // Return YES for grouping doesn't exist or isn't minimised
+    // Return NO is currently minimised
+    
+    // Priority Hub handles itself
+    
+    if ([XENHResources xenInstalledAndGroupingIsMinimised]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+%hook SBLockScreenNotificationListView
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *orig = %orig;
+    
+    if (![XENHResources lsenabled]) {
+        return orig;
+    }
+    
+    if ([self.delegate _xenhtml_listItems].count > 0) {
+        return (allowNotificationViewTouchForIsGrouped() ? orig : nil);
+    } else {
+        return nil;
+    }
+}
+
+%end
+
+#pragma mark Prevent touches cancelling when scrolling on-widget (iOS 10+)
+
+%hook SBHorizontalScrollFailureRecognizer
+
+- (_Bool)_isOutOfBounds:(struct CGPoint)arg1 forAngle:(double)arg2 {
+    return foregroundViewController != nil ? NO : %orig;
+}
+
+%end
+
+%hook SBPagedScrollView
+
+- (BOOL)touchesShouldCancelInContentView:(UIView *)view {
+    BOOL orig = %orig;
+    
+    if ([XENHResources lsenabled] && foregroundViewController) {
+        // Either touches will be "stolen" more by the scroll view, or by the widget.
+        if ([XENHResources LSWidgetScrollPriority]) {
+            SBDashBoardViewController *cont = [[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController];
+            BOOL onMainPage = cont.lastSettledPageIndex == [cont _indexOfMainPage];
+        
+            if (onMainPage) {
+                return NO;
+            }
+        } else {
+            // Here, we should check whether the foreground LS widget is handling a touch. If so, no cancelling is
+            // allowed.
+            
+            if ([foregroundViewController isTrackingTouch]) {
+                return NO;
+            }
+        }
+    }
+    
+    return orig;
+}
+
+%end
+
+#pragma mark Hide clock (iOS 9+)
+
+%hook SBFLockScreenDateView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10) {
+        if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
+            self.hidden = YES;
+        }
+        return;
+    }
+    
+    if ([XENHResources lsenabled] && [XENHResources hideClock]) {
+        self.hidden = YES;
+    }
+}
+
+-(void)setHidden:(BOOL)hidden {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10) {
+        ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2 ? %orig(YES) : %orig);
+    } else {
+        ([XENHResources lsenabled] && [XENHResources hideClock] ? %orig(YES) : %orig);
+    }
+}
+
+%end
+
+// Not needed on iOS 10.
+
+%hook SBLockScreenViewController
+ 
+-(BOOL)_shouldShowChargingText {
+    if ([XENHResources lsenabled] && [XENHResources hideClock]) {
+        return NO;
+    } else {
+        return %orig;
+    }
+}
+ 
+%end
+
+/*
+ * On iOS 10, some behaviour has changed on the lockscreen. For example:
+ * - The media player will never be off-screen if added at any point
+ * - Notifications are not transparent
+ * - There are no CC/NC/Camera grabbers any longer
+ *
+ * Thus, some settings need to be axed to compensate.
+ */
+
+#pragma mark Same sized status bar (<= iOS 9)
+
+%hook SBLockScreenViewController
+
+-(int)statusBarStyle {
+    return [XENHResources lsenabled] && [XENHResources useSameSizedStatusBar] ? 0 : %orig;
+}
+
+#pragma mark Hide LS status bar (<= iOS 9)
+
+- (_Bool)showsSpringBoardStatusBar {
+    return [XENHResources lsenabled] && [XENHResources hideStatusBar] ? NO : %orig;
+}
+
+- (CGFloat)_effectiveVisibleStatusBarAlpha {
+    return [XENHResources lsenabled] && [XENHResources hideStatusBar] ? 0.0 : %orig;
+}
+
+%end
+
+#pragma mark Same sized status bar (iOS 10+)
+
+%hook SBDashBoardViewController
+
+- (long long)statusBarStyle {
+    return [XENHResources lsenabled] && [XENHResources useSameSizedStatusBar] ? 0 : %orig;
+}
+
+%end
+
+#pragma mark Hide LS status bar (iOS 10+)
+
+%hook SBDashBoardPageViewController
+
+-(void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
+    %orig;
+    
+    // Slide statusBar with the lockscreen when presenting page. (needs confirmation)
+    if ([XENHResources lsenabled] && [XENHResources hideStatusBar]) {
+        SBDashBoardComponent *statusBar = [[objc_getClass("SBDashBoardComponent") statusBar] hidden:YES];
+        [arg1 addComponent:statusBar];
+    }
+}
+
+%end
+
+#pragma mark Clock in status bar (<= iOS 9)
+
+%hook SBLockScreenViewController
+
+- (_Bool)wantsToShowStatusBarTime {
+    return [XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled] ? YES : %orig;
+}
+
+- (_Bool)shouldShowLockStatusBarTime {
+    return [XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled] ? YES : %orig;
+}
+
+%end
+
+#pragma mark Clock in status bar (iOS 10+)
+
+%hook SBDashBoardViewController
+
+- (_Bool)wantsTimeInStatusBar {
+    BOOL onMainPage = self.lastSettledPageIndex == [self _indexOfMainPage];
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 1 && ![XENHResources LSShowClockInStatusBar] && onMainPage) {
+        return NO;
+    }
+    
+    return [XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled] ? YES : %orig;
+}
+
+- (_Bool)shouldShowLockStatusBarTime {
+    BOOL onMainPage = self.lastSettledPageIndex == [self _indexOfMainPage];
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 1 && ![XENHResources LSShowClockInStatusBar] && onMainPage) {
+        return NO;
+    }
+    
+    return [XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled] ? YES : %orig;
+}
+
+%end
+
+#pragma mark Clock in status bar (iOS 11 fixes)
+
+/*
+ * The status bar time is *always* enabled except for the case of the Lockscreen, where DashBoard overrides it.
+ * For whatever reason, our Dashboard overrides are not working as expected. Therefore, we override here for iOS 11.
+ */
+%hook SBMainStatusBarStateProvider
+
+- (void)setTimeCloaked:(_Bool)arg1 {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+        %orig(arg1);
+        return;
+    }
+    
+    if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
+        %orig(NO);
+    } else {
+        %orig(arg1);
+    }
+}
+
+- (void)enableTime:(_Bool)arg1 crossfade:(_Bool)arg2 crossfadeDuration:(double)arg3 {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+        %orig(arg1, arg2, arg3);
+        return;
+    }
+    
+    if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
+        %orig(YES, arg2, arg3);
+    } else {
+        %orig(arg1, arg2, arg3);
+    }
+}
+
+- (void)enableTime:(_Bool)arg1 {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+        %orig(arg1);
+        return;
+    }
+    
+    if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
+        %orig(YES);
+    } else {
+        %orig(arg1);
+    }
+}
+
+- (_Bool)isTimeEnabled {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+        return %orig;
+    }
+    
+    if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
+        return YES;
+    } else {
+        return %orig;
+    }
+}
+
+%end
+
+#pragma mark Ensure to always reset idle timer when we see touches in the LS (iOS 9+)
+
+void resetIdleTimer() {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        [(SBBacklightController*)[objc_getClass("SBBacklightController") sharedInstance] resetLockScreenIdleTimer];
+    } else {
+        // Idle timer handling has changed in iOS 11 (really?!)
+        [(SBIdleTimerGlobalCoordinator*)[objc_getClass("SBIdleTimerGlobalCoordinator") sharedInstance] resetIdleTimer];
+    }
+}
+
+void cancelIdleTimer() {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        [(SBBacklightController*)[objc_getClass("SBBacklightController") sharedInstance] cancelLockScreenIdleTimer];
+    } else {
+        // Since cancelling the idle timer no longer is easy on iOS 11, we just reset it since user interaction won't
+        // take a tremendous amount of time!
+        resetIdleTimer();
+    }
+}
+
+// iOS 9 and 10
+%hook SBAlertWindow
+
+- (void)sendEvent:(UIEvent *)event {
+    // Don't run on iOS 11
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
+        %orig;
+        return;
+    }
+    
+    // Handle the screen idle timer when locked upon user interaction.
+    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+        UITouch *touch = [event.allTouches anyObject];
+        if (touch.phase == UITouchPhaseBegan) {
+            cancelIdleTimer();
+        } else if (touch.phase == UITouchPhaseEnded || touch.phase == UITouchPhaseCancelled) {
+            resetIdleTimer();
+        }
+    }
+    
+    %orig;
+}
+
+%end
+
+// iOS 11
+%hook SBCoverSheetWindow
+
+- (void)sendEvent:(UIEvent *)event {
+    
+    // Handle the screen idle timer when locked upon user interaction.
+    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+        UITouch *touch = [event.allTouches anyObject];
+        if (touch.phase == UITouchPhaseBegan) {
+            cancelIdleTimer();
+        } else if (touch.phase == UITouchPhaseEnded || touch.phase == UITouchPhaseCancelled) {
+            resetIdleTimer();
+        }
+    }
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hide STU view if necessary (<= iOS 9)
+
+%hook SBLockScreenView
+
+-(void)_layoutSlideToUnlockView {
+    if ([XENHResources lsenabled] && [XENHResources hideSTU]) {
+        // TODO: Set hidden or whatever for after Setup UI exits. Check Xen for howto.
+        return;
+    }
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hide STU view if necessary (iOS 10)
+
+%hook SBUICallToActionLabel
+
+- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
+    if ([XENHResources lsenabled] && [XENHResources hideSTU]) {
+        %orig(@"", arg2, arg3);
+    } else {
+        %orig;
+    }
+}
+
+%end
+
+#pragma mark Hide STU view if necessary (iOS 11) and...
+#pragma mark Hide Home Bar (iOS 11 + iPhone X)
+
+%hook SBDashBoardTeachableMomentsContainerView
+
+- (void)layoutSubviews {
+    %orig;
+    
+#if TARGET_IPHONE_SIMULATOR==0
+    UIView *calltoaction = MSHookIvar<UIView*>(self, "_callToActionLabelContainerView");
+    calltoaction.hidden = [XENHResources lsenabled] && [XENHResources hideSTU];
+    
+    UIView *homebar = MSHookIvar<UIView*>(self, "_homeAffordanceContainerView");
+    homebar.hidden = [XENHResources lsenabled] && [XENHResources LSHideHomeBar];
+#endif
+}
+
+%end
+
+#pragma mark Hide Face ID padlock (iOS 11 + iPhone X)
+
+%hook SBUIProudLockIconView
+
+- (void)setState:(NSInteger)state animated:(BOOL)animated options:(NSInteger)options completion:(id)completion {
+    %orig;
+    
+    // States
+    // 0 - locked with screen off
+    // 1 - locked with screen on
+    // 2 - Unlocked
+    // 5 - animating!
+    
+    switch ([self state]) {
+        case 5:
+            self.hidden = NO;
+            break;
+        default:
+            self.hidden = [XENHResources lsenabled] && [XENHResources LSHideFaceIDPadlock];
+            break;
+    }
+}
+
+- (void)layoutSubviews {
+    %orig;
+    
+    switch ([self state]) {
+        case 0:
+        case 1:
+        case 2:
+            self.hidden = [XENHResources lsenabled] && [XENHResources LSHideFaceIDPadlock];
+            break;
+        default:
+            self.hidden = NO;
+    }
+}
+
+%end
+
+#pragma mark Fix "bounce" when tapping (iOS 9.0 - 9.3)
+
+%hook SBLockScreenViewController
+
+- (BOOL)isBounceEnabledForPresentingController:(id)fp8 locationInWindow:(CGPoint)fp12 {
+    return ([XENHResources lsenabled] ? NO : %orig);
+}
+
+%end
+
+%hook SBLockScreenBounceAnimator
+
+- (void)_handleTapGesture:(id)arg1 {
+    //Do not handle tap gesture
+    if (![XENHResources lsenabled]) {
+        %orig;
+    }
+}
+
+%end
+
+#pragma mark Disable camera (iOS 9.0 - 9.3)
+
+%hook SBLockScreenViewController
+
+-(void)_addCameraGrabberIfNecessary {
+    if ([XENHResources lsenabled] && [XENHResources disableCameraGrabber]) {
+        return;
+    }
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hide camera (and Handoff) grabbers (<= iOS 9)
+
+%hook SBLockScreenView
+
+- (void)_layoutBottomLeftGrabberView {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources hideCameraGrabber]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *grabber = MSHookIvar<UIView*>(self, "_bottomLeftGrabberView");
+        grabber.hidden = YES;
+        grabber.userInteractionEnabled = YES;
+#endif
+    }
+}
+
+- (void)_layoutCameraGrabberView {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources hideCameraGrabber]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *grabber = MSHookIvar<UIView*>(self, "_cameraGrabberView");
+        grabber.hidden = YES;
+        grabber.userInteractionEnabled = YES;
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide Handoff grabber (iOS 10)
+
+%hook SBDashBoardMainPageView
+
+- (void)_layoutSlideUpAppGrabberView {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources hideCameraGrabber]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *grabber = MSHookIvar<UIView*>(self, "_slideUpAppGrabberView");
+        grabber.hidden = YES;
+        grabber.userInteractionEnabled = YES;
+#endif
+    } else {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *grabber = MSHookIvar<UIView*>(self, "_slideUpAppGrabberView");
+        grabber.hidden = NO;
+        grabber.userInteractionEnabled = YES;
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide page control dots (iOS 11)
+
+%hook SBDashBoardFixedFooterView
+
+- (void)_layoutPageControl {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources hidePageControlDots]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *control = MSHookIvar<UIView*>(self, "_pageControl");
+        control.hidden = YES;
+        control.userInteractionEnabled = NO;
+#endif
+    } else {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *control = MSHookIvar<UIView*>(self, "_pageControl");
+        control.hidden = NO;
+        control.userInteractionEnabled = NO;
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide page control dots (iOS 10)
+
+%hook SBDashBoardView
+
+- (void)_layoutPageControl {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources hidePageControlDots]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *control = MSHookIvar<UIView*>(self, "_pageControl");
+        control.hidden = YES;
+        control.userInteractionEnabled = NO;
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide top/bottom grabbers (iOS 9.0 - 9.3)
+
+%hook SBLockScreenView
+
+- (void)_layoutGrabberView:(UIView*)view atTop:(BOOL)top {
+    if (!top && [XENHResources lsenabled] && [XENHResources hideBottomGrabber]) {
+        view.hidden = YES;
+        view.alpha = 0.0;
+    } else if (top && [XENHResources lsenabled] && [XENHResources hideTopGrabber]) {
+        view.hidden = YES;
+        view.alpha = 0.0;
+    } else {
+        %orig;
+    }
+}
+
+%end
+
+#pragma mark Fix being unable to tap things like notifications (9.3 only)
+
+%hook SBLockScreenViewController
+
+-(void)_addDeviceInformationTextView {
+    %orig;
+    
+    // Disable touches goddamit.
+#if TARGET_IPHONE_SIMULATOR==0
+    UIViewController *infoViewController = MSHookIvar<UIViewController*>(self, "_deviceInformationTextViewController");
+    infoViewController.view.userInteractionEnabled = NO;
+#endif
+}
+
+%end
+
+#pragma mark Lockscreen dim duration adjustments (<= iOS 9)
+
+%hook SBBacklightController
+
+- (double)defaultLockScreenDimInterval {
+    return ([XENHResources lsenabled] ? [XENHResources lockScreenIdleTime] : %orig);
+}
+
+- (double)defaultLockScreenDimIntervalWhenNotificationsPresent {
+    return ([XENHResources lsenabled] ? [XENHResources lockScreenIdleTime] : %orig);
+}
+
+%end
+
+#pragma mark Lockscreen dim duration adjustments (iOS 10)
+
+%hook SBManualIdleTimer
+
+- (id)initWithInterval:(double)arg1 userEventInterface:(id)arg2 {
+    if ([XENHResources lsenabled]) {
+        arg1 = [XENHResources lockScreenIdleTime];
+    }
+    
+    if (setupWindow || ![XENHResources hasDisplayedSetupUI]) {
+        arg1 = 1000;
+    }
+    
+    return %orig(arg1, arg2);
+}
+
+%end
+
+#pragma mark Lockscreen dim duration adjustments (iOS 11+)
+
+%hook SBIdleTimerDefaults
+
+-(double)minimumLockscreenIdleTime {
+    // This is iOS 11 onwards
+    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+        return %orig;
+    }
+    
+    if ([XENHResources lsenabled]) {
+        return [XENHResources lockScreenIdleTime];
+    }
+    
+    if (setupWindow || ![XENHResources hasDisplayedSetupUI]) {
+        return 1000;
+    }
+    
+    return %orig;
+}
+
+%end
+
+#pragma mark Hide SBHTML when locked.
+
+%hook SBLockScreenManager
+
+- (void)_setUILocked:(_Bool)arg1 {
+    %orig;
+    
+    XENlog(@"_setUILocked: %d", arg1);
+    
+    [sbhtmlViewController setPaused:arg1];
+}
+
+%end
+
+#pragma mark Hide SBHTML when in-app
+
+%hook SBMainWorkspace
+
+- (void)applicationProcessDidExit:(id)arg1 withContext:(id)arg2 {
+    // Here, we will handle when an app crashes, or closes. We will assume going back to the homescreen.
+    // Furthermore, it can be assumed that SBHTML will be visible already if quit from the switcher.
+    
+    XENlog(@"Showing SBHTML due to application exit, and the assumption that we will progress to the homescreen");
+    [sbhtmlViewController setPaused:NO];
+    
+    %orig;
+}
+
+- (void)process:(id)arg1 stateDidChangeFromState:(FBProcessState*)arg2 toState:(FBProcessState*)arg3 {
+    // When changed to state visibility Foreground, we can hide SBHTML.
+    // In addition, we also do vice-versa to handle any potential issues as a failsafe.
+    
+    // First, handle background -> foreground.
+    if (![arg2 isForeground] && [arg3 isForeground]) {
+        XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
+        [sbhtmlViewController setPaused:YES animated:YES];
+    // And now, handle the reverse as a failsafe.
+    } else if ([arg2 isForeground] && ![arg3 isForeground]) {
+        
+        // ONLY show SBHTML again if we're actually heading to SpringBoard
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            
+            BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
+            
+            if (isSpringBoardForeground) {
+                XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
+                [sbhtmlViewController setPaused:NO];
+            }
+        });
+    }
+    
+    %orig;
+}
+
+%end
+
+// Next, handle precisely the moment the home button is clicked when in-app and not locked.
+%hook SBApplication
+
+// CHECKME: This is missing on iOS 10.
+- (void)willAnimateDeactivation:(_Bool)arg1 {
+    XENlog(@"Showing SBHTML due to an application animating deactivation");
+    [sbhtmlViewController setPaused:NO];
+    
+    %orig;
+}
+
+%end
+
+// Also, we need to hook the opening of the switcher. If we switch to another application, we can catch that in SBMainWorkspace.
+
+%hook SBUIController // This is for < 9.2
+
+-(void)_activateSwitcher {
+    XENlog(@"Showing SBHTML due to opening the Application Switcher");
+    [sbhtmlViewController setPaused:NO];
+    
+    %orig;
+}
+
+%end
+
+%hook SBMainSwitcherViewController
+
+- (void)performPresentationAnimationForTransitionRequest:(id)arg1 withCompletion:(id)arg2 {
+    XENlog(@"Showing SBHTML due to opening the Application Switcher");
+    [sbhtmlViewController setPaused:NO];
+    
+    %orig;
+}
+
+%end
+
+// iOS 11
+
+%hook SBMainWorkspace
+
+- (_Bool)_preflightTransitionRequest:(SBMainWorkspaceTransitionRequest*)arg1 {
+    
+    // We use the unlockedEnvironmentMode to define what to do!
+    // There is: home-screen, app-switcher, and application
+    
+    // This class is also in iOS 10.
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+        return %orig;
+    }
+    
+    long long environmentMode = arg1.applicationContext.layoutState.unlockedEnvironmentMode;
+    
+    // 1 - homescreen
+    // 2 - switcher
+    // 3 - app
+    
+    switch (environmentMode) {
+        case 1:
+            XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
+            dispatch_async(dispatch_get_main_queue(), ^(){
+                [sbhtmlViewController setPaused:NO];
+                [sbhtmlViewController.view setNeedsDisplay];
+            });
+            break;
+        case 2:
+            XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
+            dispatch_async(dispatch_get_main_queue(), ^(){
+                [sbhtmlViewController setPaused:NO];
+                [sbhtmlViewController.view setNeedsDisplay];
+            });
+            break;
+    }
+    
+    return %orig;
+}
+
+%end
+
+// Handle the home bar of d22 and friends
+// We only need to hook when a gesture starts, as our failsafe for hiding in SBMainWorkspace
+// will kick in as expected once an application starts
+
+%hook SBFluidSwitcherGestureWorkspaceTransaction
+
+- (void)_beginWithGesture:(id)arg1 {
+    XENlog(@"Showing SBHTML due to starting a fluid gesture");
+    [sbhtmlViewController setPaused:NO];
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hide LockHTML when the display is off. (<= iOS 9)
+
+%hook SBLockScreenViewController
+
+-(void)_handleDisplayTurnedOff {
+    %orig;
+    
+    // In a phone call, this code *is* run.
+    // Now, with the function below in conjunction, we end up with a problem.
+    // Therefore, don't run this when in a phone call or FaceTime.
+    BOOL inCall = [[objc_getClass("SBTelephonyManager") sharedTelephonyManager] inCall];
+    BOOL inFaceTime = [[objc_getClass("SBConferenceManager") sharedInstance] inFaceTime];
+    if ([XENHResources LSUseBatteryManagement] && !inCall && !inFaceTime) {
+        XENlog(@"Hiding Lockscreen HTML due to display turning off.");
+        
+        [foregroundViewController setPaused:YES];
+        [backgroundViewController setPaused:YES];
+    }
+}
+
+// When in a phone call, this code is not run.
+- (void)_handleDisplayTurnedOnWhileUILocked:(id)locked {
+    if ([XENHResources LSUseBatteryManagement]) {
+        XENlog(@"Showing Lockscreen HTML due to display turning on.");
+        
+        [foregroundViewController setPaused:NO];
+        [backgroundViewController setPaused:NO];
+    }
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hide LockHTML when the display is off. (iOS 10)
+
+%hook SBLockScreenManager
+
+- (void)_handleBacklightLevelChanged:(NSNotification*)arg1 {
+    %orig;
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0 && [XENHResources lsenabled]) {
+        NSDictionary *userInfo = arg1.userInfo;
+        
+        CGFloat newBacklight = [[userInfo objectForKey:@"SBBacklightNewFactorKey"] floatValue];
+        CGFloat oldBacklight = [[userInfo objectForKey:@"SBBacklightOldFactorKey"] floatValue];
+        
+        XENlog(@"CHANGING BACKLIGHT! New %f, old %f", newBacklight, oldBacklight);
+        
+        if (newBacklight == 0.0) {
+            // In a phone call, this code *is* run.
+            // Now, with the function below in conjunction, we end up with a problem.
+            // Therefore, don't run this when in a phone call or FaceTime.
+            BOOL inCall = [[objc_getClass("SBTelephonyManager") sharedTelephonyManager] inCall];
+            BOOL inFaceTime = [[objc_getClass("SBConferenceManager") sharedInstance] inFaceTime];
+            if ([XENHResources LSUseBatteryManagement] && !inCall && !inFaceTime) {
+                
+                // This is needed since we have this hook called BEFORE the display finishes animating off.
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    // Only call if we are still actually off right now.
+                    if (![[objc_getClass("SBBacklightController") sharedInstance] screenIsOn]) {
+                        XENlog(@"Hiding Lockscreen HTML due to display turning off.");
+                        
+                        [foregroundViewController setPaused:YES];
+                        [backgroundViewController setPaused:YES];
+                    }
+                });
+            }
+        } else if (oldBacklight == 0.0 && newBacklight > 0.0) {
+            if ([XENHResources LSUseBatteryManagement]) {
+                XENlog(@"Showing Lockscreen HTML due to display turning on.");
+                
+                [foregroundViewController setPaused:NO];
+                [backgroundViewController setPaused:NO];
+            }
+        }
+    }
+}
+
+%end
+
+#pragma mark Hide LockHTML when the display is off. (iOS 11)
+
+%hook SBScreenWakeAnimationController
+
+- (void)_handleAnimationCompletionIfNecessaryForWaking:(_Bool)wokeLS {
+    if (!wokeLS && [XENHResources LSUseBatteryManagement]) {
+        // User just slept the device
+        XENlog(@"Hiding Lockscreen HTML due to display turning off.");
+        
+        [foregroundViewController setPaused:YES];
+        [backgroundViewController setPaused:YES];
+    }
+    
+    %orig;
+}
+
+- (void)_startWakeAnimationsForWaking:(_Bool)arg1 animationSettings:(id)arg2 {
+    if (arg1 && [XENHResources LSUseBatteryManagement]) {
+        XENlog(@"Showing Lockscreen HTML due to display turning on.");
+        
+        [foregroundViewController setPaused:NO];
+        [backgroundViewController setPaused:NO];
+    }
+    
+    %orig;
+}
+
+%end
+
+%hook SBLockScreenManager
+
+// Handle the case where the device turns on e.g. for a phone call or Hey Siri
+- (void)_handleBacklightLevelWillChange:(NSNotification*)arg1 {
+    %orig;
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
+        NSDictionary *userInfo = arg1.userInfo;
+        
+        CGFloat newBacklight = [[userInfo objectForKey:@"SBBacklightNewFactorKey"] floatValue];
+        CGFloat oldBacklight = [[userInfo objectForKey:@"SBBacklightOldFactorKey"] floatValue];
+        
+        if (oldBacklight == 0.0 && newBacklight > 0.0) {
+            if ([XENHResources LSUseBatteryManagement]) {
+                XENlog(@"Showing Lockscreen HTML due to display turning on (failsafe).");
+                
+                [foregroundViewController setPaused:NO];
+                [backgroundViewController setPaused:NO];
+            }
+        }
+    }
+}
+
+%end
+
+#pragma mark Handle LockHTML battery management with regards to calls (iOS 9+)
+
+// We should hide foreground when in call, and reshow it afer leaving.
+// When in call, above screen on code will not run.
+// Need to hide when going into a call, and show afterwards.
+
+%hook SBLockScreenManager
+
+- (void)_relockUIForButtonPress:(_Bool)arg1 afterCall:(_Bool)arg2 {
+    %orig;
+    
+    if ([XENHResources LSUseBatteryManagement] && arg2) {
+        XENlog(@"Re-showing Lockscreen HTML since the UI is being relocked.");
+        [foregroundViewController setPaused:NO];
+        [backgroundViewController setPaused:NO];
+    }
+}
+
+%end
+
+#pragma mark Injection of Cycript into UIWebViews (iOS 9+)
+
+%hook UIWebView
+
+-(id)initWithFrame:(CGRect)frame {
+    UIWebView *original = %orig;
+    
+    UIWebDocumentView *document = [original _documentView];
+    WebView *webview = [document webView];
+    
+    [webview setPreferencesIdentifier:@"WebCycript"];
+    
+    if ([webview respondsToSelector:@selector(_setAllowsMessaging:)])
+        [webview _setAllowsMessaging:YES];
+    
+    // TODO: We may need to prevent other tweaks messing with the frame delegate of WebView
+    // since that prevents Cycript from being injected.
+    
+    return original;
+}
+
+- (void)webView:(WebView *)webview didClearWindowObject:(WebScriptObject *)window forFrame:(WebFrame *)frame {
+    //[webview setScriptDebugDelegate:self]; // Debugging support
+    
+    %orig;
+    
+    // XXX: Inject settings into the webview, if available.
+    NSString *href = [[[[frame dataSource] request] URL] absoluteString];
+    href = [href stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+    href = [href stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
+
+    // TODO: We also need to convert any other HTML entities to normal strings.
+    // Or, do we, really?
+    
+    if (href) {
+        NSDictionary *metadata = [XENHResources widgetMetadataForHTMLFile:href];
+    
+        for (NSString *key in [[metadata objectForKey:@"options"] allKeys]) {
+            id value = [[metadata objectForKey:@"options"] valueForKey:key];
+            [window setValue:value forKey:key];
+        }
+    }
+}
+
+%end
+
+#pragma mark SBHTML (iOS 9+)
+
+%hook SBHomeScreenViewController
+
+static XENHTapGestureRecognizer *tap;
+
+-(void)loadView {
+    %orig;
+    
+    // Load up view.
+    UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
+    
+    XENlog(@"Injecting into homescreen");
+    [XENHResources reloadSettings];
+    
+    if ([XENHResources SBEnabled]) {
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]]) {
+            XENlog(@"Loading SBHTML view");
+            sbhtmlViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationSBHTML];
+            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+            
+            XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
+        }
+    }
+    
+    [self _xenhtml_addTouchRecogniser];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recievedSBHTMLUpdateForGesture:) name:@"com.matchstic.xenhtml/sbhtmlUpdateGesture" object:nil];
+}
+
+- (void)_animateTransitionToSize:(CGSize)size andInterfaceOrientation:(int)orientation withTransitionContext:(id)transitionContext {
+    %orig;
+    
+    // Rotate
+    if ([XENHResources SBEnabled]) {
+        [XENHResources setCurrentOrientation:orientation];
+        
+        //[UIView animateWithDuration:duration animations:^{
+            [sbhtmlViewController rotateToOrientation:orientation];
+        //}];
+    }
+}
+
+%new
+-(void)_xenhtml_addTouchRecogniser {
+    UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
+    
+    if (mainView && [XENHResources SBAllowTouch]) {
+        //tap = [[XENHTapGestureRecognizer alloc] initWithTarget:self action:@selector(_xenhtml_handleDidTap:) touchDelegate:[sbhtmlViewController _webTouchDelegate]];
+        
+        tap = [[XENHTapGestureRecognizer alloc] initWithTarget:self action:@selector(_xenhtml_handleDidTap:)];
+        tap.delaysTouchesBegan = NO;
+        //tap.delegate = [sbhtmlViewController _webTouchDelegate];
+        tap.cancelsTouchesInView = NO;
+        //tap.actualView = [sbhtmlViewController _webTouchDelegate];
+        
+        // Need to fail with the main scrollview's gestures.
+        
+        [mainView addGestureRecognizer:tap];
+    }
+}
+
+%new
+-(void)recievedSBHTMLUpdateForGesture:(id)sender {
+    // Also, handle the touch gesture recongizer!
+    if ([XENHResources SBEnabled] && [XENHResources SBAllowTouch]) {
+        // Add gesture if not present
+        if (!tap) {
+            [self _xenhtml_addTouchRecogniser];
+        }
+    } else {
+        // Remove gesture
+        UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
+        [mainView removeGestureRecognizer:tap];
+        
+        tap = nil;
+    }
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled] && ![[XENHResources indexHTMLFileForLocation:kLocationSBHTML] isEqualToString:@""]) {
+        if (sbhtmlViewController) {
+            [sbhtmlViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]];
+        } else {
+            UIView *mainView = self.view;
+        
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]]) {
+                XENlog(@"Loading SBHTML view");
+                sbhtmlViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationSBHTML];
+                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+            }
+        }
+    } else {
+        [sbhtmlViewController.view removeFromSuperview];
+        sbhtmlViewController = nil;
+    }
+}
+
+#pragma mark Handle SBHTML touches (iOS 9+)
+
+%new
+-(void)_xenhtml_handleDidTap:(XENHTapGestureRecognizer*)sender {
+    if (!sbhtmlViewController) {
+        return; // No point forwarding if no widget enabled.
+    }
+    
+    // We need to ensure we don't allow touches through an icon.
+    UITouch *touch = [[sender._xenhtml_event allTouches] anyObject];
+    CGPoint pointInView = [touch locationInView:self.view.superview];
+    
+    UIView *hittest = [self.view hitTest:pointInView withEvent:sender._xenhtml_event];
+    
+    // This nicely handles pretty much everything, including when in folders, Spotlight, et al.
+    if (![[hittest class] isEqual:objc_getClass("IWWidgetsView")] && ![[hittest class] isEqual:objc_getClass("SBRootIconListView")]) {
+        return;
+    }
+    
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        [sbhtmlViewController _forwardTouchesBegan:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+    } else if (sender.state == UIGestureRecognizerStateChanged) {
+        [sbhtmlViewController _forwardTouchesMoved:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+    } else if (sender.state == UIGestureRecognizerStateEnded) {
+        [sbhtmlViewController _forwardTouchesEnded:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+    } else if (sender.state == UIGestureRecognizerStateCancelled) {
+        [sbhtmlViewController _forwardTouchesCancelled:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+    }
+    
+    // We should also deliver this touch through to the original view, just to be nice.
+    
+}
+
+%new
+- (BOOL)shouldIgnoreWebTouch {
+    return NO;
+}
+
+%new
+- (BOOL)isAnyTouchOverActiveArea:(NSSet *)touches {
+    return YES;
+}
+
+%end
+
+%hook SBHomeScreenView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && sbhtmlViewController) {
+        sbhtmlViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        // Need to update the tap gesture with the offsets.
+        CGPoint offset = [sbhtmlViewController currentWebViewPosition];
+        tap.xOffset = offset.x;
+        tap.yOffset = offset.y;
+        
+        [self insertSubview:sbhtmlViewController.view atIndex:0];
+    }
+}
+
+-(void)setHidden:(BOOL)hidden {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && sbhtmlViewController) {
+        sbhtmlViewController.view.hidden = hidden;
+    }
+}
+
+%end
+
+#pragma mark Hide dock blur (iOS 9+)
+
+%hook SBDockView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources hideBlurredDockBG]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:YES];
+        [MSHookIvar<UIView*>(self, "_backgroundImageView") setHidden:YES];
+        [MSHookIvar<UIView*>(self, "_accessibilityBackgroundView") setHidden:YES];
+#endif
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
+                                               object:nil];
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:[XENHResources hideBlurredDockBG]];
+        [MSHookIvar<UIView*>(self, "_backgroundImageView") setHidden:[XENHResources hideBlurredDockBG]];
+        [MSHookIvar<UIView*>(self, "_accessibilityBackgroundView") setHidden:[XENHResources hideBlurredDockBG]];
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide dock blur (iOS 11 + iPad)
+
+%hook SBFloatingDockPlatterView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources hideBlurredDockBG]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:YES];
+#endif
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
+                                               object:nil];
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:[XENHResources hideBlurredDockBG]];
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide folder icon blur (iOS 9+)
+
+%hook SBFolderIconBackgroundView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources hideBlurredFolderBG]) {
+        [self setHidden:YES];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlFolderUpdate"
+                                               object:nil];
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        [self setHidden:[XENHResources hideBlurredFolderBG]];
+    }
+}
+
+%end
+
+#pragma mark Hide icon labels (iOS 9+)
+
+%hook SBIconView
+
+-(void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources SBHideIconLabels]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_labelView") setHidden:YES];
+#endif
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlIconLabelsUpdate"
+                                               object:nil];
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_labelView") setHidden:[XENHResources SBHideIconLabels]];
+#endif
+    }
+}
+
+%end
+
+#pragma mark Hide SB page dots (iOS 9+)
+
+%hook SBRootFolderView
+
+- (void)layoutSubviews {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+#endif
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
+                                               object:nil];
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:[XENHResources SBHidePageDots]];
+#endif
+    }
+}
+
+%end
+
+#pragma mark Stop jumping up bug (iOS 9+)
+
+%hook WKWebView
+
+- (BOOL)_shouldUpdateKeyboardWithInfo:(NSDictionary *)keyboardInfo {
+    return NO;
+}
+
+%end
+
+#pragma mark Add proper debugging capabilities to UIWebView (iOS 9+)
+
+%hook UIWebView
+
+- (void)webView:(WebView *)webView exceptionWasRaised:(WebScriptCallFrame *)frame sourceId:(int)sid line:(int)line forWebFrame:(WebFrame *)webFrame {
+    NSString *url = [self.request.URL absoluteString];
+    NSString *errorString = [NSString stringWithFormat: @"Exception at %@, in function: %@ line: %@", url , [frame functionName], [NSNumber numberWithInt: line]];
+    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Widget Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [av show];
+    
+    XENlog(errorString);
+    
+    %orig;
+}
+
+- (void)webView:(WebView *)webView failedToParseSource:(NSString *)source baseLineNumber:(unsigned)line fromURL:(NSURL *)url withError:(NSError *)error forWebFrame:(WebFrame *)webFrame {
+    NSString *urlstr = [url absoluteString];
+    NSString *errorString = [NSString stringWithFormat: @"Failed to parse source at %@, line: %@\n\n%@", urlstr, [NSNumber numberWithInt:line], error];
+    
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Widget Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [av show];
+    
+    XENlog(errorString);
+    
+    %orig;
+}
+
+%end
+
+#pragma mark Hooks into Xen to improve compatibility (iOS 9+)
+
+%hook XENResources
+
++(BOOL)hideClock {
+    // Xen will return NO always if the LS is running in XenHTML, so we can control this option here.
+    return [XENHResources lsenabled] ? NO : %orig;
+}
+
++(BOOL)hideNCGrabber {
+    // Xen will return NO always if the LS is running in XenHTML, so we can control this option here.
+    return [XENHResources lsenabled] ? NO : %orig;
+}
+
+%end
+
+#pragma mark Properly handle media controls on lockscreen (<= iOS 9)
+
+static void hideForegroundIfNeeded() {
+    BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
+    
+    if (canHideForeground && foregroundViewController && foregroundViewController.view.alpha != [XENHResources LSWidgetFadeOpacity]) {
+        [UIView animateWithDuration:0.15 animations:^{
+            foregroundViewController.view.alpha = [XENHResources LSWidgetFadeOpacity];
+        } completion:^(BOOL finished) {
+            //foregroundViewController.view.hidden = YES;
+        }];
+    }
+}
+
+static void showForegroundIfNeeded() {
+    BOOL canShowForeground = foregroundHiddenRequesters.count == 0;
+    
+    if (canShowForeground && foregroundViewController && foregroundViewController.view.alpha != 1.0) {
+        //foregroundViewController.view.hidden = NO;
+        
+        [UIView animateWithDuration:0.15 animations:^{
+            foregroundViewController.view.alpha = 1.0;
+        }];
+    }
+}
+
+static void addForegroundHiddenRequester(NSString* requester) {
+    if (!foregroundHiddenRequesters) {
+        foregroundHiddenRequesters = [NSMutableArray array];
+    }
+    
+    if (![foregroundHiddenRequesters containsObject:requester]) {
+        [foregroundHiddenRequesters addObject:requester];
+        
+        //XENlog(@"HIDING FOR REQUESTER: %@", requester);
+    }
+    
+    hideForegroundIfNeeded();
+}
+
+static void removeForegroundHiddenRequester(NSString* requester) {
+    [foregroundHiddenRequesters removeObject:requester];
+    
+    //XENlog(@"SHOWING FOR REQUESTER: %@", requester);
+    
+    showForegroundIfNeeded();
+}
+
+%hook SBLockScreenViewController
+
+- (void)_setMediaControlsVisible:(BOOL)visible {
+    %orig;
+    
+    if (foregroundViewController && [XENHResources LSFadeForegroundForMedia]) {
+        // If showing controls, fade the foreground ONLY if set to.
+        
+        BOOL actuallyHasControls = YES;
+        
+#if TARGET_IPHONE_SIMULATOR==0
+        UIViewController *mpu = MSHookIvar<UIViewController*>(self, "_mediaControlsViewController");
+        if (!mpu) {
+            actuallyHasControls = NO;
+        } else if (!mpu.view.superview) {
+            actuallyHasControls = NO;
+        } else if (mpu.view.alpha == 0.0) {
+            actuallyHasControls = NO;
+        }
+        
+        if (visible && actuallyHasControls) {
+            addForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        } else {
+            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        }
+#endif
+    }
+}
+
+%end
+
+%hook _NowPlayingArtView
+
+-(void)setAlpha:(CGFloat)alpha {
+    if ([XENHResources LSFadeForegroundForArtwork]) {
+        if (alpha == 0.0) {
+            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.artwork");
+        } else {
+            addForegroundHiddenRequester(@"com.matchstic.xenhtml.artwork");
+        }
+    }
+    
+    %orig;
+}
+
+-(void)setArtworkView:(UIView *)arg1 {
+    
+    // Monitor this view for hidden changes too.
+    if ([XENHResources LSFadeForegroundForArtwork]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView *existing = MSHookIvar<UIView*>(self, "_artworkView");
+        
+        if (arg1 && !existing) {
+            [arg1 addObserver:self forKeyPath:@"hidden" options:0 context:NULL];
+        } else if (arg1 && existing) {
+            [existing removeObserver:self forKeyPath:@"hidden"];
+            
+            [arg1 addObserver:self forKeyPath:@"hidden" options:0 context:NULL];
+        } else if (!arg1) {
+            [existing removeObserver:self forKeyPath:@"hidden"];
+        }
+#endif
+    }
+    
+    %orig;
+}
+
+-(void)layoutSubviews {
+    %orig;
+    
+    //We hide if there is a foreground controller, and we're set to
+    BOOL shouldHide = [XENHResources lsenabled] && foregroundViewController && [XENHResources LSHideArtwork];
+    
+    if (shouldHide) {
+        self.hidden = YES;
+    }
+}
+
+- (void)removeFromSuperview {
+    // Release observer.
+    
+    if ([XENHResources LSFadeForegroundForArtwork]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        UIView* viewToObserve = MSHookIvar<UIView*>(self, "_artworkView");
+        if (viewToObserve) {
+            [viewToObserve removeObserver:self forKeyPath:@"hidden"];
+        }
+#endif
+    }
+    
+    %orig;
+}
+
+%new
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+#if TARGET_IPHONE_SIMULATOR==0
+    UIView* viewToObserve = MSHookIvar<UIView*>(self, "_artworkView");
+    
+    if ([object isEqual:viewToObserve]) {
+        if ([keyPath isEqualToString:@"hidden"]) {
+            // react to state change
+            if (viewToObserve.hidden == YES) {
+                removeForegroundHiddenRequester(@"com.matchstic.xenhtml.artwork");
+            } else {
+                addForegroundHiddenRequester(@"com.matchstic.xenhtml.artwork");
+            }
+        }
+    }
+#endif
+}
+
+%end
+
+#pragma mark Properly handle media controls and notification on lockscreen (iOS 10)
+
+// SBDashBoardMediaArtworkViewController, presented to SBDashBoardMainPageContentViewController
+
+%hook SBDashBoardMainPageContentViewController
+
+- (void)dismissContentViewControllers:(NSArray*)arg1 animated:(_Bool)arg2 completion:(id)arg3 {
+    // We will check for notifications being hidden.
+    
+    for (id obj in arg1) {
+        if ([obj isKindOfClass:objc_getClass("SBDashBoardNotificationListViewController")]) {
+            showForegroundForLSNotifIfNeeded();
+        }
+    }
+    
+    %orig;
+}
+
+- (void)presentContentViewControllers:(NSArray*)arg1 animated:(_Bool)arg2 completion:(id)arg3 {
+    // Along with hiding the artwork here, we will also check for notifications being presented.
+    
+    for (id obj in arg1) {
+        if ([obj isKindOfClass:objc_getClass("SBDashBoardNotificationListViewController")]) {
+            hideForegroundForLSNotifIfNeeded();
+        }
+    }
+    
+    BOOL shouldHideArtwork = [XENHResources lsenabled] && foregroundViewController && [XENHResources LSHideArtwork];
+    
+    NSMutableArray *newArray = [NSMutableArray array];
+    
+    if (shouldHideArtwork) {
+        for (id obj in arg1) {
+            if (![obj isKindOfClass:objc_getClass("SBDashBoardMediaArtworkViewController")]) {
+                [newArray addObject:obj];
+            }
+        }
+        
+        %orig(newArray, arg2, arg3);
+    } else {
+        %orig;
+    }
+}
+
+- (void)_updateMediaControlsVisibility {
+    %orig;
+    
+    BOOL showing = self.showingMediaControls;
+    BOOL shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForMedia];
+    
+    if (shouldHide) {
+        if (showing) {
+            addForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        } else {
+            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        }
+    }
+}
+
+%end
+
+%hook SBDashBoardMediaArtworkViewController
+
+- (long long)presentationType {
+    return [XENHResources lsenabled] ? 1 : %orig;
+}
+
+%end
+
+#pragma mark Hide widget for notifications if needed. (<= iOS 9)
+
+static void hideForegroundForLSNotifIfNeeded() {
+    if ([XENHResources LSFadeForegroundForNotifications] && ![XENHResources LSInStateNotificationsHidden]) {
+        addForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
+    }
+}
+
+static void showForegroundForLSNotifIfNeeded() {
+    if ([XENHResources LSFadeForegroundForNotifications] && [XENHResources LSInStateNotificationsHidden]) {
+        removeForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
+    }
+}
+
+%hook SBLockScreenNotificationListController
+
+- (id)initWithNibName:(id)arg1 bundle:(id)arg2 {
+    id orig = %orig;
+    
+    if (orig) {
+        [XENHResources cacheNotificationListController:orig];
+    }
+    
+    return orig;
+}
+
+- (void)_updateModelAndViewForRemovalOfItem:(id)arg1 {
+    %orig;
+    
+    showForegroundForLSNotifIfNeeded();
+}
+
+- (void)_updateModelForRemovalOfItem:(id)arg1 updateView:(_Bool)arg2 {
+    %orig;
+    
+    showForegroundForLSNotifIfNeeded();
+}
+
+- (void)_updateModelAndViewForAdditionOfItem:(id)arg1 {
+    %orig;
+    
+    hideForegroundForLSNotifIfNeeded();
+}
+
+%end
+
+// Priority Hub
+%hook PHContainerView
+
+- (void)selectAppID:(NSString*)appID newNotification:(BOOL)newNotif {
+    %orig;
+    
+    // Hide/show as needed.
+    if ([self.selectedAppID isEqualToString:appID]) {
+        [XENHResources cachePriorityHubVisibility:YES];
+        hideForegroundForLSNotifIfNeeded();
+    } else {
+        [XENHResources cachePriorityHubVisibility:NO];
+        showForegroundForLSNotifIfNeeded();
+    }
+}
+
+%end
+
+// Xen grouping
+%hook XENNotificationsCollectionViewController
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    %orig;
+    
+    [XENHResources cacheXenGroupingVisibility:NO];
+    hideForegroundForLSNotifIfNeeded();
+}
+
+-(void)removeFullscreenNotification:(id)sender {
+    %orig;
+    
+    [XENHResources cacheXenGroupingVisibility:YES];
+    showForegroundForLSNotifIfNeeded();
+}
+
+%end
+
+// TODO: Also, provide support here for Xen Notifications.
+
+#pragma mark Properly handle media controls and notification on lockscreen (iOS 11)
+
+// Media control visibility
+%hook SBDashBoardNotificationAdjunctListViewController
+
+- (void)_updateMediaControlsVisibilityAnimated:(BOOL)arg1 {
+    %orig;
+    
+    BOOL showing = self.showingMediaControls;
+    BOOL shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForMedia];
+    
+    if (shouldHide) {
+        if (showing) {
+            addForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        } else {
+            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
+        }
+    }
+}
+
+%end
+
+// Notifications visibility
+%hook SBDashBoardCombinedListViewController
+
+- (void)_setListHasContent:(_Bool)arg1 {
+    %orig;
+    
+    BOOL shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForNotifications];
+    if (shouldHide) {
+        if (arg1) {
+            addForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
+        } else {
+            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
+        }
+    }
+}
+
+%end
+
+#pragma mark Adjust notification view positioning as required (iOS 9)
+
+%hook SBFLockScreenMetrics
+
++ (UIEdgeInsets)notificationListInsets {
+    UIEdgeInsets orig = %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources LSFullscreenNotifications]) {
+        orig.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        orig.bottom = 0;
+    }
+    
+    return orig;
+}
+
+%end
+
+#pragma mark Adjust notification view positioning as required (iOS 10)
+
+%hook SBDashBoardNotificationListViewController
+
+- (CGRect)_suggestedListViewFrame {
+    CGRect orig = %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources LSFullscreenNotifications]) {
+        orig.origin.y = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        orig.size.height = SCREEN_HEIGHT - [[UIApplication sharedApplication] statusBarFrame].size.height;
+    }
+    
+    return orig;
+}
+
+%end
+
+#pragma mark Adjust notification view positioning as required (iOS 11)
+
+%hook SBDashBoardCombinedListViewController
+
+- (UIEdgeInsets)_listViewDefaultContentInsets {
+    UIEdgeInsets orig = %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources LSFullscreenNotifications]) {
+        orig.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    }
+    
+    return orig;
+}
+
+- (void)viewWillAppear:(_Bool)arg1 {
+    %orig;
+    
+    // Force-update listview insets for us
+    [self _updateListViewContentInset];
+}
+
+%end
+
+#pragma mark Used to forward touches to other views via a view tag. (iOS 9+)
+
+%hook UITouchesEvent
+
+- (NSSet*)touchesForGestureRecognizer:(UIGestureRecognizer*)arg1 {
+    if (arg1.view.tag == 1337 && ([[arg1.view class] isEqual:objc_getClass("WKContentView")] || [[arg1.view class] isEqual:objc_getClass("UIWebBrowserView")])) {
+        return [self _allTouches];
+    } else {
+        return %orig;
+    }
+}
+
+%end
+
+%end
+
+#pragma mark Setup UI stuff
+// Annoyingly, this must all be ungrouped for when Xen HTML does not load.
+
+%group Setup
+
+%hook SpringBoard
+
+%new
+- (void)_xenhtml_relaunchSpringBoardAfterSetup {
+    [XENHResources setPreferenceKey:@"hasDisplayedSetupUI" withValue:@YES andPost:YES];
+    
+    // Relaunch SpringBoard
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(_relaunchSpringBoardNow)]) {
+        [(SpringBoard*)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+    } else if (objc_getClass("FBSystemService") && [[objc_getClass("FBSystemService") sharedInstance] respondsToSelector:@selector(exitAndRelaunch:)]) {
+        [[objc_getClass("FBSystemService") sharedInstance] exitAndRelaunch:YES];
+    }
+}
+
+%end
+
+// TODO: Not valid for iOS 10 and 11
+%hook SBLockScreenViewController
+
+-(BOOL)suppressesSiri {
+    return ([XENHResources lsenabled] && setupWindow) ? YES : %orig;
+}
+
+%end
+
+%hook SBBacklightController
+
+- (void)_lockScreenDimTimerFired {
+    if (setupWindow) {
+        return;
+    }
+    
+    %orig;
+}
+
+%end
+
+%hook SpringBoard
+
+-(void)applicationDidFinishLaunching:(id)arg1 {
+    %orig;
+    
+    // Do initial settings loading
+    [XENHResources reloadSettings];
+    
+    // Show setup UI if needed
+    if (![XENHResources hasDisplayedSetupUI]) {
+        setupWindow = [XENHSetupWindow sharedInstance];
+        
+        setupWindow.hidden = NO;
+        [setupWindow makeKeyAndVisible];
+        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        
+        SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
+        
+        if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
+            [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
+        } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
+            [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+        }
+    }
+}
+
+%end
+
+%end
+
+static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    
+    NSString *oldSBHTML = [XENHResources indexHTMLFileForLocation:kLocationSBHTML];
+    BOOL oldSBHTMLEnabled = [XENHResources SBEnabled];
+    BOOL oldDock = [XENHResources hideBlurredDockBG];
+    BOOL oldFolder = [XENHResources hideBlurredFolderBG];
+    BOOL oldIconLabels = [XENHResources SBHideIconLabels];
+    BOOL oldSBTouch = [XENHResources SBAllowTouch];
+    NSDictionary *oldMetadata = [XENHResources widgetMetadataForHTMLFile:oldSBHTML];
+    BOOL oldSBLegacy = [XENHResources SBUseLegacyMode];
+    BOOL oldSBPageDots = [XENHResources SBHidePageDots];
+    
+    [XENHResources reloadSettings];
+    
+    NSString *newSBHTML = [XENHResources indexHTMLFileForLocation:kLocationSBHTML];
+    BOOL newSBHTMLEnabled = [XENHResources SBEnabled];
+    BOOL newDock = [XENHResources hideBlurredDockBG];
+    BOOL newFolder = [XENHResources hideBlurredFolderBG];
+    BOOL newIconLabels = [XENHResources SBHideIconLabels];
+    BOOL newSBTouch = [XENHResources SBAllowTouch];
+    NSDictionary *newMetadata = [XENHResources widgetMetadataForHTMLFile:newSBHTML];
+    BOOL newSBLegacy = [XENHResources SBUseLegacyMode];
+    BOOL newSBPageDots = [XENHResources SBHidePageDots];
+    
+    if (![oldSBHTML isEqualToString:newSBHTML] ||
+        newSBHTMLEnabled != oldSBHTMLEnabled ||
+        newSBLegacy != oldSBLegacy ||
+        ![newMetadata isEqual:oldMetadata]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlUpdate" object:nil];
+    }
+    
+    if (oldDock != newDock) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlDockUpdate" object:nil];
+    }
+    
+    if (oldFolder != newFolder) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlFolderUpdate" object:nil];
+    }
+    
+    if (oldIconLabels != newIconLabels) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlIconLabelsUpdate" object:nil];
+    }
+    
+    if (oldSBTouch != newSBTouch) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlUpdateGesture" object:nil];
+    }
+    
+    if (oldSBPageDots != newSBPageDots) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate" object:nil];
+    }
+}
+
+static void XENHDidModifyConfig(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlUpdate" object:nil];
+}
+
+static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(_relaunchSpringBoardNow)]) {
+        [(SpringBoard*)[UIApplication sharedApplication] _relaunchSpringBoardNow];
+    } else if (objc_getClass("FBSystemService") && [[objc_getClass("FBSystemService") sharedInstance] respondsToSelector:@selector(exitAndRelaunch:)]) {
+        [[objc_getClass("FBSystemService") sharedInstance] exitAndRelaunch:YES];
+    }
+}
+
+#pragma mark Constructor
+
+%ctor {
+    %init;
+    
+    BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    
+    if (sb) {
+        // We need the setup UI to always be accessible.
+        %init(Setup);
+        
+        if (objc_getClass("SBDashBoardViewControllerBase")) {
+            Class $XENDashBoardWebViewController = objc_allocateClassPair(objc_getClass("SBDashBoardViewControllerBase"), "XENDashBoardWebViewController", 0);
+            objc_registerClassPair($XENDashBoardWebViewController);
+        }
+                
+        // XXX: Load up Xen before we do, as this allows to ensure better compatibility between the two.
+        // i.e., XenHTML is in control of everything.
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/Xen.dylib", RTLD_NOW);
+        
+        // XXX: Load Priority Hub too.
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/PriorityHub.dylib", RTLD_NOW);
+        
+        // XXX: Also load up the NowPlaying artwork code, so that we can hook it correctly later on.
+        dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", 2);
+        
+        %init(SpringBoard);
+        
+        CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
+        CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);
+        CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/sbconfigchanged"), NULL, 0);
+        CFNotificationCenterAddObserver(r, NULL, XENHDidRequestRespring, CFSTR("com.matchstic.xenhtml/wantsrespring"), NULL, 0);
+        CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
+    }
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string></string>
+	<key>items</key>
+	<array>
+     	<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Visibility</string>
+			<key>footerText</key>
+			<string>Hide homescreen elements when using Xen HTML.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBHideDockBlur</string>
+			<key>label</key>
+			<string>Hide Dock Blur</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBHideFolderBlur</string>
+			<key>label</key>
+			<string>Hide Folder Icon Blur</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBHideIconLabels</string>
+			<key>label</key>
+			<string>Hide Icon Labels</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBHidePageDots</string>
+			<key>label</key>
+			<string>Hide Page Indicators</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Miscellaneous</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBAllowTouch</string>
+			<key>label</key>
+			<string>Allow Touch On Widget</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Widget Editor</string>
+			<key>footerText</key>
+			<string>Customise the settings panel used for choosing widgets to render on the lockscreen.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBPickerSnapToYAxis</string>
+			<key>label</key>
+			<string>Snap Widgets To Y-axis</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBUseLegacyMode</string>
+			<key>label</key>
+			<string>Legacy Mode</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Donate</string>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>If you enjoy using Xen HTML, please consider donating!</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Via PayPal</string>
+			<key>footerText</key>
+			<string>Tap to copy PayPal address</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>copyPayPalLink:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>matt@incendo.ws</string>
+			<key>icon</key>
+			<string>CellIcons/PayPal.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Via Bitcoin (BTC)</string>
+			<key>footerText</key>
+			<string>Tap to copy Bitcoin public address (SegWit-enabled)</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>copyBitcoinLink:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>bc1qstlxmkhep037w8cpsqmmks0qh0zmwwhnxgstx3</string>
+			<key>icon</key>
+			<string>CellIcons/BTC.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Via Ethereum (ETH)</string>
+			<key>footerText</key>
+			<string>Tap to copy Ethereum public address</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>copyEthereumLink:</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>0xEfEC3E45F5Ae04b7Caf0937086C88dc94c078307</string>
+			<key>icon</key>
+			<string>CellIcons/ETH.png</string>
+		</dict>
+	</array>
+</dict>
+</plist>

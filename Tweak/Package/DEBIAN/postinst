@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Clearing caches..."
+uicache > /dev/null 2>&1
+echo "Caches cleared."
+echo "	"
+echo "========================================"
+echo "With credits to:"
+echo "bliken, King_O_Hill, RKO1195"
+echo "krima, rasputin007, NewdestinyX"
+echo "orangefreddie, simon, BootsBrown"
+echo "chevymusclecar, mamajaay, martymcfly"
+echo "meth357, GroovyCarrot, Jato_BZ"
+echo "ev_ynw, junesiphone, dubailive"
+echo "... and many more!"
+echo "========================================"
+echo "	"
+echo "It's been a damn good run."
+echo "Thank you, to all."

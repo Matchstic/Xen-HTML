@@ -1,0 +1,12 @@
+---
+archs:           [ armv7, armv7s, arm64 ]
+platform:        ios
+install-name:    /usr/lib/libuaunbox.dylib
+current-version: 0.0
+compatibility-version: 0.0
+exports:         
+  - archs:           [ armv7, armv7s, arm64 ]
+    symbols:         []
+    objc-classes:    [ _UBClient ]
+    objc-ivars:      [ _UBClient.center ]
+...

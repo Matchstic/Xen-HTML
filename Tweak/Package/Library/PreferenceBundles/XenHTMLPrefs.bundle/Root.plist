@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Xen HTML</string>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Lockscreen</string>
+			<key>detail</key>
+			<string>XENHLockscreenPreferenceController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/Lockscreen.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Homescreen</string>
+			<key>detail</key>
+			<string>XENHHomescreenPreferenceController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/Homescreen.png</string>
+		</dict>
+		<dict>
+			<key>footerText</key>
+			<string>Xen HTML © 2016-18 Matt Clarke (Matchstic)</string>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>isStaticText</key>
+			<true/>
+			<key>licenseGroup</key>
+			<true/>
+			<key>label</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>More Widgets</string>
+			<key>detail</key>
+			<string>XENHMoreReposController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/More.png</string>
+		</dict>	
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Support</string>
+			<key>detail</key>
+			<string>XENHSupportController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/Support.png</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Donate</string>
+			<key>detail</key>
+			<string>XENHDonationController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/Donate.png</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string></string>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Element Visibility</string>
+			<key>footerText</key>
+			<string>Hide lockscreen elements when using XenHTML.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>hideClock</string>
+			<key>label</key>
+			<string>Hide Lockscreen Clock</string>
+			<key>minVer</key>
+			<real>9.0</real>
+			<key>maxVer</key>
+			<real>9.3</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>hideClock10</string>
+			<key>label</key>
+			<string>Hide Lockscreen Clock</string>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>validTitles</key>
+			<array>
+				<string>Visible</string>
+				<string>On Main Page</string>
+				<string>On All Pages</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+			</array>
+			<key>staticTextMessage</key>
+			<string>The Lockscreen clock can be hidden on either just the Main page, or all pages including App Widgets.</string>
+			<key>minVer</key>
+			<real>10.0</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>hideSTU</string>
+			<key>label</key>
+			<string>Hide &quot;slide to unlock&quot; Text</string>
+			<key>minVer</key>
+			<real>9.0</real>
+			<key>maxVer</key>
+			<real>9.3</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>hideSTU</string>
+			<key>label</key>
+			<string>Hide &quot;Press Home to Unlock&quot; Text</string>
+			<key>minVer</key>
+			<real>10.0</real>
+			<key>d22</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>hideSTU</string>
+			<key>label</key>
+			<string>Hide &quot;Swipe up to unlock&quot; Text</string>
+			<key>minVer</key>
+			<real>11.0</real>
+			<key>d22</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Hide Other Elements</string>
+			<key>detail</key>
+			<string>XENHLSVisibilityController</string>
+			<key>isController</key>
+			<string>YES</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Widget Visibility</string>
+			<key>footerText</key>
+			<string></string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Media Controls Behaviour</string>
+			<key>detail</key>
+			<string>XENHLSMediaController</string>
+			<key>isController</key>
+			<string>YES</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>Notifications Behaviour</string>
+			<key>detail</key>
+			<string>XENHLSNotificationsController</string>
+			<key>isController</key>
+			<string>YES</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Widget Opacity When Hidden:</string>
+		</dict>
+         <dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>1.0</real>
+			<key>default></key>
+			<real>0.5</real>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSWidgetFadeOpacity</string>
+			<key>isSegmented</key>
+			<true/>
+			<key>segmentCount</key>
+			<integer>10</integer>
+			<key>leftImage</key>
+			<string>LSHidden</string>
+			<key>rightImage</key>
+			<string>LSUnhidden</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Miscellaneous</string>
+			<key>footerText</key>
+			<string>For widgets that have scrollable regions, prioritising touches will resolve issues that prevent usage of these regions.</string>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Miscellaneous</string>
+			<key>footerText</key>
+			<string>For widgets with touchable regions at the bottom of the display, toggling this on will allow their usage. 
+
+However, you will not be able to swipe up to see past notifications.</string>
+			<key>minVer</key>
+			<real>11.0</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>sameSizedStatusBar</string>
+			<key>label</key>
+			<string>Smaller Lockscreen Status Bar</string>
+			<key>d22</key>
+			<false/>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>10</integer>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>isController</key>
+			<true/>
+			<key>key</key>
+			<string>lockScreenIdleTime</string>
+			<key>label</key>
+			<string>Lockscreen Idle Duration</string>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>validTitles</key>
+			<array>
+				<string>10 Seconds</string>
+				<string>15 Seconds</string>
+				<string>20 Seconds</string>
+				<string>30 Seconds</string>
+				<string>1 Minute</string>
+				<string>2 Minutes</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>10</integer>
+				<integer>15</integer>
+				<integer>20</integer>
+				<integer>30</integer>
+				<integer>60</integer>
+				<integer>120</integer>
+			</array>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSWidgetScrollPriority</string>
+			<key>label</key>
+			<string>Prioritise Scrolling in Widget</string>
+			<key>minVer</key>
+			<real>10.0</real>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSWidgetScrollPriority</string>
+			<key>label</key>
+			<string>Prioritise Touch in Widget</string>
+			<key>minVer</key>
+			<real>11.0</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Battery Usage</string>
+			<key>footerText</key>
+			<string>Disabling battery management will use more battery, but may prevent some visual issues.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSUseBatteryManagement</string>
+			<key>label</key>
+			<string>Use Battery Management</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Widget Editor</string>
+			<key>footerText</key>
+			<string>Customise the settings panel used for choosing widgets to render on the lockscreen.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSPickerSnapToYAxis</string>
+			<key>label</key>
+			<string>Snap Widgets To Y-axis</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSUseLegacyMode</string>
+			<key>label</key>
+			<string>Legacy Mode</string>
+		</dict>
+	</array>
+</dict>
+</plist>
