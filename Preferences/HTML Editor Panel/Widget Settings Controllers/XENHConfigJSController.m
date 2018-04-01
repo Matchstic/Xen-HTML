@@ -236,13 +236,17 @@
     NSError *error;
     BOOL succeed = [data writeToFile:_filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     if (!succeed){
-        // Handle error here
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"Error" value:@"Error"]
-                                                     message:[XENHResources localisedStringForKey:@"Failed to write widget settings; check file permissions for this widget" value:@"Failed to write widget settings; check file permissions for this widget"]
-                                                    delegate:nil
-                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK" value:@"OK"]
-                                           otherButtonTitles:nil];
-        [av show];
+        // Handle error here        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"Error" value:@"Error"]
+                                                                                 message:[XENHResources localisedStringForKey:@"Failed to write widget settings; check file permissions for this widget" value:@"Failed to write widget settings; check file permissions for this widget"] preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            // nop.
+        }];
+        
+        [alertController addAction:okAction];
+        
+        [self.navigationController presentViewController:alertController animated:YES completion:^{}];
         
         NSLog(@"%@", error);
     } else {

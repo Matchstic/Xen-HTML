@@ -32,12 +32,6 @@
 - (void)_killWebContentProcessAndResetState;
 @end
 
-/*typedef enum : int {
-    UIScrollViewContentInsetAdjustmentAutomatic,
-    UIScrollViewContentInsetAdjustmentScrollableAxes,
-    UIScrollViewContentInsetAdjustmentNever
-} UIScrollViewContentInsetAdjustmentBehavior;*/
-
 @interface UIScrollView (iOS11)
 @property(nonatomic) int contentInsetAdjustmentBehavior;
 @end

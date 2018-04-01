@@ -84,14 +84,18 @@ extern char **environ;
     CFPreferencesSetMultiple(NULL, (__bridge CFArrayRef)allKeys, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     
     [newSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
-    
-    _showingRespring = YES;
-    
-    // Finally, alert the user to respring.
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"Your device will now respring to apply changes" value:@"Your device will now respring to apply changes"] delegate:self cancelButtonTitle:[XENHResources localisedStringForKey:@"OK" value:@"OK"] otherButtonTitles:nil];
-    
-    [av show];
 
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"Your device will now respring to apply changes" value:@"Your device will now respring to apply changes"] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        // Respring on OK!
+        CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/wantsrespring";
+        if (toPost) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+    }];
+    
+    [alertController addAction:okAction];
+    
+    [self.navigationController presentViewController:alertController animated:YES completion:^{}];
 }
 
 -(void)nukeAllSettings:(id)sender {
