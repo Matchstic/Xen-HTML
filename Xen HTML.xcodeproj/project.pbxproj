@@ -77,8 +77,6 @@
 		C947759720715D160003D039 /* XENHSupportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753420715D150003D039 /* XENHSupportController.m */; };
 		C947759820715D160003D039 /* XENHLSNotificationsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753520715D150003D039 /* XENHLSNotificationsController.h */; };
 		C947759A20715D160003D039 /* XENHFauxLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753720715D150003D039 /* XENHFauxLockViewController.h */; };
-		C947759B20715D160003D039 /* CKBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753A20715D150003D039 /* CKBlurView.h */; };
-		C947759C20715D160003D039 /* CKBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753B20715D150003D039 /* CKBlurView.m */; };
 		C947759D20715D160003D039 /* AYVibrantButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753D20715D150003D039 /* AYVibrantButton.m */; };
 		C947759E20715D160003D039 /* AYVibrantButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753E20715D150003D039 /* AYVibrantButton.h */; };
 		C94775A020715D160003D039 /* XENHPickerCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = C947754020715D150003D039 /* XENHPickerCell2.m */; };
@@ -212,8 +210,6 @@
 		C947753420715D150003D039 /* XENHSupportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHSupportController.m; sourceTree = "<group>"; };
 		C947753520715D150003D039 /* XENHLSNotificationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHLSNotificationsController.h; sourceTree = "<group>"; };
 		C947753720715D150003D039 /* XENHFauxLockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHFauxLockViewController.h; sourceTree = "<group>"; };
-		C947753A20715D150003D039 /* CKBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKBlurView.h; sourceTree = "<group>"; };
-		C947753B20715D150003D039 /* CKBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CKBlurView.m; sourceTree = "<group>"; };
 		C947753D20715D150003D039 /* AYVibrantButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYVibrantButton.m; sourceTree = "<group>"; };
 		C947753E20715D150003D039 /* AYVibrantButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYVibrantButton.h; sourceTree = "<group>"; };
 		C947754020715D150003D039 /* XENHPickerCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerCell2.m; sourceTree = "<group>"; };
@@ -349,20 +345,20 @@
 		C94774B020715D050003D039 /* Setup */ = {
 			isa = PBXGroup;
 			children = (
-				C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */,
-				C94774B220715D050003D039 /* XENSFinalTickView.m */,
-				C94774B320715D050003D039 /* XENHSetupHomescreenImportController.h */,
-				C94774B420715D050003D039 /* XENSetupWindow.m */,
-				C94774B520715D050003D039 /* XENSetupFinalController.m */,
-				C94774B620715D050003D039 /* XENSetupInitialController.m */,
-				C94774B720715D050003D039 /* XENSetupBaseTableController.h */,
-				C94774B820715D050003D039 /* XENSFinalTickView.h */,
-				C94774B920715D050003D039 /* XENHSetupLockscreenImportController.h */,
 				C94774BA20715D050003D039 /* XENSetupWindow.h */,
-				C94774BB20715D050003D039 /* XENHSetupHomescreenImportController.m */,
+				C94774B420715D050003D039 /* XENSetupWindow.m */,
+				C94774B720715D050003D039 /* XENSetupBaseTableController.h */,
 				C94774BC20715D050003D039 /* XENSetupBaseTableController.m */,
 				C94774BD20715D050003D039 /* XENSetupInitialController.h */,
+				C94774B620715D050003D039 /* XENSetupInitialController.m */,
+				C94774B920715D050003D039 /* XENHSetupLockscreenImportController.h */,
+				C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */,
+				C94774B320715D050003D039 /* XENHSetupHomescreenImportController.h */,
+				C94774BB20715D050003D039 /* XENHSetupHomescreenImportController.m */,
 				C94774BE20715D050003D039 /* XENSetupFinalController.h */,
+				C94774B520715D050003D039 /* XENSetupFinalController.m */,
+				C94774B820715D050003D039 /* XENSFinalTickView.h */,
+				C94774B220715D050003D039 /* XENSFinalTickView.m */,
 			);
 			path = Setup;
 			sourceTree = "<group>";
@@ -540,26 +536,16 @@
 		C947753820715D150003D039 /* Third-Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				C947753920715D150003D039 /* CKBlurView */,
 				C947753C20715D150003D039 /* AYVibrantButton */,
 			);
 			path = "Third-Party Libraries";
 			sourceTree = "<group>";
 		};
-		C947753920715D150003D039 /* CKBlurView */ = {
-			isa = PBXGroup;
-			children = (
-				C947753A20715D150003D039 /* CKBlurView.h */,
-				C947753B20715D150003D039 /* CKBlurView.m */,
-			);
-			path = CKBlurView;
-			sourceTree = "<group>";
-		};
 		C947753C20715D150003D039 /* AYVibrantButton */ = {
 			isa = PBXGroup;
 			children = (
-				C947753D20715D150003D039 /* AYVibrantButton.m */,
 				C947753E20715D150003D039 /* AYVibrantButton.h */,
+				C947753D20715D150003D039 /* AYVibrantButton.m */,
 			);
 			path = AYVibrantButton;
 			sourceTree = "<group>";
@@ -786,7 +772,6 @@
 				C94775B220715D160003D039 /* XENHHomescreenPreviewCell.h in Headers */,
 				C94775B620715D160003D039 /* XENHWallpaperViewController.h in Headers */,
 				C947758F20715D150003D039 /* XENHFauxLockNotificationsController.h in Headers */,
-				C947759B20715D160003D039 /* CKBlurView.h in Headers */,
 				C947756E20715D150003D039 /* XENHSupportController.h in Headers */,
 				C94775B320715D160003D039 /* XENHLockscreenPreviewCell.h in Headers */,
 				C94775A920715D160003D039 /* XENHLockscreenPreferenceController.h in Headers */,
@@ -1028,7 +1013,6 @@
 				C947759720715D160003D039 /* XENHSupportController.m in Sources */,
 				C94775B420715D160003D039 /* XENHHomescreenPreferenceController.m in Sources */,
 				C947759220715D160003D039 /* XENHFauxIconsViewController.m in Sources */,
-				C947759C20715D160003D039 /* CKBlurView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,4 +14,4 @@ This project requires iOSOpenDev. Dependant third-party libraries and private he
 
 ### License
 
-Licensed under the LGPLv3
+Licensed under the GPLv2. Note: any widget ran using Xen HTML is not treated as derivative work.
