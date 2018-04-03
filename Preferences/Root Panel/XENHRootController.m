@@ -78,7 +78,7 @@
 
 -(void)shareTweak:(UIBarButtonItem*)item {
     NSString *message = @"I'm using Xen HTML to run HTML widgets on my Lockscreen and Homescreen! Check it out on Cydia:";
-    NSURL *url = [NSURL URLWithString:@"http://cydia.saurik.com/package/com.matchstic.xenhtml/"];
+    NSURL *url = [NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://xenpublic.incendo.ws/&package=com.matchstic.xenhtml"];
     
     UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[message, url] applicationActivities:nil];
     viewController.popoverPresentationController.barButtonItem = item;
