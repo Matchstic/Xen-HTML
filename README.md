@@ -4,6 +4,11 @@ Unified and simplified HTML rendering
 
 Xen HTML provides users the ability to display any HTML-based widget on the Lockscreen and Homescreen of their iOS devices.
 
+### Remaining Issues
+
+- [ ] Add proper localisation support throughout the tweak and preferences
+- [ ] Work out which feature enhancements should be taken through into v1.0
+
 ### Building
 
 This project requires iOSOpenDev. Dependant third-party libraries and private headers are included within this repository for portability reasons.
