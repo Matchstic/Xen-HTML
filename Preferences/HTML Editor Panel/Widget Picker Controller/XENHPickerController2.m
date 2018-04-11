@@ -92,6 +92,10 @@
     [self.tableView registerClass:[XENHPickerCell2 class] forCellReuseIdentifier:REUSE];
 }
 
+- (NSMutableArray*)_orderAlphabetically:(NSMutableArray*)array {
+    return [[array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
+}
+
 - (void)_setupSBHTMLArray {
     NSMutableArray *sbhtml = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
     for (NSString *thing in sbhtml.copy) {
@@ -105,6 +109,10 @@
 
 - (void)_setupiWidgetsArray {
     NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil] mutableCopy];
+    
+    // Order the array alphabetically.
+    widgets = [self _orderAlphabetically:widgets];
+    
     for (NSString *thing in widgets.copy) {
         int index = (int)[widgets indexOfObject:thing];
         NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
@@ -116,6 +124,10 @@
 
 - (void)_setupLockHTMLArray {
     NSMutableArray *lockhtml = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/LockHTML/" error:nil] mutableCopy];
+    
+    // Now, we order the array alphabetically.
+    lockhtml = [self _orderAlphabetically:lockhtml];
+    
     for (NSString *thing in lockhtml.copy) {
         if ([thing isEqualToString:@"LockHTML"]) {
             // What the actual...?
@@ -124,7 +136,7 @@
         
         int index = (int)[lockhtml indexOfObject:thing];
         
-        // Might be a weird one.
+        // Might be a weird one?
         
         NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/LockHTML/%@/", thing] mutableCopy];
         if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
@@ -144,6 +156,10 @@
 
 - (void)_setupGroovyLockArray {
     NSMutableArray *groovylock = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/GroovyLock/" error:nil] mutableCopy];
+    
+    // Order the array alphabetically.
+    groovylock = [self _orderAlphabetically:groovylock];
+    
     for (NSString *thing in groovylock.copy) {
         if ([thing isEqualToString:@"GroovyLock"]) {
             // What the actual...?
@@ -172,6 +188,10 @@
 
 - (void)_setupCydgetForegroundArray {
     NSMutableArray *cydgetFore = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil] mutableCopy];
+    
+    // Order the array alphabetically.
+    cydgetFore = [self _orderAlphabetically:cydgetFore];
+    
     for (NSString *thing in cydgetFore.copy) {
         int index = (int)[cydgetFore indexOfObject:thing];
         
@@ -195,6 +215,10 @@
 
 - (void)_setupCydgetBackgroundArray {
     NSMutableArray *cydgetBack = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil] mutableCopy];
+    
+    // Order the array alphabetically.
+    cydgetBack = [self _orderAlphabetically:cydgetBack];
+    
     for (NSString *thing in cydgetBack.copy) {
         
         int index = (int)[cydgetBack indexOfObject:thing];
