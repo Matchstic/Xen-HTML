@@ -372,7 +372,7 @@
     
     if (canActuallyUtiliseOptionsPlist && [[NSFileManager defaultManager] fileExistsAtPath:optionsPath]) {
         // We can fire up the Options.plist editor!
-        NSDictionary *preexistingSettings = [self.webViewController getMetadata];
+        NSDictionary *preexistingSettings = [[self.webViewController getMetadata] objectForKey:@"options"];
         
         NSArray *plist = [NSArray arrayWithContentsOfFile:optionsPath];
         
@@ -447,7 +447,15 @@
 -(void)closeMetadataOptionsModal:(id)sender {
     NSDictionary *changedOptions = [self.metadataOptions currentOptions];
     
-    [self.webViewController setMetadata:changedOptions reloadingWebView:YES];
+    // Use current metadata (i.e. positioning) and modify that.
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    [mutableMetadata setObject:changedOptions forKey:@"options"];
+    
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:YES];
     [self.positioningController updatePositioningView:self.webViewController.webView];
     
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
@@ -498,8 +506,6 @@
 #pragma mark Widget Picker delegate
 
 -(void)didChooseWidget:(NSString *)filePath {
-    NSLog(@"XenHTML :: Chose %@", filePath);
-    
     // User chose a new widget to render, so let's go for it!
     [self.webViewController reloadWebViewToPath:filePath updateMetadata:YES ignorePreexistingMetadata:YES];
     
