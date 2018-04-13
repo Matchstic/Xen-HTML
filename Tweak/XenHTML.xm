@@ -425,10 +425,16 @@ static id dashBoardMainPageContentViewController;
         backgroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         foregroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         
-        if (self.wallpaperEffectView)
-            [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:self.wallpaperEffectView];
-        else
+        if (self.wallpaperEffectView) {
+            // Check if we *really* need to insert the subview.
+            int wallpaperIndex = (int)[self.slideableContentView.subviews indexOfObject:self.wallpaperEffectView];
+            int backgroundControllerExpectedIndex = wallpaperIndex + 1;
+            
+            if (![[self.slideableContentView.subviews objectAtIndex:backgroundControllerExpectedIndex] isEqual:backgroundViewController.view])
+                [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:self.wallpaperEffectView];
+        } else if (![[self.slideableContentView.subviews objectAtIndex:0] isEqual:backgroundViewController.view]) {
             [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+        }
     }
 }
 
@@ -765,7 +771,10 @@ static id dashBoardMainPageContentViewController;
 %hook SBLockScreenViewController
 
 -(void)_releaseLockScreenView {
-    %orig;
+    // Moved %orig; to the bottom, in an attempt to resolve a crash occuring when the user unlocks, and
+    // iOS runs -[SBLockScreenNotificationListController _updateModelForRemovalOfItem:updateView:].
+    // This was leading to a crash -> an object referenced there was deallocated without being set to nil,
+    // giving some pretty odd crashes when calling setAlpha: on it.
     
     if ([XENHResources lsenabled]) {
         [backgroundViewController unloadView];
@@ -781,6 +790,8 @@ static id dashBoardMainPageContentViewController;
         
         lsBackgroundForwarder = nil;
     }
+    
+    %orig;
 }
 
 %end
@@ -2055,7 +2066,9 @@ static XENHTapGestureRecognizer *tap;
         tap.xOffset = offset.x;
         tap.yOffset = offset.y;
         
-        [self insertSubview:sbhtmlViewController.view atIndex:0];
+        // Only do this when *really* necessary.
+        if (![[self.subviews objectAtIndex:0] isEqual:sbhtmlViewController.view])
+            [self insertSubview:sbhtmlViewController.view atIndex:0];
     }
 }
 
@@ -2073,6 +2086,17 @@ static XENHTapGestureRecognizer *tap;
 
 %hook SBDockView
 
+-(id)initWithDockListView:(id)arg1 forSnapshot:(BOOL)arg2 {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
 -(void)layoutSubviews {
     %orig;
     
@@ -2083,11 +2107,6 @@ static XENHTapGestureRecognizer *tap;
         [MSHookIvar<UIView*>(self, "_accessibilityBackgroundView") setHidden:YES];
 #endif
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
-                                               object:nil];
 }
 
 %new
@@ -2107,6 +2126,17 @@ static XENHTapGestureRecognizer *tap;
 
 %hook SBFloatingDockPlatterView
 
+- (id)initWithReferenceHeight:(double)arg1 maximumContinuousCornerRadius:(double)arg2 {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
 -(void)layoutSubviews {
     %orig;
     
@@ -2115,11 +2145,6 @@ static XENHTapGestureRecognizer *tap;
         [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:YES];
 #endif
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
-                                               object:nil];
 }
 
 %new
@@ -2137,17 +2162,34 @@ static XENHTapGestureRecognizer *tap;
 
 %hook SBFolderIconBackgroundView
 
+-(id)initWithDefaultSize {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlFolderUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
+-(id)initWithFrame:(CGRect)arg1 {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlFolderUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
 -(void)layoutSubviews {
     %orig;
     
     if ([XENHResources SBEnabled] && [XENHResources hideBlurredFolderBG]) {
         [self setHidden:YES];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlFolderUpdate"
-                                               object:nil];
 }
 
 %new
@@ -2163,6 +2205,17 @@ static XENHTapGestureRecognizer *tap;
 
 %hook SBIconView
 
+-(id)initWithContentType:(unsigned long long)arg1 {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlIconLabelsUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
 -(void)layoutSubviews {
     %orig;
     
@@ -2171,11 +2224,6 @@ static XENHTapGestureRecognizer *tap;
         [MSHookIvar<UIView*>(self, "_labelView") setHidden:YES];
 #endif
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlIconLabelsUpdate"
-                                               object:nil];
 }
 
 %new
@@ -2193,6 +2241,17 @@ static XENHTapGestureRecognizer *tap;
 
 %hook SBRootFolderView
 
+-(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
+    id orig = %orig;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:orig
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
+                                               object:nil];
+    
+    return orig;
+}
+
 - (void)layoutSubviews {
     %orig;
     
@@ -2201,11 +2260,6 @@ static XENHTapGestureRecognizer *tap;
         [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
 #endif
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
-                                               object:nil];
 }
 
 %new
