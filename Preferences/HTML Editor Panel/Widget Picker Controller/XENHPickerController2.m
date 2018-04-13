@@ -98,6 +98,10 @@
 
 - (void)_setupSBHTMLArray {
     NSMutableArray *sbhtml = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
+    
+    // Order the array alphabetically.
+    sbhtml = [self _orderAlphabetically:sbhtml];
+    
     for (NSString *thing in sbhtml.copy) {
         int index = (int)[sbhtml indexOfObject:thing];
         NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
