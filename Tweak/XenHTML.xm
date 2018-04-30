@@ -36,6 +36,8 @@
  1. Make CydiaSubstrate linking required
  2. Turn on symbol stripping
  3. Change build target
+ 
+ Note: the simulator *really* doesn't like MSHookIvar.
  */
 
 #pragma mark Private headers
@@ -1586,6 +1588,10 @@ void cancelIdleTimer() {
     
     // First, handle background -> foreground.
     if (![arg2 isForeground] && [arg3 isForeground]) {
+        
+        // CHECKME: When launching an app, this functions but causes the widget to disappear BEFORE the application zoom-up is done.
+        // CHECMKE: When launching an app thats backgrounded, this doesn't cause the widget to disappear...
+        
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
     // And now, handle the reverse as a failsafe.
@@ -1654,8 +1660,8 @@ void cancelIdleTimer() {
     // We use the unlockedEnvironmentMode to define what to do!
     // There is: home-screen, app-switcher, and application
     
-    // This class is also in iOS 10.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    // This class is also in iOS 10, and we don't want to do anything when locked.
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 || [[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
         return %orig;
     }
     
@@ -1668,17 +1674,17 @@ void cancelIdleTimer() {
     switch (environmentMode) {
         case 1:
             XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
-            dispatch_async(dispatch_get_main_queue(), ^(){
+            //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
-                [sbhtmlViewController.view setNeedsDisplay];
-            });
+            //    [sbhtmlViewController.view setNeedsDisplay];
+            //});
             break;
         case 2:
             XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
-            dispatch_async(dispatch_get_main_queue(), ^(){
+            //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
-                [sbhtmlViewController.view setNeedsDisplay];
-            });
+            //    [sbhtmlViewController.view setNeedsDisplay];
+            //});
             break;
     }
     
@@ -2037,8 +2043,7 @@ static XENHTapGestureRecognizer *tap;
         [sbhtmlViewController _forwardTouchesCancelled:sender._xenhtml_touches withEvent:sender._xenhtml_event];
     }
     
-    // We should also deliver this touch through to the original view, just to be nice.
-    
+    // CHECKME: also deliver this touch through to the original view, just to be nice?
 }
 
 %new
@@ -2065,10 +2070,15 @@ static XENHTapGestureRecognizer *tap;
         CGPoint offset = [sbhtmlViewController currentWebViewPosition];
         tap.xOffset = offset.x;
         tap.yOffset = offset.y;
-        
-        // Only do this when *really* necessary.
-        if (![[self.subviews objectAtIndex:0] isEqual:sbhtmlViewController.view])
-            [self insertSubview:sbhtmlViewController.view atIndex:0];
+    }
+}
+
+- (void)insertSubview:(UIView*)view atIndex:(int)index {
+    %orig;
+    
+    // Ensure that we're at the bottom at all times!
+    if ([XENHResources SBEnabled] && sbhtmlViewController && [[view class] isEqual:objc_getClass("SBIconContentView")]) {
+        [self insertSubview:sbhtmlViewController.view atIndex:0];
     }
 }
 

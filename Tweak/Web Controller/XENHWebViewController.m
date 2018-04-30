@@ -178,7 +178,7 @@
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
     // Need to make 100% sure we're on the main thread doing this part.
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        if (paused) {
+        /*if (paused) {
             // Setup for hiding the UI
         } else {
             // Setup for showing.
@@ -189,9 +189,20 @@
                 _webView.hidden = paused;
                 _webView.alpha = 0.0;
             }
+        }*/
+        
+        if (_usingFallback) {
+            _fallbackWebView.hidden = paused;
+            _fallbackWebView.alpha = 1.0;
+        } else {
+            _webView.hidden = paused;
+            _webView.alpha = 1.0;
         }
         
-        [UIView animateWithDuration:animated ? 0.3 : 0.0 animations:^{
+        // Is this even necessary?
+        //[self.view setNeedsDisplay];
+        
+        /*[UIView animateWithDuration:animated ? 0.3 : 0.0 animations:^{
             if (_usingFallback) {
                 _fallbackWebView.alpha = paused ? 0.0 : 1.0;
             } else {
@@ -209,7 +220,7 @@
             
                 [self.view setNeedsDisplay];
             }
-        }];
+        }];*/
     });
 }
 
@@ -640,9 +651,6 @@
 -(void)unloadWKWebView {
     [_webView stopLoading];
     [_webView loadHTMLString:@"" baseURL:[NSURL URLWithString:@""]];
-    
-    //if ([_webView respondsToSelector:@selector(_killWebContentProcessAndResetState)])
-    //    [_webView _killWebContentProcessAndResetState];
 
     _webView.hidden = YES; // Stop any residual GPU updates.
     [_webView removeFromSuperview];
@@ -651,11 +659,7 @@
      * Interestingly, if this is called too early in the sequence of unloading the lockscreen,
      * when -resignFirstResponder is called on WKContentView, it will SIGSEGV due to it's internal
      * _webView iVar that points here being undefined.
-     * 
-     * For now, we will simply nil-ify _webView in -loadWKWebView, as by this point everything
-     * should be unloaded from memory.
      */
-    //_webView = nil;
 }
 
 -(void)unloadUIWebView {
