@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>title</key>
+	<string>Advanced</string>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>For widgets that have scrollable regions, prioritising touches will resolve issues that prevent usage of these regions.</string>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>For widgets with touchable regions at the bottom of the display, toggling this on will allow their usage. 
+
+However, you will not be able to swipe up to see past notifications.</string>
+			<key>minVer</key>
+			<real>11.0</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSWidgetScrollPriority</string>
+			<key>label</key>
+			<string>Prioritise Scrolling in Widget</string>
+			<key>minVer</key>
+			<real>10.0</real>
+			<key>maxVer</key>
+			<real>10.4</real>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSWidgetScrollPriority</string>
+			<key>label</key>
+			<string>Prioritise Touch in Widget</string>
+			<key>minVer</key>
+			<real>11.0</real>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Disabling battery management will use more battery, but may prevent some visual issues.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSUseBatteryManagement</string>
+			<key>label</key>
+			<string>Use Battery Management</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSUseLegacyMode</string>
+			<key>label</key>
+			<string>Legacy Mode</string>
+		</dict>
+	</array>
+</dict>
+</plist>

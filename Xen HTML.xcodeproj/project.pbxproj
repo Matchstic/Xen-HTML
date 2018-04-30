@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99CDD721C0AC36D00761684 /* MessageUI.framework */; };
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
+		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
+		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
 		C94774E320715D050003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C94774AE20715D050003D039 /* Prefix.pch */; };
 		C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */; };
 		C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B220715D050003D039 /* XENSFinalTickView.m */; };
@@ -133,6 +135,8 @@
 
 /* Begin PBXFileReference section */
 		C911F1D21C1E051300D4D582 /* XenHTML.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
+		C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHLSAdvancedController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94774AE20715D050003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -288,6 +292,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C916A9A4209756F800CC9521 /* Advanced */ = {
+			isa = PBXGroup;
+			children = (
+				C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */,
+				C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */,
+			);
+			path = Advanced;
+			sourceTree = "<group>";
+		};
 		C93C30A11BA72CA90037BA09 = {
 			isa = PBXGroup;
 			children = (
@@ -687,6 +700,7 @@
 			children = (
 				C947754B20715D150003D039 /* XENHLockscreenPreferenceController.h */,
 				C947754820715D150003D039 /* XENHLockscreenPreferenceController.m */,
+				C916A9A4209756F800CC9521 /* Advanced */,
 				C94775C520715FF60003D039 /* Element Visibility */,
 				C94775C420715FE50003D039 /* Media Visibility */,
 				C94775C020715F9C0003D039 /* Notifications Visibility */,
@@ -778,6 +792,7 @@
 				C947759A20715D160003D039 /* XENHFauxLockViewController.h in Headers */,
 				C94775B120715D160003D039 /* XENHPreviewSliderCell.h in Headers */,
 				C947759E20715D160003D039 /* AYVibrantButton.h in Headers */,
+				C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */,
 				C947758A20715D150003D039 /* XENHLSMediaController.h in Headers */,
 				C947758320715D150003D039 /* XENHRootController.h in Headers */,
 				C94775A120715D160003D039 /* XENHPickerController2.h in Headers */,
@@ -1011,6 +1026,7 @@
 				C94775AF20715D160003D039 /* XENHBasePreviewCell.m in Sources */,
 				C94775AE20715D160003D039 /* XENHHomescreenPreviewCell.m in Sources */,
 				C947759720715D160003D039 /* XENHSupportController.m in Sources */,
+				C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */,
 				C94775B420715D160003D039 /* XENHHomescreenPreferenceController.m in Sources */,
 				C947759220715D160003D039 /* XENHFauxIconsViewController.m in Sources */,
 			);
