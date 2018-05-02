@@ -11,6 +11,10 @@
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
 		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
+		C916A9AB209759F700CC9521 /* XENHWidgetLayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */; };
+		C916A9AC209759F700CC9521 /* XENHWidgetLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */; };
+		C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9AE20975F9400CC9521 /* XENHWidgetController.h */; };
+		C916A9B120975F9400CC9521 /* XENHWidgetController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AF20975F9400CC9521 /* XENHWidgetController.m */; };
 		C94774E320715D050003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C94774AE20715D050003D039 /* Prefix.pch */; };
 		C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */; };
 		C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B220715D050003D039 /* XENSFinalTickView.m */; };
@@ -27,7 +31,6 @@
 		C94774F020715D050003D039 /* XENSetupInitialController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BD20715D050003D039 /* XENSetupInitialController.h */; };
 		C94774F120715D050003D039 /* XENSetupFinalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BE20715D050003D039 /* XENSetupFinalController.h */; };
 		C94774F220715D050003D039 /* XENHWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C020715D050003D039 /* XENHWebViewController.h */; };
-		C94774F320715D050003D039 /* XENHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774C120715D050003D039 /* XENHWebViewController.m */; };
 		C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C320715D050003D039 /* XENHTouchPassThroughView.h */; };
 		C94774F520715D050003D039 /* XENHTapGestureRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */; };
 		C94774F620715D050003D039 /* XENHResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C520715D050003D039 /* XENHResources.h */; };
@@ -137,6 +140,11 @@
 		C911F1D21C1E051300D4D582 /* XenHTML.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
 		C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHLSAdvancedController.m; sourceTree = "<group>"; };
+		C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetLayerController.h; sourceTree = "<group>"; };
+		C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetLayerController.m; sourceTree = "<group>"; };
+		C916A9AD20975F3F00CC9521 /* PrivateWebKitHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateWebKitHeaders.h; sourceTree = "<group>"; };
+		C916A9AE20975F9400CC9521 /* XENHWidgetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetController.h; sourceTree = "<group>"; };
+		C916A9AF20975F9400CC9521 /* XENHWidgetController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94774AE20715D050003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -379,8 +387,13 @@
 		C94774BF20715D050003D039 /* Web Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C916A9AD20975F3F00CC9521 /* PrivateWebKitHeaders.h */,
 				C94774C020715D050003D039 /* XENHWebViewController.h */,
 				C94774C120715D050003D039 /* XENHWebViewController.m */,
+				C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */,
+				C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */,
+				C916A9AE20975F9400CC9521 /* XENHWidgetController.h */,
+				C916A9AF20975F9400CC9521 /* XENHWidgetController.m */,
 			);
 			path = "Web Controller";
 			sourceTree = "<group>";
@@ -773,7 +786,9 @@
 				C94774F220715D050003D039 /* XENHWebViewController.h in Headers */,
 				C94774E620715D050003D039 /* XENHSetupHomescreenImportController.h in Headers */,
 				C94774EB20715D050003D039 /* XENSFinalTickView.h in Headers */,
+				C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */,
 				C94774F820715D050003D039 /* XENHTapGestureRecognizer.h in Headers */,
+				C916A9AB209759F700CC9521 /* XENHWidgetLayerController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,12 +994,13 @@
 				C94774E720715D050003D039 /* XENSetupWindow.m in Sources */,
 				C94774F520715D050003D039 /* XENHTapGestureRecognizer.mm in Sources */,
 				C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */,
-				C94774F320715D050003D039 /* XENHWebViewController.m in Sources */,
 				C94774F920715D050003D039 /* XENHResources.m in Sources */,
+				C916A9AC209759F700CC9521 /* XENHWidgetLayerController.m in Sources */,
 				C94774EE20715D050003D039 /* XENHSetupHomescreenImportController.m in Sources */,
 				C94774E920715D050003D039 /* XENSetupInitialController.m in Sources */,
 				C94774E820715D050003D039 /* XENSetupFinalController.m in Sources */,
 				C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */,
+				C916A9B120975F9400CC9521 /* XENHWidgetController.m in Sources */,
 				C94774EF20715D050003D039 /* XENSetupBaseTableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -80,7 +80,7 @@
     self.state = UIGestureRecognizerStateCancelled;
 }
 
-#pragma mark Don't be an asshole to other gestures
+#pragma mark Don't be annoying to other gestures
 
 - (BOOL)canBePreventedByGestureRecognizer:(id)arg1 {
     return NO;

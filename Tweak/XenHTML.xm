@@ -16,7 +16,7 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import "XENHWebViewController.h"
+#import "XENHWidgetLayerController.h"
 #import "XENHResources.h"
 #import "XENHTouchPassThroughView.h"
 
@@ -323,9 +323,10 @@ static XENHSetupWindow *setupWindow;
 
 %group SpringBoard
 
-static XENHWebViewController *backgroundViewController;
-static XENHWebViewController *foregroundViewController;
-static XENHWebViewController *sbhtmlViewController;
+static XENHWidgetLayerController *backgroundViewController;
+static XENHWidgetLayerController *foregroundViewController;
+static XENHWidgetLayerController *sbhtmlViewController;
+
 static PHContainerView * __weak phContainerView;
 static UIView * __weak lsView;
 static NSMutableArray *foregroundHiddenRequesters;
@@ -360,20 +361,20 @@ static id dashBoardMainPageContentViewController;
     
     if ([XENHResources lsenabled]) {
         // Add bottommost webview.
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
-                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
-            else
-                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+            else // if (![XENHResources LSPersistantWidgets])
+                [backgroundViewController reloadWidgets:NO];
             
             [orig insertSubview:backgroundViewController.view atIndex:0];
         }
     
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
-                foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
-            else
-                [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
+            else // if (![XENHResources LSPersistantWidgets])
+                [foregroundViewController reloadWidgets:NO];
             
 #if TARGET_IPHONE_SIMULATOR==0
             [MSHookIvar<UIView*>(orig, "_foregroundLockContentView") addSubview:foregroundViewController.view];
@@ -407,11 +408,11 @@ static id dashBoardMainPageContentViewController;
         [XENHResources setCurrentOrientation:orientation];
         
         // Add bottommost webview.
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
-                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
-            else
-                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+            else// if (![XENHResources LSPersistantWidgets])
+                [backgroundViewController reloadWidgets:NO];
             
             [orig.backgroundView insertSubview:backgroundViewController.view atIndex:0];
         }
@@ -449,11 +450,11 @@ static id dashBoardMainPageContentViewController;
     if (isiOS10) {
         if (!iOS10ForegroundAddAttempted && [XENHResources lsenabled]) {
             
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
                 if (!foregroundViewController)
-                    foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
-                    else
-                        [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                else // if (![XENHResources LSPersistantWidgets])
+                    [foregroundViewController reloadWidgets:NO];
                 
                 // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
                 // and then feed that to the isolating controller to present.
@@ -492,11 +493,11 @@ static id dashBoardMainPageContentViewController;
         XENlog(@"Adding webviews to Dashboard if needed...");
         
         // Foreground HTML -> SBDashBoardMainPageContentViewController approach
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationForeground]]) {
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
-                foregroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationForeground];
-            else
-                [foregroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationForeground]];
+                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+            else // if (![XENHResources LSPersistantWidgets])
+                [foregroundViewController reloadWidgets:NO];
             
             // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
             // and then feed that to the isolating controller to present.
@@ -511,11 +512,11 @@ static id dashBoardMainPageContentViewController;
         }
         
         // Now for the background.
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationBackground]]) {
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
-                backgroundViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationBackground];
-            else
-                [backgroundViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationBackground]];
+                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+            else // if (![XENHResources LSPersistantWidgets])
+                [backgroundViewController reloadWidgets:NO];
             
             // Not using self.backgroundView now as that goes weird when swiping to the camera
             [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
@@ -543,16 +544,16 @@ static id dashBoardMainPageContentViewController;
     %orig;
     
     // On iOS 11, this is called whenever dashboard is hidden.
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
         XENlog(@"Unloading background HTML if present...");
         
-        [backgroundViewController unloadView];
+        [backgroundViewController unloadWidgets];
         [backgroundViewController.view removeFromSuperview];
         backgroundViewController = nil;
         
         XENlog(@"Unloading foreground HTML if present...");
         
-        [foregroundViewController unloadView];
+        [foregroundViewController unloadWidgets];
         [foregroundViewController.view removeFromSuperview];
         foregroundViewController = nil;
         
@@ -778,12 +779,12 @@ static id dashBoardMainPageContentViewController;
     // This was leading to a crash -> an object referenced there was deallocated without being set to nil,
     // giving some pretty odd crashes when calling setAlpha: on it.
     
-    if ([XENHResources lsenabled]) {
-        [backgroundViewController unloadView];
+    if ([XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
+        [backgroundViewController unloadWidgets];
         [backgroundViewController.view removeFromSuperview];
         backgroundViewController = nil;
     
-        [foregroundViewController unloadView];
+        [foregroundViewController unloadWidgets];
         [foregroundViewController.view removeFromSuperview];
         foregroundViewController = nil;
         
@@ -814,10 +815,10 @@ static id dashBoardMainPageContentViewController;
 - (void)displayDidDisappear {
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
-    if (isiOS10 && [XENHResources lsenabled]) {
+    if (isiOS10 && [XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
         XENlog(@"Unloading background HTML if present...");
         
-        [backgroundViewController unloadView];
+        [backgroundViewController unloadWidgets];
         [backgroundViewController.view removeFromSuperview];
         backgroundViewController = nil;
         
@@ -829,7 +830,7 @@ static id dashBoardMainPageContentViewController;
         
         XENlog(@"Unloading foreground HTML if present...");
         
-        [foregroundViewController unloadView];
+        [foregroundViewController unloadWidgets];
         [foregroundViewController.view removeFromSuperview];
         foregroundViewController = nil;
         
@@ -974,7 +975,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
             // Here, we should check whether the foreground LS widget is handling a touch. If so, no cancelling is
             // allowed.
             
-            if ([foregroundViewController isTrackingTouch]) {
+            if ([foregroundViewController isAnyWidgetTrackingTouch]) {
                 return NO;
             }
         }
@@ -1893,9 +1894,6 @@ void cancelIdleTimer() {
     NSString *href = [[[[frame dataSource] request] URL] absoluteString];
     href = [href stringByReplacingOccurrencesOfString:@"file://" withString:@""];
     href = [href stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
-
-    // TODO: We also need to convert any other HTML entities to normal strings.
-    // Or, do we, really?
     
     if (href) {
         NSDictionary *metadata = [XENHResources widgetMetadataForHTMLFile:href];
@@ -1924,14 +1922,12 @@ static XENHTapGestureRecognizer *tap;
     XENlog(@"Injecting into homescreen");
     [XENHResources reloadSettings];
     
-    if ([XENHResources SBEnabled]) {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]]) {
-            XENlog(@"Loading SBHTML view");
-            sbhtmlViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationSBHTML];
-            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
-            
-            XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
-        }
+    if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
+        XENlog(@"Loading SBHTML view");
+        sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+        [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+        
+        XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
     }
     
     [self _xenhtml_addTouchRecogniser];
@@ -1966,9 +1962,7 @@ static XENHTapGestureRecognizer *tap;
         
         tap = [[XENHTapGestureRecognizer alloc] initWithTarget:self action:@selector(_xenhtml_handleDidTap:)];
         tap.delaysTouchesBegan = NO;
-        //tap.delegate = [sbhtmlViewController _webTouchDelegate];
         tap.cancelsTouchesInView = NO;
-        //tap.actualView = [sbhtmlViewController _webTouchDelegate];
         
         // Need to fail with the main scrollview's gestures.
         
@@ -1996,19 +1990,20 @@ static XENHTapGestureRecognizer *tap;
 // Will need to reload SBHTML if settings change.
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
-    if ([XENHResources SBEnabled] && ![[XENHResources indexHTMLFileForLocation:kLocationSBHTML] isEqualToString:@""]) {
+    if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
         if (sbhtmlViewController) {
-            [sbhtmlViewController reloadToNewLocation:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]];
+            [sbhtmlViewController noteUserPreferencesDidChange];
         } else {
             UIView *mainView = self.view;
         
-            if ([[NSFileManager defaultManager] fileExistsAtPath:[XENHResources indexHTMLFileForLocation:kLocationSBHTML]]) {
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
                 XENlog(@"Loading SBHTML view");
-                sbhtmlViewController = [XENHResources configuredHTMLViewControllerForLocation:kLocationSBHTML];
+                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
                 [mainView insertSubview:sbhtmlViewController.view atIndex:0];
             }
         }
     } else {
+        [sbhtmlViewController unloadWidgets];
         [sbhtmlViewController.view removeFromSuperview];
         sbhtmlViewController = nil;
     }
@@ -2034,13 +2029,13 @@ static XENHTapGestureRecognizer *tap;
     }
     
     if (sender.state == UIGestureRecognizerStateBegan) {
-        [sbhtmlViewController _forwardTouchesBegan:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+        [sbhtmlViewController forwardTouchesBegan:sender._xenhtml_touches withEvent:sender._xenhtml_event];
     } else if (sender.state == UIGestureRecognizerStateChanged) {
-        [sbhtmlViewController _forwardTouchesMoved:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+        [sbhtmlViewController forwardTouchesMoved:sender._xenhtml_touches withEvent:sender._xenhtml_event];
     } else if (sender.state == UIGestureRecognizerStateEnded) {
-        [sbhtmlViewController _forwardTouchesEnded:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+        [sbhtmlViewController forwardTouchesEnded:sender._xenhtml_touches withEvent:sender._xenhtml_event];
     } else if (sender.state == UIGestureRecognizerStateCancelled) {
-        [sbhtmlViewController _forwardTouchesCancelled:sender._xenhtml_touches withEvent:sender._xenhtml_event];
+        [sbhtmlViewController forwardTouchesCancelled:sender._xenhtml_touches withEvent:sender._xenhtml_event];
     }
     
     // CHECKME: also deliver this touch through to the original view, just to be nice?
@@ -2067,9 +2062,9 @@ static XENHTapGestureRecognizer *tap;
         sbhtmlViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         
         // Need to update the tap gesture with the offsets.
-        CGPoint offset = [sbhtmlViewController currentWebViewPosition];
+        /*CGPoint offset = [sbhtmlViewController currentWebViewPosition];
         tap.xOffset = offset.x;
-        tap.yOffset = offset.y;
+        tap.yOffset = offset.y;*/
     }
 }
 
@@ -2839,32 +2834,29 @@ static void showForegroundForLSNotifIfNeeded() {
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
-    NSString *oldSBHTML = [XENHResources indexHTMLFileForLocation:kLocationSBHTML];
+    NSDictionary *oldSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
     BOOL oldSBHTMLEnabled = [XENHResources SBEnabled];
     BOOL oldDock = [XENHResources hideBlurredDockBG];
     BOOL oldFolder = [XENHResources hideBlurredFolderBG];
     BOOL oldIconLabels = [XENHResources SBHideIconLabels];
     BOOL oldSBTouch = [XENHResources SBAllowTouch];
-    NSDictionary *oldMetadata = [XENHResources widgetMetadataForHTMLFile:oldSBHTML];
     BOOL oldSBLegacy = [XENHResources SBUseLegacyMode];
     BOOL oldSBPageDots = [XENHResources SBHidePageDots];
     
     [XENHResources reloadSettings];
     
-    NSString *newSBHTML = [XENHResources indexHTMLFileForLocation:kLocationSBHTML];
+    NSDictionary *newSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
     BOOL newSBHTMLEnabled = [XENHResources SBEnabled];
     BOOL newDock = [XENHResources hideBlurredDockBG];
     BOOL newFolder = [XENHResources hideBlurredFolderBG];
     BOOL newIconLabels = [XENHResources SBHideIconLabels];
     BOOL newSBTouch = [XENHResources SBAllowTouch];
-    NSDictionary *newMetadata = [XENHResources widgetMetadataForHTMLFile:newSBHTML];
     BOOL newSBLegacy = [XENHResources SBUseLegacyMode];
     BOOL newSBPageDots = [XENHResources SBHidePageDots];
     
-    if (![oldSBHTML isEqualToString:newSBHTML] ||
+    if (![oldSBHTML isEqual:newSBHTML] ||
         newSBHTMLEnabled != oldSBHTMLEnabled ||
-        newSBLegacy != oldSBLegacy ||
-        ![newMetadata isEqual:oldMetadata]) {
+        newSBLegacy != oldSBLegacy) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlUpdate" object:nil];
     }
     

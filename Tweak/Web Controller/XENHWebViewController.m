@@ -19,88 +19,10 @@
 #import "XENHWebViewController.h"
 #import "XENHResources.h"
 #import "XENHTapGestureRecognizer.h"
-#import <WebKit/WebKit.h>
 #import "XENHTouchPassThroughView.h"
+#import "PrivateWebKitHeaders.h"
+
 #import <objc/runtime.h>
-
-@interface UIWebDocumentView : NSObject
--(void)setAutoresizes:(BOOL)arg1;
--(void)setDrawsBackground:(BOOL)arg1;
--(id)webView;
--(void)setTileSize:(CGSize)arg1;
--(void)setBackgroundColor:(UIColor*)arg1;
--(void)setUpdatesScrollView:(BOOL)arg1;
-@end
-
-@interface UIWebBrowserView : UIView
-- (void)_webTouchEventsRecognized:(id)arg1;
-@end
-
-@interface WebPreferences : NSObject
--(void)setAccelerated2dCanvasEnabled:(BOOL)arg1;
--(void)setAcceleratedCompositingEnabled:(BOOL)arg1;
--(void)setAcceleratedDrawingEnabled:(BOOL)arg1;
--(void)_setLayoutInterval:(int)arg1;
--(void)setCacheModel:(int)arg1;
--(void)setJavaScriptCanOpenWindowsAutomatically:(BOOL)arg1;
--(void)setOfflineWebApplicationCacheEnabled:(BOOL)arg1;
-@end
-
-@interface WebView : NSObject
--(WebPreferences*)preferences;
--(void)setPreferencesIdentifier:(id)arg1;
--(void)setShouldUpdateWhileOffscreen:(BOOL)arg1;
--(void)_setAllowsMessaging:(BOOL)arg1;
--(void)setCSSAnimationsSuspended:(BOOL)arg1;
-@end
-
-@interface WKPreferences (Private)
-- (void)_setAllowFileAccessFromFileURLs:(BOOL)arg1;
-- (void)_setAntialiasedFontDilationEnabled:(BOOL)arg1;
-- (void)_setCompositingBordersVisible:(BOOL)arg1;
-- (void)_setCompositingRepaintCountersVisible:(BOOL)arg1;
-- (void)_setDeveloperExtrasEnabled:(BOOL)arg1;
-- (void)_setDiagnosticLoggingEnabled:(BOOL)arg1;
-- (void)_setFullScreenEnabled:(BOOL)arg1;
-- (void)_setJavaScriptRuntimeFlags:(unsigned int)arg1;
-- (void)_setLogsPageMessagesToSystemConsoleEnabled:(BOOL)arg1;
-- (void)_setOfflineApplicationCacheIsEnabled:(BOOL)arg1;
-- (void)_setSimpleLineLayoutDebugBordersEnabled:(BOOL)arg1;
-- (void)_setStandalone:(BOOL)arg1;
-- (void)_setStorageBlockingPolicy:(int)arg1;
-- (void)_setTelephoneNumberDetectionIsEnabled:(BOOL)arg1;
-- (void)_setTiledScrollingIndicatorVisible:(BOOL)arg1;
-- (void)_setVisibleDebugOverlayRegions:(unsigned int)arg1;
-@end
-
-@interface WKContentView : UIView
-- (void)_webTouchEventsRecognized:(id)gestureRecognizer;
-- (void)_singleTapCommited:(UITapGestureRecognizer *)gestureRecognizer;
-@end
-
-@interface WKWebView (IOS9)
-- (id)loadFileURL:(id)arg1 allowingReadAccessToURL:(id)arg2;
-- (void)_killWebContentProcessAndResetState;
-- (WKContentView*)_currentContentView;
-@end
-
-@interface UIWebView (Apple)
-- (UIWebDocumentView *)_documentView;
-- (UIScrollView *)_scrollView;
-- (void)webView:(id)view addMessageToConsole:(NSDictionary *)message;
-- (void)webView:(id)view didClearWindowObject:(id)window forFrame:(id)frame;
-- (void)_setWebSelectionEnabled:(BOOL)arg1;
-- (UIWebBrowserView*)_browserView;
-@end
-
-@interface UIGestureRecognizer (Private2)
-- (void)_touchesBegan:(id)arg1 withEvent:(id)arg2;
-- (void)_touchesCancelled:(id)arg1 withEvent:(id)arg2;
-- (void)_touchesEnded:(id)arg1 withEvent:(id)arg2;
-- (void)_touchesMoved:(id)arg1 withEvent:(id)arg2;
-- (bool)_isActive;
-- (bool)_isRecognized;
-@end
 
 @interface XENHWebViewController () <WKNavigationDelegate> {
     NSString *_baseString;
@@ -178,19 +100,6 @@
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
     // Need to make 100% sure we're on the main thread doing this part.
     dispatch_async(dispatch_get_main_queue(), ^(void){
-        /*if (paused) {
-            // Setup for hiding the UI
-        } else {
-            // Setup for showing.
-            if (_usingFallback) {
-                _fallbackWebView.hidden = paused;
-                _fallbackWebView.alpha = 0.0;
-            } else {
-                _webView.hidden = paused;
-                _webView.alpha = 0.0;
-            }
-        }*/
-        
         if (_usingFallback) {
             _fallbackWebView.hidden = paused;
             _fallbackWebView.alpha = 1.0;
@@ -198,29 +107,6 @@
             _webView.hidden = paused;
             _webView.alpha = 1.0;
         }
-        
-        // Is this even necessary?
-        //[self.view setNeedsDisplay];
-        
-        /*[UIView animateWithDuration:animated ? 0.3 : 0.0 animations:^{
-            if (_usingFallback) {
-                _fallbackWebView.alpha = paused ? 0.0 : 1.0;
-            } else {
-                _webView.alpha = paused ? 0.0 : 1.0;
-            }
-        } completion:^(BOOL finished) {
-            if (finished ) {
-                if (_usingFallback) {
-                    _fallbackWebView.hidden = paused;
-                    _fallbackWebView.alpha = 1.0;
-                } else {
-                    _webView.hidden = paused;
-                    _webView.alpha = 1.0;
-                }
-            
-                [self.view setNeedsDisplay];
-            }
-        }];*/
     });
 }
 
@@ -485,7 +371,7 @@
     [webView reload];
 }
 
-#pragma mark View related shizzle
+#pragma mark View related stuff
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];

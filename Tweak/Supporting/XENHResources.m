@@ -17,7 +17,7 @@
  */
 
 #import "XENHResources.h"
-#import "XENHWebViewController.h"
+#import "XENHWidgetLayerController.h"
 #import <objc/runtime.h>
 
 @interface XENResources : NSObject
@@ -79,11 +79,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     // Initialize a variable argument list.
     va_start (ap, format);
     
-    // NSLog only adds a newline to the end of the NSLog format if
-    // one is not already there.
-    // Here we are utilizing this feature of NSLog()
-    if (![format hasSuffix: @"\n"]) {
-        format = [format stringByAppendingString: @"\n"];
+    if (![format hasSuffix:@"\n"]) {
+        format = [format stringByAppendingString:@"\n"];
     }
     
     NSString *body = [[NSString alloc] initWithFormat:format arguments:ap];
@@ -96,25 +93,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     NSLog(@"Xen HTML :: (%s:%d) %s",
           [fileName UTF8String],
           lineNumber, [body UTF8String]);
-    //NSString *stringToLog = [NSString stringWithFormat:@"Xen HTML :: (%s:%d) %s", [fileName UTF8String], lineNumber, [body UTF8String]];
-    //os_log(OS_LOG_DEFAULT, [stringToLog UTF8String]);
-    
-    // Append to log file
-    /*NSString *txtFileName = @"/var/mobile/Documents/XenDebug.txt";
-     NSString *final = [NSString stringWithFormat:@"(%s:%d) %s", [fileName UTF8String],
-     lineNumber, [body UTF8String]];
-     
-     NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:txtFileName];
-     if (fileHandle) {
-     [fileHandle seekToEndOfFile];
-     [fileHandle writeData:[final dataUsingEncoding:NSUTF8StringEncoding]];
-     [fileHandle closeFile];
-     } else{
-     [final writeToFile:txtFileName
-     atomically:NO
-     encoding:NSStringEncodingConversionAllowLossy
-     error:nil];
-     }*/
 }
 
 +(BOOL)debugLogging {
@@ -127,7 +105,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
     
     if (!strings) {
-        // wtf CoolStar
+        // Handle the Electra jailbreak's bootstrap somewhat gracefully
         return val;
     }
     
@@ -188,15 +166,59 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 #pragma mark Load up HTML
 
-+(UIView*)widgetsView {
++ (XENHWidgetLayerController*)widgetLayerControllerForLocation:(XENHLayerLocation)location {
+    return [[XENHWidgetLayerController alloc] initWithLayerLocation:location];
+}
+
++ (BOOL)widgetLayerHasContentForLocation:(XENHLayerLocation)location {
+    NSString *layerPreferenceKey = @"";
+    
+    switch (location) {
+        case kLocationLSBackground:
+            layerPreferenceKey = @"LSBackground";
+            break;
+        case kLocationLSForeground:
+            layerPreferenceKey = @"LSForeground";
+            break;
+        case kLocationSBBackground:
+            layerPreferenceKey = @"SBBackground";
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSArray *array = [[[XENHResources getPreferenceKey:@"widgets"] objectForKey:layerPreferenceKey] objectForKey:@"widgetArray"];
+    
+    return array.count > 0;
+}
+
++ (NSDictionary*)widgetPreferencesForLocation:(XENHLayerLocation)location {
+    NSString *layerPreferenceKey = @"";
+    
+    switch (location) {
+        case kLocationLSBackground:
+            layerPreferenceKey = @"LSBackground";
+            break;
+        case kLocationLSForeground:
+            layerPreferenceKey = @"LSForeground";
+            break;
+        case kLocationSBBackground:
+            layerPreferenceKey = @"SBBackground";
+            break;
+            
+        default:
+            break;
+    }
+    
+    return [[XENHResources getPreferenceKey:@"widgets"] objectForKey:layerPreferenceKey];
+}
+
+/*+(UIView*)widgetsView {
     return nil;
 }
 
-+(XENHWebViewController*)configuredHTMLViewControllerForLocation:(XENHViewLocation)location {
-    if (location == kLocationWidgets) {
-        return nil;
-    }
-    
++(XENHWebViewController*)configuredHTMLViewControllerForLocation:(XENHLayerLocation)location {
     NSString *baseString = [XENHResources indexHTMLFileForLocation:location];
     
     XENHWebViewController *controller = [[XENHWebViewController alloc] initWithBaseString:baseString];
@@ -245,7 +267,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 +(BOOL)useFallbackForHTMLFile:(NSString*)filePath {
     // First, check if override applies.
-    BOOL isSB = [filePath isEqualToString:[self indexHTMLFileForLocation:kLocationSBHTML]];
+    BOOL isSB = [filePath isEqualToString:[self indexHTMLFileForLocation:kLocationSBBackground]];
     BOOL forceLegacy = (isSB ? [self SBUseLegacyMode] : [self LSUseLegacyMode]);
     
     if (forceLegacy) {
@@ -284,9 +306,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         value = YES;
     
     return value;
-}
+}*/
 
-+(NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath {
++ (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     // First, check if this is an iWidget.
@@ -363,11 +385,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         for (NSDictionary *option in optionsPlist) {
             NSString *name = [option objectForKey:@"name"];
             
-            /* Options.plist will contain the following types:
-             edit
-             select
-             switch
-             */
+            // Options.plist will contain the following types:
+            // edit
+            // select
+            // switch
             
             id value = nil;
             
@@ -394,23 +415,19 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return dict;
 }
 
-+(NSDictionary*)_widgetMetadataForKey:(NSString*)key {
-    /*
-     * Keys:
-     height
-     width
-     isFullscreen
-     x (in % of screensize)
-     y (in % of screensize)
-     options : dict of jsVar->value
-     hasConfigJs
-     */
+/*+(NSDictionary*)_widgetMetadataForKey:(NSString*)key {
+     // Keys:
+     // height
+     // width
+     // isFullscreen
+     // x (in % of screensize)
+     // y (in % of screensize)
+     // options : dict of jsVar->value
     
-    /* Options.plist will contain the following types:
-     edit
-     select
-     switch
-     */
+    // Options.plist will contain the following types:
+    // edit
+    // select
+    // switch
     
     NSDictionary *dict = [settings objectForKey:@"widgetPrefs"];
     dict = [dict objectForKey:key];
@@ -435,32 +452,37 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     NSString *key = @"";
     
     // First, work out which location this filePath corresponds to.
-    if (location == kLocationBackground) {
+    if (location == kLocationLSBackground) {
         key = @"LSBackground";
-    } else if (location == kLocationForeground) {
+    } else if (location == kLocationLSForeground) {
         key = @"LSForeground";
-    } else if (location == kLocationSBHTML) {
+    } else if (location == kLocationSBBackground) {
         key = @"SBBackground";
     }
     
     return [self _widgetMetadataForKey:key];
-}
+}*/
 
-+(NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath {
-    NSString *key = @"";
++ (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath {
+    NSDictionary *lsBackgroundMetadata = [[self widgetPreferencesForLocation:kLocationLSBackground] objectForKey:@"widgetMetadata"];
     
-    // TODO: Well, cock. This forgets to account for the user maybe using the same widget on different layers.
-    
-    // First, work out which location this filePath corresponds to.
-    if ([filePath isEqualToString:[self indexHTMLFileForLocation:kLocationBackground]]) {
-        key = @"LSBackground";
-    } else if ([filePath isEqualToString:[self indexHTMLFileForLocation:kLocationForeground]]) {
-        key = @"LSForeground";
-    } else if ([filePath isEqualToString:[self indexHTMLFileForLocation:kLocationSBHTML]]) {
-        key = @"SBBackground";
+    if ([lsBackgroundMetadata.allKeys containsObject:filePath]) {
+        return [lsBackgroundMetadata objectForKey:filePath];
     }
     
-    return [self _widgetMetadataForKey:key];
+    NSDictionary *lsForegroundMetadata = [[self widgetPreferencesForLocation:kLocationLSForeground] objectForKey:@"widgetMetadata"];
+    
+    if ([lsForegroundMetadata.allKeys containsObject:filePath]) {
+        return [lsForegroundMetadata objectForKey:filePath];
+    }
+    
+    NSDictionary *sbBackgroundMetadata = [[self widgetPreferencesForLocation:kLocationSBBackground] objectForKey:@"widgetMetadata"];
+    
+    if ([sbBackgroundMetadata.allKeys containsObject:filePath]) {
+        return [sbBackgroundMetadata objectForKey:filePath];
+    }
+    
+    return [NSDictionary dictionary];
 }
 
 +(void)setPreferenceKey:(NSString*)key withValue:(id)value andPost:(BOOL)post {
@@ -794,16 +816,16 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
  * Gives the base URL of the chosen HTML file, whether it is index.html or whatever
  * @return Base URL path
  */
-+(NSString*)indexHTMLFileForLocation:(XENHViewLocation)location {
++(NSString*)indexHTMLFileForLocation:(XENHLayerLocation)location {
     NSString *fileString = @"";
     
-    if (location == kLocationBackground) {
+    if (location == kLocationLSBackground) {
         id value = settings[@"backgroundLocation"];
         fileString = (value ? value : @"");
-    } else if (location == kLocationForeground) {
+    } else if (location == kLocationLSForeground) {
         id value = settings[@"foregroundLocation"];
         fileString = (value ? value : @"");
-    } else if (location == kLocationSBHTML) {
+    } else if (location == kLocationSBBackground) {
         id value = settings[@"SBLocation"];
         fileString = (value ? value : @"");
     }
