@@ -112,9 +112,9 @@
 		C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
-		C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */; };
-		C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */; };
-		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; };
+		C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
