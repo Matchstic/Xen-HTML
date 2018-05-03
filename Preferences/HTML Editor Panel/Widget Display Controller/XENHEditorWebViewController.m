@@ -300,7 +300,11 @@
             break;
     }
     
-    NSMutableDictionary *preexisting = [[[XENHResources getPreferenceKey:@"widgetPrefs"] objectForKey:key] mutableCopy];
+    // Load up the preexisting metadata for this widget
+    NSDictionary *widgetsForLocation = [[XENHResources getPreferenceKey:@"widgets"] objectForKey:key];
+    NSDictionary *widgetMetadata = [widgetsForLocation objectForKey:@"widgetMetadata"];
+    NSMutableDictionary *preexisting = [[widgetMetadata objectForKey:filePath] mutableCopy];
+    
     if (!ignorePreexistingMetadata && preexisting) {
         // Verify values for the metadata. If it's something ridiculous, reset it back to 0.
         // Primarily, we check the position values.

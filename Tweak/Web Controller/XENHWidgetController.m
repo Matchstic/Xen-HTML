@@ -324,7 +324,7 @@
                              isWidgetFullscreen ? SCREEN_HEIGHT : [[self.widgetMetadata objectForKey:@"height"] floatValue]
                              );
     
-    self.view.bounds = CGRectMake(0, 0, rect.size.width, rect.size.height);
+    self.view.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     
     if (self.usingLegacyWebView) {
         self.legacyWebView.frame = rect;

@@ -34,9 +34,10 @@
     NSArray *_winterboardArray;
     NSArray *_iwidgetsArray;
     
-    NSString *_currentSelected;
+    NSArray *_currentSelected;
 }
 
 -(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString*)current;
+-(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray;
 
 @end

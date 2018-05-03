@@ -55,13 +55,14 @@
 
 - (void)_loadAllWidgetsFromLocations:(NSArray*)locations andMetadata:(NSDictionary*)metadata {
     for (NSString *location in locations) {
-        NSDictionary *metadata = [metadata objectForKey:location];
+        NSDictionary *metadata2 = [metadata objectForKey:location];
         
         // Configure the widget controller for this new widget
         XENHWidgetController *widgetController = [[XENHWidgetController alloc] init];
-        [widgetController configureWithWidgetIndexFile:location andMetadata:metadata];
+        [widgetController configureWithWidgetIndexFile:location andMetadata:metadata2];
         
         // Add as subview
+        widgetController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         [self.view addSubview:widgetController.view];
         
         // Store into our dictionary
@@ -139,7 +140,7 @@
     
     self.layerPreferences = [XENHResources widgetPreferencesForLocation:self.layerLocation];
     
-    NSMutableArray *newWidgetLocations = [NSMutableArray array];
+    NSMutableArray *newWidgetLocations = [self.layerPreferences objectForKey:@"widgetArray"];
     NSDictionary *newWidgetMetadata = [self.layerPreferences objectForKey:@"widgetMetadata"];
     
     // First, remove any widgets that have been removed in the new preferences.
@@ -171,6 +172,16 @@
             // Store into the dictionary
             [self.multiplexedWidgets setObject:widgetController forKey:location];
         }
+    }
+    
+    // Now, handle any re-ordering that is needed. We do this by simply going through the new array backwards,
+    // forcing each associated widget to the back in turn. The result is the topmost widgets get bubbled up
+    // to the topmost position fairly simply.
+    for (NSString *location in [newWidgetLocations reverseObjectEnumerator]) {
+        XENHWidgetController *widgetController = [self.multiplexedWidgets objectForKey:location];
+        
+        // Send subview to back.
+        [self.view sendSubviewToBack:widgetController.view];
     }
     
     // Finally, re-configure any widgets that have new metadata associated with them.

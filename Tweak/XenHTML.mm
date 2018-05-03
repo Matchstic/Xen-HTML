@@ -343,7 +343,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBScreenWakeAnimationController; @class SBDashBoardQuickActionsViewController; @class SBIconView; @class SBRootFolderView; @class SBHomeScreenView; @class PHContainerView; @class SBDashBoardMainPageContentViewController; @class SBFLockScreenMetrics; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBIdleTimerDefaults; @class SBDashBoardMediaArtworkViewController; @class SBLockScreenManager; @class UITouchesEvent; @class XENDashBoardWebViewController; @class SBDashBoardNotificationListViewController; @class SBHorizontalScrollFailureRecognizer; @class XENResources; @class SBFolderIconBackgroundView; @class SBFloatingDockPlatterView; @class UIWebView; @class SBDashBoardViewController; @class SpringBoard; @class SBAlertWindow; @class SBDashBoardPageViewController; @class SBFLockScreenDateView; @class SBApplication; @class SBDashBoardTeachableMomentsContainerView; @class SBHomeScreenViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBLockScreenView; @class SBLockScreenBounceAnimator; @class SBPagedScrollView; @class SBDashBoardFixedFooterView; @class SBManualIdleTimer; @class SBLockScreenViewController; @class SBLockScreenNotificationListController; @class SBUIProudLockIconView; @class SBUICallToActionLabel; @class SBLockScreenNotificationListView; @class SBCoverSheetWindow; @class SBUIController; @class SBDashBoardView; @class SBDashBoardMainPageView; @class SBDashBoardMainPageViewController; @class SBBacklightController; @class SBDockView; @class SBMainSwitcherViewController; @class SBMainWorkspace; @class _NowPlayingArtView; @class WKWebView; @class SBDashBoardCombinedListViewController; @class XENNotificationsCollectionViewController; @class SBMainStatusBarStateProvider; 
+@class SBDashBoardViewController; @class SBRootFolderView; @class XENResources; @class SBMainWorkspace; @class SBBacklightController; @class SBFloatingDockPlatterView; @class SBScreenWakeAnimationController; @class PHContainerView; @class SBCoverSheetWindow; @class SBHomeScreenViewController; @class XENNotificationsCollectionViewController; @class SBDashBoardPageViewController; @class UIWebView; @class SBManualIdleTimer; @class SBHorizontalScrollFailureRecognizer; @class SBPagedScrollView; @class SpringBoard; @class SBFLockScreenDateView; @class SBLockScreenNotificationListController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBMainSwitcherViewController; @class SBUIController; @class SBDashBoardCombinedListViewController; @class SBHomeScreenView; @class SBLockScreenView; @class WKWebView; @class SBDashBoardMediaArtworkViewController; @class SBDockView; @class SBUIProudLockIconView; @class UITouchesEvent; @class SBLockScreenNotificationListView; @class SBLockScreenManager; @class _NowPlayingArtView; @class SBUICallToActionLabel; @class SBDashBoardFixedFooterView; @class SBFLockScreenMetrics; @class XENDashBoardWebViewController; @class SBIconView; @class SBMainStatusBarStateProvider; @class SBDashBoardNotificationListViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBAlertWindow; @class SBDashBoardMainPageContentViewController; @class SBIdleTimerDefaults; @class SBDashBoardQuickActionsViewController; @class SBApplication; @class SBDashBoardMainPageView; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardMainPageViewController; @class SBFolderIconBackgroundView; @class SBLockScreenBounceAnimator; @class SBLockScreenViewController; @class SBDashBoardView; 
 
 
 #line 324 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -478,7 +478,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$setMainPageView$(_LOGOS_SE
             
             if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
                 if (!foregroundViewController)
-                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
                 else 
                     [foregroundViewController reloadWidgets:NO];
                 
@@ -521,7 +521,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$viewControllerWillAppear(_
         
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
-                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
             else 
                 [foregroundViewController reloadWidgets:NO];
             

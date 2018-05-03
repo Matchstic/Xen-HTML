@@ -35,6 +35,7 @@
 @interface XENHEditorViewController ()
 
 @property (nonatomic, readwrite) XENHEditorVariant variant;
+@property (nonatomic, readwrite) UIStatusBarStyle _temp_statusBarStyle;
 
 // Constituent controllers of UI.
 @property (nonatomic, strong) XENHWallpaperViewController *wallpaperController;
@@ -76,8 +77,9 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    //[[UIApplication sharedApplication] setStatusBarHidden:NO];
-    //[[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
+    
+    self._temp_statusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+    [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
 }
 
 -(void)setRootSplitViewMasterHidden:(BOOL)hidden {
@@ -91,6 +93,8 @@
 // Show navigation bar
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:self._temp_statusBarStyle];
     
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     //[[UIApplication sharedApplication] setStatusBarStyle:[self.navigationController preferredStatusBarStyle]];
@@ -106,11 +110,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (instancetype)initWithVariant:(XENHEditorVariant)variant {
+- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL andDelegate:(id<XENHEditorDelegate>)delegate {
     self = [super init];
     
     if (self) {
         self.variant = variant;
+        self.delegate = delegate;
+        self.widgetURL = widgetURL;
     }
     
     return self;
@@ -148,8 +154,8 @@
     [self.view addSubview:self.wallpaperController.view];
     
     // 2. Webview
-    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:YES];
-    [self.webViewController reloadWebViewToPath:[self indexHTMLFileForCurrentVariant] updateMetadata:YES ignorePreexistingMetadata:NO];
+    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:NO];
+    [self.webViewController reloadWebViewToPath:self.widgetURL updateMetadata:YES ignorePreexistingMetadata:NO];
     
     [self addChildViewController:self.webViewController];
     [self.view addSubview:self.webViewController.view];
@@ -189,7 +195,7 @@
     self.toolbarController.view.frame = self.view.bounds;
 }
 
-#pragma mark Assorted junk from the trunk
+/*#pragma mark Assorted junk from the trunk
 
 -(NSString*)indexHTMLFileForCurrentVariant {
     NSString *fileString = @"";
@@ -209,7 +215,7 @@
     }
     
     return fileString;
-}
+}*/
 
 #pragma mark Toolbar delegate
 
@@ -219,9 +225,9 @@
             [self _handleCancelButtonPressed];
             break;
             
-        case kButtonModify:
+        /*case kButtonModify:
             [self _handleModifyButtonPressed];
-            break;
+            break;*/
         
         case kButtonAccept:
             [self _handleAcceptButtonPressed];
@@ -239,7 +245,7 @@
 - (void)_handleModifyButtonPressed {
     // Launch widget picker UI.
     
-    XENHPickerController2 *mc = [[XENHPickerController2 alloc] initWithVariant:self.variant != kVariantHomescreenBackground ? 0 : 2 andDelegate:self andCurrentSelected:[self.webViewController getCurrentWidgetURL]];
+    /*XENHPickerController2 *mc = [[XENHPickerController2 alloc] initWithVariant:self.variant != kVariantHomescreenBackground ? 0 : 2 andDelegate:self andCurrentSelected:[self.webViewController getCurrentWidgetURL]];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mc];
     if (IS_IPAD) {
@@ -248,7 +254,7 @@
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    [self.navigationController presentViewController:navController animated:YES completion:nil];*/
 }
 
 #pragma mark Handling accept and cancel buttons
@@ -267,26 +273,6 @@
 
 -(void)_saveData {
     // We need to save out the new metadata we have initialised in here FIRST.
-    NSString *key = @"";
-    switch (_variant) {
-        case 0:
-            key = @"LSBackground";
-            break;
-        case 1:
-            key = @"LSForeground";
-            break;
-        case 2:
-            key = @"SBBackground";
-            break;
-            
-        default:
-            break;
-    }
-    
-    NSMutableDictionary *dict = [[XENHResources getPreferenceKey:@"widgetPrefs"] mutableCopy];
-    if (!dict) {
-        dict = [NSMutableDictionary dictionary];
-    }
     
     // XXX: Before saving, we need to ensure that the user-supplied values are sanitised.
     NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
@@ -309,10 +295,6 @@
         [mutableMetadata setObject:[NSNumber numberWithFloat:0] forKey:@"y"];
     }
     
-    [dict setObject:mutableMetadata forKey:key];
-    
-    [XENHResources setPreferenceKey:@"widgetPrefs" withValue:dict];
-    
     // Get the current URL.
     NSString *currentURL = [self.webViewController getCurrentWidgetURL];
     
@@ -320,26 +302,7 @@
         currentURL = @"";
     }
     
-    // Update prefs
-    switch (self.variant) {
-        case kVariantLockscreenBackground:
-            [XENHResources setPreferenceKey:@"backgroundLocation" withValue:currentURL];
-            break;
-        case kVariantLockscreenForeground:
-            [XENHResources setPreferenceKey:@"foregroundLocation" withValue:currentURL];
-            break;
-        case kVariantHomescreenBackground:
-            [XENHResources setPreferenceKey:@"SBLocation" withValue:currentURL];
-            break;
-    }
-    
-    if (_variant == 2) {
-        // Failsafe to reload SBHTML on metadata-only changes.
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbconfigchanged" object:nil];
-        
-        CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/sbconfigchanged";
-        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
-    }
+    [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata];
 }
 
 - (void)_popSelfOffNavigationalStack {
@@ -503,7 +466,7 @@
     [self.webViewController setMetadata:newMetadata reloadingWebView:NO];
 }
 
-#pragma mark Widget Picker delegate
+/*#pragma mark Widget Picker delegate
 
 -(void)didChooseWidget:(NSString *)filePath {
     // User chose a new widget to render, so let's go for it!
@@ -525,6 +488,6 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         //[[UIApplication sharedApplication] setStatusBarHidden:NO];
     }];
-}
+}*/
 
 @end

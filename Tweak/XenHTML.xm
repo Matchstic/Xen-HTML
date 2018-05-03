@@ -452,7 +452,7 @@ static id dashBoardMainPageContentViewController;
             
             if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
                 if (!foregroundViewController)
-                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
                 else // if (![XENHResources LSPersistantWidgets])
                     [foregroundViewController reloadWidgets:NO];
                 
@@ -495,7 +495,7 @@ static id dashBoardMainPageContentViewController;
         // Foreground HTML -> SBDashBoardMainPageContentViewController approach
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
-                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
             else // if (![XENHResources LSPersistantWidgets])
                 [foregroundViewController reloadWidgets:NO];
             

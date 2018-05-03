@@ -64,13 +64,13 @@
 @property (nonatomic, strong) UIVisualEffectView *editorBarVisualEffectView;
 @property (nonatomic, strong) UIVisualEffectView *editorBarBackdropView;
 @property (nonatomic, strong) AYVibrantButton *cancelButton;
-@property (nonatomic, strong) AYVibrantButton *addButton;
+//@property (nonatomic, strong) AYVibrantButton *addButton;
 @property (nonatomic, strong) AYVibrantButton *acceptButton;
 @property (nonatomic, strong) AYVibrantButton *configureButton;
 
 @end
 
-static CGFloat toolbarHeight = 100.0;
+static CGFloat toolbarHeight = 50.0;
 
 @implementation XENHEditorToolbarController
 
@@ -117,38 +117,51 @@ static CGFloat toolbarHeight = 100.0;
     // Buttons.
     
     // Cancel.
+    NSString *crossImagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Cancel%@", [XENHResources imageSuffix]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:crossImagePath]) {
+        // handle /bootstrap
+        crossImagePath = [NSString stringWithFormat:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Cancel%@", [XENHResources imageSuffix]];
+    }
+    
     self.cancelButton = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
     self.cancelButton.vibrancyEffect = vibrancyEffect;
     self.cancelButton.cornerRadius = 0.0;
-    self.cancelButton.text = [XENHResources localisedStringForKey:@"Cancel" value:@"Cancel"];
+    self.cancelButton.icon = [UIImage imageWithContentsOfFile:crossImagePath];
     [self.cancelButton addTarget:self action:@selector(cancelEditingMode:) forControlEvents:UIControlEventTouchUpInside];
     self.cancelButton.contentMode = UIViewContentModeRedraw;
     
     [self.editorBarVisualEffectView.contentView addSubview:self.cancelButton];
     
-    // Modify/add
-    self.addButton = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
-    self.addButton.vibrancyEffect = vibrancyEffect;
-    self.addButton.cornerRadius = 0.0;
-    self.addButton.text = [XENHResources localisedStringForKey:@"Modify" value:@"Modify"];
-    [self.addButton addTarget:self action:@selector(addButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.editorBarVisualEffectView.contentView addSubview:self.addButton];
-    
     // Accept
+    NSString *tickImagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Accept%@", [XENHResources imageSuffix]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:tickImagePath]) {
+        // handle /bootstrap
+        tickImagePath = [NSString stringWithFormat:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Accept%@", [XENHResources imageSuffix]];
+    }
+    
     self.acceptButton = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
     self.acceptButton.vibrancyEffect = vibrancyEffect;
     self.acceptButton.cornerRadius = 0.0;
-    self.acceptButton.text = [XENHResources localisedStringForKey:@"Accept" value:@"Accept"];
+    self.acceptButton.icon = [UIImage imageWithContentsOfFile:tickImagePath];
     [self.acceptButton addTarget:self action:@selector(acceptEditingMode:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.editorBarVisualEffectView.contentView addSubview:self.acceptButton];
     
     // Settings
+    
+    NSString *gearImagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Settings%@", [XENHResources imageSuffix]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:gearImagePath]) {
+        // handle /bootstrap
+        gearImagePath = [NSString stringWithFormat:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle/Editor/Settings%@", [XENHResources imageSuffix]];
+    }
+    
     self.configureButton = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
     self.configureButton.vibrancyEffect = vibrancyEffect;
     self.configureButton.cornerRadius = 0.0;
-    self.configureButton.text = [XENHResources localisedStringForKey:@"Widget Settings" value:@"Widget Settings"];
+    self.configureButton.icon = [UIImage imageWithContentsOfFile:gearImagePath];
     [self.configureButton addTarget:self action:@selector(configureButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.editorBarVisualEffectView.contentView addSubview:self.configureButton];
@@ -179,10 +192,9 @@ static CGFloat toolbarHeight = 100.0;
     self.editorBarVisualEffectView.frame = self.editorBarBackdropView.bounds;
     
     // Buttons
-    self.cancelButton.frame = CGRectMake(-0.5, (toolbarHeight/2)-1, self.editorBarBackdropView.bounds.size.width/3, (toolbarHeight/2)+1.5);
-    self.addButton.frame = CGRectMake(self.editorBarBackdropView.bounds.size.width/3 - 1.5, (toolbarHeight/2)-1, self.editorBarBackdropView.bounds.size.width/3 + 2.5, (toolbarHeight/2)+1.5);
-    self.acceptButton.frame = CGRectMake((self.editorBarBackdropView.bounds.size.width/3)*2 + 0.0, (toolbarHeight/2)-1, self.editorBarBackdropView.bounds.size.width/3, (toolbarHeight/2)+1.5);
-    self.configureButton.frame = CGRectMake(-1, -1, self.editorBarBackdropView.bounds.size.width + 1.5, (toolbarHeight/2)+1.5);
+    self.cancelButton.frame = CGRectMake(-1.0, -1, self.editorBarBackdropView.bounds.size.width/3 + 0.5, toolbarHeight+1.5);
+    self.configureButton.frame = CGRectMake(self.editorBarBackdropView.bounds.size.width/3 - 1.5, -1, self.editorBarBackdropView.bounds.size.width/3 + 3, toolbarHeight+1.5);
+    self.acceptButton.frame = CGRectMake((self.editorBarBackdropView.bounds.size.width/3)*2 + 0.0, -1, self.editorBarBackdropView.bounds.size.width/3 + 1.0, toolbarHeight+1.5);
 }
 
 // Button callbacks.
@@ -193,10 +205,6 @@ static CGFloat toolbarHeight = 100.0;
 
 -(void)acceptEditingMode:(id)sender {
     [self.delegate toolbarDidPressButton:kButtonAccept];
-}
-
--(void)addButtonClicked:(id)sender {
-    [self.delegate toolbarDidPressButton:kButtonModify];
 }
 
 -(void)configureButtonClicked:(id)sender {

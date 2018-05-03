@@ -327,6 +327,9 @@
 		
 		CGContextTranslateCTM(context, 0, size.height);
 		CGContextScaleCTM(context, 1.0, -1.0);
+        
+        CGContextSetRGBStrokeColor(context, 0.0f, 0.0f, 0.0f, 0.0f);
+        CGContextSetLineWidth(context, 0);
 		
 		if (self.style == AYVibrantButtonOverlayStyleNormal) {
 			// ref: http://blog.alanyip.me/tint-transparent-images-on-ios/

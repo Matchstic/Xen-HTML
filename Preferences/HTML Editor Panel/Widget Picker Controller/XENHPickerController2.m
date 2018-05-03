@@ -28,13 +28,14 @@
 
 @implementation XENHPickerController2
 
--(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString *)current {
+-(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if (self) {
         _variant = variant; // 0 = ls bg/fg, 1 = ls widgets, 2 = SBHTML
         _delegate = delegate;
-        _currentSelected = current;
+        
+        _currentSelected = currentArray;
         
         // Load all arrays for widgets based on variant
         
@@ -47,13 +48,13 @@
         } else {
             // iWidgets
             [self _setupiWidgetsArray];
-                
+            
             // LockHTML
             [self _setupLockHTMLArray];
-                
+            
             // GroovyLock.
             [self _setupGroovyLockArray];
-                
+            
             if ([self _shouldDisplayCydget]) {
                 // Cydget (foreground)
                 [self _setupCydgetForegroundArray];
@@ -61,11 +62,14 @@
                 // Cydget (background)
                 [self _setupCydgetBackgroundArray];
             }
-            
         }
     }
     
     return self;
+}
+
+-(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString *)current {
+    return [self initWithVariant:variant andDelegate:delegate andCurrentSelectedArray:@[current]];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -249,9 +253,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self _shouldDisplayCydget]) {
-         return _variant == 0 ? 6 : 3;
+         return _variant == 0 ? 5 : 2;
     } else {
-         return _variant == 0 ? 4 : 3;
+         return _variant == 0 ? 3 : 2;
     }
 }
 
@@ -261,7 +265,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 || [self _itemCountForSection:indexPath.section] == 0) {
+    if ([self _itemCountForSection:indexPath.section] == 0) {
         return 44.0;
     }
     
@@ -277,22 +281,6 @@
     
     return thing != nil ? 100.0 : 80.0;
 }
-
-/*-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 22.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section {
-    return [self tableView:tableView heightForHeaderInSection:section];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)section {
-    return [self tableView:tableView heightForFooterInSection:section];
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 22.0;
-}*/
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XENHPickerCell2 *cell = (XENHPickerCell2*)[tableView dequeueReusableCellWithIdentifier:REUSE forIndexPath:indexPath];
@@ -316,7 +304,7 @@
         // Based off the variant, we will also check to see if this cell is currently enabled. If so, we will colour it
         // a light green.
         
-        if ([url isEqualToString:_currentSelected]) {
+        if ([_currentSelected containsObject:url]) {
             cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -338,7 +326,9 @@
         // Get URL of selected cell.
         NSString *url = [self _urlForIndexPath:indexPath];
         
-        [_delegate didChooseWidget:url];
+        // Only allow a single instance of a widget per layer
+        if (![_currentSelected containsObject:url])
+            [_delegate didChooseWidget:url];
     }
 }
 
@@ -372,10 +362,8 @@
         case 2:
             switch (section) {
                 case 0:
-                    return 1;
-                case 1:
                     return _sbhtmlArray.count;
-                case 2:
+                case 1:
                     return _iwidgetsArray.count;
                     
                 default:
@@ -385,16 +373,14 @@
         case 0:
             switch (section) {
                 case 0:
-                    return 1;
-                case 1:
                     return _lockHTMLArray.count;
-                case 2:
+                case 1:
                     return _groovylockArray.count;
-                case 3:
+                case 2:
                     return _iwidgetsArray.count;
-                case 4:
+                case 3:
                     return _cydgetForegroundArray.count;
-                case 5:
+                case 4:
                     return _cydgetBackgroundArray.count;
                     
                 default:
@@ -412,12 +398,9 @@
         case 2:
             switch (indexPath.section) {
                 case 0:
-                    url = @"";
-                    break;
-                case 1:
                     url = [_sbhtmlArray objectAtIndex:indexPath.item];
                     break;
-                case 2:
+                case 1:
                     url = [_iwidgetsArray objectAtIndex:indexPath.item];
                     break;
                     
@@ -429,21 +412,18 @@
         case 0:
             switch (indexPath.section) {
                 case 0:
-                    url = @"";
-                    break;
-                case 1:
                     url = [_lockHTMLArray objectAtIndex:indexPath.item];
                     break;
-                case 2:
+                case 1:
                     url = [_groovylockArray objectAtIndex:indexPath.item];
                     break;
-                case 3:
+                case 2:
                     url = [_iwidgetsArray objectAtIndex:indexPath.item];
                     break;
-                case 4:
+                case 3:
                     url = [_cydgetForegroundArray objectAtIndex:indexPath.item];
                     break;
-                case 5:
+                case 4:
                     url = [_cydgetBackgroundArray objectAtIndex:indexPath.item];
                     break;
                     
@@ -463,12 +443,9 @@
         case 2:
             switch (section) {
                 case 0:
-                    name = @"";
-                    break;
-                case 1:
                     name = @"SBHTML";
                     break;
-                case 2:
+                case 1:
                     name = @"iWidgets";
                     break;
                     
@@ -480,21 +457,18 @@
         case 0:
             switch (section) {
                 case 0:
-                    name = @"";
-                    break;
-                case 1:
                     name = @"Lock HTML";
                     break;
-                case 2:
+                case 1:
                     name = @"GroovyLock";
                     break;
-                case 3:
+                case 2:
                     name = @"iWidgets";
                     break;
-                case 4:
+                case 3:
                     name = @"Cydget (Foreground)";
                     break;
-                case 5:
+                case 4:
                     name = @"Cydget (Background)";
                     break;
                     

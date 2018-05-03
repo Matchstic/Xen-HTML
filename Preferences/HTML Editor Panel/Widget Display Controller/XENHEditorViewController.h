@@ -28,8 +28,15 @@ typedef enum : NSUInteger {
     kEditorVariantHomescreenBackground = 2
 } XENHEditorVariant;
 
-@interface XENHEditorViewController : PSViewController <XENHEditorToolbarDelegate, XENHEditorPositioningDelegate, XENHPickerDelegate2>
+@protocol XENHEditorDelegate <NSObject>
+-(void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata;
+@end
 
-- (instancetype)initWithVariant:(XENHEditorVariant)variant;
+@interface XENHEditorViewController : PSViewController <XENHEditorToolbarDelegate, XENHEditorPositioningDelegate>
+
+@property (nonatomic, weak) id<XENHEditorDelegate> delegate;
+@property (nonatomic, strong) NSString *widgetURL;
+
+- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL andDelegate:(id<XENHEditorDelegate>)delegate;
 
 @end

@@ -19,6 +19,7 @@
 #import "XENHBaseHTMLPreferenceController.h"
 #import "XENHResources.h"
 #import "XENHEditorViewController.h"
+#import "XENHMultiplexWidgetsController.h"
 #import "XENHBasePreviewCell.h"
 #import "XENHPreviewSliderCell.h"
 #import "XENHLockscreenPreviewCell.h"
@@ -219,7 +220,7 @@
     if ([self variant] == 0) {
         // Lockscreen
         
-        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widget"
+        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widgets"
                                                                    target:self
                                                                       set:NULL
                                                                       get:NULL
@@ -231,7 +232,7 @@
         
         [array addObject:background];
         
-        PSSpecifier* foreground = [PSSpecifier preferenceSpecifierNamed:@"Foreground Widget"
+        PSSpecifier* foreground = [PSSpecifier preferenceSpecifierNamed:@"Foreground Widgets"
                                                                  target:self
                                                                     set:NULL
                                                                     get:NULL
@@ -245,7 +246,7 @@
     } else {
         // Homescreen
         
-        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widget"
+        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widgets"
                                                                  target:self
                                                                     set:NULL
                                                                     get:NULL
@@ -285,19 +286,19 @@
 
 -(void)tableView:(UITableView*)view didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     // Based on the indexPath of the selected cell, make sure to correctly launch the
-    // widget picker
+    // multiplex manager
     
     if (indexPath.section == 1) {
-        XENHEditorVariant editorVariant = 0;
+        XENHMultiplexVariant variant = 0;
         
         switch (indexPath.row) {
             case 0:
                 // Open background
-                editorVariant = [self variant] == 0 ? kEditorVariantLockscreenBackground : kEditorVariantHomescreenBackground;
+                variant = [self variant] == 0 ? kMultiplexVariantLockscreenBackground : kMultiplexVariantHomescreenBackground;
                 break;
             case 1:
                 // Open foreground
-                editorVariant = kEditorVariantLockscreenForeground;
+                variant = kMultiplexVariantLockscreenForeground;
                 break;
                 
             default:
@@ -306,9 +307,9 @@
         
         [view deselectRowAtIndexPath:indexPath animated:YES];
         
-        // Push to navigational stack pls.
-        XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:editorVariant];
-        [self.navigationController pushViewController:editorController animated:YES];
+        // Push to navigational stack.
+        XENHMultiplexWidgetsController *multiplexController = [[XENHMultiplexWidgetsController alloc] initWithVariant:variant];
+        [self.navigationController pushViewController:multiplexController animated:YES];
         
         return;
     }
