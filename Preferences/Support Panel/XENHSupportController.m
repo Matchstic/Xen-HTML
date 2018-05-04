@@ -62,49 +62,11 @@ extern char **environ;
 }
 
 -(void)_actuallyNukeAllSettings {
-    NSArray *allKeys = @[@"widgetPrefs",
-                         @"hideClock",
-                         @"hideClock10",
-                         @"hideSTU",
-                         @"sameSizedStatusBar",
-                         @"hideStatusBar",
-                         @"hideTopGrabber",
-                         @"hideBottomGrabber",
-                         @"hideCameraGrabber",
-                         @"hidePageControlDots",
-                         @"disableCameraGrabber",
-                         @"lockScreenIdleTime",
-                         @"LSUseLegacyMode",
-                         @"LSHideTorchAndCamera",
-                         @"LSHideHomeBar",
-                         @"LSHideFaceIDPadlock",
-                         @"LSFadeForegroundForMedia",
-                         @"LSFadeForegroundForArtwork",
-                         @"LSUseBatteryManagement",
-                         @"LSFadeForegroundForNotifications",
-                         @"LSWidgetFadeOpacity",
-                         @"LSFullscreenNotifications",
-                         @"LSShowClockInStatusBar",
-                         @"LSBGAllowTouch",
-                         @"LSWidgetScrollPriority",
-                         @"LSHideArtwork",
-                         @"SBEnabled",
-                         @"SBHideDockBlur",
-                         @"SBUseLegacyMode",
-                         @"SBAllowTouch",
-                         @"backgroundLocation",
-                         @"foregroundLocation",
-                         @"SBLocation",
-                         @"hasDisplayedSetupUI",
-                         @"SBHideIconLabels",
-                         @"SBHidePageDots",
-                         @"SBHideFolderBlur"
-                         ];
+    NSArray *allKeys = [XENHResources allPreferenceKeys];
     
     NSDictionary *newSettings = [NSDictionary dictionary];
     
     // Write to CFPreferences
-    //CFPreferencesSetValue ((__bridge CFStringRef)key, (__bridge CFPropertyListRef)value, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     CFPreferencesSetMultiple(NULL, (__bridge CFArrayRef)allKeys, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     
     [newSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
