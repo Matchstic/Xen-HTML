@@ -134,7 +134,10 @@
 - (void)cacheWallpaperImageToFilesystem {
     // Render to img file.
     UIImage *wallpaperImage = [self _imageWithView:[self.previewController _wallpaperView]];
-    [UIImagePNGRepresentation(wallpaperImage) writeToFile:@"/var/mobile/Library/Caches/com.apple.Preferences/xen_wallpaperCache.png" atomically:YES];
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        [UIImagePNGRepresentation(wallpaperImage) writeToFile:@"/var/mobile/Library/Caches/com.apple.Preferences/xen_wallpaperCache.png" atomically:YES];
+    });
 }
 
 -(UIImage *)_imageWithView:(UIView *)view {

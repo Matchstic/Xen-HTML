@@ -311,6 +311,23 @@
         XENHMultiplexWidgetsController *multiplexController = [[XENHMultiplexWidgetsController alloc] initWithVariant:variant];
         [self.navigationController pushViewController:multiplexController animated:YES];
         
+        // Request to cache the wallpaper
+        NSString *cacheWallpaperNotification = @"";
+        switch (variant) {
+            case kMultiplexVariantLockscreenBackground:
+            case kMultiplexVariantLockscreenForeground:
+                cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheLockscreenWallpaper";
+                break;
+            case kMultiplexVariantHomescreenBackground:
+                cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheHomescreenWallpaper";
+                break;
+                
+            default:
+                break;
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:cacheWallpaperNotification object:nil];
+        
         return;
     }
     

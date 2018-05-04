@@ -30,6 +30,8 @@
     if (!self.viewControllers) {
         self.viewControllers = [NSMutableArray array];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_requestedToCacheWallpaper) name:@"com.matchstic.xenhtml/cacheLockscreenWallpaper" object:nil];
+        
         CGFloat cellHeight = [self preferredHeightForWidth:0.0] - 80.0;
         
         // First controller - wallpaper
@@ -192,6 +194,11 @@
             [(XENHFauxLockNotificationsController*)controller.containedViewController reloadForSettingsChange];
         }
     }
+}
+
+- (void)_requestedToCacheWallpaper {
+   XENHWallpaperViewController *wallpaperController = (XENHWallpaperViewController *)[[self.viewControllers objectAtIndex:0] containedViewController];
+    [wallpaperController cacheWallpaperImageToFilesystem];
 }
 
 - (void)_loadWidgetsForMultiplexedController:(UIViewController*)multiplexController andVariant:(int)variant {
