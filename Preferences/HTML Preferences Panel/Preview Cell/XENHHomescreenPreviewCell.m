@@ -57,7 +57,7 @@
         backgroundMultiplexedController.view.bounds = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
         backgroundMultiplexedController.view.tag = 1337;
         
-        [self _loadWidgetsForMultiplexedController:backgroundMultiplexedController andVariant:0];
+        [self _loadWidgetsForMultiplexedController:backgroundMultiplexedController andVariant:2];
         
         [controller2 setContainedViewController:backgroundMultiplexedController previewHeight:cellHeight];
         [controller2 fitToSize];
