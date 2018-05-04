@@ -23,16 +23,13 @@
 #import "XENHFauxIconsViewController.h"
 #import "XENHEditorWebViewController.h"
 
-static NSMutableArray *viewControllers;
-
-static NSString *oldBackgroundLocation = @"";
-static NSDictionary *oldBackgroundWidgetPrefs = nil;
-
 @implementation XENHHomescreenPreviewCell
 
 - (NSArray*)viewControllersToDisplay {
-    if (!viewControllers) {
-        viewControllers = [NSMutableArray array];
+    if (!self.viewControllers) {
+        self.viewControllers = [NSMutableArray array];
+        
+        [XENHResources reloadSettings];
         
         CGFloat cellHeight = [self preferredHeightForWidth:0.0] - 80.0;
         
@@ -46,25 +43,26 @@ static NSDictionary *oldBackgroundWidgetPrefs = nil;
         [controller1 setContainedViewController:wallpaperController previewHeight:cellHeight];
         [controller1 fitToSize];
         
-        [viewControllers addObject:controller1];
+        [self.viewControllers addObject:controller1];
         
         // Second controller, background LS
         XENHPreviewScaledController *controller2 = [[XENHPreviewScaledController alloc] init];
         
-        XENHEditorWebViewController *backgroundController = [[XENHEditorWebViewController alloc] initWithVariant:2 showNoHTMLLabel:NO];
+        self.oldBackgroundLocations = [self widgetLocationsForVariant:2];
+        self.oldBackgroundWidgetMetadata = [self widgetMetadataForVariant:2];
         
-        oldBackgroundLocation = [self indexHTMLFileForVariant:2];
-        oldBackgroundWidgetPrefs = [[XENHResources widgetPrefs] objectForKey:@"SBBackground"];
+        UIViewController *backgroundMultiplexedController = [[UIViewController alloc] init];
+        backgroundMultiplexedController.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+        backgroundMultiplexedController.view.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        backgroundMultiplexedController.view.bounds = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        backgroundMultiplexedController.view.tag = 1337;
         
-        [backgroundController reloadWebViewToPath:oldBackgroundLocation updateMetadata:YES ignorePreexistingMetadata:NO];
-        backgroundController.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.075];
-        backgroundController.view.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
-        backgroundController.view.bounds = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        [self _loadWidgetsForMultiplexedController:backgroundMultiplexedController andVariant:0];
         
-        [controller2 setContainedViewController:backgroundController previewHeight:cellHeight];
+        [controller2 setContainedViewController:backgroundMultiplexedController previewHeight:cellHeight];
         [controller2 fitToSize];
         
-        [viewControllers addObject:controller2];
+        [self.viewControllers addObject:controller2];
         
         // Third controller, faux icons
         XENHPreviewScaledController *controller3 = [[XENHPreviewScaledController alloc] init];
@@ -77,64 +75,73 @@ static NSDictionary *oldBackgroundWidgetPrefs = nil;
         [controller3 setContainedViewController:fauxDateController previewHeight:cellHeight];
         [controller3 fitToSize];
         
-        [viewControllers addObject:controller3];
+        [self.viewControllers addObject:controller3];
     }
     
-    return viewControllers;
+    return self.viewControllers;
 }
 
 - (int)variant {
     return 1;
 }
 
--(NSString*)indexHTMLFileForVariant:(int)variant {
-    NSString *fileString = @"";
-    
+-(NSArray*)widgetLocationsForVariant:(int)variant {
     [XENHResources reloadSettings];
     
-    switch (variant) {
-        case 0:
-            fileString = [XENHResources backgroundLocation];
-            break;
-        case 1:
-            fileString = [XENHResources foregroundLocation];
-            break;
-        case 2:
-            fileString = [XENHResources SBLocation];
-            break;
-    }
+    NSString *layerPreferenceKey = @"SBBackground";
     
-    return fileString;
+    return [[[XENHResources getPreferenceKey:@"widgets"] objectForKey:layerPreferenceKey] objectForKey:@"widgetArray"];
+}
+
+- (NSDictionary*)widgetMetadataForVariant:(int)variant {
+    [XENHResources reloadSettings];
+    
+    NSString *layerPreferenceKey = @"SBBackground";
+    
+    return [[[XENHResources getPreferenceKey:@"widgets"] objectForKey:layerPreferenceKey] objectForKey:@"widgetMetadata"];
 }
 
 - (void)didRecieveSettingsChange {
-    BOOL didChangeBackground = ![[self indexHTMLFileForVariant:2] isEqualToString:oldBackgroundLocation];
+    BOOL didChangeBackground = ![[self widgetLocationsForVariant:2] isEqual:self.oldBackgroundLocations];
     
-    NSDictionary *newBackgroundWidgetPrefs = [[XENHResources widgetPrefs] objectForKey:@"SBBackground"];
+    NSDictionary *newBackgroundWidgetPrefs = [self widgetMetadataForVariant:2];
     
-    didChangeBackground = didChangeBackground || ![oldBackgroundWidgetPrefs isEqual:newBackgroundWidgetPrefs];
-    
-    if (!didChangeBackground) {
-        // No need to update for this change
-        return;
-    }
+    didChangeBackground = didChangeBackground || ![self.oldBackgroundWidgetMetadata isEqual:newBackgroundWidgetPrefs];
     
     if (didChangeBackground) {
-        oldBackgroundLocation = [self indexHTMLFileForVariant:2];
-        oldBackgroundWidgetPrefs = newBackgroundWidgetPrefs;
+        self.oldBackgroundLocations = [self widgetLocationsForVariant:2];
+        self.oldBackgroundWidgetMetadata = newBackgroundWidgetPrefs;
     }
     
-    for (XENHPreviewScaledController *controller in viewControllers) {
-        if ([controller.containedViewController respondsToSelector:@selector(reloadWebViewToPath:updateMetadata:ignorePreexistingMetadata:)]) {
-            XENHEditorWebViewController *webController = (XENHEditorWebViewController*)controller.containedViewController;
-            
-            int variant = webController.webviewVariant;
-            if (variant == 2 && didChangeBackground) {
-                [webController reloadWebViewToPath:[self indexHTMLFileForVariant:variant] updateMetadata:YES ignorePreexistingMetadata:NO];
-            }
-            
-            NSLog(@"Reloading... %d", variant);
+    // Iterate and reload
+    for (int i = 0; i < self.viewControllers.count; i++) {
+        XENHPreviewScaledController *controller = [self.viewControllers objectAtIndex:i];
+        
+        if (i == 1 && didChangeBackground) {
+            // Background LS
+            [self _loadWidgetsForMultiplexedController:controller.containedViewController andVariant:2];
         }
+    }
+}
+                                 
+- (void)_loadWidgetsForMultiplexedController:(UIViewController*)multiplexController andVariant:(int)variant {
+    NSArray *widgetArray = self.oldBackgroundLocations;
+    
+    // Remove existing widgets
+    for (UIViewController *childController in multiplexController.childViewControllers) {
+        [childController removeFromParentViewController];
+        [childController.view removeFromSuperview];
+    }
+    
+    for (NSString *location in widgetArray) {
+        XENHEditorWebViewController *webController = [[XENHEditorWebViewController alloc] initWithVariant:variant showNoHTMLLabel:NO];
+        
+        [webController reloadWebViewToPath:location updateMetadata:YES ignorePreexistingMetadata:NO];
+        webController.view.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        webController.view.bounds = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        
+        [multiplexController addChildViewController:webController];
+        [multiplexController.view addSubview:webController.view];
     }
 }
 

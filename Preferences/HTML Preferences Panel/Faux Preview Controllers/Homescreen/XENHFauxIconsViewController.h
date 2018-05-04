@@ -23,4 +23,6 @@
     NSMutableArray *_iconViews;
 }
 
+@property (nonatomic, strong) NSMutableDictionary *cachedIcons;
+
 @end

@@ -18,18 +18,11 @@
 
 #import "XENHFauxIconsViewController.h"
 #import "XENHResources.h"
+#import <sys/utsname.h>
 
-@interface CPDistributedMessagingCenter : NSObject
-+(CPDistributedMessagingCenter*)centerNamed:(NSString*)serverName;
--(BOOL)sendMessageName:(NSString*)name userInfo:(NSDictionary*)info;
-- (id)sendMessageAndReceiveReplyName:(NSString*)name userInfo:(NSDictionary*)info;
+@interface UIImage (ApplicationIcons)
++ (id)_applicationIconImageForBundleIdentifier:(id)arg1 format:(int)arg2 scale:(double)arg3; //chnage
 @end
-
-// RocketBootstrap
-#ifdef __OBJC__
-@class CPDistributedMessagingCenter;
-void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCenter *messaging_center);
-#endif
 
 @interface XENHFauxIconsViewController ()
 /*@property (nonatomic, strong) CPDistributedMessagingCenter *c;
@@ -49,31 +42,13 @@ void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCent
 }
 
 -(void)loadView {
-    // Startup the RocketBootstrap server
-    /*self.c = [CPDistributedMessagingCenter centerNamed:@"com.matchstic.xenhtml.previewsnapshot.listener"];
-    
-    // Not needed on iOS 6
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/lib/librocketbootstrap.dylib"])
-        rocketbootstrap_distributedmessagingcenter_apply(self.c);*/
-    
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor clearColor];
     self.view.userInteractionEnabled = NO;
     
-    // Fill up the ui with icons.
-    _iconViews = [NSMutableArray array];
+    self.cachedIcons = [NSMutableDictionary dictionary];
     
-    // We will have 4 per row, as expected, and have 14 of the buggers.
-    CGRect iconFrame = CGRectMake(0, 0, (IS_IPAD ? 72 : 60), (IS_IPAD ? 72 : 60));
-    for (int i = 0; i < 14; i++) {
-        UIView *icon = [[UIView alloc] initWithFrame:iconFrame];
-        icon.layer.cornerRadius = 12.5;
-        icon.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.35];
-        
-        [self.view addSubview:icon];
-        
-        [_iconViews addObject:icon];
-    }
+    [self _configureIconsForPage:0];
     
     // And add the dock view.
     //_dockView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, (IS_IPAD ? 90 : 80))];
@@ -94,19 +69,90 @@ void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCent
     });*/
 }
 
--(void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    // Layout the icons. First, figure out the left margin, and then the inter-icon margins.
+/*- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
+    [self _configureIconsForPage:0];
+}*/
+
+- (void)_configureIconsForPage:(int)page {
+    NSString *iconStatePlist = @"/var/mobile/Library/SpringBoard/IconState.plist";
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/IconSupport.dylib"]) {
+        // Handle icon state from IconSupport
+        
+        iconStatePlist = @"/var/mobile/Library/SpringBoard/IconSupportState.plist";
+    }
+    
+    NSDictionary *icons = [NSDictionary dictionaryWithContentsOfFile:iconStatePlist];
+    
+    NSArray *iconArray = [[icons objectForKey:@"iconLists"] objectAtIndex:page];
+    
+    // Fill up the ui with icons, removing old ones first
+    for (UIView *view in _iconViews) {
+        [view removeFromSuperview];
+    }
+    
+    _iconViews = [NSMutableArray array];
+
+    for (int i = 0; i < iconArray.count; i++) {
+        id identifier = [iconArray objectAtIndex:i];
+        
+        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectZero];
+        icon.layer.cornerRadius = 12.5;
+        icon.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.35];
+        
+        [self.view addSubview:icon];
+        
+        /*if ([identifier isKindOfClass:[NSString class]]) {
+            if ([self.cachedIcons objectForKey:identifier]) {
+                icon.image = [self.cachedIcons objectForKey:identifier];
+                icon.backgroundColor = [UIColor clearColor];
+            } else {
+                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:identifier format:0 scale:[UIScreen mainScreen].scale];
+                    [self.cachedIcons setObject:image forKey:identifier];
+                    
+                    icon.image = image;
+                    icon.backgroundColor = [UIColor clearColor];
+                });
+            }
+        }*/
+        
+        [_iconViews addObject:icon];
+    }
+}
+
+// Can be overriden by Boxy 3 or Iconoclasm
+- (int)_adjustedColumns {
+    return 4;
+}
+
+// Can be overriden by Boxy 3 or Iconoclasm
+- (int)_adjustedRows {
+    CGFloat iconsPerColumn = 0;
+    
+    // If iPad, 4 in landscape, 5 in portrait.
+    if (IS_IPAD) {
+        iconsPerColumn = 5;
+    } else if (SCREEN_MAX_LENGTH > 568) {
+        iconsPerColumn = 6;
+    } else if (SCREEN_MAX_LENGTH > 480) {
+        iconsPerColumn = 5;
+    } else {
+        iconsPerColumn = 4;
+    }
+    
+    return iconsPerColumn;
+}
+
+- (void)_layoutIconsForPage:(int)page {
+    // Layout the icons. First, figure out the left margin, and then the inter-icon margins.
     CGFloat dockHeight = (IS_IPAD ? 124 : 96);
     
-    CGFloat iconsPerRow = 4;
+    CGFloat iconsPerRow = [self _adjustedColumns];
+    CGFloat iconsPerColumn = [self _adjustedRows];
     
-    // If we're on iPad, we get 5 icons per row in landscape, so bear that in mind!
-    CGFloat orient = [[UIApplication sharedApplication] statusBarOrientation];
-    if (IS_IPAD && (orient == 3 || orient == 4)) {
-        iconsPerRow = 5;
-    }
+    // TODO: Get adjusted insets now
     
     CGFloat iconWidth = (IS_IPAD ? 72 : 60);
     CGFloat marginWidth = self.view.bounds.size.width - (iconWidth*iconsPerRow);
@@ -117,21 +163,6 @@ void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCent
     CGFloat leftInset = marginWidth/2;
     
     // Now, handle the vertical margins.
-    CGFloat iconsPerColumn = 0;
-    
-    // If iPad, 4 in landscape, 5 in portrait.
-    if (IS_IPAD && (orient == 3 || orient == 4)) {
-        iconsPerColumn = 4;
-    } else if (IS_IPAD) {
-        iconsPerColumn = 5;
-    } else if (SCREEN_MAX_LENGTH > 568) {
-        iconsPerColumn = 6;
-    } else if (SCREEN_MAX_LENGTH > 480) {
-        iconsPerColumn = 5;
-    } else {
-        iconsPerColumn = 4;
-    }
-    
     CGFloat marginHeight = (self.view.bounds.size.height - dockHeight) - (iconWidth*iconsPerColumn);
     marginHeight /= iconsPerColumn;
     
@@ -143,7 +174,7 @@ void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCent
     for (int i = 0; i < _iconViews.count; i++) {
         UIView *icon = [_iconViews objectAtIndex:i];
         
-        icon.frame = CGRectMake(leftInset + (column*marginWidth) + (column*iconWidth), topInset + (row*marginHeight) + (row*iconWidth), icon.frame.size.width, icon.frame.size.height);
+        icon.frame = CGRectMake(leftInset + (column*marginWidth) + (column*iconWidth), topInset + (row*marginHeight) + (row*iconWidth), (IS_IPAD ? 72 : 60), (IS_IPAD ? 72 : 60));
         
         column++;
         
@@ -152,11 +183,15 @@ void rocketbootstrap_distributedmessagingcenter_apply(CPDistributedMessagingCent
             row++;
         }
     }
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self _layoutIconsForPage:0];
     
     // Layout dock.
-    _dockView.frame = CGRectMake(0, self.view.bounds.size.height - dockHeight, self.view.bounds.size.width, dockHeight);
-    
-    //self.imageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    //_dockView.frame = CGRectMake(0, self.view.bounds.size.height - dockHeight, self.view.bounds.size.width, dockHeight);
 }
 
 @end
