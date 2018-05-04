@@ -531,23 +531,64 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
         settings = (__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     }
+    
+    [self _migrateWidgetSettingsToRC5OrHigher];
+}
+
++ (void)_migrateWidgetSettingsToRC5OrHigher {
+    id widgets = settings[@"widgets"];
+    
+    if (!widgets) {
+        // We need to migrate the widget settings through to the new format.
+        
+        // Load from old settings
+        NSString *backgroundLocation = settings[@"backgroundLocation"];
+        NSString *foregroundLocation = settings[@"foregroundLocation"];
+        NSString *sbLocation = settings[@"SBLocation"];
+        
+        NSDictionary *backgroundMetadata = [settings[@"widgetPrefs"] objectForKey:@"LSBackground"];
+        NSDictionary *foregroundMetadata = [settings[@"widgetPrefs"] objectForKey:@"LSForeground"];
+        NSDictionary *sbMetadata = [settings[@"widgetPrefs"] objectForKey:@"SBBackground"];
+        
+        // Create new dictionary
+        NSMutableDictionary *newWidgetPreferences = [NSMutableDictionary dictionary];
+        
+        // LSBackground
+        NSMutableDictionary *newLSBackgroundPreferences = [NSMutableDictionary dictionary];
+        if (backgroundLocation && ![backgroundLocation isEqualToString:@""]) {
+            [newLSBackgroundPreferences setObject:@[ backgroundLocation ] forKey:@"widgetArray"];
+            [newLSBackgroundPreferences setObject:@{ backgroundLocation: backgroundMetadata } forKey:@"widgetMetadata"];
+        }
+        [newWidgetPreferences setObject:newLSBackgroundPreferences forKey:@"LSBackground"];
+        
+        // LSForeground
+        NSMutableDictionary *newLSForegroundPreferences = [NSMutableDictionary dictionary];
+        if (foregroundLocation && ![foregroundLocation isEqualToString:@""]) {
+            [newLSForegroundPreferences setObject:@[ foregroundLocation ] forKey:@"widgetArray"];
+            [newLSForegroundPreferences setObject:@{ foregroundLocation: foregroundMetadata } forKey:@"widgetMetadata"];
+        }
+        [newWidgetPreferences setObject:newLSForegroundPreferences forKey:@"LSForeground"];
+        
+        // SBBackground
+        NSMutableDictionary *newSBBackgroundPreferences = [NSMutableDictionary dictionary];
+        if (sbLocation && ![sbLocation isEqualToString:@""]) {
+            [newSBBackgroundPreferences setObject:@[ sbLocation ] forKey:@"widgetArray"];
+            [newSBBackgroundPreferences setObject:@{ sbLocation: sbMetadata } forKey:@"widgetMetadata"];
+        }
+        [newWidgetPreferences setObject:newSBBackgroundPreferences forKey:@"SBBackground"];
+        
+        // Save new dictionary!
+        [self setPreferenceKey:@"widgets" withValue:newWidgetPreferences andPost:YES];
+        
+        // And, reload!
+        CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
+        settings = (__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+        
+        XENlog(@"Migrated settings!");
+    }
 }
 
 +(BOOL)lsenabled {
-    // First, check whatever is set is valid for either background or foreground.
-    /*BOOL exists = NO;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[self indexHTMLFileForLocation:kLocationBackground] isDirectory:NO]) {
-        exists = YES;
-    }
-    
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[self indexHTMLFileForLocation:kLocationForeground] isDirectory:NO]) {
-        exists = YES;
-    }
-    
-    if (!exists) {
-        return NO;
-    }*/
-    
     id value = settings[@"enabled"];
     return (value ? [value boolValue] : YES);
 }
