@@ -394,54 +394,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return dict;
 }
 
-/*+(NSDictionary*)_widgetMetadataForKey:(NSString*)key {
-     // Keys:
-     // height
-     // width
-     // isFullscreen
-     // x (in % of screensize)
-     // y (in % of screensize)
-     // options : dict of jsVar->value
-    
-    // Options.plist will contain the following types:
-    // edit
-    // select
-    // switch
-    
-    NSDictionary *dict = [settings objectForKey:@"widgetPrefs"];
-    dict = [dict objectForKey:key];
-    
-    if (!dict) {
-        dict = [NSMutableDictionary dictionary];
-        
-        [dict setValue:@YES forKey:@"isFullscreen"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-        
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        [dict setValue:options forKey:@"options"];
-    }
-    
-    return dict;
-}
-
-+(NSDictionary*)widgetMetadataForLocation:(int)location {
-    NSString *key = @"";
-    
-    // First, work out which location this filePath corresponds to.
-    if (location == kLocationLSBackground) {
-        key = @"LSBackground";
-    } else if (location == kLocationLSForeground) {
-        key = @"LSForeground";
-    } else if (location == kLocationSBBackground) {
-        key = @"SBBackground";
-    }
-    
-    return [self _widgetMetadataForKey:key];
-}*/
-
 + (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath {
     NSDictionary *lsBackgroundMetadata = [[self widgetPreferencesForLocation:kLocationLSBackground] objectForKey:@"widgetMetadata"];
     
@@ -525,9 +477,17 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         NSString *foregroundLocation = settings[@"foregroundLocation"];
         NSString *sbLocation = settings[@"SBLocation"];
         
-        NSDictionary *backgroundMetadata = [settings[@"widgetPrefs"] objectForKey:@"LSBackground"];
-        NSDictionary *foregroundMetadata = [settings[@"widgetPrefs"] objectForKey:@"LSForeground"];
-        NSDictionary *sbMetadata = [settings[@"widgetPrefs"] objectForKey:@"SBBackground"];
+        BOOL lsForceLegacy = [self LSUseLegacyMode];
+        BOOL sbForceLegacy = [self SBUseLegacyMode];
+        
+        NSMutableDictionary *backgroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSBackground"] mutableCopy];
+        NSMutableDictionary *foregroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSForeground"] mutableCopy];
+        NSMutableDictionary *sbMetadata = [[settings[@"widgetPrefs"] objectForKey:@"SBBackground"] mutableCopy];
+        
+        // Update metadata for fallback per-widget
+        [backgroundMetadata setObject:[NSNumber numberWithBool:lsForceLegacy] forKey:@"useFallback"];
+        [foregroundMetadata setObject:[NSNumber numberWithBool:lsForceLegacy] forKey:@"useFallback"];
+        [sbMetadata setObject:[NSNumber numberWithBool:sbForceLegacy] forKey:@"useFallback"];
         
         // Create new dictionary
         NSMutableDictionary *newWidgetPreferences = [NSMutableDictionary dictionary];
