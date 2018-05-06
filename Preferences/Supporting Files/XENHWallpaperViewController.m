@@ -48,6 +48,7 @@
 
 @interface XENHWallpaperViewController ()
 @property (nonatomic, strong) SBSUIWallpaperPreviewViewController *previewController;
+@property (nonatomic, readwrite) int wallpaperVariant;
 @end
 
 @implementation XENHWallpaperViewController
@@ -68,6 +69,7 @@
     if (self) {
         // Doesn't break the status bar!
         self.previewController = [[objc_getClass("SBSUIWallpaperPreviewViewController") alloc] initWithWallpaperVariant:wallpaperVariant];
+        self.wallpaperVariant = wallpaperVariant;
     }
     
     return self;
@@ -111,6 +113,22 @@
         // Sort out the content offset
         [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, 0)];
     }
+}
+
+- (void)reloadWallpaper {
+    for (UIView *view in self.view.subviews) {
+        [view removeFromSuperview];
+    }
+    
+    self.previewController = [[objc_getClass("SBSUIWallpaperPreviewViewController") alloc] initWithWallpaperVariant:self.wallpaperVariant];
+    
+    UIView *wallpaperView = [self.previewController _wallpaperView];
+    wallpaperView.frame = self.view.bounds;
+    wallpaperView.clipsToBounds = YES;
+    wallpaperView.userInteractionEnabled = NO;
+    wallpaperView.opaque = YES;
+    
+    [self.view addSubview:wallpaperView];
 }
 
 - (BOOL)prefersStatusBarHidden {

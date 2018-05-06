@@ -149,7 +149,6 @@
             
             cell.showsReorderControl = YES;
         }
-        
     } else {
         // Provide the button for adding a new widget
         cell.textLabel.text = [XENHResources localisedStringForKey:@"Add widget..." value:@"Add widget..."];

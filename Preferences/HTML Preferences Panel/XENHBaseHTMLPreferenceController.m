@@ -83,8 +83,9 @@
     // Broadcast current enabled state to the preview cell
     [self _notifyPreviewCellOfStateChange:on];
     
-    //[[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self setNeedsStatusBarAppearanceUpdate];
+    
+    [self _notifyPreviewCellOfDisplay];
 }
 
 -(void)toggleEnabledState:(UISwitch*)control {
@@ -100,6 +101,14 @@
 
 - (void)_notifyPreviewCellOfSliderChange:(CGFloat)percent {
     [XENHResources setPreviewSkewPercentage:percent forVariant:[self variant]];
+}
+
+- (void)_notifyPreviewCellOfDisplay {
+    UITableViewCell *cell = [self.table cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    if ([cell isKindOfClass:[XENHBasePreviewCell class]]) {
+        [(XENHBasePreviewCell*)cell _reloadWallpaper];
+    }
 }
 
 #pragma mark Preference specifiers

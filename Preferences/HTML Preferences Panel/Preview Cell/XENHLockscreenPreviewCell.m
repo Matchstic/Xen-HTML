@@ -222,4 +222,12 @@
     }
 }
 
+- (void)_reloadWallpaper {
+    // Reload the wallpaper controller!
+    [super _reloadWallpaper];
+    
+    XENHWallpaperViewController *wallpaperController = (XENHWallpaperViewController *)[[self.viewControllers objectAtIndex:0] containedViewController];
+    [wallpaperController reloadWallpaper];
+}
+
 @end

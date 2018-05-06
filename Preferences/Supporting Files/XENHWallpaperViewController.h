@@ -28,5 +28,6 @@
 
 - (BOOL)isWallpaperImageDark;
 - (void)cacheWallpaperImageToFilesystem;
+- (void)reloadWallpaper;
 
 @end

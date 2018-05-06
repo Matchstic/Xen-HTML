@@ -22,5 +22,6 @@
 @interface XENHBasePreviewCell : PSTableCell <XENHPreviewCellStateDelegate>
 
 - (CGFloat)preferredHeightForWidth:(CGFloat)width;
+- (void)_reloadWallpaper;
 
 @end

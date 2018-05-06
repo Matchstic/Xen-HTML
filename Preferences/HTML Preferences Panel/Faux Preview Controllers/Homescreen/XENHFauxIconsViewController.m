@@ -103,7 +103,7 @@
         
         [self.view addSubview:icon];
         
-        /*if ([identifier isKindOfClass:[NSString class]]) {
+        if ([identifier isKindOfClass:[NSString class]]) {
             if ([self.cachedIcons objectForKey:identifier]) {
                 icon.image = [self.cachedIcons objectForKey:identifier];
                 icon.backgroundColor = [UIColor clearColor];
@@ -112,11 +112,13 @@
                     UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:identifier format:0 scale:[UIScreen mainScreen].scale];
                     [self.cachedIcons setObject:image forKey:identifier];
                     
-                    icon.image = image;
-                    icon.backgroundColor = [UIColor clearColor];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        icon.image = image;
+                        icon.backgroundColor = [UIColor clearColor];
+                    });
                 });
             }
-        }*/
+        }
         
         [_iconViews addObject:icon];
     }
