@@ -124,6 +124,8 @@
 		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
+		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
+		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C9F770821C7A5B7F00C52880 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
 		C9F770831C7A5B8600C52880 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0C1BA8C88000173993 /* QuartzCore.framework */; };
@@ -270,6 +272,9 @@
 		C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libGitHubIssues.tbd; path = lib/libGitHubIssues.tbd; sourceTree = "<group>"; };
 		C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpackageinfo.tbd; path = lib/libpackageinfo.tbd; sourceTree = "<group>"; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
+		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
+		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
+		C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENHFallbackDelegate-Protocol.h"; sourceTree = "<group>"; };
 		C9F770491C7A459900C52880 /* XenHTMLPrefs.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XenHTMLPrefs.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -575,6 +580,9 @@
 				C947751A20715D150003D039 /* XENHConfigJSController.m */,
 				C947751820715D150003D039 /* XENHMetadataOptionsController.h */,
 				C947751C20715D150003D039 /* XENHMetadataOptionsController.m */,
+				C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */,
+				C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */,
+				C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */,
 			);
 			path = "Widget Settings Controllers";
 			sourceTree = "<group>";
@@ -838,6 +846,7 @@
 				C947757E20715D150003D039 /* XENHConfigJSCell.h in Headers */,
 				C947757A20715D150003D039 /* XENHConfigJSController.h in Headers */,
 				C947757B20715D150003D039 /* XENHMetadataOptionsController.h in Headers */,
+				C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */,
 				C947758720715D150003D039 /* XENHPickerCell2.h in Headers */,
 				C947757820715D150003D039 /* XENHEditorWebViewController.h in Headers */,
 				C947757920715D150003D039 /* XENHEditorDragDropController.h in Headers */,
@@ -1040,6 +1049,7 @@
 				C947757120715D150003D039 /* XENHEditorPositioningController.m in Sources */,
 				C947758220715D150003D039 /* XENHLSVisibilityController.m in Sources */,
 				C94775A220715D160003D039 /* XENHMoreReposCell.m in Sources */,
+				C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */,
 				C947757420715D150003D039 /* XENHEditorDragDropController.m in Sources */,
 				C94775B020715D160003D039 /* XENHPreviewScaledController.m in Sources */,
 				C947757C20715D150003D039 /* XENHConfigJSCell.m in Sources */,

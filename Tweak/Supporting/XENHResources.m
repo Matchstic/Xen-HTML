@@ -214,19 +214,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return [[XENHResources getPreferenceKey:@"widgets"] objectForKey:layerPreferenceKey];
 }
 
-/*+(UIView*)widgetsView {
-    return nil;
-}
-
-+(XENHWebViewController*)configuredHTMLViewControllerForLocation:(XENHLayerLocation)location {
-    NSString *baseString = [XENHResources indexHTMLFileForLocation:location];
-    
-    XENHWebViewController *controller = [[XENHWebViewController alloc] initWithBaseString:baseString];
-    controller.variant = location;
-    
-    return controller;
-}
-
 +(BOOL)_recursivelyCheckForGroovyAPI:(NSString*)folder {
     NSError *error;
     NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:folder error:&error];
@@ -266,14 +253,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)useFallbackForHTMLFile:(NSString*)filePath {
-    // First, check if override applies.
-    BOOL isSB = [filePath isEqualToString:[self indexHTMLFileForLocation:kLocationSBBackground]];
-    BOOL forceLegacy = (isSB ? [self SBUseLegacyMode] : [self LSUseLegacyMode]);
-    
-    if (forceLegacy) {
-        return YES;
-    }
-    
     BOOL value = NO;
     NSError *error;
     
@@ -306,7 +285,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         value = YES;
     
     return value;
-}*/
+}
 
 + (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];

@@ -38,6 +38,7 @@
 @end
 
 #define REUSE @"configCell"
+#define REUSE2 @"fallbackCell"
 
 @interface XENHConfigJSController ()
 
@@ -45,11 +46,22 @@
 
 @implementation XENHConfigJSController
 
+- (instancetype)initWithFallbackState:(BOOL)state {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    
+    if (self) {
+        self.fallbackState = state;
+    }
+    
+    return self;
+}
+
 -(void)loadView {
     [super loadView];
     
     // Register the class for cells.
     [self.tableView registerClass:[XENHConfigJSCell class] forCellReuseIdentifier:REUSE];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:REUSE2];
 }
 
 -(BOOL)parseJSONFile:(NSString *)filePath {
@@ -236,8 +248,6 @@
     // First, back up original.
     NSString *newName = [NSString stringWithFormat:@"%@.(%@).bak", _filePath, [NSDate date]];
     
-    //if ([[NSFileManager defaultManager] isReadableFileAtPath:_filePath])
-        //[[NSFileManager defaultManager] copyItemAtURL:[NSURL fileURLWithPath:_filePath] toURL:[NSURL fileURLWithPath:newName] error:nil];
     if ([UBClient class]) {
         [[UBClient sharedInstance] copyFile:_filePath toFile:newName];
         [[UBClient sharedInstance] chmodFile:[_filePath stringByDeletingLastPathComponent] mode:0777];
@@ -327,11 +337,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.navigationItem setTitle:[XENHResources localisedStringForKey:@"Widget Settings" value:@"Widget Settings"]];
 }
 
@@ -340,35 +345,62 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)switchDidChange:(UISwitch*)sender {
+    self.fallbackState = sender.on;
+    [self.fallbackDelegate fallbackStateDidChange:sender.on];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _dataSource.count;
+    return section == 0 ? 1 : _dataSource.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    XENHConfigJSCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE forIndexPath:indexPath];
-    if (!cell) {
-        cell = [[XENHConfigJSCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE];
+    if (indexPath.section == 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE2 forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE2];
+        }
+        
+        UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [switchView setOn:self.fallbackState];
+        [switchView addTarget:self action:@selector(switchDidChange:) forControlEvents:UIControlEventValueChanged];
+        
+        cell.accessoryView = switchView;
+        
+        cell.textLabel.text = [XENHResources localisedStringForKey:@"Legacy Mode" value:@"Legacy Mode"];
+        cell.textLabel.textColor = [UIColor darkTextColor];
+        
+        return cell;
+    } else {
+        XENHConfigJSCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE forIndexPath:indexPath];
+        if (!cell) {
+            cell = [[XENHConfigJSCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE];
+        }
+        
+        // Configure the cell...
+        NSDictionary *datum = [_dataSource objectAtIndex:indexPath.row];
+        
+        [cell setupWithDatum:datum];
+        cell.delegate = self;
+        
+        return cell;
     }
-    
-    // Configure the cell...
-    NSDictionary *datum = [_dataSource objectAtIndex:indexPath.row];
-    
-    [cell setupWithDatum:datum];
-    cell.delegate = self;
-    
-    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return UITableViewAutomaticDimension;
+    }
+    
     CGFloat commentHeight = 0;
     
     NSDictionary *datum = [_dataSource objectAtIndex:indexPath.row];
@@ -385,6 +417,10 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return UITableViewAutomaticDimension;
+    }
+    
     CGFloat commentHeight = 0;
     
     NSDictionary *datum = [_dataSource objectAtIndex:indexPath.row];

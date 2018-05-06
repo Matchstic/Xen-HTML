@@ -59,8 +59,9 @@ static BOOL shownGraceEnded = NO;
 + (NSDictionary*)widgetPreferencesForLocation:(XENHLayerLocation)location;
 
 // Metadata
-+ (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath ;
++ (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath;
 + (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath;
++ (BOOL)useFallbackForHTMLFile:(NSString*)filePath;
 
 // Settings handling
 +(void)reloadSettings;

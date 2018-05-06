@@ -17,13 +17,17 @@
  */
 
 #import <Preferences/PSListController.h>
+#import "XENHFallbackDelegate-Protocol.h"
 
 @interface XENHMetadataOptionsController : PSListController {
     NSMutableDictionary *_options;
     NSArray *_plist;
 }
 
--(instancetype)initWithOptions:(NSDictionary*)options andPlist:(NSArray*)plist;
+@property (nonatomic, weak) id<XENHFallbackDelegate> fallbackDelegate;
+@property (nonatomic, readwrite) BOOL fallbackState;
+
+-(instancetype)initWithOptions:(NSDictionary*)options fallbackState:(BOOL)state andPlist:(NSArray*)plist;
 -(NSDictionary*)currentOptions;
 
 @end

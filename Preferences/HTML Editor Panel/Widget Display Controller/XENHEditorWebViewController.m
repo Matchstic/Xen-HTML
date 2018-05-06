@@ -434,6 +434,8 @@
         [dict setValue:options forKey:@"options"];
     }
     
+    // Handle fallback default
+    [dict setObject:[NSNumber numberWithBool:NO] forKey:@"useFallback"];
     
     return dict;
 }

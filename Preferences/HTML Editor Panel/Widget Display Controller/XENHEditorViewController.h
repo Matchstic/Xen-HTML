@@ -21,6 +21,7 @@
 #import "XENHEditorToolbarController.h"
 #import "XENHEditorPositioningController.h"
 #import "XENHPickerController2.h"
+#import "XENHFallbackOnlyOptionsController.h"
 
 typedef enum : NSUInteger {
     kEditorVariantLockscreenBackground = 0,
@@ -32,7 +33,7 @@ typedef enum : NSUInteger {
 -(void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata;
 @end
 
-@interface XENHEditorViewController : PSViewController <XENHEditorToolbarDelegate, XENHEditorPositioningDelegate>
+@interface XENHEditorViewController : PSViewController <XENHEditorToolbarDelegate, XENHEditorPositioningDelegate, XENHFallbackDelegate>
 
 @property (nonatomic, weak) id<XENHEditorDelegate> delegate;
 @property (nonatomic, strong) NSString *widgetURL;

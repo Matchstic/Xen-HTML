@@ -52,8 +52,8 @@
     self.widgetIndexFile = widgetIndexFile;
     self.widgetMetadata = metadata;
     
-    // TODO: Check fallback state.
-    BOOL fallbackIsRequired = NO;
+    // Check fallback state.
+    BOOL fallbackIsRequired = [self _widgetIndexFile:widgetIndexFile wantsFallbackForMetadata:metadata];
     
     if (fallbackIsRequired) {
         // Load using UIWebView
@@ -66,6 +66,13 @@
         [self _loadWebView];
         [self.view addSubview:self.webView];
     }
+}
+
+- (BOOL)_widgetIndexFile:(NSString*)widgetIndexFile wantsFallbackForMetadata:(NSDictionary*)metadata {
+    BOOL forcedFallback = [XENHResources useFallbackForHTMLFile:widgetIndexFile];
+    BOOL metadataFallback = [[metadata objectForKey:@"useFallback"] boolValue];
+    
+    return forcedFallback || metadataFallback;
 }
 
 - (void)_loadWebView {

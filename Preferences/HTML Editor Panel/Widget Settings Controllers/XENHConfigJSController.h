@@ -18,11 +18,17 @@
 
 #import <UIKit/UIKit.h>
 #import "XENHConfigJSCell.h"
+#import "XENHFallbackDelegate-Protocol.h"
 
 @interface XENHConfigJSController : UITableViewController <XENHConfigJSDelegate> {
     NSArray *_dataSource;
     NSString *_filePath;
 }
+
+@property (nonatomic, weak) id<XENHFallbackDelegate> fallbackDelegate;
+@property (nonatomic, readwrite) BOOL fallbackState;
+
+- (instancetype)initWithFallbackState:(BOOL)state;
 
 // Returns YES if there were any issues.
 -(BOOL)parseJSONFile:(NSString*)filePath;
