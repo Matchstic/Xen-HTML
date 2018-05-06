@@ -34,7 +34,6 @@
 		C94774EF20715D050003D039 /* XENSetupBaseTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774BC20715D050003D039 /* XENSetupBaseTableController.m */; };
 		C94774F020715D050003D039 /* XENSetupInitialController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BD20715D050003D039 /* XENSetupInitialController.h */; };
 		C94774F120715D050003D039 /* XENSetupFinalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BE20715D050003D039 /* XENSetupFinalController.h */; };
-		C94774F220715D050003D039 /* XENHWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C020715D050003D039 /* XENHWebViewController.h */; };
 		C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C320715D050003D039 /* XENHTouchPassThroughView.h */; };
 		C94774F520715D050003D039 /* XENHTapGestureRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */; };
 		C94774F620715D050003D039 /* XENHResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C520715D050003D039 /* XENHResources.h */; };
@@ -173,8 +172,6 @@
 		C94774BC20715D050003D039 /* XENSetupBaseTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupBaseTableController.m; sourceTree = "<group>"; };
 		C94774BD20715D050003D039 /* XENSetupInitialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupInitialController.h; sourceTree = "<group>"; };
 		C94774BE20715D050003D039 /* XENSetupFinalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupFinalController.h; sourceTree = "<group>"; };
-		C94774C020715D050003D039 /* XENHWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHWebViewController.h; sourceTree = "<group>"; };
-		C94774C120715D050003D039 /* XENHWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHWebViewController.m; sourceTree = "<group>"; };
 		C94774C320715D050003D039 /* XENHTouchPassThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTouchPassThroughView.h; sourceTree = "<group>"; };
 		C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XENHTapGestureRecognizer.mm; sourceTree = "<group>"; };
 		C94774C520715D050003D039 /* XENHResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHResources.h; sourceTree = "<group>"; };
@@ -412,8 +409,6 @@
 			isa = PBXGroup;
 			children = (
 				C916A9AD20975F3F00CC9521 /* PrivateWebKitHeaders.h */,
-				C94774C020715D050003D039 /* XENHWebViewController.h */,
-				C94774C120715D050003D039 /* XENHWebViewController.m */,
 				C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */,
 				C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */,
 				C916A9AE20975F9400CC9521 /* XENHWidgetController.h */,
@@ -811,7 +806,6 @@
 				C94774F620715D050003D039 /* XENHResources.h in Headers */,
 				C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */,
 				C94774EC20715D050003D039 /* XENHSetupLockscreenImportController.h in Headers */,
-				C94774F220715D050003D039 /* XENHWebViewController.h in Headers */,
 				C94774E620715D050003D039 /* XENHSetupHomescreenImportController.h in Headers */,
 				C94774EB20715D050003D039 /* XENSFinalTickView.h in Headers */,
 				C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */,
