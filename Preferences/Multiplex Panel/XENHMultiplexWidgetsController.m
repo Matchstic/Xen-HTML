@@ -145,6 +145,7 @@
             
             cell.textLabel.text = filename;
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             cell.showsReorderControl = YES;
         }

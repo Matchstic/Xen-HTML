@@ -362,6 +362,13 @@
     return section == 0 ? 1 : _dataSource.count;
 }
 
+- (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return [XENHResources localisedStringForKey:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI." value:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI."];
+    } else {
+        return nil;
+    }
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
