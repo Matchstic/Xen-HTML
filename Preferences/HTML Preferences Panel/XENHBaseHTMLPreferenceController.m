@@ -85,7 +85,7 @@
     
     [self setNeedsStatusBarAppearanceUpdate];
     
-    [self _notifyPreviewCellOfDisplay];
+   // [self _notifyPreviewCellOfDisplay];
 }
 
 -(void)toggleEnabledState:(UISwitch*)control {

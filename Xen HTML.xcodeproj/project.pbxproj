@@ -19,6 +19,7 @@
 		C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */; };
 		C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */; };
 		C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */; };
+		C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; };
 		C94774E320715D050003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C94774AE20715D050003D039 /* Prefix.pch */; };
 		C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */; };
 		C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B220715D050003D039 /* XENSFinalTickView.m */; };
@@ -154,6 +155,7 @@
 		C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHMultiplexWidgetsController.m; sourceTree = "<group>"; };
 		C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHMultiplexWidgetsHeaderView.h; sourceTree = "<group>"; };
 		C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHMultiplexWidgetsHeaderView.m; sourceTree = "<group>"; };
+		C91E103120A0726B00425BBC /* AppSupport.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = AppSupport.tbd; path = lib/AppSupport.tbd; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94774AE20715D050003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */,
 				C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */,
 				C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */,
+				C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */,
 				C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */,
 				C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */,
 				C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */,
@@ -352,6 +355,7 @@
 		C93C30AE1BA72CA90037BA09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C91E103120A0726B00425BBC /* AppSupport.tbd */,
 				C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */,
 				C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */,
 				C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */,

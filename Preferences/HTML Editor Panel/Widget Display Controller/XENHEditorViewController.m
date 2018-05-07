@@ -122,7 +122,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self.wallpaperController isWallpaperImageDark] ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    return [self.wallpaperController isWallpaperImageDark] ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {
