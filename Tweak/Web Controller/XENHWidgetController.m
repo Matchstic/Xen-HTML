@@ -53,9 +53,9 @@
     self.widgetMetadata = metadata;
     
     // Check fallback state.
-    BOOL fallbackIsRequired = [self _widgetIndexFile:widgetIndexFile wantsFallbackForMetadata:metadata];
+    self.usingLegacyWebView = [self _widgetIndexFile:widgetIndexFile wantsFallbackForMetadata:metadata];
     
-    if (fallbackIsRequired) {
+    if (self.usingLegacyWebView) {
         // Load using UIWebView
         XENlog(@"Loading using fallback method to support Cycript etc");
         [self _loadLegacyWebView];
