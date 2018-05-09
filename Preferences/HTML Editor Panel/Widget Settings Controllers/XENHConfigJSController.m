@@ -161,6 +161,7 @@
     }
     
     _dataSource = data;
+    _undoDataSource = data;
     
     [self.tableView reloadData];
     
@@ -216,11 +217,10 @@
     return output;
 }
 
--(void)saveData {
-    // We need to re-create the .js file from our stored datums, and also make a backup of the old config.js
+- (NSString*)_stringFromDataSource:(NSArray*)dataSource {
     NSMutableString *data = [@"" mutableCopy];
     
-    for (NSDictionary *datum in _dataSource) {
+    for (NSDictionary *datum in dataSource) {
         // Reformat back into a string for saving.
         BOOL isBool = [[datum objectForKey:@"isBool"] boolValue];
         BOOL isNumber = [[datum objectForKey:@"isNumber"] boolValue];
@@ -240,13 +240,35 @@
         [data appendFormat:@"var %@ = %@; %@", key, valueAsString, fullComment];
     }
     
+    return data;
+}
+
+- (void)undoChanges {
+    // We need to re-create the .js file from our stored datums, and also make a backup of the old config.js
+    NSString *data = [self _stringFromDataSource:_undoDataSource];
+    
+    NSError *error;
+    BOOL succeed = [data writeToFile:_filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    if (!succeed){
+        // Don't really need to handle the error, the modified prefs wouldn't have changed anyway.
+    } else {
+        // Post about the change!
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/jsconfigchanged" object:nil];
+        
+        CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/jsconfigchanged";
+        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
+    }
+}
+
+-(void)saveData {
+    // We need to re-create the .js file from our stored datums, and also make a backup of the old config.js
+    NSString *data = [self _stringFromDataSource:_dataSource];
+    
     // Have full string, now we can save it out!
     
-    // We're going to us UAUnbox here to ensure we get a nice saving going on.
-    
-    
+    // We're going to use UAUnbox here to ensure we get a nice saving going on.
     // First, back up original.
-    NSString *newName = [NSString stringWithFormat:@"%@.(%@).bak", _filePath, [NSDate date]];
+    NSString *newName = [NSString stringWithFormat:@"%@.bak", _filePath];
     
     if ([UBClient class]) {
         [[UBClient sharedInstance] copyFile:_filePath toFile:newName];
@@ -258,7 +280,8 @@
     if (!succeed){
         // Handle error here        
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"Error" value:@"Error"]
-                                                                                 message:[XENHResources localisedStringForKey:@"Failed to write widget settings; check file permissions for this widget" value:@"Failed to write widget settings; check file permissions for this widget"] preferredStyle:UIAlertControllerStyleAlert];
+                                             message:[XENHResources localisedStringForKey:@"Failed to write widget settings; check file permissions for this widget" value:@"Failed to write widget settings; check file permissions for this widget"]
+                                             preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             // nop.

@@ -218,6 +218,11 @@
 #pragma mark Handling accept and cancel buttons
 
 - (void)_handleCancelButtonPressed {
+    if (self.configOptions) {
+        // Undo any changes to the config.
+        [self.configOptions undoChanges];
+    }
+    
     // Pop this view controller off the stack
     [self _popSelfOffNavigationalStack];
 }
@@ -354,8 +359,10 @@
 -(void)showConfigOptionsWithFile:(NSString*)file {
     BOOL fallbackState = [[[self.webViewController getMetadata] objectForKey:@"useFallback"] boolValue];
     
-    self.configOptions = [[XENHConfigJSController alloc] initWithFallbackState:fallbackState];
-    self.configOptions.fallbackDelegate = self;
+    if (!self.configOptions) {
+        self.configOptions = [[XENHConfigJSController alloc] initWithFallbackState:fallbackState];
+        self.configOptions.fallbackDelegate = self;
+    }
     
     BOOL parseError = [self.configOptions parseJSONFile:file];
     
@@ -413,9 +420,17 @@
 
 -(void)saveConfigOptionsModel:(id)sender {
     [self.configOptions saveData];
-    [self.webViewController reloadWebViewToPath:[self.webViewController getCurrentWidgetURL] updateMetadata:YES ignorePreexistingMetadata:NO];
+    [self.webViewController reloadWebViewToPath:[self.webViewController getCurrentWidgetURL] updateMetadata:NO ignorePreexistingMetadata:NO];
     
     [self.positioningController updatePositioningView:self.webViewController.webView];
+    
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    [mutableMetadata setObject:[NSDate date] forKey:@"lastConfigChangeWorkaround"];
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
     
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal and update SBHTML if needed
@@ -453,7 +468,7 @@
     [mutableMetadata setObject:[NSNumber numberWithBool:state] forKey:@"useFallback"];
     
     [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
-    [self.delegate didAcceptChanges:[self.webViewController getCurrentWidgetURL] withMetadata:mutableMetadata];
+    //[self.delegate didAcceptChanges:[self.webViewController getCurrentWidgetURL] withMetadata:mutableMetadata];
 }
 
 @end

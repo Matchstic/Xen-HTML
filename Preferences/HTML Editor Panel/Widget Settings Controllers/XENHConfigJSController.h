@@ -22,6 +22,7 @@
 
 @interface XENHConfigJSController : UITableViewController <XENHConfigJSDelegate> {
     NSArray *_dataSource;
+    NSArray *_undoDataSource;
     NSString *_filePath;
 }
 
@@ -33,6 +34,7 @@
 // Returns YES if there were any issues.
 -(BOOL)parseJSONFile:(NSString*)filePath;
 -(void)saveData;
+- (void)undoChanges;
 // -(void)cancelData; - this is called "implicitly", as not saving data will cancel it.
 
 @end
