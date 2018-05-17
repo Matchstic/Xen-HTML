@@ -11,6 +11,17 @@
 #import "PrivateWebKitHeaders.h"
 
 #import <objc/runtime.h>
+#import <UIKit/UIGestureRecognizerSubclass.h>
+
+@interface UITouch (Private)
+- (void)set_xh_forwardingView:(id)view;
+- (id)_xh_forwardingView;
+@end
+
+@interface UIScrollView (Private2)
+- (bool)touchesShouldBegin:(NSSet*)arg1 withEvent:(UIEvent*)arg2 inContentView:(UIView*)arg3;
+- (bool)touchesShouldCancelInContentView:(UIView*)arg1;
+@end
 
 @interface XENHWidgetController ()
 
@@ -35,6 +46,7 @@
 - (void)loadView {
     self.view = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor clearColor];
+    self.view.tag = 12345;
 }
 
 - (void)dealloc {
@@ -420,57 +432,135 @@
 - (BOOL)isWidgetTrackingTouch {
     BOOL isTracking = NO;
     
-    UIView *view = [self _webTouchDelegate];
-    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        isTracking = [recog _isRecognized];
+    // Tracking occurs on scrollViews
+    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
         
-        if (isTracking &&
-            ![recog isKindOfClass:objc_getClass("_UIPreviewInteractionTouchObservingGestureRecognizer")]) {
+        for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
+            isTracking = [recog _isRecognized];
             
-            break;
+            if (isTracking)
+                break;
         }
     }
     
     return isTracking;
 }
 
-- (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UIView *view = [self _webTouchDelegate];
-    NSSet *set = [(UITouchesEvent*)event _allTouches];
-    view.tag = 1337;
+- (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location {
+    // only prevent on scrollviews
     
-    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        [recog _touchesBegan:set withEvent:event];
+    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
+        
+        return YES;
     }
+    
+    // Base case!
+    return NO;
+}
+
+- (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    XENlog(@"*** Forwarding touches began, %@ with event %@", touches, event);
+    
+    [self _forwardTouches:touches withEvent:event forType:0];
 }
 
 - (void)forwardTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UIView *view = [self _webTouchDelegate];
-    NSSet *set = [(UITouchesEvent*)event _allTouches];
-    view.tag = 1337;
+    XENlog(@"*** Forwarding touches moved, %@ with event %@", touches, event);
     
-    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        [recog _touchesMoved:set withEvent:event];
-    }
+    [self _forwardTouches:touches withEvent:event forType:1];
 }
 
 - (void)forwardTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UIView *view = [self _webTouchDelegate];
-    NSSet *set = [(UITouchesEvent*)event _allTouches];
-    view.tag = 1337;
+    XENlog(@"*** Forwarding touches ended, %@ with event %@", touches, event);
     
-    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        [recog _touchesEnded:set withEvent:event];
-    }
+    [self _forwardTouches:touches withEvent:event forType:2];
 }
 
 - (void)forwardTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    XENlog(@"*** Forwarding touches cancelled, %@ with event %@", touches, event);
+    
+    [self _forwardTouches:touches withEvent:event forType:3];
+}
+
+- (void)_forwardTouches:(NSSet*)touches withEvent:(UIEvent*)event forType:(int)type {
+    // First, forward to the web touch recognisers
     UIView *view = [self _webTouchDelegate];
     NSSet *set = [(UITouchesEvent*)event _allTouches];
     view.tag = 1337;
     
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        [recog _touchesCancelled:set withEvent:event];
+        switch (type) {
+            case 0:
+                [recog _touchesBegan:set withEvent:event];
+                break;
+            case 1:
+                [recog _touchesMoved:set withEvent:event];
+                break;
+            case 2:
+                [recog _touchesEnded:set withEvent:event];
+                break;
+            case 3:
+                [recog _touchesCancelled:set withEvent:event];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    // Now, forward to any scrollView in hierarchy, if necessary
+    
+    if (type == 0) {
+        CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
+        self._touchForwardedView = [view hitTest:hitPoint withEvent:event];
+        
+        if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
+            self._touchForwardedView = [self._touchForwardedView superview];
+        }
+    }
+    
+    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
+        // Need to forward to the scrollView also!
+        XENlog(@"Forwarding to scroll view...");
+        
+        // Used for getting touches for gestureRecognizers.
+        NSInteger oldTag = self._touchForwardedView.tag;
+        self._touchForwardedView.tag = 1337;
+        
+        // Forward to gestures also
+        for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
+            // If the (converted) touch is outside of the bounds of the gesture's view, then don't start
+            
+            switch (type) {
+                case 0:
+                    [recog _touchesBegan:set withEvent:event];
+                    break;
+                case 1:
+                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    [recog _delayTouchesForEventIfNeeded:event];
+                    [recog _touchesMoved:set withEvent:event];
+                    break;
+                case 2:
+                    [recog _touchesEnded:set withEvent:event];
+                    
+                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    [recog _clearDelayedTouches];
+                    [recog _resetGestureRecognizer];
+                    break;
+                case 3:
+                    [recog _touchesCancelled:set withEvent:event];
+                    
+                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    [recog _clearDelayedTouches];
+                    [recog _resetGestureRecognizer];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        self._touchForwardedView.tag = oldTag;
     }
 }
 

@@ -38,8 +38,13 @@
 }
 
 - (void)loadView {
-    self.view = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
+    self.view = [[XENWidgetLayerTouchStealingView alloc] initWithWidgetController:self];
     self.view.backgroundColor = [UIColor clearColor];
+    
+    [(XENWidgetLayerTouchStealingView*)self.view setDelegate:self];
+    
+    /*self.view = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
+    self.view.backgroundColor = [UIColor clearColor];*/
 }
 
 - (void)_setupMultiplexedWidgetsForLocation:(XENHLayerLocation)location {
@@ -212,6 +217,19 @@
     }
     
     return NO;
+}
+
+- (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location {
+    BOOL anyPrevention = NO;
+    
+    for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
+        if ([widgetController canPreventGestureRecognizer:arg1 atLocation:location]) {
+            anyPrevention = YES;
+            break;
+        }
+    }
+    
+    return anyPrevention;
 }
 
 - (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

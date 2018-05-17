@@ -88,6 +88,16 @@
 - (void)_touchesMoved:(id)arg1 withEvent:(id)arg2;
 - (bool)_isActive;
 - (bool)_isRecognized;
+
+- (void)_updateGestureWithEvent:(id)arg1 buttonEvent:(id)arg2;
+- (void)_delayTouchesForEventIfNeeded:(id)arg1;
+
+- (void)_clearDelayedTouches;
+- (void)_resetGestureRecognizer;
+@end
+
+@interface UITouch (Private2)
+- (CGPoint)_locationInSceneReferenceSpace;
 @end
 
 #endif /* PrivateWebKitHeaders_h */

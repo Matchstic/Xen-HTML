@@ -7,8 +7,9 @@
 
 #import <UIKit/UIKit.h>
 #import "XENHResources.h"
+#import "XENWidgetLayerTouchStealingView.h"
 
-@interface XENHWidgetLayerController : UIViewController
+@interface XENHWidgetLayerController : UIViewController <XENWidgetLayerTouchStealingViewDelegate>
 
 @property (nonatomic, readonly) XENHLayerLocation layerLocation;
 @property (nonatomic, strong) NSMutableDictionary *multiplexedWidgets;
@@ -33,6 +34,7 @@
 
 // Forwarding of touches through to internal widgets array
 - (BOOL)isAnyWidgetTrackingTouch;
+- (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location;
 - (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)forwardTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)forwardTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;

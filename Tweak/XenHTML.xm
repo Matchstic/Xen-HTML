@@ -23,7 +23,7 @@
 #include "WebCycript.h"
 #include <dlfcn.h>
 #include <JavaScriptCore/JSContextRef.h> // For debug support
-#import "XENHTapGestureRecognizer.h"
+#import "XENHTouchForwardingRecognizer.h"
 #import "XENSetupWindow.h"
 #import <objc/runtime.h>
 
@@ -284,6 +284,8 @@
 
 @interface UITouch (touch)
 - (void)setView:(id)arg1;
+- (void)set_xh_forwardingView:(id)view;
+- (id)_xh_forwardingView;
 @end
 
 @interface SBFolderIconBackgroundView : UIView
@@ -330,7 +332,8 @@ static XENHWidgetLayerController *sbhtmlViewController;
 static PHContainerView * __weak phContainerView;
 static UIView * __weak lsView;
 static NSMutableArray *foregroundHiddenRequesters;
-static XENHTapGestureRecognizer *lsBackgroundForwarder;
+static XENHTouchForwardingRecognizer *lsBackgroundForwarder;
+static XENHTouchForwardingRecognizer *sbhtmlForwardingGesture;
 static BOOL iOS10ForegroundAddAttempted = NO;
 static XENDashBoardWebViewController *iOS10ForegroundWrapperController;
 
@@ -1911,8 +1914,6 @@ void cancelIdleTimer() {
 
 %hook SBHomeScreenViewController
 
-static XENHTapGestureRecognizer *tap;
-
 -(void)loadView {
     %orig;
     
@@ -1926,6 +1927,8 @@ static XENHTapGestureRecognizer *tap;
         XENlog(@"Loading SBHTML view");
         sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
         [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+        
+        sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
         
         XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
     }
@@ -1947,9 +1950,7 @@ static XENHTapGestureRecognizer *tap;
     if ([XENHResources SBEnabled]) {
         [XENHResources setCurrentOrientation:orientation];
         
-        //[UIView animateWithDuration:duration animations:^{
-            [sbhtmlViewController rotateToOrientation:orientation];
-        //}];
+        [sbhtmlViewController rotateToOrientation:orientation];
     }
 }
 
@@ -1958,15 +1959,20 @@ static XENHTapGestureRecognizer *tap;
     UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
     
     if (mainView && [XENHResources SBAllowTouch]) {
-        //tap = [[XENHTapGestureRecognizer alloc] initWithTarget:self action:@selector(_xenhtml_handleDidTap:) touchDelegate:[sbhtmlViewController _webTouchDelegate]];
         
-        tap = [[XENHTapGestureRecognizer alloc] initWithTarget:self action:@selector(_xenhtml_handleDidTap:)];
-        tap.delaysTouchesBegan = NO;
-        tap.cancelsTouchesInView = NO;
+        Class iwidgetsClass = objc_getClass("IWWidgetsView");
+        NSArray *ignoredViews;
+        if (iwidgetsClass != nil) {
+            ignoredViews = @[iwidgetsClass, objc_getClass("SBRootIconListView")];
+        } else {
+            ignoredViews = @[objc_getClass("SBIconView")];
+        }
         
-        // Need to fail with the main scrollview's gestures.
+        sbhtmlForwardingGesture = [[XENHTouchForwardingRecognizer alloc] initWithWidgetController:sbhtmlViewController andIgnoredViewClasses:ignoredViews];
+        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake(40.0, 20.0, 0.0, 20.0);
         
-        [mainView addGestureRecognizer:tap];
+        // Need to fail the main scrollview's gestures?
+        [mainView addGestureRecognizer:sbhtmlForwardingGesture];
     }
 }
 
@@ -1975,15 +1981,15 @@ static XENHTapGestureRecognizer *tap;
     // Also, handle the touch gesture recongizer!
     if ([XENHResources SBEnabled] && [XENHResources SBAllowTouch]) {
         // Add gesture if not present
-        if (!tap) {
+        if (!sbhtmlForwardingGesture) {
             [self _xenhtml_addTouchRecogniser];
         }
     } else {
         // Remove gesture
         UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
-        [mainView removeGestureRecognizer:tap];
+        [mainView removeGestureRecognizer:sbhtmlForwardingGesture];
         
-        tap = nil;
+        sbhtmlForwardingGesture = nil;
     }
 }
 
@@ -2000,6 +2006,8 @@ static XENHTapGestureRecognizer *tap;
                 XENlog(@"Loading SBHTML view");
                 sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
                 [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                
+                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
             }
         }
     } else {
@@ -2010,36 +2018,6 @@ static XENHTapGestureRecognizer *tap;
 }
 
 #pragma mark Handle SBHTML touches (iOS 9+)
-
-%new
--(void)_xenhtml_handleDidTap:(XENHTapGestureRecognizer*)sender {
-    if (!sbhtmlViewController) {
-        return; // No point forwarding if no widget enabled.
-    }
-    
-    // We need to ensure we don't allow touches through an icon.
-    UITouch *touch = [[sender._xenhtml_event allTouches] anyObject];
-    CGPoint pointInView = [touch locationInView:self.view.superview];
-    
-    UIView *hittest = [self.view hitTest:pointInView withEvent:sender._xenhtml_event];
-    
-    // This nicely handles pretty much everything, including when in folders, Spotlight, et al.
-    if (![[hittest class] isEqual:objc_getClass("IWWidgetsView")] && ![[hittest class] isEqual:objc_getClass("SBRootIconListView")]) {
-        return;
-    }
-    
-    if (sender.state == UIGestureRecognizerStateBegan) {
-        [sbhtmlViewController forwardTouchesBegan:sender._xenhtml_touches withEvent:sender._xenhtml_event];
-    } else if (sender.state == UIGestureRecognizerStateChanged) {
-        [sbhtmlViewController forwardTouchesMoved:sender._xenhtml_touches withEvent:sender._xenhtml_event];
-    } else if (sender.state == UIGestureRecognizerStateEnded) {
-        [sbhtmlViewController forwardTouchesEnded:sender._xenhtml_touches withEvent:sender._xenhtml_event];
-    } else if (sender.state == UIGestureRecognizerStateCancelled) {
-        [sbhtmlViewController forwardTouchesCancelled:sender._xenhtml_touches withEvent:sender._xenhtml_event];
-    }
-    
-    // CHECKME: also deliver this touch through to the original view, just to be nice?
-}
 
 %new
 - (BOOL)shouldIgnoreWebTouch {
@@ -2060,11 +2038,6 @@ static XENHTapGestureRecognizer *tap;
     
     if ([XENHResources SBEnabled] && sbhtmlViewController) {
         sbhtmlViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        
-        // Need to update the tap gesture with the offsets.
-        /*CGPoint offset = [sbhtmlViewController currentWebViewPosition];
-        tap.xOffset = offset.x;
-        tap.yOffset = offset.y;*/
     }
 }
 
@@ -2755,6 +2728,124 @@ static void showForegroundForLSNotifIfNeeded() {
         return %orig;
     }
 }
+
+- (NSSet*)touchesForView:(UIView*)arg1 {
+    if (arg1.tag == 1337 && ([[arg1 class] isKindOfClass:objc_getClass("UIScrollView")] || [[arg1 class] isEqual:objc_getClass("UIWebOverflowScrollView")])) {
+        NSSet *set = [self _allTouches];
+        
+        for (UITouch *touch in set) {
+            [touch set_xh_forwardingView:arg1];
+        }
+        
+        return set;
+    } else {
+        return %orig;
+    }
+}
+
+%end
+
+// Debugging!
+/*
+# define HBLogDebug XENlog
+
+%hook UIScrollViewPanGestureRecognizer
+
+- (void)setCancelsTouchesInView:(bool )cancelsTouchesInView { %log; %orig; }
+
+- (bool)_acceptsFailureRequirements { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (void)_cancelRecognition { %log; %orig; }
+- (void)_clearDelayedTouches { %log; %orig; }
+- (void)_delayTouch:(id)arg1 forEvent:(id)arg2 { %log; %orig; }
+- (void)_delayTouchesForEvent:(id)arg1 inPhase:(long long)arg2 { %log; %orig; }
+- (void)_delayTouchesForEventIfNeeded:(id)arg1 { %log; %orig; }
+- (id)_delayedTouches { %log; id r = %orig; XENlog(@" = %@", r); return r; }
+- (bool)_delegateCanBePreventedByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_delegateCanPreventGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_delegateShouldReceivePress:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_delegateShouldReceiveTouch:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (void)_enqueueDelayedTouchToSend:(id)arg1 { %log; %orig; }
+- (void)_enqueueDelayedTouchesAndPressesToSend { %log; %orig; }
+- (void)_enqueueDelayedTouchesToSend { %log; %orig; }
+- (void)_ignoreTouchesAndPressesFromEvent:(id)arg1 pressesEvent:(id)arg2 { %log; %orig; }
+
+- (void)_registerTouches:(id)arg1 forEstimationUpdatesWithEvent:(id)arg2 { %log; %orig; }
+
+- (void)_requiredGestureRecognizerCompleted:(id)arg1 withEvent:(id)arg2 pressesEvent:(id)arg3 { %log; %orig; }
+- (bool)_requiredPreviewForceStateSatisfiedByForceLevel:(long long)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_requiresGestureRecognizerToFail:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_requiresSystemGesturesToFail { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (void)_resetGestureRecognizer { %log; %orig; }
+- (void)_setDirty { %log; %orig; }
+- (bool)_shouldBegin { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)_shouldReceiveTouch:(id)arg1 recognizerView:(id)arg2 touchView:(id)arg3 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+
+- (void)_touchWasCancelled:(id)arg1 { %log; %orig; }
+- (void)_touchesBegan:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)_touchesCancelled:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)_touchesEnded:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)_touchesMoved:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+
+- (void)_updateGestureWithEvent:(id)arg1 buttonEvent:(id)arg2 { %log; %orig; }
+- (bool)_wantsPartialTouchSequences { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (void)_willBeginAfterSatisfyingFailureRequirements { %log; %orig; }
+- (void)addTarget:(id)arg1 action:(SEL)arg2 { %log; %orig; }
+- (bool)canBePreventedByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)canPreventGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+
+- (bool)delaysTouchesBegan { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)delaysTouchesEnded { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+
+- (void)ignoreTouch:(id)arg1 forEvent:(id)arg2 { %log; %orig; }
+
+- (id)initWithTarget:(id)arg1 action:(SEL)arg2 { %log; id r = %orig; XENlog(@" = %@", r); return r; }
+
+- (void)requireGestureRecognizerToFail:(id)arg1 { %log; %orig; }
+
+- (bool)shouldBeRequiredToFailByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (bool)shouldRequireFailureOfGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
+- (void)touchesBegan:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)touchesCancelled:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)touchesEnded:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+- (void)touchesEstimatedPropertiesUpdated:(id)arg1 { %log; %orig; }
+- (void)touchesMoved:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
+
+- (void)cancel { %log; %orig; }
+%end*/
+
+%hook UITouch
+
+%property (nonatomic, assign) id _xh_forwardingView;
+
+- (id)view {
+    return [self _xh_forwardingView] != nil ? [self _xh_forwardingView] : %orig;
+}
+
+/*- (CGPoint)locationInView:(id)arg1 {
+    if ([self _xh_forwardingView] != nil) {
+        XENlog(@"Location in view: %@", arg1);
+        
+        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
+        CGPoint orig = %orig;
+        
+        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
+    } else {
+        return %orig;
+    }
+}
+
+- (CGPoint)previousLocationInView:(id)arg1 {
+    if ([self _xh_forwardingView] != nil) {
+        XENlog(@"Previous location in view: %@", arg1);
+        
+        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
+        CGPoint orig = %orig;
+        
+        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
+    } else {
+        return %orig;
+    }
+}*/
 
 %end
 

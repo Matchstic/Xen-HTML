@@ -19,6 +19,9 @@
 @property (nonatomic, strong) NSDictionary *widgetMetadata;
 @property (nonatomic, readwrite) BOOL usingLegacyWebView;
 
+// Touch forwarding
+@property (nonatomic, strong) UIView *_touchForwardedView;
+
 // Initialisation
 - (instancetype)init;
 
@@ -38,6 +41,7 @@
 
 // Touch forwarding
 - (BOOL)isWidgetTrackingTouch;
+- (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location;
 - (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)forwardTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 - (void)forwardTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
