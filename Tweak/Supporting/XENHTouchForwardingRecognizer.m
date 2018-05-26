@@ -152,14 +152,30 @@
     return NO;
 }
 
+- (BOOL)_shouldReceiveTouch:(UITouch*)touch recognizerView:(UIView*)arg2 touchView:(UIView*)arg3; {
+    CGPoint pointInView = [touch locationInView:self.view.superview];
+    
+    // if outside of the safe areas, then don't receieve touch!
+    if (pointInView.x < self.safeAreaInsets.left ||
+        pointInView.x > self.view.bounds.size.width - self.safeAreaInsets.right ||
+        pointInView.y < self.safeAreaInsets.top ||
+        pointInView.y > self.view.bounds.size.height - self.safeAreaInsets.bottom) {
+        
+        // XXX: This is set to YES on the very first tap on LS for some reason?
+        // Check into this at some time.
+        XENlog(@"Not forwarding touch; outside of the safe area!");
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 {
-    XENlog(@"Can prevent: %@", arg1);
     
     UITouch *touch = [[self._xenhtml_event allTouches] anyObject];
     CGPoint pointInView = [touch locationInView:self.view.superview];
     
     if (self._transientOutsideSafeArea == YES) {
-        XENlog(@"*** outside safe area!");
         return NO;
     }
     
