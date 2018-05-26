@@ -1,9 +1,20 @@
-//
-//  XENHWidgetController.m
-//  Tweak
-//
-//  Created by Matt Clarke on 30/04/2018.
-//
+/*
+ Copyright (C) 2018  Matt Clarke
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
 
 #import "XENHWidgetController.h"
 #import "XENHTouchPassThroughView.h"
@@ -51,6 +62,10 @@
 
 - (void)dealloc {
     [self unloadWidget];
+}
+
+- (NSString*)description {
+    return [NSString stringWithFormat:@"<XENHWidgetController: %p; location = '%@'; legacy mode = %d>", self, self.widgetIndexFile, self.usingLegacyWebView];
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -176,17 +191,19 @@
     self.webView.scrollView.layer.masksToBounds = NO;
     
     if (!widgetCanScroll) {
-        _webView.scrollView.scrollEnabled = NO;
-        _webView.scrollView.contentSize = _webView.bounds.size;
+        self.webView.scrollView.scrollEnabled = NO;
+        self.webView.scrollView.contentSize = self.webView.bounds.size;
     } else {
-        _webView.scrollView.scrollEnabled = YES;
+        self.webView.scrollView.scrollEnabled = YES;
     }
     
-    _webView.scrollView.bounces = NO;
-    _webView.scrollView.scrollsToTop = NO;
-    _webView.scrollView.minimumZoomScale = 1.0;
-    _webView.scrollView.maximumZoomScale = 1.0;
-    _webView.scrollView.multipleTouchEnabled = YES;
+    self.webView.scrollView.bounces = NO;
+    self.webView.scrollView.scrollsToTop = NO;
+    self.webView.scrollView.minimumZoomScale = 1.0;
+    self.webView.scrollView.maximumZoomScale = 1.0;
+    self.webView.scrollView.multipleTouchEnabled = YES;
+    
+    self.webView.allowsLinkPreview = NO;
     
     NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
     if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
@@ -251,6 +268,8 @@
     self.legacyWebView.scalesPageToFit = NO;
     self.legacyWebView.clipsToBounds = NO;
     self.legacyWebView.scrollView.layer.masksToBounds = NO;
+    
+    self.legacyWebView.allowsLinkPreview = NO;
     
     // Nitro
     [preferences setAccelerated2dCanvasEnabled:YES];
@@ -459,26 +478,18 @@
 }
 
 - (void)forwardTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    XENlog(@"*** Forwarding touches began, %@ with event %@", touches, event);
-    
     [self _forwardTouches:touches withEvent:event forType:0];
 }
 
 - (void)forwardTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    XENlog(@"*** Forwarding touches moved, %@ with event %@", touches, event);
-    
     [self _forwardTouches:touches withEvent:event forType:1];
 }
 
 - (void)forwardTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    XENlog(@"*** Forwarding touches ended, %@ with event %@", touches, event);
-    
     [self _forwardTouches:touches withEvent:event forType:2];
 }
 
 - (void)forwardTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    XENlog(@"*** Forwarding touches cancelled, %@ with event %@", touches, event);
-    
     [self _forwardTouches:touches withEvent:event forType:3];
 }
 
@@ -521,7 +532,6 @@
     
     if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
         // Need to forward to the scrollView also!
-        XENlog(@"Forwarding to scroll view...");
         
         // Used for getting touches for gestureRecognizers.
         NSInteger oldTag = self._touchForwardedView.tag;
@@ -562,6 +572,11 @@
         
         self._touchForwardedView.tag = oldTag;
     }
+}
+
+- (UIView*)hitTestForEvent:(UIEvent *)event {
+    CGPoint point = [[event.allTouches anyObject] _locationInSceneReferenceSpace];
+    return [self.view hitTest:point withEvent:event];
 }
 
 // **************************************************************************

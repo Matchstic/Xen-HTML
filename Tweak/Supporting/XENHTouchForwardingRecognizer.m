@@ -55,8 +55,8 @@
         pointInView.y < self.safeAreaInsets.top ||
         pointInView.y > self.view.bounds.size.height - self.safeAreaInsets.bottom) {
         
-        XENlog(@"*** outside safe area - bounds!");
-        
+        // XXX: This is set to YES on the very first tap on LS for some reason?
+        // Check into this at some time.
         self._transientOutsideSafeArea = YES;
     }
     
@@ -65,8 +65,6 @@
     
     // If the view that would be tapped is ignorable, don't forward here
     if ([self.ignoredViewClasses containsObject:[hittest class]]) {
-        XENlog(@"*** outside safe area - view!");
-        
         self._transientOutsideSafeArea = YES;
     }
     
@@ -145,6 +143,7 @@
     }
 }
 
+// Can't quite remember why this is a nop.
 - (void)_handleEvent:(id)sender {}
 
 #pragma mark Handle other gestures
@@ -154,15 +153,13 @@
 }
 
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 {
-    if (![[arg1.view class] isEqual:objc_getClass("SBIconScrollView")]) {
-        return NO;
-    }
+    XENlog(@"Can prevent: %@", arg1);
     
     UITouch *touch = [[self._xenhtml_event allTouches] anyObject];
     CGPoint pointInView = [touch locationInView:self.view.superview];
     
     if (self._transientOutsideSafeArea == YES) {
-        XENlog(@"*** canPreventGestureRecognizer: outside safe area!");
+        XENlog(@"*** outside safe area!");
         return NO;
     }
     

@@ -1960,18 +1960,25 @@ void cancelIdleTimer() {
     
     if (mainView && [XENHResources SBAllowTouch]) {
         
+        // Need to whitelist some views on which touch forwarding should never prevent
+        NSMutableArray *ignoredViews = [@[ objc_getClass("SBIconView"),
+                                           objc_getClass("SBFolderIconView"),
+                                           objc_getClass("SBFloatyFolderView"),
+                                           objc_getClass("SBCloseBoxView"),
+                                           objc_getClass("SBXCloseBoxView"),
+                                           objc_getClass("SBHomeScreenButton"),
+                                           objc_getClass("SBEditingDoneButton")
+                                        ] mutableCopy];
+        
+        // Load iWidgets into the whitelist if present
         Class iwidgetsClass = objc_getClass("IWWidgetsView");
-        NSArray *ignoredViews;
-        if (iwidgetsClass != nil) {
-            ignoredViews = @[iwidgetsClass, objc_getClass("SBRootIconListView")];
-        } else {
-            ignoredViews = @[objc_getClass("SBIconView")];
-        }
+        if (iwidgetsClass != nil)
+            [ignoredViews addObject:iwidgetsClass];
         
         sbhtmlForwardingGesture = [[XENHTouchForwardingRecognizer alloc] initWithWidgetController:sbhtmlViewController andIgnoredViewClasses:ignoredViews];
-        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake(40.0, 20.0, 0.0, 20.0);
+        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + 40.0, 20.0, 20.0, 20.0);
         
-        // Need to fail the main scrollview's gestures?
+        // Add the gesture!
         [mainView addGestureRecognizer:sbhtmlForwardingGesture];
     }
 }

@@ -345,7 +345,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBApplication; @class SBDashBoardNotificationAdjunctListViewController; @class SBDashBoardFixedFooterView; @class _NowPlayingArtView; @class WKWebView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBManualIdleTimer; @class SBMainStatusBarStateProvider; @class SBDashBoardCombinedListViewController; @class SBDashBoardNotificationListViewController; @class SBDockView; @class SBFLockScreenMetrics; @class SBFolderIconBackgroundView; @class SBDashBoardQuickActionsViewController; @class SBFloatingDockPlatterView; @class SBDashBoardMediaArtworkViewController; @class SBPagedScrollView; @class SBCoverSheetWindow; @class SBRootFolderView; @class SBFLockScreenDateView; @class SBLockScreenNotificationListController; @class UIWebView; @class SBIconView; @class SBHomeScreenView; @class SBDashBoardPageViewController; @class SBLockScreenView; @class SBDashBoardTeachableMomentsContainerView; @class PHContainerView; @class XENDashBoardWebViewController; @class SBDashBoardViewController; @class SBHomeScreenViewController; @class SBLockScreenBounceAnimator; @class UITouchesEvent; @class SBUIProudLockIconView; @class SBHorizontalScrollFailureRecognizer; @class SBUICallToActionLabel; @class UITouch; @class SBLockScreenViewController; @class SBDashBoardView; @class SBLockScreenManager; @class SBUIController; @class XENNotificationsCollectionViewController; @class XENResources; @class SBDashBoardMainPageContentViewController; @class SBAlertWindow; @class SBIdleTimerDefaults; @class SBLockScreenNotificationListView; @class SBDashBoardMainPageViewController; @class SBMainWorkspace; @class SBDashBoardMainPageView; @class SBBacklightController; @class SBMainSwitcherViewController; @class SpringBoard; @class SBScreenWakeAnimationController; 
+@class SBLockScreenNotificationListController; @class SBHomeScreenView; @class XENDashBoardWebViewController; @class SBFLockScreenMetrics; @class SBDashBoardQuickActionsViewController; @class SBHomeScreenViewController; @class SBLockScreenView; @class SBManualIdleTimer; @class XENNotificationsCollectionViewController; @class SBLockScreenNotificationListView; @class SBRootFolderView; @class WKWebView; @class SBApplication; @class SBDashBoardNotificationListViewController; @class SBDashBoardMainPageViewController; @class XENResources; @class SBLockScreenBounceAnimator; @class SBDashBoardViewController; @class SBDashBoardMainPageView; @class SBUICallToActionLabel; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardView; @class SBLockScreenManager; @class UITouchesEvent; @class SBFolderIconBackgroundView; @class SBLockScreenViewController; @class SBFloatingDockPlatterView; @class SBBacklightController; @class SBDashBoardTeachableMomentsContainerView; @class UIWebView; @class _NowPlayingArtView; @class SBMainWorkspace; @class UITouch; @class SBPagedScrollView; @class SBDashBoardFixedFooterView; @class SBMainSwitcherViewController; @class SBHorizontalScrollFailureRecognizer; @class SpringBoard; @class SBDashBoardPageViewController; @class SBDockView; @class SBDashBoardMainPageContentViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBUIController; @class SBIconView; @class SBFLockScreenDateView; @class SBCoverSheetWindow; @class SBUIProudLockIconView; @class SBIdleTimerDefaults; @class SBScreenWakeAnimationController; @class SBDashBoardNotificationAdjunctListViewController; @class SBMainStatusBarStateProvider; @class PHContainerView; @class SBDashBoardCombinedListViewController; @class SBAlertWindow; 
 
 
 #line 326 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -1986,16 +1986,22 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$_xenhtml_addTou
     
     if (mainView && [XENHResources SBAllowTouch]) {
         
+        
+        NSMutableArray *ignoredViews = [@[ objc_getClass("SBIconView"),
+                                           objc_getClass("SBFolderIconView"),
+                                           objc_getClass("SBFloatyFolderView"),
+                                           objc_getClass("SBCloseBoxView"),
+                                           objc_getClass("SBXCloseBoxView"),
+                                           objc_getClass("SBHomeScreenButton"),
+                                           objc_getClass("SBEditingDoneButton")] mutableCopy];
+        
+        
         Class iwidgetsClass = objc_getClass("IWWidgetsView");
-        NSArray *ignoredViews;
-        if (iwidgetsClass != nil) {
-            ignoredViews = @[iwidgetsClass, objc_getClass("SBRootIconListView")];
-        } else {
-            ignoredViews = @[objc_getClass("SBIconView")];
-        }
+        if (iwidgetsClass != nil)
+            [ignoredViews addObject:iwidgetsClass];
         
         sbhtmlForwardingGesture = [[XENHTouchForwardingRecognizer alloc] initWithWidgetController:sbhtmlViewController andIgnoredViewClasses:ignoredViews];
-        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake(40.0, 20.0, 0.0, 20.0);
+        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + 40.0, 20.0, 20.0, 20.0);
         
         
         [mainView addGestureRecognizer:sbhtmlForwardingGesture];
@@ -3012,7 +3018,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_c9dba590(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_9798c9cb(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
