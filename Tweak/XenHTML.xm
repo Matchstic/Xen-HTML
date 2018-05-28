@@ -1961,13 +1961,10 @@ void cancelIdleTimer() {
     if (mainView && [XENHResources SBAllowTouch]) {
         
         // Need to whitelist some views on which touch forwarding should never prevent
-        NSMutableArray *ignoredViews = [@[ objc_getClass("SBIconView"),
+        /*NSMutableArray *ignoredViews = [@[ objc_getClass("SBIconView"),
                                            objc_getClass("SBFolderIconView"),
                                            objc_getClass("SBFloatyFolderView"),
-                                           objc_getClass("SBCloseBoxView"),
-                                           objc_getClass("SBXCloseBoxView"),
-                                           objc_getClass("SBHomeScreenButton"),
-                                           objc_getClass("SBEditingDoneButton")
+                                           objc_getClass("SBCloseBoxView")
                                         ] mutableCopy];
         
         // Load iWidgets into the whitelist if present
@@ -1975,8 +1972,24 @@ void cancelIdleTimer() {
         if (iwidgetsClass != nil)
             [ignoredViews addObject:iwidgetsClass];
         
+        // Non-existant on some iOS versions
+        if (objc_getClass("SBXCloseBoxView") != nil) {
+            [ignoredViews addObject:objc_getClass("SBXCloseBoxView")];
+        }
+        
+        // Non-existant on some iOS versions
+        if (objc_getClass("SBHomeScreenButton") != nil) {
+            [ignoredViews addObject:objc_getClass("SBHomeScreenButton")];
+            [ignoredViews addObject:objc_getClass("SBEditingDoneButton")];
+        }*/
+        
+        // Just here as a stub now
+        NSArray *ignoredViews = @[];
+        
         sbhtmlForwardingGesture = [[XENHTouchForwardingRecognizer alloc] initWithWidgetController:sbhtmlViewController andIgnoredViewClasses:ignoredViews];
-        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + 40.0, 20.0, 20.0, 20.0);
+        
+        CGFloat inset = 30.0;
+        sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + inset, inset, inset, inset);
         
         // Add the gesture!
         [mainView addGestureRecognizer:sbhtmlForwardingGesture];
@@ -2994,6 +3007,8 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 #pragma mark Constructor
 
 %ctor {
+    XENlog(@"Injecting Xen HTML");
+    
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];

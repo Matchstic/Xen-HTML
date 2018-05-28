@@ -22,6 +22,10 @@
 #import <objc/runtime.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
+@interface UITouch (Private2)
+- (CGPoint)_locationInSceneReferenceSpace;
+@end
+
 @implementation XENHTouchForwardingRecognizer
 
 - (instancetype)initWithWidgetController:(XENHWidgetLayerController*)widgetController andIgnoredViewClasses:(NSArray*)ignoredViewClasses {
@@ -29,13 +33,13 @@
     
     if (self) {
         self.widgetController = widgetController;
-        self.ignoredViewClasses = ignoredViewClasses;
         self.safeAreaInsets = UIEdgeInsetsZero;
-        self._transientOutsideSafeArea = NO;
     }
     
     return self;
 }
+
+- (void)_handleEvent:(id)sender {}
 
 - (void)reset {
     [super reset];
@@ -44,30 +48,6 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    self._transientOutsideSafeArea = NO;
-    
-    // Handle safe area - bounds
-    UITouch *touch = [[self._xenhtml_event allTouches] anyObject];
-    CGPoint pointInView = [touch locationInView:self.view.superview];
-    
-    if (pointInView.x < self.safeAreaInsets.left ||
-        pointInView.x > self.view.bounds.size.width - self.safeAreaInsets.right ||
-        pointInView.y < self.safeAreaInsets.top ||
-        pointInView.y > self.view.bounds.size.height - self.safeAreaInsets.bottom) {
-        
-        // XXX: This is set to YES on the very first tap on LS for some reason?
-        // Check into this at some time.
-        self._transientOutsideSafeArea = YES;
-    }
-    
-    // Handle safe area - views
-    UIView *hittest = [self.view hitTest:pointInView withEvent:self._xenhtml_event];
-    
-    // If the view that would be tapped is ignorable, don't forward here
-    if ([self.ignoredViewClasses containsObject:[hittest class]]) {
-        self._transientOutsideSafeArea = YES;
-    }
-    
     self._xenhtml_touches = touches;
     self._xenhtml_event = event;
     
@@ -128,7 +108,7 @@
 }
 
 - (void)_processInteraction {
-    if (!self.widgetController || self._transientOutsideSafeArea) {
+    if (!self.widgetController) {
         return; // No point forwarding if no widget enabled.
     }
     
@@ -143,9 +123,6 @@
     }
 }
 
-// Can't quite remember why this is a nop.
-- (void)_handleEvent:(id)sender {}
-
 #pragma mark Handle other gestures
 
 - (BOOL)canBePreventedByGestureRecognizer:(UIGestureRecognizer*)arg1 {
@@ -153,17 +130,28 @@
 }
 
 - (BOOL)_shouldReceiveTouch:(UITouch*)touch recognizerView:(UIView*)arg2 touchView:(UIView*)arg3; {
-    CGPoint pointInView = [touch locationInView:self.view.superview];
+    CGPoint pointInView = [touch _locationInSceneReferenceSpace];
     
-    // if outside of the safe areas, then don't receieve touch!
+    // Handle safe area - insets
     if (pointInView.x < self.safeAreaInsets.left ||
         pointInView.x > self.view.bounds.size.width - self.safeAreaInsets.right ||
         pointInView.y < self.safeAreaInsets.top ||
         pointInView.y > self.view.bounds.size.height - self.safeAreaInsets.bottom) {
         
-        // XXX: This is set to YES on the very first tap on LS for some reason?
-        // Check into this at some time.
-        XENlog(@"Not forwarding touch; outside of the safe area!");
+        // Alright, we're outside the safe area.
+        // If there's a preventative gesture in this safe area, then we must give up touch.
+        
+        BOOL preventingGestures = [self.widgetController canPreventGestureRecognizer:nil atLocation:pointInView];
+        
+        if (preventingGestures) {
+            XENlog(@"Not forwarding touch; outside of the safe area!");
+            return NO;
+        }
+    }
+    
+    // Handle safe area - views
+    if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")]) {
+        XENlog(@"Not forwarding touch; touchView is not SBRootIconListView");
         return NO;
     }
     
@@ -171,17 +159,11 @@
 }
 
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 {
-    
+    // Check if we need to do any gesture prevention for a scrollview.
     UITouch *touch = [[self._xenhtml_event allTouches] anyObject];
-    CGPoint pointInView = [touch locationInView:self.view.superview];
+    CGPoint pointInView = [touch _locationInSceneReferenceSpace];
     
-    if (self._transientOutsideSafeArea == YES) {
-        return NO;
-    }
-    
-    BOOL result = [self.widgetController canPreventGestureRecognizer:arg1 atLocation:pointInView];
-    
-    return result;
+    return [self.widgetController canPreventGestureRecognizer:arg1 atLocation:pointInView];
 }
 
 - (BOOL)cancelsTouchesInView {

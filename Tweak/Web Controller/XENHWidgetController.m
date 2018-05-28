@@ -348,6 +348,8 @@
     if (!widgetCanScroll) {
         self.webView.scrollView.contentSize = self.webView.bounds.size;
         self.legacyWebView.scrollView.contentSize = self.legacyWebView.bounds.size;
+        
+        self.webView.scrollView.scrollEnabled = NO;
     }
 }
 
@@ -400,9 +402,17 @@
         if (self.usingLegacyWebView) {
             self.legacyWebView.hidden = paused;
             self.legacyWebView.alpha = 1.0;
+            
+            // Required to stop the issue of background images disappearing in widgets.
+            [self.legacyWebView setNeedsDisplay];
+            [self.legacyWebView setNeedsLayout];
         } else {
             self.webView.hidden = paused;
             self.webView.alpha = 1.0;
+            
+            // Required to stop the issue of background images disappearing in widgets.
+            [self.webView setNeedsDisplay];
+            [self.webView setNeedsLayout];
         }
     });
 }
@@ -468,7 +478,11 @@
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location {
     // only prevent on scrollviews
     
-    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
+    UIView *view = [self _webTouchDelegate];
+    
+    UIView *_touchForwardedView = [view hitTest:location withEvent:nil];
+    
+    if ([[_touchForwardedView class] isEqual:[UIScrollView class]] || [[_touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
         
         return YES;
     }

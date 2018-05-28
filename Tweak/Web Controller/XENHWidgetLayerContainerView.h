@@ -29,6 +29,4 @@
 
 @property (nonatomic, weak) id<XENHWidgetLayerContainerViewDelegate> delegate;
 
-- (instancetype)initWithWidgetController:(id)controller;
-
 @end

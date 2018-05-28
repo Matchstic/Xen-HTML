@@ -30,7 +30,6 @@
 @property (nonatomic, strong) XENHWidgetLayerController *widgetController;
 @property (nonatomic, strong) NSArray *ignoredViewClasses;
 @property (nonatomic, readwrite) UIEdgeInsets safeAreaInsets;
-@property (nonatomic, readwrite) BOOL _transientOutsideSafeArea;
 
 - (instancetype)initWithWidgetController:(XENHWidgetLayerController*)widgetController andIgnoredViewClasses:(NSArray*)ignoredViewClasses;
 
