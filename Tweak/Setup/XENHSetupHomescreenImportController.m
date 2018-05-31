@@ -100,15 +100,18 @@
     }
     
     switch (shown) {
-        case 0:
+        case 0: {
             // No changes, so continue as normal!
             
             [XENHResources setPreferenceKey:@"SBHideDockBlur" withValue:[NSNumber numberWithBool:NO] andPost:NO];
             [XENHResources setPreferenceKey:@"SBAllowTouch" withValue:[NSNumber numberWithBool:YES] andPost:NO];
-            [XENHResources setPreferenceKey:@"SBLocation" withValue:@"" andPost:YES];
+            
+            NSMutableDictionary *existingWidgets = [XENHResources getPreferenceKey:@"widgets"];
+            [existingWidgets setObject:@{} forKey:@"SBLocation"];
+            [XENHResources setPreferenceKey:@"widgets" withValue:existingWidgets andPost:YES];
             
             break;
-            
+        }
         case 1: {
             // SBHTML
             NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.groovycarrot.SBHTML.plist"];
@@ -125,17 +128,15 @@
             [XENHResources setPreferenceKey:@"SBHideDockBlur" withValue:[NSNumber numberWithBool:dockhidden] andPost:NO];
             [XENHResources setPreferenceKey:@"SBLocation" withValue:activeTheme andPost:NO];
             
-            // Next, pull metadata for this one.
-            NSMutableDictionary *metadata = [[XENHResources rawMetadataForHTMLFile:activeTheme] mutableCopy];
+            // Widget data
+            NSString *key = @"SBBackground";
             
-            NSMutableDictionary *widgetPrefs = [[XENHResources getPreferenceKey:@"widgetPrefs"] mutableCopy];
-            if (!widgetPrefs) {
-                widgetPrefs = [NSMutableDictionary dictionary];
-            }
+            NSArray *widgetArray = @[ activeTheme ];
+            NSDictionary *widgetMetadata = @{ activeTheme: [XENHResources rawMetadataForHTMLFile:activeTheme] };
             
-            [widgetPrefs setObject:metadata forKey:@"SBBackground"];
-            
-            [XENHResources setPreferenceKey:@"widgetPrefs" withValue:widgetPrefs andPost:YES];
+            NSMutableDictionary *existingWidgets = [XENHResources getPreferenceKey:@"widgets"];
+            [existingWidgets setObject:@{ @"widgetArray": widgetArray, @"widgetMetadata": widgetMetadata } forKey:key];
+            [XENHResources setPreferenceKey:@"widgets" withValue:existingWidgets andPost:YES];
             
             break;
         }

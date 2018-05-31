@@ -19,11 +19,10 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    kLocationBackground,
-    kLocationForeground,
-    kLocationWidgets,
-    kLocationSBHTML
-} XENHViewLocation;
+    kLocationLSBackground,
+    kLocationLSForeground,
+    kLocationSBBackground
+} XENHLayerLocation;
 
 #define orient3 [XENHResources getCurrentOrientation]
 
@@ -55,12 +54,14 @@ static BOOL shownGraceEnded = NO;
 @interface XENHResources : NSObject
 
 // Load up views as required.
-+(id)configuredHTMLViewControllerForLocation:(XENHViewLocation)location;
-+(BOOL)useFallbackForHTMLFile:(NSString*)filePath;
-+(NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath;
-+(NSDictionary*)widgetMetadataForLocation:(int)location;
-+(NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath;
-+(NSString*)indexHTMLFileForLocation:(XENHViewLocation)location;
++ (id)widgetLayerControllerForLocation:(XENHLayerLocation)location;
++ (BOOL)widgetLayerHasContentForLocation:(XENHLayerLocation)location;
++ (NSDictionary*)widgetPreferencesForLocation:(XENHLayerLocation)location;
+
+// Metadata
++ (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath;
++ (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath;
++ (BOOL)useFallbackForHTMLFile:(NSString*)filePath;
 
 // Settings handling
 +(void)reloadSettings;
@@ -117,7 +118,7 @@ static BOOL shownGraceEnded = NO;
 
 +(BOOL)LSFullscreenNotifications;
 
-+(BOOL)LSBGAllowTouch;
+//+(BOOL)LSBGAllowTouch;
 
 +(BOOL)LSWidgetScrollPriority;
 

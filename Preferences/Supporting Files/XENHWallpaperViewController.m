@@ -20,34 +20,11 @@
 #import "XENHResources.h"
 #import <objc/runtime.h>
 
-/* Internal headers */
-@interface _UILegibilitySettings : NSObject
-@property (nonatomic, retain) UIColor *contentColor;
-@property (nonatomic) CGFloat imageOutset;
-@property (nonatomic) CGFloat minFillHeight;
-@property (nonatomic, retain) UIColor *primaryColor;
-@property (nonatomic, retain) UIColor *secondaryColor;
-@property (nonatomic) CGFloat shadowAlpha;
-@property (nonatomic, retain) UIColor *shadowColor;
-@property (nonatomic, copy) NSString *shadowCompositingFilterName;
-@property (nonatomic) CGFloat shadowRadius;
-@property (nonatomic) int style;
-- (id)initWithContentColor:(id)arg1 contrast:(double)arg2;
-@end
-
-@interface SBSUIWallpaperPreviewViewController : UIViewController
-@property (nonatomic, readonly, retain) _UILegibilitySettings *legibilitySettings;
-- (id)initWithWallpaperVariant:(int)arg1;
-- (id)_wallpaperView;
-@end
-
-@interface SBFScrollableStaticWallpaperView : UIView
-- (void)setCropRect:(struct CGRect)arg1 zoomScale:(float)arg2;
--(id)_scrollView;
-@end
-
 @interface XENHWallpaperViewController ()
-@property (nonatomic, strong) SBSUIWallpaperPreviewViewController *previewController;
+
+@property (nonatomic, readwrite) int wallpaperVariant;
+@property (nonatomic, strong) UIImageView *wallpaperImageView;
+
 @end
 
 @implementation XENHWallpaperViewController
@@ -67,7 +44,8 @@
     
     if (self) {
         // Doesn't break the status bar!
-        self.previewController = [[objc_getClass("SBSUIWallpaperPreviewViewController") alloc] initWithWallpaperVariant:wallpaperVariant];
+        self.wallpaperVariant = wallpaperVariant;
+        [self _configureWallpaperForVariant:self.wallpaperVariant];
     }
     
     return self;
@@ -76,55 +54,43 @@
 - (void)loadView {
     [super loadView];
     
-    UIView *wallpaperView = [self.previewController _wallpaperView];
-    wallpaperView.clipsToBounds = YES;
-    wallpaperView.userInteractionEnabled = NO;
-    wallpaperView.opaque = YES;
-    
-    [self.view addSubview:wallpaperView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    UIView *wallpaperView = [self.previewController _wallpaperView];
-    if ([wallpaperView isKindOfClass:[objc_getClass("SBFScrollableStaticWallpaperView") class]]) {
-        // Get the scroll view.
-        UIScrollView *scrollView = [(SBFScrollableStaticWallpaperView*)wallpaperView _scrollView];
-        
-        // Sort out the content offset
-        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, 0)];
-    }
+    [self _configureWallpaperForVariant:self.wallpaperVariant];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    UIView *wallpaperView = [self.previewController _wallpaperView];
-    wallpaperView.frame = self.view.bounds;
-    
-    // Sort out weird bits if needed for oversized/undersized wallpapers
-    if ([wallpaperView isKindOfClass:[objc_getClass("SBFScrollableStaticWallpaperView") class]]) {
-        // Get the scroll view.
-        UIScrollView *scrollView = [(SBFScrollableStaticWallpaperView*)wallpaperView _scrollView];
-        
-        // Sort out the content offset
-        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, 0)];
-    }
+    self.wallpaperImageView.frame = self.view.bounds;
+}
+
+- (void)reloadWallpaper {
+    [self _configureWallpaperForVariant:self.wallpaperVariant];
 }
 
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
 
--(BOOL)isWallpaperImageDark {
-    _UILegibilitySettings *settings = self.previewController.legibilitySettings;
+- (BOOL)isWallpaperImageDark {
+    UIImage *workingImage = self.wallpaperImageView.image;
     
-    UIColor *colour = settings.primaryColor;
+    if (!workingImage) {
+        workingImage = [self _wallpaperImageForVariant:self.wallpaperVariant];
+    }
     
-    CGFloat red, blue, green, alpha;
+    // Get average colour, then check luminance.
+    CGSize size = {1, 1};
     
-    [colour getRed:&red green:&green blue:&blue alpha:&alpha];
+    UIGraphicsBeginImageContext(size);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetInterpolationQuality(ctx, kCGInterpolationMedium);
+    
+    [workingImage drawInRect:(CGRect){.size = size} blendMode:kCGBlendModeCopy alpha:1];
+    
+    uint8_t *data = CGBitmapContextGetData(ctx);
+    CGFloat red = data[0] / 255.f, green = data[1] / 255.f, blue = data[0] / 255.f;
+
+    UIGraphicsEndImageContext();
     
     CGFloat brightness = red * 0.3 + green * 0.59 + blue * 0.11;
     
@@ -133,39 +99,112 @@
 
 - (void)cacheWallpaperImageToFilesystem {
     // Render to img file.
-    UIImage *wallpaperImage = [self _imageWithView:[self.previewController _wallpaperView]];
-    [UIImagePNGRepresentation(wallpaperImage) writeToFile:@"/var/mobile/Library/Caches/com.apple.Preferences/xen_wallpaperCache.png" atomically:YES];
+    //UIImage *wallpaperImage = [self _imageWithView:[self.previewController _wallpaperView]];
+    UIImage *wallpaperImage = self.wallpaperImageView.image;
+    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        [UIImagePNGRepresentation(wallpaperImage) writeToFile:@"/var/mobile/Library/Caches/com.apple.Preferences/xen_wallpaperCache.png" atomically:YES];
+    });
 }
 
--(UIImage *)_imageWithView:(UIView *)view {
-    [view setNeedsDisplay];
-    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, YES, [UIScreen mainScreen].scale);
-    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
-    
-    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return img;
-}
+//////////////////////////////////////////////////////////////////////////////////////////
+// Static wallpaper loading
+//////////////////////////////////////////////////////////////////////////////////////////
 
--(UIView*)_traverseHierarchyForClass:(Class)cl andView:(UIView*)toTraverse {
-    UIView *found = nil;
+- (void)_configureWallpaperForVariant:(int)variant {
+    UIImage *wallpaperStaticImage = [self _wallpaperImageForVariant:self.wallpaperVariant];
     
-    for (UIView *view in toTraverse.subviews) {
-        if (!found) {
-            if ([view.class isEqual:cl]) {
-                found = view;
-                break;
-            } else {
-                found = [self _traverseHierarchyForClass:cl andView:view];
-            }
-        } else {
-            break;
+    // Set image!
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.wallpaperImageView) {
+            self.wallpaperImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+            self.wallpaperImageView.clipsToBounds = YES;
+            
+            [self.view addSubview:self.wallpaperImageView];
         }
+        
+        self.wallpaperImageView.image = wallpaperStaticImage;
+        self.wallpaperImageView.contentMode = UIViewContentModeScaleAspectFill;
+    });
+}
+
+- (UIImage*)_wallpaperImageForVariant:(int)variant {
+    NSLog(@"*** Reading user preferences for wallpaper...");
+    // Read user settings and load thumbnail images as appropriate
+    NSDictionary *userSettings = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    
+    id _variantIsProcedural = [userSettings objectForKey:variant == 0 ? @"kSBProceduralWallpaperLockUserSetKey" : @"kSBProceduralWallpaperHomeUserSetKey"];
+    BOOL variantIsProcedural = _variantIsProcedural != nil ? [_variantIsProcedural boolValue] : NO;
+    
+    UIImage *wallpaperStaticImage = nil;
+    
+    if (variantIsProcedural) {
+        NSLog(@"*** Loading procedural!");
+        wallpaperStaticImage = [self _proceduralStaticImageForSettings:[userSettings objectForKey:variant == 0 ? @"kSBProceduralWallpaperLockOptionsKey" : @"kSBProceduralWallpaperHomeOptionsKey"]];
+    } else {
+        NSLog(@"*** Loading static!");
+        wallpaperStaticImage = [self _staticImageForVariant:variant];
     }
     
-    return found;
+    return wallpaperStaticImage;
+}
+
+- (UIImage*)_proceduralStaticImageForSettings:(NSDictionary*)settings {
+    NSString *thumbnailImageName = [settings objectForKey:@"thumbnailImageName"];
+    
+    NSString *imageSuffix = @"";
+    
+    switch ((int)[UIScreen mainScreen].scale) {
+        case 2:
+            imageSuffix = @"@2x";
+            break;
+        case 3:
+            imageSuffix = @"@3x";
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSString *deviceSize = @"";
+    NSString *deviceType = IS_IPAD ? @"~ipad" : @"~iphone";
+    
+    if (SCREEN_MAX_LENGTH >= 736) {
+        deviceSize = @"-736h";
+    } else if (SCREEN_MAX_LENGTH >= 667) {
+        deviceSize = @"-667h";
+    } else if (SCREEN_MAX_LENGTH >= 568) {
+        deviceSize = @"-568h";
+    } else {
+        deviceSize = @"480h";
+    }
+    
+    NSString *thumbnailPath = [NSString stringWithFormat:@"/System/Library/ProceduralWallpaper/ProceduralWallpapers.bundle/%@%@%@%@.png", thumbnailImageName, deviceSize, imageSuffix, deviceType];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:thumbnailPath]) {
+        thumbnailPath = [NSString stringWithFormat:@"/System/Library/ProceduralWallpaper/ProceduralWallpapers.bundle/%@%@%@.png", thumbnailImageName, imageSuffix, deviceType];
+    }
+    
+    NSLog(@"*** Loading from: %@", thumbnailPath);
+    
+    return [UIImage imageWithContentsOfFile:thumbnailPath];
+}
+
+- (UIImage*)_staticImageForVariant:(int)variant {
+    NSString *wallpaperName = variant == 0 ? @"LockBackground.cpbitmap" : @"HomeBackground.cpbitmap";
+    
+    NSString *wallpaperPath = [NSString stringWithFormat:@"/var/mobile/Library/SpringBoard/%@", wallpaperName];
+    
+    NSLog(@"*** Loading from: %@", wallpaperPath);
+    
+    CFArrayRef CPBitmapCreateImagesFromData(CFDataRef cpbitmap, void*, int, void*);
+    CFArrayRef someArrayRef = CPBitmapCreateImagesFromData((__bridge CFDataRef)([NSData dataWithContentsOfFile:wallpaperPath]), NULL, 1, NULL);
+    
+    NSArray *array = (__bridge NSArray*)someArrayRef;
+    
+    UIImage *image = [UIImage imageWithCGImage:(__bridge CGImageRef)(array[0])];
+    
+    return image;
 }
 
 @end

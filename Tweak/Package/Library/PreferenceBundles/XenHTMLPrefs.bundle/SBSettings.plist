@@ -112,26 +112,6 @@
 			<key>label</key>
 			<string>Snap Widgets To Y-axis</string>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</string>
-		</dict>
-		<dict>
-			<key>PostNotification</key>
-			<string>com.matchstic.xenhtml/settingschanged</string>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>com.matchstic.xenhtml</string>
-			<key>key</key>
-			<string>SBUseLegacyMode</string>
-			<key>label</key>
-			<string>Legacy Mode</string>
-		</dict>
 	</array>
 </dict>
 </plist>

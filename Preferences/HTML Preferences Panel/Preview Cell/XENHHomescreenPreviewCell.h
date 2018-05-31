@@ -20,4 +20,9 @@
 
 @interface XENHHomescreenPreviewCell : XENHBasePreviewCell
 
+@property (nonatomic, strong) NSMutableArray *viewControllers;
+
+@property (nonatomic, strong) NSArray *oldBackgroundLocations;
+@property (nonatomic, strong) NSDictionary *oldBackgroundWidgetMetadata;
+
 @end

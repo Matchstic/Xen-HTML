@@ -18,10 +18,13 @@
 
 #import "XENHBasePreviewCell.h"
 #import "XENHPreviewScaledController.h"
+#import "XENHWallpaperViewController.h"
 
 @interface XENHBasePreviewCell ()
 @property (nonatomic, strong) NSArray *viewControllers;
 @property (nonatomic, strong) UIView *viewControllersSuperview;
+@property (nonatomic, strong) XENHWallpaperViewController *backgroundWallpaperController;
+@property (nonatomic, strong) UIVisualEffectView *backgroundWallpaperBlurView;
 @property (nonatomic, readwrite) CGFloat currentSkew;
 @end
 
@@ -70,12 +73,12 @@
         
         NSArray *viewControllers = [self viewControllersToDisplay];
         for (UIViewController *controller in viewControllers) {
-            NSLog(@"Controller: %@ bounds: %@ frame: %@", controller, NSStringFromCGRect(controller.view.bounds), NSStringFromCGRect(controller.view.frame));
             controller.view.clipsToBounds = YES;
             [self.viewControllersSuperview addSubview:controller.view];
         }
         
         [self _configureWithViewControllers:viewControllers];
+        [self _configureBackgroundWallpaper];
         
         // Update ourself with past saved state
         [self didChangeEnabledState:[XENHResources getPreviewStateForVariant:[self variant]] forVariant:[self variant]];
@@ -145,6 +148,16 @@
             [(XENHPreviewScaledController*)controller fitToSize];
         }
     }
+    
+    self.backgroundWallpaperBlurView.frame = self.contentView.bounds;
+    
+    // Scale the wallpaper such that it fits (no aspect) into the content view's size.
+    self.backgroundWallpaperController.view.transform = CGAffineTransformIdentity;
+    CGFloat xScale = self.contentView.frame.size.width / self.backgroundWallpaperController.view.bounds.size.width;
+    CGFloat yScale = self.contentView.frame.size.height / self.backgroundWallpaperController.view.bounds.size.height;
+    
+    self.backgroundWallpaperController.view.transform = CGAffineTransformMakeScale(xScale, yScale);
+    self.backgroundWallpaperController.view.center = CGPointMake(self.contentView.frame.size.width / 2.0, self.contentView.frame.size.height / 2.0);
 }
 
 - (CGFloat)centroidForIndex:(int)index controllerCount:(int)count withWidth:(CGFloat)width skewPercent:(CGFloat)skew {
@@ -169,8 +182,29 @@
      */
     
     self.viewControllers = viewControllers;
+}
+
+- (void)_configureBackgroundWallpaper {
+    if (self.backgroundWallpaperController) {
+        [self.backgroundWallpaperController.view removeFromSuperview];
+    }
     
-    // TODO: Anything?
+    self.backgroundWallpaperController = [[XENHWallpaperViewController alloc] initWithVariant:[self variant]];
+    self.backgroundWallpaperController.view.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+    self.backgroundWallpaperController.view.bounds = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+    
+    [self.contentView insertSubview:self.backgroundWallpaperController.view atIndex:0];
+    
+    if (!self.backgroundWallpaperBlurView) {
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        self.backgroundWallpaperBlurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        
+        [self.contentView insertSubview:self.backgroundWallpaperBlurView aboveSubview:self.backgroundWallpaperController.view];
+    }
+}
+
+- (void)_reloadWallpaper {
+    [self.backgroundWallpaperController reloadWallpaper];
 }
 
 - (void)_recievedSkewPercent:(CGFloat)percent {

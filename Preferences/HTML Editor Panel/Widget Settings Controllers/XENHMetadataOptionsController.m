@@ -25,12 +25,14 @@
 
 @implementation XENHMetadataOptionsController
 
--(instancetype)initWithOptions:(NSDictionary *)options andPlist:(NSArray *)plist {
+-(instancetype)initWithOptions:(NSDictionary*)options fallbackState:(BOOL)state andPlist:(NSArray*)plist {
     self = [super initForContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     if (self) {
         _options = [options mutableCopy];
         _plist = plist;
+        
+        self.fallbackState = state;
     }
     
     return self;
@@ -40,7 +42,7 @@
     if (_specifiers == nil) {
         NSMutableArray *testingSpecs = [NSMutableArray array];
         
-        // TODO: Build specifiers from _plist.
+        // Build specifiers from _plist.
         
         /*
          * Format:
@@ -50,6 +52,28 @@
          * default
          * options (select only)
          */
+        
+        // Legacy mode toggle first
+        PSSpecifier *legacyGroup = [PSSpecifier groupSpecifierWithName:@""];
+        NSString *fallbackFooter = [XENHResources localisedStringForKey:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI." value:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI."];
+        [legacyGroup setProperty:fallbackFooter forKey:@"footerText"];
+        [testingSpecs addObject:legacyGroup];
+        
+        PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"Legacy Mode" value:@"Legacy Mode"]
+                                                                target:self
+                                                                   set:@selector(setPreferenceValue:specifier:)
+                                                                   get:@selector(readPreferenceValue:)
+                                                                detail:nil
+                                                                  cell:PSSwitchCell
+                                                                  edit:nil];
+        [specifier setProperty:@YES forKey:@"enabled"];
+        [specifier setProperty:[NSNumber numberWithBool:self.fallbackState] forKey:@"default"];
+        [specifier setProperty:@"_xh_fallback" forKey:@"key"];
+        
+        [testingSpecs addObject:specifier];
+        
+        PSSpecifier *mainGroup = [PSSpecifier groupSpecifierWithName:@""];
+        [testingSpecs addObject:mainGroup];
         
         for (NSDictionary *item in _plist) {
             NSString *type = [item objectForKey:@"type"];
@@ -165,12 +189,26 @@
 -(void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {
     NSString *key = specifier.properties[@"key"];
     
+    // Handle fallback
+    if ([key isEqualToString:@"_xh_fallback"]) {
+        self.fallbackState = [value boolValue];
+        [self.fallbackDelegate fallbackStateDidChange:[value boolValue]];
+        return;
+    }
+    
     // Save new setting.
     [_options setObject:value forKey:key];
 }
 
 -(id)readPreferenceValue:(PSSpecifier*)spec {
-    id value = [_options objectForKey:spec.properties[@"key"]];
+    NSString *key = spec.properties[@"key"];
+    
+    // Handle fallback
+    if ([key isEqualToString:@"_xh_fallback"]) {
+        return [NSNumber numberWithBool:self.fallbackState];
+    }
+    
+    id value = [_options objectForKey:key];
     
     if (!value) {
         for (NSDictionary *item in _plist) {

@@ -35,6 +35,7 @@
 @interface XENHEditorViewController ()
 
 @property (nonatomic, readwrite) XENHEditorVariant variant;
+@property (nonatomic, readwrite) UIStatusBarStyle _temp_statusBarStyle;
 
 // Constituent controllers of UI.
 @property (nonatomic, strong) XENHWallpaperViewController *wallpaperController;
@@ -76,8 +77,9 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
-    //[[UIApplication sharedApplication] setStatusBarHidden:NO];
-    //[[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
+    
+    self._temp_statusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
+    [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
 }
 
 -(void)setRootSplitViewMasterHidden:(BOOL)hidden {
@@ -92,8 +94,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:self._temp_statusBarStyle];
+    
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    //[[UIApplication sharedApplication] setStatusBarStyle:[self.navigationController preferredStatusBarStyle]];
     
     if (IS_IPAD) {
         // Show master of the master-detail panes
@@ -106,18 +109,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (instancetype)initWithVariant:(XENHEditorVariant)variant {
+- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL andDelegate:(id<XENHEditorDelegate>)delegate {
     self = [super init];
     
     if (self) {
         self.variant = variant;
+        self.delegate = delegate;
+        self.widgetURL = widgetURL;
     }
     
     return self;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [self.wallpaperController isWallpaperImageDark] ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    return [self.wallpaperController isWallpaperImageDark] ? UIStatusBarStyleLightContent : UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -148,8 +153,8 @@
     [self.view addSubview:self.wallpaperController.view];
     
     // 2. Webview
-    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:YES];
-    [self.webViewController reloadWebViewToPath:[self indexHTMLFileForCurrentVariant] updateMetadata:YES ignorePreexistingMetadata:NO];
+    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:NO];
+    [self.webViewController reloadWebViewToPath:self.widgetURL updateMetadata:YES ignorePreexistingMetadata:NO];
     
     [self addChildViewController:self.webViewController];
     [self.view addSubview:self.webViewController.view];
@@ -189,38 +194,12 @@
     self.toolbarController.view.frame = self.view.bounds;
 }
 
-#pragma mark Assorted junk from the trunk
-
--(NSString*)indexHTMLFileForCurrentVariant {
-    NSString *fileString = @"";
-    
-    [XENHResources reloadSettings];
-    
-    switch (self.variant) {
-        case kVariantLockscreenBackground:
-            fileString = [XENHResources backgroundLocation];
-            break;
-        case kVariantLockscreenForeground:
-            fileString = [XENHResources foregroundLocation];
-            break;
-        case kVariantHomescreenBackground:
-            fileString = [XENHResources SBLocation];
-            break;
-    }
-    
-    return fileString;
-}
-
 #pragma mark Toolbar delegate
 
 - (void)toolbarDidPressButton:(XENHEditorToolbarButton)button {
     switch (button) {
         case kButtonCancel:
             [self _handleCancelButtonPressed];
-            break;
-            
-        case kButtonModify:
-            [self _handleModifyButtonPressed];
             break;
         
         case kButtonAccept:
@@ -236,24 +215,14 @@
     }
 }
 
-- (void)_handleModifyButtonPressed {
-    // Launch widget picker UI.
-    
-    XENHPickerController2 *mc = [[XENHPickerController2 alloc] initWithVariant:self.variant != kVariantHomescreenBackground ? 0 : 2 andDelegate:self andCurrentSelected:[self.webViewController getCurrentWidgetURL]];
-    
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mc];
-    if (IS_IPAD) {
-        navController.providesPresentationContextTransitionStyle = YES;
-        navController.definesPresentationContext = YES;
-        navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
-}
-
 #pragma mark Handling accept and cancel buttons
 
 - (void)_handleCancelButtonPressed {
+    if (self.configOptions) {
+        // Undo any changes to the config.
+        [self.configOptions undoChanges];
+    }
+    
     // Pop this view controller off the stack
     [self _popSelfOffNavigationalStack];
 }
@@ -267,26 +236,6 @@
 
 -(void)_saveData {
     // We need to save out the new metadata we have initialised in here FIRST.
-    NSString *key = @"";
-    switch (_variant) {
-        case 0:
-            key = @"LSBackground";
-            break;
-        case 1:
-            key = @"LSForeground";
-            break;
-        case 2:
-            key = @"SBBackground";
-            break;
-            
-        default:
-            break;
-    }
-    
-    NSMutableDictionary *dict = [[XENHResources getPreferenceKey:@"widgetPrefs"] mutableCopy];
-    if (!dict) {
-        dict = [NSMutableDictionary dictionary];
-    }
     
     // XXX: Before saving, we need to ensure that the user-supplied values are sanitised.
     NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
@@ -309,10 +258,6 @@
         [mutableMetadata setObject:[NSNumber numberWithFloat:0] forKey:@"y"];
     }
     
-    [dict setObject:mutableMetadata forKey:key];
-    
-    [XENHResources setPreferenceKey:@"widgetPrefs" withValue:dict];
-    
     // Get the current URL.
     NSString *currentURL = [self.webViewController getCurrentWidgetURL];
     
@@ -320,26 +265,7 @@
         currentURL = @"";
     }
     
-    // Update prefs
-    switch (self.variant) {
-        case kVariantLockscreenBackground:
-            [XENHResources setPreferenceKey:@"backgroundLocation" withValue:currentURL];
-            break;
-        case kVariantLockscreenForeground:
-            [XENHResources setPreferenceKey:@"foregroundLocation" withValue:currentURL];
-            break;
-        case kVariantHomescreenBackground:
-            [XENHResources setPreferenceKey:@"SBLocation" withValue:currentURL];
-            break;
-    }
-    
-    if (_variant == 2) {
-        // Failsafe to reload SBHTML on metadata-only changes.
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbconfigchanged" object:nil];
-        
-        CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/sbconfigchanged";
-        CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
-    }
+    [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata];
 }
 
 - (void)_popSelfOffNavigationalStack {
@@ -376,7 +302,10 @@
         
         NSArray *plist = [NSArray arrayWithContentsOfFile:optionsPath];
         
-        self.metadataOptions = [[XENHMetadataOptionsController alloc] initWithOptions:preexistingSettings andPlist:plist];
+        BOOL fallbackState = [[[self.webViewController getMetadata] objectForKey:@"useFallback"] boolValue];
+        
+        self.metadataOptions = [[XENHMetadataOptionsController alloc] initWithOptions:preexistingSettings fallbackState:fallbackState andPlist:plist];
+        self.metadataOptions.fallbackDelegate = self;
         
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.metadataOptions];
         if (IS_IPAD) {
@@ -404,18 +333,37 @@
         // Launch config.js editor!
         [self showConfigOptionsWithFile:configJSFour];
     } else {
-        // Cannot find settings!
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"Error" value:@"Error"]
-                                                     message:[XENHResources localisedStringForKey:@"Could not find a settings file for this widget" value:@"Could not find a settings file for this widget"]
-                                                    delegate:nil
-                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK" value:@"OK"]
-                                           otherButtonTitles:nil];
-        [av show];
+        // Just display the fallback controller
+        
+        BOOL fallbackState = [[[self.webViewController getMetadata] objectForKey:@"useFallback"] boolValue];
+        
+        XENHFallbackOnlyOptionsController *fallbackController = [[XENHFallbackOnlyOptionsController alloc] initWithFallbackState:fallbackState];
+        fallbackController.fallbackDelegate = self;
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:fallbackController];
+        if (IS_IPAD) {
+            navController.providesPresentationContextTransitionStyle = YES;
+            navController.definesPresentationContext = YES;
+            navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        
+        // Add done button.
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Done" value:@"Done"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelConfigOptionsModal:)];
+        [[fallbackController navigationItem] setRightBarButtonItem:cancel];
+        
+        // Show controller.
+        [self.navigationController presentViewController:navController animated:YES completion:nil];
     }
 }
 
 -(void)showConfigOptionsWithFile:(NSString*)file {
-    self.configOptions = [[XENHConfigJSController alloc] initWithStyle:UITableViewStyleGrouped];
+    BOOL fallbackState = [[[self.webViewController getMetadata] objectForKey:@"useFallback"] boolValue];
+    
+    if (!self.configOptions) {
+        self.configOptions = [[XENHConfigJSController alloc] initWithFallbackState:fallbackState];
+        self.configOptions.fallbackDelegate = self;
+    }
+    
     BOOL parseError = [self.configOptions parseJSONFile:file];
     
     if (parseError) {
@@ -461,22 +409,28 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal and update SBHTML if needed
         [self _notifyHomescreenOfChangeIfNeeded];
-        //[[UIApplication sharedApplication] setStatusBarHidden:NO];
     }];
 }
 
 -(void)cancelConfigOptionsModal:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal
-        //[[UIApplication sharedApplication] setStatusBarHidden:NO];
     }];
 }
 
 -(void)saveConfigOptionsModel:(id)sender {
     [self.configOptions saveData];
-    [self.webViewController reloadWebViewToPath:[self.webViewController getCurrentWidgetURL] updateMetadata:YES ignorePreexistingMetadata:NO];
+    [self.webViewController reloadWebViewToPath:[self.webViewController getCurrentWidgetURL] updateMetadata:NO ignorePreexistingMetadata:NO];
     
     [self.positioningController updatePositioningView:self.webViewController.webView];
+    
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    [mutableMetadata setObject:[NSDate date] forKey:@"lastConfigChangeWorkaround"];
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
     
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal and update SBHTML if needed
@@ -503,28 +457,18 @@
     [self.webViewController setMetadata:newMetadata reloadingWebView:NO];
 }
 
-#pragma mark Widget Picker delegate
+#pragma mark Fallback delegate
 
--(void)didChooseWidget:(NSString *)filePath {
-    // User chose a new widget to render, so let's go for it!
-    [self.webViewController reloadWebViewToPath:filePath updateMetadata:YES ignorePreexistingMetadata:YES];
+- (void)fallbackStateDidChange:(BOOL)state {
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
     
-    // Eh
-    [self.positioningController updatePositioningView:self.webViewController.webView];
+    [mutableMetadata setObject:[NSNumber numberWithBool:state] forKey:@"useFallback"];
     
-    // Show hint for drag and drop
-    if (![filePath isEqualToString:@""])
-        [self.dragDropController showDragAndDropHint];
-    
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        //[[UIApplication sharedApplication] setStatusBarHidden:NO];
-    }];
-}
-
--(void)cancelShowingPicker {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        //[[UIApplication sharedApplication] setStatusBarHidden:NO];
-    }];
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
+    //[self.delegate didAcceptChanges:[self.webViewController getCurrentWidgetURL] withMetadata:mutableMetadata];
 }
 
 @end

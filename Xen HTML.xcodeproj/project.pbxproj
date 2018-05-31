@@ -8,9 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99CDD721C0AC36D00761684 /* MessageUI.framework */; };
+		C90732FE20A362D6007D2819 /* XENHWidgetLayerContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */; };
+		C90732FF20A362D6007D2819 /* XENHWidgetLayerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */; };
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
 		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
+		C916A9AB209759F700CC9521 /* XENHWidgetLayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */; };
+		C916A9AC209759F700CC9521 /* XENHWidgetLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */; };
+		C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9AE20975F9400CC9521 /* XENHWidgetController.h */; };
+		C916A9B120975F9400CC9521 /* XENHWidgetController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AF20975F9400CC9521 /* XENHWidgetController.m */; };
+		C91C3A2A209B488D0076182C /* XENHMultiplexWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C91C3A28209B488D0076182C /* XENHMultiplexWidgetsController.h */; };
+		C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */; };
+		C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */; };
+		C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */; };
+		C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; };
 		C94774E320715D050003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C94774AE20715D050003D039 /* Prefix.pch */; };
 		C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */; };
 		C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B220715D050003D039 /* XENSFinalTickView.m */; };
@@ -26,13 +37,11 @@
 		C94774EF20715D050003D039 /* XENSetupBaseTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774BC20715D050003D039 /* XENSetupBaseTableController.m */; };
 		C94774F020715D050003D039 /* XENSetupInitialController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BD20715D050003D039 /* XENSetupInitialController.h */; };
 		C94774F120715D050003D039 /* XENSetupFinalController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774BE20715D050003D039 /* XENSetupFinalController.h */; };
-		C94774F220715D050003D039 /* XENHWebViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C020715D050003D039 /* XENHWebViewController.h */; };
-		C94774F320715D050003D039 /* XENHWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774C120715D050003D039 /* XENHWebViewController.m */; };
 		C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C320715D050003D039 /* XENHTouchPassThroughView.h */; };
-		C94774F520715D050003D039 /* XENHTapGestureRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */; };
+		C94774F520715D050003D039 /* XENHTouchForwardingRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774C420715D050003D039 /* XENHTouchForwardingRecognizer.m */; };
 		C94774F620715D050003D039 /* XENHResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C520715D050003D039 /* XENHResources.h */; };
 		C94774F720715D050003D039 /* XENHTouchPassThroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774C620715D050003D039 /* XENHTouchPassThroughView.m */; };
-		C94774F820715D050003D039 /* XENHTapGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C720715D050003D039 /* XENHTapGestureRecognizer.h */; };
+		C94774F820715D050003D039 /* XENHTouchForwardingRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = C94774C720715D050003D039 /* XENHTouchForwardingRecognizer.h */; };
 		C94774F920715D050003D039 /* XENHResources.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774C820715D050003D039 /* XENHResources.m */; };
 		C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750120715D150003D039 /* XENHFauxIconsViewController.h */; };
 		C947756820715D150003D039 /* XENHPickerPreviewController2.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750220715D150003D039 /* XENHPickerPreviewController2.h */; };
@@ -117,6 +126,8 @@
 		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
+		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
+		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C9F770821C7A5B7F00C52880 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
 		C9F770831C7A5B8600C52880 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0C1BA8C88000173993 /* QuartzCore.framework */; };
@@ -134,9 +145,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetLayerContainerView.h; sourceTree = "<group>"; };
+		C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetLayerContainerView.m; sourceTree = "<group>"; };
 		C911F1D21C1E051300D4D582 /* XenHTML.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
 		C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHLSAdvancedController.m; sourceTree = "<group>"; };
+		C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetLayerController.h; sourceTree = "<group>"; };
+		C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetLayerController.m; sourceTree = "<group>"; };
+		C916A9AD20975F3F00CC9521 /* PrivateWebKitHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateWebKitHeaders.h; sourceTree = "<group>"; };
+		C916A9AE20975F9400CC9521 /* XENHWidgetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetController.h; sourceTree = "<group>"; };
+		C916A9AF20975F9400CC9521 /* XENHWidgetController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetController.m; sourceTree = "<group>"; };
+		C91C3A28209B488D0076182C /* XENHMultiplexWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHMultiplexWidgetsController.h; sourceTree = "<group>"; };
+		C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHMultiplexWidgetsController.m; sourceTree = "<group>"; };
+		C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHMultiplexWidgetsHeaderView.h; sourceTree = "<group>"; };
+		C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHMultiplexWidgetsHeaderView.m; sourceTree = "<group>"; };
+		C91E103120A0726B00425BBC /* AppSupport.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = AppSupport.tbd; path = lib/AppSupport.tbd; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94774AE20715D050003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -155,13 +178,11 @@
 		C94774BC20715D050003D039 /* XENSetupBaseTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupBaseTableController.m; sourceTree = "<group>"; };
 		C94774BD20715D050003D039 /* XENSetupInitialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupInitialController.h; sourceTree = "<group>"; };
 		C94774BE20715D050003D039 /* XENSetupFinalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupFinalController.h; sourceTree = "<group>"; };
-		C94774C020715D050003D039 /* XENHWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHWebViewController.h; sourceTree = "<group>"; };
-		C94774C120715D050003D039 /* XENHWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHWebViewController.m; sourceTree = "<group>"; };
 		C94774C320715D050003D039 /* XENHTouchPassThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTouchPassThroughView.h; sourceTree = "<group>"; };
-		C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = XENHTapGestureRecognizer.mm; sourceTree = "<group>"; };
+		C94774C420715D050003D039 /* XENHTouchForwardingRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHTouchForwardingRecognizer.m; sourceTree = "<group>"; };
 		C94774C520715D050003D039 /* XENHResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHResources.h; sourceTree = "<group>"; };
 		C94774C620715D050003D039 /* XENHTouchPassThroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHTouchPassThroughView.m; sourceTree = "<group>"; };
-		C94774C720715D050003D039 /* XENHTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTapGestureRecognizer.h; sourceTree = "<group>"; };
+		C94774C720715D050003D039 /* XENHTouchForwardingRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTouchForwardingRecognizer.h; sourceTree = "<group>"; };
 		C94774C820715D050003D039 /* XENHResources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHResources.m; sourceTree = "<group>"; };
 		C94774D220715D050003D039 /* postinst */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = postinst; sourceTree = "<group>"; };
 		C94774D320715D050003D039 /* control */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
@@ -254,6 +275,9 @@
 		C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libGitHubIssues.tbd; path = lib/libGitHubIssues.tbd; sourceTree = "<group>"; };
 		C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpackageinfo.tbd; path = lib/libpackageinfo.tbd; sourceTree = "<group>"; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
+		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
+		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
+		C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENHFallbackDelegate-Protocol.h"; sourceTree = "<group>"; };
 		C9F770491C7A459900C52880 /* XenHTMLPrefs.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XenHTMLPrefs.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -279,6 +303,7 @@
 				C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */,
 				C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */,
 				C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */,
+				C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */,
 				C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */,
 				C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */,
 				C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */,
@@ -299,6 +324,17 @@
 				C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */,
 			);
 			path = Advanced;
+			sourceTree = "<group>";
+		};
+		C91C3A2C209B496C0076182C /* Multiplex Panel */ = {
+			isa = PBXGroup;
+			children = (
+				C91C3A28209B488D0076182C /* XENHMultiplexWidgetsController.h */,
+				C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */,
+				C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */,
+				C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */,
+			);
+			path = "Multiplex Panel";
 			sourceTree = "<group>";
 		};
 		C93C30A11BA72CA90037BA09 = {
@@ -323,6 +359,7 @@
 		C93C30AE1BA72CA90037BA09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C91E103120A0726B00425BBC /* AppSupport.tbd */,
 				C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */,
 				C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */,
 				C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */,
@@ -379,8 +416,13 @@
 		C94774BF20715D050003D039 /* Web Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C94774C020715D050003D039 /* XENHWebViewController.h */,
-				C94774C120715D050003D039 /* XENHWebViewController.m */,
+				C916A9AD20975F3F00CC9521 /* PrivateWebKitHeaders.h */,
+				C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */,
+				C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */,
+				C916A9AE20975F9400CC9521 /* XENHWidgetController.h */,
+				C916A9AF20975F9400CC9521 /* XENHWidgetController.m */,
+				C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */,
+				C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */,
 			);
 			path = "Web Controller";
 			sourceTree = "<group>";
@@ -390,8 +432,8 @@
 			children = (
 				C94774C520715D050003D039 /* XENHResources.h */,
 				C94774C820715D050003D039 /* XENHResources.m */,
-				C94774C720715D050003D039 /* XENHTapGestureRecognizer.h */,
-				C94774C420715D050003D039 /* XENHTapGestureRecognizer.mm */,
+				C94774C720715D050003D039 /* XENHTouchForwardingRecognizer.h */,
+				C94774C420715D050003D039 /* XENHTouchForwardingRecognizer.m */,
 				C94774C320715D050003D039 /* XENHTouchPassThroughView.h */,
 				C94774C620715D050003D039 /* XENHTouchPassThroughView.m */,
 			);
@@ -510,6 +552,7 @@
 		C94774FF20715D150003D039 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				C91C3A2C209B496C0076182C /* Multiplex Panel */,
 				C947750B20715D150003D039 /* HTML Editor Panel */,
 				C947754620715D150003D039 /* HTML Preferences Panel */,
 				C94775C6207160270003D039 /* Root Panel */,
@@ -542,6 +585,9 @@
 				C947751A20715D150003D039 /* XENHConfigJSController.m */,
 				C947751820715D150003D039 /* XENHMetadataOptionsController.h */,
 				C947751C20715D150003D039 /* XENHMetadataOptionsController.m */,
+				C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */,
+				C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */,
+				C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */,
 			);
 			path = "Widget Settings Controllers";
 			sourceTree = "<group>";
@@ -766,14 +812,16 @@
 				C94774F120715D050003D039 /* XENSetupFinalController.h in Headers */,
 				C94774E320715D050003D039 /* Prefix.pch in Headers */,
 				C94774ED20715D050003D039 /* XENSetupWindow.h in Headers */,
+				C90732FE20A362D6007D2819 /* XENHWidgetLayerContainerView.h in Headers */,
 				C94774F020715D050003D039 /* XENSetupInitialController.h in Headers */,
 				C94774F620715D050003D039 /* XENHResources.h in Headers */,
 				C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */,
 				C94774EC20715D050003D039 /* XENHSetupLockscreenImportController.h in Headers */,
-				C94774F220715D050003D039 /* XENHWebViewController.h in Headers */,
 				C94774E620715D050003D039 /* XENHSetupHomescreenImportController.h in Headers */,
 				C94774EB20715D050003D039 /* XENSFinalTickView.h in Headers */,
-				C94774F820715D050003D039 /* XENHTapGestureRecognizer.h in Headers */,
+				C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */,
+				C94774F820715D050003D039 /* XENHTouchForwardingRecognizer.h in Headers */,
+				C916A9AB209759F700CC9521 /* XENHWidgetLayerController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,12 +829,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */,
 				C947757620715D150003D039 /* XENHEditorPositioningController.h in Headers */,
 				C94775A320715D160003D039 /* XENHDonationController.h in Headers */,
 				C94775B220715D160003D039 /* XENHHomescreenPreviewCell.h in Headers */,
 				C94775B620715D160003D039 /* XENHWallpaperViewController.h in Headers */,
 				C947758F20715D150003D039 /* XENHFauxLockNotificationsController.h in Headers */,
 				C947756E20715D150003D039 /* XENHSupportController.h in Headers */,
+				C91C3A2A209B488D0076182C /* XENHMultiplexWidgetsController.h in Headers */,
 				C94775B320715D160003D039 /* XENHLockscreenPreviewCell.h in Headers */,
 				C94775A920715D160003D039 /* XENHLockscreenPreferenceController.h in Headers */,
 				C947759A20715D160003D039 /* XENHFauxLockViewController.h in Headers */,
@@ -801,6 +851,7 @@
 				C947757E20715D150003D039 /* XENHConfigJSCell.h in Headers */,
 				C947757A20715D150003D039 /* XENHConfigJSController.h in Headers */,
 				C947757B20715D150003D039 /* XENHMetadataOptionsController.h in Headers */,
+				C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */,
 				C947758720715D150003D039 /* XENHPickerCell2.h in Headers */,
 				C947757820715D150003D039 /* XENHEditorWebViewController.h in Headers */,
 				C947757920715D150003D039 /* XENHEditorDragDropController.h in Headers */,
@@ -977,14 +1028,16 @@
 				C94774F720715D050003D039 /* XENHTouchPassThroughView.m in Sources */,
 				C94775CA207161A90003D039 /* XenHTML.mm in Sources */,
 				C94774E720715D050003D039 /* XENSetupWindow.m in Sources */,
-				C94774F520715D050003D039 /* XENHTapGestureRecognizer.mm in Sources */,
+				C94774F520715D050003D039 /* XENHTouchForwardingRecognizer.m in Sources */,
 				C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */,
-				C94774F320715D050003D039 /* XENHWebViewController.m in Sources */,
+				C90732FF20A362D6007D2819 /* XENHWidgetLayerContainerView.m in Sources */,
 				C94774F920715D050003D039 /* XENHResources.m in Sources */,
+				C916A9AC209759F700CC9521 /* XENHWidgetLayerController.m in Sources */,
 				C94774EE20715D050003D039 /* XENHSetupHomescreenImportController.m in Sources */,
 				C94774E920715D050003D039 /* XENSetupInitialController.m in Sources */,
 				C94774E820715D050003D039 /* XENSetupFinalController.m in Sources */,
 				C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */,
+				C916A9B120975F9400CC9521 /* XENHWidgetController.m in Sources */,
 				C94774EF20715D050003D039 /* XENSetupBaseTableController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1002,9 +1055,11 @@
 				C947757120715D150003D039 /* XENHEditorPositioningController.m in Sources */,
 				C947758220715D150003D039 /* XENHLSVisibilityController.m in Sources */,
 				C94775A220715D160003D039 /* XENHMoreReposCell.m in Sources */,
+				C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */,
 				C947757420715D150003D039 /* XENHEditorDragDropController.m in Sources */,
 				C94775B020715D160003D039 /* XENHPreviewScaledController.m in Sources */,
 				C947757C20715D150003D039 /* XENHConfigJSCell.m in Sources */,
+				C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */,
 				C94775AD20715D160003D039 /* XENHLockscreenPreviewCell.m in Sources */,
 				C94775A020715D160003D039 /* XENHPickerCell2.m in Sources */,
 				C94775A520715D160003D039 /* XENHBaseHTMLPreferenceController.m in Sources */,
@@ -1018,6 +1073,7 @@
 				C947757220715D150003D039 /* XENHEditorWebViewController.m in Sources */,
 				C947759420715D160003D039 /* XENHResources.m in Sources */,
 				C947759D20715D160003D039 /* AYVibrantButton.m in Sources */,
+				C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */,
 				C94775B820715D160003D039 /* XENHLSMediaController.m in Sources */,
 				C947759020715D150003D039 /* XENHPHeaderView.m in Sources */,
 				C947756D20715D150003D039 /* XENHLSNotificationsController.m in Sources */,

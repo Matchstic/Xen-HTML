@@ -164,8 +164,7 @@
             [XENHResources setPreferenceKey:@"hideCameraGrabber" withValue:[NSNumber numberWithBool:NO] andPost:NO];
             [XENHResources setPreferenceKey:@"disableCameraGrabber" withValue:[NSNumber numberWithBool:NO] andPost:NO];
             
-            [XENHResources setPreferenceKey:@"foregroundLocation" withValue:@"" andPost:NO];
-            [XENHResources setPreferenceKey:@"backgroundLocation" withValue:@"" andPost:YES];
+            [XENHResources setPreferenceKey:@"widgets" withValue:@{} andPost:YES];
             
             break;
             
@@ -193,31 +192,21 @@
             [XENHResources setPreferenceKey:@"hideCameraGrabber" withValue:[NSNumber numberWithBool:grabberHide] andPost:NO];
             [XENHResources setPreferenceKey:@"disableCameraGrabber" withValue:[NSNumber numberWithBool:grabberDisabled] andPost:NO];
             
-            // Now, we set the location dependant on whether the position is "above" or not.
-            NSDictionary *theme = (selected.count > 0 ? [selected firstObject] : @"");
+            NSDictionary *widgetCoordinates = [settings objectForKey:@"WidgetCoordinates"];
+            NSMutableArray *widgetArray = [NSMutableArray array];
+            NSMutableDictionary *widgetMetadata = [NSMutableDictionary dictionary];
             
-            NSString *name = [theme objectForKey:@"name"];
-            NSString *path = [theme objectForKey:@"path"];
-            NSString *html = [theme objectForKey:@"html"];
-            
-            path = [NSString stringWithFormat:@"%@/%@", path, html];
-            
-            if ([widgetPosition isEqualToString:@"above"]) {
-                [XENHResources setPreferenceKey:@"foregroundLocation" withValue:path andPost:NO];
-            } else {
-                [XENHResources setPreferenceKey:@"backgroundLocation" withValue:path andPost:NO];
-            }
-            
-            XENlog(@"SET %@ FOR LOCKHTML, POSITION %@", path, widgetPosition);
-            
-            // Next, pull metadata for this one.
-            NSMutableDictionary *metadata = [[XENHResources rawMetadataForHTMLFile:path] mutableCopy];
-            
-            // Finally, we do the widgetX and widgetY values.
-            NSDictionary *coords = [settings objectForKey:@"WidgetCoordinates"];
-            if (coords) {
-                // We can customise the metadata.
-                NSDictionary *dict = [coords objectForKey:name];
+            for (NSDictionary *theme in selected) {
+                NSString *name = [theme objectForKey:@"name"];
+                NSString *path = [theme objectForKey:@"path"];
+                NSString *html = [theme objectForKey:@"html"];
+                
+                NSString *widgetURL = [NSString stringWithFormat:@"%@/%@", path, html];
+                [widgetArray addObject:widgetURL];
+                
+                // Next, pull metadata for this one.
+                NSMutableDictionary *metadata = [[XENHResources rawMetadataForHTMLFile:path] mutableCopy];
+                NSDictionary *dict = [widgetCoordinates objectForKey:name];
                 
                 id widgetX = [dict objectForKey:@"widgetX"];
                 id widgetY = [dict objectForKey:@"widgetY"];
@@ -237,23 +226,15 @@
                 
                 [metadata setValue:[NSNumber numberWithFloat:x] forKey:@"x"];
                 [metadata setValue:[NSNumber numberWithFloat:y] forKey:@"y"];
+                
+                [widgetMetadata setObject:metadata forKey:widgetURL];
             }
             
-            NSMutableDictionary *widgetPrefs = [[XENHResources getPreferenceKey:@"widgetPrefs"] mutableCopy];
-            if (!widgetPrefs) {
-                widgetPrefs = [NSMutableDictionary dictionary];
-            }
+            NSString *key = [widgetPosition isEqualToString:@"above"] ? @"LSForeground" : @"LSBackground";
             
-            NSString *key = @"";
-            if ([widgetPosition isEqualToString:@"above"]) {
-                key = @"LSForeground";
-            } else {
-                key = @"LSBackground";
-            }
-            
-            [widgetPrefs setObject:metadata forKey:key];
-            
-            [XENHResources setPreferenceKey:@"widgetPrefs" withValue:widgetPrefs andPost:YES];
+            NSMutableDictionary *existingWidgets = [XENHResources getPreferenceKey:@"widgets"];
+            [existingWidgets setObject:@{ @"widgetArray": widgetArray, @"widgetMetadata": widgetMetadata } forKey:key];
+            [XENHResources setPreferenceKey:@"widgets" withValue:existingWidgets andPost:YES];
             
             // Done.
             
@@ -272,33 +253,19 @@
             }
             
             // XXX: Now, we port to XenHTML.
+            // Prefs
             [XENHResources setPreferenceKey:@"hideClock" withValue:[NSNumber numberWithBool:hideClock] andPost:NO];
-            if (!backgroundPosition) {
-                [XENHResources setPreferenceKey:@"foregroundLocation" withValue:activeTheme andPost:NO];
-            } else {
-                [XENHResources setPreferenceKey:@"backgroundLocation" withValue:activeTheme andPost:NO];
-            }
             
-            XENlog(@"SET %@ FOR GROOVYLOCK, POSITION %d", activeTheme, !backgroundPosition);
+            // Widget data
+            NSString *key = !backgroundPosition ? @"LSForeground" : @"LSBackground";
             
-            // Next, pull metadata for this one.
-            NSMutableDictionary *metadata = [[XENHResources rawMetadataForHTMLFile:activeTheme] mutableCopy];
+            NSArray *widgetArray = @[ activeTheme ];
+            NSDictionary *widgetMetadata = @{ activeTheme: [XENHResources rawMetadataForHTMLFile:activeTheme] };
             
-            NSMutableDictionary *widgetPrefs = [[XENHResources getPreferenceKey:@"widgetPrefs"] mutableCopy];
-            if (!widgetPrefs) {
-                widgetPrefs = [NSMutableDictionary dictionary];
-            }
+            NSMutableDictionary *existingWidgets = [XENHResources getPreferenceKey:@"widgets"];
+            [existingWidgets setObject:@{ @"widgetArray": widgetArray, @"widgetMetadata": widgetMetadata } forKey:key];
+            [XENHResources setPreferenceKey:@"widgets" withValue:existingWidgets andPost:YES];
             
-            NSString *key = @"";
-            if (!backgroundPosition) {
-                key = @"LSForeground";
-            } else {
-                key = @"LSBackground";
-            }
-            
-            [widgetPrefs setObject:metadata forKey:key];
-            
-            [XENHResources setPreferenceKey:@"widgetPrefs" withValue:widgetPrefs andPost:YES];
             // Job done!
             
             break;

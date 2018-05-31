@@ -54,6 +54,10 @@ static int mainVariant = 0;
     settings = (__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
 }
 
++ (NSArray*)allPreferenceKeys {
+    return [settings allKeys];
+}
+
 +(NSDictionary*)widgetPrefs {
     return settings[@"widgetPrefs"];
 }

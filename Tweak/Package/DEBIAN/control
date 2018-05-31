@@ -1,6 +1,6 @@
 Package: com.matchstic.xenhtml
 Name: Xen HTML
-Version: 0.4rc4
+Version: 0.4rc5
 Description: Unified HTML rendering; lockscreen and homescreen
 Section: System
 Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, com.matchstic.libgithubissues, jp.ashikase.libpackageinfo, firmware (>= 11.0) | com.unlimapps.uaunbox

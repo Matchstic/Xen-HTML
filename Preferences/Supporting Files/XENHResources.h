@@ -59,6 +59,8 @@ typedef enum : NSUInteger {
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width;
 
 +(void)reloadSettings;
++ (NSArray*)allPreferenceKeys;
+
 +(NSString*)foregroundLocation;
 +(NSString*)backgroundLocation;
 +(NSString*)SBLocation;
