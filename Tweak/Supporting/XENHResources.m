@@ -95,7 +95,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
           lineNumber, [body UTF8String]);
     
     // Append to log file
-    NSString *txtFileName = @"/var/mobile/Documents/XenHTMLDebug.txt";
+    /*NSString *txtFileName = @"/var/mobile/Documents/XenHTMLDebug.txt";
     NSString *final = [NSString stringWithFormat:@"(%s:%d) %s", [fileName UTF8String],
      lineNumber, [body UTF8String]];
      
@@ -104,12 +104,12 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         [fileHandle seekToEndOfFile];
         [fileHandle writeData:[final dataUsingEncoding:NSUTF8StringEncoding]];
         [fileHandle closeFile];
-    } else{
+    } else {
         [final writeToFile:txtFileName
                 atomically:NO
                   encoding:NSStringEncodingConversionAllowLossy
                      error:nil];
-    }
+    }*/
 }
 
 +(BOOL)debugLogging {
