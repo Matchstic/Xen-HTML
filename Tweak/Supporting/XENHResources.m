@@ -490,16 +490,24 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         // We need to migrate the widget settings through to the new format.
         
         // Load from old settings
-        NSString *backgroundLocation = settings[@"backgroundLocation"];
-        NSString *foregroundLocation = settings[@"foregroundLocation"];
-        NSString *sbLocation = settings[@"SBLocation"];
+        NSString *backgroundLocation = settings[@"backgroundLocation"] != nil ? settings[@"backgroundLocation"] : @"";
+        NSString *foregroundLocation = settings[@"foregroundLocation"] != nil ? settings[@"foregroundLocation"] : @"";
+        NSString *sbLocation = settings[@"SBLocation"] != nil ? settings[@"SBLocation"] : @"";
         
         BOOL lsForceLegacy = [self LSUseLegacyMode];
         BOOL sbForceLegacy = [self SBUseLegacyMode];
         
         NSMutableDictionary *backgroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSBackground"] mutableCopy];
+        if (!backgroundMetadata)
+            backgroundMetadata = [NSMutableDictionary dictionary];
+        
         NSMutableDictionary *foregroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSForeground"] mutableCopy];
+        if (!foregroundMetadata)
+            foregroundMetadata = [NSMutableDictionary dictionary];
+        
         NSMutableDictionary *sbMetadata = [[settings[@"widgetPrefs"] objectForKey:@"SBBackground"] mutableCopy];
+        if (!sbMetadata)
+            sbMetadata = [NSMutableDictionary dictionary];
         
         // Update metadata for fallback per-widget
         [backgroundMetadata setObject:[NSNumber numberWithBool:lsForceLegacy] forKey:@"useFallback"];
