@@ -106,7 +106,10 @@
             [XENHResources setPreferenceKey:@"SBHideDockBlur" withValue:[NSNumber numberWithBool:NO] andPost:NO];
             [XENHResources setPreferenceKey:@"SBAllowTouch" withValue:[NSNumber numberWithBool:YES] andPost:NO];
             
-            NSMutableDictionary *existingWidgets = [XENHResources getPreferenceKey:@"widgets"];
+            NSMutableDictionary *existingWidgets = [[XENHResources getPreferenceKey:@"widgets"] mutableCopy];
+            if (!existingWidgets)
+                existingWidgets = [NSMutableDictionary dictionary];
+            
             [existingWidgets setObject:@{} forKey:@"SBLocation"];
             [XENHResources setPreferenceKey:@"widgets" withValue:existingWidgets andPost:YES];
             
