@@ -74,10 +74,13 @@ extern char **environ;
 -(void)_actuallyNukeAllSettings {
     NSArray *allKeys = [XENHResources allPreferenceKeys];
     
+    NSLog(@"*** [Xen HTML Prefs] :: All keys being deleted: %@", allKeys);
+    
     NSDictionary *newSettings = [NSDictionary dictionary];
     
     // Write to CFPreferences
     CFPreferencesSetMultiple(NULL, (__bridge CFArrayRef)allKeys, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
+    CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
     
     [newSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
 

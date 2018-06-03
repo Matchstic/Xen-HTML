@@ -109,6 +109,8 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>iPhone X Specific:</string>
+			<key>d22</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
