@@ -70,6 +70,8 @@
 - (void)_setTelephoneNumberDetectionIsEnabled:(BOOL)arg1;
 - (void)_setTiledScrollingIndicatorVisible:(BOOL)arg1;
 - (void)_setVisibleDebugOverlayRegions:(unsigned int)arg1;
+
+-(void)_setResourceUsageOverlayVisible:(bool)arg1 ;
 @end
 
 @interface WKContentView : UIView
@@ -81,6 +83,8 @@
 - (id)loadFileURL:(id)arg1 allowingReadAccessToURL:(id)arg2;
 - (void)_killWebContentProcessAndResetState;
 - (WKContentView*)_currentContentView;
+@property (nonatomic, readonly) pid_t _webProcessIdentifier;
+@property (nonatomic, readonly) BOOL _webProcessIsResponsive; // iOS 10.
 @end
 
 @interface UIWebView (Apple)

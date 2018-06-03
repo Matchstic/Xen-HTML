@@ -235,7 +235,7 @@
         // Allow editing of this widget
         NSString *widgetURL = [self.dataSource objectAtIndex:indexPath.row];
         
-        XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:widgetURL andDelegate:self];
+        XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:widgetURL delegate:self isNewWidget:NO];
         [self.navigationController pushViewController:editorController animated:YES];
 
     }
@@ -339,7 +339,7 @@
     }];
     
     // We don't animate to the editor for UX reasons.
-    XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:filePath andDelegate:self];
+    XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:filePath delegate:self isNewWidget:YES];
     [self.navigationController pushViewController:editorController animated:NO];
 }
 
@@ -418,7 +418,7 @@
     [XENHResources setPreferenceKey:@"widgets" withValue:mutableSettings];
 }
 
-- (void)_saveWidgetURL:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata {
+- (void)_saveWidgetURL:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata isNewWidget:(BOOL)isNewWidget {
     NSString *key = @"";
     switch (self.variant) {
         case kMultiplexVariantLockscreenBackground:
@@ -455,6 +455,24 @@
     if (![widgetArray containsObject:widgetURL]) {
         [widgetArray addObject:widgetURL];
         [mutableLocationSettings setObject:widgetArray forKey:@"widgetArray"];
+    } else if (isNewWidget) {
+        // We have to handle multiple instances of the same widget now.
+        // The idea is we count how many instances of the widget already exist, and update our prefix with that!
+        
+        int count = 0;
+        
+        for (NSString *location in widgetArray) {
+            if ([location containsString:widgetURL] || [location isEqualToString:widgetURL])
+                count++;
+        }
+        
+        // Add a prefix to differentiate the widget
+        NSString *widgetPrefix = [NSString stringWithFormat:@":%d", count];
+        widgetURL = [NSString stringWithFormat:@"%@%@", widgetPrefix, widgetURL];
+        
+        // Save the widget
+        [widgetArray addObject:widgetURL];
+        [mutableLocationSettings setObject:widgetArray forKey:@"widgetArray"];
     }
     
     NSMutableDictionary *widgetMetadata = [[mutableLocationSettings objectForKey:@"widgetMetadata"] mutableCopy];
@@ -471,8 +489,8 @@
     [XENHResources setPreferenceKey:@"widgets" withValue:mutableSettings];
 }
 
-- (void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata {
-    [self _saveWidgetURL:widgetURL withMetadata:metadata];
+- (void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata isNewWidget:(BOOL)isNewWidget {
+    [self _saveWidgetURL:widgetURL withMetadata:metadata isNewWidget:isNewWidget];
     
     // Do any extra notifying.
     if (self.variant == kMultiplexVariantHomescreenBackground) {

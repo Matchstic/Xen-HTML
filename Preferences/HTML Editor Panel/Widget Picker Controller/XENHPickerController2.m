@@ -326,9 +326,10 @@
         // Get URL of selected cell.
         NSString *url = [self _urlForIndexPath:indexPath];
         
-        // Only allow a single instance of a widget per layer
-        if (![_currentSelected containsObject:url])
-            [_delegate didChooseWidget:url];
+        // ~Only allow a single instance of a widget per layer~
+        // We now allow multiple instance of the same widget per layer.
+        //if (![_currentSelected containsObject:url])
+        [_delegate didChooseWidget:url];
     }
 }
 

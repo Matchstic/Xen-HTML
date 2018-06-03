@@ -30,14 +30,15 @@ typedef enum : NSUInteger {
 } XENHEditorVariant;
 
 @protocol XENHEditorDelegate <NSObject>
--(void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata;
+-(void)didAcceptChanges:(NSString*)widgetURL withMetadata:(NSDictionary*)metadata isNewWidget:(BOOL)isNewWidget;
 @end
 
 @interface XENHEditorViewController : PSViewController <XENHEditorToolbarDelegate, XENHEditorPositioningDelegate, XENHFallbackDelegate>
 
 @property (nonatomic, weak) id<XENHEditorDelegate> delegate;
 @property (nonatomic, strong) NSString *widgetURL;
+@property (nonatomic, readwrite) BOOL isNewWidget;
 
-- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL andDelegate:(id<XENHEditorDelegate>)delegate;
+- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL delegate:(id<XENHEditorDelegate>)delegate isNewWidget:(BOOL)isNewWidget;
 
 @end

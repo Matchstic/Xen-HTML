@@ -118,6 +118,21 @@
 #pragma mark Utility methods
 
 - (void)reloadWebViewToPath:(NSString*)path updateMetadata:(BOOL)shouldSetMetadata ignorePreexistingMetadata:(BOOL)ignorePreexistingMetadata {
+    
+    // XXX: To support multiple instances of the same widget, sometimes widgetIndexFile will be
+    // prefixed by :1/var/mobile/Library/..., :2/var/mobile/Library/..., etc.
+    // Therefore, we need to check if this is the case BEFORE updating our internal property
+    // holding this location.
+    
+    if ([path hasPrefix:@":"]) {
+        // Read the string up to the first /, then strip off the : prefix.
+        NSRange range = [path rangeOfString:@"/"];
+        
+        path = [path substringFromIndex:range.location];
+        
+        NSLog(@"Handling multiple instances for this widget! Substring: %@", path);
+    }
+    
     self.currentURL = path;
     
     NSURL *url = [NSURL fileURLWithPath:self.currentURL isDirectory:NO];

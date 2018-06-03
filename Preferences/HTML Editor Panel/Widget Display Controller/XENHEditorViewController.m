@@ -109,13 +109,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL andDelegate:(id<XENHEditorDelegate>)delegate {
+- (instancetype)initWithVariant:(XENHEditorVariant)variant widgetURL:(NSString*)widgetURL delegate:(id<XENHEditorDelegate>)delegate isNewWidget:(BOOL)isNewWidget {
     self = [super init];
     
     if (self) {
         self.variant = variant;
         self.delegate = delegate;
         self.widgetURL = widgetURL;
+        self.isNewWidget = isNewWidget;
     }
     
     return self;
@@ -265,7 +266,7 @@
         currentURL = @"";
     }
     
-    [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata];
+    [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata isNewWidget:self.isNewWidget];
 }
 
 - (void)_popSelfOffNavigationalStack {

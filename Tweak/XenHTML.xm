@@ -310,6 +310,7 @@
 @interface SBDashBoardCombinedListViewController : SBDashBoardViewControllerBase
 @property(nonatomic, getter=isNotificationContentHidden) _Bool notificationContentHidden;
 - (void)_updateListViewContentInset;
+- (UIView*)notificationListScrollView;
 @end
 
 @interface SBIconController : UIViewController
@@ -2723,7 +2724,10 @@ static void showForegroundForLSNotifIfNeeded() {
     
     if ([XENHResources lsenabled] && [XENHResources LSFullscreenNotifications]) {
         orig.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    }
+    }/* else if ([XENHResources lsenabled] && [XENHResources LSUseCustomNotificationsPosition]) {
+        // Custom notification position: force insets to be 0 due to custom view sizing.
+        orig.top = 0.0;
+    }*/
     
     return orig;
 }
@@ -2734,6 +2738,28 @@ static void showForegroundForLSNotifIfNeeded() {
     // Force-update listview insets for us
     [self _updateListViewContentInset];
 }
+
+/*- (void)_layoutListView {
+    %orig;
+    
+    if ([XENHResources lsenabled] && [XENHResources LSUseCustomNotificationsPosition]) {
+        // Custom notification position: sort out frame.
+        UIView *notificationScrollView = [self notificationListScrollView];
+        CGRect frame = notificationScrollView.frame;
+        
+        CGFloat topOffset = 0.5;
+        CGFloat bottomOffset = 0.0;
+        
+        frame.origin.y = SCREEN_HEIGHT * topOffset;
+        frame.size.height = (SCREEN_HEIGHT * bottomOffset) - (SCREEN_HEIGHT * topOffset);
+        
+        // Set frame
+        notificationScrollView.frame = frame;
+        
+        // Ensure we clip on bounds.
+        notificationScrollView.clipsToBounds = YES;
+    }
+}*/
 
 %end
 

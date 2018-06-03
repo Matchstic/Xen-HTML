@@ -117,8 +117,7 @@ static BOOL shownGraceEnded = NO;
 +(void)removeiOS10Notification;
 
 +(BOOL)LSFullscreenNotifications;
-
-//+(BOOL)LSBGAllowTouch;
++ (BOOL)LSUseCustomNotificationsPosition;
 
 +(BOOL)LSWidgetScrollPriority;
 
@@ -131,6 +130,12 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBHidePageDots;
 +(BOOL)SBAllowTouch;
 +(BOOL)SBUseLegacyMode;
+
+#pragma mark Developer options
+
++ (BOOL)developerOptionsEnabled;
++ (BOOL)showResourceUsageInWidgets;
++ (BOOL)showCompositingBordersInWidgets;
 
 // Extra stuff
 +(void)setCurrentOrientation:(int)orient;

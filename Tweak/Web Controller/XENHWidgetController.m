@@ -24,6 +24,10 @@
 #import <objc/runtime.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
+// For WKWebProcess manipulation
+#include <spawn.h>
+extern char **environ;
+
 @interface UITouch (Private)
 - (void)set_xh_forwardingView:(id)view;
 - (id)_xh_forwardingView;
@@ -75,6 +79,20 @@
 - (void)configureWithWidgetIndexFile:(NSString*)widgetIndexFile andMetadata:(NSDictionary*)metadata {
     // First, unload the existing widget
     [self unloadWidget];
+    
+    // XXX: To support multiple instances of the same widget, sometimes widgetIndexFile will be
+    // prefixed by :1/var/mobile/Library/..., :2/var/mobile/Library/..., etc.
+    // Therefore, we need to check if this is the case BEFORE updating our internal property
+    // holding this location.
+    
+    if ([widgetIndexFile hasPrefix:@":"]) {
+        // Read the string up to the first /, then strip off the : prefix.
+        NSRange range = [widgetIndexFile rangeOfString:@"/"];
+        
+        widgetIndexFile = [widgetIndexFile substringFromIndex:range.location];
+        
+        XENlog(@"Handling multiple instances for this widget! Substring: %@", widgetIndexFile);
+    }
     
     self.widgetIndexFile = widgetIndexFile;
     self.widgetMetadata = metadata;
@@ -175,6 +193,14 @@
     [preferences _setStandalone:YES];
     [preferences _setTelephoneNumberDetectionIsEnabled:NO];
     [preferences _setTiledScrollingIndicatorVisible:NO];
+    
+    // Developer tools
+    if ([XENHResources developerOptionsEnabled]) {
+        [preferences _setDeveloperExtrasEnabled:YES];
+        
+        [preferences _setResourceUsageOverlayVisible:[XENHResources showResourceUsageInWidgets]];
+        [preferences _setCompositingBordersVisible:[XENHResources showCompositingBordersInWidgets]];
+    }
     
     config.preferences = preferences;
     
@@ -398,23 +424,19 @@
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
     // Need to make 100% sure we're on the main thread doing this part.
-    dispatch_async(dispatch_get_main_queue(), ^(void){
-        if (self.usingLegacyWebView) {
-            self.legacyWebView.hidden = paused;
-            self.legacyWebView.alpha = 1.0;
-            
-            // Required to stop the issue of background images disappearing in widgets.
-            //[self.legacyWebView setNeedsDisplay];
-            //[self.legacyWebView setNeedsLayout];
-        } else {
-            self.webView.hidden = paused;
-            self.webView.alpha = 1.0;
-            
-            // Required to stop the issue of background images disappearing in widgets.
-            //[self.webView setNeedsDisplay];
-            //[self.webView setNeedsLayout];
-        }
-    });
+    if ([NSThread isMainThread]) {
+        [self _setMainThreadPaused:paused];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^(void){
+            [self _setMainThreadPaused:paused];
+        });
+    }
+}
+
+- (void)_setMainThreadPaused:(BOOL)paused {
+    // Remove the views from being updated
+    self.legacyWebView.hidden = paused ? YES : NO;
+    self.webView.hidden = paused ? YES : NO;
 }
 
 /////////////////////////////////////////////////////////////////////////////

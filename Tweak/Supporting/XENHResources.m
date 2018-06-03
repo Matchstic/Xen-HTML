@@ -765,6 +765,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++ (BOOL)LSUseCustomNotificationsPosition {
+    id value = settings[@"LSUseCustomNotificationsPosition"];
+    return (value ? [value boolValue] : NO);
+}
+
 +(BOOL)LSShowClockInStatusBar {
     id value = settings[@"LSShowClockInStatusBar"];
     return (value ? [value boolValue] : NO);
@@ -857,6 +862,23 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 +(BOOL)hasDisplayedSetupUI {
     id value = settings[@"hasDisplayedSetupUI"];
+    return (value ? [value boolValue] : NO);
+}
+
+#pragma mark Developer options
+
++ (BOOL)developerOptionsEnabled {
+    id value = settings[@"dev_optionsEnabled"];
+    return (value ? [value boolValue] : NO);
+}
+
++ (BOOL)showResourceUsageInWidgets {
+    id value = settings[@"dev_showResourceUsageInWidgets"];
+    return (value ? [value boolValue] : NO);
+}
+
++ (BOOL)showCompositingBordersInWidgets {
+    id value = settings[@"dev_showCompositingBordersInWidgets"];
     return (value ? [value boolValue] : NO);
 }
 

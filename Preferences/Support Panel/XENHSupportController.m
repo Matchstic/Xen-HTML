@@ -43,6 +43,16 @@ extern char **environ;
     return _specifiers;
 }
 
+// From: https://stackoverflow.com/a/47297734
+- (NSString*)_fallbackStringForKey:(NSString*)key {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
 -(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
     int i;
     for (i=0; i<[s count]; i++) {
