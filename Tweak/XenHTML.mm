@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBIdleTimerDefaults; @class SBLockScreenViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBMainStatusBarStateProvider; @class SBDashBoardMainPageContentViewController; @class SBDashBoardView; @class SBDashBoardNotificationAdjunctListViewController; @class SBIconView; @class SBUIProudLockIconView; @class SBLockScreenBounceAnimator; @class SBDashBoardMainPageView; @class SBDashBoardQuickActionsViewController; @class UIWebView; @class SBCoverSheetWindow; @class SBMainSwitcherViewController; @class SBManualIdleTimer; @class _NowPlayingArtView; @class XENResources; @class SBDashBoardFixedFooterView; @class PHContainerView; @class SBDashBoardMainPageViewController; @class SBScreenWakeAnimationController; @class SBDashBoardCombinedListViewController; @class SBMainWorkspace; @class SBLockScreenNotificationListController; @class SBAlertWindow; @class SBFLockScreenDateView; @class SBPagedScrollView; @class XENNotificationsCollectionViewController; @class SBFLockScreenMetrics; @class WKWebView; @class SBLockScreenNotificationListView; @class SBDockView; @class UITouchesEvent; @class SBUICallToActionLabel; @class SBFloatingDockPlatterView; @class SBHomeScreenViewController; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenView; @class SBDashBoardViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardNotificationListViewController; @class SBHomeScreenView; @class SBApplication; @class SBRootFolderView; @class SBUIController; @class SBDashBoardPageViewController; @class UITouch; @class SBLockScreenManager; @class SBFolderIconBackgroundView; @class XENDashBoardWebViewController; @class SpringBoard; @class SBBacklightController; 
+@class SBLockScreenManager; @class SBAlertWindow; @class SBHorizontalScrollFailureRecognizer; @class SBMainSwitcherViewController; @class SBFolderIconBackgroundView; @class SBLockScreenNotificationListView; @class SBIconView; @class SBDashBoardViewController; @class SBFloatingDockPlatterView; @class SBDashBoardFixedFooterView; @class SBDashBoardNotificationListViewController; @class SBMainStatusBarStateProvider; @class SBApplication; @class SBCoverSheetWindow; @class SBManualIdleTimer; @class SBLockScreenView; @class SBFLockScreenMetrics; @class SBDashBoardPageViewController; @class SBRootFolderView; @class SBUIProudLockIconView; @class _NowPlayingArtView; @class SBIdleTimerDefaults; @class SBDockView; @class SBDashBoardView; @class SBDashBoardMainPageViewController; @class XENNotificationsCollectionViewController; @class UITouchesEvent; @class XENDashBoardWebViewController; @class SBLockScreenViewController; @class SBHomeScreenView; @class SBLockScreenNotificationListController; @class SBUICallToActionLabel; @class SBMainWorkspace; @class SBDashBoardCombinedListViewController; @class SBUIController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBLockScreenBounceAnimator; @class WKWebView; @class UIWebView; @class SBDashBoardNotificationAdjunctListViewController; @class SpringBoard; @class SBPagedScrollView; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardQuickActionsViewController; @class SBFLockScreenDateView; @class SBHomeScreenViewController; @class SBDashBoardMainPageView; @class SBScreenWakeAnimationController; @class SBBacklightController; @class XENResources; @class SBDashBoardMainPageContentViewController; @class SBDashBoardMediaArtworkViewController; @class UITouch; @class PHContainerView; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -1966,6 +1966,10 @@ static void _logos_method$SpringBoard$UIWebView$webView$didClearWindowObject$for
 
 #pragma mark SBHTML (iOS 9+)
 
+@interface UIViewController (Private)
+- (id)_screen;
+@end
+
 
 
 static void _logos_method$SpringBoard$SBHomeScreenViewController$loadView(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenViewController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
@@ -1978,13 +1982,17 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$loadView(_LOGOS
     [XENHResources reloadSettings];
     
     if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
-        XENlog(@"Loading SBHTML view");
-        sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-        [mainView insertSubview:sbhtmlViewController.view atIndex:0];
         
-        sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
         
-        XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
+        
+        BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+        
+        if (isOnMainScreen) {
+            sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+            
+            sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+        }
     }
     
     [self _xenhtml_addTouchRecogniser];
@@ -2014,28 +2022,6 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$_xenhtml_addTou
     
     if (mainView && [XENHResources SBAllowTouch]) {
         
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
         
         NSArray *ignoredViews = @[];
@@ -2078,10 +2064,17 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$recievedSBHTMLU
         
             if ([XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
                 XENlog(@"Loading SBHTML view");
-                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
                 
-                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+                
+                
+                BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+                
+                if (isOnMainScreen) {
+                    sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+                    [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                    
+                    sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+                }
             }
         }
     } else {
@@ -3028,7 +3021,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_5d866742(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_1a91c18c(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

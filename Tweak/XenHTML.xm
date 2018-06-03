@@ -1940,6 +1940,10 @@ void cancelIdleTimer() {
 
 #pragma mark SBHTML (iOS 9+)
 
+@interface UIViewController (Private)
+- (id)_screen;
+@end
+
 %hook SBHomeScreenViewController
 
 -(void)loadView {
@@ -1952,13 +1956,17 @@ void cancelIdleTimer() {
     [XENHResources reloadSettings];
     
     if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
-        XENlog(@"Loading SBHTML view");
-        sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-        [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+        // This is an attempt to avoid oddness alongside CarPlay. It looks as if SBHomeScreenViewController
+        // gets instantiated again when connected to CarPlay, resulting in SBHTML going odd.
         
-        sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+        BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
         
-        XENlog(@"Configured %@, subviews are %@", sbhtmlViewController, mainView.subviews);
+        if (isOnMainScreen) {
+            sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+            
+            sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+        }
     }
     
     [self _xenhtml_addTouchRecogniser];
@@ -1989,28 +1997,6 @@ void cancelIdleTimer() {
     if (mainView && [XENHResources SBAllowTouch]) {
         
         // Need to whitelist some views on which touch forwarding should never prevent
-        /*NSMutableArray *ignoredViews = [@[ objc_getClass("SBIconView"),
-                                           objc_getClass("SBFolderIconView"),
-                                           objc_getClass("SBFloatyFolderView"),
-                                           objc_getClass("SBCloseBoxView")
-                                        ] mutableCopy];
-        
-        // Load iWidgets into the whitelist if present
-        Class iwidgetsClass = objc_getClass("IWWidgetsView");
-        if (iwidgetsClass != nil)
-            [ignoredViews addObject:iwidgetsClass];
-        
-        // Non-existant on some iOS versions
-        if (objc_getClass("SBXCloseBoxView") != nil) {
-            [ignoredViews addObject:objc_getClass("SBXCloseBoxView")];
-        }
-        
-        // Non-existant on some iOS versions
-        if (objc_getClass("SBHomeScreenButton") != nil) {
-            [ignoredViews addObject:objc_getClass("SBHomeScreenButton")];
-            [ignoredViews addObject:objc_getClass("SBEditingDoneButton")];
-        }*/
-        
         // Just here as a stub now
         NSArray *ignoredViews = @[];
         
@@ -2052,10 +2038,17 @@ void cancelIdleTimer() {
         
             if ([XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
                 XENlog(@"Loading SBHTML view");
-                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                // This is an attempt to avoid oddness alongside CarPlay. It looks as if SBHomeScreenViewController
+                // gets instantiated again when connected to CarPlay, resulting in SBHTML going odd.
                 
-                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+                BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+                
+                if (isOnMainScreen) {
+                    sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+                    [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                    
+                    sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+                }
             }
         }
     } else {
