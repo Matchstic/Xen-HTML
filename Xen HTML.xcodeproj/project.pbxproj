@@ -22,6 +22,8 @@
 		C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */; };
 		C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */; };
 		C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; };
+		C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */; };
+		C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */; };
 		C94774E320715D050003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C94774AE20715D050003D039 /* Prefix.pch */; };
 		C94774E420715D050003D039 /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B120715D050003D039 /* XENHSetupLockscreenImportController.m */; };
 		C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C94774B220715D050003D039 /* XENSFinalTickView.m */; };
@@ -160,6 +162,8 @@
 		C91C3A2D209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHMultiplexWidgetsHeaderView.h; sourceTree = "<group>"; };
 		C91C3A2E209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHMultiplexWidgetsHeaderView.m; sourceTree = "<group>"; };
 		C91E103120A0726B00425BBC /* AppSupport.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = AppSupport.tbd; path = lib/AppSupport.tbd; sourceTree = "<group>"; };
+		C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHEditorExistingWidgetsController.h; sourceTree = "<group>"; };
+		C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHEditorExistingWidgetsController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94774AE20715D050003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
@@ -666,6 +670,8 @@
 			children = (
 				C947751420715D150003D039 /* XENHEditorWebViewController.h */,
 				C947750E20715D150003D039 /* XENHEditorWebViewController.m */,
+				C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */,
+				C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */,
 				C947751D20715D150003D039 /* XENHEditorViewController.h */,
 				C947750F20715D150003D039 /* XENHEditorViewController.m */,
 				C947751E20715D150003D039 /* XENHEditorToolbarController.h */,
@@ -832,6 +838,7 @@
 				C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */,
 				C947757620715D150003D039 /* XENHEditorPositioningController.h in Headers */,
 				C94775A320715D160003D039 /* XENHDonationController.h in Headers */,
+				C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */,
 				C94775B220715D160003D039 /* XENHHomescreenPreviewCell.h in Headers */,
 				C94775B620715D160003D039 /* XENHWallpaperViewController.h in Headers */,
 				C947758F20715D150003D039 /* XENHFauxLockNotificationsController.h in Headers */,
@@ -1062,6 +1069,7 @@
 				C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */,
 				C94775AD20715D160003D039 /* XENHLockscreenPreviewCell.m in Sources */,
 				C94775A020715D160003D039 /* XENHPickerCell2.m in Sources */,
+				C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */,
 				C94775A520715D160003D039 /* XENHBaseHTMLPreferenceController.m in Sources */,
 				C94775A620715D160003D039 /* XENHLockscreenPreferenceController.m in Sources */,
 				C947758E20715D150003D039 /* XENHTouchPassThroughView.m in Sources */,

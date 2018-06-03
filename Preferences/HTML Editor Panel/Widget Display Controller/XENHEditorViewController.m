@@ -18,6 +18,7 @@
 
 #import "XENHEditorViewController.h"
 #import "XENHWallpaperViewController.h"
+#import "XENHEditorExistingWidgetsController.h"
 #import "XENHEditorWebViewController.h"
 #import "XENHEditorToolbarController.h"
 #import "XENHEditorDragDropController.h"
@@ -39,6 +40,7 @@
 
 // Constituent controllers of UI.
 @property (nonatomic, strong) XENHWallpaperViewController *wallpaperController;
+@property (nonatomic, strong) XENHEditorExistingWidgetsController *existingWidgetsController;
 @property (nonatomic, strong) XENHEditorWebViewController *webViewController;
 @property (nonatomic, strong) XENHEditorPositioningController *positioningController;
 @property (nonatomic, strong) XENHEditorDragDropController *dragDropController;
@@ -141,10 +143,11 @@
     /*
      We require the following in heirarchal order:
      1. Wallpaper
-     2. Webview
-     3. Positioning
-     4. Drag and drop
-     5. Toolbar
+     2. Existing widgets (when multiplexing)
+     3. Webview
+     4. Positioning
+     5. Drag and drop
+     6. Toolbar
      */
     
     // 1. Backing wallpaper
@@ -153,14 +156,20 @@
     [self addChildViewController:self.wallpaperController];
     [self.view addSubview:self.wallpaperController.view];
     
-    // 2. Webview
+    // 2. Any existing widgets
+    self.existingWidgetsController = [[XENHEditorExistingWidgetsController alloc] initWithVariant:self.variant andCurrentWidget:self.isNewWidget ? @"" :  self.widgetURL];
+    
+    [self addChildViewController:self.existingWidgetsController];
+    [self.view addSubview:self.existingWidgetsController.view];
+    
+    // 3. Webview
     self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:NO];
     [self.webViewController reloadWebViewToPath:self.widgetURL updateMetadata:YES ignorePreexistingMetadata:NO];
     
     [self addChildViewController:self.webViewController];
     [self.view addSubview:self.webViewController.view];
     
-    // 3. Positioning.
+    // 4. Positioning.
     id guideValue = (self.variant != kVariantHomescreenBackground ? [XENHResources getPreferenceKey:@"LSPickerSnapToYAxis"] : [XENHResources getPreferenceKey:@"SBPickerSnapToYAxis"]);
     BOOL snapToGuides = guideValue ? [guideValue boolValue] : YES;
     
@@ -169,13 +178,13 @@
     [self addChildViewController:self.positioningController];
     [self.view addSubview:self.positioningController.view];
     
-    // 4. Drag and drop
+    // 5. Drag and drop
     self.dragDropController = [[XENHEditorDragDropController alloc] init];
     
     [self addChildViewController:self.dragDropController];
     [self.view addSubview:self.dragDropController.view];
     
-    // 5. Toolbar
+    // 6. Toolbar
     self.toolbarController = [[XENHEditorToolbarController alloc] initWithDelegate:self];
     
     [self addChildViewController:self.toolbarController];
@@ -189,6 +198,7 @@
     
     // Update frames for our controllers.
     self.wallpaperController.view.frame = self.view.bounds;
+    self.existingWidgetsController.view.frame = self.view.bounds;
     self.webViewController.view.frame = self.view.bounds;
     self.positioningController.view.frame = self.view.bounds;
     self.dragDropController.view.frame = self.view.bounds;
@@ -260,7 +270,7 @@
     }
     
     // Get the current URL.
-    NSString *currentURL = [self.webViewController getCurrentWidgetURL];
+    NSString *currentURL = self.widgetURL;
     
     if (!currentURL) {
         currentURL = @"";
