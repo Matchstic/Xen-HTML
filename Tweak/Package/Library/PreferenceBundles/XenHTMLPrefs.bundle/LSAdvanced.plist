@@ -78,6 +78,29 @@ However, you will not be able to swipe up to see past notifications.</string>
 			<key>label</key>
 			<string>Use Battery Management</string>
 		</dict>
+		
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>Persistent mode keeps your Lockscreen widgets in memory at all times, so they don't need to load after locking your device.
+	
+Using this mode may lead to greater battery drainage.</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSPersistentWidgets</string>
+			<key>label</key>
+			<string>Persistent Mode</string>
+		</dict>
 	</array>
 </dict>
 </plist>

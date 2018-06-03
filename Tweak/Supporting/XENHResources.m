@@ -785,6 +785,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++ (BOOL)LSPersistentWidgets {
+    id value = settings[@"LSPersistentWidgets"];
+    return (value ? [value boolValue] : NO);
+}
+
 #pragma mark SB
 
 +(BOOL)SBEnabled {

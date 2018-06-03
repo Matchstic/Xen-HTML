@@ -121,6 +121,8 @@ static BOOL shownGraceEnded = NO;
 
 +(BOOL)LSWidgetScrollPriority;
 
++ (BOOL)LSPersistentWidgets;
+
 #pragma mark SB stuff
 
 +(BOOL)SBEnabled;

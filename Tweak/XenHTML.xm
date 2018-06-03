@@ -368,7 +368,7 @@ static id dashBoardMainPageContentViewController;
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else // if (![XENHResources LSPersistantWidgets])
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             [orig insertSubview:backgroundViewController.view atIndex:0];
@@ -377,7 +377,7 @@ static id dashBoardMainPageContentViewController;
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
                 foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else // if (![XENHResources LSPersistantWidgets])
+            else if (![XENHResources LSPersistentWidgets])
                 [foregroundViewController reloadWidgets:NO];
             
 #if TARGET_IPHONE_SIMULATOR==0
@@ -415,7 +415,7 @@ static id dashBoardMainPageContentViewController;
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else// if (![XENHResources LSPersistantWidgets])
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             [orig.backgroundView insertSubview:backgroundViewController.view atIndex:0];
@@ -457,7 +457,7 @@ static id dashBoardMainPageContentViewController;
             if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
                 if (!foregroundViewController)
                     foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-                else // if (![XENHResources LSPersistantWidgets])
+                else if (![XENHResources LSPersistentWidgets])
                     [foregroundViewController reloadWidgets:NO];
                 
                 // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
@@ -500,7 +500,7 @@ static id dashBoardMainPageContentViewController;
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
                 foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else // if (![XENHResources LSPersistantWidgets])
+            else if (![XENHResources LSPersistentWidgets])
                 [foregroundViewController reloadWidgets:NO];
             
             // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
@@ -519,7 +519,7 @@ static id dashBoardMainPageContentViewController;
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else // if (![XENHResources LSPersistantWidgets])
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             // Not using self.backgroundView now as that goes weird when swiping to the camera
@@ -548,18 +548,26 @@ static id dashBoardMainPageContentViewController;
     %orig;
     
     // On iOS 11, this is called whenever dashboard is hidden.
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
-        XENlog(@"Unloading background HTML if present...");
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
         
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
-        
-        XENlog(@"Unloading foreground HTML if present...");
-        
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML if present...");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+            
+            XENlog(@"Unloading foreground HTML if present...");
+            
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+            
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         if (iOS10ForegroundWrapperController) {
             
@@ -783,14 +791,24 @@ static id dashBoardMainPageContentViewController;
     // This was leading to a crash -> an object referenced there was deallocated without being set to nil,
     // giving some pretty odd crashes when calling setAlpha: on it.
     
-    if ([XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
-    
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+    if ([XENHResources lsenabled]) {
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+            
+             XENlog(@"Unloading foreground HTML");
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+            
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         [foregroundHiddenRequesters removeAllObjects];
         foregroundHiddenRequesters = nil;
@@ -820,11 +838,15 @@ static id dashBoardMainPageContentViewController;
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
     if (isiOS10 && [XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
-        XENlog(@"Unloading background HTML if present...");
-        
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+        }
         
         if (iOS10ForegroundWrapperController) {
             [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] dismissContentViewController:iOS10ForegroundWrapperController animated:NO];
@@ -832,11 +854,16 @@ static id dashBoardMainPageContentViewController;
             iOS10ForegroundWrapperController = nil;
         }
         
-        XENlog(@"Unloading foreground HTML if present...");
         
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading foreground HTML");
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         [foregroundHiddenRequesters removeAllObjects];
         foregroundHiddenRequesters = nil;
@@ -2791,74 +2818,6 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-// Debugging!
-/*
-# define HBLogDebug XENlog
-
-%hook UIScrollViewPanGestureRecognizer
-
-- (void)setCancelsTouchesInView:(bool )cancelsTouchesInView { %log; %orig; }
-
-- (bool)_acceptsFailureRequirements { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (void)_cancelRecognition { %log; %orig; }
-- (void)_clearDelayedTouches { %log; %orig; }
-- (void)_delayTouch:(id)arg1 forEvent:(id)arg2 { %log; %orig; }
-- (void)_delayTouchesForEvent:(id)arg1 inPhase:(long long)arg2 { %log; %orig; }
-- (void)_delayTouchesForEventIfNeeded:(id)arg1 { %log; %orig; }
-- (id)_delayedTouches { %log; id r = %orig; XENlog(@" = %@", r); return r; }
-- (bool)_delegateCanBePreventedByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_delegateCanPreventGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_delegateShouldReceivePress:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_delegateShouldReceiveTouch:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (void)_enqueueDelayedTouchToSend:(id)arg1 { %log; %orig; }
-- (void)_enqueueDelayedTouchesAndPressesToSend { %log; %orig; }
-- (void)_enqueueDelayedTouchesToSend { %log; %orig; }
-- (void)_ignoreTouchesAndPressesFromEvent:(id)arg1 pressesEvent:(id)arg2 { %log; %orig; }
-
-- (void)_registerTouches:(id)arg1 forEstimationUpdatesWithEvent:(id)arg2 { %log; %orig; }
-
-- (void)_requiredGestureRecognizerCompleted:(id)arg1 withEvent:(id)arg2 pressesEvent:(id)arg3 { %log; %orig; }
-- (bool)_requiredPreviewForceStateSatisfiedByForceLevel:(long long)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_requiresGestureRecognizerToFail:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_requiresSystemGesturesToFail { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (void)_resetGestureRecognizer { %log; %orig; }
-- (void)_setDirty { %log; %orig; }
-- (bool)_shouldBegin { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)_shouldReceiveTouch:(id)arg1 recognizerView:(id)arg2 touchView:(id)arg3 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-
-- (void)_touchWasCancelled:(id)arg1 { %log; %orig; }
-- (void)_touchesBegan:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)_touchesCancelled:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)_touchesEnded:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)_touchesMoved:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-
-- (void)_updateGestureWithEvent:(id)arg1 buttonEvent:(id)arg2 { %log; %orig; }
-- (bool)_wantsPartialTouchSequences { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (void)_willBeginAfterSatisfyingFailureRequirements { %log; %orig; }
-- (void)addTarget:(id)arg1 action:(SEL)arg2 { %log; %orig; }
-- (bool)canBePreventedByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)canPreventGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-
-- (bool)delaysTouchesBegan { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)delaysTouchesEnded { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-
-- (void)ignoreTouch:(id)arg1 forEvent:(id)arg2 { %log; %orig; }
-
-- (id)initWithTarget:(id)arg1 action:(SEL)arg2 { %log; id r = %orig; XENlog(@" = %@", r); return r; }
-
-- (void)requireGestureRecognizerToFail:(id)arg1 { %log; %orig; }
-
-- (bool)shouldBeRequiredToFailByGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (bool)shouldRequireFailureOfGestureRecognizer:(id)arg1 { %log; bool r = %orig; XENlog(@" = %d", r); return r; }
-- (void)touchesBegan:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)touchesCancelled:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)touchesEnded:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-- (void)touchesEstimatedPropertiesUpdated:(id)arg1 { %log; %orig; }
-- (void)touchesMoved:(id)arg1 withEvent:(id)arg2 { %log; %orig; }
-
-- (void)cancel { %log; %orig; }
-%end*/
-
 %hook UITouch
 
 %property (nonatomic, assign) id _xh_forwardingView;
@@ -2981,6 +2940,17 @@ static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, 
     BOOL oldSBPageDots = [XENHResources SBHidePageDots];
     
     [XENHResources reloadSettings];
+    
+    // Handle changes for LS - only triggered if in the persistent mode.
+    if (foregroundViewController) {
+        [foregroundViewController noteUserPreferencesDidChange];
+    }
+    
+    if (backgroundViewController) {
+        [backgroundViewController noteUserPreferencesDidChange];
+    }
+    
+    // Handle SBHTML changes
     
     NSDictionary *newSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
     BOOL newSBHTMLEnabled = [XENHResources SBEnabled];

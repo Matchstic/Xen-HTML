@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBDashBoardNotificationListViewController; @class _NowPlayingArtView; @class SBUICallToActionLabel; @class SBApplication; @class SBDashBoardPageViewController; @class SBFloatingDockPlatterView; @class SBHorizontalScrollFailureRecognizer; @class SBDockView; @class SBDashBoardFixedFooterView; @class UITouch; @class SBFLockScreenDateView; @class SBFLockScreenMetrics; @class UITouchesEvent; @class XENResources; @class WKWebView; @class SBUIController; @class SpringBoard; @class SBHomeScreenView; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardViewController; @class SBIconView; @class SBHomeScreenViewController; @class SBDashBoardMainPageView; @class SBCoverSheetWindow; @class SBRootFolderView; @class SBLockScreenView; @class SBPagedScrollView; @class SBMainStatusBarStateProvider; @class SBLockScreenBounceAnimator; @class SBLockScreenViewController; @class XENDashBoardWebViewController; @class SBLockScreenNotificationListView; @class SBMainSwitcherViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardQuickActionsViewController; @class XENNotificationsCollectionViewController; @class SBBacklightController; @class SBManualIdleTimer; @class SBScreenWakeAnimationController; @class SBAlertWindow; @class SBLockScreenManager; @class PHContainerView; @class SBMainWorkspace; @class SBDashBoardNotificationAdjunctListViewController; @class SBFolderIconBackgroundView; @class SBLockScreenNotificationListController; @class SBUIProudLockIconView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardCombinedListViewController; @class SBDashBoardMainPageViewController; @class UIWebView; @class SBDashBoardView; @class SBIdleTimerDefaults; @class SBDashBoardMainPageContentViewController; 
+@class SBIdleTimerDefaults; @class SBLockScreenViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBMainStatusBarStateProvider; @class SBDashBoardMainPageContentViewController; @class SBDashBoardView; @class SBDashBoardNotificationAdjunctListViewController; @class SBIconView; @class SBUIProudLockIconView; @class SBLockScreenBounceAnimator; @class SBDashBoardMainPageView; @class SBDashBoardQuickActionsViewController; @class UIWebView; @class SBCoverSheetWindow; @class SBMainSwitcherViewController; @class SBManualIdleTimer; @class _NowPlayingArtView; @class XENResources; @class SBDashBoardFixedFooterView; @class PHContainerView; @class SBDashBoardMainPageViewController; @class SBScreenWakeAnimationController; @class SBDashBoardCombinedListViewController; @class SBMainWorkspace; @class SBLockScreenNotificationListController; @class SBAlertWindow; @class SBFLockScreenDateView; @class SBPagedScrollView; @class XENNotificationsCollectionViewController; @class SBFLockScreenMetrics; @class WKWebView; @class SBLockScreenNotificationListView; @class SBDockView; @class UITouchesEvent; @class SBUICallToActionLabel; @class SBFloatingDockPlatterView; @class SBHomeScreenViewController; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenView; @class SBDashBoardViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardNotificationListViewController; @class SBHomeScreenView; @class SBApplication; @class SBRootFolderView; @class SBUIController; @class SBDashBoardPageViewController; @class UITouch; @class SBLockScreenManager; @class SBFolderIconBackgroundView; @class XENDashBoardWebViewController; @class SpringBoard; @class SBBacklightController; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -394,7 +394,7 @@ static SBLockScreenView* _logos_method$SpringBoard$SBLockScreenView$initWithFram
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else 
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             [orig insertSubview:backgroundViewController.view atIndex:0];
@@ -403,7 +403,7 @@ static SBLockScreenView* _logos_method$SpringBoard$SBLockScreenView$initWithFram
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
                 foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else 
+            else if (![XENHResources LSPersistentWidgets])
                 [foregroundViewController reloadWidgets:NO];
             
 #if TARGET_IPHONE_SIMULATOR==0
@@ -441,7 +441,7 @@ static SBDashBoardView* _logos_method$SpringBoard$SBDashBoardView$initWithFrame$
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             [orig.backgroundView insertSubview:backgroundViewController.view atIndex:0];
@@ -483,7 +483,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$setMainPageView$(_LOGOS_SE
             if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
                 if (!foregroundViewController)
                     foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-                else 
+                else if (![XENHResources LSPersistentWidgets])
                     [foregroundViewController reloadWidgets:NO];
                 
                 
@@ -526,7 +526,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$viewControllerWillAppear(_
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
             if (!foregroundViewController)
                 foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else 
+            else if (![XENHResources LSPersistentWidgets])
                 [foregroundViewController reloadWidgets:NO];
             
             
@@ -545,7 +545,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$viewControllerWillAppear(_
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
             if (!backgroundViewController)
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else 
+            else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
             
             
@@ -574,18 +574,26 @@ static void _logos_method$SpringBoard$SBDashBoardView$viewControllerDidDisappear
     _logos_orig$SpringBoard$SBDashBoardView$viewControllerDidDisappear(self, _cmd);
     
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled] ) {
-        XENlog(@"Unloading background HTML if present...");
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
         
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
-        
-        XENlog(@"Unloading foreground HTML if present...");
-        
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML if present...");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+            
+            XENlog(@"Unloading foreground HTML if present...");
+            
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+            
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         if (iOS10ForegroundWrapperController) {
             
@@ -809,14 +817,24 @@ static void _logos_method$SpringBoard$SBLockScreenViewController$_releaseLockScr
     
     
     
-    if ([XENHResources lsenabled] ) {
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
-    
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+    if ([XENHResources lsenabled]) {
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+            
+             XENlog(@"Unloading foreground HTML");
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+            
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         [foregroundHiddenRequesters removeAllObjects];
         foregroundHiddenRequesters = nil;
@@ -846,11 +864,15 @@ static void _logos_method$SpringBoard$SBDashBoardViewController$displayDidDisapp
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
     if (isiOS10 && [XENHResources lsenabled] ) {
-        XENlog(@"Unloading background HTML if present...");
-        
-        [backgroundViewController unloadWidgets];
-        [backgroundViewController.view removeFromSuperview];
-        backgroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading background HTML");
+            [backgroundViewController unloadWidgets];
+            [backgroundViewController.view removeFromSuperview];
+            backgroundViewController = nil;
+        } else {
+            XENlog(@"Unloading background HTML for persistent mode");
+            [backgroundViewController.view removeFromSuperview];
+        }
         
         if (iOS10ForegroundWrapperController) {
             [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] dismissContentViewController:iOS10ForegroundWrapperController animated:NO];
@@ -858,11 +880,16 @@ static void _logos_method$SpringBoard$SBDashBoardViewController$displayDidDisapp
             iOS10ForegroundWrapperController = nil;
         }
         
-        XENlog(@"Unloading foreground HTML if present...");
         
-        [foregroundViewController unloadWidgets];
-        [foregroundViewController.view removeFromSuperview];
-        foregroundViewController = nil;
+        if (![XENHResources LSPersistentWidgets]) {
+            XENlog(@"Unloading foreground HTML");
+            [foregroundViewController unloadWidgets];
+            [foregroundViewController.view removeFromSuperview];
+            foregroundViewController = nil;
+        } else {
+            XENlog(@"Unloading foreground HTML for persistent mode");
+            [foregroundViewController.view removeFromSuperview];
+        }
         
         [foregroundHiddenRequesters removeAllObjects];
         foregroundHiddenRequesters = nil;
@@ -2819,74 +2846,6 @@ static NSSet* _logos_method$SpringBoard$UITouchesEvent$touchesForView$(_LOGOS_SE
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 static char _logos_property_key$SpringBoard$UITouch$_xh_forwardingView;__attribute__((used)) static id _logos_method$SpringBoard$UITouch$_xh_forwardingView$(UITouch* __unused self, SEL __unused _cmd){ return objc_getAssociatedObject(self, &_logos_property_key$SpringBoard$UITouch$_xh_forwardingView); }__attribute__((used)) static void _logos_method$SpringBoard$UITouch$set_xh_forwardingView$(UITouch* __unused self, SEL __unused _cmd, id arg){ objc_setAssociatedObject(self, &_logos_property_key$SpringBoard$UITouch$_xh_forwardingView, arg, OBJC_ASSOCIATION_ASSIGN); }
 
 static id _logos_method$SpringBoard$UITouch$view(_LOGOS_SELF_TYPE_NORMAL UITouch* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
@@ -3008,6 +2967,17 @@ static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, 
     
     [XENHResources reloadSettings];
     
+    
+    if (foregroundViewController) {
+        [foregroundViewController noteUserPreferencesDidChange];
+    }
+    
+    if (backgroundViewController) {
+        [backgroundViewController noteUserPreferencesDidChange];
+    }
+    
+    
+    
     NSDictionary *newSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
     BOOL newSBHTMLEnabled = [XENHResources SBEnabled];
     BOOL newDock = [XENHResources hideBlurredDockBG];
@@ -3058,7 +3028,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_73ce6462(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_5d866742(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}
