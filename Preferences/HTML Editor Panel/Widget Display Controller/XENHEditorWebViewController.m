@@ -52,6 +52,7 @@
 @property (nonatomic, strong) UILabel *noHTMLLabel;
 @property (nonatomic, readwrite) BOOL enableShowNoHTML;
 @property (nonatomic, strong) NSString *currentURL;
+@property (nonatomic, strong) NSString *_unmodifiedCurrentURL;
 
 @property (nonatomic, readwrite) BOOL isFullscreen;
 @property (nonatomic, strong) NSDictionary *metadata;
@@ -119,6 +120,8 @@
 
 - (void)reloadWebViewToPath:(NSString*)path updateMetadata:(BOOL)shouldSetMetadata ignorePreexistingMetadata:(BOOL)ignorePreexistingMetadata {
     
+    self._unmodifiedCurrentURL = path;
+    
     // XXX: To support multiple instances of the same widget, sometimes widgetIndexFile will be
     // prefixed by :1/var/mobile/Library/..., :2/var/mobile/Library/..., etc.
     // Therefore, we need to check if this is the case BEFORE updating our internal property
@@ -142,7 +145,7 @@
         NSLog(@"XenHTMLPrefs :: Loading from URL: %@", url);
         
         if (shouldSetMetadata) {
-            self.metadata = [self rawMetadataForHTMLFile:self.currentURL ignorePreexistingMetadata:ignorePreexistingMetadata];
+            self.metadata = [self rawMetadataForHTMLFile:self._unmodifiedCurrentURL ignorePreexistingMetadata:ignorePreexistingMetadata];
             
             // Update isFullscreen.
             self.isFullscreen = [[self.metadata objectForKey:@"isFullscreen"] boolValue];
@@ -476,7 +479,7 @@
     
     if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.currentURL]) {
         NSLog(@"XenHTMLPrefs :: Loading from URL: %@", url);
-        self.metadata = [self rawMetadataForHTMLFile:self.currentURL ignorePreexistingMetadata:NO];
+        self.metadata = [self rawMetadataForHTMLFile:self._unmodifiedCurrentURL ignorePreexistingMetadata:NO];
         
         [self unloadWebview];
         
