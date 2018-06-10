@@ -10,9 +10,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Element Visibility</string>
+			<string>ELEMENT_VISIBILITY_HEADER</string>
 			<key>footerText</key>
-			<string>Hide lockscreen elements when using XenHTML.</string>
+			<string>ELEMENT_VISIBILITY_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -26,7 +26,7 @@
 			<key>key</key>
 			<string>hideClock</string>
 			<key>label</key>
-			<string>Hide Lockscreen Clock</string>
+			<string>ELEMENT_LS_CLOCK</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -46,14 +46,14 @@
 			<key>key</key>
 			<string>hideClock10</string>
 			<key>label</key>
-			<string>Hide Lockscreen Clock</string>
+			<string>ELEMENT_LS_CLOCK</string>
 			<key>PostNotification</key>
 			<string>com.matchstic.xenhtml/settingschanged</string>
 			<key>validTitles</key>
 			<array>
-				<string>Visible</string>
-				<string>On Main Page</string>
-				<string>On All Pages</string>
+				<string>ELEMENT_LS_CLOCK_IOS10_VISIBLE</string>
+				<string>ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE</string>
+				<string>ELEMENT_LS_CLOCK_IOS10_ALL_PAGES</string>
 			</array>
 			<key>validValues</key>
 			<array>
@@ -62,7 +62,7 @@
 				<integer>2</integer>
 			</array>
 			<key>staticTextMessage</key>
-			<string>The Lockscreen clock can be hidden on either just the Main page, or all pages including App Widgets.</string>
+			<string>ELEMENT_LS_CLOCK_IOS10_FOOTER</string>
 			<key>minVer</key>
 			<real>10.0</real>
 		</dict>
@@ -78,7 +78,7 @@
 			<key>key</key>
 			<string>hideSTU</string>
 			<key>label</key>
-			<string>Hide &quot;slide to unlock&quot; Text</string>
+			<string>ELEMENT_SLIDE_TO_UNLOCK</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -96,7 +96,7 @@
 			<key>key</key>
 			<string>hideSTU</string>
 			<key>label</key>
-			<string>Hide &quot;Press Home to Unlock&quot; Text</string>
+			<string>ELEMENT_HOME_TO_UNLOCK</string>
 			<key>minVer</key>
 			<real>10.0</real>
 			<key>d22</key>
@@ -114,7 +114,7 @@
 			<key>key</key>
 			<string>hideSTU</string>
 			<key>label</key>
-			<string>Hide &quot;Swipe up to unlock&quot; Text</string>
+			<string>ELEMENT_SWIPE_TO_UNLOCK</string>
 			<key>minVer</key>
 			<real>11.0</real>
 			<key>d22</key>
@@ -124,7 +124,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Hide Other Elements</string>
+			<string>ELEMENT_HIDE_OTHERS</string>
 			<key>detail</key>
 			<string>XENHLSVisibilityController</string>
 			<key>isController</key>
@@ -134,13 +134,13 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Widget Visibility</string>
+			<string>VISIBILITY_HEADER</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Media Controls Behaviour</string>
+			<string>VISIBILITY_MEDIA</string>
 			<key>detail</key>
 			<string>XENHLSMediaController</string>
 			<key>isController</key>
@@ -150,7 +150,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Notifications Behaviour</string>
+			<string>VISIBILITY_NOTIFICATIONS</string>
 			<key>detail</key>
 			<string>XENHLSNotificationsController</string>
 			<key>isController</key>
@@ -160,7 +160,7 @@
 			<key>cell</key>
 			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Widget Opacity When Hidden:</string>
+			<string>VISIBILITY_OPACITY</string>
 		</dict>
          <dict>
 			<key>cell</key>
@@ -190,7 +190,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Miscellaneous</string>
+			<string>MSIC_HEADER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -204,7 +204,7 @@
 			<key>key</key>
 			<string>sameSizedStatusBar</string>
 			<key>label</key>
-			<string>Smaller Lockscreen Status Bar</string>
+			<string>MISC_LS_STATUS_BAR_SIZE</string>
 			<key>d22</key>
 			<false/>
 		</dict>
@@ -222,17 +222,17 @@
 			<key>key</key>
 			<string>lockScreenIdleTime</string>
 			<key>label</key>
-			<string>Lockscreen Idle Duration</string>
+			<string>MISC_LS_IDLE_TIME</string>
 			<key>PostNotification</key>
 			<string>com.matchstic.xenhtml/settingschanged</string>
 			<key>validTitles</key>
 			<array>
-				<string>10 Seconds</string>
-				<string>15 Seconds</string>
-				<string>20 Seconds</string>
-				<string>30 Seconds</string>
-				<string>1 Minute</string>
-				<string>2 Minutes</string>
+				<string>MISC_LS_IDLE_TIME_10S</string>
+				<string>MISC_LS_IDLE_TIME_15S</string>
+				<string>MISC_LS_IDLE_TIME_20S</string>
+				<string>MISC_LS_IDLE_TIME_30S</string>
+				<string>MISC_LS_IDLE_TIME_60S</string>
+				<string>MISC_LS_IDLE_TIME_120S</string>
 			</array>
 			<key>validValues</key>
 			<array>
@@ -252,7 +252,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Advanced</string>
+			<string>ADVANCED</string>
 			<key>detail</key>
 			<string>XENHLSAdvancedController</string>
 			<key>isController</key>
@@ -262,9 +262,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Widget Editor</string>
+			<string>WIDGET_EDITOR_HEADER</string>
 			<key>footerText</key>
-			<string>Customise the settings panel used for choosing widgets to render on the lockscreen.</string>
+			<string>WIDGET_EDITOR_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -278,7 +278,7 @@
 			<key>key</key>
 			<string>LSPickerSnapToYAxis</string>
 			<key>label</key>
-			<string>Snap Widgets To Y-axis</string>
+			<string>WIDGET_EDITOR_SNAP</string>
 		</dict>
 
 	</array>

@@ -279,11 +279,11 @@
     BOOL succeed = [data writeToFile:_filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     if (!succeed){
         // Handle error here        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"Error" value:@"Error"]
-                                             message:[XENHResources localisedStringForKey:@"Failed to write widget settings; check file permissions for this widget" value:@"Failed to write widget settings; check file permissions for this widget"]
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"ERROR"]
+                                             message:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS"]
                                              preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             // nop.
         }];
         
@@ -360,7 +360,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.navigationItem setTitle:[XENHResources localisedStringForKey:@"Widget Settings" value:@"Widget Settings"]];
+    [self.navigationItem setTitle:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -387,7 +387,7 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return [XENHResources localisedStringForKey:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI." value:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI."];
+        return [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
     } else {
         return nil;
     }
@@ -406,7 +406,7 @@
         
         cell.accessoryView = switchView;
         
-        cell.textLabel.text = [XENHResources localisedStringForKey:@"Legacy Mode" value:@"Legacy Mode"];
+        cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"];
         cell.textLabel.textColor = [UIColor darkTextColor];
         
         return cell;

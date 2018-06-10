@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Notifications";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Hide Foreground Widget For:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Configure behaviour alongside notifications.";
+"HIDE_FOREGROUND_NOTIF" = "Notifications";
+
+"OTHER_HEADER" = "Other Settings";
+"OTHER_FOOTER" = "Notifications can be presented on the full height of the display.";
+"FULLSCREEN_NOTIFICATIONS" = "Fullscreen Notifications";

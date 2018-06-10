@@ -21,7 +21,8 @@
 typedef enum : NSUInteger {
     kLocationLSBackground,
     kLocationLSForeground,
-    kLocationSBBackground
+    kLocationSBBackground,
+    kLocationSBForeground
 } XENHLayerLocation;
 
 #define orient3 [XENHResources getCurrentOrientation]
@@ -66,12 +67,15 @@ static BOOL shownGraceEnded = NO;
 // Settings handling
 +(void)reloadSettings;
 
-+(NSString*)localisedStringForKey:(NSString*)key value:(NSString*)val;
++(NSString*)localisedStringForKey:(NSString*)key;
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width;
 +(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;
 +(NSString*)imageSuffix;
 +(void)setPreferenceKey:(NSString*)key withValue:(id)value andPost:(BOOL)post;
 +(id)getPreferenceKey:(NSString*)key;
+
++ (BOOL)showUnsupportedAlertForCurrentVersion;
++ (BOOL)userForcedSupportedForCurrentVersion;
 
 #pragma mark Lockscreen stuff
 

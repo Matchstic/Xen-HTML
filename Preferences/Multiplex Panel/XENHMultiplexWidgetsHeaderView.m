@@ -51,13 +51,13 @@
     // Set the image and text content per variant
     switch (variant) {
         case kMultiplexVariantLockscreenBackground:
-            self.label.text = [XENHResources localisedStringForKey:@"Background widgets become part of your wallpaper" value:@"Background widgets become part of your wallpaper"];
+            self.label.text = [XENHResources localisedStringForKey:@"WIDGETS_LSBACKGROUND_DETAIL"];
             break;
         case kMultiplexVariantLockscreenForeground:
-            self.label.text = [XENHResources localisedStringForKey:@"Foreground widgets are fully interactive additions to your Lockscreen" value:@"Foreground widgets are fully interactive additions to your Lockscreen"];
+            self.label.text = [XENHResources localisedStringForKey:@"WIDGETS_LSFOREGROUND_DETAIL"];
             break;
         case kMultiplexVariantHomescreenBackground:
-            self.label.text = [XENHResources localisedStringForKey:@"Background widgets become interactive additions to your wallpaper" value:@"Background widgets become interactive additions to your wallpaper"];
+            self.label.text = [XENHResources localisedStringForKey:@"WIDGETS_SBBACKGROUND_DETAIL"];
             break;
         default:
             break;

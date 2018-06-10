@@ -55,9 +55,9 @@ static NSString *listFile;
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"More Widgets" value:@"More Widgets"]];
+    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"MORE_REPOS_WIDGETS"]];
     
-    UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Refresh" value:@"Refresh"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonPressed:)];
+    UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"MORE_REPOS_REFRESH"] style:UIBarButtonItemStyleDone target:self action:@selector(refreshButtonPressed:)];
     [[self navigationItem] setRightBarButtonItem:refresh];
     
     // Pull data for items from the asscoiated .plist
@@ -93,7 +93,7 @@ static NSString *listFile;
             
             if (!manifest) {
                 // TODO: ERROR HANDLING!
-                NSLog(@"Oh, cock! Something terribly bad has just happened.");
+                NSLog(@"Something terribly bad has just happened.");
             }
             
             NSMutableArray *mutable = [manifest mutableCopy];
@@ -141,7 +141,7 @@ static NSString *listFile;
     self.loadingLabel.textColor = [UIColor darkTextColor];
     self.loadingLabel.font = [UIFont systemFontOfSize:18];
     self.loadingLabel.numberOfLines = 0;
-    self.loadingLabel.text = [XENHResources localisedStringForKey:@"Contacting server..." value:@"Contacting server..."];
+    self.loadingLabel.text = [XENHResources localisedStringForKey:@"MORE_REPOS_CONTACTING_SERVER"];
     
     [self.tableOverlayView addSubview:self.loadingLabel];
     
@@ -239,7 +239,7 @@ static NSString *listFile;
 #pragma mark - Table view data source
 
 -(NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Additional Repositories";
+    return [XENHResources localisedStringForKey:@"MORE_REPOS_TITLE"];
 }
 
 - (id)tableView:(UITableView*)arg1 titleForFooterInSection:(NSInteger)arg2 {
@@ -311,15 +311,15 @@ static NSString *listFile;
     _selectedRepo = [self subtitleForIndexPath:indexPath];
     BOOL isInstalled = [self isInstalledAtIndexPath:indexPath];
     
-    NSString *message = [XENHResources localisedStringForKey:@"Add this repo to Cydia?" value:@"Add this repo to Cydia?"];
+    NSString *message = [XENHResources localisedStringForKey:@"MORE_REPOS_ADD_TO_CYDIA"];
     if (isInstalled) {
-        message = [XENHResources localisedStringForKey:@"Open this repo in Cydia?" value:@"Open this repo in Cydia?"];
+        message = [XENHResources localisedStringForKey:@"MORE_REPOS_OPEN_IN_CYDIA"];
     }
     
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML"
                                                  message:message
                                                 delegate:self
-                                       cancelButtonTitle:[XENHResources localisedStringForKey:@"Cancel" value:@"Cancel"] otherButtonTitles:[XENHResources localisedStringForKey:@"OK" value:@"OK"], nil];
+                                       cancelButtonTitle:[XENHResources localisedStringForKey:@"CANCEL"] otherButtonTitles:[XENHResources localisedStringForKey:@"OK"], nil];
     [av show];
 }
 

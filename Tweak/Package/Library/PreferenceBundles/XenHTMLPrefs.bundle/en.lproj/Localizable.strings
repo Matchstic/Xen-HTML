@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Cancel";
+"OK" = "OK";
+"WARNING" = "Warning";
+"DONE" = "Done";
+"BACK" = "Back";
+"ERROR" = "Error";
+
+"ROOT_SHARE_TEXT" = "I'm using Xen HTML to run HTML widgets on my Lockscreen and Homescreen! Check it out on Cydia:";
+
+"MORE_REPOS_TITLE" = "Additional Repositories";
+"MORE_REPOS_WIDGETS" = "More Widgets";
+"MORE_REPOS_REFRESH" = "Refresh";
+"MORE_REPOS_CONTACTING_SERVER" = "Contacting server...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Add this repo to Cydia?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Open this repo in Cydia?";
+
+"DONATE_ADDRESS_COPIED" = "Address was copied to the clipboard!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Your device will now respring to apply changes";
+"SUPPORT_CONFIRM_RESET" = "This will clear all Xen HTML settings.\n\nDo you wish to continue?";
+"SUPPORT_CONFIRM_OPTION" = "Go Nuclear";
+
+"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_PREVIEW_HEADER" = "Preview";
+"WIDGETS_PREVIEW_FOOTER" = "Slide to adjust the angle of preview.";
+"WIDGETS_BACKGROUND" = "Background Widgets";
+"WIDGETS_FOREGROUND" = "Foreground Widgets";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Background widgets become part of your wallpaper";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Foreground widgets are fully interactive additions to your Lockscreen";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Background widgets become interactive additions to your wallpaper";
+"WIDGETS_NONE_SELECTED" = "No widgets selected";
+"WIDGETS_ADD_NEW" = "Add widget...";
+"WIDGETS_CONFIGURE" = "Configure:";
+"WIDGETS_LOCKSCREEN" = "Lockscreen";
+"WIDGETS_HOMESCREEN" = "Homescreen";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "No Widget Selected";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "There was an error parsing the settings file; some options may be missing";
+"WIDGET_EDITOR_SAVE" = "Save";
+"WIDGET_EDITOR_DRAGDROP" = "Drag and drop to adjust position";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Drag and drop to adjust position\n\nRotate your device to view in different orientations";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Available Widgets";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Foreground)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Background)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "No widgets available";
+"WIDGET_PICKER_NONE" = "None";
+"WIDGET_PICKER_LOADING" = "Loading";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Package:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Unknown Author";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Unknown / Local";
+
+"WIDGET_SETTINGS_TITLE" = "Widget Settings";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Failed to write widget settings; check file permissions for this widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Legacy Mode";
+"WIDGET_SETTINGS_NONE" = "No settings available";
+
+/* TWEAK */
+
+"NEXT" = "Next";
+
+"SETUP_INITIAL_TITLE" = "Install Completed";
+"SETUP_INITIAL_FOOTER" = "Xen HTML was successfully installed.\nThere are just a few more steps to follow, and then you're finished!";
+"SETUP_INITIAL_BUTTON" = "Continue";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Lockscreen Setup";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "What does Importing do?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Importing allows you to move existing Lockscreen settings across to Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Setup without Importing";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Import from Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Import from GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Homescreen Setup";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "What does Importing do?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Importing allows you to move existing Homescreen settings across to Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Setup without Importing";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Import from SBHTML";
+
+"SETUP_FINAL_TITLE" = "Final Touches";
+"SETUP_FINAL_TITLE_POST_WORK" = "Welcome to Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Get Started";
+"SETUP_FINAL_RESTART_TITLE" = "SpringBoard needs to be restarted to finish your installation";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Applying your settings";
+"SETUP_FINAL_COFFEE" = "Taking a coffee break";
+"SETUP_FINAL_CLEANUP" = "Cleaning up";
+

@@ -67,8 +67,7 @@
     
     _filesystemName.textColor = [UIColor grayColor];
     
-   // _filesystemName.text = [NSString stringWithFormat:[XENHResources localisedStringForKey:@"No widgets available for %@" value:@"No widgets available"], type];
-    _filesystemName.text = [XENHResources localisedStringForKey:@"No widgets available" value:@"No widgets available"];
+    _filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NO_WIDGETS_AVAILABLE"];
     
     // Blank out everything else.
     _author.text = @"";
@@ -87,7 +86,7 @@
     // Configure filename as appropriate.
     NSString *thing = [filename stringByDeletingLastPathComponent];
     if ([thing isEqualToString:@""]) {
-        _filesystemName.text = [XENHResources localisedStringForKey:@"None" value:@"None"];
+        _filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NONE"];
         
         // Blank out everything else.
         _author.text = @"";
@@ -105,11 +104,11 @@
     
     _filesystemName.text = filename;
     
-    NSString *loading = [XENHResources localisedStringForKey:@"Loading" value:@"Loading"];
+    NSString *loading = [XENHResources localisedStringForKey:@"WIDGET_PICKER_LOADING"];
     
     _author.text = loading;
     
-    NSString *inPackageStatic = [XENHResources localisedStringForKey:@"Package:" value:@"Package:"];
+    NSString *inPackageStatic = [XENHResources localisedStringForKey:@"WIDGET_PICKER_PACKAGE_PREFIX"];
     _packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, loading];
     
     // We now have the URL of this widget. Proceed to ask libpackageinfo for details, and check for a screenshot.
@@ -137,7 +136,7 @@
             
             
             // Check if the author needs any changes.
-            NSString *authorText = package.author && ![package.author isEqualToString:@""] ? package.author : [XENHResources localisedStringForKey:@"Unknown Author" value:@"Unknown Author"];
+            NSString *authorText = package.author && ![package.author isEqualToString:@""] ? package.author : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_AUTHOR"];
             
             if ([authorText rangeOfString:@"<"].location != NSNotFound) {
                 // Take off the author email.
@@ -148,7 +147,7 @@
             
             _author.text = authorText;
             
-            NSString *packageText = package.name && ![package.name isEqualToString:@""] ? package.name : [XENHResources localisedStringForKey:@"Unknown / Local" value:@"Unknown / Local"];
+            NSString *packageText = package.name && ![package.name isEqualToString:@""] ? package.name : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_PACKAGE"];
             
             _packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, packageText];
             

@@ -17,6 +17,7 @@
  */
 
 #import "XENHHomescreenPreferenceController.h"
+#import "XENHResources.h"
 
 @interface XENHHomescreenPreferenceController ()
 
@@ -25,7 +26,7 @@
 @implementation XENHHomescreenPreferenceController
 
 - (NSString*)titleForController {
-    return @"Homescreen";
+    return [XENHResources localisedStringForKey:@"WIDGETS_HOMESCREEN"];
 }
 
 // Same as wallpaper variant really; 0 == LS, 1 == SB

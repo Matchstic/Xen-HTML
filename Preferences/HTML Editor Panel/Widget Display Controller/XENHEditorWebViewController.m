@@ -91,7 +91,7 @@
     // If enabled, show a label stating "No Widget Selected" as appropriate.
     if (self.enableShowNoHTML) {
         self.noHTMLLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.noHTMLLabel.text = [XENHResources localisedStringForKey:@"No Widget Selected" value:@"No Widget Selected"];
+        self.noHTMLLabel.text = [XENHResources localisedStringForKey:@"WIDGET_EDITOR_NONE_SELECTED"];
         self.noHTMLLabel.textColor = [UIColor whiteColor];
         self.noHTMLLabel.textAlignment = NSTextAlignmentCenter;
         self.noHTMLLabel.font = [UIFont systemFontOfSize:18];

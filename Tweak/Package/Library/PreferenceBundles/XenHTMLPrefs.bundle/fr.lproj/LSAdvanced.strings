@@ -1,0 +1,17 @@
+/* 
+  LSAdvanced.strings
+  Xen HTML
+*/
+
+"TITLE" = "Avancé";
+
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Pour les widgets qui ont l'option défilement pour les régions, prioriser le touch résoudra l'erreur qui empêche l'usage de ces régions.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Pour les widgets qui ont l'option touch pour les régions en bas de l’écran, l’activer va permettre leur usage.\n\nPar contre, vous ne pourrez pas glisser pour voir les anciennes notifications.";
+"SCROLL_PRIORITY_IOS10" = "Prioriser le défilement sur le Widget";
+"SCROLL_PRIORITY_IOS11" = "Prioriser le touch sur le Widget";
+
+"BATTERY_MANAGEMENT_FOOTER" = "Désactiver la gestion de la batterie utilisera plus de batterie, mais pourrait prévenir quelques problèmes visuels.";
+"BATTERY_MANAGEMENT" = "Utiliser la gestion de la batterie";
+
+"PERSISTENT_MODE_FOOTER" = "Le mode persistant garde vos widgets d écran verrouillé en mémoire, à tout moment pour qu’ ils n aient pas besoin de charger après le verrouillage de votre appareil.\n\nL'utilisation de ce mode pourrait entraîner un meilleur drainage de la batterie.";
+"PERSISTENT_MODE" = "Mode Persistant";

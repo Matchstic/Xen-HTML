@@ -33,7 +33,7 @@
     _finishedFauxUI = NO;
     
     self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    self.headerLabel.text = [XENHResources localisedStringForKey:@"Final Touches" value:@"Final Touches"];
+    self.headerLabel.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_TITLE"];
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
     self.headerLabel.textColor = [UIColor blackColor];
     self.headerLabel.numberOfLines = 0;
@@ -43,7 +43,7 @@
     
     self.restartText = [[UILabel alloc] initWithFrame:CGRectZero];
     self.restartText.backgroundColor = [UIColor clearColor];
-    self.restartText.text = [XENHResources localisedStringForKey:@"SpringBoard needs to be restarted to finish your installation" value:@"SpringBoard needs to be restarted to finish your installation"];
+    self.restartText.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_RESTART_TITLE"];
     self.restartText.textAlignment = NSTextAlignmentCenter;
     self.restartText.textColor = [UIColor blackColor];
     self.restartText.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
@@ -53,7 +53,7 @@
     [self.view addSubview:self.restartText];
     
     self.doneButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.doneButton setTitle:[XENHResources localisedStringForKey:@"Get Started" value:@"Get Started"] forState:UIControlStateNormal];
+    [self.doneButton setTitle:[XENHResources localisedStringForKey:@"SETUP_FINAL_RESTART_BUTTON"] forState:UIControlStateNormal];
     [self.doneButton addTarget:self action:@selector(doneButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.doneButton.titleLabel.font = [UIFont systemFontOfSize:26];
     self.doneButton.hidden = YES;
@@ -67,17 +67,17 @@
     [self.view addSubview:self.tickCentraliser];
     
     self.viewSettings = [[XENHSFinalTickView alloc] initWithFrame:CGRectZero];
-    [self.viewSettings setupWithText:[XENHResources localisedStringForKey:@"Applying your settings" value:@"Applying your settings"]];
+    [self.viewSettings setupWithText:[XENHResources localisedStringForKey:@"SETUP_FINAL_APPLYING_SETTINGS"]];
     
     [self.tickCentraliser addSubview:self.viewSettings];
     
     self.viewCoffee = [[XENHSFinalTickView alloc] initWithFrame:CGRectZero];
-    [self.viewCoffee setupWithText:[XENHResources localisedStringForKey:@"Taking a coffee break" value:@"Taking a coffee break"]];
+    [self.viewCoffee setupWithText:[XENHResources localisedStringForKey:@"SETUP_FINAL_COFFEE"]];
     
     [self.tickCentraliser addSubview:self.viewCoffee];
     
     self.viewCleaningUp = [[XENHSFinalTickView alloc] initWithFrame:CGRectZero];
-    [self.viewCleaningUp setupWithText:[XENHResources localisedStringForKey:@"Cleaning up" value:@"Cleaning up"]];
+    [self.viewCleaningUp setupWithText:[XENHResources localisedStringForKey:@"SETUP_FINAL_CLEANUP"]];
     
     [self.tickCentraliser addSubview:self.viewCleaningUp];
 }
@@ -128,7 +128,7 @@
     
     CGFloat yOrigin = self.navigationController.navigationBar.frame.size.height + [XENHSetupWindow sharedInstance].bar.frame.size.height;
     self.headerLabel.frame = CGRectMake(0, yOrigin, self.view.frame.size.width, 50);
-    self.headerLabel.text = [XENHResources localisedStringForKey:@"Final Touches" value:@"Final Touches"];
+    self.headerLabel.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_TITLE"];
     
     self.tickCentraliser.hidden = NO;
 }
@@ -228,7 +228,7 @@
         self.viewCoffee.hidden = YES;
         self.tickCentraliser.hidden = YES;
         
-        self.headerLabel.text = [XENHResources localisedStringForKey:@"Welcome to Xen HTML" value:@"Welcome to Xen HTML"];
+        self.headerLabel.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_TITLE_POST_WORK"];
         [self.headerLabel sizeToFit];
         self.headerLabel.frame = CGRectMake(0, self.view.frame.size.height/2 - self.headerLabel.frame.size.height - 20, self.view.frame.size.width, self.headerLabel.frame.size.height);
     

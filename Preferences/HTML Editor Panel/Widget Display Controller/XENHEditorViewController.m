@@ -326,7 +326,7 @@
         }
         
         // Add done button.
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Done" value:@"Done"] style:UIBarButtonItemStyleDone target:self action:@selector(closeMetadataOptionsModal:)];
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(closeMetadataOptionsModal:)];
         [[self.metadataOptions navigationItem] setRightBarButtonItem:cancel];
         
         // Show controller.
@@ -359,7 +359,7 @@
         }
         
         // Add done button.
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Done" value:@"Done"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelConfigOptionsModal:)];
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelConfigOptionsModal:)];
         [[fallbackController navigationItem] setRightBarButtonItem:cancel];
         
         // Show controller.
@@ -378,10 +378,10 @@
     BOOL parseError = [self.configOptions parseJSONFile:file];
     
     if (parseError) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"Warning" value:@"Warning"]
-                                                     message:[XENHResources localisedStringForKey:@"There was an error parsing the settings file; some options may be missing" value:@"There was an error parsing the settings file; some options may be missing"]
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
+                                                     message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"]
                                                     delegate:nil
-                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK" value:@"OK"]
+                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"]
                                            otherButtonTitles:nil];
         [av show];
     }
@@ -393,10 +393,10 @@
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Cancel" value:@"Cancel"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelConfigOptionsModal:)];
+    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelConfigOptionsModal:)];
     [[self.configOptions navigationItem] setLeftBarButtonItem:cancel];
     
-    UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Save" value:@"Save"] style:UIBarButtonItemStyleDone target:self action:@selector(saveConfigOptionsModel:)];
+    UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_SAVE"] style:UIBarButtonItemStyleDone target:self action:@selector(saveConfigOptionsModel:)];
     [[self.configOptions navigationItem] setRightBarButtonItem:save];
     
     // Show controller.

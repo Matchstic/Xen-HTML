@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBLockScreenManager; @class SBAlertWindow; @class SBHorizontalScrollFailureRecognizer; @class SBMainSwitcherViewController; @class SBFolderIconBackgroundView; @class SBLockScreenNotificationListView; @class SBIconView; @class SBDashBoardViewController; @class SBFloatingDockPlatterView; @class SBDashBoardFixedFooterView; @class SBDashBoardNotificationListViewController; @class SBMainStatusBarStateProvider; @class SBApplication; @class SBCoverSheetWindow; @class SBManualIdleTimer; @class SBLockScreenView; @class SBFLockScreenMetrics; @class SBDashBoardPageViewController; @class SBRootFolderView; @class SBUIProudLockIconView; @class _NowPlayingArtView; @class SBIdleTimerDefaults; @class SBDockView; @class SBDashBoardView; @class SBDashBoardMainPageViewController; @class XENNotificationsCollectionViewController; @class UITouchesEvent; @class XENDashBoardWebViewController; @class SBLockScreenViewController; @class SBHomeScreenView; @class SBLockScreenNotificationListController; @class SBUICallToActionLabel; @class SBMainWorkspace; @class SBDashBoardCombinedListViewController; @class SBUIController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBLockScreenBounceAnimator; @class WKWebView; @class UIWebView; @class SBDashBoardNotificationAdjunctListViewController; @class SpringBoard; @class SBPagedScrollView; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardQuickActionsViewController; @class SBFLockScreenDateView; @class SBHomeScreenViewController; @class SBDashBoardMainPageView; @class SBScreenWakeAnimationController; @class SBBacklightController; @class XENResources; @class SBDashBoardMainPageContentViewController; @class SBDashBoardMediaArtworkViewController; @class UITouch; @class PHContainerView; 
+@class SBIdleTimerDefaults; @class SBFloatingDockPlatterView; @class SBFLockScreenMetrics; @class SBDashBoardMainPageView; @class SBHomeScreenViewController; @class SBApplication; @class SBDashBoardMediaArtworkViewController; @class SBUIController; @class XENNotificationsCollectionViewController; @class _NowPlayingArtView; @class SBFolderIconBackgroundView; @class SBIconView; @class PHContainerView; @class SBLockScreenManager; @class SBDashBoardPageViewController; @class SBAlertWindow; @class SBPagedScrollView; @class SBCoverSheetWindow; @class SBLockScreenNotificationListView; @class SBDashBoardTeachableMomentsContainerView; @class SBUICallToActionLabel; @class SBDashBoardQuickActionsViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBRootFolderView; @class XENResources; @class SBLockScreenViewController; @class SBMainSwitcherViewController; @class SBLockScreenBounceAnimator; @class SBDockView; @class WKWebView; @class UITouchesEvent; @class SBDashBoardMainPageViewController; @class SBScreenWakeAnimationController; @class SBFLockScreenDateView; @class SBDashBoardView; @class XENDashBoardWebViewController; @class SBUIProudLockIconView; @class SBDashBoardMainPageContentViewController; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenNotificationListController; @class SBHomeScreenView; @class SpringBoard; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBManualIdleTimer; @class SBDashBoardViewController; @class SBDashBoardNotificationListViewController; @class SBLockScreenView; @class UITouch; @class SBMainStatusBarStateProvider; @class UIWebView; @class SBDashBoardFixedFooterView; @class SBMainWorkspace; @class SBDashBoardCombinedListViewController; @class SBBacklightController; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -2933,12 +2933,16 @@ static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGO
         [setupWindow makeKeyAndVisible];
         setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
         
-        SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
-        
-        if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-            [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-        } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-            [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+        @try {
+            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
+            
+            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
+                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
+            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
+                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+            }
+        } @catch (NSException *e) {
+            
         }
     }
 }
@@ -3021,7 +3025,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_1a91c18c(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_e870cc48(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

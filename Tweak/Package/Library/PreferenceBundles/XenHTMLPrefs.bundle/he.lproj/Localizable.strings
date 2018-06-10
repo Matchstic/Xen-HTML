@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "בטל";
+"OK" = "אישור";
+"WARNING" = "אזהרה";
+"DONE" = "בוצע";
+"BACK" = "חזרה";
+"ERROR" = "שגיאה";
+
+"ROOT_SHARE_TEXT" = ":Cydia-על מסך הבית ועל מסך הנעילה! בדוק ב html להפעלת ווידג'טס Xen HTML-אני משתמש ב ";
+
+
+"MORE_REPOS_TITLE" = "מאגרים נוספים";
+"MORE_REPOS_WIDGETS" = "עוד ווידג'טס";
+"MORE_REPOS_REFRESH" = "רענן";
+"MORE_REPOS_CONTACTING_SERVER" = "... יוצר קשר עם השרת ";
+"MORE_REPOS_ADD_TO_CYDIA" = "?Cydia –להוסיף מאגר זה ל";
+"MORE_REPOS_OPEN_IN_CYDIA" = "?Cydia –לפתוח מאגר זה ב";
+
+"DONATE_ADDRESS_COPIED" = "הכתובת הועתקה ללוח הגזירים‫!‬";
+
+"SUPPORT_RESPRING_NOTIFY" = "מכשירך יאופס כעת כדי להחיל שינויים
+י   ";
+"SUPPORT_CONFIRM_RESET" = "ברצונך להמשיך‫?‬ \n\n.Xen HTML–פעולה זו תנקה את כל הגדרות ה";
+
+"SUPPORT_CONFIRM_OPTION" = "צא לדרך";
+
+"WIDGETS_TITLE" = "ווידג'טס";
+"WIDGETS_PREVIEW_HEADER" = "תצוגה מקדימה";
+"WIDGETS_PREVIEW_FOOTER" = "החליק כדי להתאים את זווית התצוגה המקדימה‫.‬";
+"WIDGETS_BACKGROUND" = "ווידג'טס רקע";
+"WIDGETS_FOREGROUND" = "ווידג'טס חזית";
+"WIDGETS_LSBACKGROUND_DETAIL" = "ווידג'טס הרקע הופכים לחלק מהטפט שלך";
+"WIDGETS_LSFOREGROUND_DETAIL" = "ווידג'טס החזית הופכים לתוספות אינטראקטיביות של מסך הנעילה";
+"WIDGETS_SBBACKGROUND_DETAIL" = "ווידג'טס הרקע הופכים לתוספות אינטראקטיביות של מסך הנעילה";
+"WIDGETS_NONE_SELECTED" = "לא נבחרו ווידג'טס";
+"WIDGETS_ADD_NEW" = "הוסף ווידג'ט";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "לא נבחר ווידג'ט";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "אירעה שגיאה בעת ניתוח קובץ ההגדרות; ייתכן וחלק מהאפשרויות יהיו חסרות";
+"WIDGET_EDITOR_SAVE" = "שמור";
+"WIDGET_EDITOR_DRAGDROP" = "גרור ושחרר כדי לשנות את המיקום";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "גרור ושחרר כדי לשנות את המיקום\n\nסובב את המכשיר כדי להציג בכיוון שונה";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "ווידג'טס זמינים";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "(חזית) Cydget";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "(רקע) Cydget";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "ווידג'טס לא זמינים";
+"WIDGET_PICKER_NONE" = "אף אחד";
+"WIDGET_PICKER_LOADING" = "טוען";
+"WIDGET_PICKER_PACKAGE_PREFIX" = ":חבילה";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "מחבר לא ידוע";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "לא ידוע / מקומי";
+
+"WIDGET_SETTINGS_TITLE" = "הגדרות ווידג'ט";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "כתיבת הגדרות הווידג'ט נכשלה; לבדוק הרשאות קובץ עבור ווידג'ט זה";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "GroovyAPI –כדי לתפקד כראוי‫,‬ כגון אלה המשתמשים ב Legacy כמה ווידג'טס דורשים מצב";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Legacy מצב";
+"WIDGET_SETTINGS_NONE" = "אין הגדרות זמינות";
+
+/* TWEAK */
+
+"NEXT" = "הבא";
+
+"SETUP_INITIAL_TITLE" = "התקנה הושלמה";
+"SETUP_INITIAL_FOOTER" = " נשארו רק עוד כמה צעדים כדי לסיים\n.הותקן בהצלחה Xen HTML";
+"SETUP_INITIAL_BUTTON" = "המשך";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "הגדרות מסך נעילה";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "מה עושה ייבוא‫?‬";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Xen HTML הייבוא ​​מאפשר לך להעביר הגדרות מסך נעילה קיימות אל";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "התקנה ללא ייבוא";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Lock HTML –ייבא מ";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "GroovyLock –ייבא מ";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "הגדרת מסך הבית";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "מה עושה ייבוא?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Xen HTML הייבוא ​​מאפשר לך להעביר הגדרות מסך הבית קיימות אל";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "התקנה ללא ייבוא";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "SBHTML –ייבא מ";
+
+"SETUP_FINAL_TITLE" = "צעדים אחרונים";
+"SETUP_FINAL_TITLE_POST_WORK" = "Xen HTML –ברוכים הבאים ל";
+"SETUP_FINAL_RESTART_BUTTON" = "בוא נתחיל";
+"SETUP_FINAL_RESTART_TITLE" = "יש להפעיל מחדש את המסך כדי לסיים את ההתקנה";
+"SETUP_FINAL_APPLYING_SETTINGS" = "החלת ההגדרות שלך";
+"SETUP_FINAL_COFFEE" = "לוקח הפסקת קפה";
+"SETUP_FINAL_CLEANUP" = "ניקיון";
+

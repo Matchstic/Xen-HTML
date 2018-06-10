@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Visibilité des éléments";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Cacher les éléments de l'écran verrouillé avec Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Cacher le flou du Dock";
+"ELEMENT_SB_FOLDER_BLUR" = "Cacher le flou des icônes des dossiers";
+"ELEMENT_SB_ICON_LABELS" = "Cacher le libellé des icônes";
+"ELEMENT_SB_PAGE_DOTS" = "Cacher les indicateurs de pages";
+
+"MISC_HEADER" = "Divers";
+"MISC_SB_TOUCH" = "Autoriser le Touch sur le Widget";
+
+"WIDGET_EDITOR_HEADER" = "Éditeur de Widget";
+"WIDGET_EDITOR_HS_FOOTER" = "Personnaliser le panneau de configuration utilisé pour choisir les widgets à présenter sur l'écran d'accueil.";
+"WIDGET_EDITOR_SNAP" = "Prendre un instantané des widgets pour Y-axis";

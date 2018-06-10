@@ -169,7 +169,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"Preview" value:@"Preview"]];
+    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGETS_PREVIEW_HEADER"]];
 }
 
 -(void)dealloc {

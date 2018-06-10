@@ -17,6 +17,7 @@
  */
 
 #import "XENHLockscreenPreferenceController.h"
+#import "XENHResources.h"
 
 @interface XENHLockscreenPreferenceController ()
 
@@ -25,7 +26,7 @@
 @implementation XENHLockscreenPreferenceController
 
 - (NSString*)titleForController {
-    return @"Lockscreen";
+    return [XENHResources localisedStringForKey:@"WIDGETS_LOCKSCREEN"];
 }
 
 // Same as wallpaper variant really; 0 == LS, 1 == SB

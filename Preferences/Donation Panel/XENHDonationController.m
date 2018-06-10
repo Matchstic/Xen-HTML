@@ -36,16 +36,26 @@
     return _specifiers;
 }
 
+// From: https://stackoverflow.com/a/47297734
+- (NSString*)_fallbackStringForKey:(NSString*)key {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
 -(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
     int i;
     for (i=0; i<[s count]; i++) {
         if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[[s objectAtIndex: i] name] table:nil]];
+            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[self _fallbackStringForKey:[[s objectAtIndex: i] name]] table:nil]];
         }
         if ([[s objectAtIndex: i] titleDictionary]) {
             NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
             for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] table:nil] forKey: key];
+                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[self _fallbackStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key]] table:nil] forKey:key];
             }
             [[s objectAtIndex: i] setTitleDictionary: newTitles];
         }
@@ -86,7 +96,7 @@
 
 - (void)_alertCopied {
     // Alert the user
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"Address was copied to the clipboard!" value:@"Address was copied to the clipboard!"] delegate:self cancelButtonTitle:[XENHResources localisedStringForKey:@"OK" value:@"OK"] otherButtonTitles:nil];
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"DONATE_ADDRESS_COPIED"] delegate:self cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"] otherButtonTitles:nil];
     
     [av show];
 }

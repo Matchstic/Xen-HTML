@@ -27,7 +27,7 @@
 @implementation XENHSetupLockscreenImportController
 
 -(NSString*)headerTitle {
-    return @"Lockscreen Setup";
+    return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_TITLE"];
 }
 
 -(NSString*)cellReuseIdentifier {
@@ -69,11 +69,11 @@
 }
 
 -(NSString*)footerTitle {
-    return [XENHResources localisedStringForKey:@"What does Importing do?" value:@"What does Importing do?"];
+    return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE"];
 }
 
 -(NSString*)footerBody {
-    return [XENHResources localisedStringForKey:@"Importing allows you to move existing Lockscreen settings across to Xen HTML." value:@"Importing allows you to move existing Lockscreen settings across to Xen HTML."];
+    return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY"];
 }
 
 -(NSString*)titleForCellAtIndex:(NSInteger)index {
@@ -107,13 +107,13 @@
     
     switch (shown) {
         case 0:
-            return [XENHResources localisedStringForKey:@"Setup Without Importing" value:@"Setup Without Importing"];
+            return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_NONE"];
             break;
         case 1:
-            return [XENHResources localisedStringForKey:@"Import from LockHTML" value:@"Import from LockHTML"];
+            return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_LOCKHTML"];
             break;
         case 2:
-            return [XENHResources localisedStringForKey:@"Import from GroovyLock" value:@"Import from GroovyLock"];
+            return [XENHResources localisedStringForKey:@"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK"];
             break;
     
         default:

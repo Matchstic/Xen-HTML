@@ -116,17 +116,32 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return YES;
 }
 
-+(NSString*)localisedStringForKey:(NSString*)key value:(NSString*)val {
+// From: https://stackoverflow.com/a/47297734
++ (NSString*)_fallbackStringForKey:(NSString*)key withBundle:(NSBundle*)bundle {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [bundle pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
++(NSString*)localisedStringForKey:(NSString*)key {
     if (!strings) {
         strings = [NSBundle bundleWithPath:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
     }
     
     if (!strings) {
-        // Handle the Electra jailbreak's bootstrap somewhat gracefully
-        return val;
+        // might be in the Electra bootstrap?
+        strings = [NSBundle bundleWithPath:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
     }
     
-    return [strings localizedStringForKey:key value:val table:nil];
+    if (!strings) {
+        // Just return the key as a failsafe.
+        return key;
+    }
+    
+    return [strings localizedStringForKey:key value:[self _fallbackStringForKey:key withBundle:strings] table:nil];
 }
 
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width {
@@ -200,6 +215,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         case kLocationSBBackground:
             layerPreferenceKey = @"SBBackground";
             break;
+        case kLocationSBForeground:
+            layerPreferenceKey = @"SBForeground";
+            break;
             
         default:
             break;
@@ -222,6 +240,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
             break;
         case kLocationSBBackground:
             layerPreferenceKey = @"SBBackground";
+            break;
+        case kLocationSBForeground:
+            layerPreferenceKey = @"SBForeground";
             break;
             
         default:
@@ -552,6 +573,37 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
 }
 
++ (BOOL)_isOnSupportedIOSVersion {
+    CGFloat minVersion = 9.0;
+    CGFloat maxVersion = 11.1;
+    
+    return [UIDevice currentDevice].systemVersion.floatValue <= maxVersion && [UIDevice currentDevice].systemVersion.floatValue >= minVersion;
+}
+
++ (BOOL)showUnsupportedAlertForCurrentVersion {
+    if ([self _isOnSupportedIOSVersion]) {
+        return NO;
+    }
+    
+    // Check settings if this version has been okay-ed by the user.
+    NSString *versionCheckKey = [NSString stringWithFormat:@"unsupportedOverride%@", [UIDevice currentDevice].systemVersion];
+    
+    id overriden = settings[versionCheckKey];
+    if (overriden ? [overriden boolValue] : NO) {
+        return NO;
+    }
+    
+    // Not okay-ed in advance, and not supported for certain.
+    return YES;
+}
+
++ (BOOL)userForcedSupportedForCurrentVersion {
+    NSString *versionCheckKey = [NSString stringWithFormat:@"unsupportedOverride%@", [UIDevice currentDevice].systemVersion];
+    [self setPreferenceKey:versionCheckKey withValue:@1 andPost:NO];
+}
+
+#pragma mark LS
+
 +(BOOL)lsenabled {
     id value = settings[@"enabled"];
     return (value ? [value boolValue] : YES);
@@ -825,27 +877,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 +(BOOL)SBAllowTouch {
     id value = settings[@"SBAllowTouch"];
     return (value ? [value boolValue] : YES);
-}
-
-/**
- * Gives the base URL of the chosen HTML file, whether it is index.html or whatever
- * @return Base URL path
- */
-+(NSString*)indexHTMLFileForLocation:(XENHLayerLocation)location {
-    NSString *fileString = @"";
-    
-    if (location == kLocationLSBackground) {
-        id value = settings[@"backgroundLocation"];
-        fileString = (value ? value : @"");
-    } else if (location == kLocationLSForeground) {
-        id value = settings[@"foregroundLocation"];
-        fileString = (value ? value : @"");
-    } else if (location == kLocationSBBackground) {
-        id value = settings[@"SBLocation"];
-        fileString = (value ? value : @"");
-    }
-    
-    return fileString;
 }
 
 /**

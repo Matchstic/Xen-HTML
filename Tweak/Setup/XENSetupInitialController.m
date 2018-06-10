@@ -37,7 +37,7 @@
     
     self.installComplete = [[UILabel alloc] initWithFrame:CGRectZero];
     self.installComplete.backgroundColor = [UIColor clearColor];
-    self.installComplete.text = [XENHResources localisedStringForKey:@"Install Completed" value:@"Install Completed"];
+    self.installComplete.text = [XENHResources localisedStringForKey:@"SETUP_INITIAL_TITLE"];
     self.installComplete.textAlignment = NSTextAlignmentCenter;
     self.installComplete.textColor = [UIColor blackColor];
     self.installComplete.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
@@ -47,7 +47,7 @@
     
     self.helloText = [[UILabel alloc] initWithFrame:CGRectZero];
     self.helloText.backgroundColor = [UIColor clearColor];
-    self.helloText.text = [XENHResources localisedStringForKey:@"Xen HTML was successfully installed.\nThere are just a few more steps to follow." value:@"Xen HTML was successfully installed.\nThere are just a few more steps to follow."];
+    self.helloText.text = [XENHResources localisedStringForKey:@"SETUP_INITIAL_FOOTER"];
     self.helloText.textAlignment = NSTextAlignmentCenter;
     self.helloText.textColor = [UIColor blackColor];
     self.helloText.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
@@ -56,7 +56,7 @@
     [self.centraliser addSubview:self.helloText];
     
     self.getStartedButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.getStartedButton setTitle:[XENHResources localisedStringForKey:@"Continue" value:@"Continue"] forState:UIControlStateNormal];
+    [self.getStartedButton setTitle:[XENHResources localisedStringForKey:@"SETUP_INITIAL_BUTTON"] forState:UIControlStateNormal];
     [self.getStartedButton addTarget:self action:@selector(beginButtonWasPressed:) forControlEvents:UIControlEventTouchUpInside];
     self.getStartedButton.titleLabel.font = [UIFont systemFontOfSize:26];
     

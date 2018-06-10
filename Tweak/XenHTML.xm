@@ -2907,12 +2907,16 @@ static void showForegroundForLSNotifIfNeeded() {
         [setupWindow makeKeyAndVisible];
         setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
         
-        SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
-        
-        if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-            [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-        } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-            [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+        @try {
+            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
+            
+            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
+                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
+            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
+                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+            }
+        } @catch (NSException *e) {
+            // wut.
         }
     }
 }

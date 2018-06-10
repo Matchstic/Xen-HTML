@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "מראה";
+
+"GRABBERS_HEADER" = "תופסנים";
+"GRABBERS_NOTIFICATION_CENTRE" = "הסתר תופסני מרכז ההודעות";
+"GRABBERS_CONTROL_CENTRE" = "הסתר תופסני מרכז הבקרה";
+"GRABBERS_CAMERA" = "הסתר תופסני מצלמה";
+"GRABBERS_CAMERA_DISABLE" = "השבת תופסני מצלמה";
+"GRABBERS_HANDOFF" = "Handoff הסתר תופסן";
+
+"D22_HEADER" = "iPhone X –מיוחד ל";
+"D22_FACEID_PADLOCK" = "הסתר את מנעול זיהוי הפנים";
+"D22_TORCH_CAMERA" = "הסתר לחצני פנס ומצלמה";
+"D22_HOMEBAR" = "הסתר שורת הבית";
+"D22_CONTROL_CENTRE" = "הסתר מחוון מרכז הבקרה";
+
+"MISC_HEADER" = "שונות";
+"MISC_LS_STATUS_BAR" = "הסתר את שורת המצב של מסך הנעילה";
+"MISC_CLOCK_STATUS_BAR" = "הצג את השעון בשורת המצב";
+"MISC_PAGE_DOTS" = "הסתר נקודות דף";

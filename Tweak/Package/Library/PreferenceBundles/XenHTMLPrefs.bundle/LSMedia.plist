@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Media Controls</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Hide Foreground Widget For:</string>
+			<string>HIDE_FOREGROUND_HEADER</string>
 			<key>footerText</key>
-			<string>Configure behaviour alongside the stock media controls</string>
+			<string>HIDE_FOREGROUND_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -26,7 +26,7 @@
 			<key>key</key>
 			<string>LSFadeForegroundForMedia</string>
 			<key>label</key>
-			<string>Controls UI</string>
+			<string>HIDE_FOREGROUND_CONTROLS</string>
 			<key>minVer</key>
 			<real>9.0</real>
 		</dict>
@@ -42,7 +42,7 @@
 			<key>key</key>
 			<string>LSFadeForegroundForArtwork</string>
 			<key>label</key>
-			<string>Artwork</string>
+			<string>HIDE_FOREGROUND_ARTWORK</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -52,7 +52,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Miscellaneous</string>
+			<string>MISC_HEADER</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -70,7 +70,7 @@
 			<key>key</key>
 			<string>LSHideArtwork</string>
 			<key>label</key>
-			<string>Hide Media Artwork</string>
+			<string>HIDE_ARTWORK</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>

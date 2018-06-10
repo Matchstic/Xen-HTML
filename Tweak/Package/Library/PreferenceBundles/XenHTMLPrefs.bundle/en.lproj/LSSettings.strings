@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Element Visibility";
+"ELEMENT_VISIBILITY_FOOTER" = "Hide lockscreen elements when using Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Hide Lockscreen Clock";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Visible";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "On Main Page";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "On All Pages";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "The Lockscreen clock can be hidden on either just the Main page, or all pages including the Today page.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Hide 'slide to unlock' Text";
+"ELEMENT_HOME_TO_UNLOCK" = "Hide 'Press Home to Unlock' Text";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Hide 'Swipe up to unlock' Text";
+"ELEMENT_HIDE_OTHERS" = "Hide Other Elements";
+
+"VISIBILITY_HEADER" = "Widget Visibility";
+"VISIBILITY_MEDIA" = "Media Controls Behaviour";
+"VISIBILITY_NOTIFICATIONS" = "Notifications Behaviour";
+"VISIBILITY_OPACITY" = "Widget Opacity When Hidden:";
+
+"MSIC_HEADER" = "Miscellaneous";
+"MISC_LS_STATUS_BAR_SIZE" = "Smaller Lockscreen Status Bar";
+"MISC_LS_IDLE_TIME" = "Lockscreen Idle Duration";
+"MISC_LS_IDLE_TIME_10S" = "10 Seconds";
+"MISC_LS_IDLE_TIME_15S" = "15 Seconds";
+"MISC_LS_IDLE_TIME_20S" = "20 Seconds";
+"MISC_LS_IDLE_TIME_30S" = "30 Seconds";
+"MISC_LS_IDLE_TIME_60S" = "1 Minute";
+"MISC_LS_IDLE_TIME_120S" = "2 Minutes";
+
+"ADVANCED" = "Advanced";
+
+"WIDGET_EDITOR_HEADER" = "Widget Editor";
+"WIDGET_EDITOR_FOOTER" = "Customise the settings panel used for choosing widgets to render on the lockscreen.";
+"WIDGET_EDITOR_SNAP" = "Snap Widgets To Y-axis";

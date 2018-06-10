@@ -76,7 +76,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"Widgets" value:@"Widgets"]];
+    [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGETS_TITLE"]];
     
     [self.table reloadData];
 }
@@ -143,7 +143,7 @@
         if (indexPath.row == 0 && self.dataSource.count == 0) {
             cell.textLabel.textColor = [UIColor grayColor];
             
-            cell.textLabel.text = [XENHResources localisedStringForKey:@"No widgets selected" value:@"No widgets selected"];
+            cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGETS_NONE_SELECTED"];
             cell.accessoryType = UITableViewCellAccessoryNone;
         } else {
             // Alright, grab the name of the widget!
@@ -162,7 +162,7 @@
         }
     } else {
         // Provide the button for adding a new widget
-        cell.textLabel.text = [XENHResources localisedStringForKey:@"Add widget..." value:@"Add widget..."];
+        cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"];
         cell.accessoryType = UITableViewCellAccessoryNone;
         
         // Make it the system blue
@@ -195,13 +195,13 @@
         NSString *labelText = @"";
         switch (self.variant) {
             case kMultiplexVariantLockscreenBackground:
-                labelText = [XENHResources localisedStringForKey:@"Background widgets become part of your wallpaper" value:@"Background widgets become part of your wallpaper"];
+                labelText = [XENHResources localisedStringForKey:@"WIDGETS_LSBACKGROUND_DETAIL"];
                 break;
             case kMultiplexVariantLockscreenForeground:
-                labelText = [XENHResources localisedStringForKey:@"Foreground widgets are fully interactive additions to your Lockscreen" value:@"Foreground widgets are fully interactive additions to your Lockscreen"];
+                labelText = [XENHResources localisedStringForKey:@"WIDGETS_LSFOREGROUND_DETAIL"];
                 break;
             case kMultiplexVariantHomescreenBackground:
-                labelText = [XENHResources localisedStringForKey:@"Background widgets become interactive additions to your wallpaper" value:@"Background widgets become interactive additions to your wallpaper"];
+                labelText = [XENHResources localisedStringForKey:@"WIDGETS_SBBACKGROUND_DETAIL"];
                 break;
             default:
                 break;

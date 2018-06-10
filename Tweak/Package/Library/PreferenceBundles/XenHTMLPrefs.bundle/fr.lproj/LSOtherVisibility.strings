@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Visibilité";
+
+"GRABBERS_HEADER" = "Capteurs";
+"GRABBERS_NOTIFICATION_CENTRE" = "Cacher le capteur du centre de Notifications";
+"GRABBERS_CONTROL_CENTRE" = "Cacher le capteur du Centre de Contrôle";
+"GRABBERS_CAMERA" = "Cacher le capteur Camera";
+"GRABBERS_CAMERA_DISABLE" = "Désactiver le capteur Camera";
+"GRABBERS_HANDOFF" = "Cacher le capteur Handoff";
+
+"D22_HEADER" = "Spécifiques à l'iPhone X";
+"D22_FACEID_PADLOCK" = "Cacher le cadenas du Face ID";
+"D22_TORCH_CAMERA" = "Cacher les boutons de la Torche et de la Camera";
+"D22_HOMEBAR" = "Cacher la barre Home";
+"D22_CONTROL_CENTRE" = "Cacher l'indicateur du Centre de Contrôle";
+
+"MISC_HEADER" = "Divers";
+"MISC_LS_STATUS_BAR" = "Cacher la barre d'état sur l'écran verrouillé";
+"MISC_CLOCK_STATUS_BAR" = "Afficher l'Horloge sur la barre d'état";
+"MISC_PAGE_DOTS" = "Cacher les indicateurs de pages";

@@ -3,22 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Donate</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>If you enjoy using Xen HTML, please consider donating!</string>
+			<string>INFO_FOOTER</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Via PayPal</string>
+			<string>PAYPAL</string>
 			<key>footerText</key>
-			<string>Tap to copy PayPal address</string>
+			<string>PAYPAL_FOOTER</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -34,9 +34,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Via Bitcoin (BTC)</string>
+			<string>BTC</string>
 			<key>footerText</key>
-			<string>Tap to copy Bitcoin public address (SegWit-enabled)</string>
+			<string>BTC_FOOTER</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -52,9 +52,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Via Ethereum (ETH)</string>
+			<string>ETH</string>
 			<key>footerText</key>
-			<string>Tap to copy Ethereum public address</string>
+			<string>ETH_FOOTER</string>
 		</dict>
 		<dict>
 			<key>action</key>

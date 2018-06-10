@@ -40,7 +40,7 @@
 
 -(void)viewWillAppear:(BOOL)view {
     if ([self respondsToSelector:@selector(navigationItem)]) {
-        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"Widget Settings" value:@"Widget Settings"]];
+        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
     }
     
     [super viewWillAppear:view];
@@ -64,7 +64,7 @@
 
 - (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == 0) {
-        return [XENHResources localisedStringForKey:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI." value:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI."];
+        return [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
     } else {
         return nil;
     }
@@ -84,12 +84,12 @@
         
         cell.accessoryView = switchView;
         
-        cell.textLabel.text = [XENHResources localisedStringForKey:@"Legacy Mode" value:@"Legacy Mode"];
+        cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"];
         cell.textLabel.textColor = [UIColor darkTextColor];
     } else {
         cell.accessoryView = nil;
         
-        cell.textLabel.text = [XENHResources localisedStringForKey:@"No settings available" value:@"No settings available"];
+        cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_NONE"];
         cell.textLabel.textColor = [UIColor grayColor];
     }
     

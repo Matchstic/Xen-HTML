@@ -1,0 +1,17 @@
+/* 
+  LSAdvanced.strings
+  Xen HTML
+*/
+
+"TITLE" = "Advanced";
+
+"SCROLL_PRIORITY_IOS10_FOOTER" = "For widgets that have scrollable regions, prioritising touches will resolve issues that prevent usage of these regions.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "For widgets with touchable regions at the bottom of the display, toggling this on will allow their usage.\n\nHowever, you will not be able to swipe up to see past notifications.";
+"SCROLL_PRIORITY_IOS10" = "Prioritise Scrolling in Widget";
+"SCROLL_PRIORITY_IOS11" = "Prioritise Touch in Widget";
+
+"BATTERY_MANAGEMENT_FOOTER" = "Disabling battery management will use more battery, but may prevent some visual issues.";
+"BATTERY_MANAGEMENT" = "Use Battery Management";
+
+"PERSISTENT_MODE_FOOTER" = "Persistent mode keeps your Lockscreen widgets in memory at all times, so they don't need to load after locking your device.\n\nUsing this mode may lead to greater battery drainage.";
+"PERSISTENT_MODE" = "Persistent Mode";

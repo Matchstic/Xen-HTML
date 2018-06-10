@@ -55,11 +55,11 @@
         
         // Legacy mode toggle first
         PSSpecifier *legacyGroup = [PSSpecifier groupSpecifierWithName:@""];
-        NSString *fallbackFooter = [XENHResources localisedStringForKey:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI." value:@"Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI."];
+        NSString *fallbackFooter = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
         [legacyGroup setProperty:fallbackFooter forKey:@"footerText"];
         [testingSpecs addObject:legacyGroup];
         
-        PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"Legacy Mode" value:@"Legacy Mode"]
+        PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"]
                                                                 target:self
                                                                    set:@selector(setPreferenceValue:specifier:)
                                                                    get:@selector(readPreferenceValue:)
@@ -224,7 +224,7 @@
 
 -(void)viewWillAppear:(BOOL)view {
     if ([self respondsToSelector:@selector(navigationItem)]) {
-        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"Widget Settings" value:@"Widget Settings"]];
+        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
     }
     [super viewWillAppear:view];
 }

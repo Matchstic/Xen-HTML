@@ -14,7 +14,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Lockscreen</string>
+			<string>LOCKSCREEN</string>
 			<key>detail</key>
 			<string>XENHLockscreenPreferenceController</string>
 			<key>isController</key>
@@ -30,7 +30,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Homescreen</string>
+			<string>HOMESCREEN</string>
 			<key>detail</key>
 			<string>XENHHomescreenPreferenceController</string>
 			<key>isController</key>
@@ -54,7 +54,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>More Widgets</string>
+			<string>MORE_WIDGETS</string>
 			<key>detail</key>
 			<string>XENHMoreReposController</string>
 			<key>isController</key>
@@ -66,7 +66,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Support</string>
+			<string>SUPPORT</string>
 			<key>detail</key>
 			<string>XENHSupportController</string>
 			<key>isController</key>
@@ -78,7 +78,7 @@
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>label</key>
-			<string>Donate</string>
+			<string>DONATE</string>
 			<key>detail</key>
 			<string>XENHDonationController</string>
 			<key>isController</key>

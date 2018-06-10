@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Visibility</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
      	<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Grabbers</string>
+			<string>GRABBERS_HEADER</string>
 			<key>d22</key>
 			<false/>
 		</dict>
@@ -26,7 +26,7 @@
 			<key>key</key>
 			<string>hideTopGrabber</string>
 			<key>label</key>
-			<string>Hide Notification Center Grabber</string>
+			<string>GRABBERS_NOTIFICATION_CENTRE</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -44,7 +44,7 @@
 			<key>key</key>
 			<string>hideBottomGrabber</string>
 			<key>label</key>
-			<string>Hide Control Center Grabber</string>
+			<string>GRABBERS_CONTROL_CENTRE</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -62,7 +62,7 @@
 			<key>key</key>
 			<string>hideCameraGrabber</string>
 			<key>label</key>
-			<string>Hide Camera Grabber</string>
+			<string>GRABBERS_CAMERA</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -80,7 +80,7 @@
 			<key>key</key>
 			<string>disableCameraGrabber</string>
 			<key>label</key>
-			<string>Disable Camera Grabber</string>
+			<string>GRABBERS_CAMERA_DISABLE</string>
 			<key>minVer</key>
 			<real>9.0</real>
 			<key>maxVer</key>
@@ -98,7 +98,7 @@
 			<key>key</key>
 			<string>hideCameraGrabber</string>
 			<key>label</key>
-			<string>Hide Handoff Grabber</string>
+			<string>GRABBERS_HANDOFF</string>
 			<key>minVer</key>
 			<real>10.0</real>
 			<key>d22</key>
@@ -108,7 +108,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>iPhone X Specific:</string>
+			<string>D22_HEADER</string>
 			<key>d22</key>
 			<true/>
 		</dict>
@@ -124,7 +124,7 @@
 			<key>key</key>
 			<string>LSHideFaceIDPadlock</string>
 			<key>label</key>
-			<string>Hide Face ID Padlock</string>
+			<string>D22_FACEID_PADLOCK</string>
 			<key>minVer</key>
 			<real>11.0</real>
 			<key>d22</key>
@@ -142,7 +142,7 @@
 			<key>key</key>
 			<string>LSHideTorchAndCamera</string>
 			<key>label</key>
-			<string>Hide Torch and Camera Buttons</string>
+			<string>D22_TORCH_CAMERA</string>
 			<key>minVer</key>
 			<real>11.0</real>
 			<key>d22</key>
@@ -160,9 +160,27 @@
 			<key>key</key>
 			<string>LSHideHomeBar</string>
 			<key>label</key>
-			<string>Hide Home Bar</string>
+			<string>D22_HOMEBAR</string>
 			<key>minVer</key>
 			<real>11.0</real>
+			<key>d22</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>LSHideControlCentreIndicatorD22</string>
+			<key>label</key>
+			<string>D22_CONTROL_CENTRE</string>
+			<key>minVer</key>
+			<real>11.2</real>
 			<key>d22</key>
 			<true/>
 		</dict>
@@ -170,7 +188,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Miscellaneous</string>
+			<string>MISC_HEADER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -184,7 +202,7 @@
 			<key>key</key>
 			<string>hideStatusBar</string>
 			<key>label</key>
-			<string>Hide Lockscreen Status Bar</string>
+			<string>MISC_LS_STATUS_BAR</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -198,7 +216,7 @@
 			<key>key</key>
 			<string>LSShowClockInStatusBar</string>
 			<key>label</key>
-			<string>Show Clock in Status Bar</string>
+			<string>MISC_CLOCK_STATUS_BAR</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -212,7 +230,7 @@
 			<key>key</key>
 			<string>hidePageControlDots</string>
 			<key>label</key>
-			<string>Hide Page Dots</string>
+			<string>MISC_PAGE_DOTS</string>
 			<key>minVer</key>
 			<real>10.0</real>
 			<key>d22</key>

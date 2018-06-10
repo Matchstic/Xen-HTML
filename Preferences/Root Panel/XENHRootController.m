@@ -37,16 +37,26 @@
     return _specifiers;
 }
 
+// From: https://stackoverflow.com/a/47297734
+- (NSString*)_fallbackStringForKey:(NSString*)key {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
 -(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
     int i;
     for (i=0; i<[s count]; i++) {
         if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[[s objectAtIndex: i] name] table:nil]];
+            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[self _fallbackStringForKey:[[s objectAtIndex: i] name]] table:nil]];
         }
         if ([[s objectAtIndex: i] titleDictionary]) {
             NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
             for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] table:nil] forKey: key];
+                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[self _fallbackStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key]] table:nil] forKey: key];
             }
             [[s objectAtIndex: i] setTitleDictionary: newTitles];
         }
@@ -77,7 +87,7 @@
 }
 
 -(void)shareTweak:(UIBarButtonItem*)item {
-    NSString *message = @"I'm using Xen HTML to run HTML widgets on my Lockscreen and Homescreen! Check it out on Cydia:";
+    NSString *message = [XENHResources localisedStringForKey:@"ROOT_SHARE_TEXT"];
     NSURL *url = [NSURL URLWithString:@"https://cydia.saurik.com/api/share#?source=https://xenpublic.incendo.ws/&package=com.matchstic.xenhtml"];
     
     UIActivityViewController *viewController = [[UIActivityViewController alloc] initWithActivityItems:@[message, url] applicationActivities:nil];

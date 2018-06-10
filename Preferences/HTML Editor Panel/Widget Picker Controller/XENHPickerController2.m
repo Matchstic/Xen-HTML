@@ -77,9 +77,9 @@
     
     // Cancel button.
     if ([self respondsToSelector:@selector(navigationItem)]) {
-        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"Available Widgets" value:@"Available Widgets"]];
+        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGET_PICKER_AVAILABLE_WIDGETS"]];
         
-        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"Cancel" value:@"Cancel"] style:UIBarButtonItemStyleDone target:self action:@selector(cancel:)];
+        UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIBarButtonItemStyleDone target:self action:@selector(cancel:)];
         [[self navigationItem] setLeftBarButtonItem:cancel];
     }
 }
@@ -343,8 +343,8 @@
     XENHPickerPreviewController2 *preview = [[XENHPickerPreviewController2 alloc] initWithURL:url];
     [self.navigationController pushViewController:preview animated:YES];
     
-    UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                                      style:UIBarButtonItemStylePlain
+    UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"BACK"]
+                                                                    style:UIBarButtonItemStylePlain
                                                                      target:nil
                                                                      action:nil];
     [[self navigationItem] setBackBarButtonItem:newBackButton];
@@ -467,10 +467,10 @@
                     name = @"iWidgets";
                     break;
                 case 3:
-                    name = @"Cydget (Foreground)";
+                    name = [XENHResources localisedStringForKey:@"WIDGET_PICKER_CYDGET_FOREGROUND"];
                     break;
                 case 4:
-                    name = @"Cydget (Background)";
+                    name = [XENHResources localisedStringForKey:@"WIDGET_PICKER_CYDGET_BACKGROUND"];
                     break;
                     
                 default:

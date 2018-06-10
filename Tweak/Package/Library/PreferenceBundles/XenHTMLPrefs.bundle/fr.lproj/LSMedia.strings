@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Contrôle des Médias ";
+
+"HIDE_FOREGROUND_HEADER" = "Cacher le widget de premier-plan pour:";
+"HIDE_FOREGROUND_FOOTER" = "Configurer le comportement par rapport aux contrôles des Médias natifs.";
+"HIDE_FOREGROUND_CONTROLS" = "Contrôle l'interface de l'utilisateur";
+"HIDE_FOREGROUND_ARTWORK" = "Artwork";
+
+"MISC_HEADER" = "Divers";
+"HIDE_ARTWORK" = "Cache l'Artwork du Media";

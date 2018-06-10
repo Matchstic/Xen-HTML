@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "תצוגת רכיבים";
+"ELEMENT_VISIBILITY_FOOTER" = "Xen HTML -הסתר רכיבים של מסך הנעילה בעת שימוש ב";
+"ELEMENT_LS_CLOCK" = "הסתר שעון מסך הנעילה";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "נראה";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "בדף הראשי";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "בכל הדפים";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "ניתן להסתיר את שעון מסך הנעילה רק בדף הראשי או בכל הדפים, כולל הדף 'היום'‫.‬";
+"ELEMENT_SLIDE_TO_UNLOCK" = "'הסתר את הכיתוב 'החלק לביטול הנעילה";
+"ELEMENT_HOME_TO_UNLOCK" = "'הסתר את הכיתוב 'לחץ על כפתור הבית לביטול הנעילה";
+"ELEMENT_SWIPE_TO_UNLOCK" = "'הסתר את הכיתוב 'החלק למעלה כדי לבטל את הנעילה";
+"ELEMENT_HIDE_OTHERS" = "הסתר רכיבים אחרים";
+
+"VISIBILITY_HEADER" = "תצוגת הווידג'ט";
+"VISIBILITY_MEDIA" = "התנהגות מתגי המדיה";
+"VISIBILITY_NOTIFICATIONS" = "התנהגות ההודעות";
+"VISIBILITY_OPACITY" = "שקיפות הווידג'ט כאשר מוסתר‫:‬";
+
+"MSIC_HEADER" = "שונות";
+"MISC_LS_STATUS_BAR_SIZE" = "שורת מצב מסך נעילת קטנה יותר";
+"MISC_LS_IDLE_TIME" = "משך זמן המתנה לנעילת מסך";
+"MISC_LS_IDLE_TIME_10S" = "10 שניות";
+"MISC_LS_IDLE_TIME_15S" = "15 שניות";
+"MISC_LS_IDLE_TIME_20S" = "20 שניות";
+"MISC_LS_IDLE_TIME_30S" = "30 שניות";
+"MISC_LS_IDLE_TIME_60S" = "1 דקה";
+"MISC_LS_IDLE_TIME_120S" = "2 דקות";
+
+"ADVANCED" = "מתקדם";
+
+"WIDGET_EDITOR_HEADER" = "עורך ווידג'ט";
+"WIDGET_EDITOR_FOOTER" = "התאם את לוח ההגדרות המשמש לבחירת ווידג'טס כדי שיופיעו במסך הנעילה‫.‬";
+"WIDGET_EDITOR_SNAP" = "Y -הצמד ווידג'טס לציר ה";

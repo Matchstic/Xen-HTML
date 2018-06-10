@@ -124,7 +124,7 @@
     if ([self shouldDisplayNextButton]) {
         // We need a "Next" bar item in the top right.
         UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:
-                                                                    [XENHResources localisedStringForKey:@"Next" value:@"Next"]
+                                                                    [XENHResources localisedStringForKey:@"NEXT"]
                                                                       style:UIBarButtonItemStyleDone
                                                                      target:self
                                                                      action:@selector(userDidTapNextButton:)];

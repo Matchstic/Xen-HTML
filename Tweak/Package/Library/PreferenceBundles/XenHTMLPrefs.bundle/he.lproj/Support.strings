@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "תמיכה";
+
+"MESSAGE_FOOTER" = ".יתכן שיחלפו מספר ימים עד שתקבל תשובה";
+"MESSAGE_HEADER" = ":שלח הודעה";
+"MESSAGE_TWITTER" = "Twitter –ב";
+"MESSAGE_MAIL" = "בהודעת דואר";
+
+"BUGS_FEATURES" = "דיווח על באגים ובקשת תכונות ";
+
+"RESET_FOOTER" = ".Xen HTML פעולה זו תנקה את כל הגדרות";
+"RESET_SETTINGS" = "אפס את כל ההגדרות";

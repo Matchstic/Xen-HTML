@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Notifications</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Hide Foregound Widget For:</string>
+			<string>HIDE_FOREGROUND_NOTIF_HEADER</string>
 			<key>footerText</key>
-			<string>Configure behaviour alongside notifications</string>
+			<string>HIDE_FOREGROUND_NOTIF_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -26,15 +26,15 @@
 			<key>key</key>
 			<string>LSFadeForegroundForNotifications</string>
 			<key>label</key>
-			<string>Notifications</string>
+			<string>HIDE_FOREGROUND_NOTIF</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other Settings</string>
+			<string>OTHER_HEADER</string>
 			<key>footerText</key>
-			<string>Notifications can be presented on the full height of the display</string>
+			<string>OTHER_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -48,7 +48,7 @@
 			<key>key</key>
 			<string>LSFullscreenNotifications</string>
 			<key>label</key>
-			<string>Fullscreen Notifications</string>
+			<string>FULLSCREEN_NOTIFICATIONS</string>
 		</dict>
 	</array>
 </dict>

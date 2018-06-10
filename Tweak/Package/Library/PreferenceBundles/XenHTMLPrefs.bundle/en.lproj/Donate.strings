@@ -1,0 +1,17 @@
+/* 
+  Donate.strings
+  Xen HTML
+*/
+
+"TITLE" = "Donate";
+
+"INFO_FOOTER" = "If you enjoy using Xen HTML, please consider donating!";
+
+"PAYPAL" = "Via PayPal";
+"PAYPAL_FOOTER" = "Tap to copy PayPal address";
+
+"BTC" = "Via Bitcoin (BTC)";
+"BTC_FOOTER" = "Tap to copy Bitcoin public address (SegWit-enabled)";
+
+"ETH" = "Via Ethereum (ETH)";
+"ETH_FOOTER" = "Tap to copy Ethereum public address";

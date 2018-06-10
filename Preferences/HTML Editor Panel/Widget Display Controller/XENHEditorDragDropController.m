@@ -45,11 +45,11 @@
     
     self.dragAndDropLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     if (IS_IPAD) {
-        self.dragAndDropLabel.text = [XENHResources localisedStringForKey:@"Drag and drop to adjust position\n\nRotate your device to view in different orientations" value:@"Drag and drop to adjust position\n\nRotate your device to view in different orientations"];
+        self.dragAndDropLabel.text = [XENHResources localisedStringForKey:@"WIDGET_EDITOR_DRAGDROP_IPAD"];
         self.dragAndDropLabel.numberOfLines = 0;
         self.dragAndDropLabel.font = [UIFont systemFontOfSize:20];
     } else {
-        self.dragAndDropLabel.text = [XENHResources localisedStringForKey:@"Drag and drop to adjust position" value:@"Drag and drop to adjust position"];
+        self.dragAndDropLabel.text = [XENHResources localisedStringForKey:@"WIDGET_EDITOR_DRAGDROP"];
             self.dragAndDropLabel.font = [UIFont systemFontOfSize:16];
     }
     self.dragAndDropLabel.textColor = [UIColor colorWithWhite:0.0 alpha:0.75];

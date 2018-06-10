@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Support";
+
+"MESSAGE_FOOTER" = "It may take up to a few days before you recieve a reply.";
+"MESSAGE_HEADER" = "Send message:";
+"MESSAGE_TWITTER" = "Via Twitter";
+"MESSAGE_MAIL" = "Via Mail";
+
+"BUGS_FEATURES" = "Report Bugs and Request Features";
+
+"RESET_FOOTER" = "This will clear all Xen HTML settings.";
+"RESET_SETTINGS" = "Reset All Settings";

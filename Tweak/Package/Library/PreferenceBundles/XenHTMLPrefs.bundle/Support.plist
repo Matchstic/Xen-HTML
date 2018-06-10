@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Support</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>It may take up to a few days before you recieve a reply.</string>
+			<string>MESSAGE_FOOTER</string>
 			<key>label</key>
-			<string>Send message:</string>
+			<string>MESSAGE_HEADER</string>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -20,7 +20,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Via Twitter</string>
+			<string>MESSAGE_TWITTER</string>
 			<key>icon</key>
 			<string>CellIcons/Twitter.png</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Via Mail</string>
+			<string>MESSAGE_MAIL</string>
 			<key>icon</key>
 			<string>CellIcons/Mail.png</string>
 		</dict>
@@ -44,7 +44,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Report Bugs and Request Features</string>
+			<string>BUGS_FEATURES</string>
 			<key>icon</key>
 			<string>CellIcons/BugReport.png</string>
 		</dict>
@@ -52,17 +52,17 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>This will clear all Xen HTML settings.</string>
+			<string>RESET_FOOTER</string>
 		</dict>
 		<dict>
-        		<key>cell</key>
-        		<string>PSButtonCell</string>
-        		<key>label</key>
-        		<string>Reset All Settings</string>
-        		<key>action</key>
-        		<string>nukeAllSettings:</string>
-				<key>icon</key>
-				<string>CellIcons/Reset.png</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>RESET_SETTINGS</string>
+			<key>action</key>
+			<string>nukeAllSettings:</string>
+			<key>icon</key>
+			<string>CellIcons/Reset.png</string>
 		</dict>
 	</array>
 </dict>

@@ -82,17 +82,32 @@ static int mainVariant = 0;
     return (value ? [value floatValue] : 3.0);
 }
 
-+(NSString*)localisedStringForKey:(NSString*)key value:(NSString*)val {
+// From: https://stackoverflow.com/a/47297734
++ (NSString*)_fallbackStringForKey:(NSString*)key {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
++(NSString*)localisedStringForKey:(NSString*)key {
     if (!strings) {
         strings = [NSBundle bundleWithPath:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
     }
     
     if (!strings) {
-        // wtf?
-        return val;
+        // might be in bootstrap?
+        strings = [NSBundle bundleWithPath:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
     }
     
-    return [strings localizedStringForKey:key value:val table:nil];
+    if (!strings) {
+        // Just go for main bundle.
+        strings = [NSBundle mainBundle];
+    }
+    
+    return [strings localizedStringForKey:key value:[self _fallbackStringForKey:key] table:nil];
 }
 
 +(NSString*)imageSuffix {

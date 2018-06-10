@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Visibilité de l'élément";
+"ELEMENT_VISIBILITY_FOOTER" = "Cacher les éléments de l'écran verrouillé avec Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Cacher l'horloge de l'écran verrouillé";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Visible";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Sur la page principale";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Sur toutes les pages";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "L'horloge de l'écran verrouillé peut être cachée sur la page principale uniquement aussi bien que sur toutes les pages, la page Aujourd'hui inclue.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Cacher le texte 'Faire glisser pour déverrouiller'";
+"ELEMENT_HOME_TO_UNLOCK" = "Cacher le texte 'Appuyer le bouton home pour déverrouiller'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Cacher le texte 'Glisser vers le haut pour déverrouiller'";
+"ELEMENT_HIDE_OTHERS" = "Cacher d'autres éléments";
+
+"VISIBILITY_HEADER" = "Visibilité du Widget";
+"VISIBILITY_MEDIA" = "Comportement des contrôles médias";
+"VISIBILITY_NOTIFICATIONS" = "Comportement des Notifications";
+"VISIBILITY_OPACITY" = "Opacité du Widget quand il est caché:";
+
+"MSIC_HEADER" = "Divers";
+"MISC_LS_STATUS_BAR_SIZE" = "Plus petite Barre d'états de l'écran verrouillé";
+"MISC_LS_IDLE_TIME" = "Temps d'inactivité de l'écran verrouillé";
+"MISC_LS_IDLE_TIME_10S" = "10 Secondes";
+"MISC_LS_IDLE_TIME_15S" = "15 Secondes";
+"MISC_LS_IDLE_TIME_20S" = "20 Secondes";
+"MISC_LS_IDLE_TIME_30S" = "30 Secondes";
+"MISC_LS_IDLE_TIME_60S" = "1 Minute";
+"MISC_LS_IDLE_TIME_120S" = "2 Minutes";
+
+"ADVANCED" = "Avancé";
+
+"WIDGET_EDITOR_HEADER" = "Éditeur du Widget";
+"WIDGET_EDITOR_FOOTER" = "Personnaliser le panneau de configuration utilisé pour choisir les widgets à présenter sur l'écran verrouillé.";
+"WIDGET_EDITOR_SNAP" = "Prendre un instantané des widgets pour Y-axis";

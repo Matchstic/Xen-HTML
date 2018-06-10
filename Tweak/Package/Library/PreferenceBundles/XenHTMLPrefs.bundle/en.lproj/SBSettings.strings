@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Element Visibility";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Hide Homescreen elements when using Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Hide Dock Blur";
+"ELEMENT_SB_FOLDER_BLUR" = "Hide Folder Icon Blur";
+"ELEMENT_SB_ICON_LABELS" = "Hide Icon Labels";
+"ELEMENT_SB_PAGE_DOTS" = "Hide Page Indicators";
+
+"MISC_HEADER" = "Miscellaneous";
+"MISC_SB_TOUCH" = "Allow Touch On Widget";
+
+"WIDGET_EDITOR_HEADER" = "Widget Editor";
+"WIDGET_EDITOR_HS_FOOTER" = "Customise the settings panel used for choosing widgets to render on the Homescreen.";
+"WIDGET_EDITOR_SNAP" = "Snap Widgets To Y-axis";

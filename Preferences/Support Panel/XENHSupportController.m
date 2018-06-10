@@ -57,12 +57,12 @@ extern char **environ;
     int i;
     for (i=0; i<[s count]; i++) {
         if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[[s objectAtIndex: i] name] table:nil]];
+            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[self _fallbackStringForKey:[[s objectAtIndex: i] name]] table:nil]];
         }
         if ([[s objectAtIndex: i] titleDictionary]) {
             NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
             for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] table:nil] forKey: key];
+                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[self _fallbackStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key]] table:nil] forKey: key];
             }
             [[s objectAtIndex: i] setTitleDictionary: newTitles];
         }
@@ -72,6 +72,7 @@ extern char **environ;
 }
 
 -(void)_actuallyNukeAllSettings {
+    [XENHResources reloadSettings];
     NSArray *allKeys = [XENHResources allPreferenceKeys];
     
     NSLog(@"*** [Xen HTML Prefs] :: All keys being deleted: %@", allKeys);
@@ -84,9 +85,9 @@ extern char **environ;
     
     [newSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"Your device will now respring to apply changes" value:@"Your device will now respring to apply changes"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"SUPPORT_RESPRING_NOTIFY"] preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         // Respring on OK!
         CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/wantsrespring";
         if (toPost) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
@@ -98,7 +99,12 @@ extern char **environ;
 }
 
 -(void)nukeAllSettings:(id)sender {
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"Warning" value:@"Warning"] message:[XENHResources localisedStringForKey:@"This will clear all Xen HTML settings.\n\nDo you wish to continue?" value:@"This will clear all Xen HTML settings.\n\nDo you wish to continue?"] delegate:self cancelButtonTitle:[XENHResources localisedStringForKey:@"Cancel" value:@"Cancel"] otherButtonTitles:[XENHResources localisedStringForKey:@"Go Nuclear" value:@"Go Nuclear"], nil];
+    UIAlertView *av = [[UIAlertView alloc]
+                       initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
+                       message:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_RESET"]
+                       delegate:self
+                       cancelButtonTitle:[XENHResources localisedStringForKey:@"CANCEL"]
+                       otherButtonTitles:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_OPTION"], nil];
     
     [av show];
 }

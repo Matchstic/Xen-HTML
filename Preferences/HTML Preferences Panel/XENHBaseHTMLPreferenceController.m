@@ -178,16 +178,16 @@
 }
 
 -(NSArray*)defaultSpecifiersForCurrentVariant {
-    // TODO: Load up the preview group, cell, and slider
+    // Load up the preview group, cell, and slider
     
-    // TODO: Load "Configure:" items based upon variant.
+    // Load "Configure:" items based upon variant.
     // i.e., variant == 0, Background and Foreground
     // == 1, Background only.
     
     NSMutableArray *array = [NSMutableArray array];
     
-    PSSpecifier *previewGroup = [PSSpecifier groupSpecifierWithName:@"Preview"];
-    [previewGroup setProperty:[XENHResources localisedStringForKey:@"Slide to adjust the angle of preview"  value:@"Slide to adjust the angle of preview"] forKey:@"footerText"];
+    PSSpecifier *previewGroup = [PSSpecifier groupSpecifierWithName:[XENHResources localisedStringForKey:@"WIDGETS_PREVIEW_HEADER"]];
+    [previewGroup setProperty:[XENHResources localisedStringForKey:@"WIDGETS_PREVIEW_FOOTER"] forKey:@"footerText"];
     [array addObject:previewGroup];
     
     // Add preview cell and slider
@@ -205,7 +205,7 @@
     
     [array addObject:sliderCell];
     
-    PSSpecifier *configureGroup = [PSSpecifier groupSpecifierWithName:@"Configure:"];
+    PSSpecifier *configureGroup = [PSSpecifier groupSpecifierWithName:[XENHResources localisedStringForKey:@"WIDGETS_CONFIGURE"]];
     [array addObject:configureGroup];
     
     NSString *bgImagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/BackgroundWidget%@", [XENHResources imageSuffix]];
@@ -229,7 +229,7 @@
     if ([self variant] == 0) {
         // Lockscreen
         
-        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widgets"
+        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGETS_BACKGROUND"]
                                                                    target:self
                                                                       set:NULL
                                                                       get:NULL
@@ -241,7 +241,7 @@
         
         [array addObject:background];
         
-        PSSpecifier* foreground = [PSSpecifier preferenceSpecifierNamed:@"Foreground Widgets"
+        PSSpecifier* foreground = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGETS_FOREGROUND"]
                                                                  target:self
                                                                     set:NULL
                                                                     get:NULL
@@ -255,7 +255,7 @@
     } else {
         // Homescreen
         
-        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:@"Background Widgets"
+        PSSpecifier* background = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGETS_BACKGROUND"]
                                                                  target:self
                                                                     set:NULL
                                                                     get:NULL
@@ -273,16 +273,26 @@
     return array;
 }
 
+// From: https://stackoverflow.com/a/47297734
+- (NSString*)_fallbackStringForKey:(NSString*)key {
+    NSString *fallbackLanguage = @"en";
+    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
+    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
+    
+    return fallbackString;
+}
+
 -(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
     int i;
     for (i=0; i<[s count]; i++) {
         if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[[s objectAtIndex: i] name] table:nil]];
+            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[self _fallbackStringForKey:[[s objectAtIndex: i] name]] table:nil]];
         }
         if ([[s objectAtIndex: i] titleDictionary]) {
             NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
             for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] table:nil] forKey: key];
+                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[self _fallbackStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key]] table:nil] forKey: key];
             }
             [[s objectAtIndex: i] setTitleDictionary: newTitles];
         }

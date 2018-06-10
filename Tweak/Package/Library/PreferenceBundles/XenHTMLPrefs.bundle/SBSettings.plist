@@ -10,9 +10,9 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Visibility</string>
+			<string>ELEMENT_VISIBILITY_HS_HEADER</string>
 			<key>footerText</key>
-			<string>Hide homescreen elements when using Xen HTML.</string>
+			<string>ELEMENT_VISIBILITY_HS_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -26,7 +26,7 @@
 			<key>key</key>
 			<string>SBHideDockBlur</string>
 			<key>label</key>
-			<string>Hide Dock Blur</string>
+			<string>ELEMENT_SB_DOCK_BLUR</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -40,7 +40,7 @@
 			<key>key</key>
 			<string>SBHideFolderBlur</string>
 			<key>label</key>
-			<string>Hide Folder Icon Blur</string>
+			<string>ELEMENT_SB_FOLDER_BLUR</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -54,7 +54,7 @@
 			<key>key</key>
 			<string>SBHideIconLabels</string>
 			<key>label</key>
-			<string>Hide Icon Labels</string>
+			<string>ELEMENT_SB_ICON_LABELS</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -68,13 +68,13 @@
 			<key>key</key>
 			<string>SBHidePageDots</string>
 			<key>label</key>
-			<string>Hide Page Indicators</string>
+			<string>ELEMENT_SB_PAGE_DOTS</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Miscellaneous</string>
+			<string>MISC_HEADER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -88,15 +88,15 @@
 			<key>key</key>
 			<string>SBAllowTouch</string>
 			<key>label</key>
-			<string>Allow Touch On Widget</string>
+			<string>MISC_SB_TOUCH</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Widget Editor</string>
+			<string>WIDGET_EDITOR_HEADER</string>
 			<key>footerText</key>
-			<string>Customise the settings panel used for choosing widgets to render on the lockscreen.</string>
+			<string>WIDGET_EDITOR_HS_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -110,7 +110,7 @@
 			<key>key</key>
 			<string>SBPickerSnapToYAxis</string>
 			<key>label</key>
-			<string>Snap Widgets To Y-axis</string>
+			<string>WIDGET_EDITOR_SNAP</string>
 		</dict>
 	</array>
 </dict>

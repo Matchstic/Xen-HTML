@@ -128,6 +128,8 @@
 		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
+		C9E9BB7020C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9E9BB6E20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h */; };
+		C9E9BB7120C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BB6F20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m */; };
 		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
 		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
@@ -279,6 +281,8 @@
 		C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libGitHubIssues.tbd; path = lib/libGitHubIssues.tbd; sourceTree = "<group>"; };
 		C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libpackageinfo.tbd; path = lib/libpackageinfo.tbd; sourceTree = "<group>"; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
+		C9E9BB6E20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHHomescreenForegroundViewController.h; sourceTree = "<group>"; };
+		C9E9BB6F20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHHomescreenForegroundViewController.m; sourceTree = "<group>"; };
 		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
 		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
 		C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENHFallbackDelegate-Protocol.h"; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 				C94775C9207161A90003D039 /* XenHTML.mm */,
 				C94774B020715D050003D039 /* Setup */,
 				C94774BF20715D050003D039 /* Web Controller */,
+				C9E9BB6D20C58C6E00EE27D9 /* Homescreen Foreground Widgets */,
 				C94774C220715D050003D039 /* Supporting */,
 				C94774D020715D050003D039 /* Package */,
 				C94774AE20715D050003D039 /* Prefix.pch */,
@@ -807,6 +812,15 @@
 			path = "Support Panel";
 			sourceTree = "<group>";
 		};
+		C9E9BB6D20C58C6E00EE27D9 /* Homescreen Foreground Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				C9E9BB6E20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h */,
+				C9E9BB6F20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m */,
+			);
+			path = "Homescreen Foreground Widgets";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -823,6 +837,7 @@
 				C94774F620715D050003D039 /* XENHResources.h in Headers */,
 				C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */,
 				C94774EC20715D050003D039 /* XENHSetupLockscreenImportController.h in Headers */,
+				C9E9BB7020C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h in Headers */,
 				C94774E620715D050003D039 /* XENHSetupHomescreenImportController.h in Headers */,
 				C94774EB20715D050003D039 /* XENSFinalTickView.h in Headers */,
 				C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */,
@@ -1036,6 +1051,7 @@
 				C94775CA207161A90003D039 /* XenHTML.mm in Sources */,
 				C94774E720715D050003D039 /* XENSetupWindow.m in Sources */,
 				C94774F520715D050003D039 /* XENHTouchForwardingRecognizer.m in Sources */,
+				C9E9BB7120C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m in Sources */,
 				C94774E520715D050003D039 /* XENSFinalTickView.m in Sources */,
 				C90732FF20A362D6007D2819 /* XENHWidgetLayerContainerView.m in Sources */,
 				C94774F920715D050003D039 /* XENHResources.m in Sources */,

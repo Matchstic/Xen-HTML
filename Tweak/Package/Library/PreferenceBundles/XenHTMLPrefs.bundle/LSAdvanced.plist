@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Advanced</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>For widgets that have scrollable regions, prioritising touches will resolve issues that prevent usage of these regions.</string>
+			<string>SCROLL_PRIORITY_IOS10_FOOTER</string>
 			<key>maxVer</key>
 			<real>10.4</real>
 		</dict>
@@ -18,9 +18,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>For widgets with touchable regions at the bottom of the display, toggling this on will allow their usage. 
-
-However, you will not be able to swipe up to see past notifications.</string>
+			<string>SCROLL_PRIORITY_IOS11_FOOTER</string>
 			<key>minVer</key>
 			<real>11.0</real>
 		</dict>
@@ -36,7 +34,7 @@ However, you will not be able to swipe up to see past notifications.</string>
 			<key>key</key>
 			<string>LSWidgetScrollPriority</string>
 			<key>label</key>
-			<string>Prioritise Scrolling in Widget</string>
+			<string>SCROLL_PRIORITY_IOS10</string>
 			<key>minVer</key>
 			<real>10.0</real>
 			<key>maxVer</key>
@@ -54,7 +52,7 @@ However, you will not be able to swipe up to see past notifications.</string>
 			<key>key</key>
 			<string>LSWidgetScrollPriority</string>
 			<key>label</key>
-			<string>Prioritise Touch in Widget</string>
+			<string>SCROLL_PRIORITY_IOS11</string>
 			<key>minVer</key>
 			<real>11.0</real>
 		</dict>
@@ -62,7 +60,7 @@ However, you will not be able to swipe up to see past notifications.</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Disabling battery management will use more battery, but may prevent some visual issues.</string>
+			<string>BATTERY_MANAGEMENT_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -76,16 +74,14 @@ However, you will not be able to swipe up to see past notifications.</string>
 			<key>key</key>
 			<string>LSUseBatteryManagement</string>
 			<key>label</key>
-			<string>Use Battery Management</string>
+			<string>BATTERY_MANAGEMENT</string>
 		</dict>
 		
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Persistent mode keeps your Lockscreen widgets in memory at all times, so they don't need to load after locking your device.
-	
-Using this mode may lead to greater battery drainage.</string>
+			<string>PERSISTENT_MODE_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -99,7 +95,7 @@ Using this mode may lead to greater battery drainage.</string>
 			<key>key</key>
 			<string>LSPersistentWidgets</string>
 			<key>label</key>
-			<string>Persistent Mode</string>
+			<string>PERSISTENT_MODE</string>
 		</dict>
 	</array>
 </dict>

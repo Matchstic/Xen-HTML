@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Visibility";
+
+"GRABBERS_HEADER" = "Grabbers";
+"GRABBERS_NOTIFICATION_CENTRE" = "Hide Notification Center Grabber";
+"GRABBERS_CONTROL_CENTRE" = "Hide Control Center Grabber";
+"GRABBERS_CAMERA" = "Hide Camera Grabber";
+"GRABBERS_CAMERA_DISABLE" = "Disable Camera Grabber";
+"GRABBERS_HANDOFF" = "Hide Handoff Grabber";
+
+"D22_HEADER" = "iPhone X Specific";
+"D22_FACEID_PADLOCK" = "Hide Face ID Padlock";
+"D22_TORCH_CAMERA" = "Hide Torch and Camera Buttons";
+"D22_HOMEBAR" = "Hide Home Bar";
+"D22_CONTROL_CENTRE" = "Hide Control Center Indicator";
+
+"MISC_HEADER" = "Miscellaneous";
+"MISC_LS_STATUS_BAR" = "Hide Lockscreen Status Bar";
+"MISC_CLOCK_STATUS_BAR" = "Show Clock in Status Bar";
+"MISC_PAGE_DOTS" = "Hide Page Dots";

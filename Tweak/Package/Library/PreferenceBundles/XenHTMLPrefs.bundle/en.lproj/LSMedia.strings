@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Media Controls";
+
+"HIDE_FOREGROUND_HEADER" = "Hide Foreground Widget For:";
+"HIDE_FOREGROUND_FOOTER" = "Configure behaviour alongside the stock media controls.";
+"HIDE_FOREGROUND_CONTROLS" = "Controls UI";
+"HIDE_FOREGROUND_ARTWORK" = "Artwork";
+
+"MISC_HEADER" = "Miscellaneous";
+"HIDE_ARTWORK" = "Hide Media Artwork";
