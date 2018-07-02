@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Notificaciones";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Ocultar el Widget de Primer Plano Para:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Configurar el Comportamiento junto con Notificaiones.";
+"HIDE_FOREGROUND_NOTIF" = "Notificaciones";
+
+"OTHER_HEADER" = "Otras Configuraciones";
+"OTHER_FOOTER" = "Las notificaciones se pueden presentar en la altura total de la pantalla.";
+"FULLSCREEN_NOTIFICATIONS" = "Notificaciones en Panatalla Completa";

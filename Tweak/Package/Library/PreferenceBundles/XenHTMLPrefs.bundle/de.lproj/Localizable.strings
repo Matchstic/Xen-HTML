@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Abbrechen";
+"OK" = "OK";
+"WARNING" = "Warnung";
+"DONE" = "erledigt";
+"BACK" = "zurück";
+"ERROR" = "Fehler";
+"WIDGETS_CONFIGURE" = "Konfigurieren:";
+"WIDGETS_LOCKSCREEN" = "Sperrbildschirm";
+"WIDGETS_HOMESCREEN" = "Home-Bildschirm";
+
+"ROOT_SHARE_TEXT" = "Ich Vewende Xen HTML um HTML widgets auf meinem Speerbildschirm und Home-Blidschirm darzustellen! Schau es dir auf Cydia an.";
+
+"MORE_REPOS_TITLE" = "zusätzliche Repos";
+"MORE_REPOS_WIDGETS" = "Mehr Widgets";
+"MORE_REPOS_REFRESH" = "Aktuslisieren";
+"MORE_REPOS_CONTACTING_SERVER" = "Verbinde zum Server...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Diese Repo zu Cydia hinzfügen?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Diese Repo Öffnen in Cydia?";
+
+"DONATE_ADDRESS_COPIED" = "Die Adresse wurde in die Zwischenablage kopiert!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Ihr Gerät wird nun einen Respring machen, um die Änderungen zu übernehmen";
+"SUPPORT_CONFIRM_RESET" = "Dadurch werden alle Xen HTML-Einstellungen gelöscht.\n\nMöchten Sie fortfahren?";
+"SUPPORT_CONFIRM_OPTION" = "Go Nuclear";
+
+"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_PREVIEW_HEADER" = "Vorschau";
+"WIDGETS_PREVIEW_FOOTER" = "Verschieben Sie den Regler um den Vorschauwinkel anzupassen.";
+"WIDGETS_BACKGROUND" = "Hintergrund Widgets";
+"WIDGETS_FOREGROUND" = "Vordergrund Widgets";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Hintergrund Widgets werden ein Teil von euerem Sperrbildschirms";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Vordergrund Widgets sind vollständig interaktive Ergänzungen zu Ihrem Speerbildschirm";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Hintergrund Widgets werden zu interaktiven Ergänzungen Ihres Home-Bildschirms";
+"WIDGETS_NONE_SELECTED" = "Keine widgets ausgewählt";
+"WIDGETS_ADD_NEW" = "Widget hinzufügen...";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "Keine widgets ausgewählt";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Beim Parsen der Einstellungsdatei ist ein Fehler aufgetreten. Einige Optionen fehlen möglicherweise";
+"WIDGET_EDITOR_SAVE" = "Speichern";
+"WIDGET_EDITOR_DRAGDROP" = "Drag and drop um die Position einzustellen";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Drag and drop um die Position einzustellen.\n\nDrehen Sie Ihr Gerät, um es in verschiedenen Ausrichtungen anzuzeigen";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Verfügbare Widgets";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Vordergrund)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Hintergrund)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Keine widgets verfügbar";
+"WIDGET_PICKER_NONE" = "Nichts";
+"WIDGET_PICKER_LOADING" = "Lade";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Packet:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Unbekannter Author";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Unbekannt / Local";
+
+"WIDGET_SETTINGS_TITLE" = "Widget Einstellungen";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Fehler beim Schreiben der Widget-Einstellungen; Überprüfen Sie die Dateiberechtigungen für dieses Widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Einige Widgets benötigen Legacy Mode um Problemlos zu funktionieren, zum beispiel jene widgets die GroovyAPI verwenden.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Legacy Mode";
+"WIDGET_SETTINGS_NONE" = "keine Einstellungen verfügbar";
+
+/* TWEAK */
+
+"NEXT" = "Nächste";
+
+"SETUP_INITIAL_TITLE" = "Installation Komplett";
+"SETUP_INITIAL_FOOTER" = "Xen HTML wurde Erfolgreich installiert.\nNur noch wenige schritte dann sind wir fertig!";
+"SETUP_INITIAL_BUTTON" = "weiter";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Speerbildschirm Einstellung";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Was bedeutet das Importieren?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Beim Importieren können Sie vorhandene Sperrbildschirm Einstellungen in Xen HTML wiederverwenden.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Einstellen ohne Importieren";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "IImportiere von Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Iimportiere von GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Home-Bildschirm Einstellungen";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Was bedeutet das Importieren?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Beim Importieren können Sie vorhandene Home-Bildschirm Einstellungen in Xen HTML wiederverwenden.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Einstellen ohne Importieren";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importiere von SBHTML";
+
+"SETUP_FINAL_TITLE" = "Letzter Schliff";
+"SETUP_FINAL_TITLE_POST_WORK" = "Willkommen zu Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Los gehts";
+"SETUP_FINAL_RESTART_TITLE" = "Das SpringBoard muss neugestartet werden um die Installation Abzuschliessen";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Anwenden Ihrer Einstellungen";
+"SETUP_FINAL_COFFEE" = "Kaffee Pause";
+"SETUP_FINAL_CLEANUP" = "Aufräumen";
+

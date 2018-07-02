@@ -1,0 +1,17 @@
+/* 
+  LSAdvanced.strings
+  Xen HTML
+*/
+
+"TITLE" = "Erweiterte Einstellungen";
+
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Bei Widgets mit Bildlaufbereichen (Scroll) werden durch das Priorisieren von Berührungen Probleme behoben, die die Verwendung dieser Bereiche verhindern.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Bei Widgets mit berührbaren (Touch) Bereichen am unteren Rand der Anzeige können Sie diese Option aktivieren.\n\nSie können jedoch nicht nach oben wischen, um vergangene Benachrichtigungen zu sehen.";
+"SCROLL_PRIORITY_IOS10" = "Priorisieren Scrolling in Widget";
+"SCROLL_PRIORITY_IOS11" = "Priorisieren Touch in Widget";
+
+"BATTERY_MANAGEMENT_FOOTER" = "Die Deaktivierung des Batteriemanagements verbraucht mehr Batterie, kann jedoch einige visuelle Probleme verhindern.";
+"BATTERY_MANAGEMENT" = "Batterieverwaltung verwenden";
+
+"PERSISTENT_MODE_FOOTER" = "Der permanente Modus hält Ihre Sperrbildschirm Widgets jederzeit im Speicher, sodass sie nach dem Sperren des Geräts nicht geladen werden müssen.\n\nDieser Modus kann zu einer größeren Batterieentladung führen.";
+"PERSISTENT_MODE" = "Permanent Modus";

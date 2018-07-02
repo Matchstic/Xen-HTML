@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Dukungan";
+
+"MESSAGE_FOOTER" = "Mungkin perlu beberapa hari sebelum Anda menerima balasan.";
+"MESSAGE_HEADER" = "Kirim pesan:";
+"MESSAGE_TWITTER" = "Melalui Twitter";
+"MESSAGE_MAIL" = "Melalui Mail";
+
+"BUGS_FEATURES" = "Laporkan masalah dan ajukan fitur";
+
+"RESET_FOOTER" = "Ini akan menghapus semua pengaturan Xen HTML.";
+"RESET_SETTINGS" = "Atur ulang semua pengaturan";

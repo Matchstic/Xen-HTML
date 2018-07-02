@@ -3,16 +3,16 @@
   Xen HTML
 */
 
-"TITLE" = "טרום";
+"TITLE" = "תרום";
 
-"INFO_FOOTER" = "‫,‬שקול בבקשה טרומהXen HTML –אם אתה נהנה מ";
+"INFO_FOOTER" = "Xen HTML -אנא שקול לתת תרומה אם אתה נהנה מ";
 
-"PAYPAL" = "PayPal —דרך";
-"PAYPAL_FOOTER" = "PayPal–הקש לעתקת כתובת ה";
+"PAYPAL" = "PayPal דרך";
+"PAYPAL_FOOTER" = "PayPal –הקש לעתקת כתובת ה";
 
-"BTC" = "(BTC) Bitcoin —דרך";
-"BTC_FOOTER" = "(SegWit מופעלת על ידי) Bitcoin הקש לעתקת הכתובת הציבורית של";
+"BTC" = "(BTC) Bitcoin דרך";
+"BTC_FOOTER" = "(SegWit מופעלת על ידי) Bitcoin –הקש לעתקת הכתובת הציבורית של";
 
 
-"ETH" = "(ETH) Ethereum —דרך";
+"ETH" = "(ETH) Ethereum דרך";
 "ETH_FOOTER" = "Ethereum –הקש לעתקת הכתובת הציבורית של";

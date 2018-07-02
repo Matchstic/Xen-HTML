@@ -1,0 +1,9 @@
+"BATTERY_MANAGEMENT" = "Utilize Administración de Batería";
+"BATTERY_MANAGEMENT_FOOTER" = "Desactivando la administración de batería utilizará mas batería, pero puede prevenir algunos efectos visuales.";
+"PERSISTENT_MODE" = "Modo Persistente";
+"PERSISTENT_MODE_FOOTER" = "Modo persistente mantiene los widgets de la Pantalla de Bloqueo en memoria en todo momento, asi que no tienen que cargar luego de bloquear el aparato.\n\nUtilizando este modo puede llevar a un drenaje mayor de batería.";
+"SCROLL_PRIORITY_IOS10" = "Priorizar el Desplazo en los Widgets";
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Para widgets que tienen regiones desplazables, priorizando las funciones de toque resolverán situaciones que previenen el uso de estas regiones.";
+"SCROLL_PRIORITY_IOS11" = "Priorizar Función de Toque en los Widgets";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Para widgets que tienen regiones con funciones de tacto en el fondo de la pantalla, activando esto permitirá su uso. \n\nSin embargo, no podrá deslizar hacia arriba para ver notificaciones pasadas.";
+"TITLE" = "Avanzado";

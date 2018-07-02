@@ -1,0 +1,17 @@
+/* 
+  Donate.strings
+  Xen HTML
+*/
+
+"TITLE" = "Donasi";
+
+"INFO_FOOTER" = "Jika anda menikmati menggunakan Xen HTML, mohon pertimbangkan berdonasi!";
+
+"PAYPAL" = "Melalui PayPal";
+"PAYPAL_FOOTER" = "Ketuk untuk menyalin alamat Paypal";
+
+"BTC" = "Melalui Bitcoin (BTC)";
+"BTC_FOOTER" = "Ketuk untuk menyalin alamat publik Bitcoin (SegWit-aktif)";
+
+"ETH" = "Melalui Ethereum (ETH)";
+"ETH_FOOTER" = "Ketuk untuk menyalin alamat publik Ethereum";

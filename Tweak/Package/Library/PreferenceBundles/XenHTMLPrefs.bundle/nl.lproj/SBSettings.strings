@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Visuele Opties";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Verberg Thuisscherm Opties bij het gebruiken van Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Verberg Dock Vervagen";
+"ELEMENT_SB_FOLDER_BLUR" = "Verberg Folder Icoon vervagen";
+"ELEMENT_SB_ICON_LABELS" = "Verberg Icoon Labels";
+"ELEMENT_SB_PAGE_DOTS" = "Verberg Pagina Indicators";
+
+"MISC_HEADER" = "Overige";
+"MISC_SB_TOUCH" = "Akkoord om op je Widget te klikken";
+
+"WIDGET_EDITOR_HEADER" = "Widget Aanpassen";
+"WIDGET_EDITOR_HS_FOOTER" = "Pas de instellingen aan van de widgets die je op thuisscherm wilt plaatsen.";
+"WIDGET_EDITOR_SNAP" = "Trek Widgets naar de Y-as";

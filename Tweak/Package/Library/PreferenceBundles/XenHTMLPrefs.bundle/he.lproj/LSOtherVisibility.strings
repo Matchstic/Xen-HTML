@@ -3,7 +3,7 @@
   Xen HTML
 */
 
-"TITLE" = "מראה";
+"TITLE" = "תצוגה";
 
 "GRABBERS_HEADER" = "תופסנים";
 "GRABBERS_NOTIFICATION_CENTRE" = "הסתר תופסני מרכז ההודעות";
@@ -21,4 +21,4 @@
 "MISC_HEADER" = "שונות";
 "MISC_LS_STATUS_BAR" = "הסתר את שורת המצב של מסך הנעילה";
 "MISC_CLOCK_STATUS_BAR" = "הצג את השעון בשורת המצב";
-"MISC_PAGE_DOTS" = "הסתר נקודות דף";
+"MISC_PAGE_DOTS" = "הסתר נקודות עמוד";

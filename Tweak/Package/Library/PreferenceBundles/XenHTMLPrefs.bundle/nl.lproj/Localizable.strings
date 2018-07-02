@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Annuleer";
+"OK" = "OK";
+"WARNING" = "Attentie";
+"DONE" = "Klaar";
+"BACK" = "Terug";
+"ERROR" = "Error";
+
+"ROOT_SHARE_TEXT" = "Ik gebruik Xen HTML om HTML widgets op mijn vergrendelscherm en/of mijn thuisscherm te gebruiken! Kijk maar eens op Cydia:";
+
+"MORE_REPOS_TITLE" = "Andere repo's";
+"MORE_REPOS_WIDGETS" = "Meer Widgets";
+"MORE_REPOS_REFRESH" = "Heractiveer";
+"MORE_REPOS_CONTACTING_SERVER" = "Probeer de server te bereiken...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Voeg deze repo toe in Cydia?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Open deze repo in Cydia?";
+
+"DONATE_ADDRESS_COPIED" = "Adres is gekopieerd naar clipboard!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Om alles op te slaan volgt er een respring op je device";
+"SUPPORT_CONFIRM_RESET" = "Dit zal Xen HTML instellingen resetten.\n\nWeet je het zeker?";
+"SUPPORT_CONFIRM_OPTION" = "Daar gaat ie";
+
+"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_PREVIEW_HEADER" = "Voorbeschouwing";
+"WIDGETS_PREVIEW_FOOTER" = "Schuid om de hoed van de voorbeschouwing aan te passen.";
+"WIDGETS_BACKGROUND" = "Achtergrond Widgets";
+"WIDGETS_FOREGROUND" = "Voorgrond Widgets";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Achtergrond widgets worden een deel van je achtergrond";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Voorgrond widgets zijn volledig interactief op je Vergrendelscherm";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Achtergrond widgets zijn volledig interactief en gaan samen met je achtergrond";
+"WIDGETS_NONE_SELECTED" = "Geen widgets geselecteerd";
+"WIDGETS_ADD_NEW" = "Voeg widget toe...";
+"WIDGETS_CONFIGURE" = "Configureer:";
+"WIDGETS_LOCKSCREEN" = "Vergrendelscherm";
+"WIDGETS_HOMESCREEN" = "Thuisscherm";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "Geen Widget geselecteerd";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Er was fout gegaan om je instellingen aan te passen; sommige opties werken waarschijnlijk niet";
+"WIDGET_EDITOR_SAVE" = "Bewaar";
+"WIDGET_EDITOR_DRAGDROP" = "Pak vast en schuif om positie te bepalen";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Pak vast en schuif om positie te bepalen\n\nRoteer je device om een andere layout te zien";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Aanwezige Widgets";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Voorgrond)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Achtergrond)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Geen widgets beschikbaar";
+"WIDGET_PICKER_NONE" = "Geen";
+"WIDGET_PICKER_LOADING" = "Laden";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Pakket:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Onbekende auteur";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Onbekende / Persoon";
+
+"WIDGET_SETTINGS_TITLE" = "Widget Instellingen";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Fout bij het wegschrijven van de instellingen; controleer de privileges van de widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Sommige widgets gebruiken de Legacy Modus om juist te functioneren, met name voor GroovyAPI gebruikers.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Legacy Modus";
+"WIDGET_SETTINGS_NONE" = "Geen instellingen beschikbaar";
+
+/* TWEAK */
+
+"NEXT" = "Volgende";
+
+"SETUP_INITIAL_TITLE" = "Installatie klaar";
+"SETUP_INITIAL_FOOTER" = "Xen HTML is geïnstalleerd.\nNog even geduld en dan ben ik klaar voor gebruik!";
+"SETUP_INITIAL_BUTTON" = "Ga door";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Samenstellen Vergrendelscherm";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Wat doet importeren precies?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Importeren zorgt ervoor dat je bestaande vergrendelscherm instellingen meeneemt in Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Samenstellen zonder te importeren";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importeer vanuit Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Importeer vanuit GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Samenstelle Thuisscherm";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Wat doet importeren precies?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Importeren zorgt ervoor dat je bestaande thuisscherm instellingen meeneemt in Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Samenstellen zonder te importeren";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importeer vanuit SBHTML";
+
+"SETUP_FINAL_TITLE" = "Laatste handelingen";
+"SETUP_FINAL_TITLE_POST_WORK" = "Welkom bij Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Begin";
+"SETUP_FINAL_RESTART_TITLE" = "Je scherm wordt opnieuw opgestart om je installatie te voltooien";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Activeren van je instellingen";
+"SETUP_FINAL_COFFEE" = "Tijd voor een bakkie koffie";
+"SETUP_FINAL_CLEANUP" = "Opschonen";
+

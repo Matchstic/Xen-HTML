@@ -1,0 +1,11 @@
+"ELEMENT_SB_DOCK_BLUR" = "Ocultar Desenfoque de Muelle";
+"ELEMENT_SB_FOLDER_BLUR" = "Ocultar Desenfoque de Iconos de Carpeta";
+"ELEMENT_SB_ICON_LABELS" = "Ocultar Etiqueta de Iconos";
+"ELEMENT_SB_PAGE_DOTS" = "Ocultar Indicadores de Página";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Ocultar elementos de Pantalla de Inicio cuando se utilize Xen HTML.";
+"ELEMENT_VISIBILITY_HS_HEADER" = "Visibilidad de Elementos";
+"MISC_HEADER" = "Misceláneo";
+"MISC_SB_TOUCH" = "Permitir Utilizar Toque en el Widget";
+"WIDGET_EDITOR_HEADER" = "Editor de Widget";
+"WIDGET_EDITOR_HS_FOOTER" = "Personalizar el panel de configuraciones que se usa para elegir widgets para renderizar en la Pantalla de Inicio.";
+"WIDGET_EDITOR_SNAP" = "Ajustar los Widgets al eje de 'Y'";

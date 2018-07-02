@@ -5,14 +5,14 @@
 
 "ELEMENT_VISIBILITY_HS_HEADER" = "תצוגת רכיבים";
 "ELEMENT_VISIBILITY_HS_FOOTER" = "Xen HTML -הסתר רכיבים של מסך הבית בעת שימוש ב";
-"ELEMENT_SB_DOCK_BLUR" = "הסתר טשטוש הדוק";
+"ELEMENT_SB_DOCK_BLUR" = "(Dock) הסתר טשטוש הדוק";
 "ELEMENT_SB_FOLDER_BLUR" = "הסתר טשטוש סמל התיקייה";
 "ELEMENT_SB_ICON_LABELS" = "הסתר תוויות הסמל";
-"ELEMENT_SB_PAGE_DOTS" = "הסתר מחווני עמוד";
+"ELEMENT_SB_PAGE_DOTS" = "הסתר נקודות עמוד";
 
 "MISC_HEADER" = "שונות";
 "MISC_SB_TOUCH" = "אפשר מגע על הווידג'ט";
 
-"WIDGET_EDITOR_HEADER" = "עורך ווידג'ט";
-"WIDGET_EDITOR_HS_FOOTER" = "התאם את לוח ההגדרות המשמש לבחירת ווידג'טס להצגה במסך הבית‫.‬";
+"WIDGET_EDITOR_HEADER" = "עריכת ווידג'ט";
+"WIDGET_EDITOR_HS_FOOTER" = "התאם את לוח ההגדרות המשמש לבחירת ווידג'טס להצגה במסך הבית‬";
 "WIDGET_EDITOR_SNAP" = "Y -הצמד ווידג'טס לציר ה";

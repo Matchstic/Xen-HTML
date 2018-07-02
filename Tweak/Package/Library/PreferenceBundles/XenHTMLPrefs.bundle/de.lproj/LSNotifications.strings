@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Benachrichtigungen";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Vordergrund Widget ausblenden für:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Konfigurieren Sie das Verhalten bei Benachrichtigungen.";
+"HIDE_FOREGROUND_NOTIF" = "Benachrichtigungen";
+
+"OTHER_HEADER" = "Weitere Einstellungen";
+"OTHER_FOOTER" = "Benachrichtigungen können in voller Höhe des Displays angezeigt werden.";
+"FULLSCREEN_NOTIFICATIONS" = "Vollbild Benachrichtigungen";

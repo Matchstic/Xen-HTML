@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Visueel";
+
+"GRABBERS_HEADER" = "Grijpers";
+"GRABBERS_NOTIFICATION_CENTRE" = "Verberg Berichtgeving Grijper";
+"GRABBERS_CONTROL_CENTRE" = "Verberg Grijper van bedieningspaneel";
+"GRABBERS_CAMERA" = "Verberg Camera Grijper";
+"GRABBERS_CAMERA_DISABLE" = "Schakel Camera Grijper uit";
+"GRABBERS_HANDOFF" = "Verberg Handoff Grijper";
+
+"D22_HEADER" = "Specifiek de iPhone X";
+"D22_FACEID_PADLOCK" = "Verberg Gezicht ID Toets";
+"D22_TORCH_CAMERA" = "Verberg Zaklamp en Camera knoppen";
+"D22_HOMEBAR" = "Verberg Thuis Balk";
+"D22_CONTROL_CENTRE" = "Verberg Bedieningspaneel Indicatie";
+
+"MISC_HEADER" = "Overige";
+"MISC_LS_STATUS_BAR" = "Verberg vergrendelscherm Status Balk";
+"MISC_CLOCK_STATUS_BAR" = "Verberg Klok in Status Balk";
+"MISC_PAGE_DOTS" = "Verberg Pagina Puntjes";

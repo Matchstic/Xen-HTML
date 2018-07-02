@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Elemente ein oder ausblenden";
+"ELEMENT_VISIBILITY_FOOTER" = "Sperrbildschirm Elemente ein/ausblenden bei Verwendung von Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Sperrbildschirm Uhr";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Sichtbar";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Hauptseite";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Auf allen Seiten";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Die Sperrbildschirm Uhr kann entweder nur auf der Hauptseite oder auf allen Seiten einschließlich der Heute Seite ausgeblendet werden.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Zum Entsperren schieben";
+"ELEMENT_HOME_TO_UNLOCK" = "Zum Öffnen Home-Taste drücken";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Wische nach oben zum Entspeeren";
+"ELEMENT_HIDE_OTHERS" = "Andere Elemente ein/ausblenden";
+
+"VISIBILITY_HEADER" = "Widget Sichtbarkeit";
+"VISIBILITY_MEDIA" = "Mediensteuerungsverhalten";
+"VISIBILITY_NOTIFICATIONS" = "Benachrichtigungsverhalten";
+"VISIBILITY_OPACITY" = "Widget Deckkraft bei Benachrichtigungen:";
+
+"MSIC_HEADER" = "Sonstiges";
+"MISC_LS_STATUS_BAR_SIZE" = "Schmalere Statusbar im Sperrbildschirm";
+"MISC_LS_IDLE_TIME" = "Sperrbildschirm ausblenden";
+"MISC_LS_IDLE_TIME_10S" = "10 Sekunden";
+"MISC_LS_IDLE_TIME_15S" = "15 Sekunden";
+"MISC_LS_IDLE_TIME_20S" = "20 Sekunden";
+"MISC_LS_IDLE_TIME_30S" = "30 Sekunden";
+"MISC_LS_IDLE_TIME_60S" = "1 Minute";
+"MISC_LS_IDLE_TIME_120S" = "2 Minuten";
+
+"ADVANCED" = "Erweitert";
+
+"WIDGET_EDITOR_HEADER" = "Widget Editor";
+"WIDGET_EDITOR_FOOTER" = "Aktivieren Sie diese Option um Ihr widget besser Platzieren zu können im Sperrbildschirm.";
+"WIDGET_EDITOR_SNAP" = "Widgets auf der Y-Achse ausrichten";

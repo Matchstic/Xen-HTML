@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Visibilitas";
+
+"GRABBERS_HEADER" = "Ikon Pembuka/Ekspansi";
+"GRABBERS_NOTIFICATION_CENTRE" = "Sembunyikan ikon ekspansi Panel Notifikasi";
+"GRABBERS_CONTROL_CENTRE" = "Sembunyikan ikon ekspansi Pusat Kontrol";
+"GRABBERS_CAMERA" = "Sembunyikan ikon kamera";
+"GRABBERS_CAMERA_DISABLE" = "Matikan ikon kamera";
+"GRABBERS_HANDOFF" = "Sembunyikan ikon Handoff";
+
+"D22_HEADER" = "Khusus iPhone X";
+"D22_FACEID_PADLOCK" = "Sembunyikan gembok Pendeteksi Wajah";
+"D22_TORCH_CAMERA" = "Sembunyikan tombol Senter dan Kamera";
+"D22_HOMEBAR" = "Sembunyikan Garis Beranda";
+"D22_CONTROL_CENTRE" = "Sembunyikan indikator Pusat Kontrol";
+
+"MISC_HEADER" = "Lain-lain";
+"MISC_LS_STATUS_BAR" = "Sembunyikan status bar pada Layar Kunci";
+"MISC_CLOCK_STATUS_BAR" = "Tampilkan jam di status bar";
+"MISC_PAGE_DOTS" = "Sembunyikan titik penanda halaman";

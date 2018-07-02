@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Mediensteuerelemente";
+
+"HIDE_FOREGROUND_HEADER" = "Vordergrund Widget ausblenden für:";
+"HIDE_FOREGROUND_FOOTER" = "Konfigurieren Sie das Verhalten der Mediensteuerelementen.";
+"HIDE_FOREGROUND_CONTROLS" = "Steuert UI";
+"HIDE_FOREGROUND_ARTWORK" = "Artwork";
+
+"MISC_HEADER" = "Sonstiges";
+"HIDE_ARTWORK" = "Media Artwork ausblenden";

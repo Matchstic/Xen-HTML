@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Media Bediening";
+
+"HIDE_FOREGROUND_HEADER" = "Verberg voorgrond Widget voor:";
+"HIDE_FOREGROUND_FOOTER" = "Configureer gelijk aan de gebruikelijke media bediening.";
+"HIDE_FOREGROUND_CONTROLS" = "Bediening UI";
+"HIDE_FOREGROUND_ARTWORK" = "Foto's";
+
+"MISC_HEADER" = "Overige";
+"HIDE_ARTWORK" = "Verberg Media Foto's";

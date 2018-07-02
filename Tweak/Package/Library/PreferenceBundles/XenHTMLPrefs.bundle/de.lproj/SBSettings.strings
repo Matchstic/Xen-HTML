@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Elemente ein oder ausblenden";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Ausblenden von Home-Bildschirm Elementen bei Verwendung von Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Dock Blur ausblenden";
+"ELEMENT_SB_FOLDER_BLUR" = "Ordner Icon Blur ausblenden";
+"ELEMENT_SB_ICON_LABELS" = "Icon Labels ausblenden";
+"ELEMENT_SB_PAGE_DOTS" = "Seitenindikatoren ausblenden";
+
+"MISC_HEADER" = "Sonstiges";
+"MISC_SB_TOUCH" = "Erlaube Touch für widgets";
+
+"WIDGET_EDITOR_HEADER" = "Widget Editor";
+"WIDGET_EDITOR_HS_FOOTER" = "Aktivieren Sie diese Option um Ihr widget besser Platzieren zu können im Home-Bildschirm.";
+"WIDGET_EDITOR_SNAP" = "Widgets auf der Y-Achse ausrichten";

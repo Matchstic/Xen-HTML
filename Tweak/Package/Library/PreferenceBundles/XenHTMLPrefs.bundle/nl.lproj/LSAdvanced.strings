@@ -1,0 +1,17 @@
+/* 
+  LSAdvanced.strings
+  Xen HTML
+*/
+
+"TITLE" = "Geavanceerd";
+
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Als je widgets hebt met scroll opties, zorg er dan voor dat je deze een prioriteit geeft.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Als je widgets gebruikt met klik opties onderaan het scherm, zorg dat je deze optie aan zet.\n\nEchter, kun je dan niet meer naar boven vegen of je oude notificaties te zien.";
+"SCROLL_PRIORITY_IOS10" = "Scroll prioriteit in Widget";
+"SCROLL_PRIORITY_IOS11" = "Klik prioriteit in Widget";
+
+"BATTERY_MANAGEMENT_FOOTER" = "Je batterij gaat sneer leeg als je batterij manager uitschakelt, maar zal eventuele visuele problemen teniet doen.";
+"BATTERY_MANAGEMENT" = "Gebruik de Batterij Manager";
+
+"PERSISTENT_MODE_FOOTER" = "Aanhoudende modus onthoudt je Vergrendelscherm widgets, zodat je blijven werken nadat je het scherm vergrendelt.\n\nDeze optie zal een inbreuk hebben op je batterij.";
+"PERSISTENT_MODE" = "Aanhoudende Modus";

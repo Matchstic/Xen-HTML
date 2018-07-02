@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Batal";
+"OK" = "OK";
+"WARNING" = "Peringatan";
+"DONE" = "Selesai";
+"BACK" = "Kembali";
+"ERROR" = "Kesalahan";
+
+"ROOT_SHARE_TEXT" = "Saya menggunakan Xen HTML untuk menjalankan widget di Layar Kunci dan Layar Utama saya! Cek di Cydia:";
+
+"MORE_REPOS_TITLE" = "Repositori Tambahan";
+"MORE_REPOS_WIDGETS" = "Widget Lain";
+"MORE_REPOS_REFRESH" = "Muat Ulang";
+"MORE_REPOS_CONTACTING_SERVER" = "Menghubungkan server...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Tambahkan repo ini ke Cydia?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Buka repo ini di Cydia?";
+
+"DONATE_ADDRESS_COPIED" = "Alamat telah disalin ke papan klip!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Perangkat anda sekarang akan dimuat ulang untuk menerapkan perubahan";
+"SUPPORT_CONFIRM_RESET" = "Ini akan menghapus semua pengaturan Xen HTML.\n\nApakah anda ingin melanjutkan?";
+"SUPPORT_CONFIRM_OPTION" = "Jalankan Nuklir";
+
+"WIDGETS_TITLE" = "Widget";
+"WIDGETS_PREVIEW_HEADER" = "Pratinjau";
+"WIDGETS_PREVIEW_FOOTER" = "Geser untuk menyesuaikan sudut pratinjau.";
+"WIDGETS_BACKGROUND" = "Widget Latar Belakang";
+"WIDGETS_FOREGROUND" = "Widget Latar Depan";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Widget Latar Belakang menjadi bagian dari wallpaper anda";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Widget Latar Depan adalah tambahan yang sepenuhnya interaktif pada Layar Kunci anda";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Widget Latar Belakang menjadi tambahan interaktif pada wallpaper anda";
+"WIDGETS_NONE_SELECTED" = "Tidak ada widget yang dipilih";
+"WIDGETS_ADD_NEW" = "Tambahkan widget...";
+"WIDGETS_CONFIGURE" = "Konfigurasi:";
+"WIDGETS_LOCKSCREEN" = "Layar Kunci";
+"WIDGETS_HOMESCREEN" = "Layar Utama";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "Tidak ada widget yang dipilih";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Terjadi kesalahan saat mengurai berkas pengaturan; beberapa opsi mungkin hilang";
+"WIDGET_EDITOR_SAVE" = "Simpan";
+"WIDGET_EDITOR_DRAGDROP" = "Seret dan lepaskan untuk menyesuaikan posisi";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Seret dan lepaskan untuk menyesuaikan posisi\n\nPutar perangkat anda untuk melihat pada orientasi yang berbeda";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Widget yang tersedia";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Latar Depan)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Latar Belakang)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Tidak ada widget yang tersedia";
+"WIDGET_PICKER_NONE" = "Tidak ada";
+"WIDGET_PICKER_LOADING" = "Memuat";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Paket:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Pembuat tidak diketahui";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Tidak diketahui / Lokal";
+
+"WIDGET_SETTINGS_TITLE" = "Pengaturan Widget";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Gagal menulis pengaturan widget; periksa izin berkas untuk widget ini";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Beberapa widget membutuhkan Mode Lawas untuk berfungsi dengan benar, contohnya yang menggunakan GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Mode Lawas";
+"WIDGET_SETTINGS_NONE" = "Pengaturan tidak tersedia";
+
+/* TWEAK */
+
+"NEXT" = "Selanjutnya";
+
+"SETUP_INITIAL_TITLE" = "Pemasangan Selesai";
+"SETUP_INITIAL_FOOTER" = "Xen HTML berhasil dipasang.\nAda beberapa langkah lagi untuk diikuti, dan kemudian anda selesai!";
+"SETUP_INITIAL_BUTTON" = "Lanjutkan";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Pengaturan Layar Kunci";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Apa fungsi pengimporan?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Mengimpor memungkinkan anda memindahkan pengaturan Layar Kunci yang sudah ada ke Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Atur tanpa mengimpor";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Impor dari Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Impor dari GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Pengaturan Layar Utama";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Apa fungsi pengimporan?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Mengimpor memungkinkan anda memindahkan pengaturan Layar Utama yang sudah ada ke Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Atur tanpa mengimpor";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Impor dari SBHTML";
+
+"SETUP_FINAL_TITLE" = "Sentuhan akhir";
+"SETUP_FINAL_TITLE_POST_WORK" = "Selamat datang di Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Mulai";
+"SETUP_FINAL_RESTART_TITLE" = "SpringBoard perlu dimuat ulang untuk menyelesaikan instalasi anda";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Menerapkan pengaturan anda";
+"SETUP_FINAL_COFFEE" = "Mengambil rehat";
+"SETUP_FINAL_CLEANUP" = "Membersihkan";
+

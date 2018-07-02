@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Visibilitas Elemen";
+"ELEMENT_VISIBILITY_FOOTER" = "Sembunyikan elemen layar kunci saat menggunakan Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Sembunyikan jam layar kunci";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Terlihat";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Pada Layar Utama";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Pada Semua Halaman";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Jam Layar Kunci dapat disembunyikan hanya di halaman utama, atau semua halaman termasuk halaman Hari Ini.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Sembunyikan teks 'Geser untuk membuka kunci'";
+"ELEMENT_HOME_TO_UNLOCK" = "Sembunyikan teks 'Tekan beranda untuk membuka kunci'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Sembunyikan teks 'Geser ke atas untuk membuka kunci'";
+"ELEMENT_HIDE_OTHERS" = "Sembunyikan elemen lain";
+
+"VISIBILITY_HEADER" = "Visibilitas Widget";
+"VISIBILITY_MEDIA" = "Pengaturan Kontrol Media";
+"VISIBILITY_NOTIFICATIONS" = "Pengaturan Pemberitahuan";
+"VISIBILITY_OPACITY" = "Transparansi widget saat disembunyikan:";
+
+"MSIC_HEADER" = "Lain-lain";
+"MISC_LS_STATUS_BAR_SIZE" = "Status bar Layar Kunci lebih kecil";
+"MISC_LS_IDLE_TIME" = "Durasi Layar Kunci tidak aktif";
+"MISC_LS_IDLE_TIME_10S" = "10 Detik";
+"MISC_LS_IDLE_TIME_15S" = "15 Detik";
+"MISC_LS_IDLE_TIME_20S" = "20 Detik";
+"MISC_LS_IDLE_TIME_30S" = "30 Detik";
+"MISC_LS_IDLE_TIME_60S" = "1 Menit";
+"MISC_LS_IDLE_TIME_120S" = "2 Menit";
+
+"ADVANCED" = "Pengaturan Lanjutan";
+
+"WIDGET_EDITOR_HEADER" = "Editor Widget";
+"WIDGET_EDITOR_FOOTER" = "Sesuaikan panel pengaturan yang digunakan untuk memilih widget untuk ditampilkan di Layar Kunci.";
+"WIDGET_EDITOR_SNAP" = "Kunci widget ke poros Y";

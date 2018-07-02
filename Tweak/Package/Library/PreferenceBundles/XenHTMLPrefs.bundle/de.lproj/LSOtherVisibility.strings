@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Sichtbares";
+
+"GRABBERS_HEADER" = "Grabbers";
+"GRABBERS_NOTIFICATION_CENTRE" = "Mitteilungszentrale Grabber ausblenden";
+"GRABBERS_CONTROL_CENTRE" = "Kontrollzentrum Grabber ausblenden";
+"GRABBERS_CAMERA" = "Kamera Grabber ausblenden";
+"GRABBERS_CAMERA_DISABLE" = "Kamera Grabber Ausschalten";
+"GRABBERS_HANDOFF" = "Handoff Grabber ausblenden";
+
+"D22_HEADER" = "iPhone X Specifisch";
+"D22_FACEID_PADLOCK" = "Face ID Vorhängeschloss ausblenden";
+"D22_TORCH_CAMERA" = "Fackel und Kamera Tasten ausblenden";
+"D22_HOMEBAR" = "Home Bar ausblenden";
+"D22_CONTROL_CENTRE" = "Kontrollzentrum Indikator ausblenden";
+
+"MISC_HEADER" = "Sonstiges";
+"MISC_LS_STATUS_BAR" = "Sperrbildschirm Statusbar ausblenden";
+"MISC_CLOCK_STATUS_BAR" = "Zeige Uhr in der Statusbar";
+"MISC_PAGE_DOTS" = "Seiten Dots ausblenden";

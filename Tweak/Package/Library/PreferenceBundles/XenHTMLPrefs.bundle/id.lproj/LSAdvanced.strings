@@ -1,0 +1,17 @@
+/* 
+  LSAdvanced.strings
+  Xen HTML
+*/
+
+"TITLE" = "Pengaturan Lanjutan";
+
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang memiliki area yang dapat digulir, memprioritaskan sentuhan akan menyelesaikan masalah yang mencegah penggunaan area ini.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Untuk widget dengan area yang dapat disentuh di bagian bawah layar, mengaktifkan ini akan memungkinkan penggunaannya.\n\nNamun, Anda tidak akan dapat menggeser ke atas untuk melihat pemberitahuan lama.";
+"SCROLL_PRIORITY_IOS10" = "Prioritas Gulir pada Widget";
+"SCROLL_PRIORITY_IOS11" = "Prioritas Sentuh pada Widget";
+
+"BATTERY_MANAGEMENT_FOOTER" = "Menonaktifkan manajemen baterai akan mengkonsumsi lebih banyak baterai, tetapi dapat mencegah beberapa masalah visual.";
+"BATTERY_MANAGEMENT" = "Gunakan Manajemen Baterai";
+
+"PERSISTENT_MODE_FOOTER" = "Mode tetap menjaga widget Layar Kunci anda di memori setiap saat, sehingga widget tidak perlu dimuat ulang setelah mengunci perangkat anda.\n\nMenggunakan mode ini dapat menyebabkan pemakaian baterai yang lebih besar.";
+"PERSISTENT_MODE" = "Mode Tetap";

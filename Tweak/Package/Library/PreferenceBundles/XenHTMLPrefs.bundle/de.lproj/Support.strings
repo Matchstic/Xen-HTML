@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Unterstürzung";
+
+"MESSAGE_FOOTER" = "Es kann einige Tage dauern, bis Sie eine Antwort erhalten.";
+"MESSAGE_HEADER" = "Nachricht senden:";
+"MESSAGE_TWITTER" = "Via Twitter";
+"MESSAGE_MAIL" = "Via Mail";
+
+"BUGS_FEATURES" = "Melden Sie Mängel oder Funktions Wünsche";
+
+"RESET_FOOTER" = "Dadurch werden alle Xen HTML Einstellungen gelöscht.";
+"RESET_SETTINGS" = "Alle Einstellungen zurücksetzen";

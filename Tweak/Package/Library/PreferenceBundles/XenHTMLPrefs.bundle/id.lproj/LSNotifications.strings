@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Notifikasi";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Sembunyikan Widget Depan untuk:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Konfigurasi aksi widget bersama notifikasi.";
+"HIDE_FOREGROUND_NOTIF" = "Notifikasi";
+
+"OTHER_HEADER" = "Pengaturan Lain";
+"OTHER_FOOTER" = "Notifikasi dapat ditampilkan pada ketinggian penuh layar.";
+"FULLSCREEN_NOTIFICATIONS" = "Notifikasi Layar Penuh";

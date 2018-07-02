@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Notificaties";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Verberg voorgrond Widget voor:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Configureer naast gebruikelijke notificaties.";
+"HIDE_FOREGROUND_NOTIF" = "Notificaties";
+
+"OTHER_HEADER" = "Andere Instellingen";
+"OTHER_FOOTER" = "Notificatiies kunnen tot aan de top van het scherm vertoond worden.";
+"FULLSCREEN_NOTIFICATIONS" = "Volledig Scherm Notificaties";

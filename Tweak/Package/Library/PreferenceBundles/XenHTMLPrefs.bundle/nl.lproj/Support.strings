@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Steun";
+
+"MESSAGE_FOOTER" = "Binnen een paar dagen reageer ik zeker.";
+"MESSAGE_HEADER" = "Stuur een bericht:";
+"MESSAGE_TWITTER" = "Via Twitter";
+"MESSAGE_MAIL" = "Via Mail";
+
+"BUGS_FEATURES" = "Meldt Storingen en/of Vraag naar Toevoegingen";
+
+"RESET_FOOTER" = "Deze optie ruimt al je Xen HTML instellingen op.";
+"RESET_SETTINGS" = "Begin helemaal opnieuw";

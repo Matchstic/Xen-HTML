@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Kontrol Media";
+
+"HIDE_FOREGROUND_HEADER" = "Sembunyikan widget latar depan untuk:";
+"HIDE_FOREGROUND_FOOTER" = "Konfigurasi aksi widget bersama kontrol media bawaan.";
+"HIDE_FOREGROUND_CONTROLS" = "Kontrol Antarmuka Pengguna";
+"HIDE_FOREGROUND_ARTWORK" = "Gambar Album";
+
+"MISC_HEADER" = "Lain-lain";
+"HIDE_ARTWORK" = "Sembunyikan Gambar Album";

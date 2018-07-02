@@ -1,0 +1,10 @@
+/* 
+  Root.strings
+  Xen HTML
+*/
+
+"LOCKSCREEN" = "Layar Kunci";
+"HOMESCREEN" = "Layar Utama";
+"MORE_WIDGETS" = "Widget Lain";
+"SUPPORT" = "Dukungan";
+"DONATE" = "Donasi";

@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Visibilitas Elemen";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Sembunyikan elemen Layar Utama saat menggunakan Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Sembunyikan blur untuk Dock";
+"ELEMENT_SB_FOLDER_BLUR" = "Sembunyikan blur untuk ikon folder";
+"ELEMENT_SB_ICON_LABELS" = "Sembunyikan label ikon";
+"ELEMENT_SB_PAGE_DOTS" = "Sembunyikan penanda halaman";
+
+"MISC_HEADER" = "Lain-lain";
+"MISC_SB_TOUCH" = "Izinkan sentuh pada widget";
+
+"WIDGET_EDITOR_HEADER" = "Editor Widget";
+"WIDGET_EDITOR_HS_FOOTER" = "Sesuaikan panel pengaturan yang digunakan untuk memilih widget agar ditampilkan di Layar Utama.";
+"WIDGET_EDITOR_SNAP" = "Kunci widget ke poros Y";

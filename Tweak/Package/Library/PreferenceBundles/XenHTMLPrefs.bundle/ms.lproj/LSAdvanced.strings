@@ -1,0 +1,9 @@
+"BATTERY_MANAGEMENT" = "Menggunakan pengurusan bateri";
+"BATTERY_MANAGEMENT_FOOTER" = "Melumpuhkan pengurusan bateri akan menggunakan lebih banyak bateri, tetapi ia juga mungkin akan menghalang beberapa masalah visual.";
+"PERSISTENT_MODE" = "Mod berterusan";
+"PERSISTENT_MODE_FOOTER" = "Mod berterusan menyimpan widget Skrin kunci anda dalam ingatan setiap saat, jadi ia tidak perlu dimuatkan selepas anda mengunci peranti.\nMenggunakan mod ini boleh menyebabkan pengaliran bateri yang lebih besar.";
+"SCROLL_PRIORITY_IOS10" = "Mengutamakan menatal di Widget";
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang mempunyai wilayah bergulir, keutamaan sentuhan akan menyelesaikan isu-isu yang menghalang penggunaan dikawasan ini.";
+"SCROLL_PRIORITY_IOS11" = "Mengutamakan sentuhan didalam Widget";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Untuk widget dengan kawasan yang boleh disentuh di bahagian bawah paparan, toggling ini akan membolehkan penggunaannya.\nWalau bagaimanapun, anda tidak akan dapat menggeser keatas untuk melihat notis terdahulu.";
+"TITLE" = "Lanjutan";
