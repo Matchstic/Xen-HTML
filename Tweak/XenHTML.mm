@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBIdleTimerDefaults; @class SBFloatingDockPlatterView; @class SBFLockScreenMetrics; @class SBDashBoardMainPageView; @class SBHomeScreenViewController; @class SBApplication; @class SBDashBoardMediaArtworkViewController; @class SBUIController; @class XENNotificationsCollectionViewController; @class _NowPlayingArtView; @class SBFolderIconBackgroundView; @class SBIconView; @class PHContainerView; @class SBLockScreenManager; @class SBDashBoardPageViewController; @class SBAlertWindow; @class SBPagedScrollView; @class SBCoverSheetWindow; @class SBLockScreenNotificationListView; @class SBDashBoardTeachableMomentsContainerView; @class SBUICallToActionLabel; @class SBDashBoardQuickActionsViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBRootFolderView; @class XENResources; @class SBLockScreenViewController; @class SBMainSwitcherViewController; @class SBLockScreenBounceAnimator; @class SBDockView; @class WKWebView; @class UITouchesEvent; @class SBDashBoardMainPageViewController; @class SBScreenWakeAnimationController; @class SBFLockScreenDateView; @class SBDashBoardView; @class XENDashBoardWebViewController; @class SBUIProudLockIconView; @class SBDashBoardMainPageContentViewController; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenNotificationListController; @class SBHomeScreenView; @class SpringBoard; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBManualIdleTimer; @class SBDashBoardViewController; @class SBDashBoardNotificationListViewController; @class SBLockScreenView; @class UITouch; @class SBMainStatusBarStateProvider; @class UIWebView; @class SBDashBoardFixedFooterView; @class SBMainWorkspace; @class SBDashBoardCombinedListViewController; @class SBBacklightController; 
+@class SBFluidSwitcherGestureWorkspaceTransaction; @class SBIconView; @class SBDashBoardView; @class SBUIController; @class SBDashBoardNotificationListViewController; @class SBFloatingDockPlatterView; @class SBAlertWindow; @class SBDashBoardQuickActionsViewController; @class SBLockScreenManager; @class SBIdleTimerDefaults; @class SBLockScreenView; @class SBUICallToActionLabel; @class SBLockScreenBounceAnimator; @class PHContainerView; @class SBDashBoardMainPageView; @class SBScreenWakeAnimationController; @class SBMainSwitcherViewController; @class SBDashBoardMainPageViewController; @class SBLockScreenViewController; @class SBDashBoardCombinedListViewController; @class XENDashBoardWebViewController; @class SBDashBoardMainPageContentViewController; @class SBPagedScrollView; @class SBUIProudLockIconView; @class SBHomeScreenView; @class SBManualIdleTimer; @class WKWebView; @class SBDashBoardViewController; @class SBDashBoardMediaArtworkViewController; @class SBLockScreenNotificationListController; @class SBFLockScreenMetrics; @class SBDashBoardPageViewController; @class XENResources; @class SBDockView; @class SBHorizontalScrollFailureRecognizer; @class SpringBoard; @class UITouchesEvent; @class UITouch; @class SBMainStatusBarStateProvider; @class SBFolderIconBackgroundView; @class UIWebView; @class XENNotificationsCollectionViewController; @class SBFLockScreenDateView; @class SBDashBoardNotificationAdjunctListViewController; @class SBCoverSheetWindow; @class SBLockScreenNotificationListView; @class SBRootFolderView; @class SBHomeScreenViewController; @class SBBacklightController; @class SBDashBoardTeachableMomentsContainerView; @class _NowPlayingArtView; @class SBMainWorkspace; @class SBApplication; @class SBDashBoardFixedFooterView; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -423,19 +423,22 @@ static SBLockScreenView* _logos_method$SpringBoard$SBLockScreenView$initWithFram
 
 
 static SBDashBoardView* _logos_method$SpringBoard$SBDashBoardView$initWithFrame$(_LOGOS_SELF_TYPE_INIT SBDashBoardView* __unused self, SEL __unused _cmd, CGRect arg1) _LOGOS_RETURN_RETAINED {
-    SBDashBoardView *orig = _logos_orig$SpringBoard$SBDashBoardView$initWithFrame$(self, _cmd, arg1);
-    lsView = orig;
-    
-    XENlog(@"SBDashBoardView -initWithFrame:");
-    
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
-    if (isiOS10 && [XENHResources lsenabled]) {
+    if (isiOS10) {
         
         BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
         
         int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
         [XENHResources setCurrentOrientation:orientation];
+    }
+    
+    SBDashBoardView *orig = _logos_orig$SpringBoard$SBDashBoardView$initWithFrame$(self, _cmd, arg1);
+    lsView = orig;
+    
+    XENlog(@"SBDashBoardView -initWithFrame:");
+    
+    if (isiOS10 && [XENHResources lsenabled]) {
         
         
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
@@ -455,6 +458,12 @@ static void _logos_method$SpringBoard$SBDashBoardView$layoutSubviews(_LOGOS_SELF
     _logos_orig$SpringBoard$SBDashBoardView$layoutSubviews(self, _cmd);
     
     if ([XENHResources lsenabled]) {
+        
+        BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+        
+        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+        [XENHResources setCurrentOrientation:orientation];
+        
         backgroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         foregroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         
@@ -2289,10 +2298,12 @@ static void _logos_method$SpringBoard$SBIconView$recievedSBHTMLUpdate$(_LOGOS_SE
 static SBRootFolderView* _logos_method$SpringBoard$SBRootFolderView$initWithFolder$orientation$viewMap$context$(_LOGOS_SELF_TYPE_INIT SBRootFolderView* __unused self, SEL __unused _cmd, id arg1, long long arg2, id arg3, id arg4) _LOGOS_RETURN_RETAINED {
     id orig = _logos_orig$SpringBoard$SBRootFolderView$initWithFolder$orientation$viewMap$context$(self, _cmd, arg1, arg2, arg3, arg4);
     
-    [[NSNotificationCenter defaultCenter] addObserver:orig
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
-                                               object:nil];
+    if (orig) {
+        [[NSNotificationCenter defaultCenter] addObserver:orig
+                                                 selector:@selector(recievedSBHTMLUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
+                                                   object:nil];
+    }
     
     return orig;
 }
@@ -3025,7 +3036,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_e870cc48(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_7b84086f(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

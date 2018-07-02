@@ -397,19 +397,22 @@ static id dashBoardMainPageContentViewController;
 
 // This is called *every* lock event on iOS 10, and once per respring on iOS 11.
 - (id)initWithFrame:(CGRect)arg1 {
-    SBDashBoardView *orig = %orig;
-    lsView = orig;
-    
-    XENlog(@"SBDashBoardView -initWithFrame:");
-    
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
-    if (isiOS10 && [XENHResources lsenabled]) {
+    if (isiOS10) {
         // Make sure we initialise our UI with the right orientation.
         BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
         
         int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
         [XENHResources setCurrentOrientation:orientation];
+    }
+    
+    SBDashBoardView *orig = %orig;
+    lsView = orig;
+    
+    XENlog(@"SBDashBoardView -initWithFrame:");
+    
+    if (isiOS10 && [XENHResources lsenabled]) {
         
         // Add bottommost webview.
         if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
@@ -426,6 +429,12 @@ static id dashBoardMainPageContentViewController;
 }
 
 -(void)layoutSubviews {
+    // Update orientation if needed.
+    BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+    
+    int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+    [XENHResources setCurrentOrientation:orientation];
+    
     %orig;
     
     if ([XENHResources lsenabled]) {
@@ -2263,10 +2272,12 @@ void cancelIdleTimer() {
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
     id orig = %orig;
     
-    [[NSNotificationCenter defaultCenter] addObserver:orig
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
-                                               object:nil];
+    if (orig) {
+        [[NSNotificationCenter defaultCenter] addObserver:orig
+                                                 selector:@selector(recievedSBHTMLUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
+                                                   object:nil];
+    }
     
     return orig;
 }
