@@ -149,4 +149,6 @@ static BOOL shownGraceEnded = NO;
 
 +(BOOL)hasDisplayedSetupUI;
 
++ (BOOL)isInstalledFromOfficialRepository;
+
 @end

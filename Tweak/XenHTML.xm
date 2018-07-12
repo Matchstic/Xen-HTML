@@ -341,6 +341,8 @@ static XENDashBoardWebViewController *iOS10ForegroundWrapperController;
 static id dashBoardMainPageViewController;
 static id dashBoardMainPageContentViewController;
 
+static BOOL refuseToLoadDueToRehosting = NO;
+
 #pragma mark Layout LS web views (iOS 9)
 
 %hook SBLockScreenView
@@ -2269,21 +2271,17 @@ void cancelIdleTimer() {
 
 %hook SBRootFolderView
 
--(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    id orig = %orig;
+- (void)layoutSubviews {
+    %orig;
     
-    if (orig) {
-        [[NSNotificationCenter defaultCenter] addObserver:orig
+    // This ideally should be called in init. However, this does not function correctly on iOS 10.3.3
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(recievedSBHTMLUpdate:)
                                                      name:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate"
                                                    object:nil];
-    }
-    
-    return orig;
-}
-
-- (void)layoutSubviews {
-    %orig;
+    });
     
     if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -2902,34 +2900,87 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
+@interface SBLockScreenManager (Rehosting)
+- (_Bool)unlockUIFromSource:(int)arg1 withOptions:(id)arg2;
+@end
+
+static BOOL launchCydiaForSource = NO;
+
 %hook SpringBoard
 
 -(void)applicationDidFinishLaunching:(id)arg1 {
     %orig;
     
-    // Do initial settings loading
-    [XENHResources reloadSettings];
-    
-    // Show setup UI if needed
-    if (![XENHResources hasDisplayedSetupUI]) {
-        setupWindow = [XENHSetupWindow sharedInstance];
+    /*
+     * I can't believe I have to do this. There exists outdated versions of Xen HTML on pirate repos,
+     * that cause serious issues for users on installation.
+     *
+     * This is to ensure that Xen HTML will only run when installed from:
+     * - http://xenpublic.incendo.ws
+     * - BigBoss
+     * - Manual installation
+     *
+     * This will unfortunately break for users not using Cydia; sorry about that.
+     */
+    if (refuseToLoadDueToRehosting) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                                                                       message:@"This tweak has not been installed from the official repository. For your safety, it will not function until installed officially.\n\nTap below to add the official repository to Cydia."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
-        setupWindow.hidden = NO;
-        [setupWindow makeKeyAndVisible];
-        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
         
-        @try {
-            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
+        [alert addAction:defaultAction];
+        
+        UIAlertAction* repoAction = [UIAlertAction actionWithTitle:@"Add Repository" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             
-            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+            launchCydiaForSource = YES;
+            [[objc_getClass("SBLockScreenManager") sharedInstance] unlockUIFromSource:17 withOptions:nil];
+        }];
+        
+        [alert addAction:repoAction];
+        
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    } else {
+        // Do initial settings loading
+        [XENHResources reloadSettings];
+        
+        // Show setup UI if needed
+        if (![XENHResources hasDisplayedSetupUI]) {
+            setupWindow = [XENHSetupWindow sharedInstance];
+            
+            setupWindow.hidden = NO;
+            [setupWindow makeKeyAndVisible];
+            setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+            
+            @try {
+                SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
+                
+                if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
+                    [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
+                } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
+                    [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
+                }
+            } @catch (NSException *e) {
+                // wut.
             }
-        } @catch (NSException *e) {
-            // wut.
         }
     }
+}
+
+%end
+
+%hook SBLockScreenManager
+
+- (_Bool)_finishUIUnlockFromSource:(int)arg1 withOptions:(id)arg2 {
+    if (launchCydiaForSource) {
+        launchCydiaForSource = NO;
+        
+        NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+    }
+    
+    return %orig;
 }
 
 %end
@@ -3020,6 +3071,14 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     if (sb) {
         // We need the setup UI to always be accessible.
         %init(Setup);
+        
+        // Make sure we're loading from the official repo. Outdated versions may break user devices.
+        refuseToLoadDueToRehosting = ![XENHResources isInstalledFromOfficialRepository];
+        
+        if (refuseToLoadDueToRehosting) {
+            XENlog(@"*** Not loading hooks due to not being installed from the official repo");
+            return;
+        }
         
         if (objc_getClass("SBDashBoardViewControllerBase")) {
             Class $XENDashBoardWebViewController = objc_allocateClassPair(objc_getClass("SBDashBoardViewControllerBase"), "XENDashBoardWebViewController", 0);
