@@ -1,0 +1,14 @@
+/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Controllo media";
+
+"HIDE_FOREGROUND_HEADER" = "Nascondi il primo piano per:";
+"HIDE_FOREGROUND_FOOTER" = "Configura il comportamento accanto ai controlli di stock.";
+"HIDE_FOREGROUND_CONTROLS" = "Controllo UI";
+"HIDE_FOREGROUND_ARTWORK" = "Copertina";
+
+"MISC_HEADER" = "Miscellaneous";
+"HIDE_ARTWORK" = "Nascondi copertina dei media";

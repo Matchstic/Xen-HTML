@@ -1,0 +1,14 @@
+/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Notifiche";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Nascondi il primo piano per:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Configura il comportamento accanto alle notifiche.";
+"HIDE_FOREGROUND_NOTIF" = "Notifiche";
+
+"OTHER_HEADER" = "Altre impostazioni";
+"OTHER_FOOTER" = "Le notifiche possono essere visualizzate sull'intera altezza del display.";
+"FULLSCREEN_NOTIFICATIONS" = "Notfiche a tutto schermo";

@@ -1,0 +1,24 @@
+/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Visibilitrà";
+
+"GRABBERS_HEADER" = "Grabbers";
+"GRABBERS_NOTIFICATION_CENTRE" = "Nascondi grabber delk centro notifiche";
+"GRABBERS_CONTROL_CENTRE" = "Nascondi grabber del centro di controllo";
+"GRABBERS_CAMERA" = "Nascondi grabber fotocamera";
+"GRABBERS_CAMERA_DISABLE" = "Disabilita grabber fotocamera";
+"GRABBERS_HANDOFF" = "Nascondi grabber handoff";
+
+"D22_HEADER" = "Specifiche iPhone X";
+"D22_FACEID_PADLOCK" = "Nascondi lucchetto Face ID";
+"D22_TORCH_CAMERA" = "Nascondi pulsanti tocia e fotocamera";
+"D22_HOMEBAR" = "Nascondi barra home";
+"D22_CONTROL_CENTRE" = "Nascondi indicatore del centro di controllo";
+
+"MISC_HEADER" = "Miscellaneous";
+"MISC_LS_STATUS_BAR" = "Nascondi barra di stato della schermata di blocco";
+"MISC_CLOCK_STATUS_BAR" = "Mostra orologio nella barra di stato";
+"MISC_PAGE_DOTS" = "Nascondi indicatore pagine";

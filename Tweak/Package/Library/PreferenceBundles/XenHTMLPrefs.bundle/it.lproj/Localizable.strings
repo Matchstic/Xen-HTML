@@ -1,0 +1,94 @@
+/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Annulla";
+"OK" = "OK";
+"WARNING" = "Attenzione";
+"DONE" = "Fatto";
+"BACK" = "Indietro";
+"ERROR" = "Errore";
+
+"ROOT_SHARE_TEXT" = "Sto usando Xen HTML per eseguire widget HTML sulla mia dchermata di blocco e sulla schermata home! Dai un'occhiata in Cydia:";
+
+"MORE_REPOS_TITLE" = "Repositories addizionali";
+"MORE_REPOS_WIDGETS" = "Più widgets";
+"MORE_REPOS_REFRESH" = "Ricarica";
+"MORE_REPOS_CONTACTING_SERVER" = "Contattando il server...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Aggiungi questa repo a Cydia?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Apri questa repo in Cydia?";
+
+"DONATE_ADDRESS_COPIED" = "L'indirizzo è stato copiato negli appunti!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Il tuo dispositivo farà ora un respring per applicare le modifiche";
+"SUPPORT_CONFIRM_RESET" = "Questo cancellerà tutte le impostazioni Xen HTML.\n\nVuoi continuare?";
+"SUPPORT_CONFIRM_OPTION" = "Vai";
+
+"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_PREVIEW_HEADER" = "Antprima";
+"WIDGETS_PREVIEW_FOOTER" = "Scorri per regolare l'angolo dell'anteprima.";
+"WIDGETS_BACKGROUND" = "Widget di sfondo";
+"WIDGETS_FOREGROUND" = "Widget in primo piano";
+"WIDGETS_LSBACKGROUND_DETAIL" = "I widget di sfondo diventano parte dello sfondo";
+"WIDGETS_LSFOREGROUND_DETAIL" = "I widget in primo piano sono aggiunte completamente interattive alla tua schermata di blocco";
+"WIDGETS_SBBACKGROUND_DETAIL" = "I widget di sfondo diventano aggiunte interattive al tuo sfondo";
+"WIDGETS_NONE_SELECTED" = "Nessun widgets selezioanto";
+"WIDGETS_ADD_NEW" = "Aggiungi widget...";
+"WIDGETS_CONFIGURE" = "Configura:";
+"WIDGETS_LOCKSCREEN" = "Schermata di blocco";
+"WIDGETS_HOMESCREEN" = "Scshermata Home";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "Nessun widget selezionato";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Si è verificato un errore durante l'analisi del file delle impostazioni; alcune opzioni potrebbero mancare";
+"WIDGET_EDITOR_SAVE" = "Salva";
+"WIDGET_EDITOR_DRAGDROP" = "Trascina e rilascia per regolare la posizione";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Trascina e rilascia per regolare la posizione\n\nRuota il tuo dispositivo per visualizzarlo in diversi orientamenti";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Widget disponibili";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Primo piano)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Sfondo)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Nessun widgets disponibile";
+"WIDGET_PICKER_NONE" = "Nosssuno";
+"WIDGET_PICKER_LOADING" = "Caricando";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Pacchetto:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Autore scosnosciuto";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Sconosciuto / Locale";
+
+"WIDGET_SETTINGS_TITLE" = "Impostazioni widget";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Impossibile scrivere le impostazioni del widget; controlla i permessi dei file per questo widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Alcuni widget richiedono che la Modalità Legacy funzioni correttamente, come quelli che utilizzano GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Modalità Leegacy";
+"WIDGET_SETTINGS_NONE" = "Nessuna impostazione disponibile";
+
+/* TWEAK */
+
+"NEXT" = "Next";
+
+"SETUP_INITIAL_TITLE" = "Installazione completata";
+"SETUP_INITIAL_FOOTER" = "Xen HTML è stato installato con successo.\nCi sono solo pochi passi da seguire, e poi hai finito!";
+"SETUP_INITIAL_BUTTON" = "Continua";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Setup schermata di blocco";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Cosa fa l'importazione?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "L'importazione consente di spostare le impostazioni della schermata di blocco esistenti su Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Setup senza importazione";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importa da Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Importa da GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Setup schermata home";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Cosa fa l'importazione?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "L'importazione consente di spostare le impostazioni della schermata home esistenti su Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Setup senza importazione";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importa da SBHTML";
+
+"SETUP_FINAL_TITLE" = "Ultimi tocchi";
+"SETUP_FINAL_TITLE_POST_WORK" = "Benvenuto in Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Inizia";
+"SETUP_FINAL_RESTART_TITLE" = "La SpringBoard deve essere riavviata per completare l'installazione";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Applicando le tue impostazioni";
+"SETUP_FINAL_COFFEE" = "Prendendo una pausa caffè";
+"SETUP_FINAL_CLEANUP" = "Facendo pulizia";
+

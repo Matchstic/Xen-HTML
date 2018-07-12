@@ -1,0 +1,16 @@
+/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Supporto";
+
+"MESSAGE_FOOTER" = "Potrebbero volerci alcuni giorni prima che tu riceva una risposta.";
+"MESSAGE_HEADER" = "Invia un messaggio (in inglese):";
+"MESSAGE_TWITTER" = "Via Twitter";
+"MESSAGE_MAIL" = "Via Mail";
+
+"BUGS_FEATURES" = "Riporta un bug o richiedi una funzionalità";
+
+"RESET_FOOTER" = "Questo concellerà tutte le imposatzioni di Xen HTML.";
+"RESET_SETTINGS" = "Resetta tutte le impostazioni";

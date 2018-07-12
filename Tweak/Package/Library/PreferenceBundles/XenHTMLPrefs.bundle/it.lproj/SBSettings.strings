@@ -1,0 +1,18 @@
+/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Visibilità elementi";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Nascondi gli elementi sulla schermata home quando usi Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Rimuovi sfocatura del dock";
+"ELEMENT_SB_FOLDER_BLUR" = "Rimuovi sfocatura dell'icona delle cartelle";
+"ELEMENT_SB_ICON_LABELS" = "Rimuovi nome icone";
+"ELEMENT_SB_PAGE_DOTS" = "Rimuovi indicatore delle pagine";
+
+"MISC_HEADER" = "Miscellaneous";
+"MISC_SB_TOUCH" = "Consenti il tocco sopra i widget";
+
+"WIDGET_EDITOR_HEADER" = "Editor widget";
+"WIDGET_EDITOR_HS_FOOTER" = "Personalizza il pannello delle impostazioni utilizzato per scegliere i widget da eseguire sulla schermata home.";
+"WIDGET_EDITOR_SNAP" = "Blocca i widget sull'asse Y";

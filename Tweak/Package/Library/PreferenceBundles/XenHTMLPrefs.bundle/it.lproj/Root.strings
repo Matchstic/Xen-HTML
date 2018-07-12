@@ -1,0 +1,10 @@
+/* 
+  Root.strings
+  Xen HTML
+*/
+
+"LOCKSCREEN" = "Schermata di blocco";
+"HOMESCREEN" = "Schermata home";
+"MORE_WIDGETS" = "Più widgets";
+"SUPPORT" = "Supporto";
+"DONATE" = "Donazioni";

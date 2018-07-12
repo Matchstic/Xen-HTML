@@ -1,0 +1,37 @@
+/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Visibilotà elementi";
+"ELEMENT_VISIBILITY_FOOTER" = "Nascondi elementi della schermata di blocco mentro usi Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Nascondi orologio nella schermata di blocco";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Visibile";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Sulla pagina principale";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Su tutte le pagine";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "L'orologio della schermata di bloco può essere nascosto sia sulla pagina principale, sia su tutte le pagine, inclusa la pagina Oggi.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Nascondi testo 'Scorri per sbloccare'";
+"ELEMENT_HOME_TO_UNLOCK" = "Nascondi testo 'Premi il tasto home per sbloccare'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Nascondi testo 'Scorri verso l'alto per sbloccare'";
+"ELEMENT_HIDE_OTHERS" = "Nascondi altri elementi";
+
+"VISIBILITY_HEADER" = "Visibilità widget";
+"VISIBILITY_MEDIA" = "Comportamento dei controlli multimediali";
+"VISIBILITY_NOTIFICATIONS" = "Comportamento notifiche";
+"VISIBILITY_OPACITY" = "Opacità widget quando nascosto:";
+
+"MSIC_HEADER" = "Miscellaneous";
+"MISC_LS_STATUS_BAR_SIZE" = "Barra di stato nella schermata di blocco più piccola";
+"MISC_LS_IDLE_TIME" = "Durata inattiva della schermata di blocco";
+"MISC_LS_IDLE_TIME_10S" = "10 Secondi";
+"MISC_LS_IDLE_TIME_15S" = "15 Secondi";
+"MISC_LS_IDLE_TIME_20S" = "20 Secondi";
+"MISC_LS_IDLE_TIME_30S" = "30 Secondi";
+"MISC_LS_IDLE_TIME_60S" = "1 Minuto";
+"MISC_LS_IDLE_TIME_120S" = "2 Minuti";
+
+"ADVANCED" = "Avanzate";
+
+"WIDGET_EDITOR_HEADER" = "Editor widget";
+"WIDGET_EDITOR_FOOTER" = "Personalizza il pannello delle impostazioni utilizzato per scegliere i widget da eseguire sulla schermata di blocco.";
+"WIDGET_EDITOR_SNAP" = "Blocca i widget sull'asse Y";
