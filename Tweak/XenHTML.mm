@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBHomeScreenViewController; @class SBApplication; @class XENDashBoardWebViewController; @class SBDashBoardCombinedListViewController; @class UITouchesEvent; @class SBFLockScreenMetrics; @class SBBacklightController; @class SBAlertWindow; @class SBLockScreenNotificationListController; @class SBHorizontalScrollFailureRecognizer; @class WKWebView; @class SBManualIdleTimer; @class SBDockView; @class SBFLockScreenDateView; @class SBLockScreenNotificationListView; @class XENResources; @class SBHomeScreenView; @class UIWebView; @class SBUIProudLockIconView; @class SBMainSwitcherViewController; @class SBDashBoardQuickActionsViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBUICallToActionLabel; @class SBDashBoardView; @class SBDashBoardMainPageContentViewController; @class SBDashBoardPageViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardFixedFooterView; @class SBDashBoardMainPageViewController; @class SBIdleTimerDefaults; @class SBLockScreenView; @class UITouch; @class SBFolderIconBackgroundView; @class PHContainerView; @class SBDashBoardMainPageView; @class SBFloatingDockPlatterView; @class SBDashBoardNotificationAdjunctListViewController; @class SBLockScreenManager; @class SBLockScreenViewController; @class SBMainWorkspace; @class SBDashBoardViewController; @class SBDashBoardNotificationListViewController; @class SBDashBoardMediaArtworkViewController; @class SBCoverSheetWindow; @class SBIconView; @class SBLockScreenBounceAnimator; @class SpringBoard; @class SBMainStatusBarStateProvider; @class SBScreenWakeAnimationController; @class SBPagedScrollView; @class XENNotificationsCollectionViewController; @class SBUIController; @class SBRootFolderView; @class _NowPlayingArtView; 
+@class SBDockView; @class SBHomeScreenView; @class SBHomeScreenViewController; @class SBDashBoardCombinedListViewController; @class SBAlertWindow; @class SBScreenWakeAnimationController; @class SpringBoard; @class SBLockScreenNotificationListController; @class SBPagedScrollView; @class XENResources; @class SBIdleTimerDefaults; @class SBFLockScreenMetrics; @class SBLockScreenView; @class SBDashBoardPageViewController; @class UITouch; @class SBApplication; @class SBDashBoardMediaArtworkViewController; @class SBUIController; @class SBFLockScreenDateView; @class SBHorizontalScrollFailureRecognizer; @class SBRootFolderView; @class SBMainWorkspace; @class SBManualIdleTimer; @class SBDashBoardFixedFooterView; @class UITouchesEvent; @class SBIconView; @class XENDashBoardWebViewController; @class SBLockScreenNotificationListView; @class SBDashBoardQuickActionsViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBCoverSheetWindow; @class SBDashBoardNotificationListViewController; @class SBUIProudLockIconView; @class XENNotificationsCollectionViewController; @class SBMainSwitcherViewController; @class SBDashBoardView; @class _NowPlayingArtView; @class SBFloatingDockPlatterView; @class SBBacklightController; @class SBLockScreenBounceAnimator; @class WKWebView; @class SBMainStatusBarStateProvider; @class SBDashBoardMainPageView; @class SBLockScreenManager; @class SBDashBoardMainPageViewController; @class PHContainerView; @class SBFolderIconBackgroundView; @class SBLockScreenViewController; @class SBUICallToActionLabel; @class UIWebView; @class SBDashBoardMainPageContentViewController; @class SBDashBoardViewController; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -1347,7 +1347,8 @@ static void _logos_method$SpringBoard$SBUICallToActionLabel$setText$forLanguage$
 
 
 #pragma mark Hide STU view if necessary (iOS 11) and...
-#pragma mark Hide Home Bar (iOS 11 + iPhone X)
+#pragma mark Hide Home Bar (iOS 11 + iPhone X) and...
+#pragma mark Hide D22 Control Centre grabber (iOS 11 + iPhone X)
 
 
 
@@ -1360,6 +1361,11 @@ static void _logos_method$SpringBoard$SBDashBoardTeachableMomentsContainerView$l
     
     UIView *homebar = MSHookIvar<UIView*>(self, "_homeAffordanceContainerView");
     homebar.hidden = [XENHResources lsenabled] && [XENHResources LSHideHomeBar];
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.2) {
+        UIView *grabber = MSHookIvar<UIView*>(self, "_controlCenterGrabberView");
+        grabber.hidden = [XENHResources lsenabled] && [XENHResources LSHideD22CCGrabber];
+    }
 #endif
 }
 
@@ -3087,7 +3093,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_e420bf7a(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_00fd9663(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

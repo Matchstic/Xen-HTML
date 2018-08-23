@@ -725,6 +725,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++(BOOL)LSHideD22CCGrabber {
+    id value = settings[@"LSHideControlCentreIndicatorD22"];
+    return (value ? [value boolValue] : NO);
+}
+
 //////////////////////////////////////////////////////
 
 +(BOOL)LSUseBatteryManagement {

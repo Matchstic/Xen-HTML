@@ -99,6 +99,7 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)LSHideTorchAndCamera;
 +(BOOL)LSHideHomeBar;
 +(BOOL)LSHideFaceIDPadlock;
++(BOOL)LSHideD22CCGrabber;
 
 //////////////////////////////////////////////////////
 

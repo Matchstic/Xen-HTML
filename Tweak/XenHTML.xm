@@ -1321,7 +1321,8 @@ void cancelIdleTimer() {
 %end
 
 #pragma mark Hide STU view if necessary (iOS 11) and...
-#pragma mark Hide Home Bar (iOS 11 + iPhone X)
+#pragma mark Hide Home Bar (iOS 11 + iPhone X) and...
+#pragma mark Hide D22 Control Centre grabber (iOS 11 + iPhone X)
 
 %hook SBDashBoardTeachableMomentsContainerView
 
@@ -1334,6 +1335,11 @@ void cancelIdleTimer() {
     
     UIView *homebar = MSHookIvar<UIView*>(self, "_homeAffordanceContainerView");
     homebar.hidden = [XENHResources lsenabled] && [XENHResources LSHideHomeBar];
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.2) {
+        UIView *grabber = MSHookIvar<UIView*>(self, "_controlCenterGrabberView");
+        grabber.hidden = [XENHResources lsenabled] && [XENHResources LSHideD22CCGrabber];
+    }
 #endif
 }
 
