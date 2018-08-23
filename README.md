@@ -6,8 +6,8 @@ Xen HTML provides users the ability to display any HTML-based widget on the Lock
 
 ### Remaining Issues
 
-- [ ] Add proper localisation support throughout the tweak and preferences
-- [ ] Work out which feature enhancements should be taken through into v1.0
+- [x] Add proper localisation support throughout the tweak and preferences
+- [x] Work out which feature enhancements should be taken through into v1.0
 
 ### Building
 
