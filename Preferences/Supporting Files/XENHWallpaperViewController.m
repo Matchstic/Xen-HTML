@@ -197,16 +197,30 @@
     
     NSLog(@"*** Loading from: %@", wallpaperPath);
     
-    CFArrayRef CPBitmapCreateImagesFromData(CFDataRef cpbitmap, void*, int, void*);
-    CFArrayRef someArrayRef = CPBitmapCreateImagesFromData((__bridge CFDataRef)([NSData dataWithContentsOfFile:wallpaperPath]), NULL, 1, NULL);
-    
-    NSArray *array = (__bridge NSArray*)someArrayRef;
-    
-    UIImage *image = [UIImage imageWithCGImage:(__bridge CGImageRef)(array[0])];
-    
-    CFRelease(someArrayRef); // Release memory!
-    
-    return image;
+    // Make sure this file exists before loading...
+    if ([[NSFileManager defaultManager] fileExistsAtPath:wallpaperPath]) {
+        CFArrayRef CPBitmapCreateImagesFromData(CFDataRef cpbitmap, void*, int, void*);
+        CFArrayRef someArrayRef = CPBitmapCreateImagesFromData((__bridge CFDataRef)([NSData dataWithContentsOfFile:wallpaperPath]), NULL, 1, NULL);
+        
+        NSArray *array = (__bridge NSArray*)someArrayRef;
+        
+        UIImage *image = [UIImage imageWithCGImage:(__bridge CGImageRef)(array[0])];
+        CFRelease(someArrayRef); // Release memory!
+        return image;
+    } else {
+        // Create a black image of the display size
+        CGSize imageSize = [UIScreen mainScreen].bounds.size;
+        UIColor *fillColor = [UIColor blackColor];
+        
+        UIGraphicsBeginImageContextWithOptions(imageSize, YES, 0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [fillColor setFill];
+        CGContextFillRect(context, CGRectMake(0, 0, imageSize.width, imageSize.height));
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        return image;
+    }
 }
 
 @end
