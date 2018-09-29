@@ -157,12 +157,13 @@
             }
         }
         
+        // Ensure that position is saved before the user navigates backwards
+        [self.delegate didUpdatePositioningWithX:self.positioningView.frame.origin.x/self.view.frame.size.width andY:self.positioningView.frame.origin.y/self.view.frame.size.height];
+        
         [UIView animateWithDuration:0.3 animations:^{
             self.positioningView.alpha = 1.0;
             self.verticalGuide.alpha = 0.0;
         } completion:^(BOOL finished) {
-            [self.delegate didUpdatePositioningWithX:self.positioningView.frame.origin.x/self.view.frame.size.width andY:self.positioningView.frame.origin.y/self.view.frame.size.height];
-            
             self.verticalGuide.hidden = YES;
         }];
     }
