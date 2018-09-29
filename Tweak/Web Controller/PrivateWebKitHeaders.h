@@ -83,6 +83,7 @@
 - (id)loadFileURL:(id)arg1 allowingReadAccessToURL:(id)arg2;
 - (void)_killWebContentProcessAndResetState;
 - (WKContentView*)_currentContentView;
+-(void)_close;
 @property (nonatomic, readonly) pid_t _webProcessIdentifier;
 @property (nonatomic, readonly) BOOL _webProcessIsResponsive; // iOS 10.
 @end

@@ -1,0 +1,24 @@
+﻿/* 
+  LSOtherVisibility.strings
+  Xen HTML
+*/
+
+"TITLE" = "Ορατότητα";
+
+"GRABBERS_HEADER" = "Χειριστήρια";
+"GRABBERS_NOTIFICATION_CENTRE" = "Απόκρυψη χειριστηρίου κέντρου ειδοποιήσεων";
+"GRABBERS_CONTROL_CENTRE" = "Απόκρυψη χειριστηρίου κέντρου ελέγχου";
+"GRABBERS_CAMERA" = "Απόκρυψη χειριστηρίου κάμερας";
+"GRABBERS_CAMERA_DISABLE" = "Απενεργοποίηση χειριστηρίου κάμερας";
+"GRABBERS_HANDOFF" = "Απόκρυψη χειριστηρίου Handoff";
+
+"D22_HEADER" = "Ιδιαιτερότητες iPhone X";
+"D22_FACEID_PADLOCK" = "Απόκρυψη κλειδαρίας Face ID";
+"D22_TORCH_CAMERA" = "Απόκρυψη κουμπιών φακού και κάμερας";
+"D22_HOMEBAR" = "Απόκρυψη Home Bar";
+"D22_CONTROL_CENTRE" = "Απόκρυψη δείκτη κέντρου ελέγχου";
+
+"MISC_HEADER" = "Διάφορα";
+"MISC_LS_STATUS_BAR" = "Απόκρυψη Status Bar οθόνης κλειδώματος";
+"MISC_CLOCK_STATUS_BAR" = "Εμφάνιση ώρας στη Status Bar";
+"MISC_PAGE_DOTS" = "Απόκρυψη κουκίδων σελίδων";

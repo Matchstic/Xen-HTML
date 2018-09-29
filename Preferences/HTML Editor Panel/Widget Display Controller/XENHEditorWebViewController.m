@@ -41,6 +41,7 @@
 @interface WKWebView (IOS9)
 - (id)loadFileURL:(id)arg1 allowingReadAccessToURL:(id)arg2;
 - (void)_killWebContentProcessAndResetState;
+- (void)_close;
 @end
 
 @interface UIScrollView (iOS11)
@@ -59,7 +60,20 @@
 
 @end
 
+static WKProcessPool *sharedProcessPool;
+
 @implementation XENHEditorWebViewController
+
++ (WKProcessPool*)sharedProcessPool {
+    if (!sharedProcessPool) {
+        static dispatch_once_t p = 0;
+        dispatch_once(&p, ^{
+            sharedProcessPool = [[WKProcessPool alloc] init];
+        });
+    }
+    
+    return sharedProcessPool;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -199,6 +213,7 @@
 
 -(WKWebView*)loadWKWebView:(NSString*)baseString {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    config.processPool = [XENHEditorWebViewController sharedProcessPool];
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
@@ -294,6 +309,14 @@
 
 -(void)unloadWebview {
     if (self.webView) {
+        self.webView.hidden = YES; // Stop any residual GPU updates.
+        
+        [self.webView stopLoading];
+        [self.webView _close];
+        
+        self.webView.navigationDelegate = nil;
+        self.webView.scrollView.delegate = nil;
+        
         [self.webView removeFromSuperview];
         self.webView = nil;
     }
@@ -471,7 +494,7 @@
     NSLog(@"XenHTMLPrefs :: Failed navigation: %@", error);
 }
 
-- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+/*- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
     // Well, crap. WebView process has terminated. :( Better reload!
     NSLog(@"********* CONTENT PROCESS TERMINATED. RELOADING.");
     
@@ -494,7 +517,7 @@
     } else {
         [self.webView loadHTMLString:@"" baseURL:nil];
     }
-}
+}*/
 
 #pragma mark Callback from error logging
 

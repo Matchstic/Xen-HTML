@@ -1,0 +1,9 @@
+{
+    "HIDE_ARTWORK" = "隱藏專輯封面";
+    "HIDE_FOREGROUND_ARTWORK" = "專輯封面";
+    "HIDE_FOREGROUND_CONTROLS" = "控制UI";
+    "HIDE_FOREGROUND_FOOTER" = "設定使用原本的媒體控制行為";
+    "HIDE_FOREGROUND_HEADER" = "隱藏前景小工具:";
+    "MISC_HEADER" = "其他選項";
+    "TITLE" = "媒體控制";
+}

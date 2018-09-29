@@ -51,7 +51,20 @@ static int mainVariant = 0;
 
 +(void)reloadSettings {
     CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
-    settings = (__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    
+    CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (!keyList) {
+        NSLog(@"There's been an error getting the key list!");
+        return;
+    }
+    
+    CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    
+    settings = nil;
+    settings = [(__bridge NSDictionary *)dictionary copy];
+    
+    CFRelease(dictionary);
+    CFRelease(keyList);
 }
 
 + (NSArray*)allPreferenceKeys {
@@ -133,15 +146,15 @@ static int mainVariant = 0;
         return;
     }
     
-    CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
-    NSMutableDictionary *settings = [(__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost) mutableCopy];
+    [self reloadSettings]; // Update just in case
     
-    [settings setObject:value forKey:key];
+    NSMutableDictionary *mutableSettings = [settings mutableCopy];
+    [mutableSettings setObject:value forKey:key];
     
     // Write to CFPreferences
     CFPreferencesSetValue ((__bridge CFStringRef)key, (__bridge CFPropertyListRef)value, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesCurrentHost);
     
-    [settings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
+    [mutableSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
     
     // Notify that we've changed!
     CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/settingschanged";
@@ -149,12 +162,12 @@ static int mainVariant = 0;
         CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
         [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/settingschanged" object:nil];
     }
+    
+    [self reloadSettings]; // Update just in case
 }
 
 +(id)getPreferenceKey:(NSString*)key {
-    CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
-    
-    NSDictionary *settings = (__bridge NSDictionary *)CFPreferencesCopyMultiple(CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost), CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    [self reloadSettings]; // Reload just in case
     return [settings objectForKey:key];
 }
 

@@ -1,0 +1,14 @@
+﻿/* 
+  LSNotifications.strings
+  Xen HTML
+*/
+
+"TITLE" = "Ειδοποιήσεις";
+
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Απόκρυψη widget πρώτου πλάνου για:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Διαμόρφωση συμπεριφοράς παράλληλα με τις ειδοποιήσεις.";
+"HIDE_FOREGROUND_NOTIF" = "Ειδοποιήσεις";
+
+"OTHER_HEADER" = "Λοιπές ρυθμίσεις";
+"OTHER_FOOTER" = "Οι ειδοποιήσεις μπορούν να εμφανίζονται σε όλο το ύψος της οθόνης.";
+"FULLSCREEN_NOTIFICATIONS" = "Ειδοποιήσεις σε πλήρη οθόνη";

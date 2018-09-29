@@ -1,0 +1,37 @@
+﻿/* 
+  LSSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Ορατότητα στοιχείου";
+"ELEMENT_VISIBILITY_FOOTER" = "Απόκρυψη στοιχείων όταν χρησιμοποίειται το Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Απόκρυψη ώρας οθόνης κλειδώματος";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Ορατό";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Στη βασική σελίδα";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Σε όλες τις σελίδες";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Η ώρα της οθόνης κλειδώματος μπορεί να αποκρυφθεί είτε στη βασική σελίδα, είτε σε όλες τις σελίδες συμπεριλαμβανομένης και του Today.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Απόκρυψη κειμένου ξεκλειδώματος";
+"ELEMENT_HOME_TO_UNLOCK" = "Απόκρυψη κειμένου 'Πιέστε το κουμπί Αφετηρίας για ξεκλείδωμα'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Απόκρυψη κειμένου 'Σαρώστε προς τα πάνω για άνοιγμα'";
+"ELEMENT_HIDE_OTHERS" = "Απόκρυψη λοιπών στοιχείων";
+
+"VISIBILITY_HEADER" = "Ορατότητα Widget";
+"VISIBILITY_MEDIA" = "Συμπεριφορά κουμπιών πολυμέσων";
+"VISIBILITY_NOTIFICATIONS" = "Συμπεριφορά ειδοποιήσεων";
+"VISIBILITY_OPACITY" = "Διαφάνεια Widget όταν σε απόκρυψη:";
+
+"MSIC_HEADER" = "Διάφορα";
+"MISC_LS_STATUS_BAR_SIZE" = "Μικρότερη Status Bar στην οθόνη κλειδώματος";
+"MISC_LS_IDLE_TIME" = "Διάρκεια αναμονής οθόνης κλειδώματος";
+"MISC_LS_IDLE_TIME_10S" = "10 δευτερόλεπτα";
+"MISC_LS_IDLE_TIME_15S" = "15 δευτερόλεπτα";
+"MISC_LS_IDLE_TIME_20S" = "20 δευτερόλεπτα";
+"MISC_LS_IDLE_TIME_30S" = "30 δευτερόλεπτα";
+"MISC_LS_IDLE_TIME_60S" = "1 λεπτό";
+"MISC_LS_IDLE_TIME_120S" = "2 λεπτά";
+
+"ADVANCED" = "Προχωρημένα";
+
+"WIDGET_EDITOR_HEADER" = "Επεξεργαστής Widget";
+"WIDGET_EDITOR_FOOTER" = "Προσαρμόστε το πάνελ των ρυθμίσεων των χρησιμοποιούμενων widgets της οθόνης κελιδώματος.";
+"WIDGET_EDITOR_SNAP" = "Κλείδωμα των Widgets κατά τον άξονα Ψ";

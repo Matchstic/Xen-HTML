@@ -1,0 +1,10 @@
+{
+    "BUGS_FEATURES" = "回報問題以及要求新增功能";
+    "MESSAGE_FOOTER" = "送出訊息後，您可能需要經過幾天才能收到回覆";
+    "MESSAGE_HEADER" = "傳送訊息:";
+    "MESSAGE_MAIL" = "由Mail傳送訊息";
+    "MESSAGE_TWITTER" = "由Twitter傳送訊息";
+    "RESET_FOOTER" = "這會清除所有Xen HTML設定";
+    "RESET_SETTINGS" = "重設所有設定";
+    "TITLE" = "幫助";
+}

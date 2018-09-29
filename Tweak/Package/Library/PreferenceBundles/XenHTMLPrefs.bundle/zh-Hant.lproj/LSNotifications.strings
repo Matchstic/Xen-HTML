@@ -1,0 +1,9 @@
+{
+    "FULLSCREEN_NOTIFICATIONS" = "全螢幕通知";
+    "HIDE_FOREGROUND_NOTIF" = "通知";
+    "HIDE_FOREGROUND_NOTIF_FOOTER" = "設定當通知橫靠時的行為";
+    "HIDE_FOREGROUND_NOTIF_HEADER" = "隱藏前景小工具:";
+    "OTHER_FOOTER" = "通知可以用全螢幕顯示";
+    "OTHER_HEADER" = "其他設定";
+    "TITLE" = "通知";
+}

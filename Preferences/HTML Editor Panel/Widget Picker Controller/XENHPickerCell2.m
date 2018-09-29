@@ -112,9 +112,9 @@
     _packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, loading];
     
     // We now have the URL of this widget. Proceed to ask libpackageinfo for details, and check for a screenshot.
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    //dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *cachedurl = [url copy];
+    //    NSString *cachedurl = [url copy];
         
         PIPackage *package;
         
@@ -127,11 +127,11 @@
         
         _package = package;
         
-        if (![cachedurl isEqualToString:_url]) {
-            return;
-        }
+    //    if (![cachedurl isEqualToString:_url]) {
+    //        return;
+    //    }
         
-        dispatch_async(dispatch_get_main_queue(), ^(void){
+    //    dispatch_async(dispatch_get_main_queue(), ^(void){
             //Run UI Updates
             
             
@@ -170,8 +170,8 @@
                 
                 self.accessoryType = UITableViewCellAccessoryDetailButton;
             }
-        });
-    });
+    //    });
+    //});
 }
 
 -(void)layoutSubviews {

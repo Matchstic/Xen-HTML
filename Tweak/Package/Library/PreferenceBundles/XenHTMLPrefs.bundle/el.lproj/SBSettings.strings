@@ -1,0 +1,18 @@
+﻿/* 
+  SBSettings.strings
+  Xen HTML
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "Ορατότητα στοιχείου";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Απόκρυψη στοιχείων της οθόνης κλειδώματος όταν χρησιμοποιείται το Xen HTML.";
+"ELEMENT_SB_DOCK_BLUR" = "Απόκρυψη θολώματος του Dock";
+"ELEMENT_SB_FOLDER_BLUR" = "Απόκρυψη θολώματος των φακέλων";
+"ELEMENT_SB_ICON_LABELS" = "Απόκρυψη των ετικετών των εικονιδίων";
+"ELEMENT_SB_PAGE_DOTS" = "Απόκρυψη κουκίδων σελίδων";
+
+"MISC_HEADER" = "Διάφορα";
+"MISC_SB_TOUCH" = "Επιτρέπω άγγιγμα στο Widget";
+
+"WIDGET_EDITOR_HEADER" = "Επεξεργαστής Widget";
+"WIDGET_EDITOR_HS_FOOTER" = "Προσαρμόστε το πάνελ των χρησιμοποιούμενων ρυθμίσεων των  widgets της αρχικής οθόνης.";
+"WIDGET_EDITOR_SNAP" = "Κλείδωμα των Widgets κατά τον άξονα Ψ";

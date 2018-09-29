@@ -1,0 +1,13 @@
+{
+    "ELEMENT_SB_DOCK_BLUR" = "隱藏Dock模糊效果";
+    "ELEMENT_SB_FOLDER_BLUR" = "Hide Folder Icon Blur";
+    "ELEMENT_SB_ICON_LABELS" = "隱藏App名稱";
+    "ELEMENT_SB_PAGE_DOTS" = "隱藏頁面指示圓點";
+    "ELEMENT_VISIBILITY_HS_FOOTER" = "當使用Xen HTML時隱藏主畫面部件";
+    "ELEMENT_VISIBILITY_HS_HEADER" = "部件透明度";
+    "MISC_HEADER" = "透明度";
+    "MISC_SB_TOUCH" = "允許小工具觸控功能";
+    "WIDGET_EDITOR_HEADER" = "小工具編輯工具";
+    "WIDGET_EDITOR_HS_FOOTER" = "選擇要在主畫面使用那個小工具設定面板";
+    "WIDGET_EDITOR_SNAP" = "固定小工具在Y軸上";
+}

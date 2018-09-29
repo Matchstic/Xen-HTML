@@ -1,0 +1,30 @@
+{
+    "ADVANCED" = "進階";
+    "ELEMENT_HIDE_OTHERS" = "隱藏其他部件";
+    "ELEMENT_HOME_TO_UNLOCK" = "隱藏 '按下主畫面來解鎖' 文字";
+    "ELEMENT_LS_CLOCK" = "隱藏鎖定畫面的時鐘";
+    "ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "在所有頁面";
+    "ELEMENT_LS_CLOCK_IOS10_FOOTER" = "鎖定畫面的時鐘可以只在通知畫面隱藏，或是可以在所有畫面隱藏，包含含有小工具的頁面。";
+    "ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "在主要畫面";
+    "ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "可見的";
+    "ELEMENT_SLIDE_TO_UNLOCK" = "隱藏 '滑動來解鎖' 文字";
+    "ELEMENT_SWIPE_TO_UNLOCK" = "隱藏 '上滑來解鎖' 文字";
+    "ELEMENT_VISIBILITY_FOOTER" = "當使用Xen HTML時，隱藏鎖定畫面的部件";
+    "ELEMENT_VISIBILITY_HEADER" = "部件透明度";
+    "MISC_LS_IDLE_TIME" = "鎖定畫面閒置時間";
+    "MISC_LS_IDLE_TIME_10S" = "10秒";
+    "MISC_LS_IDLE_TIME_120S" = "2分鐘";
+    "MISC_LS_IDLE_TIME_15S" = "15秒";
+    "MISC_LS_IDLE_TIME_20S" = "20秒";
+    "MISC_LS_IDLE_TIME_30S" = "30秒";
+    "MISC_LS_IDLE_TIME_60S" = "1分鐘";
+    "MISC_LS_STATUS_BAR_SIZE" = "縮小鎖定畫面狀態列";
+    "MSIC_HEADER" = "其他選項";
+    "VISIBILITY_HEADER" = "小工具的透明度";
+    "VISIBILITY_MEDIA" = "影音控制的行為";
+    "VISIBILITY_NOTIFICATIONS" = "通知行為";
+    "VISIBILITY_OPACITY" = "當隱藏時，小工具的不透明度:";
+    "WIDGET_EDITOR_FOOTER" = "選擇要在鎖定畫面使用那個小工具設定面板";
+    "WIDGET_EDITOR_HEADER" = "小工具編輯工具";
+    "WIDGET_EDITOR_SNAP" = "設定小工具在Y軸上位置";
+}

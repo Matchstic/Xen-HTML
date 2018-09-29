@@ -1,0 +1,10 @@
+{
+    "BATTERY_MANAGEMENT" = "啟用電池管理系統";
+    "BATTERY_MANAGEMENT_FOOTER" = "關閉電源管理可能會使用更多電力，但是可以避免視覺效果發生錯誤";
+    "PERSISTENT_MODE" = "固定模式";
+    "PERSISTENT_MODE_FOOTER" = "固定模式讓小工具在後台保持更新，這樣每次解鎖裝置就不需要重新載入工具。\n\n啟用這個模式可能導致電力消耗加快。";
+    "SCROLL_PRIORITY_IOS10" = "優先在小工具中啟用滑動";
+    "SCROLL_PRIORITY_IOS10_FOOTER" = "在部分含有可滑動的小工具中，優先啟用滑動可以解決問題。";
+    "SCROLL_PRIORITY_IOS11_FOOTER" = "在部分螢幕底部可觸控的小工具中，啟用這個模式可以正常使用這個功能。\n但是啟用這個模式後，您將無法往上滑來瀏覽過去的通知。";
+    "TITLE" = "進階選項";
+}

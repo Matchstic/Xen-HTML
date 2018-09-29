@@ -42,7 +42,20 @@ extern char **environ;
 
 @end
 
+static WKProcessPool *sharedProcessPool;
+
 @implementation XENHWidgetController
+
++ (WKProcessPool*)sharedProcessPool {
+    if (!sharedProcessPool) {
+        static dispatch_once_t p = 0;
+        dispatch_once(&p, ^{
+            sharedProcessPool = [[WKProcessPool alloc] init];
+        });
+    }
+    
+    return sharedProcessPool;
+}
 
 /////////////////////////////////////////////////////////////////////////////
 #pragma mark Initialisation
@@ -133,6 +146,7 @@ extern char **environ;
     
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    config.processPool = [XENHWidgetController sharedProcessPool];
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
@@ -234,7 +248,7 @@ extern char **environ;
     NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
     if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
         XENlog(@"Loading from URL: %@", url);
-        [_webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+        [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
     }
 }
 
@@ -444,6 +458,7 @@ extern char **environ;
 /////////////////////////////////////////////////////////////////////////////
 
 - (void)unloadWidget {
+    XENlog(@"Unloading webview: %@", self.widgetIndexFile);
     [self _unloadWebView];
     [self _unloadLegacyWebView];
 }
@@ -453,19 +468,26 @@ extern char **environ;
 }
 
 - (void)_unloadWebView {
-    [self.webView stopLoading];
-    [self.webView loadHTMLString:@"" baseURL:[NSURL URLWithString:@""]];
+    self.webView.hidden = YES;
     
-    self.webView.hidden = YES; // Stop any residual GPU updates.
+    [self.webView stopLoading];
+    [self.webView _close];
+    
+    self.webView.navigationDelegate = nil;
+    self.webView.scrollView.delegate = nil;
+    
     [self.webView removeFromSuperview];
+    
+    self.webView = nil;
 }
 
 - (void)_unloadLegacyWebView {
     [self.legacyWebView stopLoading];
-    [self.legacyWebView loadHTMLString:@"" baseURL:[NSURL URLWithString:@""]];
     
     self.legacyWebView.hidden = YES;
     [self.legacyWebView removeFromSuperview];
+    
+    self.legacyWebView = nil;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -635,9 +657,11 @@ extern char **environ;
     XENlog(@"Failed navigation: %@", error);
 }
 
-- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
-    // WebView process has terminated... Better reload!
-    [webView reload];
-}
+/*- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+    // WebView process has terminated... Better reload?
+    if (webView != nil && webView.hidden == NO) {
+        [self reloadWidget];
+    }
+}*/
 
 @end

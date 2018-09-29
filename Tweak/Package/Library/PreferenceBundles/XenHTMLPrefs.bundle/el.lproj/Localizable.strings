@@ -1,0 +1,94 @@
+﻿/*
+  Localizable.strings
+  Xen HTML
+*/
+
+/* PREFERENCES */
+
+"CANCEL" = "Ακύρωση";
+"OK" = "ΟΚ";
+"WARNING" = "Ειδοποιήση";
+"DONE" = "Ολοκλήρωση";
+"BACK" = "Πίσω";
+"ERROR" = "Σφάλμα";
+
+"ROOT_SHARE_TEXT" = "Χρησιμοποιώ το Xen HTML για την εφαργμογή widgets στην οθόνη κλειδώματος και στις σελίδες μου! Δείτε το στο Cydia:";
+
+"MORE_REPOS_TITLE" = "Πρόσθετα ρέπο";
+"MORE_REPOS_WIDGETS" = "Περισσότερα Widgets";
+"MORE_REPOS_REFRESH" = "Ανανέωση";
+"MORE_REPOS_CONTACTING_SERVER" = "Σύνδεση με τον διακομιστή...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Προσθήκη αυτού του ρέπο στη Cydia;";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Άνοιγμα αυτού του ρέπο στη Cydia;";
+
+"DONATE_ADDRESS_COPIED" = "Η διεύθυνση αντιγράφηκε στο clipboard!";
+
+"SUPPORT_RESPRING_NOTIFY" = "Η συσκευή σας θα επανεκκινήσει τώρα για να εφαρμοστούν οι αλλαγές";
+"SUPPORT_CONFIRM_RESET" = "Αυτό θα καθαρίσει όλες τις ρυθμίσεις του Xen HTML.\n\nΕπιθυμείτε συνέχεια;";
+"SUPPORT_CONFIRM_OPTION" = "Go Nuclear";
+
+"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_PREVIEW_HEADER" = "Προεπισκόπηση";
+"WIDGETS_PREVIEW_FOOTER" = "Κυλίστε για να προσαρμόσετε την γωνία θέασης.";
+"WIDGETS_BACKGROUND" = "Widgets βάθους ";
+"WIDGETS_FOREGROUND" = "Widgets πρώτου πλάνου";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Τα widgets βάθους να ενσωματωθούν στη wallpaper";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Τα widgets πρώτου πλάνου είναι πλήρως διαδραστικά στην οθόνη κλειδώματος";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Τα widgets βάθους να γίνουν πλήρως διαδραστικά με την  wallpaper";
+"WIDGETS_NONE_SELECTED" = "Κανένα widget επιλεγμένο";
+"WIDGETS_ADD_NEW" = "Προσθήκη widget...";
+"WIDGETS_CONFIGURE" = "Διαμόρφωση:";
+"WIDGETS_LOCKSCREEN" = "Οθόνη κλειδώματος";
+"WIDGETS_HOMESCREEN" = "Αρχική σελίδα";
+
+"WIDGET_EDITOR_NONE_SELECTED" = "Κανένα widget επιλεγμένο";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Υπήρξε σφάλμα στην ανάλυση του αρχείου των ρυθμίσεων, ενδέχεται να λείπουν κάποιες επιλογές";
+"WIDGET_EDITOR_SAVE" = "Αποθήκευση";
+"WIDGET_EDITOR_DRAGDROP" = "Drag και drop για να προσαρμόσετε τη θέση";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Drag και drop για να προσαρμόσετε τη θέση.\n\n Περιστρέψτε την συσκευή σας για δείτε σε διαφορετικό προσανατολισμό";
+
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Διαθέσιμα Widgets";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Πρώτου πλάνου)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Βάθους)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Δεν υπάρχουν διαθέσιμα widget";
+"WIDGET_PICKER_NONE" = "Κανένα";
+"WIDGET_PICKER_LOADING" = "Φόρτωση";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Πακέτο:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Άγνωστος πρωτουργός";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Άγνωστο / Τοπικό";
+
+"WIDGET_SETTINGS_TITLE" = "Ρυθμίσεις Widget";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Αποτυχία εγγραφής ρυθμίσεων του widget, ελέγξτε τα permissions του φακέλου αυτού του widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Μερικά widgets απαιτούν Legacy Mode για να λειτουργήσουν σωστά, όπως αυτά που εκμεταλλεύονται το GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Legacy Mode";
+"WIDGET_SETTINGS_NONE" = "Μη διαθέσιμες ρυθμίσεις";
+
+/* TWEAK */
+
+"NEXT" = "Επόμενο";
+
+"SETUP_INITIAL_TITLE" = "Ολοκλήρωση εγκατάστασης";
+"SETUP_INITIAL_FOOTER" = "Το Xen HTML εγκαταστάθηκε επιτυχώς.\nΜερικά βήματα ακόμη και τελειώσατε!";
+"SETUP_INITIAL_BUTTON" = "Συνέχεια";
+
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Ρύθμιση οθόνης κλειδώματος";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Τι κάνει η Εισαγωγή;";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Η Εισαγωγή σας επιτρέπει να μεταφέρετε υπάρχουσες ρυθμίσεις της οθόνης κλειδώματος και σε άλλα widget του Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Ρύθμιση χωρίς Εισαγωγή";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Εισαγωγή από το Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Εισαγωγή από το GroovyLock";
+
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Ρύθμιση αρχικής σελίδας";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Τι κάνει η Εισαγωγή;";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Η Εισαγωγή σας επιτρέπει να μεταφέρετε υπάρχουσες ρυθμίσεις της αρχική οθόνης και σε άλλα widget του Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Ρύθμιση χωρίς Εισαγωγή";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Εισαγωγή από το SBHTML";
+
+"SETUP_FINAL_TITLE" = "Τελευταίες πινελίες";
+"SETUP_FINAL_TITLE_POST_WORK" = "Καλωσήρθατε στο Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Αρχίζοντας";
+"SETUP_FINAL_RESTART_TITLE" = "Το SpringBoard χρειάζεται να επανεκκινηθεί για να ολοκληρωθεί η εγκατάστασή σας";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Εφαρμόζω τις ρυθμίσεις σας";
+"SETUP_FINAL_COFFEE" = "Διάλειμμα για μικρό καφέ";
+"SETUP_FINAL_CLEANUP" = "Καθάρισμα";
+

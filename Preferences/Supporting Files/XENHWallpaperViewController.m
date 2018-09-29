@@ -204,6 +204,8 @@
     
     UIImage *image = [UIImage imageWithCGImage:(__bridge CGImageRef)(array[0])];
     
+    CFRelease(someArrayRef); // Release memory!
+    
     return image;
 }
 

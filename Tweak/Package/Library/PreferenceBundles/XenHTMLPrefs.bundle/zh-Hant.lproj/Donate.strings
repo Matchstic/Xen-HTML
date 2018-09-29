@@ -1,0 +1,10 @@
+{
+    "BTC" = "使用比特幣付款 (BTC)";
+    "BTC_FOOTER" = "點一下來複製比特幣公開捐贈地址";
+    "ETH" = "使用Ethereum (ETH)捐款";
+    "ETH_FOOTER" = "點一下來複製Ethereum公開地址";
+    "INFO_FOOTER" = "如果您喜歡使用Xen HTML, 請考慮捐贈!";
+    "PAYPAL" = "使用PayPal捐贈";
+    "PAYPAL_FOOTER" = "點一下來複製PayPal地址";
+    "TITLE" = "捐贈";
+}

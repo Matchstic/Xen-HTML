@@ -1,0 +1,14 @@
+﻿/* 
+  LSMedia.strings
+  Xen HTML
+*/
+
+"TITLE" = "Ρυθμίσεις πολυμέσων";
+
+"HIDE_FOREGROUND_HEADER" = "Απόκρυψη widget πρώτου πλάνου για:";
+"HIDE_FOREGROUND_FOOTER" = "Διαμόρφωση συμπεριφοράς παράλληλα με τα βασικά κουμπιά πολυμέσων.";
+"HIDE_FOREGROUND_CONTROLS" = "UI κουμπίων";
+"HIDE_FOREGROUND_ARTWORK" = "Εξώφυλλο";
+
+"MISC_HEADER" = "Διάφορα";
+"HIDE_ARTWORK" = "Απόκρυψη εξώφυλλου πολυμέσων";

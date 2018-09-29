@@ -1,0 +1,16 @@
+﻿/* 
+  Support.strings
+  Xen HTML
+*/
+
+"TITLE" = "Υποστήριξη";
+
+"MESSAGE_FOOTER" = "Ενδέχεται να χρειαστούν μερικές μέρες ώσπου να λάβετε απάντηση.";
+"MESSAGE_HEADER" = "Στείλτε μήνυμα:";
+"MESSAGE_TWITTER" = "Μέσω Twitter";
+"MESSAGE_MAIL" = "Μέσω Mail";
+
+"BUGS_FEATURES" = "Αναφέρατε σφάλματα και τί θα θέλατε να συμπεριληφθεί στο μέλλον";
+
+"RESET_FOOTER" = "Εκκαθαρίστε όλες τις ρυθμίσεις του Xen HTML.";
+"RESET_SETTINGS" = "Επαναφορά όλων των ρυθμίσεων";

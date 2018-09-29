@@ -1,0 +1,18 @@
+{
+    "D22_CONTROL_CENTRE" = "隱藏控制中心指示條";
+    "D22_FACEID_PADLOCK" = "隱藏FaceID鎖盤";
+    "D22_HEADER" = "iPhone X獨有";
+    "D22_HOMEBAR" = "隱藏Home條";
+    "D22_TORCH_CAMERA" = "隱藏手電筒及相機按鈕";
+    "GRABBERS_CAMERA" = "隱藏相機快捷鍵";
+    "GRABBERS_CAMERA_DISABLE" = "關閉相機快捷鍵";
+    "GRABBERS_CONTROL_CENTRE" = "隱藏控制中心快捷手勢";
+    "GRABBERS_HANDOFF" = "隱藏Handoff快捷鍵";
+    "GRABBERS_HEADER" = "快捷鍵";
+    "GRABBERS_NOTIFICATION_CENTRE" = "隱藏通知中心快捷手勢";
+    "MISC_CLOCK_STATUS_BAR" = "在狀態列中顯示時間";
+    "MISC_HEADER" = "其他選項";
+    "MISC_LS_STATUS_BAR" = "隱藏鎖定畫面狀態列";
+    "MISC_PAGE_DOTS" = "隱藏頁面指示圓點";
+    "TITLE" = "透明度";
+}
