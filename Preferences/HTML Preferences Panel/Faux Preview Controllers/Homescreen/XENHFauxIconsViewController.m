@@ -103,24 +103,31 @@
         
         [self.view addSubview:icon];
         
-        if ([identifier isKindOfClass:[NSString class]]) {
-            if ([self.cachedIcons objectForKey:identifier]) {
-                icon.image = [self.cachedIcons objectForKey:identifier];
-                icon.backgroundColor = [UIColor clearColor];
-            } else {
-                dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                    UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:identifier format:0 scale:[UIScreen mainScreen].scale];
-                    [self.cachedIcons setObject:image forKey:identifier];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        icon.image = image;
-                        icon.backgroundColor = [UIColor clearColor];
+        @try {
+            if ([identifier isKindOfClass:[NSString class]]) {
+                if ([self.cachedIcons objectForKey:identifier]) {
+                    icon.image = [self.cachedIcons objectForKey:identifier];
+                    icon.backgroundColor = [UIColor clearColor];
+                } else {
+                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                        UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:identifier format:0 scale:[UIScreen mainScreen].scale];
+                        if (image && identifier && ![identifier isEqualToString:@""])
+                            [self.cachedIcons setObject:image forKey:identifier];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            icon.image = image;
+                            icon.backgroundColor = [UIColor clearColor];
+                        });
                     });
-                });
+                }
             }
+            
+            [_iconViews addObject:icon];
+        } @catch (NSException *e) {
+            // Holy Batman wtf.
+            // Give a lighter colour as fallback for an app icon.
+            icon.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.35];
         }
-        
-        [_iconViews addObject:icon];
     }
 }
 
