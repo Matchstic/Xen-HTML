@@ -75,7 +75,7 @@ static BOOL shownGraceEnded = NO;
 +(id)getPreferenceKey:(NSString*)key;
 
 + (BOOL)showUnsupportedAlertForCurrentVersion;
-+ (BOOL)userForcedSupportedForCurrentVersion;
++ (void)userRequestsForceSupportForCurrentVersion;
 
 #pragma mark Lockscreen stuff
 

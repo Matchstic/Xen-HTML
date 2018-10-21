@@ -616,7 +616,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)_isOnSupportedIOSVersion {
     CGFloat minVersion = 9.0;
-    CGFloat maxVersion = 11.1;
+    CGFloat maxVersion = 11.4;
     
     return [UIDevice currentDevice].systemVersion.floatValue <= maxVersion && [UIDevice currentDevice].systemVersion.floatValue >= minVersion;
 }
@@ -638,7 +638,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return YES;
 }
 
-+ (BOOL)userForcedSupportedForCurrentVersion {
++ (void)userRequestsForceSupportForCurrentVersion {
     NSString *versionCheckKey = [NSString stringWithFormat:@"unsupportedOverride%@", [UIDevice currentDevice].systemVersion];
     [self setPreferenceKey:versionCheckKey withValue:@1 andPost:NO];
 }
@@ -964,19 +964,19 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
-#pragma mark Pseudo- DRM
+#pragma mark Pseudo-DRM
 
 + (BOOL)isInstalledFromOfficialRepository {
     // check .list and status files.
     
     BOOL listExists = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.matchstic.xenhtml.list"];
     
-    BOOL presentInStatusFile = NO;
+    /*BOOL presentInStatusFile = NO;
     NSString *statusFile = [NSString stringWithContentsOfFile:@"/var/lib/dpkg/status" encoding:NSUTF8StringEncoding error:nil];
     
-    presentInStatusFile = [statusFile containsString:@"com.matchstic.xenhtml"];
+    presentInStatusFile = [statusFile containsString:@"com.matchstic.xenhtml"];*/
     
-    return listExists && presentInStatusFile;
+    return listExists/* && presentInStatusFile*/;
 }
 
 @end
