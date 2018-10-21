@@ -18,8 +18,9 @@
 
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
+#import "XENHTouchPassThroughView.h"
 
-@interface XENHWidgetController : UIViewController <WKNavigationDelegate>
+@interface XENHWidgetController : UIViewController <WKNavigationDelegate, XENHTouchPassThroughViewDelegate>
 
 // Internal webviews
 @property (nonatomic, strong) WKWebView *webView;
@@ -32,6 +33,10 @@
 
 // Touch forwarding
 @property (nonatomic, strong) UIView *_touchForwardedView;
+
+// Offscreen rendering
+@property (nonatomic, strong) UIView *_offscreenRenderingView;
+@property (nonatomic, readwrite) BOOL _hasMovedWebViewOnscreen;
 
 // Initialisation
 - (instancetype)init;

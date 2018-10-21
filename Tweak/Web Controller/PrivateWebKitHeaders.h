@@ -74,6 +74,10 @@
 -(void)_setResourceUsageOverlayVisible:(bool)arg1 ;
 @end
 
+@interface WKWebViewConfiguration (Private)
+- (void)_setWaitsForPaintAfterViewDidMoveToWindow:(bool)arg1 NS_AVAILABLE_IOS(10_3);
+@end
+
 @interface WKContentView : UIView
 - (void)_webTouchEventsRecognized:(id)gestureRecognizer;
 - (void)_singleTapCommited:(UITapGestureRecognizer *)gestureRecognizer;

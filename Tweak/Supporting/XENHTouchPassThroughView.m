@@ -29,4 +29,9 @@
     return view;
 }
 
+- (void)didMoveToWindow {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(viewDidMoveToWindow)])
+        [self.delegate viewDidMoveToWindow];
+}
+
 @end

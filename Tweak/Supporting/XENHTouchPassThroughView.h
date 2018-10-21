@@ -18,6 +18,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol XENHTouchPassThroughViewDelegate<NSObject>
+- (void)viewDidMoveToWindow;
+@end
+
 @interface XENHTouchPassThroughView : UIView
+
+@property (nonatomic, weak) id<XENHTouchPassThroughViewDelegate> delegate;
 
 @end

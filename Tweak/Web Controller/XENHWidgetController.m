@@ -17,7 +17,6 @@
 */
 
 #import "XENHWidgetController.h"
-#import "XENHTouchPassThroughView.h"
 #import "XENHResources.h"
 #import "PrivateWebKitHeaders.h"
 
@@ -43,6 +42,7 @@ extern char **environ;
 @end
 
 static WKProcessPool *sharedProcessPool;
+static UIWindow *sharedOffscreenRenderingWindow;
 
 @implementation XENHWidgetController
 
@@ -55,6 +55,19 @@ static WKProcessPool *sharedProcessPool;
     }
     
     return sharedProcessPool;
+}
+
++ (UIWindow*)sharedOffscreenRenderingWindow {
+    if (!sharedOffscreenRenderingWindow) {
+        static dispatch_once_t p = 0;
+        dispatch_once(&p, ^{
+            sharedOffscreenRenderingWindow = [[UIWindow alloc] init];
+            sharedOffscreenRenderingWindow.frame = CGRectMake(-SCREEN_WIDTH, -SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            sharedOffscreenRenderingWindow.hidden = NO;
+        });
+    }
+    
+    return sharedOffscreenRenderingWindow;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -75,6 +88,8 @@ static WKProcessPool *sharedProcessPool;
     self.view = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor clearColor];
     self.view.tag = 12345;
+    
+    [(XENHTouchPassThroughView*)self.view setDelegate:self];
 }
 
 - (void)dealloc {
@@ -122,7 +137,9 @@ static WKProcessPool *sharedProcessPool;
         XENlog(@"Loading via WKWebView");
         // Load using WKWebView
         [self _loadWebView];
-        [self.view addSubview:self.webView];
+        
+        // Add the webView to an offscreen view at first to solve loading issues
+        [self renderWebViewOffscreen:self.webView];
     }
 }
 
@@ -146,7 +163,7 @@ static WKProcessPool *sharedProcessPool;
     
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.processPool = [XENHWidgetController sharedProcessPool];
+    //config.processPool = [XENHWidgetController sharedProcessPool];
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
@@ -217,6 +234,10 @@ static WKProcessPool *sharedProcessPool;
     }
     
     config.preferences = preferences;
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        [config _setWaitsForPaintAfterViewDidMoveToWindow:NO];
+    }
     
     if (self.webView) {
         [self.webView removeFromSuperview];
@@ -458,7 +479,6 @@ static WKProcessPool *sharedProcessPool;
 /////////////////////////////////////////////////////////////////////////////
 
 - (void)unloadWidget {
-    XENlog(@"Unloading webview: %@", self.widgetIndexFile);
     [self _unloadWebView];
     [self _unloadLegacyWebView];
 }
@@ -468,26 +488,80 @@ static WKProcessPool *sharedProcessPool;
 }
 
 - (void)_unloadWebView {
-    self.webView.hidden = YES;
-    
-    [self.webView stopLoading];
-    [self.webView _close];
-    
-    self.webView.navigationDelegate = nil;
-    self.webView.scrollView.delegate = nil;
-    
-    [self.webView removeFromSuperview];
-    
-    self.webView = nil;
+    if (self.webView) {
+        XENlog(@"Unloading webview: %@", self.widgetIndexFile);
+        self.webView.hidden = YES;
+        
+        [self.webView stopLoading];
+        [self.view.window becomeFirstResponder]; // Sort out first responder stuff?
+        [self.webView removeFromSuperview];
+        
+        self.webView.navigationDelegate = nil;
+        self.webView.scrollView.delegate = nil;
+        
+        [self.webView _close];
+        
+        self.webView = nil;
+    }
 }
 
 - (void)_unloadLegacyWebView {
-    [self.legacyWebView stopLoading];
+    if (self.legacyWebView) {
+        XENlog(@"Unloading webview: %@", self.widgetIndexFile);
+        [self.legacyWebView stopLoading];
+        
+        self.legacyWebView.hidden = YES;
+        [self.legacyWebView removeFromSuperview];
+        
+        self.legacyWebView = nil;
+    }
+}
+
+- (void)viewDidMoveToWindow {
+    // Handle bringing webview onscreen if needed.
+    if (self.webView
+        && self.view.window != nil
+        && self._hasMovedWebViewOnscreen == NO
+        && [self.webView.superview isEqual:self._offscreenRenderingView]) {
+        
+        [self.view addSubview:self.webView];
+        
+        self._hasMovedWebViewOnscreen = YES;
+        
+        [self cleanUpOffscreenView];
+    }
+}
+
+- (void)renderWebViewOffscreen:(WKWebView *)webView {
+    if (self.view.window) {
+        [self.view addSubview:webView];
+        return;
+    }
     
-    self.legacyWebView.hidden = YES;
-    [self.legacyWebView removeFromSuperview];
+    if (!self._offscreenRenderingView) {
+        self._offscreenRenderingView = [self constructOffscreenView];
+    }
     
-    self.legacyWebView = nil;
+    // Make sure the offscreen view is on the right keyWindow.
+    UIWindow *appWindow = [XENHWidgetController sharedOffscreenRenderingWindow];
+    [appWindow addSubview:self._offscreenRenderingView];
+    
+    [self._offscreenRenderingView addSubview:webView];
+    self._hasMovedWebViewOnscreen = NO;
+}
+
+- (void)cleanUpOffscreenView {
+    if (self._offscreenRenderingView.subviews.count == 0) {
+        [self._offscreenRenderingView removeFromSuperview];
+        self._offscreenRenderingView = nil;
+    }
+}
+
+- (UIView *)constructOffscreenView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+    view.clipsToBounds = YES;
+    
+    return view;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -657,11 +731,11 @@ static WKProcessPool *sharedProcessPool;
     XENlog(@"Failed navigation: %@", error);
 }
 
-/*- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
     // WebView process has terminated... Better reload?
     if (webView != nil && webView.hidden == NO) {
         [self reloadWidget];
     }
-}*/
+}
 
 @end
