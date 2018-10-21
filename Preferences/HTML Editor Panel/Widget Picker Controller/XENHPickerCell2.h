@@ -38,14 +38,13 @@
 -(void)didClickScreenshotButton:(PIPackage*)package;
 @end
 
-@interface XENHPickerCell2 : UITableViewCell {
-    PIPackage *_package;
-    UILabel *_filesystemName;
-    UILabel *_author;
-    UILabel *_packageName;
-    UIImageView *_screenshot;
-    NSString *_url;
-}
+@interface XENHPickerCell2 : UITableViewCell
+@property(nonatomic, strong) PIPackage *package;
+@property(nonatomic, strong) UILabel *filesystemName;
+@property(nonatomic, strong) UILabel *author;
+@property(nonatomic, strong) UILabel *packageName;
+@property(nonatomic, strong) UIImageView *screenshot;
+@property(nonatomic, strong) NSString *url;
 
 - (void)setupForNoWidgetsWithWidgetType:(NSString*)type;
 -(void)setupWithFilename:(NSString*)filename screenshotFilename:(NSString*)screenshot andAssociatedUrl:(NSString*)url;

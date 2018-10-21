@@ -22,78 +22,78 @@
 @implementation XENHPickerCell2
 
 -(void)_configureViewsIfRequired {
-    if (!_filesystemName) {
-        _filesystemName = [[UILabel alloc] initWithFrame:CGRectZero];
-        _filesystemName.textColor = [UIColor darkTextColor];
-        _filesystemName.textAlignment = NSTextAlignmentLeft;
-        _filesystemName.font = [UIFont systemFontOfSize:18];
+    if (!self.filesystemName) {
+        self.filesystemName = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.filesystemName.textColor = [UIColor darkTextColor];
+        self.filesystemName.textAlignment = NSTextAlignmentLeft;
+        self.filesystemName.font = [UIFont systemFontOfSize:18];
         
-        [self.contentView addSubview:_filesystemName];
+        [self.contentView addSubview:self.filesystemName];
     }
     
-    if (!_author) {
-        _author = [[UILabel alloc] initWithFrame:CGRectZero];
-        _author.textColor = [UIColor grayColor];
-        _author.textAlignment = NSTextAlignmentLeft;
-        _author.font = [UIFont systemFontOfSize:14];
+    if (!self.author) {
+        self.author = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.author.textColor = [UIColor grayColor];
+        self.author.textAlignment = NSTextAlignmentLeft;
+        self.author.font = [UIFont systemFontOfSize:14];
         
-        [self.contentView addSubview:_author];
+        [self.contentView addSubview:self.author];
     }
     
-    if (!_packageName) {
-        _packageName = [[UILabel alloc] initWithFrame:CGRectZero];
-        _packageName.textColor = [UIColor grayColor];
-        _packageName.textAlignment = NSTextAlignmentLeft;
-        _packageName.font = [UIFont systemFontOfSize:14];
+    if (!self.packageName) {
+        self.packageName = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.packageName.textColor = [UIColor grayColor];
+        self.packageName.textAlignment = NSTextAlignmentLeft;
+        self.packageName.font = [UIFont systemFontOfSize:14];
         
-        [self.contentView addSubview:_packageName];
+        [self.contentView addSubview:self.packageName];
     }
     
-    if (!_screenshot) {
-        _screenshot = [[UIImageView alloc] initWithFrame:CGRectZero];
-        _screenshot.contentMode = UIViewContentModeScaleAspectFill;
-        _screenshot.clipsToBounds = YES;
+    if (!self.screenshot) {
+        self.screenshot = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.screenshot.contentMode = UIViewContentModeScaleAspectFill;
+        self.screenshot.clipsToBounds = YES;
         
-        _screenshot.backgroundColor = [UIColor clearColor];
+        self.screenshot.backgroundColor = [UIColor clearColor];
         
-        [self.contentView addSubview:_screenshot];
+        [self.contentView addSubview:self.screenshot];
     }
     
-    _filesystemName.textColor = [UIColor darkTextColor];
+    self.filesystemName.textColor = [UIColor darkTextColor];
 }
 
 - (void)setupForNoWidgetsWithWidgetType:(NSString*)type {
     [self _configureViewsIfRequired];
     
-    _filesystemName.textColor = [UIColor grayColor];
+    self.filesystemName.textColor = [UIColor grayColor];
     
-    _filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NO_WIDGETS_AVAILABLE"];
+    self.filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NO_WIDGETS_AVAILABLE"];
     
     // Blank out everything else.
-    _author.text = @"";
-    _packageName.text = @"";
+    self.author.text = @"";
+    self.packageName.text = @"";
     self.accessoryType = UITableViewCellAccessoryNone;
-    _screenshot.image = nil;
-    _screenshot.hidden = YES;
+    self.screenshot.image = nil;
+    self.screenshot.hidden = YES;
 }
 
 -(void)setupWithFilename:(NSString *)filename screenshotFilename:(NSString *)screenshot andAssociatedUrl:(NSString *)url {
     // Setup cell for new incoming data.
-    _url = url;
+    self.url = url;
     
     [self _configureViewsIfRequired];
     
     // Configure filename as appropriate.
     NSString *thing = [filename stringByDeletingLastPathComponent];
     if ([thing isEqualToString:@""]) {
-        _filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NONE"];
+        self.filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NONE"];
         
         // Blank out everything else.
-        _author.text = @"";
-        _packageName.text = @"";
+        self.author.text = @"";
+        self.packageName.text = @"";
         self.accessoryType = UITableViewCellAccessoryNone;
-        _screenshot.image = nil;
-        _screenshot.hidden = YES;
+        self.screenshot.image = nil;
+        self.screenshot.hidden = YES;
         
         return;
     } else {
@@ -102,19 +102,21 @@
         filename = [filename stringByReplacingOccurrencesOfString:@".cydget" withString:@""];
     }
     
-    _filesystemName.text = filename;
+    self.filesystemName.text = filename;
     
     NSString *loading = [XENHResources localisedStringForKey:@"WIDGET_PICKER_LOADING"];
     
-    _author.text = loading;
+    self.author.text = loading;
     
     NSString *inPackageStatic = [XENHResources localisedStringForKey:@"WIDGET_PICKER_PACKAGE_PREFIX"];
-    _packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, loading];
+    self.packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, loading];
     
     // We now have the URL of this widget. Proceed to ask libpackageinfo for details, and check for a screenshot.
-    //dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+    
+    XENHPickerCell2 * __weak weakSelf = self;
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-    //    NSString *cachedurl = [url copy];
+        NSString *cachedurl = [url copy];
         
         PIPackage *package;
         
@@ -125,15 +127,14 @@
             package = nil;
         }
         
-        _package = package;
+        weakSelf.package = package;
         
-    //    if (![cachedurl isEqualToString:_url]) {
-    //        return;
-    //    }
+        if (![cachedurl isEqualToString:weakSelf.url]) {
+            return;
+        }
         
-    //    dispatch_async(dispatch_get_main_queue(), ^(void){
+        dispatch_async(dispatch_get_main_queue(), ^(void){
             //Run UI Updates
-            
             
             // Check if the author needs any changes.
             NSString *authorText = package.author && ![package.author isEqualToString:@""] ? package.author : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_AUTHOR"];
@@ -145,33 +146,33 @@
                 authorText = [authorText substringToIndex:location];
             }
             
-            _author.text = authorText;
+            weakSelf.author.text = authorText;
             
             NSString *packageText = package.name && ![package.name isEqualToString:@""] ? package.name : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_PACKAGE"];
             
-            _packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, packageText];
+            weakSelf.packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, packageText];
             
             if (screenshot) {
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                     UIImage *img = [UIImage imageWithContentsOfFile:screenshot];
                     
                     dispatch_async(dispatch_get_main_queue(), ^(void){
-                        _screenshot.image = img;
-                        _screenshot.hidden = NO;
-                        _screenshot.frame = CGRectMake(self.contentView.frame.size.width * 0.8, 10, self.contentView.frame.size.width * 0.2 - 10, self.contentView.frame.size.height - 20);
-                        _screenshot.layer.cornerRadius = 2.5;
+                        weakSelf.screenshot.image = img;
+                        weakSelf.screenshot.hidden = NO;
+                        weakSelf.screenshot.frame = CGRectMake(weakSelf.contentView.frame.size.width * 0.8, 10, weakSelf.contentView.frame.size.width * 0.2 - 10, weakSelf.contentView.frame.size.height - 20);
+                        weakSelf.screenshot.layer.cornerRadius = 2.5;
                     });
                 });
                 
-                self.accessoryType = UITableViewCellAccessoryNone;
+                weakSelf.accessoryType = UITableViewCellAccessoryNone;
             } else {
-                _screenshot.image = nil;
-                _screenshot.hidden = YES;
+                weakSelf.screenshot.image = nil;
+                weakSelf.screenshot.hidden = YES;
                 
-                self.accessoryType = UITableViewCellAccessoryDetailButton;
+                weakSelf.accessoryType = UITableViewCellAccessoryDetailButton;
             }
-    //    });
-    //});
+        });
+    });
 }
 
 -(void)layoutSubviews {
@@ -181,25 +182,25 @@
     // We can assume that the accessory view and the screenshot image will occupy the same region.
     // So, can define them as a variable of max X.
     
-    CGFloat maxX = self.contentView.frame.size.width * (_screenshot.hidden ? 0.85 : 0.8) - 10; // - 10 for margins.
+    CGFloat maxX = self.contentView.frame.size.width * (self.screenshot.hidden ? 0.85 : 0.8) - 10; // - 10 for margins.
     CGFloat y = 10;
     
-    if (!_screenshot.hidden) {
+    if (!self.screenshot.hidden) {
         y += 10;
     }
     
-    _filesystemName.frame = CGRectMake(10, y, maxX, 20);
+    self.filesystemName.frame = CGRectMake(10, y, maxX, 20);
     
-    y += _filesystemName.frame.size.height + 5;
+    y += self.filesystemName.frame.size.height + 5;
     
-    _author.frame = CGRectMake(10, y, maxX - 10, 18);
+    self.author.frame = CGRectMake(10, y, maxX - 10, 18);
     
-    y += _author.frame.size.height;
+    y += self.author.frame.size.height;
     
-    _packageName.frame = CGRectMake(10, y, maxX, 18);
+    self.packageName.frame = CGRectMake(10, y, maxX, 18);
     
-    _screenshot.frame = CGRectMake(self.contentView.frame.size.width * 0.8, 10, self.contentView.frame.size.width * 0.2 - 10, self.contentView.frame.size.height - 20);
-    _screenshot.layer.cornerRadius = 2.5;
+    self.screenshot.frame = CGRectMake(self.contentView.frame.size.width * 0.8, 10, self.contentView.frame.size.width * 0.2 - 10, self.contentView.frame.size.height - 20);
+    self.screenshot.layer.cornerRadius = 2.5;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
