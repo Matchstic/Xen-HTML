@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>HIDE_ARTWORK</key>
+	<string>Скрыть обложку</string>
+	<key>HIDE_FOREGROUND_ARTWORK</key>
+	<string>Обложка</string>
+	<key>HIDE_FOREGROUND_CONTROLS</key>
+	<string>Управление UI</string>
+	<key>HIDE_FOREGROUND_FOOTER</key>
+	<string>Настроить внешний вид виджета</string>
+	<key>HIDE_FOREGROUND_HEADER</key>
+	<string>Скрыть передний виджет для:</string>
+	<key>MISC_HEADER</key>
+	<string>Разное</string>
+	<key>TITLE</key>
+	<string>Мультимедия</string>
+</dict>
+</plist>

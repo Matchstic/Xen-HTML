@@ -1,0 +1,10 @@
+{
+    "BUGS_FEATURES" = "Сообщить об ошибках и сделать запрос";
+    "MESSAGE_FOOTER" = "Ответ может прийти в течение нескольких дней. ";
+    "MESSAGE_HEADER" = "Отправить сообщение:";
+    "MESSAGE_MAIL" = "На почту";
+    "MESSAGE_TWITTER" = "В Twitter";
+    "RESET_FOOTER" = "Это сбросит все настройки Xen HTML.";
+    "RESET_SETTINGS" = "Сбросить настройки";
+    "TITLE" = "Поддержка";
+}

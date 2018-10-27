@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ADVANCED</key>
+	<string>Дополнительно</string>
+	<key>Battery Usage</key>
+	<string>Использование батареи</string>
+	<key>Disabling battery management will use more battery, but may prevent some visual issues.</key>
+	<string>Отключение управления батареей будет использовать больше потребление батареи, но может помешать некоторым визуальным проблемам.</string>
+	<key>ELEMENT_HIDE_OTHERS</key>
+	<string>Скрыть прочие элементы</string>
+	<key>ELEMENT_HOME_TO_UNLOCK</key>
+	<string>Скрыть «Нажмите кнопку «Домой» ...»</string>
+	<key>ELEMENT_LS_CLOCK</key>
+	<string>Скрывать часы</string>
+	<key>ELEMENT_LS_CLOCK_IOS10_ALL_PAGES</key>
+	<string>На всех страницах</string>
+	<key>ELEMENT_LS_CLOCK_IOS10_FOOTER</key>
+	<string>Часы можно скрывать либо на главной странице, либо на всех страницах, включая виджеты приложений.</string>
+	<key>ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE</key>
+	<string>Только на главной странице</string>
+	<key>ELEMENT_LS_CLOCK_IOS10_VISIBLE</key>
+	<string>Отображать везде</string>
+	<key>ELEMENT_SLIDE_TO_UNLOCK</key>
+	<string>Скрыть «Проведите, чтобы разблокировать»</string>
+	<key>ELEMENT_SWIPE_TO_UNLOCK</key>
+	<string>Скрыть «Смахните вверх, чтобы разблокировать»</string>
+	<key>ELEMENT_VISIBILITY_FOOTER</key>
+	<string>Скрыть элементы на экране блокировки при использовании XenHTML.</string>
+	<key>ELEMENT_VISIBILITY_HEADER</key>
+	<string>Отображение элементов</string>
+	<key>For widgets that have scrollable regions, prioritising touches will resolve issues that prevent usage of these regions.</key>
+	<string>Для виджетов с прокручиваемыми участками(или элементами)в приоритете будут проблемы, которые препятствуют использованию этих участков(или элементов)</string>
+	<key>For widgets with touchable regions at the bottom of the display, toggling this on will allow their usage. 
+
+However, you will not be able to swipe up to see past notifications.</key>
+	<string>Для виджетов с кнопками в нижней части дисплея это включение позволит их использовать.
+
+Тем не менее, вы не сможете просмотреть последние уведомления.</string>
+	<key>Legacy Mode</key>
+	<string>Режим Legacy</string>
+	<key>Lockscreen</key>
+	<string>Экран блокировки</string>
+	<key>MISC_LS_IDLE_TIME</key>
+	<string>Экран блокировки активен в течении</string>
+	<key>MISC_LS_IDLE_TIME_10S</key>
+	<string>10 сек</string>
+	<key>MISC_LS_IDLE_TIME_120S</key>
+	<string>2 мин</string>
+	<key>MISC_LS_IDLE_TIME_15S</key>
+	<string>15 сек</string>
+	<key>MISC_LS_IDLE_TIME_20S</key>
+	<string>20 сек</string>
+	<key>MISC_LS_IDLE_TIME_30S</key>
+	<string>30 сек</string>
+	<key>MISC_LS_IDLE_TIME_60S</key>
+	<string>1 мин</string>
+	<key>MISC_LS_STATUS_BAR_SIZE</key>
+	<string>Уменьшенный статус бар</string>
+	<key>MSIC_HEADER</key>
+	<string>Разное</string>
+	<key>Prioritise Scrolling in Widget</key>
+	<string>Приоритет прокрутки в виджетах</string>
+	<key>Prioritise Touch in Widget</key>
+	<string>Приоритет тача в виджетах</string>
+	<key>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</key>
+	<string>Некоторые виджеты требуют, чтобы режим Legacy корректно функционировал, например, те, которые используют GroovyAPI.</string>
+	<key>Use Battery Management</key>
+	<string>Использовать управление батареей</string>
+	<key>VISIBILITY_HEADER</key>
+	<string>Отображение виджета</string>
+	<key>VISIBILITY_MEDIA</key>
+	<string>Управление мультимедией</string>
+	<key>VISIBILITY_NOTIFICATIONS</key>
+	<string>Настройки уведомлений</string>
+	<key>VISIBILITY_OPACITY</key>
+	<string>Непрозрачность виджетов при скрытии:</string>
+	<key>WIDGET_EDITOR_FOOTER</key>
+	<string>Настройте панель настроек, используемую для выбора виджета для рендеринга на экране блокировки.</string>
+	<key>WIDGET_EDITOR_HEADER</key>
+	<string>Редактор виджета</string>
+	<key>WIDGET_EDITOR_SNAP</key>
+	<string>Привязать виджеты к оси Y</string>
+</dict>
+</plist>

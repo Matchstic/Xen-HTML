@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FULLSCREEN_NOTIFICATIONS</key>
+	<string>Полноэкранные уведомления</string>
+	<key>HIDE_FOREGROUND_NOTIF</key>
+	<string>Уведомления</string>
+	<key>HIDE_FOREGROUND_NOTIF_FOOTER</key>
+	<string>Настроить внешний вид виджета</string>
+	<key>HIDE_FOREGROUND_NOTIF_HEADER</key>
+	<string>Скрыть передний виджет для:</string>
+	<key>OTHER_FOOTER</key>
+	<string>Уведомления могут быть представлены на весь экран</string>
+	<key>OTHER_HEADER</key>
+	<string>Прочие настройки</string>
+	<key>TITLE</key>
+	<string>Уведомления</string>
+</dict>
+</plist>

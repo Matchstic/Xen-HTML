@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DONATE</key>
+	<string>Поблагодарить</string>
+	<key>HOMESCREEN</key>
+	<string>Рабочий стол</string>
+	<key>LOCKSCREEN</key>
+	<string>Экран блокировки</string>
+	<key>MORE_WIDGETS</key>
+	<string>Больше виджетов</string>
+	<key>SUPPORT</key>
+	<string>Поддержка</string>
+</dict>
+</plist>

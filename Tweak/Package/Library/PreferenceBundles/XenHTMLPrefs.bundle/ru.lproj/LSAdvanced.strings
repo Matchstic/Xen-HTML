@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BATTERY_MANAGEMENT</key>
+	<string>Использование управления батареей</string>
+	<key>BATTERY_MANAGEMENT_FOOTER</key>
+	<string>Отключение управления батареей будет использовать больше заряда, но может принести некоторые визуальные проблемам.</string>
+	<key>PERSISTENT_MODE</key>
+	<string>Постоянный режим</string>
+	<key>PERSISTENT_MODE_FOOTER</key>
+	<string>Постоянный режим держит ваши виджеты экрана блокировки в системной памяти, поэтому их не нужно загружать после блокировки вашего устройства.
+
+Использование этого режима может привести к большему расходу батареи.</string>
+	<key>SCROLL_PRIORITY_IOS10</key>
+	<string>Приоритет скроллинга</string>
+	<key>SCROLL_PRIORITY_IOS10_FOOTER</key>
+	<string>Для виджетов со скроллингом, эта функция исправляет проблемы, из-за которых виджет мог не работать.</string>
+	<key>SCROLL_PRIORITY_IOS11</key>
+	<string>Приоритет интерактивных функций</string>
+	<key>SCROLL_PRIORITY_IOS11_FOOTER</key>
+	<string>Для виджетов с интерактивными функциями в нижней части дисплея, это включение позволит их использовать.
+
+Тем не менее, вы не сможете просмотреть последние уведомления.</string>
+	<key>TITLE</key>
+	<string>Дополнительно</string>
+</dict>
+</plist>

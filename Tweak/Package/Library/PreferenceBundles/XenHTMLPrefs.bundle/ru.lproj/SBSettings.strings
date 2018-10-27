@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Background Widgets</key>
+	<string>Фоновые виджеты</string>
+	<key>ELEMENT_SB_DOCK_BLUR</key>
+	<string>Скрыть размытие дока</string>
+	<key>ELEMENT_SB_FOLDER_BLUR</key>
+	<string>Скрыть размытие иконок в папке</string>
+	<key>ELEMENT_SB_ICON_LABELS</key>
+	<string>Скрыть названия иконок</string>
+	<key>ELEMENT_SB_PAGE_DOTS</key>
+	<string>Скрыть индикаторы страниц (точки)</string>
+	<key>ELEMENT_VISIBILITY_HS_FOOTER</key>
+	<string>Скрыть элементы рабочего стола при использовании Xen HTML.</string>
+	<key>ELEMENT_VISIBILITY_HS_HEADER</key>
+	<string>Отображение</string>
+	<key>Homescreen</key>
+	<string>Домашний экран</string>
+	<key>Legacy Mode</key>
+	<string>Режим Legacy</string>
+	<key>MISC_HEADER</key>
+	<string>Разное</string>
+	<key>MISC_SB_TOUCH</key>
+	<string>Разрешить нажатия на виджет</string>
+	<key>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</key>
+	<string>Некоторые виджеты требуют, чтобы режим Legacy корректно функционировал, например, те, которые используют GroovyAPI</string>
+	<key>WIDGET_EDITOR_HEADER</key>
+	<string>Редактор виджета</string>
+	<key>WIDGET_EDITOR_HS_FOOTER</key>
+	<string>Настройте панель настроек, используемую для выбора виджета для рендеринга на экране блокировки.</string>
+	<key>WIDGET_EDITOR_SNAP</key>
+	<string>Привязать виджет в оси Y</string>
+</dict>
+</plist>

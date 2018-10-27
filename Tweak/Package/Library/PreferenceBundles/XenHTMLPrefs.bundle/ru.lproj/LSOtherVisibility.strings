@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>D22_FACEID_PADLOCK</key>
+	<string>Скрыть Face ID</string>
+	<key>D22_HEADER</key>
+	<string>Специально для iPhone X</string>
+	<key>D22_HOMEBAR</key>
+	<string>Скрыть домашнюю панель</string>
+	<key>D22_TORCH_CAMERA</key>
+	<string>Скрыть кнопки Камера и Фонарик</string>
+	<key>GRABBERS_CAMERA</key>
+	<string>Скрыть камеру</string>
+	<key>GRABBERS_CAMERA_DISABLE</key>
+	<string>Отключить камеру</string>
+	<key>GRABBERS_CONTROL_CENTRE</key>
+	<string>Скрыть язычок ПУ</string>
+	<key>GRABBERS_HANDOFF</key>
+	<string>Скрыть граббер Handoff</string>
+	<key>GRABBERS_HEADER</key>
+	<string>Грабберы</string>
+	<key>GRABBERS_NOTIFICATION_CENTRE</key>
+	<string>Скрыть язычок ЦУ</string>
+	<key>MISC_CLOCK_STATUS_BAR</key>
+	<string>Показать часы в статус баре</string>
+	<key>MISC_HEADER</key>
+	<string>Разное</string>
+	<key>MISC_LS_STATUS_BAR</key>
+	<string>Скрыть статус бар</string>
+	<key>MISC_PAGE_DOTS</key>
+	<string>Скрыть точки страниц</string>
+	<key>TITLE</key>
+	<string>Отображение</string>
+</dict>
+</plist>

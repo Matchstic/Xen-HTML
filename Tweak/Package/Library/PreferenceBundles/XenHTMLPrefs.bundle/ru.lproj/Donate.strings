@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BTC</key>
+	<string>Через Bitcoin</string>
+	<key>BTC_FOOTER</key>
+	<string>Нажмите, чтобы скопировать общедоступный адрес Bitcoin (с поддержкой SegWit)</string>
+	<key>ETH</key>
+	<string>Через Ethereum</string>
+	<key>ETH_FOOTER</key>
+	<string>Нажмите, чтобы скопировать общий адрес Ethereum</string>
+	<key>INFO_FOOTER</key>
+	<string>Если вам нравится использовать Xen HTML, подумайте о том, чтобы пожертвовать!</string>
+	<key>PAYPAL</key>
+	<string>Через PayPal</string>
+	<key>PAYPAL_FOOTER</key>
+	<string>Нажмите, чтобы скопировать адрес PayPal</string>
+	<key>TITLE</key>
+	<string>Благодарность</string>
+</dict>
+</plist>
