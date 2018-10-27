@@ -1,0 +1,13 @@
+{
+    "ELEMENT_SB_DOCK_BLUR" = "اخفاء ضبابية الدوك السفلي";
+    "ELEMENT_SB_FOLDER_BLUR" = "اخفاء ضبابية ايقونة المجلدات";
+    "ELEMENT_SB_ICON_LABELS" = "اخفاء اسماء التطبيقات";
+    "ELEMENT_SB_PAGE_DOTS" = "اخفاء نقاط الصفحات";
+    "ELEMENT_VISIBILITY_HS_FOOTER" = "اخفاء عناصر الشاشة الرئيسية عند استخدام Xen HTML";
+    "ELEMENT_VISIBILITY_HS_HEADER" = "العناصر المرئية";
+    "MISC_HEADER" = "متنوع";
+    "MISC_SB_TOUCH" = "السماح باللمس على الويدجت";
+    "WIDGET_EDITOR_HEADER" = "Widget Editor";
+    "WIDGET_EDITOR_HS_FOOTER" = "قم بتخصيص لوحة الاعدادات المستخدمة في اختيار الويدجات التي يتم عرضها على الشاشة الرئيسية.";
+    "WIDGET_EDITOR_SNAP" = "انجذاب الويدجات الى المحور Y";
+}

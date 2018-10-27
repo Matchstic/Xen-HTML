@@ -1,0 +1,9 @@
+{
+    "FULLSCREEN_NOTIFICATIONS" = "شاشة كاملة للاشعارات";
+    "HIDE_FOREGROUND_NOTIF" = "الاشعارات";
+    "HIDE_FOREGROUND_NOTIF_FOOTER" = "قم بتكوين السلوك بجانب الاشعارات";
+    "HIDE_FOREGROUND_NOTIF_HEADER" = "اخفاء ويدجت المقدمة لـ:";
+    "OTHER_FOOTER" = "يمكن تقديم الاشعارات على الارتفاع الكامل للشاشة";
+    "OTHER_HEADER" = "اعدادات اخرى";
+    "TITLE" = "الاشعارات";
+}

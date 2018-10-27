@@ -1,0 +1,10 @@
+{
+    "BUGS_FEATURES" = "الابلاغ عن الاخطاء وطلب المميزات";
+    "MESSAGE_FOOTER" = "قد يستغرق الامر بضعة ايام قبل ان تتلقى ردا";
+    "MESSAGE_HEADER" = "ارسال رسالة";
+    "MESSAGE_MAIL" = "عبر البريد";
+    "MESSAGE_TWITTER" = "عبر تويتر";
+    "RESET_FOOTER" = "سيؤدي هذا الى مسح جميع اعدادات Xen HTML";
+    "RESET_SETTINGS" = "اعادة تعيين الاعدادات";
+    "TITLE" = "الدعم الفني";
+}

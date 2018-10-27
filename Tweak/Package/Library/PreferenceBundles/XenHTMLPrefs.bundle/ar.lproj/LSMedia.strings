@@ -1,0 +1,9 @@
+{
+    "HIDE_ARTWORK" = "اخفاء صور الوسائط";
+    "HIDE_FOREGROUND_ARTWORK" = "الصور";
+    "HIDE_FOREGROUND_CONTROLS" = "التحكم بواجهة المستخدم";
+    "HIDE_FOREGROUND_FOOTER" = "قم بتكوين السلوك بجانب عناصر التحكم بالوسائط";
+    "HIDE_FOREGROUND_HEADER" = "اخفاء ويدجت المقدمة لـ:";
+    "MISC_HEADER" = "متنوع";
+    "TITLE" = "التحكم بالوسائط";
+}

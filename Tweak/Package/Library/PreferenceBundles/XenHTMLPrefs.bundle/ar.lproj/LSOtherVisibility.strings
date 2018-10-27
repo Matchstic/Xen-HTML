@@ -1,0 +1,18 @@
+{
+    "D22_CONTROL_CENTRE" = "اخفاء مؤشر مركز التحكم";
+    "D22_FACEID_PADLOCK" = "اخفاء قفل بصمة الوجه";
+    "D22_HEADER" = "خاص بـ iPhone X";
+    "D22_HOMEBAR" = "اخفاء شريط زر الهوم";
+    "D22_TORCH_CAMERA" = "اخفاء ازرار الكشاف والكاميرا";
+    "GRABBERS_CAMERA" = "اخفاء الكاميرا";
+    "GRABBERS_CAMERA_DISABLE" = "تعطيل الكاميرا";
+    "GRABBERS_CONTROL_CENTRE" = "اخفاء مركز التحكم";
+    "GRABBERS_HANDOFF" = "اخفاء Handoff";
+    "GRABBERS_HEADER" = "اللاقط";
+    "GRABBERS_NOTIFICATION_CENTRE" = "اخفاء مركز الاشعارات";
+    "MISC_CLOCK_STATUS_BAR" = "اظهار الوقت في البار العلوي";
+    "MISC_HEADER" = "متنوع";
+    "MISC_LS_STATUS_BAR" = "اخفاء البار العلوي في شاشة القفل";
+    "MISC_PAGE_DOTS" = "اخفاء نقاط الصفحات";
+    "TITLE" = "المرئيات";
+}
