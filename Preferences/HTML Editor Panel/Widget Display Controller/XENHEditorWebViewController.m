@@ -213,7 +213,7 @@ static WKProcessPool *sharedProcessPool;
 
 -(WKWebView*)loadWKWebView:(NSString*)baseString {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.processPool = [XENHEditorWebViewController sharedProcessPool];
+    //config.processPool = [XENHEditorWebViewController sharedProcessPool];
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
