@@ -29,7 +29,7 @@
 
 "WIDGETS_TITLE" = "Widgets";
 "WIDGETS_PREVIEW_HEADER" = "Voorbeschouwing";
-"WIDGETS_PREVIEW_FOOTER" = "Schuid om de hoed van de voorbeschouwing aan te passen.";
+"WIDGETS_PREVIEW_FOOTER" = "Schuif om de hoek van de voorbeschouwing aan te passen.";
 "WIDGETS_BACKGROUND" = "Achtergrond Widgets";
 "WIDGETS_FOREGROUND" = "Voorgrond Widgets";
 "WIDGETS_LSBACKGROUND_DETAIL" = "Achtergrond widgets worden een deel van je achtergrond";
