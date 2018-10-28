@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBDashBoardFixedFooterView; @class SBCoverSheetWindow; @class PHContainerView; @class SBUICallToActionLabel; @class SBDashBoardMediaArtworkViewController; @class UIWebView; @class SBManualIdleTimer; @class SBLockScreenNotificationListView; @class SBScreenWakeAnimationController; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardQuickActionsViewController; @class XENResources; @class SBMainSwitcherViewController; @class SBDashBoardMainPageContentViewController; @class SBLockScreenBounceAnimator; @class SBDashBoardMainPageViewController; @class XENDashBoardWebViewController; @class SBBacklightController; @class SBMainWorkspace; @class XENNotificationsCollectionViewController; @class WKWebView; @class SBLockScreenManager; @class SBIconView; @class SBDashBoardMainPageView; @class SBDashBoardView; @class UITouchesEvent; @class SBDashBoardNotificationAdjunctListViewController; @class SBHomeScreenView; @class SBLockScreenNotificationListController; @class SBDashBoardCombinedListViewController; @class SBPagedScrollView; @class _NowPlayingArtView; @class SBFLockScreenMetrics; @class SBDashBoardNotificationListViewController; @class SBIdleTimerDefaults; @class SBFolderIconBackgroundView; @class SBDockView; @class SBMainStatusBarStateProvider; @class SBLockScreenViewController; @class SBFLockScreenDateView; @class SBFloatingDockPlatterView; @class SpringBoard; @class SBDashBoardViewController; @class SBHorizontalScrollFailureRecognizer; @class SBUIProudLockIconView; @class SBApplication; @class SBAlertWindow; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBRootFolderView; @class SBHomeScreenViewController; @class SBUIController; @class SBLockScreenView; @class UITouch; @class SBDashBoardPageViewController; 
+@class SBDashBoardFixedFooterView; @class XENDashBoardWebViewController; @class XENNotificationsCollectionViewController; @class SBHomeScreenViewController; @class UIWebView; @class SBLockScreenManager; @class SBLockScreenView; @class SBBacklightController; @class UITouch; @class SBDashBoardViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBDashBoardMainPageView; @class XENResources; @class SBApplication; @class PHContainerView; @class SBLockScreenViewController; @class SBUIProudLockIconView; @class SBAlertWindow; @class SBPagedScrollView; @class SBHomeScreenView; @class SBDashBoardMainPageViewController; @class SBScreenWakeAnimationController; @class SBDashBoardView; @class SBLockScreenNotificationListController; @class SBMainSwitcherViewController; @class SBDashBoardPageViewController; @class SpringBoard; @class SBUICallToActionLabel; @class SBIconView; @class SBMainStatusBarStateProvider; @class SBRootFolderView; @class SBDashBoardMainPageContentViewController; @class SBFloatingDockPlatterView; @class SBHorizontalScrollFailureRecognizer; @class SBIdleTimerDefaults; @class SBDashBoardCombinedListViewController; @class _NowPlayingArtView; @class SBDockView; @class UITouchesEvent; @class SBUIController; @class SBLockScreenNotificationListView; @class SBCoverSheetWindow; @class SBLockScreenBounceAnimator; @class SBManualIdleTimer; @class SBFolderIconBackgroundView; @class SBFLockScreenMetrics; @class SBFLockScreenDateView; @class WKWebView; @class SBMainWorkspace; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardNotificationListViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardQuickActionsViewController; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -357,7 +357,6 @@ static XENHWidgetLayerController *foregroundViewController;
 static XENHWidgetLayerController *sbhtmlViewController;
 
 static PHContainerView * __weak phContainerView;
-static UIView * __weak lsView;
 static NSMutableArray *foregroundHiddenRequesters;
 static XENHTouchForwardingRecognizer *lsBackgroundForwarder;
 static XENHTouchForwardingRecognizer *sbhtmlForwardingGesture;
@@ -389,7 +388,6 @@ static SBLockScreenView* _logos_method$SpringBoard$SBLockScreenView$initWithFram
     [XENHResources setCurrentOrientation:orientation];
     
     UIView *orig = _logos_orig$SpringBoard$SBLockScreenView$initWithFrame$(self, _cmd, frame);
-    lsView = orig;
     
     if ([XENHResources lsenabled]) {
         
@@ -436,7 +434,6 @@ static SBDashBoardView* _logos_method$SpringBoard$SBDashBoardView$initWithFrame$
     }
     
     SBDashBoardView *orig = _logos_orig$SpringBoard$SBDashBoardView$initWithFrame$(self, _cmd, arg1);
-    lsView = orig;
     
     XENlog(@"SBDashBoardView -initWithFrame:");
     
@@ -629,7 +626,7 @@ static void _logos_method$SpringBoard$SBDashBoardView$viewControllerDidDisappear
 
 static UIView * _logos_method$SpringBoard$SBDashBoardMainPageView$hitTest$withEvent$(_LOGOS_SELF_TYPE_NORMAL SBDashBoardMainPageView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, CGPoint point, UIEvent * event) {
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 || ![XENHResources lsenabled]) {
         return _logos_orig$SpringBoard$SBDashBoardMainPageView$hitTest$withEvent$(self, _cmd, point, event);
     }
     
@@ -874,7 +871,7 @@ static void _logos_method$SpringBoard$SBLockScreenViewController$_releaseLockScr
 static void _logos_method$SpringBoard$SBDashBoardViewController$displayDidDisappear(_LOGOS_SELF_TYPE_NORMAL SBDashBoardViewController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
-    if (isiOS10 && [XENHResources lsenabled] ) {
+    if (isiOS10 && [XENHResources lsenabled]) {
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading background HTML");
             [backgroundViewController unloadWidgets];
@@ -888,9 +885,11 @@ static void _logos_method$SpringBoard$SBDashBoardViewController$displayDidDisapp
         if (iOS10ForegroundWrapperController) {
             [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] dismissContentViewController:iOS10ForegroundWrapperController animated:NO];
             
+            [[(UIViewController*)iOS10ForegroundWrapperController view] removeFromSuperview];
+            [(UIViewController*)iOS10ForegroundWrapperController removeFromParentViewController];
+            
             iOS10ForegroundWrapperController = nil;
         }
-        
         
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading foreground HTML");
@@ -1323,7 +1322,6 @@ static void _logos_method$SpringBoard$SBCoverSheetWindow$sendEvent$(_LOGOS_SELF_
 
 static void _logos_method$SpringBoard$SBLockScreenView$_layoutSlideToUnlockView(_LOGOS_SELF_TYPE_NORMAL SBLockScreenView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
     if ([XENHResources lsenabled] && [XENHResources hideSTU]) {
-        
         return;
     }
     
@@ -3093,7 +3091,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_00fd9663(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_39c07a57(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

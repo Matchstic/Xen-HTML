@@ -493,15 +493,17 @@ static UIWindow *sharedOffscreenRenderingWindow;
         self.webView.hidden = YES;
         
         [self.webView stopLoading];
-        [self.view.window becomeFirstResponder]; // Sort out first responder stuff?
         [self.webView removeFromSuperview];
         
-        self.webView.navigationDelegate = nil;
         self.webView.scrollView.delegate = nil;
+        self.webView.navigationDelegate = nil;
         
         [self.webView _close];
         
-        self.webView = nil;
+        // Don't need to do this -> ARC handles for us on dealloc.
+        // Furthermore, doing this leads to a nasty segfault on unlock for iOS 10 users,
+        // due to the order of deallocation of the LS.
+        // self.webView = nil;
     }
 }
 
@@ -513,7 +515,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
         self.legacyWebView.hidden = YES;
         [self.legacyWebView removeFromSuperview];
         
-        self.legacyWebView = nil;
+        // See note above.
+        //self.legacyWebView = nil;
     }
 }
 

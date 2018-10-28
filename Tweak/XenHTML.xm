@@ -331,7 +331,6 @@ static XENHWidgetLayerController *foregroundViewController;
 static XENHWidgetLayerController *sbhtmlViewController;
 
 static PHContainerView * __weak phContainerView;
-static UIView * __weak lsView;
 static NSMutableArray *foregroundHiddenRequesters;
 static XENHTouchForwardingRecognizer *lsBackgroundForwarder;
 static XENHTouchForwardingRecognizer *sbhtmlForwardingGesture;
@@ -363,7 +362,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
     [XENHResources setCurrentOrientation:orientation];
     
     UIView *orig = %orig;
-    lsView = orig;
     
     if ([XENHResources lsenabled]) {
         // Add bottommost webview.
@@ -410,7 +408,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
     }
     
     SBDashBoardView *orig = %orig;
-    lsView = orig;
     
     XENlog(@"SBDashBoardView -initWithFrame:");
     
@@ -603,7 +600,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     // This class is also in iOS 10.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 || ![XENHResources lsenabled]) {
         return %orig;
     }
     
@@ -848,7 +845,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 - (void)displayDidDisappear {
     BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
     
-    if (isiOS10 && [XENHResources lsenabled] /*&& ![XENHResources LSPersistantWidgets]*/) {
+    if (isiOS10 && [XENHResources lsenabled]) {
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading background HTML");
             [backgroundViewController unloadWidgets];
@@ -862,9 +859,11 @@ static BOOL refuseToLoadDueToRehosting = NO;
         if (iOS10ForegroundWrapperController) {
             [[(SBDashBoardMainPageViewController*)dashBoardMainPageViewController contentViewController] dismissContentViewController:iOS10ForegroundWrapperController animated:NO];
             
+            [[(UIViewController*)iOS10ForegroundWrapperController view] removeFromSuperview];
+            [(UIViewController*)iOS10ForegroundWrapperController removeFromParentViewController];
+            
             iOS10ForegroundWrapperController = nil;
         }
-        
         
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading foreground HTML");
@@ -1297,7 +1296,6 @@ void cancelIdleTimer() {
 
 -(void)_layoutSlideToUnlockView {
     if ([XENHResources lsenabled] && [XENHResources hideSTU]) {
-        // TODO: Set hidden or whatever for after Setup UI exits. Check Xen for howto.
         return;
     }
     
