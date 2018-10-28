@@ -1,0 +1,10 @@
+{
+    "BUGS_FEATURES" = "Relatar erros e solicitar recursos.";
+    "MESSAGE_FOOTER" = "Pode demorar alguns dias até receber uma resposta.";
+    "MESSAGE_HEADER" = "Enviar mensagem:";
+    "MESSAGE_MAIL" = "Via Mail";
+    "MESSAGE_TWITTER" = "Via Twitter";
+    "RESET_FOOTER" = "Isso limpará todas as configurações Xen HTML.";
+    "RESET_SETTINGS" = "Redefinir todas as configurações";
+    "TITLE" = "Suporte";
+}

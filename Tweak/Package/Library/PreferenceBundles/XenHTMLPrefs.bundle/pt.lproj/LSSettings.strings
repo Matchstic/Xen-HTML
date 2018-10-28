@@ -1,0 +1,30 @@
+{
+    "ADVANCED" = "Avançado";
+    "ELEMENT_HIDE_OTHERS" = "Ocultar outros elementos";
+    "ELEMENT_HOME_TO_UNLOCK" = "Ocultar 'Pressione Início para Desbloquear' ";
+    "ELEMENT_LS_CLOCK" = "Ocultar relógio do bloqueio de tela";
+    "ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Em todas as páginas";
+    "ELEMENT_LS_CLOCK_IOS10_FOOTER" = "O relógio da Tela de Bloqueio pode estar oculto na página principal ou em todas as páginas, incluindo a página Hoje.";
+    "ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "On Main Page";
+    "ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Visíveis";
+    "ELEMENT_SLIDE_TO_UNLOCK" = "Ocultar 'deslize para desbloquear' ";
+    "ELEMENT_SWIPE_TO_UNLOCK" = "Ocultar 'Deslize para cima para desbloquear' ";
+    "ELEMENT_VISIBILITY_FOOTER" = "Ocultar elementos da tela de bloqueio ao usar o Xen HTML.";
+    "ELEMENT_VISIBILITY_HEADER" = "Elementos visíveis";
+    "MISC_LS_IDLE_TIME" = "Duração ociosa da Tela de Bloqueio";
+    "MISC_LS_IDLE_TIME_10S" = "10 Segundos ";
+    "MISC_LS_IDLE_TIME_120S" = "2 Minutos";
+    "MISC_LS_IDLE_TIME_15S" = "15 Segundos";
+    "MISC_LS_IDLE_TIME_20S" = "20 Segundos";
+    "MISC_LS_IDLE_TIME_30S" = "30 Segundos ";
+    "MISC_LS_IDLE_TIME_60S" = "1 Minuto";
+    "MISC_LS_STATUS_BAR_SIZE" = "Barra de Estado menor para tela de bloqueio";
+    "MSIC_HEADER" = "Diversos";
+    "VISIBILITY_HEADER" = "Visibilidade do Widget";
+    "VISIBILITY_MEDIA" = "Comportamento dos controles de mídia";
+    "VISIBILITY_NOTIFICATIONS" = "Comportamento de Notificações";
+    "VISIBILITY_OPACITY" = "Opacidade do widget quando oculto:";
+    "WIDGET_EDITOR_FOOTER" = "Personalize o painel de configurações usado para escolher widgets para renderizar na tela de bloqueio.";
+    "WIDGET_EDITOR_HEADER" = "Editor de widgets";
+    "WIDGET_EDITOR_SNAP" = "Widgets para o eixo Y";
+}

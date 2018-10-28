@@ -1,0 +1,11 @@
+{
+    "BATTERY_MANAGEMENT" = "Use o gerenciamento de bateria";
+    "BATTERY_MANAGEMENT_FOOTER" = "Desativar o gerenciamento de bateria usará mais bateria, mas pode evitar alguns problemas visuais.";
+    "PERSISTENT_MODE" = "Modo persistente";
+    "PERSISTENT_MODE_FOOTER" = "O modo persistente mantém os widgets da tela de bloqueio na memória o tempo todo, para que não precisem carregar depois de bloquear o dispositivo.\n\nUsar este modo pode levar a uma maior drenagem da bateria.";
+    "SCROLL_PRIORITY_IOS10" = "Priorizar a rolagem no widget";
+    "SCROLL_PRIORITY_IOS10_FOOTER" = "Para widgets que têm regiões roláveis, a priorização de toques resolverá problemas que impedem o uso nessas regiões.";
+    "SCROLL_PRIORITY_IOS11" = "Priorize o toque no widget";
+    "SCROLL_PRIORITY_IOS11_FOOTER" = "Para widgets com regiões tocáveis na parte inferior da tela, ativá-lo permitirá seu uso.\n\nNo entanto, você não poderá deslizar para cima para ver as notificações anteriores.";
+    "TITLE" = "Avançado";
+}

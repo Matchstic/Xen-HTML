@@ -1,0 +1,18 @@
+{
+    "D22_CONTROL_CENTRE" = "Ocultar indicador da Central de Controle";
+    "D22_FACEID_PADLOCK" = "Ocultar cadeado do FaceID";
+    "D22_HEADER" = "Específico para iPhone X ";
+    "D22_HOMEBAR" = "Ocultar barra de início";
+    "D22_TORCH_CAMERA" = "Ocultar os botões da lanterna e da câmera";
+    "GRABBERS_CAMERA" = "Ocultar o ícone da câmera";
+    "GRABBERS_CAMERA_DISABLE" = "Desabilitar o ícone da câmera";
+    "GRABBERS_CONTROL_CENTRE" = "Desabilitar o ícone da Central de Controle";
+    "GRABBERS_HANDOFF" = "Ocultar o ícone da Continuidade";
+    "GRABBERS_HEADER" = "Ícones";
+    "GRABBERS_NOTIFICATION_CENTRE" = "Ocultar ícones da Central de Notificações";
+    "MISC_CLOCK_STATUS_BAR" = "Mostrar relógio na Barra de Estado";
+    "MISC_HEADER" = "Diversos";
+    "MISC_LS_STATUS_BAR" = "Ocultar Barro de Estudo da Tela de Bloqueio";
+    "MISC_PAGE_DOTS" = "Ocultar os pontos na página";
+    "TITLE" = "Visibilidade";
+}

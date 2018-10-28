@@ -1,0 +1,9 @@
+{
+    "HIDE_ARTWORK" = "Ocultar capas de álbuns ";
+    "HIDE_FOREGROUND_ARTWORK" = "Capas de álbuns";
+    "HIDE_FOREGROUND_CONTROLS" = "Controles da interface do usuário";
+    "HIDE_FOREGROUND_FOOTER" = "Configure o comportamento ao lado dos controles de mídia de ações.";
+    "HIDE_FOREGROUND_HEADER" = "Ocultar o widget de primeiro plano para:";
+    "MISC_HEADER" = "Diversos";
+    "TITLE" = "Controles de mídia";
+}

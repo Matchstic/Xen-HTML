@@ -1,0 +1,10 @@
+{
+    "BTC" = "Via Bitcoin (BTC)";
+    "BTC_FOOTER" = "Toque para copiar o endereço público do Bitcoin (SegWit-ativado)";
+    "ETH" = "Via Ethereum (ETH)";
+    "ETH_FOOTER" = "Toque para copiar o endereço público da Ethereum";
+    "INFO_FOOTER" = "Se você gosta de usar o Xen HTML, por favor considere fazer uma doação!";
+    "PAYPAL" = "Via PayPal";
+    "PAYPAL_FOOTER" = "Toque para copiar o endereço do PayPal";
+    "TITLE" = "Doar";
+}

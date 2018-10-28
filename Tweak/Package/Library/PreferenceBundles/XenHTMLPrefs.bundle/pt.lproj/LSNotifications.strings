@@ -1,0 +1,9 @@
+{
+    "FULLSCREEN_NOTIFICATIONS" = "Notificações de tela inteira";
+    "HIDE_FOREGROUND_NOTIF" = "Notificações";
+    "HIDE_FOREGROUND_NOTIF_FOOTER" = "Configure o comportamento ao lado das notificações.";
+    "HIDE_FOREGROUND_NOTIF_HEADER" = "Ocultar os widgets de primeiro plano para:";
+    "OTHER_FOOTER" = "As notificações podem ser apresentadas na altura total da exibição.";
+    "OTHER_HEADER" = "Outras configurações";
+    "TITLE" = "Notificações";
+}

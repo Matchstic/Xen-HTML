@@ -1,0 +1,13 @@
+{
+    "ELEMENT_SB_DOCK_BLUR" = "Ocultar o efeito blur da dock ";
+    "ELEMENT_SB_FOLDER_BLUR" = "Ocultar o efeito blur do ícone da pasta";
+    "ELEMENT_SB_ICON_LABELS" = "Ocultar rótulos de ícone";
+    "ELEMENT_SB_PAGE_DOTS" = "Ocultar os indicadores de página";
+    "ELEMENT_VISIBILITY_HS_FOOTER" = "Ocultar elementos da tela de início ao usar o Xen HTML.";
+    "ELEMENT_VISIBILITY_HS_HEADER" = "Visibilidade do elemento";
+    "MISC_HEADER" = "Diversos";
+    "MISC_SB_TOUCH" = "Permitir toque no widget";
+    "WIDGET_EDITOR_HEADER" = "Editor de widget";
+    "WIDGET_EDITOR_HS_FOOTER" = "Personalize o painel de configurações usado para escolher widgets para renderizar na tela de início.";
+    "WIDGET_EDITOR_SNAP" = "Widgets para o eixo Y";
+}
