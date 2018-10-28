@@ -29,7 +29,7 @@
     "SETUP_INITIAL_FOOTER" = "تم تنزيل Xen HTML بنجاح.\nتوجد بعض الخطوات بعد للمتابعة، ومن ثم تكون قد انتهيت.";
     "SETUP_INITIAL_TITLE" = "اكتمل التنزيل";
     "SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "يتيح لك الاستيراد نقل الاعدادات الحالية لشاشة القفل الى Xen HTML";
-    "SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "What does Importing do?";
+    "SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "ماذا تريد ان تستورد؟";
     "SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "استيراد من GROOVYLOCK";
     "SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "استيراد من Lock HTML";
     "SETUP_LOCKSCREEN_IMPORT_NONE" = "اعداد بدون استيراد شيء";
