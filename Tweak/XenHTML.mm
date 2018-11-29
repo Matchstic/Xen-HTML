@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBFLockScreenDateView; @class SBUIProudLockIconView; @class SBDockView; @class SBDashBoardViewController; @class SBDashBoardMainPageViewController; @class XENDashBoardWebViewController; @class UITouchesEvent; @class SBIdleTimerDefaults; @class SBPagedScrollView; @class SBDashBoardNotificationListViewController; @class UIWebView; @class SBScreenWakeAnimationController; @class SBFLockScreenMetrics; @class SBFolderIconBackgroundView; @class UITouch; @class SBHomeScreenView; @class XENResources; @class SBIconView; @class SBDashBoardCombinedListViewController; @class SBDashBoardPageViewController; @class WKWebView; @class SBMainStatusBarStateProvider; @class SBDashBoardNotificationAdjunctListViewController; @class SBHorizontalScrollFailureRecognizer; @class SpringBoard; @class XENNotificationsCollectionViewController; @class SBManualIdleTimer; @class SBDashBoardMediaArtworkViewController; @class SBDashBoardView; @class SBApplication; @class _NowPlayingArtView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBLockScreenNotificationListView; @class SBDashBoardFixedFooterView; @class SBCoverSheetWindow; @class SBLockScreenManager; @class SBLockScreenViewController; @class SBLockScreenNotificationListController; @class SBLockScreenView; @class SBAlertWindow; @class SBUICallToActionLabel; @class SBMainSwitcherViewController; @class SBFloatingDockPlatterView; @class PHContainerView; @class SBLockScreenBounceAnimator; @class SBRootFolderView; @class SBDashBoardMainPageView; @class SBBacklightController; @class SBDashBoardTeachableMomentsContainerView; @class SBDashBoardMainPageContentViewController; @class SBDashBoardQuickActionsViewController; @class SBUIController; @class SBMainWorkspace; @class SBHomeScreenViewController; 
+@class UITouchesEvent; @class SBIdleTimerDefaults; @class SBDashBoardViewController; @class SBAlertWindow; @class SBPagedScrollView; @class SBIconView; @class SBRootFolderView; @class SBDashBoardMediaArtworkViewController; @class SBUIController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardCombinedListViewController; @class XENNotificationsCollectionViewController; @class SBMainStatusBarStateProvider; @class XENDashBoardWebViewController; @class SBUIProudLockIconView; @class SBApplication; @class SBHomeScreenView; @class _NowPlayingArtView; @class SBUICallToActionLabel; @class SBMainWorkspace; @class UITouch; @class SBDashBoardMainPageView; @class SBFolderIconBackgroundView; @class SBLockScreenNotificationListController; @class SBDockView; @class SBDashBoardView; @class PHContainerView; @class WKWebView; @class SBLockScreenViewController; @class XENResources; @class SBDashBoardNotificationListViewController; @class SBLockScreenManager; @class SBHorizontalScrollFailureRecognizer; @class SBDashBoardMainPageContentViewController; @class SBDashBoardQuickActionsViewController; @class SBHomeScreenViewController; @class SBDashBoardNotificationAdjunctListViewController; @class SBDashBoardPageViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBLockScreenNotificationListView; @class SBDashBoardMainPageViewController; @class SBDashBoardFixedFooterView; @class SBLockScreenView; @class SBLockScreenBounceAnimator; @class SBFLockScreenMetrics; @class SpringBoard; @class SBScreenWakeAnimationController; @class SBBacklightController; @class SBCoverSheetWindow; @class SBManualIdleTimer; @class SBFLockScreenDateView; @class SBMainSwitcherViewController; @class SBFloatingDockPlatterView; @class UIWebView; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -2092,7 +2092,7 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$recievedSBHTMLU
                 }
             }
         }
-    } else {
+    } else if (sbhtmlViewController) {
         [sbhtmlViewController unloadWidgets];
         [sbhtmlViewController.view removeFromSuperview];
         sbhtmlViewController = nil;
@@ -2520,7 +2520,11 @@ static void _logos_method$SpringBoard$_NowPlayingArtView$removeFromSuperview(_LO
 #if TARGET_IPHONE_SIMULATOR==0
         UIView* viewToObserve = MSHookIvar<UIView*>(self, "_artworkView");
         if (viewToObserve) {
-            [viewToObserve removeObserver:self forKeyPath:@"hidden"];
+            @try {
+                [viewToObserve removeObserver:self forKeyPath:@"hidden"];
+            } @catch (NSException *e) {
+                
+            }
         }
 #endif
     }
@@ -3091,7 +3095,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_39c07a57(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_26a4aaf9(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

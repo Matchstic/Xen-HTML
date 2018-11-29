@@ -460,8 +460,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         return;
     }
     
-    [self reloadSettings]; // Reload just in case.
     NSMutableDictionary *mutableSettings = [settings mutableCopy];
+
     [mutableSettings setObject:value forKey:key];
     
     // Write to CFPreferences
@@ -469,13 +469,13 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     
     [mutableSettings writeToFile:@"/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist" atomically:YES];
     
+    settings = mutableSettings;
+    
     if (post) {
         // Notify that we've changed!
         CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/settingschanged";
         if (toPost) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
     }
-    
-    [self reloadSettings]; // Reload!
 }
 
 +(id)getPreferenceKey:(NSString*)key {
@@ -489,17 +489,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     
     CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
     if (!keyList) {
-        NSLog(@"There's been an error getting the key list!");
-        return;
+        settings = [NSMutableDictionary dictionary];
+    } else {
+        CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+        
+        settings = [(__bridge NSDictionary *)dictionary copy];
+        CFRelease(dictionary);
+        CFRelease(keyList);
     }
-    
-    CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-    
-    settings = nil;
-    settings = [(__bridge NSDictionary *)dictionary copy];
-    
-    CFRelease(dictionary);
-    CFRelease(keyList);
     
     // Convert iOS 10 clock hiding if needed.
     id value = settings[@"hideClockTransferred10"];
@@ -510,23 +507,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         
         [self setPreferenceKey:@"hideClock10" withValue:[NSNumber numberWithInt:hideClock ? 2 : 0] andPost:YES];
         [self setPreferenceKey:@"hideClockTransferred10" withValue:[NSNumber numberWithBool:YES] andPost:YES];
-        
-        // AND AGAIN!
-        CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
-        
-        CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        if (!keyList) {
-            NSLog(@"There's been an error getting the key list!");
-            return;
-        }
-        
-        CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        
-        settings = nil;
-        settings = [(__bridge NSDictionary *)dictionary copy];
-        
-        CFRelease(dictionary);
-        CFRelease(keyList);
     }
     
     [self _migrateWidgetSettingsToRC5OrHigher];
@@ -592,24 +572,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         
         // Save new dictionary!
         [self setPreferenceKey:@"widgets" withValue:newWidgetPreferences andPost:YES];
-        
-        // And, reload!
-        CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
-        
-        CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        if (!keyList) {
-            NSLog(@"There's been an error getting the key list!");
-            return;
-        }
-        
-        CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        
-        settings = nil;
-        settings = [(__bridge NSDictionary *)dictionary copy];
-        
-        CFRelease(dictionary);
-        CFRelease(keyList);
-        
+
         XENlog(@"Migrated settings!");
     }
 }
