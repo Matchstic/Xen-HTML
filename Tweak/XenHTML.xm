@@ -2066,7 +2066,7 @@ void cancelIdleTimer() {
                 }
             }
         }
-    } else {
+    } else if (sbhtmlViewController) {
         [sbhtmlViewController unloadWidgets];
         [sbhtmlViewController.view removeFromSuperview];
         sbhtmlViewController = nil;
@@ -2494,7 +2494,11 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 #if TARGET_IPHONE_SIMULATOR==0
         UIView* viewToObserve = MSHookIvar<UIView*>(self, "_artworkView");
         if (viewToObserve) {
-            [viewToObserve removeObserver:self forKeyPath:@"hidden"];
+            @try {
+                [viewToObserve removeObserver:self forKeyPath:@"hidden"];
+            } @catch (NSException *e) {
+                // Probably weren't observing this then
+            }
         }
 #endif
     }
