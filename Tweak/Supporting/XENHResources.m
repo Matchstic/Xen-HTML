@@ -933,13 +933,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     // check .list and status files.
     
     BOOL listExists = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.matchstic.xenhtml.list"];
+    BOOL isRootless = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/containers/Bundle/.installed_rootlessJB3"];
     
     /*BOOL presentInStatusFile = NO;
     NSString *statusFile = [NSString stringWithContentsOfFile:@"/var/lib/dpkg/status" encoding:NSUTF8StringEncoding error:nil];
     
     presentInStatusFile = [statusFile containsString:@"com.matchstic.xenhtml"];*/
     
-    return listExists/* && presentInStatusFile*/;
+    return listExists || isRootless/* && presentInStatusFile*/;
 }
 
 @end
