@@ -17,7 +17,7 @@
  */
 
 #import "XENHRootController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import "XENHPHeaderView.h"
 
 @interface XENHRootController ()

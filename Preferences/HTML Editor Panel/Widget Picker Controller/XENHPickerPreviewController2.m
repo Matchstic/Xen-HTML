@@ -17,7 +17,7 @@
  */
 
 #import "XENHPickerPreviewController2.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface WKPreferences (Private)
 - (void)_setAllowFileAccessFromFileURLs:(BOOL)arg1;

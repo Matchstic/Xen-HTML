@@ -18,7 +18,7 @@
 #import "XENHPickerController2.h"
 #import "XENHPickerPreviewController2.h"
 #import "XENHPickerCell2.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 #define REUSE @"picker2"
 

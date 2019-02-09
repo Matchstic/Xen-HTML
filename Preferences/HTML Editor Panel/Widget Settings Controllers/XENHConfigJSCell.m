@@ -17,7 +17,7 @@
  */
 
 #import "XENHConfigJSCell.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @implementation XENHConfigJSCell
 

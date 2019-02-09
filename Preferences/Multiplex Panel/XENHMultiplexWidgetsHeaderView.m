@@ -17,7 +17,7 @@
  */
 
 #import "XENHMultiplexWidgetsHeaderView.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @implementation XENHMultiplexWidgetsHeaderView
 

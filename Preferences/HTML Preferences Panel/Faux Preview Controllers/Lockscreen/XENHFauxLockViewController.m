@@ -17,7 +17,7 @@
  */
 
 #import "XENHFauxLockViewController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import <objc/runtime.h>
 
 @interface XENHFauxLockViewController ()

@@ -17,7 +17,7 @@
  */
 
 #import "XENHLockscreenPreferenceController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHLockscreenPreferenceController ()
 

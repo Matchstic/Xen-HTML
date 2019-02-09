@@ -17,7 +17,7 @@
  */
 
 #import "XENHHomescreenPreferenceController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHHomescreenPreferenceController ()
 

@@ -23,7 +23,7 @@
 #import "XENHEditorToolbarController.h"
 #import "XENHEditorDragDropController.h"
 #import "XENHEditorPositioningController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
 

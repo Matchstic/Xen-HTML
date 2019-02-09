@@ -6,7 +6,7 @@
 //
 
 #import "XENHFallbackOnlyOptionsController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 #define REUSE @"fallbackCell"
 

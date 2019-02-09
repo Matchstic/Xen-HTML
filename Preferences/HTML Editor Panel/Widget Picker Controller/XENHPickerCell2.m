@@ -17,7 +17,7 @@
  */
 
 #import "XENHPickerCell2.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @implementation XENHPickerCell2
 

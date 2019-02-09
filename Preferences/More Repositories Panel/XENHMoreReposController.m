@@ -17,7 +17,7 @@
  */
 
 #import "XENHMoreReposController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import "XENHMoreReposCell.h"
 
 #define REUSE @"repoCell"

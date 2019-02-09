@@ -17,7 +17,7 @@
  */
 
 #import "XENHLSNotificationsController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHLSNotificationsController ()
 

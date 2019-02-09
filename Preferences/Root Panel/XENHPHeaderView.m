@@ -17,7 +17,7 @@
  */
 
 #import "XENHPHeaderView.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @implementation XENHPHeaderView
 

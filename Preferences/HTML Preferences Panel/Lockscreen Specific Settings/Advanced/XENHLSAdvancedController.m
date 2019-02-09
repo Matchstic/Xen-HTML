@@ -6,7 +6,7 @@
 //
 
 #import "XENHLSAdvancedController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHLSAdvancedController ()
 

@@ -17,7 +17,7 @@
  */
 
 #import "XENHConfigJSController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface UBClient: NSObject
 

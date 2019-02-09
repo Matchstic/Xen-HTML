@@ -18,7 +18,7 @@
 
 #import "XENHEditorToolbarController.h"
 #import "AYVibrantButton.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import "XENHTouchPassThroughView.h"
 
 /* Private headers */

@@ -17,7 +17,7 @@
  */
 
 #import "XENHMetadataOptionsController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHMetadataOptionsController ()
 

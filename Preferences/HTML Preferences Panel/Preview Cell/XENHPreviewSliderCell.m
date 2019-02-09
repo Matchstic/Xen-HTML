@@ -17,7 +17,7 @@
  */
 
 #import "XENHPreviewSliderCell.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHPreviewSliderCell ()
 @property (nonatomic, readwrite) int variant;

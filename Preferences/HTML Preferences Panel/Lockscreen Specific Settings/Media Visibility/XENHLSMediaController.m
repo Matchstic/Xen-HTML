@@ -17,7 +17,7 @@
  */
 
 #import "XENHLSMediaController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHLSMediaController ()
 

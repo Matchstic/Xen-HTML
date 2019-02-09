@@ -17,7 +17,7 @@
  */
 
 #import "XENHBaseHTMLPreferenceController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import "XENHEditorViewController.h"
 #import "XENHMultiplexWidgetsController.h"
 #import "XENHBasePreviewCell.h"

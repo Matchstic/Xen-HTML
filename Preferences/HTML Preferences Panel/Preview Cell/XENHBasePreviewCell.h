@@ -17,7 +17,7 @@
  */
 
 #import <Preferences/PSTableCell.h>
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHBasePreviewCell : PSTableCell <XENHPreviewCellStateDelegate>
 

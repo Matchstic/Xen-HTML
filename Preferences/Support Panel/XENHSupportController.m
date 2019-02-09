@@ -20,7 +20,7 @@
 #import <sys/utsname.h>
 #import <libMobileGestalt.h>
 #include <sys/stat.h>
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import <libGitHubIssues.h>
 #include <spawn.h>
 

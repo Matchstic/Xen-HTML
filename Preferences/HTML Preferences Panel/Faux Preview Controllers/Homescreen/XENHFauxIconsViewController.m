@@ -17,7 +17,7 @@
  */
 
 #import "XENHFauxIconsViewController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import <sys/utsname.h>
 
 @interface UIImage (ApplicationIcons)

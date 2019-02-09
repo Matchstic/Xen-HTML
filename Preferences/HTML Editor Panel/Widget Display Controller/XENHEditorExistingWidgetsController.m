@@ -7,7 +7,7 @@
 
 #import "XENHEditorExistingWidgetsController.h"
 #import "XENHEditorWebViewController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface CAFilter : NSObject
 +(NSArray*)filterTypes;

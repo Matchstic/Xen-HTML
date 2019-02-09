@@ -16,7 +16,7 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #include <notify.h>
 #import <UIKit/UIKit.h>
 #import "XENHFauxIconsViewController.h"

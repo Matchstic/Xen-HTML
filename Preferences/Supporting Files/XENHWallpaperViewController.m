@@ -17,7 +17,7 @@
  */
 
 #import "XENHWallpaperViewController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 #import <objc/runtime.h>
 
 @interface XENHWallpaperViewController ()

@@ -17,7 +17,7 @@
  */
 
 #import "XENHMultiplexWidgetsController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 #define REUSE @"multiplexCell"
 

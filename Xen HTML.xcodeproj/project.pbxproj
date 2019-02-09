@@ -52,7 +52,7 @@
 		C947756B20715D150003D039 /* XENHTouchPassThroughView.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750520715D150003D039 /* XENHTouchPassThroughView.h */; };
 		C947756D20715D150003D039 /* XENHLSNotificationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947750720715D150003D039 /* XENHLSNotificationsController.m */; };
 		C947756E20715D150003D039 /* XENHSupportController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750820715D150003D039 /* XENHSupportController.h */; };
-		C947756F20715D150003D039 /* XENHResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750A20715D150003D039 /* XENHResources.h */; };
+		C947756F20715D150003D039 /* XENHPResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750A20715D150003D039 /* XENHPResources.h */; };
 		C947757120715D150003D039 /* XENHEditorPositioningController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947750D20715D150003D039 /* XENHEditorPositioningController.m */; };
 		C947757220715D150003D039 /* XENHEditorWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947750E20715D150003D039 /* XENHEditorWebViewController.m */; };
 		C947757320715D150003D039 /* XENHEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947750F20715D150003D039 /* XENHEditorViewController.m */; };
@@ -203,7 +203,7 @@
 		C947750520715D150003D039 /* XENHTouchPassThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTouchPassThroughView.h; sourceTree = "<group>"; };
 		C947750720715D150003D039 /* XENHLSNotificationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHLSNotificationsController.m; sourceTree = "<group>"; };
 		C947750820715D150003D039 /* XENHSupportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHSupportController.h; sourceTree = "<group>"; };
-		C947750A20715D150003D039 /* XENHResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHResources.h; sourceTree = "<group>"; };
+		C947750A20715D150003D039 /* XENHPResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XENHPResources.h; path = "Preferences/Supporting Files/XENHPResources.h"; sourceTree = SOURCE_ROOT; };
 		C947750D20715D150003D039 /* XENHEditorPositioningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHEditorPositioningController.m; sourceTree = "<group>"; };
 		C947750E20715D150003D039 /* XENHEditorWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHEditorWebViewController.m; sourceTree = "<group>"; };
 		C947750F20715D150003D039 /* XENHEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHEditorViewController.m; sourceTree = "<group>"; };
@@ -722,7 +722,7 @@
 			isa = PBXGroup;
 			children = (
 				C947753820715D150003D039 /* Third-Party Libraries */,
-				C947750A20715D150003D039 /* XENHResources.h */,
+				C947750A20715D150003D039 /* XENHPResources.h */,
 				C947753120715D150003D039 /* XENHResources.m */,
 				C947750520715D150003D039 /* XENHTouchPassThroughView.h */,
 				C947752B20715D150003D039 /* XENHTouchPassThroughView.m */,
@@ -883,7 +883,7 @@
 				C947756920715D150003D039 /* XENHPHeaderView.h in Headers */,
 				C947758C20715D150003D039 /* XENHMoreReposController.h in Headers */,
 				C94775A820715D160003D039 /* XENHBaseHTMLPreferenceController.h in Headers */,
-				C947756F20715D150003D039 /* XENHResources.h in Headers */,
+				C947756F20715D150003D039 /* XENHPResources.h in Headers */,
 				C94775AC20715D160003D039 /* XENHBasePreviewCell.h in Headers */,
 				C947759620715D160003D039 /* XENHLSVisibilityController.h in Headers */,
 				C947759820715D160003D039 /* XENHLSNotificationsController.h in Headers */,
@@ -983,7 +983,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
 		};
 		C911F1D01C1E051300D4D582 /* Strip symbols */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1038,7 +1038,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1334,11 +1334,13 @@
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
 				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -1373,11 +1375,13 @@
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
 				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -1408,11 +1412,13 @@
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
 				);
+				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;

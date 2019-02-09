@@ -17,7 +17,7 @@
  */
 
 #import "XENHEditorDragDropController.h"
-#import "XENHResources.h"
+#import "XENHPResources.h"
 
 @interface XENHEditorDragDropController ()
 
