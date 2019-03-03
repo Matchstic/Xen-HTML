@@ -2995,6 +2995,29 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
+%group backboardd
+
+#pragma mark Haxx for WebGL on the Lockscreen
+
+%hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *var1, const void *var2) {
+    
+    /*
+     * WARNING
+     *
+     * This is horrible, I do not like this.
+     * One approach attempted was to hook calls to CA::Render::Context::process_name() from
+     * the original implementation of this method. Fun with return values meant this was not working
+     * as expected.
+     *
+     * Therefore... this is now disabling some security mechanism that I don't know all the details of.
+     * Not cool, but, whatever for now.
+     */
+    
+    return YES;
+}
+
+%end
+
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
     NSDictionary *oldSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
@@ -3075,6 +3098,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    BOOL backboardd = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (sb) {
         // We need the setup UI to always be accessible.
@@ -3110,5 +3134,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/sbconfigchanged"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidRequestRespring, CFSTR("com.matchstic.xenhtml/wantsrespring"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
+    } else if (backboardd) {
+        %init(backboardd);
     }
 }
