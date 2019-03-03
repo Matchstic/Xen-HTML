@@ -346,7 +346,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class _NowPlayingArtView; @class SBLockScreenNotificationListController; @class SBApplication; @class PHContainerView; @class SBManualIdleTimer; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenNotificationListView; @class UITouchesEvent; @class SBUIProudLockIconView; @class SBScreenWakeAnimationController; @class XENDashBoardWebViewController; @class SpringBoard; @class SBCoverSheetWindow; @class SBFLockScreenDateView; @class SBUIController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardCombinedListViewController; @class SBDashBoardMainPageViewController; @class SBIconView; @class SBDashBoardQuickActionsViewController; @class SBDashBoardMainPageView; @class SBHomeScreenViewController; @class SBAlertWindow; @class SBRootFolderView; @class SBLockScreenManager; @class SBBacklightController; @class XENResources; @class SBFloatingDockPlatterView; @class SBMainSwitcherViewController; @class SBDashBoardViewController; @class SBMainWorkspace; @class WKWebView; @class UIWebView; @class SBHomeScreenView; @class SBLockScreenBounceAnimator; @class SBDashBoardMainPageContentViewController; @class SBDashBoardTeachableMomentsContainerView; @class SBIdleTimerDefaults; @class SBLockScreenView; @class SBDashBoardPageViewController; @class SBFLockScreenMetrics; @class SBDashBoardNotificationListViewController; @class XENNotificationsCollectionViewController; @class SBDashBoardFixedFooterView; @class SBUICallToActionLabel; @class SBLockScreenViewController; @class SBDashBoardMediaArtworkViewController; @class UITouch; @class SBFolderIconBackgroundView; @class SBDashBoardNotificationAdjunctListViewController; @class SBMainStatusBarStateProvider; @class SBDockView; @class SBPagedScrollView; @class SBDashBoardView; 
+@class SBRootFolderView; @class SBDashBoardMainPageContentViewController; @class SpringBoard; @class SBDashBoardMainPageViewController; @class WKWebView; @class UIWebView; @class SBDashBoardViewController; @class SBDashBoardNotificationListViewController; @class SBLockScreenManager; @class SBIconView; @class UITouch; @class SBFLockScreenMetrics; @class SBLockScreenView; @class SBUIController; @class SBDockView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBFolderIconBackgroundView; @class SBMainWorkspace; @class SBPagedScrollView; @class SBMainStatusBarStateProvider; @class SBFloatingDockPlatterView; @class SBManualIdleTimer; @class XENResources; @class SBLockScreenNotificationListView; @class PHContainerView; @class SBDashBoardNotificationAdjunctListViewController; @class SBAlertWindow; @class SBLockScreenBounceAnimator; @class SBDashBoardView; @class SBDashBoardTeachableMomentsContainerView; @class _NowPlayingArtView; @class SBFLockScreenDateView; @class SBScreenWakeAnimationController; @class SBUIProudLockIconView; @class SBHomeScreenView; @class SBCoverSheetWindow; @class UITouchesEvent; @class SBDashBoardMediaArtworkViewController; @class SBHomeScreenViewController; @class SBHorizontalScrollFailureRecognizer; @class SBBacklightController; @class SBDashBoardMainPageView; @class SBApplication; @class SBDashBoardQuickActionsViewController; @class SBIdleTimerDefaults; @class SBDashBoardCombinedListViewController; @class SBUICallToActionLabel; @class XENDashBoardWebViewController; @class SBDashBoardPageViewController; @class XENNotificationsCollectionViewController; @class SBMainSwitcherViewController; @class SBDashBoardFixedFooterView; @class SBLockScreenViewController; @class SBLockScreenNotificationListController; 
 
 
 #line 327 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -3021,6 +3021,26 @@ static _Bool _logos_method$Setup$SBLockScreenManager$_finishUIUnlockFromSource$w
 
 
 
+
+
+#pragma mark Haxx for WebGL on the Lockscreen
+
+__unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *var1, const void *var2); __unused static BOOL _logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *var1, const void *var2) {
+    
+    
+
+
+
+
+
+
+
+    
+    return YES;
+}
+
+
+
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
     NSDictionary *oldSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
@@ -3095,12 +3115,13 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_26a4aaf9(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_539bbd7f(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    BOOL backboardd = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (sb) {
         
@@ -3136,5 +3157,8 @@ static __attribute__((constructor)) void _logosLocalCtor_26a4aaf9(int __unused a
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/sbconfigchanged"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidRequestRespring, CFSTR("com.matchstic.xenhtml/wantsrespring"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
+    } else if (backboardd) {
+        XENlog(@"Loading into %@", [[NSBundle mainBundle] bundleIdentifier]);
+        { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
     }
 }
