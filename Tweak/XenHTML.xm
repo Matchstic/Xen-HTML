@@ -319,6 +319,9 @@
 static void hideForegroundForLSNotifIfNeeded();
 static void showForegroundForLSNotifIfNeeded();
 
+static void hideForegroundIfNeeded();
+static void showForegroundIfNeeded();
+
 void resetIdleTimer();
 void cancelIdleTimer();
 
@@ -521,6 +524,15 @@ static BOOL refuseToLoadDueToRehosting = NO;
             [iOS10ForegroundWrapperController setWebView:foregroundViewController.view];
             
             [dashBoardMainPageContentViewController presentContentViewController:iOS10ForegroundWrapperController animated:NO];
+            
+            BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
+            if (canHideForeground) {
+                XENlog(@"Should hide foreground on LS webview init");
+                hideForegroundIfNeeded();
+            } else {
+                XENlog(@"Should show foreground on LS webview init");
+                showForegroundIfNeeded();
+            }
         }
         
         // Now for the background.
@@ -585,8 +597,12 @@ static BOOL refuseToLoadDueToRehosting = NO;
             iOS10ForegroundWrapperController = nil;
         }
         
-        [foregroundHiddenRequesters removeAllObjects];
-        foregroundHiddenRequesters = nil;
+        
+        // Don't reset the hidden requesters on iOS 12 for weirdness reasons
+        if ([UIDevice currentDevice].systemVersion.floatValue < 12.0) {
+            [foregroundHiddenRequesters removeAllObjects];
+            foregroundHiddenRequesters = nil;
+        }
         
         lsBackgroundForwarder = nil;
     }
@@ -2323,9 +2339,6 @@ void cancelIdleTimer() {
     NSString *url = [self.request.URL absoluteString];
     NSString *errorString = [NSString stringWithFormat: @"Exception at %@, in function: %@ line: %@", url , [frame functionName], [NSNumber numberWithInt: line]];
     
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Widget Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [av show];
-    
     XENlog(errorString);
     
     %orig;
@@ -2334,9 +2347,6 @@ void cancelIdleTimer() {
 - (void)webView:(WebView *)webView failedToParseSource:(NSString *)source baseLineNumber:(unsigned)line fromURL:(NSURL *)url withError:(NSError *)error forWebFrame:(WebFrame *)webFrame {
     NSString *urlstr = [url absoluteString];
     NSString *errorString = [NSString stringWithFormat: @"Failed to parse source at %@, line: %@\n\n%@", urlstr, [NSNumber numberWithInt:line], error];
-    
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Widget Error" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [av show];
     
     XENlog(errorString);
     
@@ -2678,13 +2688,18 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-#pragma mark Properly handle media controls and notification on lockscreen (iOS 11)
+#pragma mark Properly handle media controls and notification on lockscreen (iOS 11+)
 
 // Media control visibility
 %hook SBDashBoardNotificationAdjunctListViewController
 
 - (void)_updateMediaControlsVisibilityAnimated:(BOOL)arg1 {
     %orig;
+    
+    // iOS 12+ treats the media controls as notification content.
+    BOOL isiOS11 = [[[UIDevice currentDevice] systemVersion] floatValue] < 12.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0;
+    if (!isiOS11)
+        return;
     
     BOOL showing = self.showingMediaControls;
     BOOL shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForMedia];
@@ -2706,7 +2721,13 @@ static void showForegroundForLSNotifIfNeeded() {
 - (void)_setListHasContent:(_Bool)arg1 {
     %orig;
     
-    BOOL shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForNotifications];
+    BOOL shouldHide = NO;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 12.0)
+        shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForNotifications];
+    else
+        shouldHide = [XENHResources LSFadeForegroundForNotifications];
+    
     if (shouldHide) {
         if (arg1) {
             addForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
@@ -3125,7 +3146,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         dlopen("/Library/MobileSubstrate/DynamicLibraries/PriorityHub.dylib", RTLD_NOW);
         
         // XXX: Also load up the NowPlaying artwork code, so that we can hook it correctly later on.
-        dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", 2);
+        dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", RTLD_NOW);
         
         %init(SpringBoard);
         
