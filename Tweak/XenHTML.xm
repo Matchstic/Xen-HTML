@@ -27,15 +27,14 @@
 #import "XENSetupWindow.h"
 #import <objc/runtime.h>
 
-#pragma mark Comment in/out for Simulator support!
+#pragma mark Simulator support
 
-//%config(generator=internal);
+// %config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
  1. Make CydiaSubstrate linking required
- 2. Turn on symbol stripping
- 3. Change build target
+ 2. Change build target
  
  Note: the simulator *really* doesn't like MSHookIvar.
  */
@@ -1599,10 +1598,43 @@ void cancelIdleTimer() {
 
 %hook SBIdleTimerDefaults
 
--(double)minimumLockscreenIdleTime {
+- (void)_bindAndRegisterDefaults {
+    %orig;
+    
+    /*
+     * Now this was an interesting one to figure out.
+     *
+     * As part of the implementation of this method, Apple goes and binds
+     * a default value to the various properties this class presents.
+     *
+     * When hooking minimumLockscreenIdleTime directly, this binding
+     * has the effect of overwriting the newly hooked method with a singular
+     * value, but only with Substrate. Substitute happily ignores this, and still
+     * ensures any call to minimumLockscreenIdleTime is handled by the hooked version.
+     *
+     * To get around this, I'm using some ObjC swizzling to point at my "hooked" function
+     * when the binding is done with at runtime.
+     */
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class clazz = objc_getClass("SBIdleTimerDefaults");
+        
+        SEL originalSelector = @selector(minimumLockscreenIdleTime);
+        SEL swizzledSelector = @selector(_xenhtml_minimumLockscreenIdleTime);
+        
+        Method originalMethod = class_getInstanceMethod(clazz, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(clazz, swizzledSelector);
+        
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
+}
+
+%new
+-(CGFloat)_xenhtml_minimumLockscreenIdleTime {
     // This is iOS 11 onwards
     if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
-        return %orig;
+        return 0;
     }
     
     if ([XENHResources lsenabled]) {
@@ -1613,7 +1645,7 @@ void cancelIdleTimer() {
         return 1000;
     }
     
-    return %orig;
+    return 0;
 }
 
 %end
@@ -3149,6 +3181,9 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", RTLD_NOW);
         
         %init(SpringBoard);
+        
+        Class sBIdleTimerDefaults = objc_getClass("SBIdleTimerDefaults");
+        XENlog(@"Sanity check: %@", sBIdleTimerDefaults);
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);
