@@ -349,7 +349,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBApplication; @class SBDashBoardMainPageView; @class SBAlertWindow; @class SBRootFolderView; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenView; @class UITouch; @class SBUICallToActionLabel; @class SBFloatingDockPlatterView; @class SBDashBoardMainPageContentViewController; @class SBBacklightController; @class SBMainSwitcherViewController; @class SBLockScreenNotificationListView; @class SBScreenWakeAnimationController; @class SBUIController; @class SBDashBoardFixedFooterView; @class SBCoverSheetWindow; @class SBLockScreenManager; @class SBDockView; @class SBPagedScrollView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBDashBoardPageViewController; @class SBDashBoardMainPageViewController; @class SpringBoard; @class SBDashBoardView; @class SBFLockScreenDateView; @class XENResources; @class UIWebView; @class SBIconView; @class SBIdleTimerDefaults; @class SBLockScreenBounceAnimator; @class SBDashBoardQuickActionsViewController; @class SBDashBoardMediaArtworkViewController; @class SBHomeScreenView; @class SBManualIdleTimer; @class SBHomeScreenViewController; @class SBMainWorkspace; @class SBUIProudLockIconView; @class SBDashBoardTeachableMomentsContainerView; @class UITouchesEvent; @class SBFLockScreenMetrics; @class SBDashBoardViewController; @class WKWebView; @class SBDashBoardNotificationListViewController; @class XENDashBoardWebViewController; @class PHContainerView; @class SBFolderIconBackgroundView; @class SBDashBoardCombinedListViewController; @class _NowPlayingArtView; @class SBDashBoardNotificationAdjunctListViewController; @class SBLockScreenNotificationListController; @class SBLockScreenViewController; @class XENNotificationsCollectionViewController; @class SBMainStatusBarStateProvider; 
+@class SBHomeScreenViewController; @class SBFLockScreenMetrics; @class SBUICallToActionLabel; @class UITouchesEvent; @class SBDashBoardMediaArtworkViewController; @class SBIconView; @class PHContainerView; @class SBMainSwitcherViewController; @class SBAlertWindow; @class SBDashBoardNotificationAdjunctListViewController; @class SBUIProudLockIconView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class _NowPlayingArtView; @class SBDashBoardMainPageView; @class SBDashBoardMainPageContentViewController; @class SBDashBoardMainPageViewController; @class SBDashBoardCombinedListViewController; @class SBHorizontalScrollFailureRecognizer; @class SpringBoard; @class SBDashBoardPageViewController; @class SBDashBoardViewController; @class UIWebView; @class SBApplication; @class SBMainStatusBarStateProvider; @class SBRootFolderView; @class SBLockScreenNotificationListView; @class SBDashBoardFixedFooterView; @class XENDashBoardWebViewController; @class SBUIController; @class SBCoverSheetWindow; @class SBBacklightController; @class SBDashBoardTeachableMomentsContainerView; @class WKWebView; @class SBLockScreenBounceAnimator; @class SBFloatingDockPlatterView; @class SBDashBoardQuickActionsViewController; @class SBDockView; @class SBLockScreenViewController; @class XENResources; @class SBManualIdleTimer; @class SBFolderIconBackgroundView; @class SBScreenWakeAnimationController; @class SBDashBoardView; @class SBLockScreenNotificationListController; @class SBPagedScrollView; @class SBLockScreenManager; @class SBFLockScreenDateView; @class XENNotificationsCollectionViewController; @class SBDashBoardNotificationListViewController; @class SBHomeScreenView; @class SBMainWorkspace; @class SBLockScreenView; @class UITouch; @class SBIdleTimerDefaults; 
 
 
 #line 330 "/Users/matt/iOS/Projects/Xen-HTML/Tweak/XenHTML.xm"
@@ -762,7 +762,7 @@ static void _logos_method$SpringBoard$SBDashBoardMainPageViewController$aggregat
 
 
 
-#pragma mark Hide clock (iOS 11)
+#pragma mark Hide clock (iOS 11+)
 
 
 
@@ -773,38 +773,6 @@ static void _logos_method$SpringBoard$SBDashBoardMainPageContentViewController$a
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
         return;
     }
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     SBDashBoardComponent *dateView;
     
@@ -820,8 +788,6 @@ static void _logos_method$SpringBoard$SBDashBoardMainPageContentViewController$a
     } else if (![XENHResources lsenabled] || [XENHResources _hideClock10] != 1) {
         dateView.hidden = NO;
     }
-    
-    XENlog(@"DateView appearance: %@", dateView);
 }
 
 
@@ -2090,9 +2056,8 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$_animateTransit
     _logos_orig$SpringBoard$SBHomeScreenViewController$_animateTransitionToSize$andInterfaceOrientation$withTransitionContext$(self, _cmd, size, orientation, transitionContext);
     
     
-    if ([XENHResources SBEnabled]) {
+    if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
         [XENHResources setCurrentOrientation:orientation];
-        
         [sbhtmlViewController rotateToOrientation:orientation];
     }
 }
@@ -3189,7 +3154,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_a069a911(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_8f2e6002(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"Injecting Xen HTML");
     
     {}

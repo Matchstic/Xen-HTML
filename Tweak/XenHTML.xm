@@ -2029,10 +2029,9 @@ void cancelIdleTimer() {
 - (void)_animateTransitionToSize:(CGSize)size andInterfaceOrientation:(int)orientation withTransitionContext:(id)transitionContext {
     %orig;
     
-    // Rotate
-    if ([XENHResources SBEnabled]) {
+    // Rotate if possible
+    if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
         [XENHResources setCurrentOrientation:orientation];
-        
         [sbhtmlViewController rotateToOrientation:orientation];
     }
 }
