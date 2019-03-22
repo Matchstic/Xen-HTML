@@ -222,6 +222,7 @@
 + (id)dateView;
 @property(nonatomic) CGPoint offset;
 @property(nonatomic) long long type;
+@property(nonatomic, getter=isHidden) _Bool hidden;
 - (id)offset:(CGPoint)arg1;
 - (id)legibilitySettings:(id)arg1;
 - (id)view:(id)arg1;
@@ -735,7 +736,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Hide clock (iOS 11)
+#pragma mark Hide clock (iOS 11+)
 
 %hook SBDashBoardMainPageContentViewController
 
@@ -747,36 +748,19 @@ static BOOL refuseToLoadDueToRehosting = NO;
         return;
     }
     
+    SBDashBoardComponent *dateView;
+    
+    for (SBDashBoardComponent *component in arg1.components) {
+        if (component.type == 1) {
+            dateView = component;
+            break;
+        }
+    }
+    
     if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 1) {
-        SBDashBoardComponent *dateView;
-        
-        for (SBDashBoardComponent *component in arg1.components) {
-            if (component.type == 1) {
-                dateView = component;
-                break;
-            }
-        }
-        
-        [arg1 removeComponent:dateView];
-        
-        dateView = [[objc_getClass("SBDashBoardComponent") dateView] hidden:YES];
-        [arg1 addComponent:dateView];
-        
-    // Make sure to re-enable LS clock if needed
+        dateView.hidden = YES;
     } else if (![XENHResources lsenabled] || [XENHResources _hideClock10] != 1) {
-        SBDashBoardComponent *dateView;
-        
-        for (SBDashBoardComponent *component in arg1.components) {
-            if (component.type == 1) {
-                dateView = component;
-                break;
-            }
-        }
-        
-        [arg1 removeComponent:dateView];
-        
-        dateView = [[objc_getClass("SBDashBoardComponent") dateView] hidden:NO];
-        [arg1 addComponent:dateView];
+        dateView.hidden = NO;
     }
 }
 
