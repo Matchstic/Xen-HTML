@@ -132,7 +132,9 @@
                 NSMutableArray *titles = [NSMutableArray array];
                 
                 NSDictionary *options = [item objectForKey:@"options"];
-                for (NSString *key in [options allKeys]) {
+                NSArray *allKeys = [self sortedKeysForDictionary:options];
+                
+                for (NSString *key in allKeys) {
                     [titles addObject:key];
                     [values addObject:[options objectForKey:key]];
                 }
@@ -231,6 +233,13 @@
 
 -(NSDictionary*)currentOptions {
     return _options;
+}
+
+- (NSArray *)sortedKeysForDictionary:(NSDictionary *)dict {
+    NSArray *keys = [dict allKeys];
+    NSMutableArray *anArray = [NSMutableArray arrayWithArray:keys];
+    keys = [anArray sortedArrayUsingSelector:@selector(localizedCompare:)];
+    return keys;
 }
 
 @end

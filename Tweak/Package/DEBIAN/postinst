@@ -1,12 +1,6 @@
 #!/bin/bash
 
 echo "===================================="
-echo "Clearing caches..."
-uicache > /dev/null 2>&1
-echo "Caches cleared."
-
-echo "	"
-echo "===================================="
 echo "Fixing widget permissions if needed..."
 chown -R mobile:mobile /var/mobile/Library/LockHTML 2>&1
 chown -R mobile:mobile /var/mobile/Library/SBHTML 2>&1
@@ -17,6 +11,14 @@ chmod -R 0755 /var/mobile/Library/SBHTML 2>&1
 chmod -R 0755 /var/mobile/Library/iWidgets 2>&1
 echo "Fixed permissions."
 echo "Re-install Xen HTML if you experience the 'fix permissions' alert when changing widget settings."
+
+# Add symlinks
+ln -s "/var/mobile/Library/LockHTML/Background | Kaleidoscope" "/var/mobile/Library/SBHTML/Background | Kaleidoscope"
+ln -s "/var/mobile/Library/LockHTML/Background | Particles" "/var/mobile/Library/SBHTML/Background | Particles"
+
+# Add to the .list file
+echo "/var/mobile/Library/SBHTML/Background | Kaleidoscope" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
+echo "/var/mobile/Library/SBHTML/Background | Particles" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
 
 echo "	"
 echo "===================================="
