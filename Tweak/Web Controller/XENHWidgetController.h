@@ -19,6 +19,10 @@
 #import <WebKit/WebKit.h>
 #import <UIKit/UIKit.h>
 #import "XENHTouchPassThroughView.h"
+#import "XENHButton.h"
+#import "XENHCloseButton.h"
+
+#import "XENHWidgetEditingDelegate.h"
 
 @interface XENHWidgetController : UIViewController <WKNavigationDelegate, XENHTouchPassThroughViewDelegate>
 
@@ -28,6 +32,7 @@
 
 // Widget-specific data
 @property (nonatomic, strong) NSString *widgetIndexFile;
+@property (nonatomic, strong) NSString *_rawWidgetIndexFile;
 @property (nonatomic, strong) NSDictionary *widgetMetadata;
 @property (nonatomic, readwrite) BOOL usingLegacyWebView;
 
@@ -37,6 +42,9 @@
 // Offscreen rendering
 @property (nonatomic, strong) UIView *_offscreenRenderingView;
 @property (nonatomic, readwrite) BOOL _hasMovedWebViewOnscreen;
+
+// Editing
+@property (nonatomic, weak) id<XENHWidgetEditingDelegate> editingDelegate;
 
 // Initialisation
 - (instancetype)init;
@@ -50,6 +58,9 @@
 // Pause handling
 -(void)setPaused:(BOOL)paused;
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated;
+
+// Editing mode (for iWidgets mode)
+- (void)setEditing:(BOOL)editing;
 
 // Lifecycle handling
 - (void)unloadWidget;

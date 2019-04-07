@@ -151,6 +151,7 @@
     
     // Handle safe area - views
     if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")]) {
+        
         XENlog(@"Not forwarding touch; touchView is not SBRootIconListView");
         return NO;
     }

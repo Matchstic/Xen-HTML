@@ -1,9 +1,9 @@
 ---
-archs:           [ armv7, arm64 ]
+archs:           [ armv7, arm64, i386, x86_64 ]
 platform:        ios
 install-name:    /usr/lib/libGitHubIssues.dylib
 exports:         
-  - archs:           [ armv7, arm64 ]
+  - archs:           [ armv7, arm64, i386, x86_64 ]
     symbols:         []
     objc-classes:    [ _GICommentComposeController, 
                        _GIIssueComposeController, _GIIssueDetailTableController, 

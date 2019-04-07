@@ -17,10 +17,22 @@
  */
 
 #import "XENHTouchPassThroughView.h"
+#import "XENHResources.h"
 
 @implementation XENHTouchPassThroughView
 
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // Allow any "overhanging" views to respond
+    if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
+        for (UIView *subview in self.subviews.reverseObjectEnumerator) {
+            CGPoint subPoint = [subview convertPoint:point fromView:self];
+            UIView *result = [subview hitTest:subPoint withEvent:event];
+            if (result != nil) {
+                return result;
+            }
+        }
+    }
+    
     UIView *view = [super hitTest:point withEvent:event];
     if ([view isEqual:self]) {
         view = nil;

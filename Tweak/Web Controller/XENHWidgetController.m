@@ -37,7 +37,22 @@ extern char **environ;
 - (bool)touchesShouldCancelInContentView:(UIView*)arg1;
 @end
 
+@interface _UIBackdropView : UIView
+- (instancetype)initWithStyle:(int)style;
+@end
+
+@interface MTMaterialView : UIView
++ (MTMaterialView*)materialViewWithRecipe:(long long)arg1 options:(unsigned long long)arg2;
+@end
+
 @interface XENHWidgetController ()
+
+// Editing mode
+@property (nonatomic, strong) UIView *editingBackground;
+@property (nonatomic, strong) UIView *editingPositioningBackground;
+@property (nonatomic, strong) XENHButton *editingSettingsButton;
+@property (nonatomic, strong) XENHCloseButton *editingRemoveButton;
+@property (nonatomic, strong) UIPanGestureRecognizer *editingPanGesture;
 
 @end
 
@@ -90,6 +105,42 @@ static UIWindow *sharedOffscreenRenderingWindow;
     self.view.tag = 12345;
     
     [(XENHTouchPassThroughView*)self.view setDelegate:self];
+    
+    // Setup the editing buttons
+    // TODO: LOCALISE ME
+    self.editingSettingsButton = [[XENHButton alloc] initWithTitle:@"Settings"];
+    [self.editingSettingsButton addTarget:self
+                                action:@selector(_editingSettingsButtonTapped:)
+                      forControlEvents:UIControlEventTouchUpInside];
+    
+    // Hide until in editing mode
+    self.editingSettingsButton.hidden = YES;
+    
+    // TODO: Change to a proper SBCloseBox
+    self.editingRemoveButton = [[XENHCloseButton alloc] initWithTitle:@""];
+    [self.editingRemoveButton addTarget:self
+                                   action:@selector(_editingRemoveButtonTapped:)
+                         forControlEvents:UIControlEventTouchUpInside];
+    
+    // Hide until in editing mode
+    self.editingRemoveButton.hidden = YES;
+    
+    // Using a UIView here since it needs to respond to touch hittests for positioning
+    self.editingBackground = [[UIView alloc] initWithFrame:CGRectZero];
+    self.editingBackground.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+    self.editingBackground.hidden = YES;
+    self.editingBackground.userInteractionEnabled = YES;
+    self.editingBackground.layer.cornerRadius = 12.5;
+    self.editingBackground.tag = 1337;
+    
+    [self.view addSubview:self.editingBackground];
+    [self.view addSubview:self.editingSettingsButton];
+    [self.view addSubview:self.editingRemoveButton];
+    
+    self.editingPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingPan:)];
+    self.editingPanGesture.minimumNumberOfTouches = 1;
+    
+    [self.editingBackground addGestureRecognizer:self.editingPanGesture];
 }
 
 - (void)dealloc {
@@ -113,6 +164,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Therefore, we need to check if this is the case BEFORE updating our internal property
     // holding this location.
     
+    self._rawWidgetIndexFile = widgetIndexFile;
+    
     if ([widgetIndexFile hasPrefix:@":"]) {
         // Read the string up to the first /, then strip off the : prefix.
         NSRange range = [widgetIndexFile rangeOfString:@"/"];
@@ -132,7 +185,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
         // Load using UIWebView
         XENlog(@"Loading using fallback method to support Cycript etc");
         [self _loadLegacyWebView];
-        [self.view addSubview:self.legacyWebView];
+        [self.view insertSubview:self.legacyWebView aboveSubview:self.editingBackground];
     } else {
         XENlog(@"Loading via WKWebView");
         // Load using WKWebView
@@ -412,6 +465,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         self.webView.scrollView.scrollEnabled = NO;
     }
+    
+    // Editing buttons
+    self.editingRemoveButton.frame = CGRectMake(-12, -12, self.editingRemoveButton.frame.size.width, self.editingRemoveButton.frame.size.height);
+    
+    CGFloat settingsX = self.editingRemoveButton.frame.origin.x + self.editingRemoveButton.frame.size.width + 8;
+    self.editingSettingsButton.frame = CGRectMake(settingsX, -12, self.editingSettingsButton.frame.size.width, self.editingSettingsButton.frame.size.height);
+    
+    self.editingBackground.frame = rect;
+    self.editingPositioningBackground.frame = rect;
 }
 
 - (void)rotateToOrientation:(int)orient {
@@ -484,7 +546,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (void)reloadWidget {
-    [self configureWithWidgetIndexFile:self.widgetIndexFile andMetadata:self.widgetMetadata];
+    [self configureWithWidgetIndexFile:self._rawWidgetIndexFile andMetadata:self.widgetMetadata];
 }
 
 - (void)_unloadWebView {
@@ -527,7 +589,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
         && self._hasMovedWebViewOnscreen == NO
         && [self.webView.superview isEqual:self._offscreenRenderingView]) {
         
-        [self.view addSubview:self.webView];
+        [self.view insertSubview:self.webView aboveSubview:self.editingBackground];
         
         self._hasMovedWebViewOnscreen = YES;
         
@@ -537,7 +599,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 - (void)renderWebViewOffscreen:(WKWebView *)webView {
     if (self.view.window) {
-        [self.view addSubview:webView];
+        [self.view insertSubview:webView aboveSubview:self.editingBackground];
         return;
     }
     
@@ -739,6 +801,172 @@ static UIWindow *sharedOffscreenRenderingWindow;
     if (webView != nil && webView.hidden == NO) {
         [self reloadWidget];
     }
+}
+
+// **************************************************************************
+/////////////////////////////////////////////////////////////////////////////
+// Widget editing
+/////////////////////////////////////////////////////////////////////////////
+// **************************************************************************
+
+- (void)setEditing:(BOOL)editing {
+    // TODO: Animate in the editing buttons
+    self.editingSettingsButton.hidden = !editing;
+    self.editingRemoveButton.hidden = !editing;
+    self.editingBackground.hidden = !editing;
+    
+    // Disable webview touches to allow positioning
+    self.webView.userInteractionEnabled = !editing;
+    self.legacyWebView.userInteractionEnabled = !editing;
+}
+
+- (void)_editingSettingsButtonTapped:(id)sender {
+    // Request settings to be re-displayed for this widget
+    if (self.editingDelegate)
+        [self.editingDelegate requestSettingsAdjustmentForWidget:self._rawWidgetIndexFile];
+}
+
+- (void)_editingRemoveButtonTapped:(id)sender {
+    // Request this widget to be removed
+    if (self.editingDelegate)
+        [self.editingDelegate requestRemoveWidget:self._rawWidgetIndexFile];
+}
+
+/////////////////////////////////////////////////////////////////////////////
+#pragma mark UIPanGestureRecongizer delegate
+/////////////////////////////////////////////////////////////////////////////
+
+-(void)handleEditingPan:(UIPanGestureRecognizer*)gesture {
+    
+    static CGPoint gestureStartPoint;
+    static CGPoint viewStartCenter;
+    static NSTimer *pageEdgeTimer;
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        
+        // Notify delegate of positioning start
+        [self.editingDelegate notifyWidgetPositioningDidBegin:self];
+        
+        gestureStartPoint = [gesture locationInView:self.view.superview];
+        viewStartCenter = self.view.center;
+        
+        // Add some sweet styling now that this widget is rolling
+        [self _addEditingPositioningBackdrop];
+        self.editingBackground.backgroundColor = [UIColor clearColor];
+        
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        // Cancel page edge timer due to user movement
+        if (pageEdgeTimer)
+            [pageEdgeTimer invalidate];
+        
+        // Move around on-screen.
+        CGPoint currentGesturePoint = [gesture locationInView:self.view.superview];
+        
+        CGFloat xOffset = currentGesturePoint.x - gestureStartPoint.x;
+        CGFloat yOffset = currentGesturePoint.y - gestureStartPoint.y;
+        
+        self.view.center = CGPointMake(viewStartCenter.x + xOffset, viewStartCenter.y + yOffset);
+        
+        BOOL shouldSnapToGuides = YES;
+        if (shouldSnapToGuides) {
+            CGFloat center = self.view.superview.bounds.size.width/2;
+            
+            CGFloat mainViewX = viewStartCenter.x + xOffset;
+            
+            // The editing background displayed to the user is on the top-left of the
+            // actual view displayed by the controller; it is partially touchable.
+            
+            // Therefore, we need to counter-act this fact when trying to snap visually to
+            // the X axis.
+            
+            CGFloat adjustment = (self.view.frame.size.width/2) - (self.editingBackground.frame.size.width/2);
+            mainViewX -= adjustment;
+            
+            if (mainViewX > center-10 && mainViewX < center+10) {
+                // SNAP!
+                XENlog(@"Snapping to X axis");
+                self.view.center = CGPointMake(center + adjustment, self.view.center.y);
+            }
+            
+            // We do need to snap to the top edge if possible.
+            if (self.view.frame.origin.y < 10 && self.view.frame.origin.y > -10) {
+                // SNAP!
+                self.view.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }
+        }
+        
+        // Move to next page if needed
+        
+        // The timer will get invalidated as soon as the user moves the widget again.
+        // Repeating it allows keeping the widget on the edge to keep moving along pages
+        if (currentGesturePoint.x < 20) {
+            pageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnLeftEdge) userInfo:nil repeats:YES];
+        } else if (currentGesturePoint.x > SCREEN_WIDTH - 20) {
+            pageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnRightEdge) userInfo:nil repeats:YES];
+        }
+        
+    } else if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateCancelled) {
+        // Cancel page edge timer due to user movement ending
+        if (pageEdgeTimer)
+            [pageEdgeTimer invalidate];
+        
+        // Move around on-screen.
+        CGPoint currentGesturePoint = [gesture locationInView:self.view.superview];
+        
+        CGFloat xOffset = currentGesturePoint.x - gestureStartPoint.x;
+        CGFloat yOffset = currentGesturePoint.y - gestureStartPoint.y;
+        
+        self.view.center = CGPointMake(viewStartCenter.x + xOffset, viewStartCenter.y + yOffset);
+        
+        BOOL shouldSnapToGuides = YES;
+        if (shouldSnapToGuides) {
+            CGFloat center = self.view.superview.bounds.size.width/2;
+            
+            CGFloat mainViewX = viewStartCenter.x + xOffset;
+            CGFloat adjustment = (self.view.frame.size.width/2) - (self.editingBackground.frame.size.width/2);
+            mainViewX -= adjustment;
+            
+            if (mainViewX > center-10 && mainViewX < center+10) {
+                // SNAP!
+                self.view.center = CGPointMake(center + adjustment, self.view.center.y);
+            }
+            
+            // We do need to snap to the top edge if possible.
+            if (self.view.frame.origin.y < 10 && self.view.frame.origin.y > -10) {
+                // SNAP!
+                self.view.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height);
+            }
+        }
+        
+        [self _removeEditingPositioningBackdrop];
+        self.editingBackground.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+        
+        // Notify delegate of positioning end
+        [self.editingDelegate notifyWidgetPositioningDidEnd:self];
+    }
+}
+
+- (void)_addEditingPositioningBackdrop {
+    if (objc_getClass("MTMaterialView")) {
+        // Fancy times! iOS 11 and up
+        self.editingPositioningBackground = [objc_getClass("MTMaterialView") materialViewWithRecipe:1 options:2];
+        self.editingPositioningBackground.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
+    } else {
+        // Fallback to _UIBackdropView
+        self.editingPositioningBackground = [(_UIBackdropView*)[objc_getClass("_UIBackdropView") alloc] initWithStyle:2060];
+    }
+    
+    self.editingPositioningBackground.frame = self.editingBackground.frame;
+    self.editingPositioningBackground.layer.cornerRadius = 12.5;
+    self.editingPositioningBackground.layer.masksToBounds = YES;
+    self.editingPositioningBackground.hidden = NO;
+    
+    [self.view insertSubview:self.editingPositioningBackground atIndex:0];
+}
+
+- (void)_removeEditingPositioningBackdrop {
+    [self.editingPositioningBackground removeFromSuperview];
+    self.editingPositioningBackground = nil;
 }
 
 @end

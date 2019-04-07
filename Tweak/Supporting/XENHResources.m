@@ -18,6 +18,7 @@
 
 #import "XENHResources.h"
 #import "XENHWidgetLayerController.h"
+#import "XENHHomescreenForegroundViewController.h"
 #import <objc/runtime.h>
 
 @interface XENResources : NSObject
@@ -199,7 +200,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Load up HTML
 
 + (XENHWidgetLayerController*)widgetLayerControllerForLocation:(XENHLayerLocation)location {
-    return [[XENHWidgetLayerController alloc] initWithLayerLocation:location];
+    if (location == kLocationSBForeground) {
+        return [[XENHHomescreenForegroundViewController alloc] initWithLayerLocation:location];
+    } else {
+        return [[XENHWidgetLayerController alloc] initWithLayerLocation:location];
+    }
 }
 
 + (BOOL)widgetLayerHasContentForLocation:(XENHLayerLocation)location {
@@ -451,6 +456,12 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         return [sbBackgroundMetadata objectForKey:filePath];
     }
     
+    NSDictionary *sbForegroundMetadata = [[self widgetPreferencesForLocation:kLocationSBForeground] objectForKey:@"widgetMetadata"];
+    
+    if ([sbForegroundMetadata.allKeys containsObject:filePath]) {
+        return [sbForegroundMetadata objectForKey:filePath];
+    }
+    
     return [NSDictionary dictionary];
 }
 
@@ -476,6 +487,36 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/settingschanged";
         if (toPost) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
     }
+}
+
++ (void)setWidgetPreferences:(NSDictionary*)layerPreferences forLocation:(XENHLayerLocation)location {
+    NSString *layerPreferenceKey = @"";
+    
+    switch (location) {
+        case kLocationLSBackground:
+            layerPreferenceKey = @"LSBackground";
+            break;
+        case kLocationLSForeground:
+            layerPreferenceKey = @"LSForeground";
+            break;
+        case kLocationSBBackground:
+            layerPreferenceKey = @"SBBackground";
+            break;
+        case kLocationSBForeground:
+            layerPreferenceKey = @"SBForeground";
+            break;
+            
+        default:
+            break;
+    }
+    
+    NSMutableDictionary *allLayerPreferences = [[XENHResources getPreferenceKey:@"widgets"] mutableCopy];
+    if (!allLayerPreferences)
+        allLayerPreferences = [NSMutableDictionary dictionary];
+    
+    [allLayerPreferences setObject:layerPreferences forKey:layerPreferenceKey];
+    
+    [XENHResources setPreferenceKey:@"widgets" withValue:allLayerPreferences andPost:NO];
 }
 
 +(id)getPreferenceKey:(NSString*)key {
@@ -930,6 +971,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Pseudo-DRM
 
 + (BOOL)isInstalledFromOfficialRepository {
+#if TARGET_IPHONE_SIMULATOR==1
+    return YES;
+#endif
     // check .list and status files.
     
     BOOL listExists = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/com.matchstic.xenhtml.list"];

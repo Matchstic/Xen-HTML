@@ -17,8 +17,10 @@
 */
 
 #import "XENHWidgetLayerController.h"
+#import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
 #import "XENHTouchPassThroughView.h"
+#import "XENHButton.h"
 
 #include "WebCycript.h"
 #include <dlfcn.h>
@@ -29,7 +31,7 @@
 
 #pragma mark Simulator support
 
-// %config(generator=internal);
+%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -313,6 +315,25 @@
 - (UIView*)notificationListScrollView;
 @end
 
+@interface SBIconScrollView : UIScrollView
+@property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
+@end
+
+@interface SBRootFolderView : UIView
+- (SBIconScrollView*)scrollView;
+@property (nonatomic, strong) XENHButton *_xenhtml_addButton;
+@property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+@property(retain, nonatomic) UIView *pageControl;
+-(CGRect)effectivePageControlFrame;
+
+- (void)_xenhtml_layoutAddWidgetButton;
+- (void)_xenhtml_layoutEditingPlatter;
+@end
+
+@interface SBRootFolderController : UIViewController
+- (SBRootFolderView*)rootFolderView;
+@end
+
 @interface SBIconController : UIViewController
 @end
 
@@ -332,6 +353,7 @@ static XENHSetupWindow *setupWindow;
 static XENHWidgetLayerController *backgroundViewController;
 static XENHWidgetLayerController *foregroundViewController;
 static XENHWidgetLayerController *sbhtmlViewController;
+static XENHHomescreenForegroundViewController *sbhtmlForegroundViewController;
 
 static PHContainerView * __weak phContainerView;
 static NSMutableArray *foregroundHiddenRequesters;
@@ -1643,6 +1665,7 @@ void cancelIdleTimer() {
     
     XENlog(@"Hiding SBHTML due to locking of the device");
     [sbhtmlViewController setPaused:arg1];
+    [sbhtmlForegroundViewController setPaused:arg1];
 }
 
 %end
@@ -1657,6 +1680,7 @@ void cancelIdleTimer() {
     
     XENlog(@"Showing SBHTML due to application exit, and the assumption that we will progress to the homescreen");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1673,6 +1697,7 @@ void cancelIdleTimer() {
         
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
+        [sbhtmlForegroundViewController setPaused:YES animated:YES];
     // And now, handle the reverse as a failsafe.
     } else if ([arg2 isForeground] && ![arg3 isForeground]) {
         
@@ -1684,6 +1709,7 @@ void cancelIdleTimer() {
             if (isSpringBoardForeground) {
                 XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             }
         });
     }
@@ -1700,6 +1726,7 @@ void cancelIdleTimer() {
 - (void)willAnimateDeactivation:(_Bool)arg1 {
     XENlog(@"Showing SBHTML due to an application animating deactivation");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1713,6 +1740,7 @@ void cancelIdleTimer() {
 -(void)_activateSwitcher {
     XENlog(@"Showing SBHTML due to opening the Application Switcher");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1724,6 +1752,7 @@ void cancelIdleTimer() {
 - (void)performPresentationAnimationForTransitionRequest:(id)arg1 withCompletion:(id)arg2 {
     XENlog(@"Showing SBHTML due to opening the Application Switcher");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1755,6 +1784,7 @@ void cancelIdleTimer() {
             XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
             //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             //    [sbhtmlViewController.view setNeedsDisplay];
             //});
             break;
@@ -1762,6 +1792,7 @@ void cancelIdleTimer() {
             XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
             //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             //    [sbhtmlViewController.view setNeedsDisplay];
             //});
             break;
@@ -1781,6 +1812,7 @@ void cancelIdleTimer() {
 - (void)_beginWithGesture:(id)arg1 {
     XENlog(@"Showing SBHTML due to starting a fluid gesture");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -2323,6 +2355,12 @@ void cancelIdleTimer() {
         [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
 #endif
     }
+    
+#pragma mark Layout foreground SBHTML add button and editing view (iOS 9+)
+    
+    // Layout the add button at the very bottom of the scrollview
+    [self _xenhtml_layoutAddWidgetButton];
+    [self _xenhtml_layoutEditingPlatter];
 }
 
 %new
@@ -2332,6 +2370,212 @@ void cancelIdleTimer() {
         [MSHookIvar<UIView*>(self, "_pageControl") setHidden:[XENHResources SBHidePageDots]];
 #endif
     }
+}
+
+%end
+
+#pragma mark Foreground SBHTML (iOS 9+)
+
+%hook SBIconScrollView
+
+%property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
+
+- (void)layoutSubviews {
+    %orig;
+    
+    // Layout if needed
+    if (self._xenhtml_isForegroundWidgetHoster) {
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        
+        sbhtmlForegroundViewController.view.frame = CGRectMake(0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
+    }
+}
+
+- (void)addSubview:(id)arg1 {
+    %orig;
+    
+    if (self._xenhtml_isForegroundWidgetHoster) {
+        // Order our view to front to keep widgets over icons
+        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+    }
+}
+
+- (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
+    %orig;
+    
+    if (self._xenhtml_isForegroundWidgetHoster) {
+        // Order our view to front to keep widgets over icons
+        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+    }
+}
+
+- (void)setContentOffset:(CGPoint)arg1 {
+    %orig;
+    
+    if (self._xenhtml_isForegroundWidgetHoster) {
+        // Be notified when the user swipes between pages
+        static NSInteger lastPage = 0;
+        
+        CGFloat width = self.frame.size.width;
+        NSInteger page = (self.contentOffset.x + (0.5f * width)) / width;
+        
+        if (lastPage != page) {
+            lastPage = page;
+        }
+        
+        [sbhtmlForegroundViewController updatedPageContentOffset:arg1 page:(int)page];
+    }
+}
+
+%end
+
+%hook SBRootFolderController
+
+- (void)loadView {
+    %orig;
+    
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        
+        self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+        
+        XENlog(@"Added foreground SBHTML widgets view");
+    }
+    
+    // Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        if (sbhtmlForegroundViewController) {
+            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
+        } else {
+            XENlog(@"Loading foreground SBHTML widgets view");
+            
+            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+            
+            if (isOnMainScreen) {
+                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+                
+                [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                
+                self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+            }
+        }
+    } else if (sbhtmlForegroundViewController) {
+        [sbhtmlForegroundViewController unloadWidgets];
+        [sbhtmlForegroundViewController.view removeFromSuperview];
+        sbhtmlForegroundViewController = nil;
+    }
+}
+
+%end
+
+#pragma mark Display Homescreen foreground add button when editing (iOS 9+)
+
+%hook SBRootFolderView
+
+%property (nonatomic, strong) XENHButton *_xenhtml_addButton;
+%property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+
+- (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
+    SBRootFolderView *orig = %orig;
+    
+    if (orig) {
+        // TODO: Localise me!
+        orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:@"Add widget"];
+        [orig._xenhtml_addButton addTarget:self
+                action:@selector(_xenhtml_addWidgetButtonTapped:)
+                forControlEvents:UIControlEventTouchUpInside];
+        
+        // Hide until UI is in editing UI
+        orig._xenhtml_addButton.hidden = YES;
+        
+        [orig addSubview:orig._xenhtml_addButton];
+        
+        // and the editing platter
+        orig._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
+        orig._xenhtml_editingPlatter.hidden = YES;
+        
+        [orig addSubview:orig._xenhtml_editingPlatter];
+    }
+    
+    return orig;
+}
+
+- (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
+    %orig;
+    
+    [sbhtmlForegroundViewController updateEditingModeState:arg1];
+    
+    static CGFloat animationDuration = 0.15;
+    
+    // Display the add button, and hide the page dots
+    if (arg1) {
+        self._xenhtml_addButton.hidden = NO;
+        self._xenhtml_editingPlatter.hidden = NO;
+        self.pageControl.hidden = YES;
+        
+        self._xenhtml_addButton.alpha = 0.0;
+        self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+        
+        [UIView animateWithDuration:animationDuration animations:^{
+            self._xenhtml_addButton.alpha = 1.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        }];
+    } else {
+        self.pageControl.hidden = NO;
+        
+        [UIView animateWithDuration:animationDuration animations:^{
+            self._xenhtml_addButton.alpha = 0.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            
+            self.pageControl.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            self._xenhtml_addButton.hidden = YES;
+            self._xenhtml_editingPlatter.hidden = YES;
+        }];
+    }
+}
+
+-(void)scrollViewDidScroll:(id)arg1 {
+    %orig;
+    
+    // Relayout with the new content offset for scrolling to the today page
+    [self _xenhtml_layoutAddWidgetButton];
+}
+
+%new
+- (void)_xenhtml_addWidgetButtonTapped:(id)sender {
+    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+}
+
+%new
+- (void)_xenhtml_layoutAddWidgetButton {
+    // calculate offset needed to apply
+    CGFloat effectiveXOffset = SCREEN_WIDTH - self.scrollView.contentOffset.x;
+    if (effectiveXOffset < 0) effectiveXOffset = 0;
+    
+    self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
+                                                 self.scrollView.frame.size.height
+                                                 + self.scrollView.frame.origin.y
+                                                 - self._xenhtml_addButton.bounds.size.height/4.0);
+}
+
+%new
+- (void)_xenhtml_layoutEditingPlatter {
+    self._xenhtml_editingPlatter.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 %end
@@ -2442,9 +2686,9 @@ static void removeForegroundHiddenRequester(NSString* requester) {
     if (foregroundViewController && [XENHResources LSFadeForegroundForMedia]) {
         // If showing controls, fade the foreground ONLY if set to.
         
+#if TARGET_IPHONE_SIMULATOR==0
         BOOL actuallyHasControls = YES;
         
-#if TARGET_IPHONE_SIMULATOR==0
         UIViewController *mpu = MSHookIvar<UIViewController*>(self, "_mediaControlsViewController");
         if (!mpu) {
             actuallyHasControls = NO;
@@ -2872,32 +3116,6 @@ static void showForegroundForLSNotifIfNeeded() {
     return [self _xh_forwardingView] != nil ? [self _xh_forwardingView] : %orig;
 }
 
-/*- (CGPoint)locationInView:(id)arg1 {
-    if ([self _xh_forwardingView] != nil) {
-        XENlog(@"Location in view: %@", arg1);
-        
-        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
-        CGPoint orig = %orig;
-        
-        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
-    } else {
-        return %orig;
-    }
-}
-
-- (CGPoint)previousLocationInView:(id)arg1 {
-    if ([self _xh_forwardingView] != nil) {
-        XENlog(@"Previous location in view: %@", arg1);
-        
-        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
-        CGPoint orig = %orig;
-        
-        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
-    } else {
-        return %orig;
-    }
-}*/
-
 %end
 
 %end
@@ -3164,9 +3382,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", RTLD_NOW);
         
         %init(SpringBoard);
-        
-        Class sBIdleTimerDefaults = objc_getClass("SBIdleTimerDefaults");
-        XENlog(@"Sanity check: %@", sBIdleTimerDefaults);
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);
