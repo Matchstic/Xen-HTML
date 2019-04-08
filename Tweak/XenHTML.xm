@@ -2580,6 +2580,34 @@ void cancelIdleTimer() {
 
 %end
 
+#pragma mark Ensure icons always can be tapped through the SBHTML foreground widgets view (iOS 9+)
+
+%hook SBIconScrollView
+
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (![XENHResources SBEnabled] || !self._xenhtml_isForegroundWidgetHoster) {
+        return %orig;
+    }
+    
+    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
+        CGPoint subPoint = [view convertPoint:point fromView:self];
+        UIView *hittested = [view hitTest:subPoint withEvent:event];
+        
+        if (hittested) {
+            XENlog(@"Hit: %@", hittested);
+        }
+        
+        if ([[hittested class] isEqual:objc_getClass("SBIconView")]) {
+            // Favour icons where possible
+            return hittested;
+        }
+    }
+    
+    return %orig;
+}
+
+%end
+
 #pragma mark Stop jumping up bug (iOS 9+)
 
 %hook WKWebView
