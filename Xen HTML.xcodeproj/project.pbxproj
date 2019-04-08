@@ -30,7 +30,6 @@
 		C916A9AC209759F700CC9521 /* XENHWidgetLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AA209759F700CC9521 /* XENHWidgetLayerController.m */; };
 		C916A9B020975F9400CC9521 /* XENHWidgetController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9AE20975F9400CC9521 /* XENHWidgetController.h */; };
 		C916A9B120975F9400CC9521 /* XENHWidgetController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9AF20975F9400CC9521 /* XENHWidgetController.m */; };
-		C9196E672256A4EE009C59CB /* libuaunbox.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9196E682256A4EE009C59CB /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
 		C91C3A2A209B488D0076182C /* XENHMultiplexWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C91C3A28209B488D0076182C /* XENHMultiplexWidgetsController.h */; };
 		C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C3A29209B488D0076182C /* XENHMultiplexWidgetsController.m */; };
@@ -335,7 +334,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9196E672256A4EE009C59CB /* libuaunbox.tbd in Frameworks */,
 				C9061076225545A800783AAA /* libpackageinfo.tbd in Frameworks */,
 				C9196E682256A4EE009C59CB /* Preferences.tbd in Frameworks */,
 				C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */,
@@ -1254,7 +1252,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = "non-global";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1292,7 +1290,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = "non-global";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1403,7 +1401,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = "non-global";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;

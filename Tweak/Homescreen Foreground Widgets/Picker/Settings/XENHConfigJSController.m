@@ -294,6 +294,7 @@
     
     // Have full string, now we can save it out!
     
+    /*
     // We're going to use UAUnbox here to ensure we get a nice saving going on.
     // First, back up original.
     NSString *newName = [NSString stringWithFormat:@"%@.bak", _filePath];
@@ -301,7 +302,7 @@
     if ([UBClient class]) {
         [[UBClient sharedInstance] copyFile:_filePath toFile:newName];
         [[UBClient sharedInstance] chmodFile:[_filePath stringByDeletingLastPathComponent] mode:0777];
-    }
+    }*/
     
     NSError *error;
     BOOL succeed = [data writeToFile:_filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];

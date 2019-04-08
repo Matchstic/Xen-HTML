@@ -48,6 +48,7 @@ extern char **environ;
 @interface XENHWidgetController ()
 
 // Editing mode
+@property (nonatomic, readwrite) BOOL isEditing;
 @property (nonatomic, strong) UIView *editingBackground;
 @property (nonatomic, strong) UIView *editingPositioningBackground;
 @property (nonatomic, strong) XENHButton *editingSettingsButton;
@@ -811,6 +812,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 - (void)setEditing:(BOOL)editing {
     // TODO: Animate in the editing buttons
+    self.isEditing = editing;
     self.editingSettingsButton.hidden = !editing;
     self.editingRemoveButton.hidden = !editing;
     self.editingBackground.hidden = !editing;
@@ -818,6 +820,20 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Disable webview touches to allow positioning
     self.webView.userInteractionEnabled = !editing;
     self.legacyWebView.userInteractionEnabled = !editing;
+    
+    /*if (editing) {
+        // Set anchor before wiggling
+        CGFloat anchorX = (self.editingBackground.frame.size.width / self.view.frame.size.width) / 2;
+        CGFloat anchorY = (self.editingBackground.frame.size.height / self.view.frame.size.height) / 2;
+        self.view.layer.anchorPoint = CGPointMake(anchorX, anchorY);
+        
+        [self _doEditingWiggle];
+    } else {
+        [self.view.layer removeAllAnimations];
+        self.view.transform = CGAffineTransformIdentity;
+    }*/
+    
+    // Wiggle disabled; needs to be called AFTER the widget gets moved to a superview and is laid out
 }
 
 - (void)_editingSettingsButtonTapped:(id)sender {
@@ -838,11 +854,18 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 -(void)handleEditingPan:(UIPanGestureRecognizer*)gesture {
     
+    if (!self.editingDelegate)
+        return;
+    
     static CGPoint gestureStartPoint;
     static CGPoint viewStartCenter;
     static NSTimer *pageEdgeTimer;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
+        
+        // Stop the wiggle
+        //[self.view.layer removeAllAnimations];
+        //self.view.transform = CGAffineTransformIdentity;
         
         // Notify delegate of positioning start
         [self.editingDelegate notifyWidgetPositioningDidBegin:self];
@@ -943,6 +966,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         // Notify delegate of positioning end
         [self.editingDelegate notifyWidgetPositioningDidEnd:self];
+        
+        // Start wiggling again!
+        //[self _doEditingWiggle];
     }
 }
 
@@ -967,6 +993,26 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_removeEditingPositioningBackdrop {
     [self.editingPositioningBackground removeFromSuperview];
     self.editingPositioningBackground = nil;
+}
+
+- (void)_doEditingWiggle {
+    if (!self.isEditing)
+        return;
+    
+    CGFloat reductionFactor = 1.2;
+    CGFloat magnitude = self.editingBackground.bounds.size.width/self.view.bounds.size.width;
+    CGFloat angle = 0.035 * (1.0 - (magnitude * reductionFactor));
+    CGFloat duration = 0.5 * magnitude;
+    
+    self.view.transform = CGAffineTransformMakeRotation(-angle);
+    
+    [UIView animateKeyframesWithDuration:duration delay:0.0 options:UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat animations:^{
+        
+        self.view.transform = CGAffineTransformMakeRotation(angle);
+        
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 @end

@@ -76,7 +76,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    [super viewDidLayoutSubviews];
+    [super viewWillLayoutSubviews];
     
     [self _layoutWidgets];
 }
@@ -114,12 +114,14 @@
             }
         }
         
+        CGRect rect = CGRectMake(xOffsetMultipler * SCREEN_WIDTH, yOffsetMultipler * SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
         if (shouldAnimateFrame) {
             [UIView animateWithDuration:0.15 animations:^{
-                widgetController.view.frame = CGRectMake(xOffsetMultipler * SCREEN_WIDTH, yOffsetMultipler * SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+                widgetController.view.frame = rect;
             }];
         } else {
-            widgetController.view.frame = CGRectMake(xOffsetMultipler * SCREEN_WIDTH, yOffsetMultipler * SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+            widgetController.view.frame = rect;
         }
     }
 }
@@ -347,7 +349,13 @@
     [XENHResources setWidgetPreferences:layerPreferences forLocation:kLocationSBForeground];
     
     // Load new widget
-    [self noteUserPreferencesDidChange];
+    [self reloadWithNewLayerPreferences:layerPreferences oldPreferences:self.layerPreferences];
+    
+    // Set editing delegate on any new widgets
+    for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
+        widgetController.editingDelegate = self;
+    }
+    
     [self updateEditingModeState:self.isEditing];
     
     // Hide the popup

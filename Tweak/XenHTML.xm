@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-%config(generator=internal);
+// %config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -350,10 +350,10 @@ static XENHSetupWindow *setupWindow;
 
 %group SpringBoard
 
-static XENHWidgetLayerController *backgroundViewController;
-static XENHWidgetLayerController *foregroundViewController;
-static XENHWidgetLayerController *sbhtmlViewController;
-static XENHHomescreenForegroundViewController *sbhtmlForegroundViewController;
+static XENHWidgetLayerController *backgroundViewController = nil;
+static XENHWidgetLayerController *foregroundViewController = nil;
+static XENHWidgetLayerController *sbhtmlViewController = nil;
+static XENHHomescreenForegroundViewController *sbhtmlForegroundViewController = nil;
 
 static PHContainerView * __weak phContainerView;
 static NSMutableArray *foregroundHiddenRequesters;
@@ -1662,10 +1662,11 @@ void cancelIdleTimer() {
 
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
-    
-    XENlog(@"Hiding SBHTML due to locking of the device");
-    [sbhtmlViewController setPaused:arg1];
-    [sbhtmlForegroundViewController setPaused:arg1];
+
+    if (sbhtmlViewController)
+        [sbhtmlViewController setPaused:arg1];
+    if (sbhtmlForegroundViewController)
+        [sbhtmlForegroundViewController setPaused:arg1];
 }
 
 %end
@@ -2394,7 +2395,7 @@ void cancelIdleTimer() {
 - (void)addSubview:(id)arg1 {
     %orig;
     
-    if (self._xenhtml_isForegroundWidgetHoster) {
+    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
         // Order our view to front to keep widgets over icons
         [self bringSubviewToFront:sbhtmlForegroundViewController.view];
     }
@@ -2403,7 +2404,7 @@ void cancelIdleTimer() {
 - (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
     %orig;
     
-    if (self._xenhtml_isForegroundWidgetHoster) {
+    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
         // Order our view to front to keep widgets over icons
         [self bringSubviewToFront:sbhtmlForegroundViewController.view];
     }
@@ -2412,7 +2413,7 @@ void cancelIdleTimer() {
 - (void)setContentOffset:(CGPoint)arg1 {
     %orig;
     
-    if (self._xenhtml_isForegroundWidgetHoster) {
+    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
         // Be notified when the user swipes between pages
         static NSInteger lastPage = 0;
         
@@ -2434,6 +2435,8 @@ void cancelIdleTimer() {
 - (void)loadView {
     %orig;
     
+    XENlog(@"SBRootFolderController loadView");
+    
     if ([XENHResources SBEnabled]) {
         // Add view to root scroll view, and set that scrollview to be the hoster
         sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
@@ -2441,16 +2444,18 @@ void cancelIdleTimer() {
         
         [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
         
-        self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-        
         XENlog(@"Added foreground SBHTML widgets view");
     }
+    
+    self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
     // Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlUpdate"
                                                object:nil];
+    
+    XENlog(@"SBRootFolderController loadView DONE");
 }
 
 // Will need to reload SBHTML if settings change.
@@ -2483,6 +2488,8 @@ void cancelIdleTimer() {
 %end
 
 #pragma mark Display Homescreen foreground add button when editing (iOS 9+)
+
+static BOOL _xenhtml_inEditingMode;
 
 %hook SBRootFolderView
 
@@ -2517,6 +2524,7 @@ void cancelIdleTimer() {
 - (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
     %orig;
     
+    _xenhtml_inEditingMode = arg1;
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
     
     static CGFloat animationDuration = 0.15;
@@ -2589,15 +2597,17 @@ void cancelIdleTimer() {
         return %orig;
     }
     
+    // If in editing mode, prefer to move widgets around over icons
+    if (_xenhtml_inEditingMode) {
+        return %orig;
+    }
+    
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
         
-        if (hittested) {
-            XENlog(@"Hit: %@", hittested);
-        }
-        
-        if ([[hittested class] isEqual:objc_getClass("SBIconView")]) {
+        if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
+            [[hittested class] isEqual:objc_getClass("SBFolderIconView")]) {
             // Favour icons where possible
             return hittested;
         }
