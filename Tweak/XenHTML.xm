@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-// %config(generator=internal);
+//%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -675,7 +675,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %hook XENDashBoardWebViewController
 
-%property (nonatomic, assign) UIView *webview;
+%property (nonatomic, retain) UIView *webview;
 
 - (long long)presentationTransition {
     return 1;
@@ -770,7 +770,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         return;
     }
     
-    SBDashBoardComponent *dateView;
+    SBDashBoardComponent *dateView = nil;
     
     for (SBDashBoardComponent *component in arg1.components) {
         if (component.type == 1) {
@@ -2671,6 +2671,7 @@ static BOOL _xenhtml_inEditingMode;
 #pragma mark Properly handle media controls on lockscreen (iOS 9)
 
 static void hideForegroundIfNeeded() {
+    
     BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
     
     if (canHideForeground && foregroundViewController && foregroundViewController.view.alpha != [XENHResources LSWidgetFadeOpacity]) {
@@ -2683,6 +2684,7 @@ static void hideForegroundIfNeeded() {
 }
 
 static void showForegroundIfNeeded() {
+    
     BOOL canShowForeground = foregroundHiddenRequesters.count == 0;
     
     if (canShowForeground && foregroundViewController && foregroundViewController.view.alpha != 1.0) {
@@ -2695,6 +2697,7 @@ static void showForegroundIfNeeded() {
 }
 
 static void addForegroundHiddenRequester(NSString* requester) {
+    
     if (!foregroundHiddenRequesters) {
         foregroundHiddenRequesters = [NSMutableArray array];
     }
@@ -2709,6 +2712,7 @@ static void addForegroundHiddenRequester(NSString* requester) {
 }
 
 static void removeForegroundHiddenRequester(NSString* requester) {
+    
     [foregroundHiddenRequesters removeObject:requester];
     
     //XENlog(@"SHOWING FOR REQUESTER: %@", requester);
