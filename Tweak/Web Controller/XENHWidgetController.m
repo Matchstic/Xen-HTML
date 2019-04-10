@@ -870,6 +870,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     static CGPoint gestureStartPoint;
     static CGPoint viewStartCenter;
     static NSTimer *pageEdgeTimer;
+    static BOOL shouldSnapToGuides = YES;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         
@@ -887,6 +888,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
         [self _addEditingPositioningBackdrop];
         self.editingBackground.backgroundColor = [UIColor clearColor];
         
+        // Check user pref for snapping to axis
+        shouldSnapToGuides = [XENHResources SBForegroundEditingSnapToYAxis];
+        
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         // Cancel page edge timer due to user movement
         if (pageEdgeTimer)
@@ -900,7 +904,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         self.view.center = CGPointMake(viewStartCenter.x + xOffset, viewStartCenter.y + yOffset);
         
-        BOOL shouldSnapToGuides = YES;
         if (shouldSnapToGuides) {
             CGFloat center = self.view.superview.bounds.size.width/2;
             

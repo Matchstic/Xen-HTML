@@ -929,6 +929,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : YES);
 }
 
++(BOOL)SBForegroundEditingSnapToYAxis {
+    id value = settings[@"SBPickerSnapToYAxis"];
+    return (value ? [value boolValue] : YES);
+}
+
 /**
  * @return { <br>{ location: filename, x: 100, y: 100 },<br> { location: filename, x: 150, y: 150 }<br> }
  */

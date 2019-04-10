@@ -141,6 +141,8 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBAllowTouch;
 +(BOOL)SBUseLegacyMode;
 
++(BOOL)SBForegroundEditingSnapToYAxis;
+
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled;
