@@ -61,7 +61,7 @@
 
 // Overriden
 - (void)loadView {
-    // We don't need touch forwarding when being foreground!
+    // Allow superclass to setup widgets
     [super loadView];
     
     // After loading, we can assume we're going to page 1 once the user does a first unlock.

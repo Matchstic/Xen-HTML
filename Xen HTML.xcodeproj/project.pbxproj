@@ -1254,7 +1254,7 @@
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
-				STRIP_STYLE = "non-global";
+				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -1278,6 +1278,7 @@
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tweak/Prefix.pch;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -1292,7 +1293,7 @@
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
-				STRIP_STYLE = "non-global";
+				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -1403,7 +1404,7 @@
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
-				STRIP_STYLE = "non-global";
+				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";

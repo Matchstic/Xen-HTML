@@ -94,7 +94,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     self = [super init];
     
     if (self) {
-        // Any initialisation...
+        self.editingDelegate = nil;
     }
     
     return self;
@@ -107,25 +107,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     [(XENHTouchPassThroughView*)self.view setDelegate:self];
     
-    // Setup the editing buttons
-    // TODO: LOCALISE ME
-    self.editingSettingsButton = [[XENHButton alloc] initWithTitle:@"Settings"];
-    [self.editingSettingsButton addTarget:self
-                                action:@selector(_editingSettingsButtonTapped:)
-                      forControlEvents:UIControlEventTouchUpInside];
-    
-    // Hide until in editing mode
-    self.editingSettingsButton.hidden = YES;
-    
-    // TODO: Change to a proper SBCloseBox
-    self.editingRemoveButton = [[XENHCloseButton alloc] initWithTitle:@""];
-    [self.editingRemoveButton addTarget:self
-                                   action:@selector(_editingRemoveButtonTapped:)
-                         forControlEvents:UIControlEventTouchUpInside];
-    
-    // Hide until in editing mode
-    self.editingRemoveButton.hidden = YES;
-    
+    // Add the editing background view here, due to usage of insertSubview:aboveSubview:
     // Using a UIView here since it needs to respond to touch hittests for positioning
     self.editingBackground = [[UIView alloc] initWithFrame:CGRectZero];
     self.editingBackground.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
@@ -135,13 +117,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     self.editingBackground.tag = 1337;
     
     [self.view addSubview:self.editingBackground];
-    [self.view addSubview:self.editingSettingsButton];
-    [self.view addSubview:self.editingRemoveButton];
-    
-    self.editingPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingPan:)];
-    self.editingPanGesture.minimumNumberOfTouches = 1;
-    
-    [self.editingBackground addGestureRecognizer:self.editingPanGesture];
 }
 
 - (void)dealloc {
@@ -224,7 +199,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // This script is utilised to stop the loupé that iOS creates on long-press
     NSString *source1 = @"var style = document.createElement('style'); \
     style.type = 'text/css'; \
-    style.innerText = '*:not(input):not(textarea) { -webkit-user-select: none; -webkit-touch-callout: none; } body { background-color: transparent; }'; \
+    style.innerText = '* { -webkit-user-select: none; -webkit-touch-callout: none; } body { background-color: transparent; }'; \
     var head = document.getElementsByTagName('head')[0];\
     head.appendChild(style);";
     WKUserScript *stopCallouts = [[WKUserScript alloc] initWithSource:source1 injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -809,6 +784,41 @@ static UIWindow *sharedOffscreenRenderingWindow;
 // Widget editing
 /////////////////////////////////////////////////////////////////////////////
 // **************************************************************************
+
+- (void)setEditingDelegate:(id<XENHWidgetEditingDelegate>)editingDelegate {
+    _editingDelegate = editingDelegate;
+    
+    // Add the editing buttons and pan gesture if needed
+    if (editingDelegate) {
+        
+        if (!self.viewLoaded) {
+            XENlog(@"Adding editing buttons before the view is loaded...");
+        }
+        
+        // Settings
+        self.editingSettingsButton = [[XENHButton alloc] initWithTitle:@"Settings"];
+        [self.editingSettingsButton addTarget:self
+                                       action:@selector(_editingSettingsButtonTapped:)
+                             forControlEvents:UIControlEventTouchUpInside];
+        self.editingSettingsButton.hidden = YES;
+        
+        // Remove button
+        self.editingRemoveButton = [[XENHCloseButton alloc] initWithTitle:@""];
+        [self.editingRemoveButton addTarget:self
+                                     action:@selector(_editingRemoveButtonTapped:)
+                           forControlEvents:UIControlEventTouchUpInside];
+        self.editingRemoveButton.hidden = YES;
+        
+        [self.view addSubview:self.editingSettingsButton];
+        [self.view addSubview:self.editingRemoveButton];
+        
+        // Gesture
+        self.editingPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingPan:)];
+        self.editingPanGesture.minimumNumberOfTouches = 1;
+        
+        [self.editingBackground addGestureRecognizer:self.editingPanGesture];
+    }
+}
 
 - (void)setEditing:(BOOL)editing {
     // TODO: Animate in the editing buttons

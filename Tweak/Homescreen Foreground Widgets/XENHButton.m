@@ -79,6 +79,8 @@ static CGFloat BUTTON_HEIGHT = 28.0;
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
     [UIView animateWithDuration:0.1 animations:^{
         self.highlightOverlayView.alpha = highlighted ? 1.0 : 0.0;
     }];
