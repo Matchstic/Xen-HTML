@@ -2564,6 +2564,22 @@ static BOOL _xenhtml_inEditingMode;
     [self _xenhtml_layoutAddWidgetButton];
 }
 
+- (void)addSubview:(id)arg1 {
+    %orig;
+    
+    // Bring our views forward again
+    [self bringSubviewToFront:self._xenhtml_addButton];
+    [self bringSubviewToFront:self._xenhtml_editingPlatter];
+}
+
+- (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
+    %orig;
+    
+    // Bring our views forward again
+    [self bringSubviewToFront:self._xenhtml_addButton];
+    [self bringSubviewToFront:self._xenhtml_editingPlatter];
+}
+
 %new
 - (void)_xenhtml_addWidgetButtonTapped:(id)sender {
     [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
