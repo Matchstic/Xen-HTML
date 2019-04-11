@@ -36,10 +36,11 @@
 "WIDGETS_LSFOREGROUND_DETAIL" = "Les Widgets de premier-plan sont des ajouts entièrement interactifs à votre écran d'accueil";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Les widgets d'arrière-plan deviennent des ajouts interactifs à vos fonds d'écrans";
 "WIDGETS_NONE_SELECTED" = "Aucun Widget sélectionné";
-"WIDGETS_ADD_NEW" = "Ajouter widget...";
+"WIDGETS_ADD_NEW" = "Ajouter widget";
 "WIDGETS_CONFIGURE" = "Configurer:";
 "WIDGETS_LOCKSCREEN" = "Écran verrouillé";
 "WIDGETS_HOMESCREEN" = "Écran d'accueil";
+"WIDGETS_SETTINGS" = "Réglages";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Aucun Widget sélectionné";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Il y a eu une erreur en analysant le fichier de paramètres; il doit manquer des options";

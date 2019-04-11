@@ -2499,9 +2499,8 @@ static BOOL _xenhtml_inEditingMode;
 - (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
     SBRootFolderView *orig = %orig;
     
-    if (orig) {
-        // TODO: Localise me!
-        orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:@"Add widget"];
+    if (orig) {        
+        orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
         [orig._xenhtml_addButton addTarget:self
                 action:@selector(_xenhtml_addWidgetButtonTapped:)
                 forControlEvents:UIControlEventTouchUpInside];

@@ -36,10 +36,11 @@
 "WIDGETS_LSFOREGROUND_DETAIL" = "Foreground widgets are fully interactive additions to your Lockscreen";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Background widgets become interactive additions to your wallpaper";
 "WIDGETS_NONE_SELECTED" = "No widgets selected";
-"WIDGETS_ADD_NEW" = "Add widget...";
+"WIDGETS_ADD_NEW" = "Add widget";
 "WIDGETS_CONFIGURE" = "Configure:";
 "WIDGETS_LOCKSCREEN" = "Lockscreen";
 "WIDGETS_HOMESCREEN" = "Homescreen";
+"WIDGETS_SETTINGS" = "Settings";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "No Widget Selected";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "There was an error parsing the settings file; some options may be missing";

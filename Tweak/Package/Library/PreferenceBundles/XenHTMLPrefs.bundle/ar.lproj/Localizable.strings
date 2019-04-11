@@ -38,7 +38,7 @@
     "SUPPORT_CONFIRM_RESET" = "سيؤدي هذا الى استعادة جميع اعدادات Xen HTML الاصلية.\n\nهل تريد المتابعة؟";
     "SUPPORT_RESPRING_NOTIFY" = "سيقوم جهازك الان بعمل ريسبرنج لتطبيق التغييرات";
     "WARNING" = "تحذير";
-    "WIDGETS_ADD_NEW" = "اضافة ويدجت...";
+    "WIDGETS_ADD_NEW" = "اضافة ويدجت";
     "WIDGETS_BACKGROUND" = "ويدجات الخلفية";
     "WIDGETS_CONFIGURE" = "تهيئة:";
     "WIDGETS_FOREGROUND" = "ويدجات المقدمة";
@@ -50,6 +50,7 @@
     "WIDGETS_PREVIEW_FOOTER" = "حرك لضبط زاوية المعاينة";
     "WIDGETS_PREVIEW_HEADER" = "مراجعة";
     "WIDGETS_SBBACKGROUND_DETAIL" = "ويدجات الخلفية ستصبح اضافات تفاعلية بالكامل على خلفيتك";
+    "WIDGETS_SETTINGS" = "الإعدادات";
     "WIDGETS_TITLE" = "الويدجات";
     "WIDGET_EDITOR_DRAGDROP" = "سحب وافلات لضبط الموضع";
     "WIDGET_EDITOR_DRAGDROP_IPAD" = "سحب وافلات لضبط الموضع.\n\nقم بتدوير جهازك للعرض في اتجاهات مختلفة.";

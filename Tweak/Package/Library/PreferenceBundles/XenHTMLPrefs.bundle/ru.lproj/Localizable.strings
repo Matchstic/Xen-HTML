@@ -38,12 +38,13 @@
     "SUPPORT_CONFIRM_RESET" = "Это удалит все настройки Xen HTML. \n\nПродолжить?";
     "SUPPORT_RESPRING_NOTIFY" = "Сделайте респринг для применения настроек";
     "WARNING" = "Предупреждение";
-    "WIDGETS_ADD_NEW" = "Добавить виджет...";
+    "WIDGETS_ADD_NEW" = "Добавить виджет";
     "WIDGETS_BACKGROUND" = "Фоновые виджеты";
     "WIDGETS_CONFIGURE" = "Настройка:";
     "WIDGETS_FOREGROUND" = "Передние виджеты";
     "WIDGETS_HOMESCREEN" = "Домашний экран";
     "WIDGETS_LOCKSCREEN" = "Экран блокировки";
+    "WIDGETS_SETTINGS" = "Настройки";
     "WIDGETS_LSBACKGROUND_DETAIL" = "Фоновые виджеты становятся частью ваших обоев";
     "WIDGETS_LSFOREGROUND_DETAIL" = "Передние виджеты полностью функциональны";
     "WIDGETS_NONE_SELECTED" = "Виджеты не выбраны";

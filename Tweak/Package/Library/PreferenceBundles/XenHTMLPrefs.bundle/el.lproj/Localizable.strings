@@ -1,4 +1,4 @@
-﻿/*
+/*
   Localizable.strings
   Xen HTML
 */
@@ -36,10 +36,11 @@
 "WIDGETS_LSFOREGROUND_DETAIL" = "Τα widgets πρώτου πλάνου είναι πλήρως διαδραστικά στην οθόνη κλειδώματος";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Τα widgets βάθους να γίνουν πλήρως διαδραστικά με την  wallpaper";
 "WIDGETS_NONE_SELECTED" = "Κανένα widget επιλεγμένο";
-"WIDGETS_ADD_NEW" = "Προσθήκη widget...";
+"WIDGETS_ADD_NEW" = "Προσθήκη widget";
 "WIDGETS_CONFIGURE" = "Διαμόρφωση:";
 "WIDGETS_LOCKSCREEN" = "Οθόνη κλειδώματος";
 "WIDGETS_HOMESCREEN" = "Αρχική σελίδα";
+"WIDGETS_SETTINGS" = "Ρυθμίσεις";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Κανένα widget επιλεγμένο";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Υπήρξε σφάλμα στην ανάλυση του αρχείου των ρυθμίσεων, ενδέχεται να λείπουν κάποιες επιλογές";

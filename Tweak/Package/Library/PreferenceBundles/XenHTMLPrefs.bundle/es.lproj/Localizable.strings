@@ -56,7 +56,8 @@
 "WIDGET_SETTINGS_LEGACY_MODE" = "Modo de Legado";
 "WIDGET_SETTINGS_NONE" = "Ninguna configuración disponible";
 "WIDGET_SETTINGS_TITLE" = "Configuraciones del Widget";
-"WIDGETS_ADD_NEW" = "Añadir widget...";
+"WIDGETS_ADD_NEW" = "Añadir widget";
+"WIDGETS_SETTINGS" = "Ajustes";
 "WIDGETS_BACKGROUND" = "Widgets de Fondo";
 "WIDGETS_FOREGROUND" = "Widgets de Primer Plano";
 "WIDGETS_LSBACKGROUND_DETAIL" = "Widgets de fondo se convierten an parte de su fondo de pantalla";

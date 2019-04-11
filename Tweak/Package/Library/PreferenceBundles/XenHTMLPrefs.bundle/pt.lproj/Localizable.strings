@@ -38,12 +38,13 @@
     "SUPPORT_CONFIRM_RESET" = "Isso limpará todas as configurações do Xen HTML.\n\nVocê deseja continuar?";
     "SUPPORT_RESPRING_NOTIFY" = "O seu dispositivo irá agora reiniciar a springboard para aplicar alterações";
     "WARNING" = "Aviso";
-    "WIDGETS_ADD_NEW" = "Adicionar widget...";
+    "WIDGETS_ADD_NEW" = "Adicionar widget";
     "WIDGETS_BACKGROUND" = "Widgets de plano de fundo";
     "WIDGETS_CONFIGURE" = "Configurar:";
     "WIDGETS_FOREGROUND" = "Widgets em primeiro plano";
     "WIDGETS_HOMESCREEN" = "Tela de Início";
     "WIDGETS_LOCKSCREEN" = "Tela de Bloqueio";
+    "WIDGETS_SETTINGS" = "Ajustes";
     "WIDGETS_LSBACKGROUND_DETAIL" = "Widgets de fundo tornam-se parte do seu papel de parede";
     "WIDGETS_LSFOREGROUND_DETAIL" = "Widgets de primeiro plano são adições totalmente interativas para a sua tela de bloqueio";
     "WIDGETS_NONE_SELECTED" = "Nenhum widget selecionado";

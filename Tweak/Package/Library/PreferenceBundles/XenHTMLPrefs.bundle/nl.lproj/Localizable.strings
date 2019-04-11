@@ -36,10 +36,11 @@
 "WIDGETS_LSFOREGROUND_DETAIL" = "Voorgrond widgets zijn volledig interactief op je Vergrendelscherm";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Achtergrond widgets zijn volledig interactief en gaan samen met je achtergrond";
 "WIDGETS_NONE_SELECTED" = "Geen widgets geselecteerd";
-"WIDGETS_ADD_NEW" = "Voeg widget toe...";
+"WIDGETS_ADD_NEW" = "Voeg widget toe";
 "WIDGETS_CONFIGURE" = "Configureer:";
 "WIDGETS_LOCKSCREEN" = "Vergrendelscherm";
 "WIDGETS_HOMESCREEN" = "Thuisscherm";
+"WIDGETS_SETTINGS" = "Instellingen";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Geen Widget geselecteerd";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Er was fout gegaan om je instellingen aan te passen; sommige opties werken waarschijnlijk niet";
