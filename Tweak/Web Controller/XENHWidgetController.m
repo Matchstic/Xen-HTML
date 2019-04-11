@@ -795,28 +795,36 @@ static UIWindow *sharedOffscreenRenderingWindow;
             XENlog(@"Adding editing buttons before the view is loaded...");
         }
         
-        // Settings
-        self.editingSettingsButton = [[XENHButton alloc] initWithTitle:@"Settings"];
-        [self.editingSettingsButton addTarget:self
-                                       action:@selector(_editingSettingsButtonTapped:)
-                             forControlEvents:UIControlEventTouchUpInside];
-        self.editingSettingsButton.hidden = YES;
+        // Settings button
+        if (!self.editingSettingsButton) {
+            
+            self.editingSettingsButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_SETTINGS"]];
+            [self.editingSettingsButton addTarget:self
+                                           action:@selector(_editingSettingsButtonTapped:)
+                                 forControlEvents:UIControlEventTouchUpInside];
+            self.editingSettingsButton.hidden = YES;
+            
+            [self.view addSubview:self.editingSettingsButton];
+        }
         
         // Remove button
-        self.editingRemoveButton = [[XENHCloseButton alloc] initWithTitle:@""];
-        [self.editingRemoveButton addTarget:self
-                                     action:@selector(_editingRemoveButtonTapped:)
-                           forControlEvents:UIControlEventTouchUpInside];
-        self.editingRemoveButton.hidden = YES;
-        
-        [self.view addSubview:self.editingSettingsButton];
-        [self.view addSubview:self.editingRemoveButton];
+        if (!self.editingRemoveButton) {
+            self.editingRemoveButton = [[XENHCloseButton alloc] initWithTitle:@""];
+            [self.editingRemoveButton addTarget:self
+                                         action:@selector(_editingRemoveButtonTapped:)
+                               forControlEvents:UIControlEventTouchUpInside];
+            self.editingRemoveButton.hidden = YES;
+            
+            [self.view addSubview:self.editingRemoveButton];
+        }
         
         // Gesture
-        self.editingPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingPan:)];
-        self.editingPanGesture.minimumNumberOfTouches = 1;
-        
-        [self.editingBackground addGestureRecognizer:self.editingPanGesture];
+        if (!self.editingPanGesture) {
+            self.editingPanGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleEditingPan:)];
+            self.editingPanGesture.minimumNumberOfTouches = 1;
+            
+            [self.editingBackground addGestureRecognizer:self.editingPanGesture];
+        }
     }
 }
 
