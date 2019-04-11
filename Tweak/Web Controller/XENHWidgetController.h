@@ -45,6 +45,7 @@
 
 // Editing
 @property (nonatomic, weak) id<XENHWidgetEditingDelegate> editingDelegate;
+@property (nonatomic, readwrite) BOOL isEditing;
 
 // Initialisation
 - (instancetype)init;
