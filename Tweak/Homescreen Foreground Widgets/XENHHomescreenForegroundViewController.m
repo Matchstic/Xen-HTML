@@ -277,6 +277,7 @@
         widgetMetadata = [NSMutableDictionary dictionary];
     
     [widgetMetadata setObject:options forKey:@"options"];
+    [widgetMetadata setObject:[NSNumber numberWithBool:state] forKey:@"useFallback"];
     
     if (isNewWidget) {
         // Set the default x and y positions for the new widget based on the current page
