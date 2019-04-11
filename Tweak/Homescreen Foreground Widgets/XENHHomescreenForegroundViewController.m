@@ -101,16 +101,16 @@
         lastOrientation = [XENHResources getCurrentOrientation];
         
         if ([XENHResources getCurrentOrientation] == 1 || [XENHResources getCurrentOrientation] == 2) {
-            xOffsetMultipler = [[metadata objectForKey:@"xPortrait"] floatValue];
-            yOffsetMultipler = [[metadata objectForKey:@"yPortrait"] floatValue];
+            xOffsetMultipler = [[metadata objectForKey:@"xPortrait"] doubleValue];
+            yOffsetMultipler = [[metadata objectForKey:@"yPortrait"] doubleValue];
         } else {
             // Use landscape settings if possible, else portrait otherwise
             if ([[metadata allKeys] containsObject:@"xLandscape"]) {
-                xOffsetMultipler = [[metadata objectForKey:@"xLandscape"] floatValue];
-                yOffsetMultipler = [[metadata objectForKey:@"yLandscape"] floatValue];
+                xOffsetMultipler = [[metadata objectForKey:@"xLandscape"] doubleValue];
+                yOffsetMultipler = [[metadata objectForKey:@"yLandscape"] doubleValue];
             } else {
-                xOffsetMultipler = [[metadata objectForKey:@"xPortrait"] floatValue];
-                yOffsetMultipler = [[metadata objectForKey:@"yPortrait"] floatValue];
+                xOffsetMultipler = [[metadata objectForKey:@"xPortrait"] doubleValue];
+                yOffsetMultipler = [[metadata objectForKey:@"yPortrait"] doubleValue];
             }
         }
         
@@ -300,8 +300,8 @@
         if (newY < 0)
             newY = 0;
         
-        [widgetMetadata setObject:[NSNumber numberWithFloat:newX] forKey:@"xPortrait"];
-        [widgetMetadata setObject:[NSNumber numberWithFloat:newY] forKey:@"yPortrait"];
+        [widgetMetadata setObject:[NSNumber numberWithDouble:newX] forKey:@"xPortrait"];
+        [widgetMetadata setObject:[NSNumber numberWithDouble:newY] forKey:@"yPortrait"];
         
         // No default landscape settings -> use portrait by default unless user-set
     }
@@ -523,11 +523,11 @@
     
     BOOL isPortrait = (orient3 == 1 || orient3 == 2);
     if (isPortrait) {
-        [metadata setObject:[NSNumber numberWithFloat:scaledXPosition] forKey:@"xPortrait"];
-        [metadata setObject:[NSNumber numberWithFloat:scaledYPosition] forKey:@"yPortrait"];
+        [metadata setObject:[NSNumber numberWithDouble:scaledXPosition] forKey:@"xPortrait"];
+        [metadata setObject:[NSNumber numberWithDouble:scaledYPosition] forKey:@"yPortrait"];
     } else {
-        [metadata setObject:[NSNumber numberWithFloat:scaledXPosition] forKey:@"xLandscape"];
-        [metadata setObject:[NSNumber numberWithFloat:scaledYPosition] forKey:@"yLandscape"];
+        [metadata setObject:[NSNumber numberWithDouble:scaledXPosition] forKey:@"xLandscape"];
+        [metadata setObject:[NSNumber numberWithDouble:scaledYPosition] forKey:@"yLandscape"];
     }
     
     widgetController.widgetMetadata = metadata;
