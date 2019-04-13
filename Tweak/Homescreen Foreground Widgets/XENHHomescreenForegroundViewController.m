@@ -291,10 +291,6 @@
         
         CGFloat newY = SCREEN_MAX_LENGTH/2 - [[widgetMetadata objectForKey:@"height"] floatValue]/2;
         // Convert to percentages of the display height
-        
-        if (newY < [UIApplication sharedApplication].statusBarFrame.size.height)
-            newY = [UIApplication sharedApplication].statusBarFrame.size.height;
-        
         newY /= SCREEN_MAX_LENGTH;
         
         if (newY < 0)
