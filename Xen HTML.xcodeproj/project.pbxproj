@@ -146,6 +146,9 @@
 		C9B44CB42257F4D100F96BAF /* XENHPickerPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B44CB22257F4D100F96BAF /* XENHPickerPreviewController.h */; };
 		C9B44CB72257FCA500F96BAF /* XENHCloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B44CB52257FCA500F96BAF /* XENHCloseButton.h */; };
 		C9B44CB82257FCA500F96BAF /* XENHCloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B44CB62257FCA500F96BAF /* XENHCloseButton.m */; };
+		C9CE627E22624B350019725D /* XENHWallpaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CE627C22624B350019725D /* XENHWallpaperViewController.m */; };
+		C9CE627F22624B350019725D /* XENHWallpaperViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = C9CE627D22624B350019725D /* XENHWallpaperViewController.h */; };
+		C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9E9BB7020C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9E9BB6E20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h */; };
@@ -320,6 +323,8 @@
 		C9B44CB22257F4D100F96BAF /* XENHPickerPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerPreviewController.h; sourceTree = "<group>"; };
 		C9B44CB52257FCA500F96BAF /* XENHCloseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHCloseButton.h; sourceTree = "<group>"; };
 		C9B44CB62257FCA500F96BAF /* XENHCloseButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHCloseButton.m; sourceTree = "<group>"; };
+		C9CE627C22624B350019725D /* XENHWallpaperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWallpaperViewController.m; sourceTree = "<group>"; };
+		C9CE627D22624B350019725D /* XENHWallpaperViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWallpaperViewController.h; sourceTree = "<group>"; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		C9E9BB6E20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHHomescreenForegroundViewController.h; sourceTree = "<group>"; };
 		C9E9BB6F20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHHomescreenForegroundViewController.m; sourceTree = "<group>"; };
@@ -338,6 +343,7 @@
 				C9196E682256A4EE009C59CB /* Preferences.tbd in Frameworks */,
 				C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */,
 				C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */,
+				C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */,
 				C9606EEB1C20E204006C8917 /* WebKit.framework in Frameworks */,
 				C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */,
 				C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */,
@@ -518,6 +524,8 @@
 				C94774C420715D050003D039 /* XENHTouchForwardingRecognizer.m */,
 				C94774C320715D050003D039 /* XENHTouchPassThroughView.h */,
 				C94774C620715D050003D039 /* XENHTouchPassThroughView.m */,
+				C9CE627D22624B350019725D /* XENHWallpaperViewController.h */,
+				C9CE627C22624B350019725D /* XENHWallpaperViewController.m */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -1141,6 +1149,8 @@
 				C94774F720715D050003D039 /* XENHTouchPassThroughView.m in Sources */,
 				C94775CA207161A90003D039 /* XenHTML.mm in Sources */,
 				C94774E720715D050003D039 /* XENSetupWindow.m in Sources */,
+				C9CE627E22624B350019725D /* XENHWallpaperViewController.m in Sources */,
+				C9CE627F22624B350019725D /* XENHWallpaperViewController.h in Sources */,
 				C906108122554E8000783AAA /* XENHConfigJSController.m in Sources */,
 				C906108522554E8000783AAA /* XENHMetadataOptionsController.m in Sources */,
 				C94774F520715D050003D039 /* XENHTouchForwardingRecognizer.m in Sources */,

@@ -19,6 +19,7 @@
 #import "XENHPickerPreviewController.h"
 #import "XENHResources.h"
 #import "XENHHomescreenForegroundViewController.h"
+#import "XENHWallpaperViewController.h"
 
 @interface WKPreferences (Private)
 - (void)_setAllowFileAccessFromFileURLs:(BOOL)arg1;
@@ -49,6 +50,8 @@
 
 @interface XENHPickerPreviewController ()
 
+@property (nonatomic, strong) XENHWallpaperViewController *wallpaperController;
+
 @end
 
 @implementation XENHPickerPreviewController
@@ -67,6 +70,10 @@
 -(void)loadView {
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    // Do the wallpaper first
+    self.wallpaperController = [[XENHWallpaperViewController alloc] initWithVariant:1];
+    [self.view addSubview:self.wallpaperController.view];
     
     // Add web view.
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
@@ -141,6 +148,10 @@
         self.webView.transform = CGAffineTransformMakeScale(ratio, ratio);
     
         self.webView.frame = CGRectMake((self.view.frame.size.width - self.webView.frame.size.width)/2, missingHeight/2, self.webView.frame.size.width, self.webView.frame.size.height);
+        
+        self.wallpaperController.view.bounds = self.webView.bounds;
+        self.wallpaperController.view.transform = self.webView.transform;
+        self.wallpaperController.view.frame = self.webView.frame;
     } else {
         CGFloat fullheight = [UIScreen mainScreen].bounds.size.height;
         CGFloat currentHeight = self.view.bounds.size.height - self.navigationController.navigationBar.frame.size.height;
@@ -151,6 +162,10 @@
         self.webView.transform = CGAffineTransformMakeScale(ratio, ratio);
         
         self.webView.frame = CGRectMake((self.view.frame.size.width - self.webView.frame.size.width)/2, self.navigationController.navigationBar.frame.size.height - 10.0, self.webView.frame.size.width, self.webView.frame.size.height);
+        
+        self.wallpaperController.view.bounds = self.webView.bounds;
+        self.wallpaperController.view.transform = self.webView.transform;
+        self.wallpaperController.view.frame = self.webView.frame;
     }
 }
 
