@@ -191,9 +191,18 @@
 }
 
 - (UIImage*)_staticImageForVariant:(int)variant {
-    NSString *wallpaperName = variant == 0 ? @"LockBackground.cpbitmap" : @"HomeBackground.cpbitmap";
     
-    NSString *wallpaperPath = [NSString stringWithFormat:@"/var/mobile/Library/SpringBoard/%@", wallpaperName];
+    // Make sure to fallback to LockBackground.cpbitmap if needed
+    NSString *wallpaperPath = @"/var/mobile/Library/SpringBoard/LockBackground.cpbitmap";
+    
+    if (variant != 0) {
+        // Load HomeBackground.cpbitmap if possible
+        // Handles case of user using the "Set Both" option for a given wallpaper
+        NSString *homescreenWallpaperPath = @"/var/mobile/Library/SpringBoard/HomeBackground.cpbitmap";
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:homescreenWallpaperPath])
+            wallpaperPath = homescreenWallpaperPath;
+    }
     
     NSLog(@"*** Loading from: %@", wallpaperPath);
     
