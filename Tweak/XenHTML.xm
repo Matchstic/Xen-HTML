@@ -2643,6 +2643,24 @@ static BOOL _xenhtml_inEditingMode;
 
 %end
 
+#pragma mark Stop white area bug (iOS 9+)
+
+@interface _UIPlatterView : UIView
+@end
+
+%hook _UIPlatterView
+
+- (void)didMoveToSuperview {
+    %orig;
+    
+    if ([[self.superview.superview class] isEqual:objc_getClass("WKScrollView")]) {
+        XENlog(@"_UIPlatterView :: preventing add to webview!");
+        [self removeFromSuperview];
+    }
+}
+
+%end
+
 #pragma mark Add proper debugging capabilities to UIWebView (iOS 9+)
 
 %hook UIWebView
