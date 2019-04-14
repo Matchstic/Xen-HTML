@@ -246,11 +246,7 @@
 @end
 
 @interface XENDashBoardWebViewController : SBDashBoardViewControllerBase
-@property (nonatomic, retain) UIView *webview;
-@property (nonatomic, retain) UIGestureRecognizer *notificationsPullUpGesture;
 -(void)setWebView:(UIView*)view;
--(void)unregisterView;
--(void)setNotificationsGesture:(UIGestureRecognizer*)gestureRecognizer;
 @end
 
 @interface SBDashBoardPresentationViewController : SBDashBoardViewControllerBase
@@ -675,8 +671,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %hook XENDashBoardWebViewController
 
-%property (nonatomic, retain) UIView *webview;
-
 - (long long)presentationTransition {
     return 1;
 }
@@ -701,22 +695,17 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %new
 -(void)setWebView:(UIView*)view {
-    self.webview = view;
-    [self.view insertSubview:self.webview atIndex:0];
+    [self.view insertSubview:view atIndex:0];
     
     //[self registerView:self.webview forRole:1];
-}
-
-%new
--(void)unregisterView {
-    //[self unregisterView:self.webview];
-
 }
 
 -(void)viewDidLayoutSubviews {
     %orig;
     
-    self.webview.frame = self.view.bounds;
+    for (UIView *view in self.view.subviews) {
+        view.frame = self.view.bounds;
+    }
 }
 
 %end
