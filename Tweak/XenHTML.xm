@@ -2521,7 +2521,10 @@ static BOOL _xenhtml_inEditingMode;
     if (arg1) {
         self._xenhtml_addButton.hidden = NO;
         self._xenhtml_editingPlatter.hidden = NO;
-        self.pageControl.hidden = YES;
+        
+        if (![XENHResources hidePageControlDots]) {
+            self.pageControl.hidden = YES;
+        } // Otherwise, already hidden
         
         self._xenhtml_addButton.alpha = 0.0;
         self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -2531,7 +2534,10 @@ static BOOL _xenhtml_inEditingMode;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
         }];
     } else {
-        self.pageControl.hidden = NO;
+        
+        if (![XENHResources hidePageControlDots]) {
+            self.pageControl.hidden = NO;
+        }
         
         [UIView animateWithDuration:animationDuration animations:^{
             self._xenhtml_addButton.alpha = 0.0;
