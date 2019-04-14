@@ -2512,6 +2512,10 @@ static BOOL _xenhtml_inEditingMode;
 - (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
     %orig;
     
+    // If the SB is not enabled, then don't go any further than this
+    if (![XENHResources SBEnabled])
+        return;
+    
     _xenhtml_inEditingMode = arg1;
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
     
@@ -2648,10 +2652,22 @@ static BOOL _xenhtml_inEditingMode;
 - (void)didMoveToSuperview {
     %orig;
     
-    if ([[self.superview.superview class] isEqual:objc_getClass("WKScrollView")]) {
+    if ([[self.superview.superview class] isEqual:objc_getClass("WKScrollView")] ||
+        [[self.superview class] isEqual:objc_getClass("UIWebBrowserView")]) {
         XENlog(@"_UIPlatterView :: preventing add to webview!");
         [self removeFromSuperview];
     }
+}
+
+%end
+
+#pragma mark Stop magnification loupe bug (iOS 11+)
+
+%hook UIWKTextLoupeInteraction
+
+-(void)loupeGesture:(id)arg1 {
+    XENlog(@"UIWKTextLoupeInteraction :: ignoring!");
+    return;
 }
 
 %end
