@@ -54,6 +54,9 @@ extern char **environ;
 @property (nonatomic, strong) XENHButton *editingSettingsButton;
 @property (nonatomic, strong) XENHCloseButton *editingRemoveButton;
 @property (nonatomic, strong) UIPanGestureRecognizer *editingPanGesture;
+@property (nonatomic, strong) NSTimer *editingPageEdgeTimer;
+@property (nonatomic, readwrite) CGPoint editingGestureStartPoint;
+@property (nonatomic, readwrite) CGPoint editingViewStartCenter;
 
 @end
 
@@ -878,9 +881,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     if (!self.editingDelegate)
         return;
     
-    static CGPoint gestureStartPoint;
-    static CGPoint viewStartCenter;
-    static NSTimer *pageEdgeTimer;
+    static CGFloat pageEdgeDistance = 25; // px
     static BOOL shouldSnapToGuides = YES;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
@@ -892,8 +893,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
         // Notify delegate of positioning start
         [self.editingDelegate notifyWidgetPositioningDidBegin:self];
         
-        gestureStartPoint = [gesture locationInView:self.view.superview];
-        viewStartCenter = self.view.center;
+        self.editingGestureStartPoint = [gesture locationInView:self.view.superview];
+        self.editingViewStartCenter = self.view.center;
         
         // Add some sweet styling now that this widget is rolling
         [self _addEditingPositioningBackdrop];
@@ -904,21 +905,21 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         // Cancel page edge timer due to user movement
-        if (pageEdgeTimer)
-            [pageEdgeTimer invalidate];
+        if (self.editingPageEdgeTimer)
+            [self.editingPageEdgeTimer invalidate];
         
         // Move around on-screen.
         CGPoint currentGesturePoint = [gesture locationInView:self.view.superview];
         
-        CGFloat xOffset = currentGesturePoint.x - gestureStartPoint.x;
-        CGFloat yOffset = currentGesturePoint.y - gestureStartPoint.y;
+        CGFloat xOffset = currentGesturePoint.x - self.editingGestureStartPoint.x;
+        CGFloat yOffset = currentGesturePoint.y - self.editingGestureStartPoint.y;
         
-        self.view.center = CGPointMake(viewStartCenter.x + xOffset, viewStartCenter.y + yOffset);
+        self.view.center = CGPointMake(self.editingViewStartCenter.x + xOffset, self.editingViewStartCenter.y + yOffset);
         
         if (shouldSnapToGuides) {
             CGFloat center = self.view.superview.bounds.size.width/2;
             
-            CGFloat mainViewX = viewStartCenter.x + xOffset;
+            CGFloat mainViewX = self.editingViewStartCenter.x + xOffset;
             
             // The editing background displayed to the user is on the top-left of the
             // actual view displayed by the controller; it is partially touchable.
@@ -946,29 +947,29 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         // The timer will get invalidated as soon as the user moves the widget again.
         // Repeating it allows keeping the widget on the edge to keep moving along pages
-        if (currentGesturePoint.x < 20) {
-            pageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnLeftEdge) userInfo:nil repeats:YES];
-        } else if (currentGesturePoint.x > SCREEN_WIDTH - 20) {
-            pageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnRightEdge) userInfo:nil repeats:YES];
+        if (currentGesturePoint.x < pageEdgeDistance) {
+            self.editingPageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnLeftEdge) userInfo:nil repeats:YES];
+        } else if (currentGesturePoint.x > SCREEN_WIDTH - pageEdgeDistance) {
+            self.editingPageEdgeTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self.editingDelegate selector:@selector(notifyWidgetHeldOnRightEdge) userInfo:nil repeats:YES];
         }
         
     } else if (gesture.state == UIGestureRecognizerStateEnded || gesture.state == UIGestureRecognizerStateCancelled) {
         // Cancel page edge timer due to user movement ending
-        if (pageEdgeTimer)
-            [pageEdgeTimer invalidate];
+        if (self.editingPageEdgeTimer)
+            [self.editingPageEdgeTimer invalidate];
         
         // Move around on-screen.
         CGPoint currentGesturePoint = [gesture locationInView:self.view.superview];
         
-        CGFloat xOffset = currentGesturePoint.x - gestureStartPoint.x;
-        CGFloat yOffset = currentGesturePoint.y - gestureStartPoint.y;
+        CGFloat xOffset = currentGesturePoint.x - self.editingGestureStartPoint.x;
+        CGFloat yOffset = currentGesturePoint.y - self.editingGestureStartPoint.y;
         
-        self.view.center = CGPointMake(viewStartCenter.x + xOffset, viewStartCenter.y + yOffset);
+        self.view.center = CGPointMake(self.editingViewStartCenter.x + xOffset, self.editingViewStartCenter.y + yOffset);
         
         if (shouldSnapToGuides) {
             CGFloat center = self.view.superview.bounds.size.width/2.0;
             
-            CGFloat mainViewX = viewStartCenter.x + xOffset;
+            CGFloat mainViewX = self.editingViewStartCenter.x + xOffset;
             CGFloat adjustment = (self.view.bounds.size.width/2.0) - (self.editingBackground.bounds.size.width/2.0);
             mainViewX -= adjustment;
             
