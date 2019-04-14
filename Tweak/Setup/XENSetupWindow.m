@@ -55,6 +55,8 @@ static XENHSetupWindow *shared;
     
     shared.backgroundColor = [UIColor clearColor];
     
+    shared.backgroundImageView.hidden = YES; // Obscured by pages now
+    
     [UIView animateWithDuration:0.5 animations:^{
         shared.rootViewController.view.alpha = 0.0;
         shared.rootViewController.view.transform = CGAffineTransformMakeScale(2.0, 2.0);
