@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-//%config(generator=internal);
+%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -328,9 +328,13 @@
 
 @interface SBRootFolderController : UIViewController
 - (SBRootFolderView*)rootFolderView;
+@property (nonatomic,retain,readonly) SBRootFolderView *contentView; // iOS 9
 @end
 
 @interface SBIconController : UIViewController
+-(SBRootFolderController*)_rootFolderController;
+-(id)rootIconListAtIndex:(long long)arg1;
+-(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
 @end
 
 static void hideForegroundForLSNotifIfNeeded();
@@ -2364,7 +2368,164 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Foreground SBHTML (iOS 9+)
+#pragma mark Foreground SBHTML init (iOS 9)
+
+%hook SBIconController
+
+- (void)loadView {
+    %orig;
+    
+    // iOS verison guard
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0)
+        return;
+    
+    XENlog(@"SBIconController loadView");
+    
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        XENlog(@"Created foreground SBHTML widgets view, pending presentation");
+    }
+    
+    // Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+}
+
+// Patched in to support SBRootFolderController signature
+
+%new
+- (id)rootFolderView {
+    return [self _rootFolderController].contentView;
+}
+
+%new
+- (id)iconListViewAtIndex:(long long)index {
+    return [self rootIconListAtIndex:index];
+}
+
+%new
+- (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2 {
+    return [self scrollToIconListAtIndex:arg1 animate:arg2];
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        if (sbhtmlForegroundViewController) {
+            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
+        } else {
+            XENlog(@"Loading foreground SBHTML widgets view");
+            
+            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+            
+            if (isOnMainScreen) {
+                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+                
+                SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+                [rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+                
+                XENlog(@"Added foreground SBHTML widgets view");
+            }
+        }
+    } else if (sbhtmlForegroundViewController) {
+        [sbhtmlForegroundViewController unloadWidgets];
+        [sbhtmlForegroundViewController.view removeFromSuperview];
+        sbhtmlForegroundViewController = nil;
+    }
+}
+
+%end
+
+%hook SBRootFolderController
+
+-(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
+    SBRootFolderController *orig = %orig;
+    
+    if (orig && [UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+        if ([XENHResources SBEnabled]) {
+            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Presented foreground SBHTML");
+        }
+        
+        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    }
+    
+    return orig;
+}
+
+%end
+
+#pragma mark Foreground SBHTML init (iOS 10+)
+
+%hook SBRootFolderController
+
+- (void)loadView {
+    %orig;
+    
+    // iOS verison guard
+    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0)
+        return;
+    
+    XENlog(@"SBRootFolderController loadView");
+    
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        
+        XENlog(@"Added foreground SBHTML widgets view");
+    }
+    
+    self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    
+    // Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        if (sbhtmlForegroundViewController) {
+            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
+        } else {
+            XENlog(@"Loading foreground SBHTML widgets view");
+            
+            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+            
+            if (isOnMainScreen) {
+                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+                
+                [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                
+                self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+            }
+        }
+    } else if (sbhtmlForegroundViewController) {
+        [sbhtmlForegroundViewController unloadWidgets];
+        [sbhtmlForegroundViewController.view removeFromSuperview];
+        sbhtmlForegroundViewController = nil;
+    }
+}
+
+%end
+
+#pragma mark Foreground SBHTML layout (iOS 9+)
 
 %hook SBIconScrollView
 
@@ -2374,6 +2535,7 @@ void cancelIdleTimer() {
     %orig;
     
     // Layout if needed
+    XENlog(@"SBIconScrollView LAYOUT!");
     if (self._xenhtml_isForegroundWidgetHoster) {
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
         
@@ -2414,63 +2576,6 @@ void cancelIdleTimer() {
         }
         
         [sbhtmlForegroundViewController updatedPageContentOffset:arg1 page:(int)page];
-    }
-}
-
-%end
-
-%hook SBRootFolderController
-
-- (void)loadView {
-    %orig;
-    
-    XENlog(@"SBRootFolderController loadView");
-    
-    if ([XENHResources SBEnabled]) {
-        // Add view to root scroll view, and set that scrollview to be the hoster
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-        
-        [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
-        
-        XENlog(@"Added foreground SBHTML widgets view");
-    }
-    
-    self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-    
-    // Register for settings updates
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
-                                               object:nil];
-    
-    XENlog(@"SBRootFolderController loadView DONE");
-}
-
-// Will need to reload SBHTML if settings change.
-%new
--(void)recievedSBHTMLUpdate:(id)sender {
-    if ([XENHResources SBEnabled]) {
-        if (sbhtmlForegroundViewController) {
-            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
-        } else {
-            XENlog(@"Loading foreground SBHTML widgets view");
-            
-            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
-            
-            if (isOnMainScreen) {
-                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-                
-                [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
-                self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-            }
-        }
-    } else if (sbhtmlForegroundViewController) {
-        [sbhtmlForegroundViewController unloadWidgets];
-        [sbhtmlForegroundViewController.view removeFromSuperview];
-        sbhtmlForegroundViewController = nil;
     }
 }
 
@@ -2527,7 +2632,14 @@ static BOOL _xenhtml_inEditingMode;
         self._xenhtml_editingPlatter.hidden = NO;
         
         if (![XENHResources hidePageControlDots]) {
-            self.pageControl.hidden = YES;
+            // Handle differences for iOS 9
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+#endif
+            } else {
+                self.pageControl.hidden = YES;
+            }
         } // Otherwise, already hidden
         
         self._xenhtml_addButton.alpha = 0.0;
@@ -2540,14 +2652,19 @@ static BOOL _xenhtml_inEditingMode;
     } else {
         
         if (![XENHResources hidePageControlDots]) {
-            self.pageControl.hidden = NO;
+            // Handle differences for iOS 9
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:NO];
+#endif
+            } else {
+                self.pageControl.hidden = NO;
+            }
         }
         
         [UIView animateWithDuration:animationDuration animations:^{
             self._xenhtml_addButton.alpha = 0.0;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
-            
-            self.pageControl.alpha = 1.0;
         } completion:^(BOOL finished) {
             self._xenhtml_addButton.hidden = YES;
             self._xenhtml_editingPlatter.hidden = YES;
