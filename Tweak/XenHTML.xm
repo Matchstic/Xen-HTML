@@ -35,7 +35,7 @@
 
 /*
  Other steps to compile for actual device again:
- 1. Make CydiaSubstrate linking required
+ 1. Make CydiaSubstrate linking required?
  2. Change build target
  
  Note: the simulator *really* doesn't like MSHookIvar.
@@ -327,8 +327,7 @@
 @end
 
 @interface SBRootFolderController : UIViewController
-- (SBRootFolderView*)rootFolderView;
-@property (nonatomic,retain,readonly) SBRootFolderView *contentView; // iOS 9
+@property (nonatomic,retain,readonly) SBRootFolderView *contentView;
 @end
 
 @interface SBIconController : UIViewController
@@ -2399,7 +2398,7 @@ void cancelIdleTimer() {
 // Patched in to support SBRootFolderController signature
 
 %new
-- (id)rootFolderView {
+- (id)_xenhtml_contentView {
     return [self _rootFolderController].contentView;
 }
 
@@ -2482,12 +2481,12 @@ void cancelIdleTimer() {
         sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
         [sbhtmlForegroundViewController updatePopoverPresentationController:self];
         
-        [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
         
         XENlog(@"Added foreground SBHTML widgets view");
     }
     
-    self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
     // Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -2511,9 +2510,9 @@ void cancelIdleTimer() {
                 sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
                 [sbhtmlForegroundViewController updatePopoverPresentationController:self];
                 
-                [self.rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
                 
-                self.rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+                self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
             }
         }
     } else if (sbhtmlForegroundViewController) {
@@ -2521,6 +2520,11 @@ void cancelIdleTimer() {
         [sbhtmlForegroundViewController.view removeFromSuperview];
         sbhtmlForegroundViewController = nil;
     }
+}
+
+%new
+- (id)_xenhtml_contentView {
+    return self.contentView;
 }
 
 %end
