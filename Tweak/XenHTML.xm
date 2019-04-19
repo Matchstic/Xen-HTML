@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-%config(generator=internal);
+//%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -331,6 +331,7 @@
 @end
 
 @interface SBIconController : UIViewController
++ (instancetype)sharedInstance;
 -(SBRootFolderController*)_rootFolderController;
 -(id)rootIconListAtIndex:(long long)arg1;
 -(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
@@ -3439,9 +3440,17 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
-%hook SBLockScreenManager
+@interface SBHomeScreenWindow : UIWindow
+@end
 
-- (_Bool)_finishUIUnlockFromSource:(int)arg1 withOptions:(id)arg2 {
+%hook SBHomeScreenWindow
+
+- (void)becomeKeyWindow {
+    // Hooking here to do things just after the device is unlocked
+    
+    %orig;
+    
+    // Launch Cydia to install from the official source
     if (launchCydiaForSource) {
         launchCydiaForSource = NO;
         
@@ -3449,7 +3458,22 @@ static BOOL launchCydiaForSource = NO;
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
     
-    return %orig;
+    // Show the how-to for Homescreen foreground widgets
+    if ([XENHResources requiresHomescreenForegroundAlert]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                                    message:@"You can now add widgets that move with your Homescreen icons.\n\nPress and hold an icon to enter editing mode, then tap 'Add widget' above the dock."
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        [self.rootViewController presentViewController:alert animated:YES completion:nil];
+        
+        // Update preferences for showing the alert
+        [XENHResources setHomescreenForegroundAlertSeen:YES];
+    }
 }
 
 %end

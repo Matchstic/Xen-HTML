@@ -80,6 +80,9 @@ static BOOL shownGraceEnded = NO;
 + (BOOL)showUnsupportedAlertForCurrentVersion;
 + (void)userRequestsForceSupportForCurrentVersion;
 
++ (BOOL)requiresHomescreenForegroundAlert;
++ (void)setHomescreenForegroundAlertSeen:(BOOL)seen;
+
 #pragma mark Lockscreen stuff
 
 +(BOOL)lsenabled;

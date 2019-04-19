@@ -620,7 +620,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)_isOnSupportedIOSVersion {
     CGFloat minVersion = 9.0;
-    CGFloat maxVersion = 11.4;
+    CGFloat maxVersion = 12.1;
     
     return [UIDevice currentDevice].systemVersion.floatValue <= maxVersion && [UIDevice currentDevice].systemVersion.floatValue >= minVersion;
 }
@@ -645,6 +645,15 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 + (void)userRequestsForceSupportForCurrentVersion {
     NSString *versionCheckKey = [NSString stringWithFormat:@"unsupportedOverride%@", [UIDevice currentDevice].systemVersion];
     [self setPreferenceKey:versionCheckKey withValue:@1 andPost:NO];
+}
+
++ (BOOL)requiresHomescreenForegroundAlert {    
+    id value = settings[@"requiresHomescreenForegroundAlert"];
+    return (value ? [value boolValue] : YES);
+}
+
++ (void)setHomescreenForegroundAlertSeen:(BOOL)seen {
+    [self setPreferenceKey:@"requiresHomescreenForegroundAlert" withValue:[NSNumber numberWithBool:!seen] andPost:NO];
 }
 
 #pragma mark LS
