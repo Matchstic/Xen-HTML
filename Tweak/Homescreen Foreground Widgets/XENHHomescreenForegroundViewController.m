@@ -33,7 +33,7 @@
 @end
 
 @interface SBRootFolderController : UIViewController
-- (SBRootFolderView*)rootFolderView;
+- (SBRootFolderView*)_xenhtml_contentView;
 - (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2;
 - (SBIconListView*)iconListViewAtIndex:(unsigned long long)arg1;
 @end
@@ -482,7 +482,7 @@
 
 - (void)notifyWidgetPositioningDidBegin:(XENHWidgetController*)widgetController {
     // Put this widget controller onto the editing platter
-    UIView *platter = self.popoverPresentationController.rootFolderView._xenhtml_editingPlatter;
+    UIView *platter = self.popoverPresentationController._xenhtml_contentView._xenhtml_editingPlatter;
     
     // Convert current widget position from scrollview
     CGFloat currentX = widgetController.view.frame.origin.x;
