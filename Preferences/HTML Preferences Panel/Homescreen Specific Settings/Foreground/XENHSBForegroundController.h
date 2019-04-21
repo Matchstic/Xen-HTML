@@ -16,20 +16,11 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import <UIKit/UIKit.h>
+#import <Preferences/PSListController.h>
+#import "XENHMultiplexWidgetsHeaderView.h"
 
-typedef enum : NSUInteger {
-    kMultiplexVariantLockscreenBackground = 0,
-    kMultiplexVariantLockscreenForeground = 1,
-    kMultiplexVariantHomescreenBackground = 2,
-    kMultiplexVariantHomescreenForeground = 3,
-} XENHMultiplexVariant;
+@interface XENHSBForegroundController : PSListController
 
-@interface XENHMultiplexWidgetsHeaderView : UIView
-
-@property (nonatomic, strong) UIImageView *icon;
-@property (nonatomic, strong) UILabel *label;
-
-- (instancetype)initWithVariant:(XENHMultiplexVariant)variant;
+@property (nonatomic, strong) XENHMultiplexWidgetsHeaderView *headerView;
 
 @end

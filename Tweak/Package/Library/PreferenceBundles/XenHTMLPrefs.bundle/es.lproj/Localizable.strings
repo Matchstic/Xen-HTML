@@ -66,4 +66,5 @@
 "WIDGETS_PREVIEW_FOOTER" = "Deslize para ajustar el ángulo de vista preliminar.";
 "WIDGETS_PREVIEW_HEADER" = "Vista Preliminar";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Widgets de fondo se convierten en adiciones interactivas del fondo de pantalla";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_TITLE" = "Widgets";

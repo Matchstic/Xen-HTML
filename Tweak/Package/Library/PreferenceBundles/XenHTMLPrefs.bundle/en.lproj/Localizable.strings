@@ -35,6 +35,7 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "Background widgets become part of your wallpaper";
 "WIDGETS_LSFOREGROUND_DETAIL" = "Foreground widgets are fully interactive additions to your Lockscreen";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Background widgets become interactive additions to your wallpaper";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "No widgets selected";
 "WIDGETS_ADD_NEW" = "Add widget";
 "WIDGETS_CONFIGURE" = "Configure:";

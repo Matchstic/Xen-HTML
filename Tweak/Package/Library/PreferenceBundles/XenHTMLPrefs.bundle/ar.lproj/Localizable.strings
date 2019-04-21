@@ -50,6 +50,7 @@
     "WIDGETS_PREVIEW_FOOTER" = "حرك لضبط زاوية المعاينة";
     "WIDGETS_PREVIEW_HEADER" = "مراجعة";
     "WIDGETS_SBBACKGROUND_DETAIL" = "ويدجات الخلفية ستصبح اضافات تفاعلية بالكامل على خلفيتك";
+    "WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
     "WIDGETS_SETTINGS" = "الإعدادات";
     "WIDGETS_TITLE" = "الويدجات";
     "WIDGET_EDITOR_DRAGDROP" = "سحب وافلات لضبط الموضع";

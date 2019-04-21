@@ -35,6 +35,7 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "Τα widgets βάθους να ενσωματωθούν στη wallpaper";
 "WIDGETS_LSFOREGROUND_DETAIL" = "Τα widgets πρώτου πλάνου είναι πλήρως διαδραστικά στην οθόνη κλειδώματος";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Τα widgets βάθους να γίνουν πλήρως διαδραστικά με την  wallpaper";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "Κανένα widget επιλεγμένο";
 "WIDGETS_ADD_NEW" = "Προσθήκη widget";
 "WIDGETS_CONFIGURE" = "Διαμόρφωση:";

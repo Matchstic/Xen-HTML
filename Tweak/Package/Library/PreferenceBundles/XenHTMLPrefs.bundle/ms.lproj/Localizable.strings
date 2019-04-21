@@ -50,6 +50,7 @@
 "WIDGETS_PREVIEW_FOOTER" = "Geser untuk menyesuaikan sudut pratonton.";
 "WIDGETS_PREVIEW_HEADER" = "Pratonton";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Widget latar belakang menjadi tambahan interaktif pada kertas dinding anda";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_TITLE" = "Widget";
 "WIDGET_EDITOR_DRAGDROP" = "Seret dan lepaskan untuk menyesuaikan kedudukan";
 "WIDGET_EDITOR_DRAGDROP_IPAD" = "Seret dan lepaskan untuk menyesuaikan kedudukan\nPutar peranti anda untuk melihat dalam orientasi yang berbeza";

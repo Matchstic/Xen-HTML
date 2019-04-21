@@ -51,6 +51,7 @@
     "WIDGETS_PREVIEW_FOOTER" = "Регулировка угла предварительного просмотра";
     "WIDGETS_PREVIEW_HEADER" = "Предварительный просмотр";
     "WIDGETS_SBBACKGROUND_DETAIL" = "Фоновые виджеты становятся частью ваших обоев";
+    "WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
     "WIDGETS_TITLE" = "Виджеты";
     "WIDGET_EDITOR_DRAGDROP" = "Перетащите и отрегулируйте положение";
     "WIDGET_EDITOR_DRAGDROP_IPAD" = "Перетащите и отрегулируйте положение\n\nПоверните устройство для просмотра в разных положениях";

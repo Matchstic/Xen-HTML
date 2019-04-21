@@ -51,6 +51,7 @@
     "WIDGETS_PREVIEW_FOOTER" = "Deslize para ajustar o ângulo de visualização.";
     "WIDGETS_PREVIEW_HEADER" = "Prévia";
     "WIDGETS_SBBACKGROUND_DETAIL" = "Widgets de fundo tornam-se adições interativas ao seu papel de parede";
+    "WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
     "WIDGETS_TITLE" = "Widgets";
     "WIDGET_EDITOR_DRAGDROP" = "Arraste e solte para ajustar a posição";
     "WIDGET_EDITOR_DRAGDROP_IPAD" = "Arraste e solte para ajustar a posição\n\nGire o seu dispositivo para ver em diferentes orientações";
