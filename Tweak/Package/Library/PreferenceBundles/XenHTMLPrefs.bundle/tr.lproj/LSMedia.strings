@@ -1,0 +1,9 @@
+{
+    "HIDE_ARTWORK" = "Medya Albüm Kapağı Gizle";
+    "HIDE_FOREGROUND_ARTWORK" = "Albüm Kapağı";
+    "HIDE_FOREGROUND_CONTROLS" = "Arayüz Kontrolleri";
+    "HIDE_FOREGROUND_FOOTER" = "Stok ortam denetimlerinin yanı sıra davranışı da yapılandırın.";
+    "HIDE_FOREGROUND_HEADER" = "Ön Plan Widget'ını Gizle:";
+    "MISC_HEADER" = "Çeşitli";
+    "TITLE" = "Medya Kontrolleri";
+}

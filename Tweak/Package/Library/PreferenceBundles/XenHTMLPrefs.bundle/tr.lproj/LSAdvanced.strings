@@ -1,0 +1,11 @@
+{
+    "BATTERY_MANAGEMENT" = "Pil Yönetimi'ni Kullanın";
+    "BATTERY_MANAGEMENT_FOOTER" = "Pil yönetimini devre dışı bırakmak daha fazla pil kullanımına sebep olur, ancak bazı görsel sorunları önleyebilir.";
+    "PERSISTENT_MODE" = "Kalıcı Mod";
+    "PERSISTENT_MODE_FOOTER" = "Kalıcı mod, Lockscreen widget'lerinizi her zaman bellekte tutar, böylece cihazınızı kilitledikten sonra yüklenmeleri gerekmez.\n\nBu modun kullanılması daha fazla pil harcanmasına neden olabilir.";
+    "SCROLL_PRIORITY_IOS10" = "Widget'ta Kaydırmaya Öncelik Verin";
+    "SCROLL_PRIORITY_IOS10_FOOTER" = "Kaydırılabilir bölgelere sahip widgetler için, dokunuşlara öncelik vermek bu bölgelerin kullanımını engelleyen sorunları çözecektir.";
+    "SCROLL_PRIORITY_IOS11" = "Widget'ta Dokunmaya Öncelik Ver";
+    "SCROLL_PRIORITY_IOS11_FOOTER" = "Ekranın alt kısmında dokunulabilir bölgelere sahip widgetlar için, bunu açmak, kullanımlarına izin verecektir.\n\nAncak, geçmiş bildirimleri görmek için yukarı kaydırmanız mümkün olmayacaktır.";
+    "TITLE" = "Gelişmiş";
+}

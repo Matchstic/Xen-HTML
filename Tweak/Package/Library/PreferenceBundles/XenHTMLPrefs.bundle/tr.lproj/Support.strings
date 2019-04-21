@@ -1,0 +1,10 @@
+{
+    "BUGS_FEATURES" = "Hataları ve Özellik İsteklerini Bildir";
+    "MESSAGE_FOOTER" = "Bir cevap almanız birkaç gün sürebilir.";
+    "MESSAGE_HEADER" = "Mesaj Gönder:";
+    "MESSAGE_MAIL" = "Mail Gönder";
+    "MESSAGE_TWITTER" = "Twitter ile Ulaş";
+    "RESET_FOOTER" = "Bu Tüm Xen HTML Ayarlarını Siler.";
+    "RESET_SETTINGS" = "Tüm Ayarları Sıfırla";
+    "TITLE" = "Yardım";
+}

@@ -1,0 +1,30 @@
+{
+    "ADVANCED" = "Gelişmiş";
+    "ELEMENT_HIDE_OTHERS" = "Diğer Öğeleri Gizle";
+    "ELEMENT_HOME_TO_UNLOCK" = "'Kilidini Açmak için Anamenü Tuşuna Basın' Metnini Gizle";
+    "ELEMENT_LS_CLOCK" = "Kilit Ekranında Saati Gizle";
+    "ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Tüm Sayfalarda";
+    "ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Kilitli Ekran saati, sadece Ana sayfada veya Bugün sayfası dahil olmak üzere tüm sayfalarda gizlenebilir.";
+    "ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Ana Sayfada";
+    "ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Göster";
+    "ELEMENT_SLIDE_TO_UNLOCK" = "Açmak için Kaydır Yazısını Gizle";
+    "ELEMENT_SWIPE_TO_UNLOCK" = "Açmak için Yukarı Kaydır Yazısını Gizle";
+    "ELEMENT_VISIBILITY_FOOTER" = "Xen HTML kullanırken kilit ekranı öğelerini gizleyin.";
+    "ELEMENT_VISIBILITY_HEADER" = "Öğe Görünürlüğü";
+    "MISC_LS_IDLE_TIME" = "Kilit Ekranı Boşta Kalma Süresi";
+    "MISC_LS_IDLE_TIME_10S" = "10 Saniye";
+    "MISC_LS_IDLE_TIME_120S" = "2 Dakika";
+    "MISC_LS_IDLE_TIME_15S" = "15 Saniye";
+    "MISC_LS_IDLE_TIME_20S" = "20 Saniye";
+    "MISC_LS_IDLE_TIME_30S" = "30 Saniye";
+    "MISC_LS_IDLE_TIME_60S" = "1 Dakika";
+    "MISC_LS_STATUS_BAR_SIZE" = "Kilit Ekranında Küçük Durum Çubuğu";
+    "MSIC_HEADER" = "Çeşitli";
+    "VISIBILITY_HEADER" = "Widget Görünürlüğü";
+    "VISIBILITY_MEDIA" = "Medya Kontrolleri Davranışı";
+    "VISIBILITY_NOTIFICATIONS" = "Bildirimler Davranışı";
+    "VISIBILITY_OPACITY" = "Gizlendiğinde Widget Opaklığı:";
+    "WIDGET_EDITOR_FOOTER" = "Kilit ekranında oluşturulacak widget'ları seçmek için kullanılan ayarlar panelini özelleştirin.";
+    "WIDGET_EDITOR_HEADER" = "Widget Düzenleyici";
+    "WIDGET_EDITOR_SNAP" = "Widget'ları Y eksenine Tuttur";
+}

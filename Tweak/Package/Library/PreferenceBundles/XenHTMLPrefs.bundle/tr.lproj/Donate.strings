@@ -1,0 +1,10 @@
+{
+    "BTC" = "Bitcoin (BTC) ile";
+    "BTC_FOOTER" = "Bitcoin genel adresini kopyalamak için dokunun (SegWit etkin)";
+    "ETH" = "Ethereum (ETH) ile";
+    "ETH_FOOTER" = "Ethereum genel adresini kopyalamak için dokunun";
+    "INFO_FOOTER" = "Xen HTML'yi kullanmaktan zevk alıyorsanız, lütfen bağışta bulunmayı düşünün!";
+    "PAYPAL" = "PayPal ile";
+    "PAYPAL_FOOTER" = "PayPal adresini kopyalamak için dokunun";
+    "TITLE" = "Bağış";
+}

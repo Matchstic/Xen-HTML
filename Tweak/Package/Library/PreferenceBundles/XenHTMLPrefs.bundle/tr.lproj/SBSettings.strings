@@ -1,0 +1,13 @@
+{
+    "ELEMENT_SB_DOCK_BLUR" = "Dock Bulanıklığını Gizle";
+    "ELEMENT_SB_FOLDER_BLUR" = "Klasör ikon Bulanıklığını Gizle";
+    "ELEMENT_SB_ICON_LABELS" = "İkon Yazılarını Gizle";
+    "ELEMENT_SB_PAGE_DOTS" = "Sayfa Göstergelerini Gizle";
+    "ELEMENT_VISIBILITY_HS_FOOTER" = "Xen HTML kullanırken Ana Ekran öğelerini gizleyin.";
+    "ELEMENT_VISIBILITY_HS_HEADER" = "Element Visibility";
+    "MISC_HEADER" = "Çeşitli";
+    "MISC_SB_TOUCH" = "Widget Üzerine Dokunmaya İzin Ver";
+    "WIDGET_EDITOR_HEADER" = "Widget Düzenleyici";
+    "WIDGET_EDITOR_HS_FOOTER" = "Ana Ekranda oluşturulacak widget'ları seçmek için kullanılan ayarlar panelini özelleştirin.";
+    "WIDGET_EDITOR_SNAP" = "Widget'ları Y Eksenine Tuttur";
+}
