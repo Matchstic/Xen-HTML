@@ -328,6 +328,7 @@
 
 @interface SBRootFolderController : UIViewController
 @property (nonatomic,retain,readonly) SBRootFolderView *contentView;
+@property(readonly, nonatomic) long long currentPageIndex;
 @end
 
 @interface SBIconController : UIViewController
@@ -2404,6 +2405,11 @@ void cancelIdleTimer() {
 }
 
 %new
+- (long long)_xenhtml_currentPageIndex {
+    return [self _rootFolderController].currentPageIndex;
+}
+
+%new
 - (id)iconListViewAtIndex:(long long)index {
     return [self rootIconListAtIndex:index];
 }
@@ -2528,6 +2534,11 @@ void cancelIdleTimer() {
     return self.contentView;
 }
 
+%new
+- (long long)_xenhtml_currentPageIndex {
+    return self.currentPageIndex;
+}
+
 %end
 
 #pragma mark Foreground SBHTML layout (iOS 9+)
@@ -2540,11 +2551,26 @@ void cancelIdleTimer() {
     %orig;
     
     // Layout if needed
-    XENlog(@"SBIconScrollView LAYOUT!");
     if (self._xenhtml_isForegroundWidgetHoster) {
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
         
-        sbhtmlForegroundViewController.view.frame = CGRectMake(0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
+        // If the today page is hidden, then we layout by -SCREEN_WIDTH as the x origin.
+        // This is to allow all existing logic inside the view controller to not need changing!
+        
+        // When today is hidden, the first icon list is at offset 0. Otherwise, SCREEN_WIDTH
+        
+        BOOL noTodayPage = NO;
+        
+        for (UIView *view in self.subviews) {
+            // First iconlist subview
+            if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+                noTodayPage = view.frame.origin.x == 0;
+                
+                break;
+            }
+        }
+        
+        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
     }
 }
 
@@ -2563,24 +2589,6 @@ void cancelIdleTimer() {
     if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
         // Order our view to front to keep widgets over icons
         [self bringSubviewToFront:sbhtmlForegroundViewController.view];
-    }
-}
-
-- (void)setContentOffset:(CGPoint)arg1 {
-    %orig;
-    
-    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
-        // Be notified when the user swipes between pages
-        static NSInteger lastPage = 0;
-        
-        CGFloat width = self.frame.size.width;
-        NSInteger page = (self.contentOffset.x + (0.5f * width)) / width;
-        
-        if (lastPage != page) {
-            lastPage = page;
-        }
-        
-        [sbhtmlForegroundViewController updatedPageContentOffset:arg1 page:(int)page];
     }
 }
 
@@ -2708,7 +2716,19 @@ static BOOL _xenhtml_inEditingMode;
 %new
 - (void)_xenhtml_layoutAddWidgetButton {
     // calculate offset needed to apply
-    CGFloat effectiveXOffset = SCREEN_WIDTH - self.scrollView.contentOffset.x;
+    
+    CGFloat lowestOffset = SCREEN_WIDTH;
+    
+    for (UIView *view in self.scrollView.subviews) {
+        // First iconlist subview
+        if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+            lowestOffset = view.frame.origin.x;
+            
+            break;
+        }
+    }
+    
+    CGFloat effectiveXOffset = lowestOffset - self.scrollView.contentOffset.x;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,

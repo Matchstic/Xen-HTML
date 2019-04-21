@@ -34,6 +34,7 @@
 
 @interface SBRootFolderController : UIViewController
 - (SBRootFolderView*)_xenhtml_contentView;
+- (long long)_xenhtml_currentPageIndex;
 - (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2;
 - (SBIconListView*)iconListViewAtIndex:(unsigned long long)arg1;
 @end
@@ -46,8 +47,6 @@
 @interface XENHHomescreenForegroundViewController ()
 
 @property (nonatomic, weak) SBRootFolderController *popoverPresentationController;
-@property (nonatomic, readwrite) CGPoint currentPageContentOffset;
-@property (nonatomic, readwrite) int currentPage;
 @property (nonatomic, readwrite) BOOL isEditing;
 
 @end
@@ -64,8 +63,7 @@
     // Allow superclass to setup widgets
     [super loadView];
     
-    // After loading, we can assume we're going to page 1 once the user does a first unlock.
-    [self updatedPageContentOffset:CGPointMake(SCREEN_WIDTH, 0) page:1];
+    // Anything else?
 }
 
 // Overriden for correct layout
@@ -285,13 +283,21 @@
         [widgetMetadata removeObjectForKey:@"x"];
         [widgetMetadata removeObjectForKey:@"y"];
         
-        CGFloat newX = (self.currentPage * SCREEN_MIN_LENGTH) + SCREEN_MIN_LENGTH/2 - [[widgetMetadata objectForKey:@"width"] floatValue]/2;
-        // Convert to percentages of the display width
-        newX /= SCREEN_MIN_LENGTH;
+        // Convert the origin from the _xenhtml_contentView to our view to auto-handle scroll offsets
+        // etc
         
-        CGFloat newY = SCREEN_MAX_LENGTH/2 - [[widgetMetadata objectForKey:@"height"] floatValue]/2;
+        CGPoint origin = CGPointMake(SCREEN_WIDTH/2 - [[widgetMetadata objectForKey:@"width"] floatValue]/2,
+                                     SCREEN_HEIGHT/2 - [[widgetMetadata objectForKey:@"height"] floatValue]/2);
+        
+        origin = [self.popoverPresentationController._xenhtml_contentView convertPoint:origin toView:self.view];
+        
+        CGFloat newX = origin.x;
+        // Convert to percentages of the display width
+        newX /= SCREEN_WIDTH;
+        
+        CGFloat newY = origin.y;
         // Convert to percentages of the display height
-        newY /= SCREEN_MAX_LENGTH;
+        newY /= SCREEN_HEIGHT;
         
         if (newY < 0)
             newY = 0;
@@ -371,22 +377,12 @@
 #pragma mark Handle incoming messages from hooked methods
 /////////////////////////////////////////////////////////////////////////////
 
-- (void)updatedPageContentOffset:(CGPoint)pageContentOffset page:(int)page {
-    self.currentPageContentOffset = pageContentOffset;
-    self.currentPage = page;
-    
-    // TODO: Change paused state of widgets not visible?
-}
-
 - (void)updatedPageCounts:(int)newCount {
     // TODO: handle change of page counts.
     // i.e., unload any widgets outside the new page counts.
 }
 
 - (void)updateEditingModeState:(BOOL)newEditingModeState {
-    // TODO: Change editing state:
-    // - Add/remove close and option boxes on widgets.
-    
     self.isEditing = newEditingModeState;
     
     for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
@@ -485,9 +481,7 @@
     UIView *platter = self.popoverPresentationController._xenhtml_contentView._xenhtml_editingPlatter;
     
     // Convert current widget position from scrollview
-    CGFloat currentX = widgetController.view.frame.origin.x;
-    CGFloat convertedX = currentX - (self.currentPage * SCREEN_WIDTH);
-    CGPoint convertedPosition = CGPointMake(convertedX, widgetController.view.frame.origin.y);
+    CGPoint convertedPosition = [self.view convertPoint:widgetController.view.frame.origin toView:platter];
     
     XENlog(@"Placing at converted position: %@", NSStringFromCGPoint(convertedPosition));
     
@@ -499,18 +493,18 @@
     // Take this widget controller off the editing platter, making sure to set
     // the current co-ordinates of it into preferences
     
+    UIView *platter = self.popoverPresentationController._xenhtml_contentView._xenhtml_editingPlatter;
+    
     // Convert current widget position to the scrollview
-    CGFloat currentX = widgetController.view.center.x;
-    CGFloat convertedX = currentX + (SCREEN_WIDTH * self.currentPage);
-    CGPoint convertedPosition = CGPointMake(convertedX, widgetController.view.center.y);
+    CGPoint convertedPosition = [platter convertPoint:widgetController.view.center toView:self.view];
     
     XENlog(@"Dropping at point: %@", NSStringFromCGPoint(convertedPosition));
     
     // Set widget metadata for the next layout
     NSMutableDictionary *metadata = [widgetController.widgetMetadata mutableCopy];
     
-    CGFloat currentXFrame = widgetController.view.frame.origin.x;
-    CGFloat convertedXFrame = currentXFrame + (SCREEN_WIDTH * self.currentPage);
+    CGPoint convertedFrameOrigin = [platter convertPoint:widgetController.view.frame.origin toView:self.view];
+    CGFloat convertedXFrame = convertedFrameOrigin.x;
     
     CGFloat scaledXPosition = convertedXFrame / SCREEN_WIDTH;
     CGFloat scaledYPosition = widgetController.view.frame.origin.y / SCREEN_HEIGHT;
@@ -554,23 +548,24 @@
 
 - (void)notifyWidgetHeldOnLeftEdge {
     XENlog(@"Notified of page advancement; left");
-    if (self.currentPage > 1) {
-        // Move one page backwards, but don't allow going to the today page
-        int nextIndex = (self.currentPage - 1)-1;
-        [self.popoverPresentationController setCurrentPageIndex:nextIndex animated:YES];
-    }
+    
+    long long currentPage = self.popoverPresentationController._xenhtml_currentPageIndex;
+    
+    // Move one page backwards, but don't allow going to the today page
+    [self.popoverPresentationController setCurrentPageIndex:currentPage - 1 animated:YES];
 }
 
 - (void)notifyWidgetHeldOnRightEdge {
     // Move one page forward
     XENlog(@"Notified of page advancement; right");
     
-    int nextIndex = self.currentPage; // Counting in icon list views, not scrollview offset
+    long long currentPage = self.popoverPresentationController._xenhtml_currentPageIndex;
+    long long nextPage = currentPage + 1;
     
-    if ([[self.popoverPresentationController iconListViewAtIndex:nextIndex] isEmpty])
+    if ([[self.popoverPresentationController iconListViewAtIndex:nextPage] isEmpty])
         return; // Don't add a widget to an empty list view, because it will become inaccessible
     
-    [self.popoverPresentationController setCurrentPageIndex:nextIndex animated:YES];
+    [self.popoverPresentationController setCurrentPageIndex:nextPage animated:YES];
 }
 
 @end

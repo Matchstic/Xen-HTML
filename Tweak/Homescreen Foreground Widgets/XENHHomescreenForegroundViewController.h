@@ -29,7 +29,6 @@
 - (void)noteUserDidPressAddWidgetButton;
 
 // Handle incoming messages from hooked methods
-- (void)updatedPageContentOffset:(CGPoint)pageContentOffset page:(int)page;
 - (void)updatedPageCounts:(int)newCount;
 - (void)updateEditingModeState:(BOOL)newEditingModeState;
 
