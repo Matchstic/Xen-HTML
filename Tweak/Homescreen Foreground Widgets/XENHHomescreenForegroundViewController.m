@@ -26,6 +26,9 @@
 
 @interface SBRootFolderView : UIView
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+
+- (void)_xenhtml_showVerticalEditingGuide;
+- (void)_xenhtml_hideVerticalEditingGuide;
 @end
 
 @interface SBIconListView : UIView
@@ -487,6 +490,9 @@
     
     [platter addSubview:widgetController.view];
     widgetController.view.frame = CGRectMake(convertedPosition.x, convertedPosition.y, widgetController.view.frame.size.width, widgetController.view.frame.size.height);
+    
+    // Show alignment guide
+    [self.popoverPresentationController._xenhtml_contentView _xenhtml_showVerticalEditingGuide];
 }
 
 - (void)notifyWidgetPositioningDidEnd:(XENHWidgetController*)widgetController {
@@ -544,6 +550,9 @@
     
     // And now write the layer preferences
     [XENHResources setWidgetPreferences:layerPreferences forLocation:kLocationSBForeground];
+    
+    // Hide alignment guide
+    [self.popoverPresentationController._xenhtml_contentView _xenhtml_hideVerticalEditingGuide];
 }
 
 - (void)notifyWidgetHeldOnLeftEdge {

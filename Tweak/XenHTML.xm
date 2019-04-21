@@ -319,11 +319,15 @@
 - (SBIconScrollView*)scrollView;
 @property (nonatomic, strong) XENHButton *_xenhtml_addButton;
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+@property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 @property(retain, nonatomic) UIView *pageControl;
 -(CGRect)effectivePageControlFrame;
 
 - (void)_xenhtml_layoutAddWidgetButton;
 - (void)_xenhtml_layoutEditingPlatter;
+
+- (void)_xenhtml_showVerticalEditingGuide;
+- (void)_xenhtml_hideVerticalEditingGuide;
 @end
 
 @interface SBRootFolderController : UIViewController
@@ -2602,6 +2606,7 @@ static BOOL _xenhtml_inEditingMode;
 
 %property (nonatomic, strong) XENHButton *_xenhtml_addButton;
 %property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+%property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 
 - (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
     SBRootFolderView *orig = %orig;
@@ -2622,6 +2627,14 @@ static BOOL _xenhtml_inEditingMode;
         orig._xenhtml_editingPlatter.hidden = YES;
         
         [orig addSubview:orig._xenhtml_editingPlatter];
+        
+        orig._xenhtml_editingVerticalIndicator = [[UIView alloc] initWithFrame:CGRectZero];
+        orig._xenhtml_editingVerticalIndicator.userInteractionEnabled = NO;
+        orig._xenhtml_editingVerticalIndicator.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+        orig._xenhtml_editingVerticalIndicator.hidden = YES;
+        orig._xenhtml_editingVerticalIndicator.alpha = 0.0;
+        
+        [orig insertSubview:orig._xenhtml_editingVerticalIndicator belowSubview:orig._xenhtml_editingPlatter];
     }
     
     return orig;
@@ -2740,6 +2753,25 @@ static BOOL _xenhtml_inEditingMode;
 %new
 - (void)_xenhtml_layoutEditingPlatter {
     self._xenhtml_editingPlatter.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self._xenhtml_editingVerticalIndicator.frame = CGRectMake(self.bounds.size.width/2 - 0.5, 0, 1, self.bounds.size.height);
+}
+
+%new
+- (void)_xenhtml_showVerticalEditingGuide {
+    self._xenhtml_editingVerticalIndicator.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self._xenhtml_editingVerticalIndicator.alpha = 1.0;
+    }];
+}
+
+%new
+- (void)_xenhtml_hideVerticalEditingGuide {
+    [UIView animateWithDuration:0.3 animations:^{
+        self._xenhtml_editingVerticalIndicator.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self._xenhtml_editingVerticalIndicator.hidden = YES;
+    }];
 }
 
 %end
