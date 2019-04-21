@@ -2790,6 +2790,10 @@ static BOOL _xenhtml_inEditingMode;
         return %orig;
     }
     
+    // If in OPW mode, prefer widget touches
+    if ([XENHResources SBOnePageWidgetMode])
+        return %orig;
+    
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];

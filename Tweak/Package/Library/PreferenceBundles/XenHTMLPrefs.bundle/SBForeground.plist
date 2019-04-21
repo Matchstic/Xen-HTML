@@ -6,17 +6,17 @@
 	<string>Foreground</string>
 	<key>items</key>
 	<array>
-     	<dict>
+		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
 			<string>FOREGROUND_SB_USAGE</string>
 		</dict>
-     	<dict>
+		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-            <key>footerText</key>
-            <string>FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER</string>
+			<key>footerText</key>
+			<string>FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER</string>
 		</dict>
 		<dict>
 			<key>PostNotification</key>

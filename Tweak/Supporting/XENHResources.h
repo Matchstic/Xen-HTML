@@ -145,6 +145,7 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBUseLegacyMode;
 
 +(BOOL)SBForegroundEditingSnapToYAxis;
++(BOOL)SBOnePageWidgetMode;
 
 #pragma mark Developer options
 
