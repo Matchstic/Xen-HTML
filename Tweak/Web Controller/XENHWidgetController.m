@@ -997,7 +997,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (void)_addEditingPositioningBackdrop {
-    if (objc_getClass("MTMaterialView")) {
+    if (objc_getClass("MTMaterialView") && [objc_getClass("MTMaterialView") respondsToSelector:@selector(materialViewWithRecipe:options:)]) {
         // Fancy times! iOS 11 and up
         self.editingPositioningBackground = [objc_getClass("MTMaterialView") materialViewWithRecipe:1 options:2];
         self.editingPositioningBackground.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
