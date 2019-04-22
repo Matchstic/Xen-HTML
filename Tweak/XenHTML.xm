@@ -315,6 +315,10 @@
 @property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
 @end
 
+@interface SBIconListPageControl : UIPageControl
+@property (nonatomic) BOOL _xenhtml_hidden;
+@end
+
 @interface SBRootFolderView : UIView
 - (SBIconScrollView*)scrollView;
 @property (nonatomic, strong) XENHButton *_xenhtml_addButton;
@@ -2335,6 +2339,19 @@ void cancelIdleTimer() {
 
 #pragma mark Hide SB page dots (iOS 9+)
 
+%hook SBIconListPageControl
+
+%property (nonatomic) BOOL _xenhtml_hidden;
+
+- (void)setHidden:(BOOL)hidden {
+    if (!hidden && self._xenhtml_hidden)
+        return;
+    
+    %orig;
+}
+
+%end
+
 %hook SBRootFolderView
 
 - (void)layoutSubviews {
@@ -2351,7 +2368,9 @@ void cancelIdleTimer() {
     
     if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots]) {
 #if TARGET_IPHONE_SIMULATOR==0
-        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+        SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
+        pageControl._xenhtml_hidden = YES;
+        pageControl.hidden = YES;
 #endif
     }
     
@@ -2364,11 +2383,18 @@ void cancelIdleTimer() {
 
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
-    if ([XENHResources SBEnabled]) {
 #if TARGET_IPHONE_SIMULATOR==0
-        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:[XENHResources SBHidePageDots]];
-#endif
+    SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
+    
+    if ([XENHResources SBEnabled]) {
+        pageControl._xenhtml_hidden = [XENHResources SBHidePageDots];
+        pageControl.hidden = [XENHResources SBHidePageDots];
+    } else {
+        // Make sure to un-hide the dots
+        pageControl._xenhtml_hidden = NO;
+        pageControl.hidden = NO;
     }
+#endif
 }
 
 %end
