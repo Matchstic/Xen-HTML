@@ -35,11 +35,13 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "Widget Latar Belakang menjadi bagian dari wallpaper anda";
 "WIDGETS_LSFOREGROUND_DETAIL" = "Widget Latar Depan adalah tambahan yang sepenuhnya interaktif pada Layar Kunci anda";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Widget Latar Belakang menjadi tambahan interaktif pada wallpaper anda";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "Tidak ada widget yang dipilih";
-"WIDGETS_ADD_NEW" = "Tambahkan widget...";
+"WIDGETS_ADD_NEW" = "Tambahkan widget";
 "WIDGETS_CONFIGURE" = "Konfigurasi:";
 "WIDGETS_LOCKSCREEN" = "Layar Kunci";
 "WIDGETS_HOMESCREEN" = "Layar Utama";
+"WIDGETS_SETTINGS" = "Pengaturan";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Tidak ada widget yang dipilih";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Terjadi kesalahan saat mengurai berkas pengaturan; beberapa opsi mungkin hilang";

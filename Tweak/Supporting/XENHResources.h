@@ -68,14 +68,20 @@ static BOOL shownGraceEnded = NO;
 +(void)reloadSettings;
 
 +(NSString*)localisedStringForKey:(NSString*)key;
++(NSString*)localisedStringForKey:(NSString*)key table:(NSString*)table;
+
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width;
 +(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;
 +(NSString*)imageSuffix;
 +(void)setPreferenceKey:(NSString*)key withValue:(id)value andPost:(BOOL)post;
 +(id)getPreferenceKey:(NSString*)key;
++ (void)setWidgetPreferences:(NSDictionary*)layerPreferences forLocation:(XENHLayerLocation)location;
 
 + (BOOL)showUnsupportedAlertForCurrentVersion;
 + (void)userRequestsForceSupportForCurrentVersion;
+
++ (BOOL)requiresHomescreenForegroundAlert;
++ (void)setHomescreenForegroundAlertSeen:(BOOL)seen;
 
 #pragma mark Lockscreen stuff
 
@@ -137,6 +143,9 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBHidePageDots;
 +(BOOL)SBAllowTouch;
 +(BOOL)SBUseLegacyMode;
+
++(BOOL)SBForegroundEditingSnapToYAxis;
++(BOOL)SBOnePageWidgetMode;
 
 #pragma mark Developer options
 

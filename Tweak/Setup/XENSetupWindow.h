@@ -28,6 +28,7 @@
 @interface XENHSetupWindow : UIWindow
 
 @property (nonatomic, strong) UIView *bar;
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, readwrite) BOOL usingQuickSetup;
 
 +(instancetype)sharedInstance;

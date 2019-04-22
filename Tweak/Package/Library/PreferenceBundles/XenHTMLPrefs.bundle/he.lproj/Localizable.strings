@@ -41,8 +41,10 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "ווידג'טס הרקע הופכים לחלק מהטפט שלך";
 "WIDGETS_LSFOREGROUND_DETAIL" = "ווידג'טס החזית הופכים לתוספות אינטראקטיביות של מסך הנעילה";
 "WIDGETS_SBBACKGROUND_DETAIL" = "ווידג'טס הרקע הופכים לתוספות אינטראקטיביות של מסך הנעילה";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "לא נבחרו ווידג'טס";
 "WIDGETS_ADD_NEW" = "הוסף ווידג'ט";
+"WIDGETS_SETTINGS" = "הגדרות";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "לא נבחר ווידג'ט";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "אירעה שגיאה בעת ניתוח קובץ ההגדרות; ייתכן וחלק מהאפשרויות יהיו חסרות";

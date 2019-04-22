@@ -38,6 +38,7 @@
 // Widget lifecycle handling
 - (void)unloadWidgets;
 - (void)reloadWidgets:(BOOL)clearWidgets;
+- (void)reloadWithNewLayerPreferences:(NSDictionary*)preferences oldPreferences:(NSDictionary*)oldPreferences;
 
 // Orientation handling
 - (void)rotateToOrientation:(int)orient;

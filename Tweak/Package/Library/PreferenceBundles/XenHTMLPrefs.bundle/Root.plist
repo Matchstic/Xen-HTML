@@ -40,7 +40,7 @@
 		</dict>
 		<dict>
 			<key>footerText</key>
-			<string>Xen HTML © 2016-18 Matt Clarke (Matchstic)</string>
+			<string>Xen HTML © 2016-19 Matt Clarke (Matchstic)</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>isStaticText</key>

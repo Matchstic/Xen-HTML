@@ -1,0 +1,9 @@
+{
+    "FULLSCREEN_NOTIFICATIONS" = "Tam Ekran Bildirimleri";
+    "HIDE_FOREGROUND_NOTIF" = "Bildirimler";
+    "HIDE_FOREGROUND_NOTIF_FOOTER" = "Bildirimlerin yanı sıra davranışı yapılandırın.";
+    "HIDE_FOREGROUND_NOTIF_HEADER" = "Ön Plan Widget'ını Gizle:";
+    "OTHER_FOOTER" = "Bildirimler ekranın tam yüksekliğinde gösterilir.";
+    "OTHER_HEADER" = "Diğer Ayarlar";
+    "TITLE" = "Bildirimler";
+}

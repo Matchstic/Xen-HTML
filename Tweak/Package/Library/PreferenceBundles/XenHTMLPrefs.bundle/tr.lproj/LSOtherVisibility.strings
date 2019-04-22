@@ -1,0 +1,18 @@
+{
+    "D22_CONTROL_CENTRE" = "Kontrol Merkezi Göstergesini Gizle";
+    "D22_FACEID_PADLOCK" = "Face ID Kilit işaretini Gizle";
+    "D22_HEADER" = "iPhone X'e Özel";
+    "D22_HOMEBAR" = "Alttaki (Home) Çubuğu Gizle";
+    "D22_TORCH_CAMERA" = "Fener Ve Kamera ikonlarını Gizle";
+    "GRABBERS_CAMERA" = "Kamera Açma Tutaçını Gizle";
+    "GRABBERS_CAMERA_DISABLE" = "Kamera Açma Tutaçı Devre Dışı";
+    "GRABBERS_CONTROL_CENTRE" = "Denetim Merkezi Açma Tutaçı Devre Dışı";
+    "GRABBERS_HANDOFF" = "Eller Serbest Tutaçını Gizle";
+    "GRABBERS_HEADER" = "Tutma Gereçleri";
+    "GRABBERS_NOTIFICATION_CENTRE" = "Bildirim Merkezi Tutaçını Gizle";
+    "MISC_CLOCK_STATUS_BAR" = "Durum Çubuğunda Saati Göster";
+    "MISC_HEADER" = "Çeşitli";
+    "MISC_LS_STATUS_BAR" = "Kilit Ekranı Durum Çubuğunu Gizle";
+    "MISC_PAGE_DOTS" = "Sayfa Noktalarını Gizle";
+    "TITLE" = "Görünürlük";
+}

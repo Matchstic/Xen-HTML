@@ -39,29 +39,45 @@
         
         // Load all arrays for widgets based on variant
         
-        if (_variant == 2) {
-            // SBHTML array.
-            [self _setupSBHTMLArray];
-            
-            // iWidgets now
-            [self _setupiWidgetsArray];
-        } else {
-            // iWidgets
-            [self _setupiWidgetsArray];
-            
-            // LockHTML
-            [self _setupLockHTMLArray];
-            
-            // GroovyLock.
-            [self _setupGroovyLockArray];
-            
-            if ([self _shouldDisplayCydget]) {
-                // Cydget (foreground)
-                [self _setupCydgetForegroundArray];
+        switch (_variant) {
+            case 3: {
+                // iWidgets now
+                [self _setupiWidgetsArray];
                 
-                // Cydget (background)
-                [self _setupCydgetBackgroundArray];
+                break;
             }
+            case 2: {
+                // SBHTML array.
+                [self _setupSBHTMLArray];
+                
+                // iWidgets now
+                [self _setupiWidgetsArray];
+                
+                break;
+            }
+            case 1:
+            case 0: {
+                // iWidgets
+                [self _setupiWidgetsArray];
+                
+                // LockHTML
+                [self _setupLockHTMLArray];
+                
+                // GroovyLock.
+                [self _setupGroovyLockArray];
+                
+                if ([self _shouldDisplayCydget]) {
+                    // Cydget (foreground)
+                    [self _setupCydgetForegroundArray];
+                    
+                    // Cydget (background)
+                    [self _setupCydgetBackgroundArray];
+                }
+                
+                break;
+            }
+            default:
+                break;
         }
     }
     

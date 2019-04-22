@@ -21,7 +21,8 @@
 typedef enum : NSUInteger {
     kMultiplexVariantLockscreenBackground = 0,
     kMultiplexVariantLockscreenForeground = 1,
-    kMultiplexVariantHomescreenBackground = 2
+    kMultiplexVariantHomescreenBackground = 2,
+    kMultiplexVariantHomescreenForeground = 3,
 } XENHMultiplexVariant;
 
 @interface XENHMultiplexWidgetsHeaderView : UIView

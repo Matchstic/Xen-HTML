@@ -59,6 +59,9 @@
         case kMultiplexVariantHomescreenBackground:
             self.label.text = [XENHResources localisedStringForKey:@"WIDGETS_SBBACKGROUND_DETAIL"];
             break;
+        case kMultiplexVariantHomescreenForeground:
+            self.label.text = [XENHResources localisedStringForKey:@"WIDGETS_SBFOREGROUND_DETAIL"];
+            break;
         default:
             break;
     }
@@ -74,6 +77,7 @@
             imageName = @"LargeBackgroundWidget";
             break;
         case kMultiplexVariantLockscreenForeground:
+        case kMultiplexVariantHomescreenForeground:
             imageName = @"LargeForegroundWidget";
             break;
         default:

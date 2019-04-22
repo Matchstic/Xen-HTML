@@ -35,11 +35,13 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "I widget di sfondo diventano parte dello sfondo";
 "WIDGETS_LSFOREGROUND_DETAIL" = "I widget in primo piano sono aggiunte completamente interattive alla tua schermata di blocco";
 "WIDGETS_SBBACKGROUND_DETAIL" = "I widget di sfondo diventano aggiunte interattive al tuo sfondo";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "Nessun widgets selezioanto";
-"WIDGETS_ADD_NEW" = "Aggiungi widget...";
+"WIDGETS_ADD_NEW" = "Aggiungi widget";
 "WIDGETS_CONFIGURE" = "Configura:";
 "WIDGETS_LOCKSCREEN" = "Schermata di blocco";
 "WIDGETS_HOMESCREEN" = "Scshermata Home";
+"WIDGETS_SETTINGS" = "Impostazioni";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Nessun widget selezionato";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Si è verificato un errore durante l'analisi del file delle impostazioni; alcune opzioni potrebbero mancare";

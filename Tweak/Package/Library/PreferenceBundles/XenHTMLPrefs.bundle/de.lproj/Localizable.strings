@@ -38,8 +38,10 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "Hintergrund Widgets werden ein Teil von euerem Sperrbildschirms";
 "WIDGETS_LSFOREGROUND_DETAIL" = "Vordergrund Widgets sind vollständig interaktive Ergänzungen zu Ihrem Speerbildschirm";
 "WIDGETS_SBBACKGROUND_DETAIL" = "Hintergrund Widgets werden zu interaktiven Ergänzungen Ihres Home-Bildschirms";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
 "WIDGETS_NONE_SELECTED" = "Keine widgets ausgewählt";
-"WIDGETS_ADD_NEW" = "Widget hinzufügen...";
+"WIDGETS_ADD_NEW" = "Widget hinzufügen";
+"WIDGETS_SETTINGS" = "Einstellungen";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Keine widgets ausgewählt";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Beim Parsen der Einstellungsdatei ist ein Fehler aufgetreten. Einige Optionen fehlen möglicherweise";

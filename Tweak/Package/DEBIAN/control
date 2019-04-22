@@ -1,6 +1,6 @@
 Package: com.matchstic.xenhtml
 Name: Xen HTML
-Version: 0.4rc8
+Version: 0.5
 Description: Unified HTML rendering; lockscreen and homescreen
 Section: System
 Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, com.matchstic.libgithubissues, jp.ashikase.libpackageinfo, firmware (>= 11.0) | com.unlimapps.uaunbox
@@ -10,5 +10,6 @@ Architecture: iphoneos-arm
 Author: Matt Clarke <matt@incendo.ws>
 dev: Matt Clarke <matt@incendo.ws>
 Maintainer: Matt Clarke <matt@incendo.ws>
-Depiction: http://incendo.ws/xenpublic/depictions/com.matchstic.xenhtml.html
+Depiction: https://xenpublic.incendo.ws/depictions/com.matchstic.xenhtml.html
+SileoDepiction: https://xenpublic.incendo.ws/sileo/com.matchstic.xenhtml.json
 Icon: file:///Library/PreferenceBundles/XenHTMLPrefs.bundle/Icon@2x.png

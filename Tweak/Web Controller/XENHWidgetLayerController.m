@@ -149,10 +149,8 @@
 #pragma mark Handling of settings changes
 /////////////////////////////////////////////////////////////////////////////
 
-- (void)noteUserPreferencesDidChange {
-    NSDictionary *oldPreferences = [self.layerPreferences copy];
-    
-    self.layerPreferences = [XENHResources widgetPreferencesForLocation:self.layerLocation];
+- (void)reloadWithNewLayerPreferences:(NSDictionary*)preferences oldPreferences:(NSDictionary*)oldPreferences {
+    self.layerPreferences = preferences;
     
     NSMutableArray *newWidgetLocations = [self.layerPreferences objectForKey:@"widgetArray"];
     NSDictionary *newWidgetMetadata = [self.layerPreferences objectForKey:@"widgetMetadata"];
@@ -212,6 +210,13 @@
             [widgetController configureWithWidgetIndexFile:location andMetadata:newMetadata];
         }
     }
+}
+
+- (void)noteUserPreferencesDidChange {
+    NSDictionary *oldPreferences = [self.layerPreferences copy];
+    NSDictionary *newPreferences = [XENHResources widgetPreferencesForLocation:self.layerLocation];
+    
+    [self reloadWithNewLayerPreferences:newPreferences oldPreferences:oldPreferences];
 }
 
 /////////////////////////////////////////////////////////////////////////////

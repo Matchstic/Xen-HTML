@@ -45,7 +45,7 @@
     if (self) {
         // Doesn't break the status bar!
         self.wallpaperVariant = wallpaperVariant;
-        [self _configureWallpaperForVariant:self.wallpaperVariant];
+        //[self _configureWallpaperForVariant:self.wallpaperVariant];
     }
     
     return self;
@@ -128,12 +128,26 @@
     });
 }
 
+- (NSDictionary*)userSpringBoardSettings {
+    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
+    
+    CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.apple.springboard"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (!keyList) {
+        NSLog(@"There's been an error getting the key list!");
+        return @{};
+    }
+    
+    CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.apple.springboard"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    
+    return [(__bridge NSDictionary *)dictionary copy];
+}
+
 - (UIImage*)_wallpaperImageForVariant:(int)variant {
     NSLog(@"*** Reading user preferences for wallpaper...");
     // Read user settings and load thumbnail images as appropriate
-    NSDictionary *userSettings = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    NSDictionary *userSettings = [self userSpringBoardSettings];
     
-    id _variantIsProcedural = [userSettings objectForKey:variant == 0 ? @"kSBProceduralWallpaperLockUserSetKey" : @"kSBProceduralWallpaperHomeUserSetKey"];
+    NSNumber *_variantIsProcedural = [userSettings objectForKey:variant == 0 ? @"kSBProceduralWallpaperLockUserSetKey" : @"kSBProceduralWallpaperHomeUserSetKey"];
     BOOL variantIsProcedural = _variantIsProcedural != nil ? [_variantIsProcedural boolValue] : NO;
     
     UIImage *wallpaperStaticImage = nil;
@@ -191,9 +205,18 @@
 }
 
 - (UIImage*)_staticImageForVariant:(int)variant {
-    NSString *wallpaperName = variant == 0 ? @"LockBackground.cpbitmap" : @"HomeBackground.cpbitmap";
     
-    NSString *wallpaperPath = [NSString stringWithFormat:@"/var/mobile/Library/SpringBoard/%@", wallpaperName];
+    // Make sure to fallback to LockBackground.cpbitmap if needed
+    NSString *wallpaperPath = @"/var/mobile/Library/SpringBoard/LockBackground.cpbitmap";
+    
+    if (variant != 0) {
+        // Load HomeBackground.cpbitmap if possible
+        // Handles case of user using the "Set Both" option for a given wallpaper
+        NSString *homescreenWallpaperPath = @"/var/mobile/Library/SpringBoard/HomeBackground.cpbitmap";
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:homescreenWallpaperPath])
+            wallpaperPath = homescreenWallpaperPath;
+    }
     
     NSLog(@"*** Loading from: %@", wallpaperPath);
     

@@ -94,9 +94,7 @@
     if (gesture.state == UIGestureRecognizerStateBegan) {
         // If enabled, show guides.
         
-        if (self.shouldSnapToGuides) {
-            self.verticalGuide.hidden = NO;
-        }
+        self.verticalGuide.hidden = NO;
         
         [UIView animateWithDuration:0.3 animations:^{
             self.positioningView.alpha = 0.75;

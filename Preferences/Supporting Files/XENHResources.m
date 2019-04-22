@@ -195,7 +195,6 @@ static int mainVariant = 0;
 + (void)setPreviewState:(BOOL)state forVariant:(int)variant {
     // Just update observers
     for (NSString *key in previewCellObservers.keyEnumerator) {
-        NSLog(@"KEY: %@", key);
         id<XENHPreviewCellStateDelegate> item = [previewCellObservers objectForKey:key];
         [item didChangeEnabledState:state forVariant:variant];
     }
@@ -213,7 +212,6 @@ static int mainVariant = 0;
     
     // update observers
     for (NSString *key in previewCellObservers.keyEnumerator) {
-        NSLog(@"KEY: %@", key);
         id<XENHPreviewCellStateDelegate> item = [previewCellObservers objectForKey:key];
         [item didChangeSkewPercentage:skewPercentage forVariant:variant];
     }
@@ -222,7 +220,6 @@ static int mainVariant = 0;
 + (void)updatePreviewSkewPercentage:(CGFloat)skewPercentage forVariant:(int)variant {
     // update observers
     for (NSString *key in previewCellObservers.keyEnumerator) {
-        NSLog(@"KEY: %@", key);
         id<XENHPreviewCellStateDelegate> item = [previewCellObservers objectForKey:key];
         [item didChangeSkewPercentage:skewPercentage forVariant:variant];
     }

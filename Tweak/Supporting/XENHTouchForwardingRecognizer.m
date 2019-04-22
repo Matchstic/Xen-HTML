@@ -150,8 +150,14 @@
     }
     
     // Handle safe area - views
-    if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")]) {
-        XENlog(@"Not forwarding touch; touchView is not SBRootIconListView");
+    // TODO: Whitelist the foreground SBHTML here, as a view that forwarding can occur on
+    if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && // Icons
+        ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")] && // iWidgets
+        ![[arg3.layer name] isEqualToString:@"RootContent"] && // WKWebView
+        ![[arg3 class] isEqual:objc_getClass("UIWebBrowserView")]) // UIWebView
+    {
+        
+        XENlog(@"Not forwarding touch; touchView is not SBRootIconListView (is %@)", [arg3 class]);
         return NO;
     }
     

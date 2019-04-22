@@ -1,0 +1,8 @@
+/* 
+  SBForeground.strings
+  Xen HTML
+*/
+
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
+"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";

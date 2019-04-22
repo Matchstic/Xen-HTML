@@ -48,11 +48,17 @@
     
     // The first object is now the topmost view.
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
-        UIView *hittested = [view hitTest:point withEvent:event];
+        CGPoint subPoint = [view convertPoint:point fromView:self];
+        UIView *hittested = [view hitTest:subPoint withEvent:event];
         
         if (hittested) {
             if ([[hittested class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
                 hittested = [hittested superview];
+            } else if ([[hittested class] isEqual:objc_getClass("XENHCloseButton")] ||
+                       [[hittested class] isEqual:objc_getClass("XENHButton")]) {
+                return hittested;
+            } else if (hittested.tag == 1337) {
+                return hittested;
             }
             
             [hittestedViews addObject:hittested];

@@ -25,6 +25,8 @@
 #import "XENHLockscreenPreviewCell.h"
 #import "XENHHomescreenPreviewCell.h"
 
+#import "XENHSBForegroundController.h"
+
 @interface XENHBaseHTMLPreferenceController ()
 @end
 
@@ -265,9 +267,21 @@
         
         [background setProperty:bgIcon forKey:@"iconImage"];
         
-        [background setProperty:@"BackgroundWidget.png" forKey:@"icon"];
+        // [background setProperty:@"BackgroundWidget.png" forKey:@"icon"];
         
         [array addObject:background];
+        
+        PSSpecifier* foreground = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGETS_FOREGROUND"]
+                                                                 target:self
+                                                                    set:NULL
+                                                                    get:NULL
+                                                                 detail:[XENHEditorViewController class]
+                                                                   cell:PSLinkListCell
+                                                                   edit:Nil];
+        
+        [foreground setProperty:fgIcon forKey:@"iconImage"];
+        
+        [array addObject:foreground];
     }
     
     return array;
@@ -317,7 +331,7 @@
                 break;
             case 1:
                 // Open foreground
-                variant = kMultiplexVariantLockscreenForeground;
+                variant = [self variant] == 0 ? kMultiplexVariantLockscreenForeground : kMultiplexVariantHomescreenForeground;
                 break;
                 
             default:
@@ -326,26 +340,34 @@
         
         [view deselectRowAtIndexPath:indexPath animated:YES];
         
-        // Push to navigational stack.
-        XENHMultiplexWidgetsController *multiplexController = [[XENHMultiplexWidgetsController alloc] initWithVariant:variant];
-        [self.navigationController pushViewController:multiplexController animated:YES];
-        
-        // Request to cache the wallpaper
-        NSString *cacheWallpaperNotification = @"";
-        switch (variant) {
-            case kMultiplexVariantLockscreenBackground:
-            case kMultiplexVariantLockscreenForeground:
-                cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheLockscreenWallpaper";
-                break;
-            case kMultiplexVariantHomescreenBackground:
-                cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheHomescreenWallpaper";
-                break;
-                
-            default:
-                break;
+        if (variant == kMultiplexVariantHomescreenForeground) {
+            // Handle as appropriate, this is a special case
+            
+            XENHSBForegroundController *controller = [[XENHSBForegroundController alloc] init];
+            [self.navigationController pushViewController:controller animated:YES];
+            
+        } else {
+            // Push to navigational stack.
+            XENHMultiplexWidgetsController *multiplexController = [[XENHMultiplexWidgetsController alloc] initWithVariant:variant];
+            [self.navigationController pushViewController:multiplexController animated:YES];
+            
+            // Request to cache the wallpaper
+            NSString *cacheWallpaperNotification = @"";
+            switch (variant) {
+                case kMultiplexVariantLockscreenBackground:
+                case kMultiplexVariantLockscreenForeground:
+                    cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheLockscreenWallpaper";
+                    break;
+                case kMultiplexVariantHomescreenBackground:
+                    cacheWallpaperNotification = @"com.matchstic.xenhtml/cacheHomescreenWallpaper";
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:cacheWallpaperNotification object:nil];
         }
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:cacheWallpaperNotification object:nil];
         
         return;
     }

@@ -17,8 +17,10 @@
 */
 
 #import "XENHWidgetLayerController.h"
+#import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
 #import "XENHTouchPassThroughView.h"
+#import "XENHButton.h"
 
 #include "WebCycript.h"
 #include <dlfcn.h>
@@ -29,11 +31,11 @@
 
 #pragma mark Simulator support
 
-// %config(generator=internal);
+//%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
- 1. Make CydiaSubstrate linking required
+ 1. Make CydiaSubstrate linking required?
  2. Change build target
  
  Note: the simulator *really* doesn't like MSHookIvar.
@@ -244,11 +246,7 @@
 @end
 
 @interface XENDashBoardWebViewController : SBDashBoardViewControllerBase
-@property (nonatomic, retain) UIView *webview;
-@property (nonatomic, retain) UIGestureRecognizer *notificationsPullUpGesture;
 -(void)setWebView:(UIView*)view;
--(void)unregisterView;
--(void)setNotificationsGesture:(UIGestureRecognizer*)gestureRecognizer;
 @end
 
 @interface SBDashBoardPresentationViewController : SBDashBoardViewControllerBase
@@ -313,7 +311,39 @@
 - (UIView*)notificationListScrollView;
 @end
 
+@interface SBIconScrollView : UIScrollView
+@property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
+@end
+
+@interface SBIconListPageControl : UIPageControl
+@property (nonatomic) BOOL _xenhtml_hidden;
+@end
+
+@interface SBRootFolderView : UIView
+- (SBIconScrollView*)scrollView;
+@property (nonatomic, strong) XENHButton *_xenhtml_addButton;
+@property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+@property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
+@property(retain, nonatomic) UIView *pageControl;
+-(CGRect)effectivePageControlFrame;
+
+- (void)_xenhtml_layoutAddWidgetButton;
+- (void)_xenhtml_layoutEditingPlatter;
+
+- (void)_xenhtml_showVerticalEditingGuide;
+- (void)_xenhtml_hideVerticalEditingGuide;
+@end
+
+@interface SBRootFolderController : UIViewController
+@property (nonatomic,retain,readonly) SBRootFolderView *contentView;
+@property(readonly, nonatomic) long long currentPageIndex;
+@end
+
 @interface SBIconController : UIViewController
++ (instancetype)sharedInstance;
+-(SBRootFolderController*)_rootFolderController;
+-(id)rootIconListAtIndex:(long long)arg1;
+-(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
 @end
 
 static void hideForegroundForLSNotifIfNeeded();
@@ -329,9 +359,10 @@ static XENHSetupWindow *setupWindow;
 
 %group SpringBoard
 
-static XENHWidgetLayerController *backgroundViewController;
-static XENHWidgetLayerController *foregroundViewController;
-static XENHWidgetLayerController *sbhtmlViewController;
+static XENHWidgetLayerController *backgroundViewController = nil;
+static XENHWidgetLayerController *foregroundViewController = nil;
+static XENHWidgetLayerController *sbhtmlViewController = nil;
+static XENHHomescreenForegroundViewController *sbhtmlForegroundViewController = nil;
 
 static PHContainerView * __weak phContainerView;
 static NSMutableArray *foregroundHiddenRequesters;
@@ -653,8 +684,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %hook XENDashBoardWebViewController
 
-%property (nonatomic, assign) UIView *webview;
-
 - (long long)presentationTransition {
     return 1;
 }
@@ -679,22 +708,17 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %new
 -(void)setWebView:(UIView*)view {
-    self.webview = view;
-    [self.view insertSubview:self.webview atIndex:0];
+    [self.view insertSubview:view atIndex:0];
     
     //[self registerView:self.webview forRole:1];
-}
-
-%new
--(void)unregisterView {
-    //[self unregisterView:self.webview];
-
 }
 
 -(void)viewDidLayoutSubviews {
     %orig;
     
-    self.webview.frame = self.view.bounds;
+    for (UIView *view in self.view.subviews) {
+        view.frame = self.view.bounds;
+    }
 }
 
 %end
@@ -748,7 +772,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         return;
     }
     
-    SBDashBoardComponent *dateView;
+    SBDashBoardComponent *dateView = nil;
     
     for (SBDashBoardComponent *component in arg1.components) {
         if (component.type == 1) {
@@ -1640,9 +1664,11 @@ void cancelIdleTimer() {
 
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
-    
-    XENlog(@"Hiding SBHTML due to locking of the device");
-    [sbhtmlViewController setPaused:arg1];
+
+    if (sbhtmlViewController)
+        [sbhtmlViewController setPaused:arg1];
+    if (sbhtmlForegroundViewController)
+        [sbhtmlForegroundViewController setPaused:arg1];
 }
 
 %end
@@ -1657,6 +1683,7 @@ void cancelIdleTimer() {
     
     XENlog(@"Showing SBHTML due to application exit, and the assumption that we will progress to the homescreen");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1673,6 +1700,7 @@ void cancelIdleTimer() {
         
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
+        [sbhtmlForegroundViewController setPaused:YES animated:YES];
     // And now, handle the reverse as a failsafe.
     } else if ([arg2 isForeground] && ![arg3 isForeground]) {
         
@@ -1684,6 +1712,7 @@ void cancelIdleTimer() {
             if (isSpringBoardForeground) {
                 XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             }
         });
     }
@@ -1700,6 +1729,7 @@ void cancelIdleTimer() {
 - (void)willAnimateDeactivation:(_Bool)arg1 {
     XENlog(@"Showing SBHTML due to an application animating deactivation");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1713,6 +1743,7 @@ void cancelIdleTimer() {
 -(void)_activateSwitcher {
     XENlog(@"Showing SBHTML due to opening the Application Switcher");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1724,6 +1755,7 @@ void cancelIdleTimer() {
 - (void)performPresentationAnimationForTransitionRequest:(id)arg1 withCompletion:(id)arg2 {
     XENlog(@"Showing SBHTML due to opening the Application Switcher");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -1755,6 +1787,7 @@ void cancelIdleTimer() {
             XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
             //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             //    [sbhtmlViewController.view setNeedsDisplay];
             //});
             break;
@@ -1762,6 +1795,7 @@ void cancelIdleTimer() {
             XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
             //dispatch_async(dispatch_get_main_queue(), ^(){
                 [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
             //    [sbhtmlViewController.view setNeedsDisplay];
             //});
             break;
@@ -1781,6 +1815,7 @@ void cancelIdleTimer() {
 - (void)_beginWithGesture:(id)arg1 {
     XENlog(@"Showing SBHTML due to starting a fluid gesture");
     [sbhtmlViewController setPaused:NO];
+    [sbhtmlForegroundViewController setPaused:NO];
     
     %orig;
 }
@@ -2304,6 +2339,19 @@ void cancelIdleTimer() {
 
 #pragma mark Hide SB page dots (iOS 9+)
 
+%hook SBIconListPageControl
+
+%property (nonatomic) BOOL _xenhtml_hidden;
+
+- (void)setHidden:(BOOL)hidden {
+    if (!hidden && self._xenhtml_hidden)
+        return;
+    
+    %orig;
+}
+
+%end
+
 %hook SBRootFolderView
 
 - (void)layoutSubviews {
@@ -2320,18 +2368,470 @@ void cancelIdleTimer() {
     
     if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots]) {
 #if TARGET_IPHONE_SIMULATOR==0
-        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+        SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
+        pageControl._xenhtml_hidden = YES;
+        pageControl.hidden = YES;
 #endif
     }
+    
+#pragma mark Layout foreground SBHTML add button and editing view (iOS 9+)
+    
+    // Layout the add button at the very bottom of the scrollview
+    [self _xenhtml_layoutAddWidgetButton];
+    [self _xenhtml_layoutEditingPlatter];
 }
 
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
-    if ([XENHResources SBEnabled]) {
 #if TARGET_IPHONE_SIMULATOR==0
-        [MSHookIvar<UIView*>(self, "_pageControl") setHidden:[XENHResources SBHidePageDots]];
-#endif
+    SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
+    
+    if ([XENHResources SBEnabled]) {
+        pageControl._xenhtml_hidden = [XENHResources SBHidePageDots];
+        pageControl.hidden = [XENHResources SBHidePageDots];
+    } else {
+        // Make sure to un-hide the dots
+        pageControl._xenhtml_hidden = NO;
+        pageControl.hidden = NO;
     }
+#endif
+}
+
+%end
+
+#pragma mark Foreground SBHTML init (iOS 9)
+
+%hook SBIconController
+
+- (void)loadView {
+    %orig;
+    
+    // iOS verison guard
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0)
+        return;
+    
+    XENlog(@"SBIconController loadView");
+    
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        XENlog(@"Created foreground SBHTML widgets view, pending presentation");
+    }
+    
+    // Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+}
+
+// Patched in to support SBRootFolderController signature
+
+%new
+- (id)_xenhtml_contentView {
+    return [self _rootFolderController].contentView;
+}
+
+%new
+- (long long)_xenhtml_currentPageIndex {
+    return [self _rootFolderController].currentPageIndex;
+}
+
+%new
+- (id)iconListViewAtIndex:(long long)index {
+    return [self rootIconListAtIndex:index];
+}
+
+%new
+- (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2 {
+    return [self scrollToIconListAtIndex:arg1 animate:arg2];
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        if (sbhtmlForegroundViewController) {
+            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
+        } else {
+            XENlog(@"Loading foreground SBHTML widgets view");
+            
+            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+            
+            if (isOnMainScreen) {
+                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+                
+                SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+                [rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+                
+                XENlog(@"Added foreground SBHTML widgets view");
+            }
+        }
+    } else if (sbhtmlForegroundViewController) {
+        [sbhtmlForegroundViewController unloadWidgets];
+        [sbhtmlForegroundViewController.view removeFromSuperview];
+        sbhtmlForegroundViewController = nil;
+    }
+}
+
+%end
+
+%hook SBRootFolderController
+
+-(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
+    SBRootFolderController *orig = %orig;
+    
+    if (orig && [UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+        if ([XENHResources SBEnabled]) {
+            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Presented foreground SBHTML");
+        }
+        
+        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    }
+    
+    return orig;
+}
+
+%end
+
+#pragma mark Foreground SBHTML init (iOS 10+)
+
+%hook SBRootFolderController
+
+- (void)loadView {
+    %orig;
+    
+    // iOS verison guard
+    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0)
+        return;
+    
+    XENlog(@"SBRootFolderController loadView");
+    
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        
+        XENlog(@"Added foreground SBHTML widgets view");
+    }
+    
+    self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    
+    // Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                               object:nil];
+}
+
+// Will need to reload SBHTML if settings change.
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    if ([XENHResources SBEnabled]) {
+        if (sbhtmlForegroundViewController) {
+            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
+        } else {
+            XENlog(@"Loading foreground SBHTML widgets view");
+            
+            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
+            
+            if (isOnMainScreen) {
+                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+                
+                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                
+                self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+            }
+        }
+    } else if (sbhtmlForegroundViewController) {
+        [sbhtmlForegroundViewController unloadWidgets];
+        [sbhtmlForegroundViewController.view removeFromSuperview];
+        sbhtmlForegroundViewController = nil;
+    }
+}
+
+%new
+- (id)_xenhtml_contentView {
+    return self.contentView;
+}
+
+%new
+- (long long)_xenhtml_currentPageIndex {
+    return self.currentPageIndex;
+}
+
+%end
+
+#pragma mark Foreground SBHTML layout (iOS 9+)
+
+%hook SBIconScrollView
+
+%property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
+
+- (void)layoutSubviews {
+    %orig;
+    
+    // Layout if needed
+    if (self._xenhtml_isForegroundWidgetHoster) {
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        
+        // If the today page is hidden, then we layout by -SCREEN_WIDTH as the x origin.
+        // This is to allow all existing logic inside the view controller to not need changing!
+        
+        // When today is hidden, the first icon list is at offset 0. Otherwise, SCREEN_WIDTH
+        
+        BOOL noTodayPage = NO;
+        
+        for (UIView *view in self.subviews) {
+            // First iconlist subview
+            if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+                noTodayPage = view.frame.origin.x == 0;
+                
+                break;
+            }
+        }
+        
+        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
+    }
+}
+
+- (void)addSubview:(id)arg1 {
+    %orig;
+    
+    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
+        // Order our view to front to keep widgets over icons
+        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+    }
+}
+
+- (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
+    %orig;
+    
+    if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
+        // Order our view to front to keep widgets over icons
+        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+    }
+}
+
+%end
+
+#pragma mark Display Homescreen foreground add button when editing (iOS 9+)
+
+static BOOL _xenhtml_inEditingMode;
+
+%hook SBRootFolderView
+
+%property (nonatomic, strong) XENHButton *_xenhtml_addButton;
+%property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
+%property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
+
+- (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
+    SBRootFolderView *orig = %orig;
+    
+    if (orig) {        
+        orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
+        [orig._xenhtml_addButton addTarget:self
+                action:@selector(_xenhtml_addWidgetButtonTapped:)
+                forControlEvents:UIControlEventTouchUpInside];
+        
+        // Hide until UI is in editing UI
+        orig._xenhtml_addButton.hidden = YES;
+        
+        [orig addSubview:orig._xenhtml_addButton];
+        
+        // and the editing platter
+        orig._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
+        orig._xenhtml_editingPlatter.hidden = YES;
+        
+        [orig addSubview:orig._xenhtml_editingPlatter];
+        
+        orig._xenhtml_editingVerticalIndicator = [[UIView alloc] initWithFrame:CGRectZero];
+        orig._xenhtml_editingVerticalIndicator.userInteractionEnabled = NO;
+        orig._xenhtml_editingVerticalIndicator.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+        orig._xenhtml_editingVerticalIndicator.hidden = YES;
+        orig._xenhtml_editingVerticalIndicator.alpha = 0.0;
+        
+        [orig insertSubview:orig._xenhtml_editingVerticalIndicator belowSubview:orig._xenhtml_editingPlatter];
+    }
+    
+    return orig;
+}
+
+- (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
+    %orig;
+    
+    // If the SB is not enabled, then don't go any further than this
+    if (![XENHResources SBEnabled])
+        return;
+    
+    _xenhtml_inEditingMode = arg1;
+    [sbhtmlForegroundViewController updateEditingModeState:arg1];
+    
+    static CGFloat animationDuration = 0.15;
+    
+    // Display the add button, and hide the page dots
+    if (arg1) {
+        self._xenhtml_addButton.hidden = NO;
+        self._xenhtml_editingPlatter.hidden = NO;
+        
+        if (![XENHResources hidePageControlDots]) {
+            // Handle differences for iOS 9
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+#endif
+            } else {
+                self.pageControl.hidden = YES;
+            }
+        } // Otherwise, already hidden
+        
+        self._xenhtml_addButton.alpha = 0.0;
+        self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+        
+        [UIView animateWithDuration:animationDuration animations:^{
+            self._xenhtml_addButton.alpha = 1.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        }];
+    } else {
+        
+        if (![XENHResources hidePageControlDots]) {
+            // Handle differences for iOS 9
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:NO];
+#endif
+            } else {
+                self.pageControl.hidden = NO;
+            }
+        }
+        
+        [UIView animateWithDuration:animationDuration animations:^{
+            self._xenhtml_addButton.alpha = 0.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+        } completion:^(BOOL finished) {
+            self._xenhtml_addButton.hidden = YES;
+            self._xenhtml_editingPlatter.hidden = YES;
+        }];
+    }
+}
+
+-(void)scrollViewDidScroll:(id)arg1 {
+    %orig;
+    
+    // Relayout with the new content offset for scrolling to the today page
+    [self _xenhtml_layoutAddWidgetButton];
+}
+
+- (void)addSubview:(id)arg1 {
+    %orig;
+    
+    // Bring our views forward again
+    [self bringSubviewToFront:self._xenhtml_addButton];
+    [self bringSubviewToFront:self._xenhtml_editingPlatter];
+}
+
+- (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
+    %orig;
+    
+    // Bring our views forward again
+    [self bringSubviewToFront:self._xenhtml_addButton];
+    [self bringSubviewToFront:self._xenhtml_editingPlatter];
+}
+
+%new
+- (void)_xenhtml_addWidgetButtonTapped:(id)sender {
+    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+}
+
+%new
+- (void)_xenhtml_layoutAddWidgetButton {
+    // calculate offset needed to apply
+    
+    CGFloat lowestOffset = SCREEN_WIDTH;
+    
+    for (UIView *view in self.scrollView.subviews) {
+        // First iconlist subview
+        if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+            lowestOffset = view.frame.origin.x;
+            
+            break;
+        }
+    }
+    
+    CGFloat effectiveXOffset = lowestOffset - self.scrollView.contentOffset.x;
+    if (effectiveXOffset < 0) effectiveXOffset = 0;
+    
+    self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
+                                                 self.scrollView.frame.size.height
+                                                 + self.scrollView.frame.origin.y
+                                                 - self._xenhtml_addButton.bounds.size.height/4.0);
+}
+
+%new
+- (void)_xenhtml_layoutEditingPlatter {
+    self._xenhtml_editingPlatter.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    self._xenhtml_editingVerticalIndicator.frame = CGRectMake(self.bounds.size.width/2 - 0.5, 0, 1, self.bounds.size.height);
+}
+
+%new
+- (void)_xenhtml_showVerticalEditingGuide {
+    self._xenhtml_editingVerticalIndicator.hidden = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self._xenhtml_editingVerticalIndicator.alpha = 1.0;
+    }];
+}
+
+%new
+- (void)_xenhtml_hideVerticalEditingGuide {
+    [UIView animateWithDuration:0.3 animations:^{
+        self._xenhtml_editingVerticalIndicator.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self._xenhtml_editingVerticalIndicator.hidden = YES;
+    }];
+}
+
+%end
+
+#pragma mark Ensure icons always can be tapped through the SBHTML foreground widgets view (iOS 9+)
+
+%hook SBIconScrollView
+
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (![XENHResources SBEnabled] || !self._xenhtml_isForegroundWidgetHoster) {
+        return %orig;
+    }
+    
+    // If in editing mode, prefer to move widgets around over icons
+    if (_xenhtml_inEditingMode) {
+        return %orig;
+    }
+    
+    // If in OPW mode, prefer widget touches
+    if ([XENHResources SBOnePageWidgetMode])
+        return %orig;
+    
+    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
+        CGPoint subPoint = [view convertPoint:point fromView:self];
+        UIView *hittested = [view hitTest:subPoint withEvent:event];
+        
+        if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
+            [[hittested class] isEqual:objc_getClass("SBFolderIconView")]) {
+            // Favour icons where possible
+            return hittested;
+        }
+    }
+    
+    return %orig;
 }
 
 %end
@@ -2342,6 +2842,36 @@ void cancelIdleTimer() {
 
 - (BOOL)_shouldUpdateKeyboardWithInfo:(NSDictionary *)keyboardInfo {
     return NO;
+}
+
+%end
+
+#pragma mark Stop white area bug (iOS 9+)
+
+@interface _UIPlatterView : UIView
+@end
+
+%hook _UIPlatterView
+
+- (void)didMoveToSuperview {
+    %orig;
+    
+    if ([[self.superview.superview class] isEqual:objc_getClass("WKScrollView")] ||
+        [[self.superview class] isEqual:objc_getClass("UIWebBrowserView")]) {
+        XENlog(@"_UIPlatterView :: preventing add to webview!");
+        [self removeFromSuperview];
+    }
+}
+
+%end
+
+#pragma mark Stop magnification loupe bug (iOS 11+)
+
+%hook UIWKTextLoupeInteraction
+
+-(void)loupeGesture:(id)arg1 {
+    XENlog(@"UIWKTextLoupeInteraction :: ignoring!");
+    return;
 }
 
 %end
@@ -2389,6 +2919,7 @@ void cancelIdleTimer() {
 #pragma mark Properly handle media controls on lockscreen (iOS 9)
 
 static void hideForegroundIfNeeded() {
+    
     BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
     
     if (canHideForeground && foregroundViewController && foregroundViewController.view.alpha != [XENHResources LSWidgetFadeOpacity]) {
@@ -2401,6 +2932,7 @@ static void hideForegroundIfNeeded() {
 }
 
 static void showForegroundIfNeeded() {
+    
     BOOL canShowForeground = foregroundHiddenRequesters.count == 0;
     
     if (canShowForeground && foregroundViewController && foregroundViewController.view.alpha != 1.0) {
@@ -2413,6 +2945,7 @@ static void showForegroundIfNeeded() {
 }
 
 static void addForegroundHiddenRequester(NSString* requester) {
+    
     if (!foregroundHiddenRequesters) {
         foregroundHiddenRequesters = [NSMutableArray array];
     }
@@ -2427,6 +2960,7 @@ static void addForegroundHiddenRequester(NSString* requester) {
 }
 
 static void removeForegroundHiddenRequester(NSString* requester) {
+    
     [foregroundHiddenRequesters removeObject:requester];
     
     //XENlog(@"SHOWING FOR REQUESTER: %@", requester);
@@ -2442,9 +2976,9 @@ static void removeForegroundHiddenRequester(NSString* requester) {
     if (foregroundViewController && [XENHResources LSFadeForegroundForMedia]) {
         // If showing controls, fade the foreground ONLY if set to.
         
+#if TARGET_IPHONE_SIMULATOR==0
         BOOL actuallyHasControls = YES;
         
-#if TARGET_IPHONE_SIMULATOR==0
         UIViewController *mpu = MSHookIvar<UIViewController*>(self, "_mediaControlsViewController");
         if (!mpu) {
             actuallyHasControls = NO;
@@ -2872,32 +3406,6 @@ static void showForegroundForLSNotifIfNeeded() {
     return [self _xh_forwardingView] != nil ? [self _xh_forwardingView] : %orig;
 }
 
-/*- (CGPoint)locationInView:(id)arg1 {
-    if ([self _xh_forwardingView] != nil) {
-        XENlog(@"Location in view: %@", arg1);
-        
-        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
-        CGPoint orig = %orig;
-        
-        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
-    } else {
-        return %orig;
-    }
-}
-
-- (CGPoint)previousLocationInView:(id)arg1 {
-    if ([self _xh_forwardingView] != nil) {
-        XENlog(@"Previous location in view: %@", arg1);
-        
-        UIView *originalView = MSHookIvar<UIView*>(self, "_view");
-        CGPoint orig = %orig;
-        
-        return [[self _xh_forwardingView] convertPoint:orig fromView:originalView];
-    } else {
-        return %orig;
-    }
-}*/
-
 %end
 
 %end
@@ -3014,9 +3522,17 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
-%hook SBLockScreenManager
+@interface SBHomeScreenWindow : UIWindow
+@end
 
-- (_Bool)_finishUIUnlockFromSource:(int)arg1 withOptions:(id)arg2 {
+%hook SBHomeScreenWindow
+
+- (void)becomeKeyWindow {
+    // Hooking here to do things just after the device is unlocked
+    
+    %orig;
+    
+    // Launch Cydia to install from the official source
     if (launchCydiaForSource) {
         launchCydiaForSource = NO;
         
@@ -3024,7 +3540,22 @@ static BOOL launchCydiaForSource = NO;
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
     
-    return %orig;
+    // Show the how-to for Homescreen foreground widgets
+    if ([XENHResources requiresHomescreenForegroundAlert]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                                    message:@"You can now add widgets that move with your Homescreen icons.\n\nPress and hold an icon to enter editing mode, then tap 'Add widget' above the dock."
+                                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        [self.rootViewController presentViewController:alert animated:YES completion:nil];
+        
+        // Update preferences for showing the alert
+        [XENHResources setHomescreenForegroundAlertSeen:YES];
+    }
 }
 
 %end
@@ -3164,9 +3695,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", RTLD_NOW);
         
         %init(SpringBoard);
-        
-        Class sBIdleTimerDefaults = objc_getClass("SBIdleTimerDefaults");
-        XENlog(@"Sanity check: %@", sBIdleTimerDefaults);
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);

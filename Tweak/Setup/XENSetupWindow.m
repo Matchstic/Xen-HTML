@@ -55,6 +55,8 @@ static XENHSetupWindow *shared;
     
     shared.backgroundColor = [UIColor clearColor];
     
+    shared.backgroundImageView.hidden = YES; // Obscured by pages now
+    
     [UIView animateWithDuration:0.5 animations:^{
         shared.rootViewController.view.alpha = 0.0;
         shared.rootViewController.view.transform = CGAffineTransformMakeScale(2.0, 2.0);
@@ -80,6 +82,12 @@ static XENHSetupWindow *shared;
     return YES;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.backgroundImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+}
+
 -(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
@@ -88,6 +96,23 @@ static XENHSetupWindow *shared;
         self.windowLevel = 1081;
         
         self.usingQuickSetup = NO;
+        
+        // Background
+        NSString *imagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
+        
+        if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
+            // Oh for crying out loud CoolStar
+            imagePath = [NSString stringWithFormat:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
+        }
+        
+        UIImage *backgroundImage = [UIImage imageWithContentsOfFile:imagePath];
+        
+        self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+        self.backgroundImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.backgroundImageView.alpha = 0.3;
+        self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        [self addSubview:self.backgroundImageView];
         
         // We want a navigation controller
         XENHSetupInitialController *initial = [[XENHSetupInitialController alloc] init];
