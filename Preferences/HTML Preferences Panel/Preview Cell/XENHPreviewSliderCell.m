@@ -55,8 +55,6 @@
         UIImage *skewHigh = [UIImage imageWithContentsOfFile:skewHighPath];
         UIImage *skewLow = [UIImage imageWithContentsOfFile:skewLowPath];
         
-        NSLog(@"XenHTML :: IMAGES, HIGH: %@, low: %@", skewHigh, skewLow);
-        
         self.slider.maximumValueImage = skewLow;
         self.slider.minimumValueImage = skewHigh;
         
