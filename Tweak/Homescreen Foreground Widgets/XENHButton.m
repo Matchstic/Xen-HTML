@@ -39,7 +39,7 @@ static CGFloat BUTTON_HEIGHT = 28.0;
         // Setup background view, and title label
         
         
-        if (objc_getClass("MTMaterialView")) {
+        if (objc_getClass("MTMaterialView") && [objc_getClass("MTMaterialView") respondsToSelector:@selector(materialViewWithRecipe:options:)]) {
             // Fancy times! iOS 11 and up
             self.backgroundView = [objc_getClass("MTMaterialView") materialViewWithRecipe:1 options:2];
             self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.7 alpha:0.3];
