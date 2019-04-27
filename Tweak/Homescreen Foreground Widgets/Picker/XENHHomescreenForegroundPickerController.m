@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSArray* currentSelected;
 
 @property (nonatomic, strong) NSArray* iwidgetsArray;
+@property (nonatomic, strong) NSArray* sbhtmlArray;
 
 @end
 
@@ -44,6 +45,7 @@
         self.currentSelected = currentArray;
         
         [self _setupiWidgetsArray];
+        [self _setupSBHTMLArray];
     }
     
     return self;
@@ -101,11 +103,34 @@
     
     self.iwidgetsArray = widgets;
 }
+    
+- (void)_setupSBHTMLArray {
+#if TARGET_IPHONE_SIMULATOR==0
+    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
+#else
+    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
+#endif
+    
+    // Order the array alphabetically.
+    widgets = [self _orderAlphabetically:widgets];
+    
+    for (NSString *thing in widgets.copy) {
+        int index = (int)[widgets indexOfObject:thing];
+#if TARGET_IPHONE_SIMULATOR==0
+        NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+#else
+        NSString *absoluteURL = [NSString stringWithFormat:@"/opt/simject/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+#endif
+        [widgets replaceObjectAtIndex:index withObject:absoluteURL];
+    }
+    
+    self.sbhtmlArray = widgets;
+}
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -224,15 +249,15 @@
 }
 
 - (NSInteger)_itemCountForSection:(NSInteger)section {
-    return self.iwidgetsArray.count;
+    return section == 0 ? self.iwidgetsArray.count : self.sbhtmlArray.count;
 }
 
 - (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
-    return [self.iwidgetsArray objectAtIndex:indexPath.item];
+    return indexPath.section == 0 ? [self.iwidgetsArray objectAtIndex:indexPath.item] : [self.sbhtmlArray objectAtIndex:indexPath.item];
 }
 
 - (NSString*)_nameForSection:(NSInteger)section {
-    return @"iWidgets";
+    return section == 0 ? @"iWidgets" : @"SBHTML";
 }
 
 @end
