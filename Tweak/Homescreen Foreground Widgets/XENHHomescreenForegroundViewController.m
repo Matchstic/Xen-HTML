@@ -280,6 +280,9 @@
     [widgetMetadata setObject:options forKey:@"options"];
     [widgetMetadata setObject:[NSNumber numberWithBool:state] forKey:@"useFallback"];
     
+    if (!options || options.allKeys.count == 0) // config.js hack
+        [widgetMetadata setObject:[NSDate date] forKey:@"lastConfigChangeWorkaround"];
+    
     if (isNewWidget) {
         // Set the default x and y positions for the new widget based on the current page
         
