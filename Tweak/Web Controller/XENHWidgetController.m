@@ -48,7 +48,6 @@ extern char **environ;
 @interface XENHWidgetController ()
 
 // Editing mode
-@property (nonatomic, readwrite) BOOL _pendingEditingWiggle;
 @property (nonatomic, strong) UIView *editingBackground;
 @property (nonatomic, strong) UIView *editingPositioningBackground;
 @property (nonatomic, strong) XENHButton *editingSettingsButton;
@@ -453,11 +452,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     self.editingBackground.frame = rect;
     self.editingPositioningBackground.frame = rect;
-    
-    /*if (self._pendingEditingWiggle) {
-        self._pendingEditingWiggle = NO;
-        [self performSelector:@selector(_doEditingWiggle) withObject:nil afterDelay:0.25];
-    }*/
 }
 
 - (void)rotateToOrientation:(int)orient {
@@ -839,7 +833,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)setEditing:(BOOL)editing {
     // TODO: Animate in the editing buttons
     
-    BOOL wasEditing = self.isEditing;
     self.isEditing = editing;
     self.editingSettingsButton.hidden = !editing;
     self.editingRemoveButton.hidden = !editing;
@@ -848,16 +841,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Disable webview touches to allow positioning
     self.webView.userInteractionEnabled = !editing;
     self.legacyWebView.userInteractionEnabled = !editing;
-    
-    
-    /*if (!wasEditing && editing && self.editingBackground.bounds.size.width != 0) {
-        [self _doEditingWiggle];
-    } else if (!wasEditing && editing) {
-        self._pendingEditingWiggle = YES;
-    } else if (wasEditing && !editing) {
-        [self.view.layer removeAllAnimations];
-        self.view.transform = CGAffineTransformIdentity;
-    }*/
 }
 
 - (void)_editingSettingsButtonTapped:(id)sender {
@@ -885,10 +868,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     static BOOL shouldSnapToGuides = YES;
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
-        
-        // Stop the wiggle
-        // [self.view.layer removeAllAnimations];
-        // self.view.transform = CGAffineTransformIdentity;
         
         // Notify delegate of positioning start
         [self.editingDelegate notifyWidgetPositioningDidBegin:self];
@@ -990,9 +969,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         // Notify delegate of positioning end
         [self.editingDelegate notifyWidgetPositioningDidEnd:self];
-        
-        // Start wiggling again!
-        // [self performSelector:@selector(_doEditingWiggle) withObject:nil afterDelay:0.25];
     }
 }
 
@@ -1017,36 +993,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_removeEditingPositioningBackdrop {
     [self.editingPositioningBackground removeFromSuperview];
     self.editingPositioningBackground = nil;
-}
-
-- (void)_doEditingWiggle {
-    return;
-    
-    if (!self.isEditing)
-        return;
-    
-    // Set anchor before wiggling
-    CGFloat anchorX = (self.editingBackground.bounds.size.width / self.view.bounds.size.width) / 2.0;
-    CGFloat anchorY = (self.editingBackground.bounds.size.height / self.view.bounds.size.height) / 2.0;
-    self.view.layer.anchorPoint = CGPointMake(anchorX, anchorY);
-    
-    CGFloat reductionFactor = 1.2;
-    CGFloat magnitude = self.editingBackground.bounds.size.width/self.view.bounds.size.width;
-    CGFloat angle = 0.035 * (1.0 - (magnitude * reductionFactor));
-    CGFloat duration = 0.3 * magnitude;
-    
-    if (duration < 0.15) duration = 0.15;
-    if (angle < 0.01) angle = 0.01;
-    
-    self.view.transform = CGAffineTransformMakeRotation(-angle);
-    
-    [UIView animateKeyframesWithDuration:duration delay:0.0 options:UIViewKeyframeAnimationOptionAutoreverse | UIViewKeyframeAnimationOptionRepeat animations:^{
-        
-        self.view.transform = CGAffineTransformMakeRotation(angle);
-        
-    } completion:^(BOOL finished) {
-        
-    }];
 }
 
 @end
