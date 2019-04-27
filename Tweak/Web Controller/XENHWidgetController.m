@@ -669,6 +669,11 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (void)_forwardTouches:(NSSet*)touches withEvent:(UIEvent*)event forType:(int)type {
+    if (self.webView && !self.webView.userInteractionEnabled)
+        return;
+    if (self.legacyWebView && !self.legacyWebView.userInteractionEnabled)
+        return;
+    
     // First, forward to the web touch recognisers
     UIView *view = [self _webTouchDelegate];
     NSSet *set = [(UITouchesEvent*)event _allTouches];
