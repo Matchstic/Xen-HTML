@@ -12,6 +12,7 @@
 
 "MISC_HEADER" = "Sonstiges";
 "MISC_SB_TOUCH" = "Erlaube Touch für widgets";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Widget Editor";
 "WIDGET_EDITOR_HS_FOOTER" = "Aktivieren Sie diese Option um Ihr widget besser Platzieren zu können im Home-Bildschirm.";

@@ -12,6 +12,7 @@
 
 "MISC_HEADER" = "Overige";
 "MISC_SB_TOUCH" = "Akkoord om op je Widget te klikken";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Widget Aanpassen";
 "WIDGET_EDITOR_HS_FOOTER" = "Pas de instellingen aan van de widgets die je op thuisscherm wilt plaatsen.";

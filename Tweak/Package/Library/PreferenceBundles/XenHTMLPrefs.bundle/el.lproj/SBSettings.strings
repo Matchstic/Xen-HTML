@@ -1,4 +1,4 @@
-﻿/* 
+/* 
   SBSettings.strings
   Xen HTML
 */
@@ -12,6 +12,7 @@
 
 "MISC_HEADER" = "Διάφορα";
 "MISC_SB_TOUCH" = "Επιτρέπω άγγιγμα στο Widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Επεξεργαστής Widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Προσαρμόστε το πάνελ των χρησιμοποιούμενων ρυθμίσεων των  widgets της αρχικής οθόνης.";

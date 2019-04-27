@@ -12,6 +12,7 @@
 
 "MISC_HEADER" = "Divers";
 "MISC_SB_TOUCH" = "Autoriser le Touch sur le Widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Éditeur de Widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Personnaliser le panneau de configuration utilisé pour choisir les widgets à présenter sur l'écran d'accueil.";

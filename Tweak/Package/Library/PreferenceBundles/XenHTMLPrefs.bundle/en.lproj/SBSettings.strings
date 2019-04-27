@@ -11,7 +11,8 @@
 "ELEMENT_SB_PAGE_DOTS" = "Hide Page Indicators";
 
 "MISC_HEADER" = "Miscellaneous";
-"MISC_SB_TOUCH" = "Allow Touch On Widget";
+"MISC_SB_TOUCH" = "Allow Touch on Widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Widget Editor";
 "WIDGET_EDITOR_HS_FOOTER" = "Customise the settings panel used for choosing widgets to render on the Homescreen.";

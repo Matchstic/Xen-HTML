@@ -6,7 +6,7 @@
 	<string></string>
 	<key>items</key>
 	<array>
-     	<dict>
+		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
@@ -88,7 +88,7 @@
 			<key>key</key>
 			<string>SBAllowTouch</string>
 			<key>label</key>
-			<string>MISC_SB_TOUCH</string>
+			<string>MISC_SB_TOUCH2</string>
 		</dict>
 		<dict>
 			<key>cell</key>

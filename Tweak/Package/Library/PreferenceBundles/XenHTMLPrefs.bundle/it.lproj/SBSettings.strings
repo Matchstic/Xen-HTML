@@ -12,6 +12,7 @@
 
 "MISC_HEADER" = "Miscellaneous";
 "MISC_SB_TOUCH" = "Consenti il tocco sopra i widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 
 "WIDGET_EDITOR_HEADER" = "Editor widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Personalizza il pannello delle impostazioni utilizzato per scegliere i widget da eseguire sulla schermata home.";

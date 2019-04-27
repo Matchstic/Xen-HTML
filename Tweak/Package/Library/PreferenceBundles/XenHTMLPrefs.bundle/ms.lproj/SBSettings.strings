@@ -6,6 +6,7 @@
 "ELEMENT_VISIBILITY_HS_HEADER" = "Unsur kebolehlihatan ";
 "MISC_HEADER" = "Pelbagai";
 "MISC_SB_TOUCH" = "Benarkan sentuhan ke atas Widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 "WIDGET_EDITOR_HEADER" = "Editor Widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Sesuaikan panel tetapan yang digunakan bagi memilih widget untuk membuat pada Skrin utama.";
 "WIDGET_EDITOR_SNAP" = "Widget Snap ke paksi Y";

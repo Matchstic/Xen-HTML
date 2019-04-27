@@ -7,6 +7,7 @@
     "ELEMENT_VISIBILITY_HS_HEADER" = "Element Visibility";
     "MISC_HEADER" = "Çeşitli";
     "MISC_SB_TOUCH" = "Widget Üzerine Dokunmaya İzin Ver";
+    "MISC_SB_TOUCH2" = "Allow Touch on Background";
     "WIDGET_EDITOR_HEADER" = "Widget Düzenleyici";
     "WIDGET_EDITOR_HS_FOOTER" = "Ana Ekranda oluşturulacak widget'ları seçmek için kullanılan ayarlar panelini özelleştirin.";
     "WIDGET_EDITOR_SNAP" = "Widget'ları Y Eksenine Tuttur";

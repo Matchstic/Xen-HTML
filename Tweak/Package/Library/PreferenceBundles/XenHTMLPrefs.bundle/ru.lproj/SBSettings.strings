@@ -24,6 +24,8 @@
 	<string>Разное</string>
 	<key>MISC_SB_TOUCH</key>
 	<string>Разрешить нажатия на виджет</string>
+    <key>MISC_SB_TOUCH2</key>
+    <string>Allow Touch on Background</string>
 	<key>Some widgets require Legacy Mode to correctly function, such as those that utilise GroovyAPI.</key>
 	<string>Некоторые виджеты требуют, чтобы режим Legacy корректно функционировал, например, те, которые используют GroovyAPI</string>
 	<key>WIDGET_EDITOR_HEADER</key>

@@ -6,6 +6,7 @@
 "ELEMENT_VISIBILITY_HS_HEADER" = "Visibilidad de Elementos";
 "MISC_HEADER" = "Misceláneo";
 "MISC_SB_TOUCH" = "Permitir Utilizar Toque en el Widget";
+"MISC_SB_TOUCH2" = "Allow Touch on Background";
 "WIDGET_EDITOR_HEADER" = "Editor de Widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Personalizar el panel de configuraciones que se usa para elegir widgets para renderizar en la Pantalla de Inicio.";
 "WIDGET_EDITOR_SNAP" = "Ajustar los Widgets al eje de 'Y'";
