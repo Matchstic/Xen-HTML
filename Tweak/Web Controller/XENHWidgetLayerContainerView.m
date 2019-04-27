@@ -61,7 +61,8 @@
                 return hittested;
             }
             
-            [hittestedViews addObject:hittested];
+            if (hittested.userInteractionEnabled)
+                [hittestedViews addObject:hittested];
         }
     }
     
