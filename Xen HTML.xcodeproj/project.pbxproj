@@ -1336,7 +1336,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
@@ -1381,7 +1381,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
@@ -1401,6 +1401,11 @@
 		C93C30C01BA72CAA0037BA09 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1439,6 +1444,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
@@ -1449,6 +1455,11 @@
 		C93C30C11BA72CAA0037BA09 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1491,6 +1502,11 @@
 		C998B37F1E0E84C70073502C /* Simulator */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1568,7 +1584,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
