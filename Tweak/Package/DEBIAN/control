@@ -1,9 +1,9 @@
 Package: com.matchstic.xenhtml
 Name: Xen HTML
-Version: 0.5-2
+Version: 0.5-5
 Description: Unified HTML rendering; lockscreen and homescreen
 Section: System
-Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, com.matchstic.libgithubissues, jp.ashikase.libpackageinfo, firmware (>= 11.0) | com.unlimapps.uaunbox
+Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, firmware (>= 11.0) | com.unlimapps.uaunbox
 Provides: com.groovycarrot.groovylock, com.bushe.lockhtml4, com.bushe.lockhtml3, com.bushe.lockhtml2, cydget, com.groovycarrot.sbhtml
 Priority: optional
 Architecture: iphoneos-arm
