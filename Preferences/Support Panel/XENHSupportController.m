@@ -21,7 +21,7 @@
 #import <libMobileGestalt.h>
 #include <sys/stat.h>
 #import "XENHPResources.h"
-#import <libGitHubIssues.h>
+//#import <libGitHubIssues.h>
 #include <spawn.h>
 
 extern char **environ;
@@ -176,7 +176,7 @@ extern char **environ;
 }
 
 -(void)openGitHubIssues:(id)sender {
-    GIRootViewController *rootModal = [[GIRootViewController alloc] init];
+    /*GIRootViewController *rootModal = [[GIRootViewController alloc] init];
     
     [GIRootViewController registerClientID:@"604b0348c13943dc28fd" andSecret:@"a885c24a81a98d2dae25f64274a267b8f1188daf"];
     [GIRootViewController registerCurrentRepositoryName:@"Xen-HTML" andOwner:@"Matchstic"];
@@ -187,7 +187,10 @@ extern char **environ;
         rootModal.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self.navigationController presentViewController:rootModal animated:YES completion:nil];
+    [self.navigationController presentViewController:rootModal animated:YES completion:nil];*/
+    
+    NSURL *url = [NSURL URLWithString:@"https://github.com/Matchstic/Xen-HTML/issues"];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 #pragma mark UIAlertViewDelegate
