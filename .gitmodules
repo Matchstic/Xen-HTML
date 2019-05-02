@@ -1,0 +1,3 @@
+[submodule "deps/libpackageinfo/src"]
+	path = deps/libpackageinfo/src
+	url = https://github.com/ashikase/libpackageinfo.git
