@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Foreground</string>
+	<string>TITLE</string>
 	<key>items</key>
 	<array>
 		<dict>
@@ -24,13 +24,33 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
+			<false/>
 			<key>defaults</key>
 			<string>com.matchstic.xenhtml</string>
 			<key>key</key>
 			<string>SBOnePageWidgetMode</string>
 			<key>label</key>
 			<string>FOREGROUND_SB_PRIORITISE_TOUCH</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>FOREGROUND_SB_BELOW_ICONS_FOOTER</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>SBPerPageHTMLWidgetMode</string>
+			<key>label</key>
+			<string>FOREGROUND_SB_BELOW_ICONS</string>
 		</dict>
 	</array>
 </dict>

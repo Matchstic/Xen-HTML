@@ -948,6 +948,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++(BOOL)SBPerPageHTMLWidgetMode {
+    id value = settings[@"SBPerPageHTMLWidgetMode"];
+    return (value ? [value boolValue] : NO);
+}
+
 /**
  * @return { <br>{ location: filename, x: 100, y: 100 },<br> { location: filename, x: 150, y: 150 }<br> }
  */

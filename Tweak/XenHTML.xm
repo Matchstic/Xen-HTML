@@ -313,6 +313,7 @@
 
 @interface SBIconScrollView : UIScrollView
 @property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
+-(void)_xenhtml_recievedSettingsUpdate;
 @end
 
 @interface SBIconListPageControl : UIPageControl
@@ -2465,8 +2466,8 @@ void cancelIdleTimer() {
                 [sbhtmlForegroundViewController updatePopoverPresentationController:self];
                 
                 SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
-                [rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
                 rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+                [rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
                 
                 XENlog(@"Added foreground SBHTML widgets view");
             }
@@ -2476,6 +2477,10 @@ void cancelIdleTimer() {
         [sbhtmlForegroundViewController.view removeFromSuperview];
         sbhtmlForegroundViewController = nil;
     }
+    
+    // Notify the scrollview of changes
+    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+    [rootFolderView.scrollView _xenhtml_recievedSettingsUpdate];
 }
 
 %end
@@ -2486,13 +2491,14 @@ void cancelIdleTimer() {
     SBRootFolderController *orig = %orig;
     
     if (orig && [UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+        
+        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+        
         if ([XENHResources SBEnabled]) {
             [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
             
             XENlog(@"Presented foreground SBHTML");
         }
-        
-        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     }
     
     return orig;
@@ -2513,6 +2519,9 @@ void cancelIdleTimer() {
     
     XENlog(@"SBRootFolderController loadView");
     
+    // Set first to allow proper layout of views
+    self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+    
     if ([XENHResources SBEnabled]) {
         // Add view to root scroll view, and set that scrollview to be the hoster
         sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
@@ -2522,8 +2531,6 @@ void cancelIdleTimer() {
         
         XENlog(@"Added foreground SBHTML widgets view");
     }
-    
-    self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
     // Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -2547,9 +2554,9 @@ void cancelIdleTimer() {
                 sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
                 [sbhtmlForegroundViewController updatePopoverPresentationController:self];
                 
-                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
+                // Set first to allow proper layout of views
                 self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
             }
         }
     } else if (sbhtmlForegroundViewController) {
@@ -2557,6 +2564,9 @@ void cancelIdleTimer() {
         [sbhtmlForegroundViewController.view removeFromSuperview];
         sbhtmlForegroundViewController = nil;
     }
+    
+    // Notify the scrollview of changes
+    [self.contentView.scrollView _xenhtml_recievedSettingsUpdate];
 }
 
 %new
@@ -2604,12 +2614,31 @@ void cancelIdleTimer() {
     }
 }
 
+// Might need to relayout views on settings change
+%new
+-(void)_xenhtml_recievedSettingsUpdate {
+    if ([XENHResources SBEnabled] && sbhtmlForegroundViewController && self._xenhtml_isForegroundWidgetHoster) {
+        if ([XENHResources SBPerPageHTMLWidgetMode]) {
+            // Send to back
+            [self sendSubviewToBack:sbhtmlForegroundViewController.view];
+        } else {
+            // Send to front
+            [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+        }
+    }
+}
+
 - (void)addSubview:(id)arg1 {
     %orig;
     
     if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
-        // Order our view to front to keep widgets over icons
-        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+        if ([XENHResources SBPerPageHTMLWidgetMode]) {
+            // Send to back
+            [self sendSubviewToBack:sbhtmlForegroundViewController.view];
+        } else {
+            // Send to front
+            [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+        }
     }
 }
 
@@ -2617,8 +2646,44 @@ void cancelIdleTimer() {
     %orig;
     
     if (self._xenhtml_isForegroundWidgetHoster && sbhtmlForegroundViewController) {
-        // Order our view to front to keep widgets over icons
-        [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+        if ([XENHResources SBPerPageHTMLWidgetMode]) {
+            // Send to back
+            [self sendSubviewToBack:sbhtmlForegroundViewController.view];
+        } else {
+            // Send to front
+            [self bringSubviewToFront:sbhtmlForegroundViewController.view];
+        }
+    }
+}
+
+%end
+
+#pragma mark Touch corrections for Per Page HTML mode (iOS 9+)
+
+%hook SBRootIconListView
+
+-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
+        // Allow any "overhanging" views to respond
+        if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
+            for (UIView *subview in self.subviews.reverseObjectEnumerator) {
+                CGPoint subPoint = [subview convertPoint:point fromView:self];
+                UIView *result = [subview hitTest:subPoint withEvent:event];
+                if (result != nil) {
+                    return result;
+                }
+            }
+        }
+        
+        // Ignore self as a valid view
+        UIView *view = %orig;
+        if ([view isEqual:self]) {
+            view = nil;
+        }
+        
+        return view;
+    } else {
+        return %orig;
     }
 }
 

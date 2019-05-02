@@ -150,8 +150,8 @@
     }
     
     // Handle safe area - views
-    // TODO: Whitelist the foreground SBHTML here, as a view that forwarding can occur on
     if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && // Icons
+        ![[arg3 class] isEqual:objc_getClass("SBIconScrollView")] && // Icon scrollview
         ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")] && // iWidgets
         ![[arg3.layer name] isEqualToString:@"RootContent"] && // WKWebView
         ![[arg3 class] isEqual:objc_getClass("UIWebBrowserView")]) // UIWebView
