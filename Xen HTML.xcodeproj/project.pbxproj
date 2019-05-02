@@ -12,7 +12,6 @@
 		C90610702255419300783AAA /* XENHHomescreenForegroundPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C906106E2255419300783AAA /* XENHHomescreenForegroundPickerController.m */; };
 		C9061074225543CC00783AAA /* XENHHomescreenForegroundPickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C9061072225543CC00783AAA /* XENHHomescreenForegroundPickerCell.h */; };
 		C9061075225543CC00783AAA /* XENHHomescreenForegroundPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9061073225543CC00783AAA /* XENHHomescreenForegroundPickerCell.m */; };
-		C9061076225545A800783AAA /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C906108022554E8000783AAA /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C906107822554E8000783AAA /* XENHFallbackOnlyOptionsController.h */; };
 		C906108122554E8000783AAA /* XENHConfigJSController.m in Sources */ = {isa = PBXBuildFile; fileRef = C906107922554E8000783AAA /* XENHConfigJSController.m */; };
 		C906108222554E8000783AAA /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C906107A22554E8000783AAA /* XENHFallbackOnlyOptionsController.m */; };
@@ -24,6 +23,8 @@
 		C90732FE20A362D6007D2819 /* XENHWidgetLayerContainerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */; };
 		C90732FF20A362D6007D2819 /* XENHWidgetLayerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */; };
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
+		C9164376227A4F2D0078338F /* libpackageinfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9164331227A4ABF0078338F /* libpackageinfo.a */; };
+		C9164377227A4F350078338F /* libpackageinfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9164331227A4ABF0078338F /* libpackageinfo.a */; };
 		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
 		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
 		C916A9AB209759F700CC9521 /* XENHWidgetLayerController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */; };
@@ -140,8 +141,6 @@
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
 		C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C9B44CB32257F4D100F96BAF /* XENHPickerPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B44CB12257F4D000F96BAF /* XENHPickerPreviewController.m */; };
 		C9B44CB42257F4D100F96BAF /* XENHPickerPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B44CB22257F4D100F96BAF /* XENHPickerPreviewController.h */; };
 		C9B44CB72257FCA500F96BAF /* XENHCloseButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B44CB52257FCA500F96BAF /* XENHCloseButton.h */; };
@@ -164,6 +163,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C9164330227A4ABF0078338F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9164320227A4A790078338F;
+			remoteInfo = libpackageinfo;
+		};
+		C9164374227A4F270078338F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C916431F227A4A790078338F;
+			remoteInfo = libpackageinfo;
+		};
 		C9A17FD220717C330099FF1E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C93C30A21BA72CA90037BA09 /* Project object */;
@@ -190,6 +203,8 @@
 		C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetLayerContainerView.h; sourceTree = "<group>"; };
 		C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetLayerContainerView.m; sourceTree = "<group>"; };
 		C911F1D21C1E051300D4D582 /* XenHTML.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9164315227A49DD0078338F /* libGitHubIssues.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGitHubIssues.a; path = deps/libGitHubIssues.a; sourceTree = "<group>"; };
+		C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libpackageinfo.xcodeproj; path = deps/libpackageinfo/libpackageinfo.xcodeproj; sourceTree = SOURCE_ROOT; };
 		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
 		C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHLSAdvancedController.m; sourceTree = "<group>"; };
 		C916A9A9209759F700CC9521 /* XENHWidgetLayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetLayerController.h; sourceTree = "<group>"; };
@@ -343,11 +358,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9061076225545A800783AAA /* libpackageinfo.tbd in Frameworks */,
 				C9196E682256A4EE009C59CB /* Preferences.tbd in Frameworks */,
 				C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */,
 				C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */,
 				C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */,
+				C9164377227A4F350078338F /* libpackageinfo.a in Frameworks */,
 				C9606EEB1C20E204006C8917 /* WebKit.framework in Frameworks */,
 				C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */,
 				C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */,
@@ -359,12 +374,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A17FD120717BC40099FF1E /* libpackageinfo.tbd in Frameworks */,
-				C9A17FCF207179CD0099FF1E /* libGitHubIssues.tbd in Frameworks */,
 				C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */,
 				C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */,
 				C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */,
 				C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */,
+				C9164376227A4F2D0078338F /* libpackageinfo.a in Frameworks */,
 				C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */,
 				C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */,
 				C9F90F631C80B001008AB1D0 /* WebKit.framework in Frameworks */,
@@ -407,6 +421,22 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		C9164313227A48910078338F /* Dependancies */ = {
+			isa = PBXGroup;
+			children = (
+				C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */,
+			);
+			path = Dependancies;
+			sourceTree = "<group>";
+		};
+		C916432D227A4ABF0078338F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9164331227A4ABF0078338F /* libpackageinfo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C916A9A4209756F800CC9521 /* Advanced */ = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +462,7 @@
 			children = (
 				C94774AD20715D050003D039 /* Tweak */,
 				C94774FF20715D150003D039 /* Preferences */,
+				C9164313227A48910078338F /* Dependancies */,
 				C93C30AE1BA72CA90037BA09 /* Frameworks */,
 				C93C30AD1BA72CA90037BA09 /* Products */,
 			);
@@ -449,6 +480,7 @@
 		C93C30AE1BA72CA90037BA09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9164315227A49DD0078338F /* libGitHubIssues.a */,
 				C91E103120A0726B00425BBC /* AppSupport.tbd */,
 				C9A17FD020717BC30099FF1E /* libpackageinfo.tbd */,
 				C9A17FCE207179CD0099FF1E /* libGitHubIssues.tbd */,
@@ -1041,6 +1073,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9164375227A4F270078338F /* PBXTargetDependency */,
 			);
 			name = Preferences;
 			productName = XenHTMLPrefs;
@@ -1053,7 +1086,7 @@
 		C93C30A21BA72CA90037BA09 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastUpgradeCheck = 1020;
 				TargetAttributes = {
 					C911F1D11C1E051300D4D582 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1068,11 +1101,18 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = C93C30A11BA72CA90037BA09;
 			productRefGroup = C93C30AD1BA72CA90037BA09 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C916432D227A4ABF0078338F /* Products */;
+					ProjectRef = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C911F1D11C1E051300D4D582 /* Tweak */,
@@ -1080,6 +1120,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C9164331227A4ABF0078338F /* libpackageinfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libpackageinfo.a;
+			remoteRef = C9164330227A4ABF0078338F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		C911F1CC1C1E051300D4D582 /* ShellScript */ = {
@@ -1241,6 +1291,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C9164375227A4F270078338F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libpackageinfo;
+			targetProxy = C9164374227A4F270078338F /* PBXContainerItemProxy */;
+		};
 		C9A17FD320717C330099FF1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C9F770481C7A459900C52880 /* Preferences */;
@@ -1252,6 +1307,12 @@
 		C911F1E31C1E051300D4D582 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
@@ -1295,6 +1356,12 @@
 		C911F1E41C1E051300D4D582 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
@@ -1335,18 +1402,41 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SDKROOT = iphoneos;
@@ -1360,11 +1450,35 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SDKROOT = iphoneos;
@@ -1378,18 +1492,41 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				SDKROOT = iphoneos;
@@ -1402,6 +1539,12 @@
 		C998B3821E0E84C70073502C /* Simulator */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
@@ -1446,6 +1589,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CODE_SIGN_IDENTITY = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
@@ -1463,8 +1612,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
+					"$(PROJECT_DIR)/deps",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1487,6 +1638,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CODE_SIGN_IDENTITY = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
@@ -1504,8 +1661,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
+					"$(PROJECT_DIR)/deps",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1528,6 +1687,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = (
+					armv7,
+					armv7s,
+					arm64,
+					arm64e,
+				);
 				CODE_SIGN_IDENTITY = "";
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
@@ -1541,8 +1706,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/lib",
 					/opt/iOSOpenDev/lib,
+					"$(PROJECT_DIR)/deps",
 				);
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
