@@ -51,6 +51,8 @@
 			<string>SBPerPageHTMLWidgetMode</string>
 			<key>label</key>
 			<string>FOREGROUND_SB_BELOW_ICONS</string>
+			<key>enabled</key>
+			<false/>
 		</dict>
 	</array>
 </dict>
