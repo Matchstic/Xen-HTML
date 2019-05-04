@@ -244,7 +244,10 @@ static int mainVariant = 0;
         
         NSArray *d22Devices = @[
                                 @"iPhone10,3",
-                                @"iPhone10,6"
+                                @"iPhone10,6",
+                                @"iPhone11,8",
+                                @"iPhone11,2",
+                                @"iPhone11,6"
                                 ];
         
         isD22 = [d22Devices containsObject:model];
