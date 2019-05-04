@@ -13,12 +13,6 @@ function Tunnel() {
 Tunnel.prototype.init = function() {
   this.speed = 4;
 
-  this.mouse = {
-    position: new THREE.Vector2(ww * 0.5, wh * 0.5),
-    ratio: new THREE.Vector2(0, 0),
-    target: new THREE.Vector2(ww * 0.5, wh * 0.5)
-  };
-
   this.renderer = new THREE.WebGLRenderer({
     antialias: true,
     canvas: document.querySelector("#scene")
@@ -82,11 +76,6 @@ Tunnel.prototype.createMesh = function() {
 
 Tunnel.prototype.handleEvents = function() {
   window.addEventListener("resize", this.onResize.bind(this), false);
-  document.body.addEventListener(
-    "mousemove",
-    this.onMouseMove.bind(this),
-    false
-  );
 };
 
 Tunnel.prototype.onResize = function() {
@@ -98,25 +87,14 @@ Tunnel.prototype.onResize = function() {
   this.renderer.setSize(ww, wh);
 };
 
-Tunnel.prototype.onMouseMove = function(e) {
-  this.mouse.target.x = e.clientX;
-  this.mouse.target.y = e.clientY;
-};
-
 Tunnel.prototype.update = function() {
   this.createMesh();
 };
 
 Tunnel.prototype.updateCameraPosition = function() {
-  this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30;
-  this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30;
-
-  this.mouse.ratio.x = this.mouse.position.x / ww;
-  this.mouse.ratio.y = this.mouse.position.y / wh;
-
-  this.camera.rotation.y = Math.PI - (this.mouse.ratio.x * 0.1 - 0.05);
-  this.camera.position.x = this.mouse.ratio.x * 0.008 - 0.004;
-  this.camera.position.y = this.mouse.ratio.y * 0.008 - 0.004;
+  this.camera.rotation.y = Math.PI - (0.5 * 0.1 - 0.05);
+  this.camera.position.x = 0.5 * 0.008 - 0.004;
+  this.camera.position.y = 0.5 * 0.008 - 0.004;
 };
 
 function hslToRgb(h, s, l){
@@ -159,11 +137,11 @@ Tunnel.prototype.updateCurve = function(delta) {
   }
   this.tubeGeometry.verticesNeedUpdate = true;
 
-  this.curve.points[2].x = 100 * (1 - this.mouse.ratio.x) - 50;
-  this.curve.points[4].x = 100 * (1 - this.mouse.ratio.x) - 50;
+  this.curve.points[2].x = 100 * 0.5 - 50;
+  this.curve.points[4].x = 100 * 0.5 - 50;
 
-  this.curve.points[2].y = 100 * (1 - this.mouse.ratio.y) - 50;
-  this.curve.points[4].y = 100 * (1 - this.mouse.ratio.y) - 50;
+  this.curve.points[2].y = 100 * 0.5 - 50;
+  this.curve.points[4].y = 100 * 0.5 - 50;
 
   this.splineMesh.geometry.verticesNeedUpdate = true;
   this.splineMesh.geometry.vertices = this.curve.getPoints(120);
