@@ -2488,20 +2488,24 @@ void cancelIdleTimer() {
 %hook SBRootFolderController
 
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
-    SBRootFolderController *orig = %orig;
-    
-    if (orig && [UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+        SBRootFolderController *orig = %orig;
         
-        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-        
-        if ([XENHResources SBEnabled]) {
-            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        if (orig) {
             
-            XENlog(@"Presented foreground SBHTML");
+            self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+            
+            if ([XENHResources SBEnabled]) {
+                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                
+                XENlog(@"Presented foreground SBHTML");
+            }
         }
+        
+        return orig;
+    } else {
+        return %orig;
     }
-    
-    return orig;
 }
 
 %end
@@ -2734,11 +2738,12 @@ static BOOL _xenhtml_inEditingMode;
 - (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
     %orig;
     
+    _xenhtml_inEditingMode = arg1;
+    
     // If the SB is not enabled, then don't go any further than this
     if (![XENHResources SBEnabled])
         return;
-    
-    _xenhtml_inEditingMode = arg1;
+
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
     
     static CGFloat animationDuration = 0.15;
@@ -2890,7 +2895,8 @@ static BOOL _xenhtml_inEditingMode;
         UIView *hittested = [view hitTest:subPoint withEvent:event];
         
         if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
-            [[hittested class] isEqual:objc_getClass("SBFolderIconView")]) {
+            [[hittested class] isEqual:objc_getClass("SBFolderIconView")] ||
+            [hittested isKindOfClass:objc_getClass("SBIconView")]) {
             // Favour icons where possible
             return hittested;
         }
