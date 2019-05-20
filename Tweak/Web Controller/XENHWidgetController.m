@@ -244,6 +244,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
     WKUserScript *settingsInjector = [[WKUserScript alloc] initWithSource:settingsInjection injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     [userContentController addUserScript:settingsInjector];
     
+    // Call to the injection hook
+    [self _userContentController_injectionHook:userContentController];
+    
     config.userContentController = userContentController;
     config.requiresUserActionForMediaPlayback = YES;
     
@@ -398,6 +401,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     [self.legacyWebView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
     
+    [self _legacyMode_injectionHook:self.legacyWebView];
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
         NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
         NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:30.0];
@@ -415,6 +420,16 @@ static UIWindow *sharedOffscreenRenderingWindow;
         [self.legacyWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTextSizeAdjust='none';"];
         [self.legacyWebView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
     }
+}
+
+- (void)_userContentController_injectionHook:(WKUserContentController*)controller {
+    // used by other tweaks etc to inject additional user scripts into
+    // the underlying WKWebView
+}
+
+- (void)_legacyMode_injectionHook:(UIWebView*)webView {
+    // used by other tweaks etc to inject additional user scripts into
+    // the underlying legacy UIWebView
 }
 
 /////////////////////////////////////////////////////////////////////////////
