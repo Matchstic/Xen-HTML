@@ -3633,7 +3633,7 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
-%group backboardd
+/*%group backboardd
 
 #pragma mark Haxx for WebGL on the Lockscreen
 
@@ -3651,10 +3651,10 @@ static BOOL launchCydiaForSource = NO;
      * Not cool, but, whatever for now.
      */
     
-    return YES;
+    /*return YES;
 }
 
-%end
+%end*/
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
@@ -3736,7 +3736,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
-    BOOL backboardd = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    // BOOL backboardd = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (sb) {
         // We need the setup UI to always be accessible.
@@ -3772,7 +3772,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/sbconfigchanged"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidRequestRespring, CFSTR("com.matchstic.xenhtml/wantsrespring"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
-    } else if (backboardd) {
+    }/* else if (backboardd) {
         %init(backboardd);
-    }
+    }*/
 }

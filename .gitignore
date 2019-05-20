@@ -9,3 +9,4 @@ XenHTML.dylib
 XenHTML.mm
 Preferences/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs
 Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs
+*.dylib

@@ -68,7 +68,6 @@ static BOOL shownGraceEnded = NO;
 +(void)reloadSettings;
 
 +(NSString*)localisedStringForKey:(NSString*)key;
-+(NSString*)localisedStringForKey:(NSString*)key table:(NSString*)table;
 
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width;
 +(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;

@@ -184,6 +184,20 @@
 			remoteGlobalIDString = C9F770481C7A459900C52880;
 			remoteInfo = Preferences;
 		};
+		C9B6050D229336600043581A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60509229336600043581A /* WebGL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9B604EE2293320E0043581A;
+			remoteInfo = WebGL;
+		};
+		C9B6050F229340D30043581A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60509229336600043581A /* WebGL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9B604ED2293320E0043581A;
+			remoteInfo = WebGL;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -340,6 +354,7 @@
 		C9B44CB22257F4D100F96BAF /* XENHPickerPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerPreviewController.h; sourceTree = "<group>"; };
 		C9B44CB52257FCA500F96BAF /* XENHCloseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHCloseButton.h; sourceTree = "<group>"; };
 		C9B44CB62257FCA500F96BAF /* XENHCloseButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHCloseButton.m; sourceTree = "<group>"; };
+		C9B60509229336600043581A /* WebGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WebGL.xcodeproj; path = WebGL/WebGL.xcodeproj; sourceTree = "<group>"; };
 		C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHSBForegroundController.h; sourceTree = "<group>"; };
 		C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHSBForegroundController.m; sourceTree = "<group>"; };
 		C9CE627C22624B350019725D /* XENHWallpaperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWallpaperViewController.m; sourceTree = "<group>"; };
@@ -462,6 +477,7 @@
 			children = (
 				C94774AD20715D050003D039 /* Tweak */,
 				C94774FF20715D150003D039 /* Preferences */,
+				C9B604E2229331AE0043581A /* Helpers */,
 				C9164313227A48910078338F /* Dependancies */,
 				C93C30AE1BA72CA90037BA09 /* Frameworks */,
 				C93C30AD1BA72CA90037BA09 /* Products */,
@@ -930,6 +946,22 @@
 			path = "Support Panel";
 			sourceTree = "<group>";
 		};
+		C9B604E2229331AE0043581A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C9B60509229336600043581A /* WebGL.xcodeproj */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C9B6050A229336600043581A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6050E229336600043581A /* XenHTML_WebGL.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C9B92AF5226CA8F400CE6322 /* Foreground */ = {
 			isa = PBXGroup;
 			children = (
@@ -1044,7 +1076,7 @@
 			buildConfigurationList = C911F1E51C1E051300D4D582 /* Build configuration list for PBXNativeTarget "Tweak" */;
 			buildPhases = (
 				C911F1CC1C1E051300D4D582 /* ShellScript */,
-				C9A17FD420717C3B0099FF1E /* Copy Preferences build into correct location */,
+				C9A17FD420717C3B0099FF1E /* Copy Target Dependencies into correct locations */,
 				C911F1CD1C1E051300D4D582 /* Sources */,
 				C911F1CE1C1E051300D4D582 /* Frameworks */,
 				C911F1CF1C1E051300D4D582 /* Headers */,
@@ -1054,6 +1086,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9B60510229340D30043581A /* PBXTargetDependency */,
 				C9A17FD320717C330099FF1E /* PBXTargetDependency */,
 			);
 			name = Tweak;
@@ -1112,6 +1145,10 @@
 					ProductGroup = C916432D227A4ABF0078338F /* Products */;
 					ProjectRef = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
 				},
+				{
+					ProductGroup = C9B6050A229336600043581A /* Products */;
+					ProjectRef = C9B60509229336600043581A /* WebGL.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1127,6 +1164,13 @@
 			fileType = archive.ar;
 			path = libpackageinfo.a;
 			remoteRef = C9164330227A4ABF0078338F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C9B6050E229336600043581A /* XenHTML_WebGL.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = XenHTML_WebGL.dylib;
+			remoteRef = C9B6050D229336600043581A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1159,19 +1203,19 @@
 			shellPath = /bin/sh;
 			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp\n";
 		};
-		C9A17FD420717C3B0099FF1E /* Copy Preferences build into correct location */ = {
+		C9A17FD420717C3B0099FF1E /* Copy Target Dependencies into correct locations */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Preferences build into correct location";
+			name = "Copy Target Dependencies into correct locations";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "builtpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\necho \"Copying built Preferences to debian structure...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\n\n";
+			shellScript = "builtpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n";
 		};
 		C9CD07F42252BADD006C94FF /* Copy for simject if needed */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1202,7 +1246,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp\n";
+			shellScript = "# /opt/iOSOpenDev/bin/iosod --xcbp\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1301,6 +1345,11 @@
 			target = C9F770481C7A459900C52880 /* Preferences */;
 			targetProxy = C9A17FD220717C330099FF1E /* PBXContainerItemProxy */;
 		};
+		C9B60510229340D30043581A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WebGL;
+			targetProxy = C9B6050F229340D30043581A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -1336,7 +1385,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
@@ -1381,7 +1430,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;
@@ -1584,7 +1633,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
 				SIMJECT = NO;

@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9B604F22293320E0043581A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B604F12293320E0043581A /* Foundation.framework */; };
+		C9B604FD2293320E0043581A /* WebGL.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9B604FC2293320E0043581A /* WebGL.mm */; };
+		C9B60508229332C50043581A /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B60507229332C50043581A /* libsubstrate.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C9B604EE2293320E0043581A /* XenHTML_WebGL.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_WebGL.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B604F12293320E0043581A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9B604FA2293320E0043581A /* WebGL-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebGL-Prefix.pch"; sourceTree = "<group>"; };
+		C9B604FB2293320E0043581A /* WebGL.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WebGL.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		C9B604FC2293320E0043581A /* WebGL.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WebGL.mm; sourceTree = "<group>"; };
+		C9B60507229332C50043581A /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9B604EA2293320E0043581A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B60508229332C50043581A /* libsubstrate.tbd in Frameworks */,
+				C9B604F22293320E0043581A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9B604E32293320E0043581A = {
+			isa = PBXGroup;
+			children = (
+				C9B604F32293320E0043581A /* WebGL */,
+				C9B604F02293320E0043581A /* Frameworks */,
+				C9B604EF2293320E0043581A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9B604EF2293320E0043581A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9B604EE2293320E0043581A /* XenHTML_WebGL.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9B604F02293320E0043581A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9B60507229332C50043581A /* libsubstrate.tbd */,
+				C9B604F12293320E0043581A /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9B604F32293320E0043581A /* WebGL */ = {
+			isa = PBXGroup;
+			children = (
+				C9B604FB2293320E0043581A /* WebGL.xm */,
+				C9B604FC2293320E0043581A /* WebGL.mm */,
+				C9B604F82293320E0043581A /* Supporting Files */,
+			);
+			path = WebGL;
+			sourceTree = "<group>";
+		};
+		C9B604F82293320E0043581A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9B604FA2293320E0043581A /* WebGL-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C9B604EB2293320E0043581A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C9B604ED2293320E0043581A /* WebGL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9B605042293320E0043581A /* Build configuration list for PBXNativeTarget "WebGL" */;
+			buildPhases = (
+				C9B604E82293320E0043581A /* ShellScript */,
+				C9B604E92293320E0043581A /* Sources */,
+				C9B604EA2293320E0043581A /* Frameworks */,
+				C9B604EB2293320E0043581A /* Headers */,
+				C9B604EC2293320E0043581A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WebGL;
+			productName = WebGL;
+			productReference = C9B604EE2293320E0043581A /* XenHTML_WebGL.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9B604E42293320E0043581A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				TargetAttributes = {
+					C9B604ED2293320E0043581A = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = C9B604E72293320E0043581A /* Build configuration list for PBXProject "WebGL" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9B604E32293320E0043581A;
+			productRefGroup = C9B604EF2293320E0043581A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9B604ED2293320E0043581A /* WebGL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9B604E82293320E0043581A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+		};
+		C9B604EC2293320E0043581A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# /opt/iOSOpenDev/bin/iosod --xcbp\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9B604E92293320E0043581A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B604FD2293320E0043581A /* WebGL.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C9B605022293320E0043581A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		C9B605032293320E0043581A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		C9B605052293320E0043581A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebGL/WebGL-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../include";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_WebGL;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = NO;
+			};
+			name = Debug;
+		};
+		C9B605062293320E0043581A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "WebGL/WebGL-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../include";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_WebGL;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9B604E72293320E0043581A /* Build configuration list for PBXProject "WebGL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9B605022293320E0043581A /* Debug */,
+				C9B605032293320E0043581A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9B605042293320E0043581A /* Build configuration list for PBXNativeTarget "WebGL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9B605052293320E0043581A /* Debug */,
+				C9B605062293320E0043581A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9B604E42293320E0043581A /* Project object */;
+}
