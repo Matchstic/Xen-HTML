@@ -7,13 +7,12 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-@interface XENBMResources : NSObject
-
-// Settings handling
-+ (void)reloadSettings;
-
-@end
-
-NS_ASSUME_NONNULL_END
+#if defined __cplusplus
+extern "C" {
+#endif
+    
+    void XenHTMLBatteryManagerLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...);
+    
+#if defined __cplusplus
+};
+#endif

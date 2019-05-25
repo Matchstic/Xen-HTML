@@ -4,4 +4,7 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+
+    // Logging
+    #define XENlog(args...) XenHTMLBatteryManagerLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
 #endif

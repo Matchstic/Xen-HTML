@@ -7,14 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C95497E02299FBDE0071D7CD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055A229352450043581A /* WebKit.framework */; };
 		C9B60520229346840043581A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6051F229346840043581A /* Foundation.framework */; };
 		C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B60544229347500043581A /* libsubstrate.tbd */; };
 		C9B60551229348570043581A /* BatteryManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9B6054E229348570043581A /* BatteryManager.mm */; };
 		C9B60552229348570043581A /* BatteryManager-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C9B60550229348570043581A /* BatteryManager-Prefix.pch */; };
 		C9B6055822934AF30043581A /* XENBMResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B6055622934AF30043581A /* XENBMResources.h */; };
 		C9B6055922934AF30043581A /* XENBMResources.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B6055722934AF30043581A /* XENBMResources.m */; };
-		C9B6055B229352460043581A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055A229352450043581A /* WebKit.framework */; };
-		C9B6055D2294992C0043581A /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055C2294992C0043581A /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,8 +35,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */,
-				C9B6055D2294992C0043581A /* JavaScriptCore.framework in Frameworks */,
-				C9B6055B229352460043581A /* WebKit.framework in Frameworks */,
+				C95497E02299FBDE0071D7CD /* WebKit.framework in Frameworks */,
 				C9B60520229346840043581A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

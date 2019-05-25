@@ -62,6 +62,7 @@ static NSBundle *strings;
 static int currentOrientation = 1;
 static BOOL phIsVisible;
 static BOOL xenIsVisible;
+static BOOL displayState = YES;
 static NSUserDefaults *PHDefaults;
 static SBLockScreenNotificationListController * __weak cachedLSNotificationController;
 static int iOS10NotificationCount;
@@ -758,6 +759,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 +(BOOL)LSHideArtwork {
     id value = settings[@"LSHideArtwork"];
     return (value ? [value boolValue] : NO);
+}
+
++ (void)setDisplayState:(BOOL)state {
+    displayState = state;
+}
+
++ (BOOL)displayState {
+    return displayState;
 }
 
 //////////////////////////////////////////////////////

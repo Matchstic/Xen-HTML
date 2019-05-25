@@ -7,25 +7,26 @@
 
 #import "XENBMResources.h"
 
-static NSDictionary *settings;
-
-@implementation XENBMResources
-
-#pragma mark Settings handling
-
-+(void)reloadSettings {
-    CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml.batterymanager"));
+void XenHTMLBatteryManagerLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...) {
+    // Type to hold information about variable arguments.
     
-    CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml.batterymanager"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-    if (!keyList) {
-        settings = [NSMutableDictionary dictionary];
-    } else {
-        CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml.batterymanager"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
-        
-        settings = [(__bridge NSDictionary *)dictionary copy];
-        CFRelease(dictionary);
-        CFRelease(keyList);
+    va_list ap;
+    
+    // Initialize a variable argument list.
+    va_start (ap, format);
+    
+    if (![format hasSuffix:@"\n"]) {
+        format = [format stringByAppendingString:@"\n"];
     }
+    
+    NSString *body = [[NSString alloc] initWithFormat:format arguments:ap];
+    
+    // End using variable argument list.
+    va_end(ap);
+    
+    NSString *fileName = [[NSString stringWithUTF8String:file] lastPathComponent];
+    
+    NSLog(@"Xen HTML (BatteryManager) :: (%s:%d) %s",
+          [fileName UTF8String],
+          lineNumber, [body UTF8String]);
 }
-
-@end
