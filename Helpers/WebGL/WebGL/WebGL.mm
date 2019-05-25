@@ -60,11 +60,13 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-
+@class CAContext; 
 
 
 #line 41 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
-__unused static BOOL (*_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *var1, const void *var2); __unused static BOOL _logos_function$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *var1, const void *var2) {
+
+
+__unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *var1, const void *var2); __unused static BOOL _logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *var1, const void *var2) {
 
     
 
@@ -81,8 +83,38 @@ __unused static BOOL (*_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allo
     return YES;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_7c1b35e5(int __unused argc, char __unused **argv, char __unused **envp) {
-    { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
+
+
+static CAContext * (*_logos_meta_orig$WebContent$CAContext$localContextWithOptions$)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary *); static CAContext * _logos_meta_method$WebContent$CAContext$localContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary *); static bool (*_logos_orig$WebContent$CAContext$isSecure)(_LOGOS_SELF_TYPE_NORMAL CAContext* _LOGOS_SELF_CONST, SEL); static bool _logos_method$WebContent$CAContext$isSecure(_LOGOS_SELF_TYPE_NORMAL CAContext* _LOGOS_SELF_CONST, SEL); 
+ 
+
+ 
+
+ 
+static CAContext * _logos_meta_method$WebContent$CAContext$localContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSDictionary * dict) {
     
-    XENlog(@"Reporting for duty!");
+    XENlog(@"DEBUG :: CREATING LOCAL CONTEXT WITH OPTIONS: %@", dict);
+    
+    return _logos_meta_orig$WebContent$CAContext$localContextWithOptions$(self, _cmd, dict);
+}
+
+static bool _logos_method$WebContent$CAContext$isSecure(_LOGOS_SELF_TYPE_NORMAL CAContext* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+    XENlog(@"DEBUG :: REQUESTING IS SECURE");
+    return YES;
+}
+ 
+
+ 
+
+
+static __attribute__((constructor)) void _logosLocalCtor_f6203d4c(int __unused argc, char __unused **argv, char __unused **envp) {
+    {}
+    
+    BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    
+    if (bb) {
+        { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
+    } else {
+        {Class _logos_class$WebContent$CAContext = objc_getClass("CAContext"); Class _logos_metaclass$WebContent$CAContext = object_getClass(_logos_class$WebContent$CAContext); MSHookMessageEx(_logos_metaclass$WebContent$CAContext, @selector(localContextWithOptions:), (IMP)&_logos_meta_method$WebContent$CAContext$localContextWithOptions$, (IMP*)&_logos_meta_orig$WebContent$CAContext$localContextWithOptions$);MSHookMessageEx(_logos_class$WebContent$CAContext, @selector(isSecure), (IMP)&_logos_method$WebContent$CAContext$isSecure, (IMP*)&_logos_orig$WebContent$CAContext$isSecure);}
+    }
 }

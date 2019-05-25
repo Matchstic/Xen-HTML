@@ -38,6 +38,8 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
 
 #pragma mark Haxx for WebGL on the Lockscreen
 
+%group backboardd
+
 %hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *var1, const void *var2) {
 
     /*
@@ -55,8 +57,38 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
     return YES;
 }
 
+%end
+
+%group WebContent
+ 
+// DEBUG SECURE CONTEXT RENDERING FOR WEBGL STUFF
+ 
+%hook CAContext
+ 
++ (CAContext *)localContextWithOptions:(NSDictionary *)dict {
+    // extern NSString * const kCAContextSecure;
+    XENlog(@"DEBUG :: CREATING LOCAL CONTEXT WITH OPTIONS: %@", dict);
+    
+    return %orig;
+}
+
+- (bool)isSecure {
+    XENlog(@"DEBUG :: REQUESTING IS SECURE");
+    return YES;
+}
+ 
+%end
+ 
+%end
+
 %ctor {
     %init;
     
-    XENlog(@"Reporting for duty!");
+    BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    
+    if (bb) {
+        %init(backboardd);
+    } else {
+        %init(WebContent);
+    }
 }
