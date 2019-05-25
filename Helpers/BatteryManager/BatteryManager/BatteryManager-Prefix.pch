@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'BatteryManager' target in the 'BatteryManager' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

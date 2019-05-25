@@ -1,0 +1,337 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9B60520229346840043581A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6051F229346840043581A /* Foundation.framework */; };
+		C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B60544229347500043581A /* libsubstrate.tbd */; };
+		C9B60551229348570043581A /* BatteryManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9B6054E229348570043581A /* BatteryManager.mm */; };
+		C9B60552229348570043581A /* BatteryManager-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C9B60550229348570043581A /* BatteryManager-Prefix.pch */; };
+		C9B6055822934AF30043581A /* XENBMResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B6055622934AF30043581A /* XENBMResources.h */; };
+		C9B6055922934AF30043581A /* XENBMResources.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B6055722934AF30043581A /* XENBMResources.m */; };
+		C9B6055B229352460043581A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055A229352450043581A /* WebKit.framework */; };
+		C9B6055D2294992C0043581A /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055C2294992C0043581A /* JavaScriptCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_BatteryManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B6051F229346840043581A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9B60544229347500043581A /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
+		C9B6054E229348570043581A /* BatteryManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BatteryManager.mm; sourceTree = "<group>"; };
+		C9B6054F229348570043581A /* BatteryManager.xm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BatteryManager.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		C9B60550229348570043581A /* BatteryManager-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BatteryManager-Prefix.pch"; sourceTree = "<group>"; };
+		C9B6055622934AF30043581A /* XENBMResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENBMResources.h; sourceTree = "<group>"; };
+		C9B6055722934AF30043581A /* XENBMResources.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENBMResources.m; sourceTree = "<group>"; };
+		C9B6055A229352450043581A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		C9B6055C2294992C0043581A /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9B60518229346840043581A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */,
+				C9B6055D2294992C0043581A /* JavaScriptCore.framework in Frameworks */,
+				C9B6055B229352460043581A /* WebKit.framework in Frameworks */,
+				C9B60520229346840043581A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9B60511229346840043581A = {
+			isa = PBXGroup;
+			children = (
+				C9B6054D229348570043581A /* BatteryManager */,
+				C9B6051E229346840043581A /* Frameworks */,
+				C9B6051D229346840043581A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9B6051D229346840043581A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9B6051E229346840043581A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6055C2294992C0043581A /* JavaScriptCore.framework */,
+				C9B6055A229352450043581A /* WebKit.framework */,
+				C9B60544229347500043581A /* libsubstrate.tbd */,
+				C9B6051F229346840043581A /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9B6054D229348570043581A /* BatteryManager */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6055522934ADE0043581A /* Resources */,
+				C9B6054F229348570043581A /* BatteryManager.xm */,
+				C9B6054E229348570043581A /* BatteryManager.mm */,
+				C9B60550229348570043581A /* BatteryManager-Prefix.pch */,
+			);
+			path = BatteryManager;
+			sourceTree = "<group>";
+		};
+		C9B6055522934ADE0043581A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6055622934AF30043581A /* XENBMResources.h */,
+				C9B6055722934AF30043581A /* XENBMResources.m */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C9B60519229346840043581A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B60552229348570043581A /* BatteryManager-Prefix.pch in Headers */,
+				C9B6055822934AF30043581A /* XENBMResources.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C9B6051B229346840043581A /* BatteryManager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9B60532229346840043581A /* Build configuration list for PBXNativeTarget "BatteryManager" */;
+			buildPhases = (
+				C9B60516229346840043581A /* ShellScript */,
+				C9B60517229346840043581A /* Sources */,
+				C9B60518229346840043581A /* Frameworks */,
+				C9B60519229346840043581A /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BatteryManager;
+			productName = BatteryManager;
+			productReference = C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9B60512229346840043581A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1020;
+				TargetAttributes = {
+					C9B6051B229346840043581A = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+				};
+			};
+			buildConfigurationList = C9B60515229346840043581A /* Build configuration list for PBXProject "BatteryManager" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9B60511229346840043581A;
+			productRefGroup = C9B6051D229346840043581A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9B6051B229346840043581A /* BatteryManager */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9B60516229346840043581A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9B60517229346840043581A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9B6055922934AF30043581A /* XENBMResources.m in Sources */,
+				C9B60551229348570043581A /* BatteryManager.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C9B60530229346840043581A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		C9B60531229346840043581A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		C9B60533229346840043581A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BatteryManager/BatteryManager-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../include";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_BatteryManager;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = NO;
+			};
+			name = Debug;
+		};
+		C9B60534229346840043581A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BatteryManager/BatteryManager-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../include";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_BatteryManager;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = NO;
+				iOSOpenDevUsePackageVersionPList = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9B60515229346840043581A /* Build configuration list for PBXProject "BatteryManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9B60530229346840043581A /* Debug */,
+				C9B60531229346840043581A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9B60532229346840043581A /* Build configuration list for PBXNativeTarget "BatteryManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9B60533229346840043581A /* Debug */,
+				C9B60534229346840043581A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9B60512229346840043581A /* Project object */;
+}

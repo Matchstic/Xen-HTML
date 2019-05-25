@@ -198,6 +198,20 @@
 			remoteGlobalIDString = C9B604ED2293320E0043581A;
 			remoteInfo = WebGL;
 		};
+		C9B6054A229347D10043581A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60546229347D10043581A /* BatteryManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9B6051C229346840043581A;
+			remoteInfo = BatteryManager;
+		};
+		C9B60553229349710043581A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60546229347D10043581A /* BatteryManager.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9B6051B229346840043581A;
+			remoteInfo = BatteryManager;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -355,6 +369,7 @@
 		C9B44CB52257FCA500F96BAF /* XENHCloseButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHCloseButton.h; sourceTree = "<group>"; };
 		C9B44CB62257FCA500F96BAF /* XENHCloseButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHCloseButton.m; sourceTree = "<group>"; };
 		C9B60509229336600043581A /* WebGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WebGL.xcodeproj; path = WebGL/WebGL.xcodeproj; sourceTree = "<group>"; };
+		C9B60546229347D10043581A /* BatteryManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BatteryManager.xcodeproj; path = BatteryManager/BatteryManager.xcodeproj; sourceTree = "<group>"; };
 		C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHSBForegroundController.h; sourceTree = "<group>"; };
 		C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHSBForegroundController.m; sourceTree = "<group>"; };
 		C9CE627C22624B350019725D /* XENHWallpaperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWallpaperViewController.m; sourceTree = "<group>"; };
@@ -949,6 +964,7 @@
 		C9B604E2229331AE0043581A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C9B60546229347D10043581A /* BatteryManager.xcodeproj */,
 				C9B60509229336600043581A /* WebGL.xcodeproj */,
 			);
 			path = Helpers;
@@ -958,6 +974,14 @@
 			isa = PBXGroup;
 			children = (
 				C9B6050E229336600043581A /* XenHTML_WebGL.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9B60547229347D10043581A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9B6054B229347D10043581A /* XenHTML_BatteryManager.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1086,6 +1110,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9B60554229349710043581A /* PBXTargetDependency */,
 				C9B60510229340D30043581A /* PBXTargetDependency */,
 				C9A17FD320717C330099FF1E /* PBXTargetDependency */,
 			);
@@ -1142,6 +1167,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = C9B60547229347D10043581A /* Products */;
+					ProjectRef = C9B60546229347D10043581A /* BatteryManager.xcodeproj */;
+				},
+				{
 					ProductGroup = C916432D227A4ABF0078338F /* Products */;
 					ProjectRef = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
 				},
@@ -1171,6 +1200,13 @@
 			fileType = "compiled.mach-o.dylib";
 			path = XenHTML_WebGL.dylib;
 			remoteRef = C9B6050D229336600043581A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C9B6054B229347D10043581A /* XenHTML_BatteryManager.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = XenHTML_BatteryManager.dylib;
+			remoteRef = C9B6054A229347D10043581A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1215,7 +1251,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "builtpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n";
+			shellScript = "builtpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_BatteryManager.dylib\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_BatteryManager.plist\" \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 \"${PROJECT_DIR}/Tweak/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n";
 		};
 		C9CD07F42252BADD006C94FF /* Copy for simject if needed */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1349,6 +1385,11 @@
 			isa = PBXTargetDependency;
 			name = WebGL;
 			targetProxy = C9B6050F229340D30043581A /* PBXContainerItemProxy */;
+		};
+		C9B60554229349710043581A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BatteryManager;
+			targetProxy = C9B60553229349710043581A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
