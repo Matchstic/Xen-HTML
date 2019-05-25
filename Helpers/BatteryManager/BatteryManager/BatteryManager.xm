@@ -21,6 +21,8 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIWebView *legacyWebView;
 
+@property (nonatomic, readwrite) BOOL isPaused;
+
 @end
 
 @interface XENHResources : NSObject
@@ -69,12 +71,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 %hook XENHWidgetController
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
-    %orig;
-    
-    // Pause as needed
-    if (self.webView) {
+    // Pause as needed, and only if needed
+    if (self.webView && self.isPaused != paused) {
         setWKWebViewActivityState(self.webView, paused);
     }
+    
+    %orig;
 }
 
 %end
@@ -110,23 +112,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %end
 
-%group WebContent
-
-// DEBUG SECURE CONTEXT RENDERING FOR WEBGL STUFF
-
-%hook CAContext
-
-+ (CAContext *)remoteContextWithOptions:(NSDictionary *)dict {
-    // extern NSString * const kCAContextSecure;
-    XENlog(@"DEBUG :: CREATING CONTEXT WITH OPTIONS: %@", dict);
-    
-    return %orig;
-}
-
-%end
-
-%end
-
 static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
     return pointer != NULL;
@@ -145,8 +130,5 @@ static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
             return;
 
         %init(SpringBoard);
-    } else {
-        
-        %init(WebContent);
     }
 }
