@@ -75,11 +75,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         return;
     }
     
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
+    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
         
-        XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
-    });
+    XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
 }
 
 
@@ -109,20 +107,11 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     }
 }
 
-- (void)_didFinishLoadForMainFrame {
-    %orig;
-    
-    // If the display is off when we reach this point, then this webview should be paused.
-    if ([objc_getClass("XENHResources") displayState] == NO) {
-        setWKWebViewActivityState(self, YES);
-    }
-}
-
 %end
 
 %end
 
-static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
+static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
     return pointer != NULL;
 }
