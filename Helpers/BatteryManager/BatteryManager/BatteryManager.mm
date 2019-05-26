@@ -4,6 +4,8 @@
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
 
+#define $_MSFindSymbolCallable(image, name) make_sym_callable(MSFindSymbol(image, name))
+
 @interface WKBrowsingContextController : NSObject
 - (void *)_pageRef; 
 @end
@@ -75,22 +77,34 @@ static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int fla
 @class XENHWidgetController; @class WKWebView; 
 
 
-#line 53 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
+#line 55 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
 static void (*_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static BOOL (*_logos_orig$SpringBoard$WKWebView$_isBackground)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$WKWebView$_isBackground(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$SpringBoard$WKWebView$_didFinishLoadForMainFrame)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static void _logos_method$SpringBoard$WKWebView$_didFinishLoadForMainFrame(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); 
 
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    if (!webView)
+        return;
+    
     webView._xh_isPaused = isPaused;
     
     
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
-    if (!contentView.browsingContextController) XENlog(@"Missing contentView.browsingContextController");
+    if (!contentView.browsingContextController) {
+        XENlog(@"Missing contentView.browsingContextController");
+        return;
+    }
     
     void *page = MSHookIvar<void*>(contentView.browsingContextController, "_page");
+    if (!page) {
+        if (!contentView.browsingContextController) XENlog(@"Missing _page");
+        return;
+    }
     
-    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
-    
-    XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
+        
+        XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+    });
 }
 
 
@@ -143,14 +157,14 @@ static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_80ee91a8(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_880f2adf(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
         
-        WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) MSFindSymbol(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
+        WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
         if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
             return;

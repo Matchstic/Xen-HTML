@@ -3,6 +3,9 @@
 #import <WebKit/WebKit.h>
 #import <objc/runtime.h>
 
+// This is used for arm64e support w/ PAC and MSFindSymbol
+#define $_MSFindSymbolCallable(image, name) make_sym_callable(MSFindSymbol(image, name))
+
 @interface WKBrowsingContextController : NSObject
 - (void *)_pageRef; // WKPageRef
 @end
@@ -54,17 +57,29 @@ static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int fla
 
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    if (!webView)
+        return;
+    
     webView._xh_isPaused = isPaused;
     
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
-    if (!contentView.browsingContextController) XENlog(@"Missing contentView.browsingContextController");
+    if (!contentView.browsingContextController) {
+        XENlog(@"Missing contentView.browsingContextController");
+        return;
+    }
     
     void *page = MSHookIvar<void*>(contentView.browsingContextController, "_page");
+    if (!page) {
+        if (!contentView.browsingContextController) XENlog(@"Missing _page");
+        return;
+    }
     
-    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
-    
-    XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
+        
+        XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+    });
 }
 
 
@@ -105,11 +120,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %end
 
-
-
-
-
-
 %end
 
 static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
@@ -124,7 +134,7 @@ static bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     
     if (sb) {
         
-        WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) MSFindSymbol(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
+        WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
         if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
             return;
