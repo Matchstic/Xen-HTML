@@ -1,47 +1,21 @@
+#import "XENWGResources.h"
 
-// Logging
-#define XENlog(args...) XenHTMLWebGLLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
-
-#if defined __cplusplus
-extern "C" {
-#endif
-    
-    void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...);
-    
-#if defined __cplusplus
-};
-#endif
-
-void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...) {
-    // Type to hold information about variable arguments.
-    
-    va_list ap;
-    
-    // Initialize a variable argument list.
-    va_start (ap, format);
-    
-    if (![format hasSuffix:@"\n"]) {
-        format = [format stringByAppendingString:@"\n"];
-    }
-    
-    NSString *body = [[NSString alloc] initWithFormat:format arguments:ap];
-    
-    // End using variable argument list.
-    va_end(ap);
-    
-    NSString *fileName = [[NSString stringWithUTF8String:file] lastPathComponent];
-    
-    NSLog(@"Xen HTML (WebGL) :: (%s:%d) %s",
-          [fileName UTF8String],
-          lineNumber, [body UTF8String]);
-}
+// This is used for arm64e support w/ PAC and MSFindSymbol
+#define $_MSFindSymbolCallable(image, name) make_sym_callable(MSFindSymbol(image, name))
 
 #pragma mark Haxx for WebGL on the Lockscreen
 
+// const char* CA::Render::Context::process_name()
+static const char* (*CA$Render$Context$process_name)(void *_this);
+
 %group backboardd
 
-%hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *var1, const void *var2) {
+%hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *context /* CA::Render::Context* */, const void *var2 /* CA::Render::LayerHost */) {
 
+    // BOOL orig = %orig(_this, context, var2);
+    
+    // XENlog(@"Got process name: %s", CA$Render$Context$process_name(context));
+    
     /*
     * WARNING
     *
@@ -59,27 +33,10 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
 
 %end
 
-%group WebContent
- 
-// DEBUG SECURE CONTEXT RENDERING FOR WEBGL STUFF
- 
-%hook CAContext
- 
-+ (CAContext *)localContextWithOptions:(NSDictionary *)dict {
-    // extern NSString * const kCAContextSecure;
-    XENlog(@"DEBUG :: CREATING LOCAL CONTEXT WITH OPTIONS: %@", dict);
-    
-    return %orig;
+static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
+    XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
+    return pointer != NULL;
 }
-
-- (bool)isSecure {
-    XENlog(@"DEBUG :: REQUESTING IS SECURE");
-    return YES;
-}
- 
-%end
- 
-%end
 
 %ctor {
     %init;
@@ -87,8 +44,13 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
     BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (bb) {
+        CA$Render$Context$process_name = (const char* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
+        
+        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
+            return;
+        
         %init(backboardd);
     } else {
-        %init(WebContent);
+        // %init(WebContent);
     }
 }
