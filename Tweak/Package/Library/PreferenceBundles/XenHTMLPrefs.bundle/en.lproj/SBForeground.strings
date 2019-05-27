@@ -9,5 +9,5 @@
 "FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
 "FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
 
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.\n\nThis feature is not yet available.";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
 "FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";

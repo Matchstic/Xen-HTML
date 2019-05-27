@@ -333,6 +333,10 @@
 
 - (void)_xenhtml_showVerticalEditingGuide;
 - (void)_xenhtml_hideVerticalEditingGuide;
+
+- (void)_xenhtml_recievedSettingsUpdate;
+- (void)_xenhtml_setDockPositionIfNeeded;
+- (id)dockView;
 @end
 
 @interface SBRootFolderController : UIViewController
@@ -2442,6 +2446,15 @@ void cancelIdleTimer() {
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlUpdate"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLPerPageUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate"
+                                               object:nil];
+    
+    // Update dock position if necessary
+    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+    [rootFolderView _xenhtml_setDockPositionIfNeeded];
 }
 
 // Patched in to support SBRootFolderController signature
@@ -2494,8 +2507,17 @@ void cancelIdleTimer() {
         sbhtmlForegroundViewController = nil;
     }
     
-    // Notify the scrollview of changes
+    // Notify the scrollview amd contentView of changes
     SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+    [rootFolderView _xenhtml_recievedSettingsUpdate];
+    [rootFolderView.scrollView _xenhtml_recievedSettingsUpdate];
+}
+
+%new
+-(void)recievedSBHTMLPerPageUpdate:(id)sender {
+    // Notify the contentView of changes
+    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
+    [rootFolderView _xenhtml_recievedSettingsUpdate];
     [rootFolderView.scrollView _xenhtml_recievedSettingsUpdate];
 }
 
@@ -2557,6 +2579,14 @@ void cancelIdleTimer() {
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlUpdate"
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(recievedSBHTMLPerPageUpdate:)
+                                                 name:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate"
+                                               object:nil];
+    
+    // Update dock position if necessary
+    [self.contentView _xenhtml_setDockPositionIfNeeded];
 }
 
 // Will need to reload SBHTML if settings change.
@@ -2585,7 +2615,15 @@ void cancelIdleTimer() {
         sbhtmlForegroundViewController = nil;
     }
     
-    // Notify the scrollview of changes
+    // Notify the scrollview and contentView of changes
+    [self.contentView _xenhtml_recievedSettingsUpdate];
+    [self.contentView.scrollView _xenhtml_recievedSettingsUpdate];
+}
+
+%new
+-(void)recievedSBHTMLPerPageUpdate:(id)sender {
+    // Notify the contentView of changes
+    [self.contentView _xenhtml_recievedSettingsUpdate];
     [self.contentView.scrollView _xenhtml_recievedSettingsUpdate];
 }
 
@@ -2709,6 +2747,45 @@ void cancelIdleTimer() {
 
 %end
 
+#pragma mark Dock position for PerPageHTML mode (iOS 9+)
+
+%hook SBRootFolderView
+
+- (void)_updateDockViewZOrdering {
+    %orig;
+    
+    // Override as needed
+    [self _xenhtml_setDockPositionIfNeeded];
+}
+
+%new
+- (void)_xenhtml_setDockPositionIfNeeded {
+    UIView *dockView = [self dockView];
+    UIView *dockParent = [dockView superview];
+    
+    if ([XENHResources SBEnabled] && sbhtmlForegroundViewController) {
+        
+        if ([XENHResources SBPerPageHTMLWidgetMode]) {
+            // Send dock to front for PerPageHTML mode
+            [dockParent bringSubviewToFront:dockView];
+            
+            XENlog(@"*** Bringing dock to the front");
+        } else {
+            // Send to back (default position)
+            [dockParent sendSubviewToBack:dockView];
+            
+            XENlog(@"*** Sending dock to the back");
+        }
+    }
+}
+
+%new
+-(void)_xenhtml_recievedSettingsUpdate {
+    [self _xenhtml_setDockPositionIfNeeded];
+}
+
+%end
+
 #pragma mark Display Homescreen foreground add button when editing (iOS 9+)
 
 static BOOL _xenhtml_inEditingMode;
@@ -2823,6 +2900,9 @@ static BOOL _xenhtml_inEditingMode;
     // Bring our views forward again
     [self bringSubviewToFront:self._xenhtml_addButton];
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
+    
+    // Set dock position if needed
+    [self _xenhtml_setDockPositionIfNeeded];
 }
 
 - (void)insertSubview:(id)arg1 atIndex:(int)arg2 {
@@ -2831,6 +2911,10 @@ static BOOL _xenhtml_inEditingMode;
     // Bring our views forward again
     [self bringSubviewToFront:self._xenhtml_addButton];
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
+    
+    // Set dock position if needed
+    [self _xenhtml_setDockPositionIfNeeded];
+    
 }
 
 %new
@@ -3682,6 +3766,7 @@ static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, 
     BOOL oldSBTouch = [XENHResources SBAllowTouch];
     BOOL oldSBLegacy = [XENHResources SBUseLegacyMode];
     BOOL oldSBPageDots = [XENHResources SBHidePageDots];
+    BOOL oldSBPerPageHTML = [XENHResources SBPerPageHTMLWidgetMode];
     
     [XENHResources reloadSettings];
     
@@ -3704,6 +3789,7 @@ static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, 
     BOOL newSBTouch = [XENHResources SBAllowTouch];
     BOOL newSBLegacy = [XENHResources SBUseLegacyMode];
     BOOL newSBPageDots = [XENHResources SBHidePageDots];
+    BOOL newSBPerPageHTML = [XENHResources SBPerPageHTMLWidgetMode];
     
     if (![oldSBHTML isEqual:newSBHTML] ||
         newSBHTMLEnabled != oldSBHTMLEnabled ||
@@ -3729,6 +3815,10 @@ static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, 
     
     if (oldSBPageDots != newSBPageDots) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlPageDotsUpdate" object:nil];
+    }
+    
+    if (oldSBPerPageHTML != newSBPerPageHTML) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate" object:nil];
     }
 }
 

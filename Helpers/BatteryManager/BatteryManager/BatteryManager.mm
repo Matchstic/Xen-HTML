@@ -75,7 +75,7 @@ static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int fla
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class XENHWidgetController; @class WKWebView; 
+@class WKWebView; @class XENHWidgetController; 
 
 
 #line 56 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
