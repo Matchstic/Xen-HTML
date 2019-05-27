@@ -98,6 +98,9 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)hideCameraGrabber;
 +(BOOL)disableCameraGrabber;
 
++ (void)setDisplayState:(BOOL)state;
++ (BOOL)displayState; // YES == on, NO == off, used by battery manager helper
+
 //////////////////////////////////////////////////////
 // iPhone X only
 

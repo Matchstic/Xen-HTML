@@ -1840,6 +1840,8 @@ void cancelIdleTimer() {
         
         [foregroundViewController setPaused:YES];
         [backgroundViewController setPaused:YES];
+        
+        [XENHResources setDisplayState:NO]; // OFF
     }
 }
 
@@ -1850,6 +1852,8 @@ void cancelIdleTimer() {
         
         [foregroundViewController setPaused:NO];
         [backgroundViewController setPaused:NO];
+        
+        [XENHResources setDisplayState:YES]; // ON
     }
     
     %orig;
@@ -1888,6 +1892,8 @@ void cancelIdleTimer() {
                         
                         [foregroundViewController setPaused:YES];
                         [backgroundViewController setPaused:YES];
+                        
+                        [XENHResources setDisplayState:NO]; // OFF
                     }
                 });
             }
@@ -1897,6 +1903,8 @@ void cancelIdleTimer() {
                 
                 [foregroundViewController setPaused:NO];
                 [backgroundViewController setPaused:NO];
+                
+                [XENHResources setDisplayState:YES]; // ON
             }
         }
     }
@@ -1915,6 +1923,8 @@ void cancelIdleTimer() {
         
         [foregroundViewController setPaused:YES];
         [backgroundViewController setPaused:YES];
+        
+        [XENHResources setDisplayState:NO]; // OFF
     }
     
     %orig;
@@ -1926,6 +1936,8 @@ void cancelIdleTimer() {
         
         [foregroundViewController setPaused:NO];
         [backgroundViewController setPaused:NO];
+        
+        [XENHResources setDisplayState:YES]; // ON
     }
     
     %orig;
@@ -1951,6 +1963,8 @@ void cancelIdleTimer() {
                 
                 [foregroundViewController setPaused:NO];
                 [backgroundViewController setPaused:NO];
+                
+                [XENHResources setDisplayState:YES]; // ON
             }
         }
     }
@@ -1973,6 +1987,8 @@ void cancelIdleTimer() {
         XENlog(@"Re-showing Lockscreen HTML since the UI is being relocked.");
         [foregroundViewController setPaused:NO];
         [backgroundViewController setPaused:NO];
+        
+        [XENHResources setDisplayState:YES]; // ON
     }
 }
 

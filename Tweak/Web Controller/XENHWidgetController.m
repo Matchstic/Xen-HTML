@@ -57,6 +57,10 @@ extern char **environ;
 @property (nonatomic, readwrite) CGPoint editingGestureStartPoint;
 @property (nonatomic, readwrite) CGPoint editingViewStartCenter;
 
+// State management
+@property (nonatomic, readwrite) BOOL isPaused;
+@property (nonatomic, readwrite) BOOL isUnloading;
+
 @end
 
 static WKProcessPool *sharedProcessPool;
@@ -97,6 +101,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     if (self) {
         self.editingDelegate = nil;
+        self.isPaused = NO;
     }
     
     return self;
@@ -513,6 +518,11 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
+    if (self.isPaused == paused) // only update if needed
+        return;
+    
+    self.isPaused = paused;
+    
     // Need to make 100% sure we're on the main thread doing this part.
     if ([NSThread isMainThread]) {
         [self _setMainThreadPaused:paused];
@@ -534,8 +544,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
 /////////////////////////////////////////////////////////////////////////////
 
 - (void)unloadWidget {
+    if (self.isUnloading)
+        return;
+    
+    self.isUnloading = YES;
+    
     [self _unloadWebView];
     [self _unloadLegacyWebView];
+    
+    self.isUnloading = NO;
 }
 
 - (void)reloadWidget {

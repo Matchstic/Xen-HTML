@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9978428229A995B0044893E /* XENWGResources.h in Headers */ = {isa = PBXBuildFile; fileRef = C9978426229A995B0044893E /* XENWGResources.h */; };
+		C9978429229A995B0044893E /* XENWGResources.m in Sources */ = {isa = PBXBuildFile; fileRef = C9978427229A995B0044893E /* XENWGResources.m */; };
 		C9B604F22293320E0043581A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B604F12293320E0043581A /* Foundation.framework */; };
 		C9B604FD2293320E0043581A /* WebGL.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9B604FC2293320E0043581A /* WebGL.mm */; };
 		C9B60508229332C50043581A /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B60507229332C50043581A /* libsubstrate.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C9978426229A995B0044893E /* XENWGResources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENWGResources.h; sourceTree = "<group>"; };
+		C9978427229A995B0044893E /* XENWGResources.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENWGResources.m; sourceTree = "<group>"; };
 		C9B604EE2293320E0043581A /* XenHTML_WebGL.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_WebGL.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B604F12293320E0043581A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9B604FA2293320E0043581A /* WebGL-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WebGL-Prefix.pch"; sourceTree = "<group>"; };
@@ -34,6 +38,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C9978425229A99460044893E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C9978426229A995B0044893E /* XENWGResources.h */,
+				C9978427229A995B0044893E /* XENWGResources.m */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		C9B604E32293320E0043581A = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +76,7 @@
 		C9B604F32293320E0043581A /* WebGL */ = {
 			isa = PBXGroup;
 			children = (
+				C9978425229A99460044893E /* Resources */,
 				C9B604FB2293320E0043581A /* WebGL.xm */,
 				C9B604FC2293320E0043581A /* WebGL.mm */,
 				C9B604F82293320E0043581A /* Supporting Files */,
@@ -85,6 +99,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9978428229A995B0044893E /* XENWGResources.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +198,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B604FD2293320E0043581A /* WebGL.mm in Sources */,
+				C9978429229A995B0044893E /* XENWGResources.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

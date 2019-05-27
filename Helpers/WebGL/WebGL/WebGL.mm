@@ -1,43 +1,13 @@
 #line 1 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
+#import "XENWGResources.h"
 
 
-#define XENlog(args...) XenHTMLWebGLLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
-
-#if defined __cplusplus
-extern "C" {
-#endif
-    
-    void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...);
-    
-#if defined __cplusplus
-};
-#endif
-
-void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...) {
-    
-    
-    va_list ap;
-    
-    
-    va_start (ap, format);
-    
-    if (![format hasSuffix:@"\n"]) {
-        format = [format stringByAppendingString:@"\n"];
-    }
-    
-    NSString *body = [[NSString alloc] initWithFormat:format arguments:ap];
-    
-    
-    va_end(ap);
-    
-    NSString *fileName = [[NSString stringWithUTF8String:file] lastPathComponent];
-    
-    NSLog(@"Xen HTML (WebGL) :: (%s:%d) %s",
-          [fileName UTF8String],
-          lineNumber, [body UTF8String]);
-}
+#define $_MSFindSymbolCallable(image, name) make_sym_callable(MSFindSymbol(image, name))
 
 #pragma mark Haxx for WebGL on the Lockscreen
+
+
+static const char* (*CA$Render$Context$process_name)(void *_this);
 
 
 #include <substrate.h>
@@ -63,9 +33,15 @@ void XenHTMLWebGLLog(const char *file, int lineNumber, const char *functionName,
 
 
 
-#line 41 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
-__unused static BOOL (*_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *var1, const void *var2); __unused static BOOL _logos_function$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *var1, const void *var2) {
+#line 11 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
 
+
+__unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *context, const void *var2 ); __unused static BOOL _logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *context, const void *var2 ) {
+
+    
+    
+    
+    
     
 
 
@@ -81,8 +57,26 @@ __unused static BOOL (*_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allo
     return YES;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_7c1b35e5(int __unused argc, char __unused **argv, char __unused **envp) {
-    { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$_ungrouped$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
+
+
+static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
+    XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
+    return pointer != NULL;
+}
+
+static __attribute__((constructor)) void _logosLocalCtor_0f530806(int __unused argc, char __unused **argv, char __unused **envp) {
+    {}
     
-    XENlog(@"Reporting for duty!");
+    BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    
+    if (bb) {
+        CA$Render$Context$process_name = (const char* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
+        
+        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
+            return;
+        
+        { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
+    } else {
+        
+    }
 }
