@@ -71,6 +71,12 @@
                     [testingSpecs removeObject:spec];
                 }
             }
+            
+            // Override the enabled state for perPageModeIsEnabled if needed
+            if ([[spec.properties objectForKey:@"key"] isEqualToString:@"SBOnePageWidgetMode"] &&
+                [self perPageModeIsEnabled]) {
+                [spec.properties setObject:@0 forKey:@"enabled"];
+            }
         }
         
         _specifiers = testingSpecs;
@@ -100,6 +106,9 @@
 
 -(void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {
     [XENHResources setPreferenceKey:specifier.properties[@"key"] withValue:value];
+    
+    if ([specifier.properties[@"key"] isEqualToString:@"SBPerPageHTMLWidgetMode"])
+        [self updateEnabledStateForOPWModeToggle];
     
     // Also fire off the custom cell notification.
     CFStringRef toPost = (__bridge CFStringRef)specifier.properties[@"PostNotification"];
@@ -142,6 +151,28 @@
     } else {
         return nil;
     }
+}
+
+- (BOOL)perPageModeIsEnabled {
+    id value = [XENHResources getPreferenceKey:@"SBPerPageHTMLWidgetMode"];
+    return value != nil ? [value boolValue] : NO;
+}
+
+- (void)updateEnabledStateForOPWModeToggle {
+    NSLog(@"Xen HTML :: Updating enabled state");
+    
+    PSSpecifier *spec;
+    for (PSSpecifier *_specifier in _specifiers) {
+        if ([[_specifier.properties objectForKey:@"key"] isEqualToString:@"SBOnePageWidgetMode"]) {
+            spec = _specifier;
+            break;
+        }
+    }
+    
+    [spec.properties setObject:[self perPageModeIsEnabled] ? @0 : @1 forKey:@"enabled"];
+    
+    // Reload this specifier
+    [self reloadSpecifier:spec];
 }
 
 @end
