@@ -16,6 +16,7 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
+@property (nonatomic) BOOL _xh_hasFinishedMainFrameLoad;
 @end
 
 @interface XENHWidgetController : UIViewController
@@ -60,6 +61,16 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     if (!webView)
         return;
     
+    if (!webView._xh_hasFinishedMainFrameLoad) {
+        XENlog(@"Ignoring activity state change because this widget has not yet finished loading the main frame");
+        return;
+    }
+    
+    if (webView._xh_isPaused == isPaused) {
+        XENlog(@"Ignoring activity state change because this widget is already %@", isPaused ? @"paused" : @"active");
+        return;
+    }
+    
     webView._xh_isPaused = isPaused;
     
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
@@ -75,7 +86,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         return;
     }
     
-    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Deferrable);
+    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
         
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
 }
@@ -85,11 +96,13 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
     // Pause as needed, and only if needed
-    if (self.webView && self.isPaused != paused) {
-        setWKWebViewActivityState(self.webView, paused);
-    }
+    BOOL needsStateChange = self.webView && self.isPaused != paused;
     
     %orig;
+    
+    if (needsStateChange) {
+        setWKWebViewActivityState(self.webView, paused);
+    }
 }
 
 %end
@@ -98,6 +111,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
+%property (nonatomic) BOOL _xh_hasFinishedMainFrameLoad;
 
 - (BOOL)_isBackground {
     if (self._xh_isPaused) {
@@ -105,6 +119,20 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     } else {
         return %orig;
     }
+}
+
+- (void)_didCommitLoadForMainFrame {
+    %orig;
+    
+    // Reset states
+    self._xh_isPaused = NO;
+    self._xh_hasFinishedMainFrameLoad = NO;
+}
+
+- (void)_didFinishLoadForMainFrame {
+    %orig;
+    
+    self._xh_hasFinishedMainFrameLoad = YES;
 }
 
 %end
