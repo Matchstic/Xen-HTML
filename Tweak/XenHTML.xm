@@ -351,6 +351,9 @@
 -(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
 @end
 
+@interface SBDockView : UIView
+@end
+
 static void hideForegroundForLSNotifIfNeeded();
 static void showForegroundForLSNotifIfNeeded();
 
@@ -2973,7 +2976,6 @@ static BOOL _xenhtml_inEditingMode;
 %end
 
 #pragma mark Ensure icons always can be tapped through the SBHTML foreground widgets view (iOS 9+)
-
 %hook SBIconScrollView
 
 - (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
@@ -2981,18 +2983,21 @@ static BOOL _xenhtml_inEditingMode;
         return %orig;
     }
     
-    // If in editing mode, prefer to move widgets around over icons
-    if (_xenhtml_inEditingMode) {
-        return %orig;
-    }
-    
-    // If in OPW mode, prefer widget touches
-    if ([XENHResources SBOnePageWidgetMode])
-        return %orig;
-    
+    UIView *result = nil;
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
+        
+        XENlog(@"Hittested: %@", hittested);
+        
+        // If in editing mode, prefer to move widgets around over icons
+        if (_xenhtml_inEditingMode && hittested != nil) {
+            return hittested;
+        }
+        
+        // If in OPW mode, prefer widget touches
+        if ([XENHResources SBOnePageWidgetMode])
+            return hittested;
         
         if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
             [[hittested class] isEqual:objc_getClass("SBFolderIconView")] ||
@@ -3000,9 +3005,59 @@ static BOOL _xenhtml_inEditingMode;
             // Favour icons where possible
             return hittested;
         }
+        
+        result = hittested;
     }
     
-    return %orig;
+    return result != nil ? result : %orig;
+}
+
+%end
+
+// Make sure to allow touches back to the widget if it's behind icons
+%hook SBDockView
+
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (![XENHResources SBEnabled] || ![XENHResources SBPerPageHTMLWidgetMode]) {
+        return %orig;
+    }
+    
+    UIView *result = nil;
+    for (UIView *view in [self.subviews reverseObjectEnumerator]) {
+        CGPoint subPoint = [view convertPoint:point fromView:self];
+        UIView *hittested = [view hitTest:subPoint withEvent:event];
+        
+        // Want the highest subview that didn't return nil
+        if (result == nil && hittested != nil)
+            result = hittested;
+    }
+    
+    // Don't return self
+    return result;
+}
+
+%end
+
+// Always allow icon touches of the dock
+%hook SBRootFolderView
+
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // Only needed for the mode of widgets above icons
+    if (![XENHResources SBEnabled] || [XENHResources SBPerPageHTMLWidgetMode]) {
+        return %orig;
+    }
+    
+    CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
+    UIView *dockResult = [[self dockView] hitTest:dockSubPoint withEvent:event];
+    
+    // Favouring dock icons over anything else
+    if (dockResult &&
+        ![[dockResult class] isEqual:objc_getClass("SBRootFolderDockIconListView")] &&
+        ![[dockResult class] isEqual:objc_getClass("SBDockIconListView")]) {
+        return dockResult;
+    } else {
+        return %orig;
+    }
 }
 
 %end
