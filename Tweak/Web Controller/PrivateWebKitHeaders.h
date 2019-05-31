@@ -63,6 +63,7 @@
 - (void)_setFullScreenEnabled:(BOOL)arg1;
 - (void)_setJavaScriptRuntimeFlags:(unsigned int)arg1;
 - (void)_setLogsPageMessagesToSystemConsoleEnabled:(BOOL)arg1;
+- (void)_setPageVisibilityBasedProcessSuppressionEnabled:(bool)arg1;
 - (void)_setOfflineApplicationCacheIsEnabled:(BOOL)arg1;
 - (void)_setSimpleLineLayoutDebugBordersEnabled:(BOOL)arg1;
 - (void)_setStandalone:(BOOL)arg1;
@@ -71,7 +72,7 @@
 - (void)_setTiledScrollingIndicatorVisible:(BOOL)arg1;
 - (void)_setVisibleDebugOverlayRegions:(unsigned int)arg1;
 
--(void)_setResourceUsageOverlayVisible:(bool)arg1 ;
+- (void)_setResourceUsageOverlayVisible:(bool)arg1 ;
 @end
 
 @interface WKWebViewConfiguration (Private)

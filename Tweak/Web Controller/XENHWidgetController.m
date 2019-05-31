@@ -263,6 +263,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [preferences _setStandalone:YES];
     [preferences _setTelephoneNumberDetectionIsEnabled:NO];
     [preferences _setTiledScrollingIndicatorVisible:NO];
+    [preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
     
     // Developer tools
     if ([XENHResources developerOptionsEnabled]) {
@@ -275,7 +276,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     config.preferences = preferences;
     
     if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
-        [config _setWaitsForPaintAfterViewDidMoveToWindow:NO];
+        [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
     }
     
     if (self.webView) {

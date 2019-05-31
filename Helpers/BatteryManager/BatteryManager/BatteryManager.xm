@@ -56,20 +56,9 @@ static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int fla
 
 %group SpringBoard
 
-
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
     if (!webView)
         return;
-    
-    if (!webView._xh_hasFinishedMainFrameLoad) {
-        XENlog(@"Ignoring activity state change because this widget has not yet finished loading the main frame");
-        return;
-    }
-    
-    if (webView._xh_isPaused == isPaused) {
-        XENlog(@"Ignoring activity state change because this widget is already %@", isPaused ? @"paused" : @"active");
-        return;
-    }
     
     webView._xh_isPaused = isPaused;
     
@@ -86,7 +75,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         return;
     }
     
-    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
+    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible | WebCoreActivityState::Flag::IsInWindow, true, ActivityStateChangeDispatchMode::Immediate);
         
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
 }
@@ -116,6 +105,14 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 - (BOOL)_isBackground {
     if (self._xh_isPaused) {
         return YES;
+    } else {
+        return %orig;
+    }
+}
+
+- (id)window {
+    if (self._xh_isPaused) {
+        return nil;
     } else {
         return %orig;
     }
