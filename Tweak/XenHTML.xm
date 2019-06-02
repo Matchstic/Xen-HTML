@@ -2988,10 +2988,13 @@ static BOOL _xenhtml_inEditingMode;
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
         
+        if (hittested == nil)
+            continue;
+        
         XENlog(@"Hittested: %@", hittested);
         
         // If in editing mode, prefer to move widgets around over icons
-        if (_xenhtml_inEditingMode && hittested != nil) {
+        if (_xenhtml_inEditingMode) {
             return hittested;
         }
         
@@ -3032,7 +3035,7 @@ static BOOL _xenhtml_inEditingMode;
             result = hittested;
     }
     
-    // Don't return self
+    // Don't return self, hence why result starts off as nil
     return result;
 }
 
@@ -3066,6 +3069,7 @@ static BOOL _xenhtml_inEditingMode;
 
 %hook WKWebView
 
+// TODO: Does this break input elements?
 - (BOOL)_shouldUpdateKeyboardWithInfo:(NSDictionary *)keyboardInfo {
     return NO;
 }
@@ -3096,7 +3100,6 @@ static BOOL _xenhtml_inEditingMode;
 %hook UIWKTextLoupeInteraction
 
 -(void)loupeGesture:(id)arg1 {
-    XENlog(@"UIWKTextLoupeInteraction :: ignoring!");
     return;
 }
 
