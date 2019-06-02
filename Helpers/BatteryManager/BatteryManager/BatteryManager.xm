@@ -16,7 +16,6 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
-@property (nonatomic) BOOL _xh_hasFinishedMainFrameLoad;
 @end
 
 @interface XENHWidgetController : UIViewController
@@ -53,6 +52,14 @@ struct WebCoreActivityState {
 
 // void WebPageProxy::activityStateDidChange(unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode)
 static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode);
+// void WebPageProxy::applicationDidEnterBackground()
+static void (*WebPageProxy$applicationDidEnterBackground)(void *_this);
+// void WebPageProxy::applicationWillEnterForeground()
+static void (*WebPageProxy$applicationWillEnterForeground)(void *_this);
+// void WebPageProxy::applicationWillResignActive()
+static void (*WebPageProxy$applicationWillResignActive)(void *_this);
+// void WebPageProxy::applicationDidBecomeActive()
+static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 %group SpringBoard
 
@@ -60,6 +67,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     if (!webView)
         return;
     
+    BOOL wasPausedPreviously = webView._xh_isPaused;
     webView._xh_isPaused = isPaused;
     
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
@@ -75,6 +83,22 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         return;
     }
     
+    // Application state faking - this ensures layers etc in the backing process get frozen
+    if (!isPaused && wasPausedPreviously) {
+        // Will enter foreground
+        XENlog(@"Faking entering foreground app state");
+        
+        WebPageProxy$applicationWillEnterForeground(page); // Un-freezes layers
+        WebPageProxy$applicationDidBecomeActive(page); // Notifies document listeners of being active
+    } else if (isPaused && !wasPausedPreviously) {
+        // Did enter background
+        XENlog(@"Faking entering background app state");
+        
+        WebPageProxy$applicationWillResignActive(page); // Notifies document listeners of no longer being active
+        WebPageProxy$applicationDidEnterBackground(page); // Freezes layer
+    }
+    
+    // Notify the page about any visible status change
     WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible | WebCoreActivityState::Flag::IsInWindow, true, ActivityStateChangeDispatchMode::Immediate);
         
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
@@ -100,7 +124,17 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
-%property (nonatomic) BOOL _xh_hasFinishedMainFrameLoad;
+
+- (id)initWithFrame:(CGRect)arg1 configuration:(id)arg2 {
+    WKWebView *orig = %orig;
+    
+    if (orig) {
+        // Reset states
+        orig._xh_isPaused = NO;
+    }
+    
+    return orig;
+}
 
 - (BOOL)_isBackground {
     if (self._xh_isPaused) {
@@ -116,20 +150,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     } else {
         return %orig;
     }
-}
-
-- (void)_didCommitLoadForMainFrame {
-    %orig;
-    
-    // Reset states
-    self._xh_isPaused = NO;
-    self._xh_hasFinishedMainFrameLoad = NO;
-}
-
-- (void)_didFinishLoadForMainFrame {
-    %orig;
-    
-    self._xh_hasFinishedMainFrameLoad = YES;
 }
 
 %end
@@ -150,7 +170,21 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
         
         WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
+        // App state stuff
+        WebPageProxy$applicationDidEnterBackground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy29applicationDidEnterBackgroundEv");
+        WebPageProxy$applicationWillEnterForeground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy30applicationWillEnterForegroundEv");
+        WebPageProxy$applicationWillResignActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy27applicationWillResignActiveEv");
+        WebPageProxy$applicationDidBecomeActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy26applicationDidBecomeActiveEv");
+        
         if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
+            return;
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidEnterBackground, @"WebPageProxy::applicationDidEnterBackground"))
+            return;
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillEnterForeground, @"WebPageProxy::applicationWillEnterForeground"))
+            return;
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillResignActive, @"WebPageProxy::applicationWillResignActive"))
+            return;
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             return;
 
         %init(SpringBoard);
