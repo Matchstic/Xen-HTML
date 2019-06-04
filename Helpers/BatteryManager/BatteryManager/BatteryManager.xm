@@ -63,13 +63,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 %group SpringBoard
 
-static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
-    if (!webView)
-        return;
-    
-    BOOL wasPausedPreviously = webView._xh_isPaused;
-    webView._xh_isPaused = isPaused;
-    
+static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused, bool wasPausedPreviously) {
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
     if (!contentView.browsingContextController) {
@@ -88,20 +82,46 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         // Will enter foreground
         XENlog(@"Faking entering foreground app state");
         
+        // WebPageProxy$applicationDidBecomeActive(page); // Notifies document listeners of being active, causes some odd visuals
         WebPageProxy$applicationWillEnterForeground(page); // Un-freezes layers
-        WebPageProxy$applicationDidBecomeActive(page); // Notifies document listeners of being active
+        
+        // Notify that the widget is visible for JS execution
+        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        
+        [webView setNeedsDisplay];
     } else if (isPaused && !wasPausedPreviously) {
         // Did enter background
+        
+        // Make sure the paused state hasn't changed
+        if (webView._xh_isPaused != isPaused) {
+            XENlog(@"Not setting background state, widget pause state changed");
+            return;
+        }
+            
         XENlog(@"Faking entering background app state");
         
-        WebPageProxy$applicationWillResignActive(page); // Notifies document listeners of no longer being active
         WebPageProxy$applicationDidEnterBackground(page); // Freezes layer
+        // WebPageProxy$applicationWillResignActive(page); // Notifies document listeners of no longer being active, causes some odd visuals
+            
+        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
     }
     
-    // Notify the page about any visible status change
-    WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible | WebCoreActivityState::Flag::IsInWindow, true, ActivityStateChangeDispatchMode::Immediate);
-        
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+}
+
+static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    if (!webView)
+        return;
+    
+    if (webView._xh_isPaused == isPaused) {
+        // Already in the requested state
+        return;
+    }
+    
+    BOOL wasPausedPreviously = webView._xh_isPaused;
+    webView._xh_isPaused = isPaused;
+    
+    doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
 }
 
 
@@ -144,12 +164,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     }
 }
 
-- (id)window {
-    if (self._xh_isPaused) {
-        return nil;
-    } else {
-        return %orig;
-    }
+%end
+
+%hook UIApp
+
+- (BOOL)isSuspendedUnderLock {
+    return [objc_getClass("XENHResources") displayState] == NO ? NO : %orig;
 }
 
 %end
