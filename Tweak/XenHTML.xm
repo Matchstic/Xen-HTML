@@ -628,6 +628,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
             [foregroundViewController.view removeFromSuperview];
         }
         
+        [XENHResources setHasSeenFirstUnlock:YES];
+        
         if (iOS10ForegroundWrapperController) {
             
             [[(UIViewController*)iOS10ForegroundWrapperController view] removeFromSuperview];
@@ -853,6 +855,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
         foregroundHiddenRequesters = nil;
         
         lsBackgroundForwarder = nil;
+        
+        [XENHResources setHasSeenFirstUnlock:YES];
     }
     
     %orig;
@@ -912,6 +916,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
         lsBackgroundForwarder = nil;
         
         iOS10ForegroundAddAttempted = NO;
+        
+        [XENHResources setHasSeenFirstUnlock:YES];
     }
     
     %orig;
@@ -1693,6 +1699,9 @@ void cancelIdleTimer() {
     [sbhtmlViewController setPaused:NO];
     [sbhtmlForegroundViewController setPaused:NO];
     
+    [sbhtmlViewController doJITWidgetLoadIfNecessary];
+    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    
     %orig;
 }
 
@@ -1721,6 +1730,9 @@ void cancelIdleTimer() {
                 XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
                 [sbhtmlViewController setPaused:NO];
                 [sbhtmlForegroundViewController setPaused:NO];
+                
+                [sbhtmlViewController doJITWidgetLoadIfNecessary];
+                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
             }
         });
     }
@@ -1739,6 +1751,9 @@ void cancelIdleTimer() {
     [sbhtmlViewController setPaused:NO];
     [sbhtmlForegroundViewController setPaused:NO];
     
+    [sbhtmlViewController doJITWidgetLoadIfNecessary];
+    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    
     %orig;
 }
 
@@ -1753,6 +1768,9 @@ void cancelIdleTimer() {
     [sbhtmlViewController setPaused:NO];
     [sbhtmlForegroundViewController setPaused:NO];
     
+    [sbhtmlViewController doJITWidgetLoadIfNecessary];
+    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    
     %orig;
 }
 
@@ -1764,6 +1782,9 @@ void cancelIdleTimer() {
     XENlog(@"Showing SBHTML due to opening the Application Switcher");
     [sbhtmlViewController setPaused:NO];
     [sbhtmlForegroundViewController setPaused:NO];
+    
+    [sbhtmlViewController doJITWidgetLoadIfNecessary];
+    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
     
     %orig;
 }
@@ -1793,19 +1814,23 @@ void cancelIdleTimer() {
     switch (environmentMode) {
         case 1:
             XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
-            //dispatch_async(dispatch_get_main_queue(), ^(){
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-            //    [sbhtmlViewController.view setNeedsDisplay];
-            //});
+            
+            [sbhtmlViewController setPaused:NO];
+            [sbhtmlForegroundViewController setPaused:NO];
+            
+            [sbhtmlViewController doJITWidgetLoadIfNecessary];
+            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+            
             break;
         case 2:
             XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
-            //dispatch_async(dispatch_get_main_queue(), ^(){
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-            //    [sbhtmlViewController.view setNeedsDisplay];
-            //});
+            
+            [sbhtmlViewController setPaused:NO];
+            [sbhtmlForegroundViewController setPaused:NO];
+            
+            [sbhtmlViewController doJITWidgetLoadIfNecessary];
+            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+            
             break;
     }
     
@@ -1824,6 +1849,9 @@ void cancelIdleTimer() {
     XENlog(@"Showing SBHTML due to starting a fluid gesture");
     [sbhtmlViewController setPaused:NO];
     [sbhtmlForegroundViewController setPaused:NO];
+    
+    [sbhtmlViewController doJITWidgetLoadIfNecessary];
+    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
     
     %orig;
 }
@@ -1862,6 +1890,9 @@ void cancelIdleTimer() {
         
         [XENHResources setDisplayState:YES]; // ON
     }
+    
+    [foregroundViewController doJITWidgetLoadIfNecessary];
+    [backgroundViewController doJITWidgetLoadIfNecessary];
     
     %orig;
 }
@@ -1913,6 +1944,9 @@ void cancelIdleTimer() {
                 
                 [XENHResources setDisplayState:YES]; // ON
             }
+            
+            [foregroundViewController doJITWidgetLoadIfNecessary];
+            [backgroundViewController doJITWidgetLoadIfNecessary];
         }
     }
 }
@@ -1947,6 +1981,9 @@ void cancelIdleTimer() {
         [XENHResources setDisplayState:YES]; // ON
     }
     
+    [foregroundViewController doJITWidgetLoadIfNecessary];
+    [backgroundViewController doJITWidgetLoadIfNecessary];
+    
     %orig;
 }
 
@@ -1973,6 +2010,9 @@ void cancelIdleTimer() {
                 
                 [XENHResources setDisplayState:YES]; // ON
             }
+            
+            [foregroundViewController doJITWidgetLoadIfNecessary];
+            [backgroundViewController doJITWidgetLoadIfNecessary];
         }
     }
 }
@@ -1997,6 +2037,9 @@ void cancelIdleTimer() {
         
         [XENHResources setDisplayState:YES]; // ON
     }
+    
+    [foregroundViewController doJITWidgetLoadIfNecessary];
+    [backgroundViewController doJITWidgetLoadIfNecessary];
 }
 
 %end

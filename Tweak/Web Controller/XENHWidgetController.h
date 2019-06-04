@@ -29,6 +29,7 @@
 // Internal webviews
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIWebView *legacyWebView;
+@property (nonatomic, readwrite) BOOL requiresJITWidgetLoad;
 
 // Widget-specific data
 @property (nonatomic, strong) NSString *widgetIndexFile;
@@ -66,6 +67,7 @@
 // Lifecycle handling
 - (void)unloadWidget;
 - (void)reloadWidget;
+- (void)doJITWidgetLoadIfNecessary;
 
 // Touch forwarding
 - (BOOL)isWidgetTrackingTouch;

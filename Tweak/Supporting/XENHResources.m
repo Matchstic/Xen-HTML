@@ -63,6 +63,7 @@ static int currentOrientation = 1;
 static BOOL phIsVisible;
 static BOOL xenIsVisible;
 static BOOL displayState = YES;
+static bool hasSeenFirstUnlock = NO;
 static NSUserDefaults *PHDefaults;
 static SBLockScreenNotificationListController * __weak cachedLSNotificationController;
 static int iOS10NotificationCount;
@@ -982,6 +983,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 +(BOOL)hasDisplayedSetupUI {
     id value = settings[@"hasDisplayedSetupUI"];
     return (value ? [value boolValue] : NO);
+}
+
++ (BOOL)hasSeenFirstUnlock {
+    return hasSeenFirstUnlock;
+}
+
++ (void)setHasSeenFirstUnlock:(BOOL)state {
+    hasSeenFirstUnlock = state;
 }
 
 #pragma mark Developer options

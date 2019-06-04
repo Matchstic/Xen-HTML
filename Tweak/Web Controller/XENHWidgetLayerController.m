@@ -73,6 +73,9 @@
         
         // Configure the widget controller for this new widget
         XENHWidgetController *widgetController = [[XENHWidgetController alloc] init];
+        widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
+                                                 self.layerLocation == kLocationLSBackground) &&
+                                                 [XENHResources hasSeenFirstUnlock];
         [widgetController configureWithWidgetIndexFile:location andMetadata:metadata2];
         
         // Add as subview
@@ -126,6 +129,14 @@
     }
 }
 
+- (void)doJITWidgetLoadIfNecessary {
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+        for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
+            [widgetController doJITWidgetLoadIfNecessary];
+        }
+    });
+}
+
 /////////////////////////////////////////////////////////////////////////////
 #pragma mark Orientation handling
 /////////////////////////////////////////////////////////////////////////////
@@ -176,6 +187,9 @@
             
             // Configure the widget controller for this new widget
             XENHWidgetController *widgetController = [[XENHWidgetController alloc] init];
+            widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
+                                                      self.layerLocation == kLocationLSBackground) &&
+                                                      [XENHResources hasSeenFirstUnlock];
             [widgetController configureWithWidgetIndexFile:location andMetadata:metadata];
             
             // Add as subview

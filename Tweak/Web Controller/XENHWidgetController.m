@@ -60,6 +60,7 @@ extern char **environ;
 // State management
 @property (nonatomic, readwrite) BOOL isPaused;
 @property (nonatomic, readwrite) BOOL isUnloading;
+@property (nonatomic, readwrite) BOOL pendingWidgetJITLoad;
 
 @end
 
@@ -102,6 +103,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     if (self) {
         self.editingDelegate = nil;
         self.isPaused = NO;
+        self.pendingWidgetJITLoad = NO;
+        self.requiresJITWidgetLoad = NO;
     }
     
     return self;
@@ -263,7 +266,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [preferences _setStandalone:YES];
     [preferences _setTelephoneNumberDetectionIsEnabled:NO];
     [preferences _setTiledScrollingIndicatorVisible:NO];
-    [preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
+    //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
     
     // Developer tools
     if ([XENHResources developerOptionsEnabled]) {
@@ -306,10 +309,17 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     self.webView.allowsLinkPreview = NO;
     
-    NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
-    if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
-        XENlog(@"Loading from URL: %@", url);
-        [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+    if (!self.requiresJITWidgetLoad) {
+        NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
+        if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
+            XENlog(@"Loading from URL: %@", url);
+            [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+        }
+    } else {
+        XENlog(@"Requesting a JIT widget load");
+        
+        // A JIT load is needed to avoid UI issues when loading a widget during the paused state
+        self.pendingWidgetJITLoad = YES;
     }
 }
 
@@ -558,6 +568,23 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 - (void)reloadWidget {
     [self configureWithWidgetIndexFile:self._rawWidgetIndexFile andMetadata:self.widgetMetadata];
+}
+
+- (void)doJITWidgetLoadIfNecessary {
+    if (self.webView && self.pendingWidgetJITLoad) {
+        self.pendingWidgetJITLoad = NO;
+        
+        // Do widget loading now
+        XENlog(@"Running a JIT widget load");
+        
+        NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
+        if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
+            XENlog(@"Loading from URL: %@", url);
+            [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+        }
+    }
+    
+    // Not adding JIT support to legacy widgets
 }
 
 - (void)_unloadWebView {

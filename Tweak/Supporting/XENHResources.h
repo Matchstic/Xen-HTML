@@ -160,7 +160,9 @@ static BOOL shownGraceEnded = NO;
 +(void)setCurrentOrientation:(int)orient;
 +(int)getCurrentOrientation;
 
-+(BOOL)hasDisplayedSetupUI;
++ (BOOL)hasDisplayedSetupUI;
++ (BOOL)hasSeenFirstUnlock;
++ (void)setHasSeenFirstUnlock:(BOOL)state;
 
 + (BOOL)isInstalledFromOfficialRepository;
 
