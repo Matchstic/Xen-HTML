@@ -344,11 +344,19 @@
 @property(readonly, nonatomic) long long currentPageIndex;
 @end
 
+// iOS 11
+@interface SBIconDragManager : NSObject
+-(BOOL)isTrackingUserActiveIconDrags;
+@end
+
 @interface SBIconController : UIViewController
 + (instancetype)sharedInstance;
 -(SBRootFolderController*)_rootFolderController;
 -(id)rootIconListAtIndex:(long long)arg1;
 -(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
+
+@property(readonly, nonatomic) SBIconDragManager *iconDragManager; // iOS 11
+- (id)grabbedIcon; // iOS 10
 @end
 
 @interface SBDockView : UIView
@@ -2768,6 +2776,14 @@ void cancelIdleTimer() {
 
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
+        BOOL isDraggingIcon = NO;
+        
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+            isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
+        } else {
+            isDraggingIcon = [[objc_getClass("SBIconController") sharedInstance] grabbedIcon] != nil;
+        }
+        
         // Allow any "overhanging" views to respond
         if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
             for (UIView *subview in self.subviews.reverseObjectEnumerator) {
@@ -2779,9 +2795,9 @@ void cancelIdleTimer() {
             }
         }
         
-        // Ignore self as a valid view
+        // Ignore self as a valid view when not editing
         UIView *view = %orig;
-        if ([view isEqual:self]) {
+        if ([view isEqual:self] && !isDraggingIcon) {
             view = nil;
         }
         
@@ -3033,8 +3049,6 @@ static BOOL _xenhtml_inEditingMode;
         
         if (hittested == nil)
             continue;
-        
-        XENlog(@"Hittested: %@", hittested);
         
         // If in editing mode, prefer to move widgets around over icons
         if (_xenhtml_inEditingMode) {
