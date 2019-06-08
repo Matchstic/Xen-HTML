@@ -534,20 +534,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     self.isPaused = paused;
     
-    // Need to make 100% sure we're on the main thread doing this part.
-    if ([NSThread isMainThread]) {
-        [self _setMainThreadPaused:paused];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^(void){
-            [self _setMainThreadPaused:paused];
-        });
-    }
-}
-
-- (void)_setMainThreadPaused:(BOOL)paused {
-    // Remove the views from being updated
-    self.legacyWebView.hidden = paused ? YES : NO;
-    self.webView.hidden = paused ? YES : NO;
+    // State management handled by BatteryManager
 }
 
 /////////////////////////////////////////////////////////////////////////////
