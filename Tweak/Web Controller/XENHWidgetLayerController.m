@@ -73,9 +73,14 @@
         
         // Configure the widget controller for this new widget
         XENHWidgetController *widgetController = [[XENHWidgetController alloc] init];
-        widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
-                                                 self.layerLocation == kLocationLSBackground) &&
-                                                 [XENHResources hasSeenFirstUnlock];
+        if ([XENHResources displayState] == YES) {
+            // Display is on, no need to JIT load
+            widgetController.requiresJITWidgetLoad = NO;
+        } else {
+            widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
+                                                      self.layerLocation == kLocationLSBackground) &&
+                                                      [XENHResources hasSeenFirstUnlock];
+        }
         [widgetController configureWithWidgetIndexFile:location andMetadata:metadata2];
         
         // Add as subview
@@ -187,9 +192,15 @@
             
             // Configure the widget controller for this new widget
             XENHWidgetController *widgetController = [[XENHWidgetController alloc] init];
-            widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
-                                                      self.layerLocation == kLocationLSBackground) &&
-                                                      [XENHResources hasSeenFirstUnlock];
+            
+            if ([XENHResources displayState] == YES) {
+                // Display is on, no need to JIT load
+                widgetController.requiresJITWidgetLoad = NO;
+            } else {
+                widgetController.requiresJITWidgetLoad = (self.layerLocation == kLocationLSForeground ||
+                                                          self.layerLocation == kLocationLSBackground) &&
+                                                          [XENHResources hasSeenFirstUnlock];
+            }
             [widgetController configureWithWidgetIndexFile:location andMetadata:metadata];
             
             // Add as subview
