@@ -50,7 +50,7 @@
     "WIDGETS_PREVIEW_FOOTER" = "Önizleme açısını ayarlamak için kaydırın.";
     "WIDGETS_PREVIEW_HEADER" = "Ön izleme";
     "WIDGETS_SBBACKGROUND_DETAIL" = "Arka plan widget'ları duvar kağıdınıza etkileşimli eklemeler haline gelir";
-    "WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
+    "WIDGETS_SBFOREGROUND_DETAIL" = "Ön plan widget'ları uygulama simgelerinizle birlikte hareket eder";
     "WIDGETS_TITLE" = "Widgetler";
     "WIDGET_EDITOR_DRAGDROP" = "Konumunu ayarlamak için sürükle ve bırak";
     "WIDGET_EDITOR_DRAGDROP_IPAD" = "Konumunu ayarlamak için sürükle ve bırak\n\nFarklı yönlerde görüntülemek için cihazınızı döndürün";
