@@ -3,9 +3,11 @@
   Xen HTML
 */
 
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
-"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
+"TITLE" = "Vordergrund";
 
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
-"FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Widget verhalten";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Schalter aus:\n• Sollte ein widget die application icons verdecken, können diese AKTIVIERT werden.\n Schalter an:\n• Sollte ein widget die application icons verdecken, können diese nicht mehr AKTIVIERT werden.";
+"FOREGROUND_SB_USAGE" = "So fügst du widgets (iWidgets) hinzu:\n• Tippe solange auf ein icon bis du in den\n 'Widget hinzufügen' modus gelangst\n• Drücke 'widget hinzufügen' oberhalb vom Dock";
+
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets unterhalb der Anwendungssymbole anzeigen. Somit könnt ihr das Aussehen von benutzerdefinierten Hintergrundbildern (HTML basierend), widgets pro Seite festlegen.";
+"FOREGROUND_SB_BELOW_ICONS" = "Widgets unterhalb der Icons anzeigen";

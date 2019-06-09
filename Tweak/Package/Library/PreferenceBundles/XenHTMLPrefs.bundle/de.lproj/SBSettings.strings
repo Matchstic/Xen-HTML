@@ -4,15 +4,15 @@
 */
 
 "ELEMENT_VISIBILITY_HS_HEADER" = "Elemente ein oder ausblenden";
-"ELEMENT_VISIBILITY_HS_FOOTER" = "Ausblenden von Home-Bildschirm Elementen bei Verwendung von Xen HTML.";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "Ausblenden von Homebildschirm Elementen bei Verwendung von Xen HTML.";
 "ELEMENT_SB_DOCK_BLUR" = "Dock Blur ausblenden";
 "ELEMENT_SB_FOLDER_BLUR" = "Ordner Icon Blur ausblenden";
 "ELEMENT_SB_ICON_LABELS" = "Icon Labels ausblenden";
-"ELEMENT_SB_PAGE_DOTS" = "Seitenindikatoren ausblenden";
+"ELEMENT_SB_PAGE_DOTS" = "Seiten Dots ausblenden";
 
 "MISC_HEADER" = "Sonstiges";
-"MISC_SB_TOUCH" = "Erlaube Touch für widgets";
-"MISC_SB_TOUCH2" = "Allow Touch on Background";
+"MISC_SB_TOUCH" = "Erlaubt Touch für widgets";
+"MISC_SB_TOUCH2" = "Erlaubt Touch im Hintergrund";
 
 "WIDGET_EDITOR_HEADER" = "Widget Editor";
 "WIDGET_EDITOR_HS_FOOTER" = "Aktivieren Sie diese Option um Ihr widget besser Platzieren zu können im Home-Bildschirm.";

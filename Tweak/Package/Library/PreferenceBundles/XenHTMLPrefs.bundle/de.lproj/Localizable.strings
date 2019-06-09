@@ -7,19 +7,16 @@
 
 "CANCEL" = "Abbrechen";
 "OK" = "OK";
-"WARNING" = "Warnung";
-"DONE" = "erledigt";
+"WARNING" = "Achtung";
+"DONE" = "Fertig";
 "BACK" = "zurück";
 "ERROR" = "Fehler";
-"WIDGETS_CONFIGURE" = "Konfigurieren:";
-"WIDGETS_LOCKSCREEN" = "Sperrbildschirm";
-"WIDGETS_HOMESCREEN" = "Home-Bildschirm";
 
-"ROOT_SHARE_TEXT" = "Ich Vewende Xen HTML um HTML widgets auf meinem Speerbildschirm und Home-Blidschirm darzustellen! Schau es dir auf Cydia an.";
+"ROOT_SHARE_TEXT" = "Ich Vewende Xen HTML um HTML widgets auf meinem Speerbildschirm und Homeblidschirm darzustellen! Schau es dir auf Cydia an.";
 
 "MORE_REPOS_TITLE" = "zusätzliche Repos";
 "MORE_REPOS_WIDGETS" = "Mehr Widgets";
-"MORE_REPOS_REFRESH" = "Aktuslisieren";
+"MORE_REPOS_REFRESH" = "Aktualisieren";
 "MORE_REPOS_CONTACTING_SERVER" = "Verbinde zum Server...";
 "MORE_REPOS_ADD_TO_CYDIA" = "Diese Repo zu Cydia hinzfügen?";
 "MORE_REPOS_OPEN_IN_CYDIA" = "Diese Repo Öffnen in Cydia?";
@@ -37,10 +34,13 @@
 "WIDGETS_FOREGROUND" = "Vordergrund Widgets";
 "WIDGETS_LSBACKGROUND_DETAIL" = "Hintergrund Widgets werden ein Teil von euerem Sperrbildschirms";
 "WIDGETS_LSFOREGROUND_DETAIL" = "Vordergrund Widgets sind vollständig interaktive Ergänzungen zu Ihrem Speerbildschirm";
-"WIDGETS_SBBACKGROUND_DETAIL" = "Hintergrund Widgets werden zu interaktiven Ergänzungen Ihres Home-Bildschirms";
-"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Hintergrund Widgets werden zu interaktiven Ergänzungen Ihres Homebildschirms";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Vordergrund widgets bewegen sich mit deinen application icons";
 "WIDGETS_NONE_SELECTED" = "Keine widgets ausgewählt";
 "WIDGETS_ADD_NEW" = "Widget hinzufügen";
+"WIDGETS_CONFIGURE" = "Konfigurieren:";
+"WIDGETS_LOCKSCREEN" = "Speerbildschirm";
+"WIDGETS_HOMESCREEN" = "Homebildschirm";
 "WIDGETS_SETTINGS" = "Einstellungen";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "Keine widgets ausgewählt";
@@ -77,19 +77,19 @@
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Was bedeutet das Importieren?";
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Beim Importieren können Sie vorhandene Sperrbildschirm Einstellungen in Xen HTML wiederverwenden.";
 "SETUP_LOCKSCREEN_IMPORT_NONE" = "Einstellen ohne Importieren";
-"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "IImportiere von Lock HTML";
-"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Iimportiere von GroovyLock";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importiere von Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Importiere von GroovyLock";
 
-"SETUP_HOMESCREEN_IMPORT_TITLE" = "Home-Bildschirm Einstellungen";
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Homebildschirm Einstellungen";
 "SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Was bedeutet das Importieren?";
-"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Beim Importieren können Sie vorhandene Home-Bildschirm Einstellungen in Xen HTML wiederverwenden.";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Beim Importieren können Sie vorhandene Homebildschirm Einstellungen in Xen HTML wiederverwenden.";
 "SETUP_HOMESCREEN_IMPORT_NONE" = "Einstellen ohne Importieren";
 "SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importiere von SBHTML";
 
 "SETUP_FINAL_TITLE" = "Letzter Schliff";
 "SETUP_FINAL_TITLE_POST_WORK" = "Willkommen zu Xen HTML";
 "SETUP_FINAL_RESTART_BUTTON" = "Los gehts";
-"SETUP_FINAL_RESTART_TITLE" = "Das SpringBoard muss neugestartet werden um die Installation Abzuschliessen";
+"SETUP_FINAL_RESTART_TITLE" = "Das Springboard muss neugestartet werden um die Installation Abzuschliessen";
 "SETUP_FINAL_APPLYING_SETTINGS" = "Anwenden Ihrer Einstellungen";
 "SETUP_FINAL_COFFEE" = "Kaffee Pause";
 "SETUP_FINAL_CLEANUP" = "Aufräumen";
