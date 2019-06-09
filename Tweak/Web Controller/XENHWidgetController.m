@@ -537,6 +537,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // State management handled by BatteryManager
 }
 
+- (void)setPausedAfterTerminationRecovery:(BOOL)paused {
+    self.isPaused = paused;
+    
+    // State management handled by BatteryManager
+}
+
 /////////////////////////////////////////////////////////////////////////////
 #pragma mark Lifecycle handling
 /////////////////////////////////////////////////////////////////////////////
@@ -828,8 +834,11 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
     // WebView process has terminated... Better reload?
-    if (webView != nil && webView.hidden == NO) {
+    if (webView != nil) {
         [self reloadWidget];
+        
+        // If we are supposed to be paused, re-call ourselves
+        [self setPausedAfterTerminationRecovery:self.isPaused];
     }
 }
 
