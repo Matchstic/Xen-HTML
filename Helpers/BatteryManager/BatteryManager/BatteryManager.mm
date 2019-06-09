@@ -7,10 +7,6 @@
 
 #define $_MSFindSymbolCallable(image, name) make_sym_callable(MSFindSymbol(image, name))
 
-#define WIDGET_PAUSE_GRACE_PERIOD 5
-
-enum class WidgetInWindowState { None, SentPaused, SentActive };
-
 @interface WKBrowsingContextController : NSObject
 - (void *)_pageRef; 
 @end
@@ -21,7 +17,6 @@ enum class WidgetInWindowState { None, SentPaused, SentActive };
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
-@property (nonatomic) WidgetInWindowState _xh_inWindowState;
 @end
 
 @interface XENHWidgetController : UIViewController
@@ -31,6 +26,8 @@ enum class WidgetInWindowState { None, SentPaused, SentActive };
 @property (nonatomic, strong) UIWebView *legacyWebView;
 
 @property (nonatomic, readwrite) BOOL isPaused;
+
+- (void)_setMainThreadPaused:(BOOL)paused;
 
 @end
 
@@ -88,11 +85,11 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class XENHWidgetController; @class UIApp; 
+@class UIApp; @class XENHWidgetController; @class WKWebView; 
 
 
-#line 69 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
-static void (*_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static WKWebView* (*_logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$)(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static WKWebView* _logos_method$SpringBoard$WKWebView$initWithFrame$configuration$(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static BOOL (*_logos_orig$SpringBoard$WKWebView$_isBackground)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$WKWebView$_isBackground(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL (*_logos_orig$SpringBoard$UIApp$isSuspendedUnderLock)(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$UIApp$isSuspendedUnderLock(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); 
+#line 66 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
+static void (*_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$_setMainThreadPaused$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL); static WKWebView* (*_logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$)(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static WKWebView* _logos_method$SpringBoard$WKWebView$initWithFrame$configuration$(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static BOOL (*_logos_orig$SpringBoard$WKWebView$_isBackground)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$WKWebView$_isBackground(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL (*_logos_orig$SpringBoard$UIApp$isSuspendedUnderLock)(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$UIApp$isSuspendedUnderLock(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); 
 
 static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused, bool wasPausedPreviously) {
     
@@ -130,8 +127,9 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         }
             
         XENlog(@"Faking entering background app state");
-            
+        
         WebPageProxy$applicationDidEnterBackground(page); 
+        
             
         WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
     }
@@ -164,8 +162,26 @@ static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_
     _logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$(self, _cmd, paused, animated);
     
     if (needsStateChange) {
+        
+        
+        if ([NSThread isMainThread]) {
+            [self _setMainThreadPaused:paused];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^(void){
+                [self _setMainThreadPaused:paused];
+            });
+        }
+        
+        
         setWKWebViewActivityState(self.webView, paused);
     }
+}
+
+
+static void _logos_method$SpringBoard$XENHWidgetController$_setMainThreadPaused$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, BOOL paused) {
+    
+    self.legacyWebView.hidden = paused ? YES : NO;
+    self.webView.hidden = paused ? YES : NO;
 }
 
 
@@ -174,7 +190,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_
 
 
 __attribute__((used)) static BOOL _logos_method$SpringBoard$WKWebView$_xh_isPaused(WKWebView * __unused self, SEL __unused _cmd) { NSValue * value = objc_getAssociatedObject(self, (void *)_logos_method$SpringBoard$WKWebView$_xh_isPaused); BOOL rawValue; [value getValue:&rawValue]; return rawValue; }; __attribute__((used)) static void _logos_method$SpringBoard$WKWebView$set_xh_isPaused(WKWebView * __unused self, SEL __unused _cmd, BOOL rawValue) { NSValue * value = [NSValue valueWithBytes:&rawValue objCType:@encode(BOOL)]; objc_setAssociatedObject(self, (void *)_logos_method$SpringBoard$WKWebView$_xh_isPaused, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC); }
-__attribute__((used)) static WidgetInWindowState _logos_method$SpringBoard$WKWebView$_xh_inWindowState(WKWebView * __unused self, SEL __unused _cmd) { NSValue * value = objc_getAssociatedObject(self, (void *)_logos_method$SpringBoard$WKWebView$_xh_inWindowState); WidgetInWindowState rawValue; [value getValue:&rawValue]; return rawValue; }; __attribute__((used)) static void _logos_method$SpringBoard$WKWebView$set_xh_inWindowState(WKWebView * __unused self, SEL __unused _cmd, WidgetInWindowState rawValue) { NSValue * value = [NSValue valueWithBytes:&rawValue objCType:@encode(WidgetInWindowState)]; objc_setAssociatedObject(self, (void *)_logos_method$SpringBoard$WKWebView$_xh_inWindowState, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC); }
 
 static WKWebView* _logos_method$SpringBoard$WKWebView$initWithFrame$configuration$(_LOGOS_SELF_TYPE_INIT WKWebView* __unused self, SEL __unused _cmd, CGRect arg1, id arg2) _LOGOS_RETURN_RETAINED {
     WKWebView *orig = _logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$(self, _cmd, arg1, arg2);
@@ -182,7 +197,6 @@ static WKWebView* _logos_method$SpringBoard$WKWebView$initWithFrame$configuratio
     if (orig) {
         
         orig._xh_isPaused = NO;
-        orig._xh_inWindowState = WidgetInWindowState::None;
     }
     
     return orig;
@@ -195,14 +209,6 @@ static BOOL _logos_method$SpringBoard$WKWebView$_isBackground(_LOGOS_SELF_TYPE_N
         return _logos_orig$SpringBoard$WKWebView$_isBackground(self, _cmd);
     }
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -221,7 +227,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_c93c8224(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_b961750b(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
@@ -247,6 +253,6 @@ static __attribute__((constructor)) void _logosLocalCtor_c93c8224(int __unused a
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             return;
 
-        {Class _logos_class$SpringBoard$XENHWidgetController = objc_getClass("XENHWidgetController"); MSHookMessageEx(_logos_class$SpringBoard$XENHWidgetController, @selector(setPaused:animated:), (IMP)&_logos_method$SpringBoard$XENHWidgetController$setPaused$animated$, (IMP*)&_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$);Class _logos_class$SpringBoard$WKWebView = objc_getClass("WKWebView"); MSHookMessageEx(_logos_class$SpringBoard$WKWebView, @selector(initWithFrame:configuration:), (IMP)&_logos_method$SpringBoard$WKWebView$initWithFrame$configuration$, (IMP*)&_logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$);MSHookMessageEx(_logos_class$SpringBoard$WKWebView, @selector(_isBackground), (IMP)&_logos_method$SpringBoard$WKWebView$_isBackground, (IMP*)&_logos_orig$SpringBoard$WKWebView$_isBackground);{ char _typeEncoding[1024]; sprintf(_typeEncoding, "%s@:", @encode(BOOL)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(_xh_isPaused), (IMP)&_logos_method$SpringBoard$WKWebView$_xh_isPaused, _typeEncoding); sprintf(_typeEncoding, "v@:%s", @encode(BOOL)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(set_xh_isPaused:), (IMP)&_logos_method$SpringBoard$WKWebView$set_xh_isPaused, _typeEncoding); } { char _typeEncoding[1024]; sprintf(_typeEncoding, "%s@:", @encode(WidgetInWindowState)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(_xh_inWindowState), (IMP)&_logos_method$SpringBoard$WKWebView$_xh_inWindowState, _typeEncoding); sprintf(_typeEncoding, "v@:%s", @encode(WidgetInWindowState)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(set_xh_inWindowState:), (IMP)&_logos_method$SpringBoard$WKWebView$set_xh_inWindowState, _typeEncoding); } Class _logos_class$SpringBoard$UIApp = objc_getClass("UIApp"); MSHookMessageEx(_logos_class$SpringBoard$UIApp, @selector(isSuspendedUnderLock), (IMP)&_logos_method$SpringBoard$UIApp$isSuspendedUnderLock, (IMP*)&_logos_orig$SpringBoard$UIApp$isSuspendedUnderLock);}
+        {Class _logos_class$SpringBoard$XENHWidgetController = objc_getClass("XENHWidgetController"); MSHookMessageEx(_logos_class$SpringBoard$XENHWidgetController, @selector(setPaused:animated:), (IMP)&_logos_method$SpringBoard$XENHWidgetController$setPaused$animated$, (IMP*)&_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$);{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; memcpy(_typeEncoding + i, @encode(BOOL), strlen(@encode(BOOL))); i += strlen(@encode(BOOL)); _typeEncoding[i] = '\0'; class_addMethod(_logos_class$SpringBoard$XENHWidgetController, @selector(_setMainThreadPaused:), (IMP)&_logos_method$SpringBoard$XENHWidgetController$_setMainThreadPaused$, _typeEncoding); }Class _logos_class$SpringBoard$WKWebView = objc_getClass("WKWebView"); MSHookMessageEx(_logos_class$SpringBoard$WKWebView, @selector(initWithFrame:configuration:), (IMP)&_logos_method$SpringBoard$WKWebView$initWithFrame$configuration$, (IMP*)&_logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$);MSHookMessageEx(_logos_class$SpringBoard$WKWebView, @selector(_isBackground), (IMP)&_logos_method$SpringBoard$WKWebView$_isBackground, (IMP*)&_logos_orig$SpringBoard$WKWebView$_isBackground);{ char _typeEncoding[1024]; sprintf(_typeEncoding, "%s@:", @encode(BOOL)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(_xh_isPaused), (IMP)&_logos_method$SpringBoard$WKWebView$_xh_isPaused, _typeEncoding); sprintf(_typeEncoding, "v@:%s", @encode(BOOL)); class_addMethod(_logos_class$SpringBoard$WKWebView, @selector(set_xh_isPaused:), (IMP)&_logos_method$SpringBoard$WKWebView$set_xh_isPaused, _typeEncoding); } Class _logos_class$SpringBoard$UIApp = objc_getClass("UIApp"); MSHookMessageEx(_logos_class$SpringBoard$UIApp, @selector(isSuspendedUnderLock), (IMP)&_logos_method$SpringBoard$UIApp$isSuspendedUnderLock, (IMP*)&_logos_orig$SpringBoard$UIApp$isSuspendedUnderLock);}
     }
 }

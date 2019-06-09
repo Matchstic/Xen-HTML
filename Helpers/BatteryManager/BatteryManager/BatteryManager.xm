@@ -26,6 +26,8 @@
 
 @property (nonatomic, readwrite) BOOL isPaused;
 
+- (void)_setMainThreadPaused:(BOOL)paused;
+
 @end
 
 @interface XENHResources : NSObject
@@ -134,8 +136,26 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     %orig;
     
     if (needsStateChange) {
+        
+        // Need to make 100% sure we're on the main thread doing this part.
+        if ([NSThread isMainThread]) {
+            [self _setMainThreadPaused:paused];
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^(void){
+                [self _setMainThreadPaused:paused];
+            });
+        }
+        
+        // Update activity state
         setWKWebViewActivityState(self.webView, paused);
     }
+}
+
+%new
+- (void)_setMainThreadPaused:(BOOL)paused {
+    // Remove the views from being updated
+    self.legacyWebView.hidden = paused ? YES : NO;
+    self.webView.hidden = paused ? YES : NO;
 }
 
 %end
