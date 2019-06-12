@@ -77,6 +77,7 @@
 
 @interface WKWebViewConfiguration (Private)
 - (void)_setWaitsForPaintAfterViewDidMoveToWindow:(bool)arg1 NS_AVAILABLE_IOS(10_3);
+- (void)_setAlwaysRunsAtForegroundPriority:(BOOL)arg1;
 @end
 
 @interface WKContentView : UIView

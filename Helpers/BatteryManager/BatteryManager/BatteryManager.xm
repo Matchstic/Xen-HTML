@@ -16,6 +16,8 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
+
+- (BOOL)_webProcessIsResponsive; // private API, iOS 10+
 @end
 
 @interface XENHWidgetController : UIViewController
@@ -27,6 +29,8 @@
 @property (nonatomic, readwrite) BOOL isPaused;
 
 - (void)_setMainThreadPaused:(BOOL)paused;
+
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView;
 
 @end
 
@@ -148,6 +152,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         
         // Update activity state
         setWKWebViewActivityState(self.webView, paused);
+        
+        /*void *page = MSHookIvar<void*>(self.webView, "_page");
+        if (page && ![self.webView _webProcessIsResponsive]) {
+            XENlog(@"Detected a non-responsive webprocess, reloading");
+            [self webViewWebContentProcessDidTerminate:self.webView];
+        }*/
     }
 }
 
