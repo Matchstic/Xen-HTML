@@ -161,9 +161,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (SCREEN_MAX_LENGTH < 667) {
         return 60.0;
-    } else if (SCREEN_MAX_LENGTH < 568) {
-        return 50.0;
-    } else {
+    }  else {
         return 70.0;
     }
 }
@@ -171,8 +169,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (SCREEN_MAX_LENGTH < 667) {
         return 75.0;
-    } else if (SCREEN_MAX_LENGTH < 568) {
-        return 50.0;
     } else {
         return 100.0;
     }
@@ -253,7 +249,6 @@
     
     CGFloat remainingSpace = availableHeight - (explanation.frame.size.height + explanation.frame.origin.y);
     
-    if (remainingSpace < 40) { // Margin left by icon.
         if (remainingSpace < -40) {
             // Will need to kill the icon!
             [imageView removeFromSuperview];
@@ -267,14 +262,13 @@
             
             title.frame = CGRectMake(title.frame.origin.x, marginWithoutIcon, title.frame.size.width, title.frame.size.height);
             explanation.frame = CGRectMake(explanation.frame.origin.x, title.frame.size.height + title.frame.origin.y + 10, explanation.frame.size.width, explanation.frame.size.height);
-        } else {
+        } else if (remainingSpace < 40) {
             CGFloat margin = (40 + remainingSpace)/2;
             
             imageView.center = CGPointMake(container.frame.size.width/2, imageView.frame.size.height/2 + margin);
             title.frame = CGRectMake(title.frame.origin.x, imageView.frame.size.height + imageView.frame.origin.y + (imageView.frame.size.height > 0 ? 20 : 0), title.frame.size.width, title.frame.size.height);
             explanation.frame = CGRectMake(explanation.frame.origin.x, title.frame.size.height + title.frame.origin.y + 10, explanation.frame.size.width, explanation.frame.size.height);
         }
-    }
     
     container.frame = CGRectMake(0, 0, self.view.frame.size.width, explanation.frame.size.height + explanation.frame.origin.y);
     
