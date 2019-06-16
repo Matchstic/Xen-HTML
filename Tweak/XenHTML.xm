@@ -1260,8 +1260,8 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
         return %orig;
     }
     
-    if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
-        return YES;
+    if ([XENHResources LSShowClockInStatusBar]) {
+        return [XENHResources lsenabled];
     } else {
         return %orig;
     }
