@@ -81,27 +81,31 @@
     int shown = 0;
     
     // Handle first row.
-    if ([self hasLockHTML] && index == 1) {
-        shown = 1;
-    } else if ([self hasGroovyLock] && index == 1) {
-        shown = 2;
-    } else if ([self hasCydget] && index == 1) {
-        shown = 3;
+    if (index == 1) {
+        if ([self hasLockHTML]) {
+            shown = 1;
+        } else if ([self hasGroovyLock]) {
+            shown = 2;
+        } else if ([self hasCydget]) {
+            shown = 3;
+        }
     }
-    
+
     // next, handle second row. Displaying either groovyLock or Cydget
-    if (![self hasLockHTML] && index == 2) {
-        // Index 1 was groovy
-        shown = 3;
-    } else if ([self hasGroovyLock] && index == 2) {
-        // Index 1 was lock
-        shown = 2;
-    } else if ([self hasCydget] && index == 2) {
-        // Has LockHTML, and not groovy.
-        shown = 3;
+    else if (index == 2) { 
+        if (![self hasLockHTML]) {
+            // Index 1 was groovy
+            shown = 3;
+        } else if ([self hasGroovyLock] {
+            // Index 1 was lock
+            shown = 2;
+        } else if ([self hasCydget]) {
+            // Has LockHTML, and not groovy.
+            shown = 3;
+        }
     }
     
-    if (index == 3) {
+    else if (index == 3) {
         shown = 3; // If on index 3, definitely have all 3.
     }
     
@@ -127,27 +131,31 @@
     int shown = 0;
     
     // Handle first row.
-    if ([self hasLockHTML] && index == 1) {
-        shown = 1;
-    } else if ([self hasGroovyLock] && index == 1) {
-        shown = 2;
-    } else if ([self hasCydget] && index == 1) {
-        shown = 3;
+    if (index == 1) {
+        if ([self hasLockHTML]) {
+            shown = 1;
+        } else if ([self hasGroovyLock]) {
+            shown = 2;
+        } else if ([self hasCydget]) {
+            shown = 3;
+        }
     }
     
     // next, handle second row. Displaying either groovyLock or Cydget
-    if (![self hasLockHTML] && index == 2) {
-        // Index 1 was groovy
-        shown = 3;
-    } else if ([self hasGroovyLock] && index == 2) {
-        // Index 1 was lock
-        shown = 2;
-    } else if ([self hasCydget] && index == 2) {
-        // Has LockHTML, and not groovy.
-        shown = 3;
+    else if (index == 2) {
+        if (![self hasLockHTML]) {
+            // Index 1 was groovy
+            shown = 3;
+        } else if ([self hasGroovyLock]) {
+            // Index 1 was lock
+            shown = 2;
+        } else if ([self hasCydget]) {
+            // Has LockHTML, and not groovy.
+            shown = 3;
+        }
     }
-    
-    if (index == 3) {
+
+    else if (index == 3) {
         shown = 3; // If on index 3, definitely have all 3.
     }
     
