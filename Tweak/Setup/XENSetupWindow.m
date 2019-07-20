@@ -39,7 +39,7 @@ static XENHSetupWindow *shared;
     if (!shared) {
         static dispatch_once_t p = 0;
         dispatch_once(&p, ^{
-            shared = [[XENHSetupWindow alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            shared = [[XENHSetupWindow alloc] initWithFrame:CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH)];
         });
     }
     
@@ -64,18 +64,10 @@ static XENHSetupWindow *shared;
     } completion:^(BOOL finished) {
         if (finished) {
             shared = nil;
-            
-            /*[(SpringBoard*)[UIApplication sharedApplication] _xenhtml_finaliseAfterSetup];
-             [(SpringBoard*)[UIApplication sharedApplication] _xenhtml_releaseSetupUI];*/
-            
             [(SpringBoard*)[UIApplication sharedApplication] _xenhtml_relaunchSpringBoardAfterSetup];
         }
     }];
 }
-
-/*+(void)relayoutXenForSetupFinished {
-    [(SpringBoard*)[UIApplication sharedApplication] _xenhtml_relayoutAfterSetupContentEditorDisplayed];
-}*/
 
 // Allows it to render on LS.
 - (bool)_shouldCreateContextAsSecure {
@@ -86,6 +78,7 @@ static XENHSetupWindow *shared;
     [super layoutSubviews];
     
     self.backgroundImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    self.bar.frame = CGRectMake(0, 0, self.bounds.size.width, self.bar.frame.size.height);
 }
 
 -(id)initWithFrame:(CGRect)frame {

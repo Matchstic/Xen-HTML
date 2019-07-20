@@ -213,8 +213,6 @@
     UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, availableHeight)];
     
     // Image
-   // NSString *filename = [NSString stringWithFormat:@"/Library/PreferenceBundles/Switch2.bundle/Gestures%@", [objc_getClass("UDLRResources") suffix]];
-    //UIImage *image = [UIImage imageWithContentsOfFile:filename];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[self footerImage]];
     imageView.backgroundColor = [UIColor clearColor];
     imageView.center = CGPointMake(container.frame.size.width/2, imageView.frame.size.height/2 + 40);
