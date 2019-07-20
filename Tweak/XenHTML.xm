@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-//%config(generator=internal);
+%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -2111,6 +2111,9 @@ void cancelIdleTimer() {
     
     XENlog(@"Injecting into homescreen");
     [XENHResources reloadSettings];
+    
+    int orientation = [self shouldAutorotate] ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+    [XENHResources setCurrentOrientation:orientation];
     
     if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
         // This is an attempt to avoid oddness alongside CarPlay. It looks as if SBHomeScreenViewController
