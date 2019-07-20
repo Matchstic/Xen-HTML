@@ -25,4 +25,4 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. iOS 11.1.2]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here, such as a link to a crash log.
