@@ -96,7 +96,7 @@
         if (![self hasLockHTML]) {
             // Index 1 was groovy
             shown = 3;
-        } else if ([self hasGroovyLock] {
+        } else if ([self hasGroovyLock]) {
             // Index 1 was lock
             shown = 2;
         } else if ([self hasCydget]) {

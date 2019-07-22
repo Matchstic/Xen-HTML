@@ -21,6 +21,15 @@
 
 @interface XENHSetupBaseTableController ()
 
+@property (nonatomic, strong) UIView *headerContainer;
+@property (nonatomic, strong) UILabel *headerLabel;
+
+@property (nonatomic, strong) UIView *footerContainer;
+@property (nonatomic, strong) UIImageView *footerImageView;
+@property (nonatomic, strong) UILabel *footerLabel;
+@property (nonatomic, strong) UILabel *footerExplanation;
+
+
 @end
 
 @implementation XENHSetupBaseTableController
@@ -106,14 +115,16 @@
 }
 
 -(UILabel*)headerView {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    label.text = [self headerTitle];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor blackColor];
-    label.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
-    label.numberOfLines = 0;
+    if (!self.headerLabel) {
+        self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.headerLabel.text = [self headerTitle];
+        self.headerLabel.textAlignment = NSTextAlignmentCenter;
+        self.headerLabel.textColor = [UIColor blackColor];
+        self.headerLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
+        self.headerLabel.numberOfLines = 0;
+    }
     
-    return label;
+    return self.headerLabel;
 }
 
 - (void)viewDidLoad {
@@ -131,6 +142,13 @@
         [newBackButton setEnabled:NO];
         [[self navigationItem] setRightBarButtonItem:newBackButton];
     }
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self _layoutHeaderViews];
+    [self _layoutFooterViews];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,20 +177,20 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (SCREEN_MAX_LENGTH < 667) {
-        return 60.0;
-    } else if (SCREEN_MAX_LENGTH < 568) {
+    if (self.view.frame.size.height < 568) {
         return 50.0;
+    } else if (self.view.frame.size.height < 667) {
+        return 60.0;
     } else {
         return 70.0;
     }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (SCREEN_MAX_LENGTH < 667) {
-        return 75.0;
-    } else if (SCREEN_MAX_LENGTH < 568) {
+    if (self.view.frame.size.height < 568) {
         return 50.0;
+    } else if (self.view.frame.size.height < 667) {
+        return 75.0;
     } else {
         return 100.0;
     }
@@ -183,100 +201,126 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    CGFloat height = 0.0;
-    
-    if (SCREEN_MAX_LENGTH < 568) {
-        height = 50.0;
-    } else if (SCREEN_MAX_LENGTH < 667) {
-        height = 75.0;
-    } else {
-        height = 100.0;
+    if (!self.headerContainer) {
+        self.headerContainer = [[UIView alloc] initWithFrame:CGRectZero];
+        UILabel *label = [self headerView];
+        
+        [self.headerContainer addSubview:label];
     }
     
-    UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, height)];
-    UILabel *label = [self headerView];
-    [label sizeToFit];
+    [self _layoutHeaderViews];
     
-    [container addSubview:label];
-    label.center = container.center;
-    
-    return container;
+    return self.headerContainer;
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    CGFloat cellHeight = [self tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    CGFloat headerHeight = [self tableView:tableView heightForHeaderInSection:0];
+- (void)_layoutHeaderViews {
+    CGFloat height = [self tableView:self.tableView heightForHeaderInSection:0];
+    
+    self.headerContainer.frame = CGRectMake(self.headerContainer.frame.origin.x, self.headerContainer.frame.origin.y, self.view.frame.size.width, height);
+    self.headerLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 50);
+    [self.headerLabel sizeToFit];
+    
+    self.headerLabel.center = self.headerContainer.center;
+}
+
+- (void)_layoutFooterViews {
+    // Calculate initial heights
+    CGFloat cellHeight = [self tableView:self.tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    CGFloat headerHeight = [self tableView:self.tableView heightForHeaderInSection:0];
     CGFloat navHeight = 20.0 + self.navigationController.navigationBar.frame.size.height;
     
-    CGFloat availableHeight = SCREEN_HEIGHT - navHeight - headerHeight - ([self rowsToDisplay] * cellHeight);
+    CGFloat availableHeight = self.view.frame.size.height - navHeight - headerHeight - ([self rowsToDisplay] * cellHeight);
     
-    UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, availableHeight)];
+    self.footerContainer.frame = CGRectMake(self.footerContainer.frame.origin.x, self.footerContainer.frame.origin.y, self.view.frame.size.width, availableHeight);
+    self.footerImageView.center = CGPointMake(self.footerContainer.frame.size.width/2, self.footerImageView.frame.size.height/2 + 40);
     
-    // Image
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[self footerImage]];
-    imageView.backgroundColor = [UIColor clearColor];
-    imageView.center = CGPointMake(container.frame.size.width/2, imageView.frame.size.height/2 + 40);
+    self.footerLabel.frame = CGRectMake(0, self.footerImageView.frame.size.height + self.footerImageView.frame.origin.y + (self.footerImageView.frame.size.height > 0 ? 20 : 0), self.view.frame.size.width*0.8, 22);
+    self.footerLabel.center = CGPointMake(self.footerContainer.frame.size.width/2, self.footerLabel.center.y);
     
-    [container addSubview:imageView];
+    self.footerExplanation.frame = CGRectMake(0, self.footerLabel.frame.size.height + self.footerLabel.frame.origin.y + 10, self.view.frame.size.width*0.8, 100);
+    [self.footerExplanation sizeToFit];
+    self.footerExplanation.center = CGPointMake(self.footerContainer.frame.size.width/2, self.footerExplanation.center.y);
     
-    // Title
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, imageView.frame.size.height + imageView.frame.origin.y + (imageView.frame.size.height > 0 ? 20 : 0), self.view.frame.size.width*0.8, 22)];
-    title.text = [self footerTitle];
-    title.textAlignment = NSTextAlignmentCenter;
-    title.textColor = [UIColor blackColor];
-    title.font = [UIFont systemFontOfSize:18 weight:UIFontWeightMedium];
-    
-    [title sizeToFit];
-    
-    title.center = CGPointMake(container.frame.size.width/2, title.center.y);
-    
-    [container addSubview:title];
-    
-    // Explanation
-    UILabel *explanation = [[UILabel alloc] initWithFrame:CGRectMake(0, title.frame.size.height + title.frame.origin.y + 10, self.view.frame.size.width*0.8, 100)];
-    explanation.text = [self footerBody];
-    explanation.textAlignment = NSTextAlignmentCenter;
-    explanation.textColor = [UIColor blackColor];
-    explanation.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
-    explanation.numberOfLines = 0;
-    
-    [explanation sizeToFit];
-    
-    explanation.center = CGPointMake(container.frame.size.width/2, explanation.center.y);
-    
-    [container addSubview:explanation];
+    // Handle oversizing if needed
+    self.footerImageView.hidden = NO;
     
     // We now know the heights of *everything*. Now, need to ensure it's all centered if there's less than 40px of space left.
     // Remove icon view if we're really tight on space.
     
-    CGFloat remainingSpace = availableHeight - (explanation.frame.size.height + explanation.frame.origin.y);
+    CGFloat remainingSpace = availableHeight - (self.footerExplanation.frame.size.height + self.footerExplanation.frame.origin.y);
     
     if (remainingSpace < 40) { // Margin left by icon.
         if (remainingSpace < -40) {
             // Will need to kill the icon!
-            [imageView removeFromSuperview];
+            self.footerImageView.hidden = YES;
             
-            CGFloat marginWithoutIcon = availableHeight - (title.frame.size.height + 10 + explanation.frame.size.height);
+            CGFloat marginWithoutIcon = availableHeight - (self.footerLabel.frame.size.height + 10 + self.footerExplanation.frame.size.height);
             marginWithoutIcon /= 2;
             
             if (marginWithoutIcon > 40) {
                 marginWithoutIcon = 40;
             }
             
-            title.frame = CGRectMake(title.frame.origin.x, marginWithoutIcon, title.frame.size.width, title.frame.size.height);
-            explanation.frame = CGRectMake(explanation.frame.origin.x, title.frame.size.height + title.frame.origin.y + 10, explanation.frame.size.width, explanation.frame.size.height);
+            self.footerLabel.frame = CGRectMake(self.footerLabel.frame.origin.x, marginWithoutIcon, self.footerLabel.frame.size.width, self.footerLabel.frame.size.height);
+            self.footerExplanation.frame = CGRectMake(self.footerExplanation.frame.origin.x, self.footerLabel.frame.size.height + self.footerLabel.frame.origin.y + 10, self.footerExplanation.frame.size.width, self.footerExplanation.frame.size.height);
         } else {
             CGFloat margin = (40 + remainingSpace)/2;
             
-            imageView.center = CGPointMake(container.frame.size.width/2, imageView.frame.size.height/2 + margin);
-            title.frame = CGRectMake(title.frame.origin.x, imageView.frame.size.height + imageView.frame.origin.y + (imageView.frame.size.height > 0 ? 20 : 0), title.frame.size.width, title.frame.size.height);
-            explanation.frame = CGRectMake(explanation.frame.origin.x, title.frame.size.height + title.frame.origin.y + 10, explanation.frame.size.width, explanation.frame.size.height);
+            self.footerImageView.center = CGPointMake(self.footerContainer.frame.size.width/2, self.footerImageView.frame.size.height/2 + margin);
+            self.footerLabel.frame = CGRectMake(self.footerLabel.frame.origin.x, self.footerImageView.frame.size.height + self.footerImageView.frame.origin.y + (self.footerImageView.frame.size.height > 0 ? 20 : 0), self.footerLabel.frame.size.width, self.footerLabel.frame.size.height);
+            self.footerExplanation.frame = CGRectMake(self.footerExplanation.frame.origin.x, self.footerLabel.frame.size.height + self.footerLabel.frame.origin.y + 10, self.footerExplanation.frame.size.width, self.footerExplanation.frame.size.height);
         }
     }
     
-    container.frame = CGRectMake(0, 0, self.view.frame.size.width, explanation.frame.size.height + explanation.frame.origin.y);
+    self.footerContainer.frame = CGRectMake(self.footerContainer.frame.origin.x, self.footerContainer.frame.origin.y, self.view.frame.size.width, self.footerExplanation.frame.size.height + self.footerExplanation.frame.origin.y);
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    return container;
+    if (self.footerContainer)
+        self.footerContainer = nil;
+    
+    self.footerContainer = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    // Image
+    if (self.footerImageView)
+        self.footerImageView = nil;
+    
+    self.footerImageView = [[UIImageView alloc] initWithImage:[self footerImage]];
+    self.footerImageView.backgroundColor = [UIColor clearColor];
+    
+    [self.footerContainer addSubview:self.footerImageView];
+    
+    // Title
+    if (self.footerLabel)
+        self.footerLabel = nil;
+    
+    self.footerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.footerLabel.text = [self footerTitle];
+    self.footerLabel.textAlignment = NSTextAlignmentCenter;
+    self.footerLabel.textColor = [UIColor blackColor];
+    self.footerLabel.font = [UIFont systemFontOfSize:18 weight:UIFontWeightMedium];
+    
+    [self.footerContainer addSubview:self.footerLabel];
+    
+    // Explanation
+    if (self.footerExplanation)
+        self.footerExplanation = nil;
+    
+    self.footerExplanation = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.footerExplanation.text = [self footerBody];
+    self.footerExplanation.textAlignment = NSTextAlignmentCenter;
+    self.footerExplanation.textColor = [UIColor blackColor];
+    self.footerExplanation.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
+    self.footerExplanation.numberOfLines = 0;
+    
+    [self.footerContainer addSubview:self.footerExplanation];
+    
+
+    // Do initial layout
+    [self _layoutFooterViews];
+    
+    return self.footerContainer;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -324,10 +368,6 @@
             index++;
         }
     }
-}
-
--(void)dealloc {
-    
 }
 
 @end
