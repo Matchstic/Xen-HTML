@@ -150,6 +150,10 @@ static BOOL shownGraceEnded = NO;
 +(BOOL)SBOnePageWidgetMode;
 +(BOOL)SBPerPageHTMLWidgetMode;
 
+#pragma mark Compatiblity checks
+
++ (BOOL)isPageBarAvailable;
+
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled;

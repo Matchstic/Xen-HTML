@@ -993,6 +993,26 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     hasSeenFirstUnlock = state;
 }
 
+#pragma mark Compatiblity checks
+
++ (BOOL)isPageBarAvailable {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Pagebar.dylib"]) {
+        static NSDictionary *pagebarPrefs;
+        if (!pagebarPrefs)
+            pagebarPrefs = [NSDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/live.calicocat.pagebar.plist"];
+        
+        id value = [pagebarPrefs objectForKey:@"dotsenabled"];
+        id style = [pagebarPrefs objectForKey:@"style"];
+        
+        BOOL enabled = value ? [value boolValue] : YES;
+        BOOL notDefault = style ? ![style isEqualToString:@"default"] : YES;
+        
+        return enabled && notDefault;
+    } else {
+        return NO;
+    }
+}
+
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled {

@@ -2444,7 +2444,7 @@ void cancelIdleTimer() {
                                                    object:nil];
     });
     
-    if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots]) {
+    if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots] && ![XENHResources isPageBarAvailable]) {
 #if TARGET_IPHONE_SIMULATOR==0
         SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
         pageControl._xenhtml_hidden = YES;
@@ -2463,6 +2463,10 @@ void cancelIdleTimer() {
 -(void)recievedSBHTMLUpdate:(id)sender {
 #if TARGET_IPHONE_SIMULATOR==0
     SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
+    
+    // Compatibility
+    if ([XENHResources isPageBarAvailable])
+        return;
     
     if ([XENHResources SBEnabled]) {
         pageControl._xenhtml_hidden = [XENHResources SBHidePageDots];
