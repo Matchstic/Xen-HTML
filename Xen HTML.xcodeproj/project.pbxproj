@@ -1429,7 +1429,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1474,7 +1474,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1677,7 +1677,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
