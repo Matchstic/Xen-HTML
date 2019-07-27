@@ -5,30 +5,33 @@
 
 #pragma mark Haxx for WebGL on the Lockscreen
 
+struct process_name_t {
+    unsigned char header[4];
+    int32_t flag_1;
+    int32_t flag_2;
+    int32_t length;
+    unsigned char *name;
+};
+
 // const char* CA::Render::Context::process_name()
-static const char* (*CA$Render$Context$process_name)(void *_this);
+static process_name_t* (*CA$Render$Context$process_name)(void *_this);
 
 %group backboardd
 
 %hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *context /* CA::Render::Context* */, const void *var2 /* CA::Render::LayerHost */) {
-
-    // BOOL orig = %orig(_this, context, var2);
     
-    // XENlog(@"Got process name: %s", CA$Render$Context$process_name(context));
+    // 2f is == '/'
+    // <78d515ec 01000000 01000000 17000000 2f757372 ...>
+    process_name_t *process_name = CA$Render$Context$process_name(context);
     
-    /*
-    * WARNING
-    *
-    * This is horrible, I do not like this.
-    * One approach attempted was to hook calls to CA::Render::Context::process_name() from
-    * the original implementation of this method. Fun with return values meant this was not working
-    * as expected.
-    *
-    * Therefore... this is now disabling some security mechanism that I don't know all the details of.
-    * Not cool, but, whatever for now.
-    */
+    // Trying to access 'name' results in a segfault... UaF?
+    
+    // /System/Library/Frameworks/WebKit.framework/XPCServices/com.apple.WebKit.WebContent.xpc/com.apple.WebKit.WebContent
+    if (process_name->length == 115) {
+        return YES;
+    }
 
-    return YES;
+    return %orig(_this, context, var2);
 }
 
 %end
@@ -44,13 +47,11 @@ static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
     BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (bb) {
-        CA$Render$Context$process_name = (const char* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
+        CA$Render$Context$process_name = (process_name_t* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
         
         if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
             return;
         
         %init(backboardd);
-    } else {
-        // %init(WebContent);
     }
 }
