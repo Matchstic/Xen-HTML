@@ -2433,7 +2433,19 @@ void cancelIdleTimer() {
 %hook SBRootFolderView
 
 - (void)layoutSubviews {
-    %orig;
+    if ([XENHResources isPageBarAvailable]) {
+        // For some reason, there is a crash orignating from Pagebar when running simultaneously
+        // See: https://github.com/Matchstic/Xen-HTML/issues/122
+        // I assume this is probably going to be non-fatal
+        
+        @try {
+            %orig;
+        } @catch (NSException *e) {
+            XENlog(@"Caught exception from Pagebar, assuming non-fatal.");
+        }
+    } else {
+        %orig;
+    }
     
     // This ideally should be called in init. However, this does not function correctly on iOS 10.3.3
     static dispatch_once_t onceToken;
