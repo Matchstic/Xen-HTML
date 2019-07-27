@@ -2950,8 +2950,10 @@ static BOOL _xenhtml_inEditingMode;
             self._xenhtml_addButton.alpha = 0.0;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
         } completion:^(BOOL finished) {
-            self._xenhtml_addButton.hidden = YES;
-            self._xenhtml_editingPlatter.hidden = YES;
+            if (finished && self) {
+                self._xenhtml_addButton.hidden = YES;
+                self._xenhtml_editingPlatter.hidden = YES;
+            }
         }];
     }
 }
@@ -3008,9 +3010,13 @@ static BOOL _xenhtml_inEditingMode;
     
     CGFloat effectiveXOffset = lowestOffset - self.scrollView.contentOffset.x;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
+        
+    CGFloat scrollViewHeight = self.scrollView.frame.size.height;
+    if ([XENHResources isHarbour2Available])
+        scrollViewHeight -= 115.0; // Harbour 2 height and padding
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
-                                                 self.scrollView.frame.size.height
+                                                 scrollViewHeight
                                                  + self.scrollView.frame.origin.y
                                                  - self._xenhtml_addButton.bounds.size.height/4.0);
 }
@@ -3035,7 +3041,8 @@ static BOOL _xenhtml_inEditingMode;
     [UIView animateWithDuration:0.3 animations:^{
         self._xenhtml_editingVerticalIndicator.alpha = 0.0;
     } completion:^(BOOL finished) {
-        self._xenhtml_editingVerticalIndicator.hidden = YES;
+        if (finished)
+            self._xenhtml_editingVerticalIndicator.hidden = YES;
     }];
 }
 

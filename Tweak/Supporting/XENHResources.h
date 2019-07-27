@@ -153,6 +153,7 @@ static BOOL shownGraceEnded = NO;
 #pragma mark Compatiblity checks
 
 + (BOOL)isPageBarAvailable;
++ (BOOL)isHarbour2Available;
 
 #pragma mark Developer options
 

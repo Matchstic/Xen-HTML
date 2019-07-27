@@ -1013,6 +1013,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
 }
 
++ (BOOL)isHarbour2Available {
+    return [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Harbor2.dylib"];
+}
+
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled {
