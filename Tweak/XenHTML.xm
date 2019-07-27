@@ -2422,7 +2422,7 @@ void cancelIdleTimer() {
 %property (nonatomic) BOOL _xenhtml_hidden;
 
 - (void)setHidden:(BOOL)hidden {
-    if (!hidden && self._xenhtml_hidden)
+    if (!hidden && self._xenhtml_hidden && ![XENHResources isPageBarAvailable])
         return;
     
     %orig;
@@ -2915,7 +2915,7 @@ static BOOL _xenhtml_inEditingMode;
         self._xenhtml_addButton.hidden = NO;
         self._xenhtml_editingPlatter.hidden = NO;
         
-        if (![XENHResources hidePageControlDots]) {
+        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -2935,7 +2935,7 @@ static BOOL _xenhtml_inEditingMode;
         }];
     } else {
         
-        if (![XENHResources hidePageControlDots]) {
+        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
