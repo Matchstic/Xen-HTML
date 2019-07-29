@@ -51,6 +51,8 @@ __unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allo
     process_name_t *process_name = CA$Render$Context$process_name(context);
     
     
+    
+    
     if (process_name->length == 115) {
         return YES;
     }
@@ -65,7 +67,7 @@ static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_d26df6f8(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_36835025(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
@@ -77,7 +79,5 @@ static __attribute__((constructor)) void _logosLocalCtor_d26df6f8(int __unused a
             return;
         
         { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
-    } else {
-        
     }
 }

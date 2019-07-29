@@ -2882,7 +2882,7 @@ static BOOL _xenhtml_inEditingMode;
     
     if (orig) {        
         orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
-        [orig._xenhtml_addButton addTarget:self
+        [orig._xenhtml_addButton addTarget:orig
                 action:@selector(_xenhtml_addWidgetButtonTapped:)
                 forControlEvents:UIControlEventTouchUpInside];
         
