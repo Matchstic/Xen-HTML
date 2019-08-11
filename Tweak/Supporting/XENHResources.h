@@ -161,14 +161,18 @@ static BOOL shownGraceEnded = NO;
 + (BOOL)showResourceUsageInWidgets;
 + (BOOL)showCompositingBordersInWidgets;
 
-// Extra stuff
-+(void)setCurrentOrientation:(int)orient;
-+(int)getCurrentOrientation;
+#pragma mark Extra stuff
+
++ (void)setCurrentOrientation:(int)orient;
++ (int)getCurrentOrientation;
 
 + (BOOL)hasDisplayedSetupUI;
 + (BOOL)hasSeenFirstUnlock;
 + (void)setHasSeenFirstUnlock:(BOOL)state;
 
 + (BOOL)isInstalledFromOfficialRepository;
+
++ (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor;
++ (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor;
 
 @end

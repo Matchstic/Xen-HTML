@@ -298,6 +298,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)useFallbackForHTMLFile:(NSString*)filePath {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0])
+        return NO;
+    
     BOOL value = NO;
     NSError *error;
     
@@ -545,7 +548,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     id value = settings[@"hideClockTransferred10"];
     BOOL hideTransferred = (value ? [value boolValue] : NO);
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10 && !hideTransferred) {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0] && !hideTransferred) {
         BOOL hideClock = [self hideClock];
         
         [self setPreferenceKey:@"hideClock10" withValue:[NSNumber numberWithInt:hideClock ? 2 : 0] andPost:YES];
@@ -621,10 +624,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (BOOL)_isOnSupportedIOSVersion {
-    CGFloat minVersion = 9.0;
-    CGFloat maxVersion = 12.1;
+    long long minVersion = 9;
+    long long maxVersion = 12;
     
-    return [UIDevice currentDevice].systemVersion.floatValue <= maxVersion && [UIDevice currentDevice].systemVersion.floatValue >= minVersion;
+    return [XENHResources isAtLeastiOSVersion:minVersion subversion:0] && [XENHResources isBelowiOSVersion:maxVersion subversion:0];
 }
 
 + (BOOL)showUnsupportedAlertForCurrentVersion {
@@ -749,7 +752,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)LSFadeForegroundForArtwork {
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10) {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0]) {
         return NO;
     }
     
@@ -854,7 +857,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         return YES;
     }
     
-    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+    if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
         if ([cachedLSNotificationController count] > 0) {
             return NO;
         }
@@ -991,6 +994,19 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (void)setHasSeenFirstUnlock:(BOOL)state {
     hasSeenFirstUnlock = state;
+}
+
++ (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor {
+    NSOperatingSystemVersion version;
+    version.majorVersion = major;
+    version.minorVersion = minor;
+    version.patchVersion = 0;
+    
+    return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
+
++ (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor {
+    return ![self isAtLeastiOSVersion:major subversion:minor];
 }
 
 #pragma mark Compatiblity checks

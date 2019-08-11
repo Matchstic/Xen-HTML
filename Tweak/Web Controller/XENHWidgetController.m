@@ -278,7 +278,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     config.preferences = preferences;
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
         [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
     }
     

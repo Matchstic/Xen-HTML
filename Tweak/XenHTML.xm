@@ -447,7 +447,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 // This is called *every* lock event on iOS 10, and once per respring on iOS 11.
 - (id)initWithFrame:(CGRect)arg1 {
-    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    BOOL isiOS10 = [XENHResources isBelowiOSVersion:11 subversion:0] && [XENHResources isAtLeastiOSVersion:10 subversion:0];
     
     if (isiOS10) {
         // Make sure we initialise our UI with the right orientation.
@@ -506,7 +506,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 -(void)setMainPageView:(UIView*)view {
     %orig;
     
-    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    BOOL isiOS10 = [XENHResources isBelowiOSVersion:11 subversion:0] && [XENHResources isAtLeastiOSVersion:10 subversion:0];
     
     // We ONLY want this to run on iOS 10.
     if (isiOS10) {
@@ -545,7 +545,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
     // i.e., on lock and on NC display.
     
     // Alright; add background and foreground webviews to the LS!
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0 && [XENHResources lsenabled]) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
         // Make sure we initialise our UI with the right orientation.
         BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
         
@@ -600,7 +600,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 - (void)setWallpaperEffectView:(UIView*)wallpaperEffectView {
     %orig;
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0 && [XENHResources lsenabled]) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
         if (wallpaperEffectView) {
             [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:wallpaperEffectView];
         } else {
@@ -615,7 +615,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
     %orig;
     
     // On iOS 11, this is called whenever dashboard is hidden.
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
         
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading background HTML if present...");
@@ -648,7 +648,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         
         
         // Don't reset the hidden requesters on iOS 12 for weirdness reasons
-        if ([UIDevice currentDevice].systemVersion.floatValue < 12.0) {
+        if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
             [foregroundHiddenRequesters removeAllObjects];
             foregroundHiddenRequesters = nil;
         }
@@ -665,7 +665,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     // This class is also in iOS 10.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 || ![XENHResources lsenabled]) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0] || ![XENHResources lsenabled]) {
         return %orig;
     }
     
@@ -786,7 +786,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
     %orig;
     
     // This class is also in iOS 10.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         return;
     }
     
@@ -886,7 +886,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 %hook SBDashBoardViewController
 
 - (void)displayDidDisappear {
-    BOOL isiOS10 = [[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0;
+    BOOL isiOS10 = [XENHResources isBelowiOSVersion:11 subversion:0] && [XENHResources isAtLeastiOSVersion:10 subversion:0];
     
     if (isiOS10 && [XENHResources lsenabled]) {
         if (![XENHResources LSPersistentWidgets]) {
@@ -1079,7 +1079,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 -(void)layoutSubviews {
     %orig;
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10) {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0]) {
         if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
             self.hidden = YES;
         }
@@ -1092,7 +1092,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 }
 
 -(void)setHidden:(BOOL)hidden {
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10) {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0]) {
         ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2 ? %orig(YES) : %orig);
     } else {
         ([XENHResources lsenabled] && [XENHResources hideClock] ? %orig(YES) : %orig);
@@ -1217,7 +1217,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 %hook SBMainStatusBarStateProvider
 
 - (void)setTimeCloaked:(_Bool)arg1 {
-    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         %orig(arg1);
         return;
     }
@@ -1230,7 +1230,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 }
 
 - (void)enableTime:(_Bool)arg1 crossfade:(_Bool)arg2 crossfadeDuration:(double)arg3 {
-    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         %orig(arg1, arg2, arg3);
         return;
     }
@@ -1243,7 +1243,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 }
 
 - (void)enableTime:(_Bool)arg1 {
-    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         %orig(arg1);
         return;
     }
@@ -1256,7 +1256,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 }
 
 - (_Bool)isTimeEnabled {
-    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         return %orig;
     }
     
@@ -1272,7 +1272,7 @@ static BOOL allowNotificationViewTouchForIsGrouped() {
 #pragma mark Ensure to always reset idle timer when we see touches in the LS (iOS 9+)
 
 void resetIdleTimer() {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         [(SBBacklightController*)[objc_getClass("SBBacklightController") sharedInstance] resetLockScreenIdleTimer];
     } else {
         // Idle timer handling has changed in iOS 11 (really?!)
@@ -1281,7 +1281,7 @@ void resetIdleTimer() {
 }
 
 void cancelIdleTimer() {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         [(SBBacklightController*)[objc_getClass("SBBacklightController") sharedInstance] cancelLockScreenIdleTimer];
     } else {
         // Since cancelling the idle timer no longer is easy on iOS 11, we just reset it since user interaction won't
@@ -1295,7 +1295,7 @@ void cancelIdleTimer() {
 
 - (void)sendEvent:(UIEvent *)event {
     // Don't run on iOS 11
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
         %orig;
         return;
     }
@@ -1379,7 +1379,7 @@ void cancelIdleTimer() {
     UIView *homebar = MSHookIvar<UIView*>(self, "_homeAffordanceContainerView");
     homebar.hidden = [XENHResources lsenabled] && [XENHResources LSHideHomeBar];
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.2) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:2]) {
         UIView *grabber = MSHookIvar<UIView*>(self, "_controlCenterGrabberView");
         grabber.hidden = [XENHResources lsenabled] && [XENHResources LSHideD22CCGrabber];
     }
@@ -1663,7 +1663,7 @@ void cancelIdleTimer() {
 %new
 -(CGFloat)_xenhtml_minimumLockscreenIdleTime {
     // This is iOS 11 onwards
-    if ([UIDevice currentDevice].systemVersion.floatValue < 11) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
         return 0;
     }
     
@@ -1809,7 +1809,7 @@ void cancelIdleTimer() {
     // There is: home-screen, app-switcher, and application
     
     // This class is also in iOS 10, and we don't want to do anything when locked.
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 11.0 || [[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+    if ([XENHResources isBelowiOSVersion:11 subversion:0] || [[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
         return %orig;
     }
     
@@ -1914,7 +1914,7 @@ void cancelIdleTimer() {
 - (void)_handleBacklightLevelChanged:(NSNotification*)arg1 {
     %orig;
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0 && [XENHResources lsenabled]) {
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0] && [XENHResources lsenabled]) {
         NSDictionary *userInfo = arg1.userInfo;
         
         CGFloat newBacklight = [[userInfo objectForKey:@"SBBacklightNewFactorKey"] floatValue];
@@ -2003,7 +2003,7 @@ void cancelIdleTimer() {
 - (void)_handleBacklightLevelWillChange:(NSNotification*)arg1 {
     %orig;
     
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0 && [XENHResources lsenabled]) {
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
         NSDictionary *userInfo = arg1.userInfo;
         
         CGFloat newBacklight = [[userInfo objectForKey:@"SBBacklightNewFactorKey"] floatValue];
@@ -2501,7 +2501,7 @@ void cancelIdleTimer() {
     %orig;
     
     // iOS verison guard
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 10.0)
+    if ([XENHResources isAtLeastiOSVersion:10 subversion:0])
         return;
     
     XENlog(@"SBIconController loadView");
@@ -2599,15 +2599,15 @@ void cancelIdleTimer() {
 %hook SBRootFolderController
 
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
-    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0) {
+    if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
         SBRootFolderController *orig = %orig;
         
         if (orig) {
             
-            self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+            orig.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
             
             if ([XENHResources SBEnabled]) {
-                [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+                [orig.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
                 
                 XENlog(@"Presented foreground SBHTML");
             }
@@ -2629,7 +2629,7 @@ void cancelIdleTimer() {
     %orig;
     
     // iOS verison guard
-    if ([UIDevice currentDevice].systemVersion.floatValue < 10.0)
+    if ([XENHResources isBelowiOSVersion:10 subversion:0])
         return;
     
     XENlog(@"SBRootFolderController loadView");
@@ -2797,7 +2797,7 @@ void cancelIdleTimer() {
     if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
         BOOL isDraggingIcon = NO;
         
-        if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
             isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
         } else {
             isDraggingIcon = [[objc_getClass("SBIconController") sharedInstance] grabbedIcon] != nil;
@@ -2878,6 +2878,10 @@ static BOOL _xenhtml_inEditingMode;
 %property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 
 - (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
+    if (arg4) {
+        return %orig;
+    }
+    
     SBRootFolderView *orig = %orig;
     
     if (orig) {        
@@ -3558,7 +3562,7 @@ static void showForegroundForLSNotifIfNeeded() {
     %orig;
     
     // iOS 12+ treats the media controls as notification content.
-    BOOL isiOS11 = [[[UIDevice currentDevice] systemVersion] floatValue] < 12.0 && [[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0;
+    BOOL isiOS11 = [XENHResources isBelowiOSVersion:12 subversion:0] && [XENHResources isAtLeastiOSVersion:11 subversion:0];
     if (!isiOS11)
         return;
     
@@ -3584,7 +3588,7 @@ static void showForegroundForLSNotifIfNeeded() {
     
     BOOL shouldHide = NO;
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 12.0)
+    if ([XENHResources isBelowiOSVersion:12 subversion:0])
         shouldHide = foregroundViewController && [XENHResources LSFadeForegroundForNotifications];
     else
         shouldHide = [XENHResources LSFadeForegroundForNotifications];
