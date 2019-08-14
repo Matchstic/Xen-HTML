@@ -1,0 +1,42 @@
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#wrap{
+		color: white;
+		background-color: black;
+	}
+	</style>
+    
+    <script type="text/cycript" src="js/config.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<div id="battery">Batt. level: Null</div>
+		<div id="ram">RAM free: Null</div>
+		<div id="state">Batt. state: Null</div>
+	</div>
+	
+    <!-- Cycript data access-->
+    <script type="text/cycript">
+      var getBattery = function() { return [IS2System batteryPercent]; };
+      var getRam = function() { return [IS2System ramFree]; };
+      var getBattState = function() { return [IS2System batteryState]; };
+    </script>
+    
+    <!--Normal Javascript-->
+    <script>
+      (function writeDiv(){
+     	document.getElementById('battery').innerHTML = "Batt. level: " + getBattery() + "%";
+     	document.getElementById('ram').innerHTML = "RAM free: " + getRam();
+     	document.getElementById('state').innerHTML = "Batt. state: " + getBattState();
+     	setTimeout(writeDiv, 10000);
+      }());
+    </script>
+    
+</body>
+</html>
