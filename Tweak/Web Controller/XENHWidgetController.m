@@ -19,7 +19,6 @@
 #import "XENHWidgetController.h"
 #import "XENHResources.h"
 #import "PrivateWebKitHeaders.h"
-#import "XENHWKWebViewPool.h"
 
 #import <objc/runtime.h>
 #import <UIKit/UIGestureRecognizerSubclass.h>
@@ -206,39 +205,11 @@ static UIWindow *sharedOffscreenRenderingWindow;
                              isWidgetFullscreen ? SCREEN_HEIGHT : [[self.widgetMetadata objectForKey:@"height"] floatValue]
                              );
     
-    if (self.webView) {
-        [self.webView removeFromSuperview];
-        self.webView = nil;
-    }
+    // Setup configuration for the WKWebView
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    //config.processPool = [XENHWidgetController sharedProcessPool];
     
-    self.webView = [[XENHWKWebViewPool sharedInstance] dequeueWebView];
-    self.webView.frame = rect;
-    
-    self.webView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.webView.navigationDelegate = self;
-    self.webView.backgroundColor = [UIColor clearColor];
-    self.webView.opaque = NO;
-    self.webView.hidden = NO;
-    self.webView.scrollView.layer.masksToBounds = NO;
-    
-    if (!widgetCanScroll) {
-        self.webView.scrollView.scrollEnabled = NO;
-        self.webView.scrollView.contentSize = self.webView.bounds.size;
-    } else {
-        self.webView.scrollView.scrollEnabled = YES;
-    }
-    
-    self.webView.scrollView.bounces = NO;
-    self.webView.scrollView.scrollsToTop = NO;
-    self.webView.scrollView.minimumZoomScale = 1.0;
-    self.webView.scrollView.maximumZoomScale = 1.0;
-    self.webView.scrollView.multipleTouchEnabled = YES;
-    
-    self.webView.allowsLinkPreview = NO;
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Setup scripts
-    ////////////////////////////////////////////////////////////////////////////
+    WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
     // This script is utilised to stop the loupé that iOS creates on long-press
     NSString *source1 = @"var style = document.createElement('style'); \
@@ -259,8 +230,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     WKUserScript *stopScaling = [[WKUserScript alloc] initWithSource:source2 injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     
-    [self.webView.configuration.userContentController addUserScript:stopCallouts];
-    [self.webView.configuration.userContentController addUserScript:stopScaling];
+    [userContentController addUserScript:stopCallouts];
+    [userContentController addUserScript:stopScaling];
     
     // We also need to inject the settings required by the widget.
     NSMutableString *settingsInjection = [@"" mutableCopy];
@@ -284,14 +255,64 @@ static UIWindow *sharedOffscreenRenderingWindow;
     }
     
     WKUserScript *settingsInjector = [[WKUserScript alloc] initWithSource:settingsInjection injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
-    [self.webView.configuration.userContentController addUserScript:settingsInjector];
+    [userContentController addUserScript:settingsInjector];
     
     // Call to the injection hook
-    [self _userContentController_injectionHook:self.webView.configuration.userContentController];
+    [self _userContentController_injectionHook:userContentController];
     
-    ////////////////////////////////////////////////////////////////////////////
-    // JIT widget loading
-    ////////////////////////////////////////////////////////////////////////////
+    config.userContentController = userContentController;
+    config.requiresUserActionForMediaPlayback = YES;
+    
+    // Configure some private settings on WKWebView
+    WKPreferences *preferences = [[WKPreferences alloc] init];
+    [preferences _setAllowFileAccessFromFileURLs:YES];
+    [preferences _setFullScreenEnabled:YES];
+    [preferences _setOfflineApplicationCacheIsEnabled:YES]; // Local storage is needed for Lock+ etc.
+    [preferences _setStandalone:YES];
+    [preferences _setTelephoneNumberDetectionIsEnabled:NO];
+    [preferences _setTiledScrollingIndicatorVisible:NO];
+    //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
+    
+    // Developer tools
+    if ([XENHResources developerOptionsEnabled]) {
+        [preferences _setDeveloperExtrasEnabled:YES];
+        
+        [preferences _setResourceUsageOverlayVisible:[XENHResources showResourceUsageInWidgets]];
+        [preferences _setCompositingBordersVisible:[XENHResources showCompositingBordersInWidgets]];
+    }
+    
+    config.preferences = preferences;
+    
+    if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
+        [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
+    }
+    
+    if (self.webView) {
+        [self.webView removeFromSuperview];
+        self.webView = nil;
+    }
+    
+    self.webView = [[WKWebView alloc] initWithFrame:rect configuration:config];
+    self.webView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.webView.navigationDelegate = self;
+    self.webView.backgroundColor = [UIColor clearColor];
+    self.webView.opaque = NO;
+    self.webView.scrollView.layer.masksToBounds = NO;
+    
+    if (!widgetCanScroll) {
+        self.webView.scrollView.scrollEnabled = NO;
+        self.webView.scrollView.contentSize = self.webView.bounds.size;
+    } else {
+        self.webView.scrollView.scrollEnabled = YES;
+    }
+    
+    self.webView.scrollView.bounces = NO;
+    self.webView.scrollView.scrollsToTop = NO;
+    self.webView.scrollView.minimumZoomScale = 1.0;
+    self.webView.scrollView.maximumZoomScale = 1.0;
+    self.webView.scrollView.multipleTouchEnabled = YES;
+    
+    self.webView.allowsLinkPreview = NO;
     
     if (!self.requiresJITWidgetLoad) {
         NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
@@ -567,12 +588,20 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_unloadWebView {
     if (self.webView) {
         XENlog(@"Unloading webview: %@", self.widgetIndexFile);
+        self.webView.hidden = YES;
+        
+        [self.webView stopLoading];
         [self.webView removeFromSuperview];
         
         self.webView.scrollView.delegate = nil;
         self.webView.navigationDelegate = nil;
-
-        [[XENHWKWebViewPool sharedInstance] enqueueWebView:self.webView];
+        
+        [self.webView _close];
+        
+        // Don't need to do this -> ARC handles for us on dealloc.
+        // Furthermore, doing this leads to a nasty segfault on unlock for iOS 10 users,
+        // due to the order of deallocation of the LS.
+        // self.webView = nil;
     }
 }
 
@@ -584,9 +613,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
         self.legacyWebView.hidden = YES;
         [self.legacyWebView removeFromSuperview];
         
-        // Don't need to do this -> ARC handles for us on dealloc.
-        // Furthermore, doing this leads to a nasty segfault on unlock for iOS 10 users,
-        // due to the order of deallocation of the LS.
+        // See note above.
         //self.legacyWebView = nil;
     }
 }
