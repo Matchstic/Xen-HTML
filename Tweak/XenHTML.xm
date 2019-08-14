@@ -2126,9 +2126,6 @@ void cancelIdleTimer() {
     XENlog(@"Injecting into homescreen");
     [XENHResources reloadSettings];
     
-    int orientation = [self shouldAutorotate] ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
-    [XENHResources setCurrentOrientation:orientation];
-    
     if ([XENHResources SBEnabled] && [XENHResources widgetLayerHasContentForLocation:kLocationSBBackground]) {
         // This is an attempt to avoid oddness alongside CarPlay. It looks as if SBHomeScreenViewController
         // gets instantiated again when connected to CarPlay, resulting in SBHTML going odd.
@@ -2613,6 +2610,9 @@ void cancelIdleTimer() {
 %hook SBRootFolderController
 
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
+    // Set orientation?
+    [XENHResources setCurrentOrientation:arg2];
+    
     if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
         SBRootFolderController *orig = %orig;
         
@@ -2631,6 +2631,13 @@ void cancelIdleTimer() {
     } else {
         return %orig;
     }
+}
+
+- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
+    // Set orientation?
+    [XENHResources setCurrentOrientation:arg2];
+    
+    return %orig;
 }
 
 %end
