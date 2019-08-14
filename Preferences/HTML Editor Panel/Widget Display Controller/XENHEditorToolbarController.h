@@ -32,5 +32,6 @@ typedef enum : NSUInteger {
 @interface XENHEditorToolbarController : UIViewController
 
 - (instancetype)initWithDelegate:(id<XENHEditorToolbarDelegate>)delegate;
+- (CGFloat)effectiveToolbarHeight;
 
 @end

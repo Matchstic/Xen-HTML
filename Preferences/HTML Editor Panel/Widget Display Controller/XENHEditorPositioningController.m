@@ -104,6 +104,8 @@
         self.startPoint = [gesture locationInView:self.view];
         self.startOrigin = self.positioningView.frame.origin;
         
+        [self.delegate didStartPositioning];
+        
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         
         // Move around on-screen.
@@ -164,6 +166,8 @@
         } completion:^(BOOL finished) {
             self.verticalGuide.hidden = YES;
         }];
+        
+        [self.delegate didEndPositioning];
     }
 }
 

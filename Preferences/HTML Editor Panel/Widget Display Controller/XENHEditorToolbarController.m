@@ -74,6 +74,15 @@ static CGFloat toolbarHeight = 50.0;
 
 @implementation XENHEditorToolbarController
 
+- (CGFloat)effectiveToolbarHeight {
+    CGFloat homebarInsetY = 0.0;
+    if ([self.view respondsToSelector:@selector(safeAreaInsets)]) {
+        homebarInsetY = self.view.safeAreaInsets.bottom;
+    }
+    
+    return toolbarHeight + homebarInsetY;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
