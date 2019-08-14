@@ -156,6 +156,8 @@
 		C9E9BB7120C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E9BB6F20C58C9900EE27D9 /* XENHHomescreenForegroundViewController.m */; };
 		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
 		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
+		C9F2F4182304044200E4863B /* XENHWKWebViewPool.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F2F4162304044200E4863B /* XENHWKWebViewPool.h */; };
+		C9F2F4192304044200E4863B /* XENHWKWebViewPool.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2F4172304044200E4863B /* XENHWKWebViewPool.m */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C9F770821C7A5B7F00C52880 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
 		C9F770831C7A5B8600C52880 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0C1BA8C88000173993 /* QuartzCore.framework */; };
@@ -380,6 +382,8 @@
 		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
 		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
 		C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENHFallbackDelegate-Protocol.h"; sourceTree = "<group>"; };
+		C9F2F4162304044200E4863B /* XENHWKWebViewPool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWKWebViewPool.h; sourceTree = "<group>"; };
+		C9F2F4172304044200E4863B /* XENHWKWebViewPool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWKWebViewPool.m; sourceTree = "<group>"; };
 		C9F770491C7A459900C52880 /* XenHTMLPrefs.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XenHTMLPrefs.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -578,6 +582,8 @@
 				C90732FC20A362D6007D2819 /* XENHWidgetLayerContainerView.h */,
 				C90732FD20A362D6007D2819 /* XENHWidgetLayerContainerView.m */,
 				C9654CCD225A4B3C00592712 /* XENHWidgetEditingDelegate.h */,
+				C9F2F4162304044200E4863B /* XENHWKWebViewPool.h */,
+				C9F2F4172304044200E4863B /* XENHWKWebViewPool.m */,
 			);
 			path = "Web Controller";
 			sourceTree = "<group>";
@@ -1032,6 +1038,7 @@
 				C906108722554E8100783AAA /* XENHMetadataOptionsController.h in Headers */,
 				C94774F420715D050003D039 /* XENHTouchPassThroughView.h in Headers */,
 				C94774EC20715D050003D039 /* XENHSetupLockscreenImportController.h in Headers */,
+				C9F2F4182304044200E4863B /* XENHWKWebViewPool.h in Headers */,
 				C9E9BB7020C58C9900EE27D9 /* XENHHomescreenForegroundViewController.h in Headers */,
 				C94774E620715D050003D039 /* XENHSetupHomescreenImportController.h in Headers */,
 				C94774EB20715D050003D039 /* XENSFinalTickView.h in Headers */,
@@ -1295,6 +1302,7 @@
 				C94775CA207161A90003D039 /* XenHTML.mm in Sources */,
 				C94774E720715D050003D039 /* XENSetupWindow.m in Sources */,
 				C9CE627E22624B350019725D /* XENHWallpaperViewController.m in Sources */,
+				C9F2F4192304044200E4863B /* XENHWKWebViewPool.m in Sources */,
 				C9CE627F22624B350019725D /* XENHWallpaperViewController.h in Sources */,
 				C906108122554E8000783AAA /* XENHConfigJSController.m in Sources */,
 				C906108522554E8000783AAA /* XENHMetadataOptionsController.m in Sources */,
