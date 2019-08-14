@@ -3114,6 +3114,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
         
+        XENlog(@"DEBUG :: Inner loop checking: %@", hittested);
+        
         if (hittested == nil)
             continue;
         
@@ -3133,7 +3135,15 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             return hittested;
         }
         
-        result = hittested;
+        // Lowest subview gets a special case
+        if ([[hittested class] isEqual:objc_getClass("SBRootIconListView")]) {
+            if (!result) {
+                // Only set if we don't have anything caught beforehand
+                result = hittested;
+            }
+        } else {
+            result = hittested;
+        }
     }
     
     return result != nil ? result : %orig;
@@ -3193,7 +3203,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %hook WKWebView
 
-// TODO: Does this break input elements?
 - (BOOL)_shouldUpdateKeyboardWithInfo:(NSDictionary *)keyboardInfo {
     return NO;
 }
