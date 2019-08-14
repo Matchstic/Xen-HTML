@@ -92,6 +92,12 @@
     }
 }
 
+- (void)didReceiveMemoryWarning {
+    for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
+        [widgetController didReceiveMemoryWarning];
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////
 #pragma mark Send incoming pause messages to the internal widgets array
 /////////////////////////////////////////////////////////////////////////////

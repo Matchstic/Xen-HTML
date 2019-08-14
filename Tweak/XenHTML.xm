@@ -392,6 +392,20 @@ static id dashBoardMainPageContentViewController;
 
 static BOOL refuseToLoadDueToRehosting = NO;
 
+#pragma mark Memory pressure handling
+
+%hook SpringBoard
+
+- (void)didReceiveMemoryWarning {
+    // Notify widget layer managers of memory pressure
+    [backgroundViewController didReceiveMemoryWarning];
+    [foregroundViewController didReceiveMemoryWarning];
+    [sbhtmlViewController didReceiveMemoryWarning];
+    [sbhtmlForegroundViewController didReceiveMemoryWarning];
+}
+
+%end
+
 #pragma mark Layout LS web views (iOS 9)
 
 %hook SBLockScreenView
@@ -2869,7 +2883,23 @@ void cancelIdleTimer() {
 
 #pragma mark Display Homescreen foreground add button when editing (iOS 9+)
 
-static BOOL _xenhtml_inEditingMode;
+static BOOL _xenhtml_inEditingMode = NO;
+static BOOL _xenhtml_isPreviewGeneration = NO;
+
+// Don't try to render widgets when generating a snapshot preview image
+%hook SBHomeScreenPreviewView
+
+- (id)initWithFrame:(CGRect)arg1 iconController:(id)arg2 {
+    _xenhtml_isPreviewGeneration = YES;
+    
+    id orig = %orig;
+    
+    _xenhtml_isPreviewGeneration = NO;
+    
+    return orig;
+}
+
+%end
 
 %hook SBRootFolderView
 
@@ -2877,8 +2907,8 @@ static BOOL _xenhtml_inEditingMode;
 %property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
 %property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 
-- (instancetype)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 forSnapshot:(_Bool)arg4 {
-    if (arg4) {
+- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
+    if (_xenhtml_isPreviewGeneration) {
         return %orig;
     }
     
