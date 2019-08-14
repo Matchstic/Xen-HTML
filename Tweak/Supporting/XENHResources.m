@@ -998,8 +998,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor {
     NSOperatingSystemVersion version;
-    version.majorVersion = major;
-    version.minorVersion = minor;
+    version.majorVersion = (int)major;
+    version.minorVersion = (int)minor;
     version.patchVersion = 0;
     
     return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
