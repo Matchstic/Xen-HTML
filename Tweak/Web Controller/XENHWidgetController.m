@@ -261,16 +261,17 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [self _userContentController_injectionHook:userContentController];
     
     config.userContentController = userContentController;
-    config.requiresUserActionForMediaPlayback = YES;
+    config.requiresUserActionForMediaPlayback = NO;
     
     // Configure some private settings on WKWebView
     WKPreferences *preferences = [[WKPreferences alloc] init];
     [preferences _setAllowFileAccessFromFileURLs:YES];
-    [preferences _setFullScreenEnabled:YES];
+    [preferences _setFullScreenEnabled:NO];
     [preferences _setOfflineApplicationCacheIsEnabled:YES]; // Local storage is needed for Lock+ etc.
-    [preferences _setStandalone:YES];
+    [preferences _setStandalone:NO];
     [preferences _setTelephoneNumberDetectionIsEnabled:NO];
     [preferences _setTiledScrollingIndicatorVisible:NO];
+    [preferences _setLogsPageMessagesToSystemConsoleEnabled:YES];
     //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
     
     // Developer tools
