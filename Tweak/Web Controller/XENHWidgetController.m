@@ -214,7 +214,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // This script is utilised to stop the loupé that iOS creates on long-press
     NSString *source1 = @"var style = document.createElement('style'); \
     style.type = 'text/css'; \
-    style.innerText = '* { -webkit-user-select: none; -webkit-touch-callout: none; } body { background-color: transparent; }'; \
+    style.innerText = '*:not(input) { -webkit-user-select: none; -webkit-touch-callout: none; } body { background-color: transparent; }'; \
     var head = document.getElementsByTagName('head')[0];\
     head.appendChild(style);";
     WKUserScript *stopCallouts = [[WKUserScript alloc] initWithSource:source1 injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
@@ -737,6 +737,10 @@ static UIWindow *sharedOffscreenRenderingWindow;
     UIView *view = [self _webTouchDelegate];
     NSSet *set = [(UITouchesEvent*)event _allTouches];
     view.tag = 1337;
+    
+    // Force first responder if needed
+    if (![view isFirstResponder])
+        [view becomeFirstResponder];
     
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
         switch (type) {

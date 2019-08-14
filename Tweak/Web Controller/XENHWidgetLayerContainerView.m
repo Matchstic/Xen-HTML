@@ -79,7 +79,13 @@
     // i.e., there's no point doing the below checks for these cases, so reduce complexity.
     if (hittestedViews.count == 1) {
         // Allow the only hittested view to take full control of this touch.
-        return [hittestedViews firstObject];
+        UIView *firstObject = [hittestedViews firstObject];
+        
+        // Become first responder for keyboard events
+        if (![firstObject isFirstResponder])
+            [firstObject becomeFirstResponder];
+        
+        return firstObject;
     } else if (hittestedViews.count == 0) {
         // Pass through touch to anything behind us
         return nil;
