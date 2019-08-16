@@ -780,7 +780,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Hide clock (iOS 10)
 
-// This is to remove the dateView and pageControl on our pages.
 - (void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
     %orig;
     
@@ -2156,7 +2155,9 @@ void cancelIdleTimer() {
     // Rotate if possible
     if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
         [XENHResources setCurrentOrientation:orientation];
+        
         [sbhtmlViewController rotateToOrientation:orientation];
+        [sbhtmlForegroundViewController rotateToOrientation:orientation];
     }
 }
 
@@ -3221,7 +3222,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     
     if ([[self.superview.superview class] isEqual:objc_getClass("WKScrollView")] ||
         [[self.superview class] isEqual:objc_getClass("UIWebBrowserView")]) {
-        XENlog(@"_UIPlatterView :: preventing add to webview!");
         [self removeFromSuperview];
     }
 }
@@ -3314,8 +3314,6 @@ static void addForegroundHiddenRequester(NSString* requester) {
     
     if (![foregroundHiddenRequesters containsObject:requester]) {
         [foregroundHiddenRequesters addObject:requester];
-        
-        //XENlog(@"HIDING FOR REQUESTER: %@", requester);
     }
     
     hideForegroundIfNeeded();
@@ -3324,8 +3322,6 @@ static void addForegroundHiddenRequester(NSString* requester) {
 static void removeForegroundHiddenRequester(NSString* requester) {
     
     [foregroundHiddenRequesters removeObject:requester];
-    
-    //XENlog(@"SHOWING FOR REQUESTER: %@", requester);
     
     showForegroundIfNeeded();
 }
