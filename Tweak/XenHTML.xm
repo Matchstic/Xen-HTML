@@ -645,9 +645,11 @@ static BOOL refuseToLoadDueToRehosting = NO;
         } else {
             XENlog(@"Unloading background HTML for persistent mode");
             [backgroundViewController.view removeFromSuperview];
+            [backgroundViewController setPaused:YES];
             
             XENlog(@"Unloading foreground HTML for persistent mode");
             [foregroundViewController.view removeFromSuperview];
+            [foregroundViewController setPaused:YES];
         }
         
         [XENHResources setHasSeenFirstUnlock:YES];
@@ -867,9 +869,11 @@ static BOOL refuseToLoadDueToRehosting = NO;
         } else {
             XENlog(@"Unloading background HTML for persistent mode");
             [backgroundViewController.view removeFromSuperview];
+            [backgroundViewController setPaused:YES];
             
             XENlog(@"Unloading foreground HTML for persistent mode");
             [foregroundViewController.view removeFromSuperview];
+            [foregroundViewController setPaused:YES];
         }
         
         [foregroundHiddenRequesters removeAllObjects];
@@ -910,6 +914,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         } else {
             XENlog(@"Unloading background HTML for persistent mode");
             [backgroundViewController.view removeFromSuperview];
+            [backgroundViewController setPaused:YES];
         }
         
         if (iOS10ForegroundWrapperController) {
@@ -929,6 +934,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         } else {
             XENlog(@"Unloading foreground HTML for persistent mode");
             [foregroundViewController.view removeFromSuperview];
+            [foregroundViewController setPaused:YES];
         }
         
         [foregroundHiddenRequesters removeAllObjects];
