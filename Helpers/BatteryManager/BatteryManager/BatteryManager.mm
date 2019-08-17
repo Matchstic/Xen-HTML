@@ -89,7 +89,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class XENHWidgetController; @class UIApp; @class WKWebView; 
+@class WKWebView; @class XENHWidgetController; @class UIApp; 
 
 
 #line 70 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -120,7 +120,14 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         
         WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
         
+        
         [webView setNeedsDisplay];
+        
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^(){
+            [webView evaluateJavaScript:@"_xenhtml_onWidgetResumed();" completionHandler:^(id, NSError*) {}];
+        });
     } else if (isPaused && !wasPausedPreviously) {
         
         
@@ -255,7 +262,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_d36acc07(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_36be0490(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
