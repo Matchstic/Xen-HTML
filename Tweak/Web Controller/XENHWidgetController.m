@@ -139,7 +139,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [self reloadWidget];
 }
 
 /////////////////////////////////////////////////////////////////////////////
