@@ -137,8 +137,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     return [NSString stringWithFormat:@"<XENHWidgetController: %p; location = '%@'; legacy mode = %d>", self, self.widgetIndexFile, self.usingLegacyWebView];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)didReceiveMemoryWarningExternal {
+    [self reloadWidget];
 }
 
 /////////////////////////////////////////////////////////////////////////////

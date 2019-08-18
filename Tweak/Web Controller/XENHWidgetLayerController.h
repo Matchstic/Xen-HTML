@@ -40,6 +40,7 @@
 - (void)reloadWidgets:(BOOL)clearWidgets;
 - (void)reloadWithNewLayerPreferences:(NSDictionary*)preferences oldPreferences:(NSDictionary*)oldPreferences;
 - (void)doJITWidgetLoadIfNecessary;
+- (void)didReceiveMemoryWarningExternal;
 
 // Orientation handling
 - (void)rotateToOrientation:(int)orient;

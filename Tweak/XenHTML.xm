@@ -398,10 +398,10 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 - (void)didReceiveMemoryWarning {
     // Notify widget layer managers of memory pressure
-    [backgroundViewController didReceiveMemoryWarning];
-    [foregroundViewController didReceiveMemoryWarning];
-    [sbhtmlViewController didReceiveMemoryWarning];
-    [sbhtmlForegroundViewController didReceiveMemoryWarning];
+    [backgroundViewController didReceiveMemoryWarningExternal];
+    [foregroundViewController didReceiveMemoryWarningExternal];
+    [sbhtmlViewController didReceiveMemoryWarningExternal];
+    [sbhtmlForegroundViewController didReceiveMemoryWarningExternal];
 }
 
 %end

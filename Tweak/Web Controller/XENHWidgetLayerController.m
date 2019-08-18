@@ -92,10 +92,13 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarningExternal {
+    // Using a different method due to original impl removing hidden views
+#if 0
     for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
-        [widgetController didReceiveMemoryWarning];
+        [widgetController didReceiveMemoryWarningExternal];
     }
+#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -68,6 +68,7 @@
 - (void)unloadWidget;
 - (void)reloadWidget;
 - (void)doJITWidgetLoadIfNecessary;
+- (void)didReceiveMemoryWarningExternal;
 
 // Touch forwarding
 - (BOOL)isWidgetTrackingTouch;
