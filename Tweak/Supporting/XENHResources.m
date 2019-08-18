@@ -911,7 +911,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)LSPersistentWidgets {
     id value = settings[@"LSPersistentWidgets"];
-    return (value ? [value boolValue] : YES);
+    return (value ? [value boolValue] : NO);
 }
 
 #pragma mark SB
