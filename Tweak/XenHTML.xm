@@ -2305,6 +2305,18 @@ void cancelIdleTimer() {
     }
 }
 
+- (void)_backgroundContrastDidChange:(id)arg1 {
+    %orig;
+    
+    if ([XENHResources SBEnabled] && [XENHResources hideBlurredDockBG]) {
+#if TARGET_IPHONE_SIMULATOR==0
+        [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:YES];
+        [MSHookIvar<UIView*>(self, "_backgroundImageView") setHidden:YES];
+        [MSHookIvar<UIView*>(self, "_accessibilityBackgroundView") setHidden:YES];
+#endif
+    }
+}
+
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
     if ([XENHResources SBEnabled]) {

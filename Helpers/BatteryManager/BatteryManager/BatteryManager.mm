@@ -89,7 +89,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class XENHWidgetController; @class WKWebView; @class UIApp; 
+@class WKWebView; @class UIApp; @class XENHWidgetController; 
 
 
 #line 70 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -126,7 +126,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         
         
         dispatch_async(dispatch_get_main_queue(), ^(){
-            [webView evaluateJavaScript:@"_xenhtml_onWidgetResumed();" completionHandler:^(id, NSError*) {}];
+            [webView evaluateJavaScript:@"window.onresume();" completionHandler:^(id, NSError*) {}];
         });
     } else if (isPaused && !wasPausedPreviously) {
         
