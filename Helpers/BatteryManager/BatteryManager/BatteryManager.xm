@@ -100,7 +100,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         // Notify widget of restart, but put it to the back of the main queue
         // to ensure that whatever called into here isn't delayed too much
         dispatch_async(dispatch_get_main_queue(), ^(){
-            [webView evaluateJavaScript:@"_xenhtml_onWidgetResumed();" completionHandler:^(id, NSError*) {}];
+            [webView evaluateJavaScript:@"window.onresume();" completionHandler:^(id, NSError*) {}];
         });
     } else if (isPaused && !wasPausedPreviously) {
         // Did enter background
