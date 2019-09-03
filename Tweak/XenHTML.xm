@@ -78,9 +78,6 @@
 -(UIWebDocumentView*)_documentView;
 @end
 
-@interface SBLockScreenScrollView : UIView
-@end
-
 @interface SBLockScreenNotificationListController : NSObject
 -(NSArray*)_xenhtml_listItems;
 @end
@@ -199,7 +196,6 @@
 
 @interface SBLockScreenManager (iOS10)
 - (void)setBiometricAutoUnlockingDisabled:(_Bool)arg1 forReason:(id)arg2;
-
 @end
 
 @interface SBDashBoardPageViewController : UIViewController
@@ -287,9 +283,6 @@
 @end
 
 @interface SBFolderIconBackgroundView : UIView
-@end
-
-@interface SBIconLegibilityLabelView : UIView
 @end
 
 @interface SBMainDisplayLayoutState : NSObject
