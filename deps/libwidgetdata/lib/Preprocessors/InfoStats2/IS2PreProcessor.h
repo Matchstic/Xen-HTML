@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "../XENDPreProcessor-Protocol.h"
 
-@interface IS2PreProcessor : NSObject
+@interface IS2PreProcessor : NSObject <XENDPreProcessor>
 
-- (NSString*)parseDocument:(NSString*)filepath;
+- (NSString*)parseScriptNodeContents:(NSString*)contents withAttributes:(NSDictionary*)attributes;
 
 @end

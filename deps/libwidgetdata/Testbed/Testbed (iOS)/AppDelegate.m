@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "../../lib/Preprocessors/InfoStats2/IS2PreProcessor.h"
 
 @interface AppDelegate ()
 
@@ -18,10 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    // nb: if Scanner.lpp is being generated incorrectly, parsing will fail unexpectedly...?
-    IS2PreProcessor *preprocessor = [[IS2PreProcessor alloc] init];
-    NSString *parsedDocument = [preprocessor parseDocument:@"/Users/matt/Downloads/test-is2-update/debug/IS2SystemBase/Widget.html"];
     
     return YES;
 }

@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface XENDPreprocessorManager : NSObject
 
-@end
++ (instancetype)sharedInstance;
+- (NSString*)parseDocument:(NSString*)filepath;
 
-NS_ASSUME_NONNULL_END
+@end
