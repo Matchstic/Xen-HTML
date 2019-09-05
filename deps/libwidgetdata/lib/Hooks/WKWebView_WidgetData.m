@@ -41,7 +41,7 @@
 }
 
 - (WKNavigation *)xenhtml_loadFileURL:(NSURL *)URL allowingReadAccessToURL:(NSURL *)readAccessURL {
-    NSLog(@"Xen HTML Data :: DEBUG :: Call into swizzled loadFileURL");
+    NSLog(@"DEBUG :: Call into swizzled loadFileURL");
     
     NSString *filePath = [URL path];
     NSURL *baseUrl = [URL URLByDeletingLastPathComponent];
