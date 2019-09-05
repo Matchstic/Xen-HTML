@@ -28,7 +28,7 @@
     }
     if (self.children.count == 0)
     {
-        [html appendString:@" />\n"];
+        [html appendString:[NSString stringWithFormat:@"></%@>\n", [OGUtility tagForGumboTag:self.tag]]];
     }
     else
     {
