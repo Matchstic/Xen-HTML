@@ -9,6 +9,7 @@
 #import "XENDPreprocessorManager.h"
 #import "XENDPreProcessor-Protocol.h"
 #import "InfoStats2/IS2PreProcessor.h"
+#import "XenInfo/XIPreProcessor.h"
 #import <ObjectiveGumbo/ObjectiveGumbo.h>
 
 @interface XENDPreprocessorManager ()
@@ -43,8 +44,11 @@
 - (NSArray*)_createPreprocessors {
     NSMutableArray *array = [NSMutableArray array];
     
-    IS2PreProcessor *preprocessor = [[IS2PreProcessor alloc] init];
-    [array addObject:preprocessor];
+    IS2PreProcessor *is2Preprocessor = [[IS2PreProcessor alloc] init];
+    [array addObject:is2Preprocessor];
+    
+    XIPreProcessor *xiPreprocessor = [[XIPreProcessor alloc] init];
+    [array addObject:xiPreprocessor];
     
     return array;
 }
@@ -70,8 +74,8 @@
     
     OGElement *document = (OGElement*)[ObjectiveGumbo parseNodeWithString:html];
     
-    if (error) {
-        NSLog(@"Error parsing HTML: %@", error);
+    if (!document) {
+        NSLog(@"Error parsing HTML, no document from ObjectiveGumbo");
         return @"";
     }
     
@@ -81,7 +85,7 @@
     // Inject libraries
     document = [self _injectRuntimeLibraries:document];
     
-    return [self _fixupHTML:[document html]];
+    return [document html];
 }
 
 - (OGElement*)_parseNodes:(OGElement*)document {
@@ -101,6 +105,8 @@
         if (externalFileReference != nil) {
             // Handle reading from correct file
             NSString *externalFilepath = [NSString stringWithFormat:@"%@/%@", self.baseDocumentPath, externalFileReference];
+            
+            NSLog(@"DEBUG :: Loading script src from %@", externalFilepath);
             
             content = [NSString stringWithContentsOfFile:externalFilepath encoding:NSUTF8StringEncoding error:nil];
         } else {
@@ -153,12 +159,6 @@
     }
     
     headNode.children = mutableChildren; // Set child nodes
-    
-    return document;
-}
-
-- (NSString*)_fixupHTML:(NSString*)document {
-    document = [document stringByReplacingOccurrencesOfString:@"<title />" withString:@"<title></title>"];
     
     return document;
 }

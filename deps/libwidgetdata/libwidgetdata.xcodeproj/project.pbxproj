@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C97CF9F323217A1200A3A014 /* XENDHijackedWebViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = C97CF9F123217A1200A3A014 /* XENDHijackedWebViewDelegate.h */; };
 		C97CF9F423217A1200A3A014 /* XENDHijackedWebViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C97CF9F223217A1200A3A014 /* XENDHijackedWebViewDelegate.m */; };
+		C97CF9FD2321834F00A3A014 /* XIPreProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C97CF9FB2321834F00A3A014 /* XIPreProcessor.h */; };
+		C97CF9FE2321834F00A3A014 /* XIPreProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = C97CF9FC2321834F00A3A014 /* XIPreProcessor.m */; };
 		C9F2F3822301BE4100E4863B /* IS2PreProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9F2F3592301BE4100E4863B /* IS2PreProcessor.mm */; };
 		C9F2F3842301BE4100E4863B /* Compile.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C9F2F35C2301BE4100E4863B /* Compile.hpp */; };
 		C9F2F3852301BE4100E4863B /* Compile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9F2F35D2301BE4100E4863B /* Compile.cpp */; };
@@ -92,6 +94,11 @@
 		C97CF9ED23216ED600A3A014 /* XENDPreProcessor-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENDPreProcessor-Protocol.h"; sourceTree = "<group>"; };
 		C97CF9F123217A1200A3A014 /* XENDHijackedWebViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDHijackedWebViewDelegate.h; sourceTree = "<group>"; };
 		C97CF9F223217A1200A3A014 /* XENDHijackedWebViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDHijackedWebViewDelegate.m; sourceTree = "<group>"; };
+		C97CF9F7232182D100A3A014 /* infostats2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = infostats2.js; sourceTree = "<group>"; };
+		C97CF9F8232182DE00A3A014 /* groovyapi.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = groovyapi.js; sourceTree = "<group>"; };
+		C97CF9F9232182F400A3A014 /* xeninfo.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = xeninfo.js; sourceTree = "<group>"; };
+		C97CF9FB2321834F00A3A014 /* XIPreProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XIPreProcessor.h; sourceTree = "<group>"; };
+		C97CF9FC2321834F00A3A014 /* XIPreProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XIPreProcessor.m; sourceTree = "<group>"; };
 		C9F2F3592301BE4100E4863B /* IS2PreProcessor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IS2PreProcessor.mm; sourceTree = "<group>"; };
 		C9F2F35A2301BE4100E4863B /* IS2PreProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IS2PreProcessor.h; sourceTree = "<group>"; };
 		C9F2F35C2301BE4100E4863B /* Compile.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compile.hpp; sourceTree = "<group>"; };
@@ -130,8 +137,6 @@
 		C9F2F37F2301BE4100E4863B /* Exception.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Exception.hpp; sourceTree = "<group>"; };
 		C9F2F3802301BE4100E4863B /* XENDPreprocessorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENDPreprocessorManager.m; sourceTree = "<group>"; };
 		C9F2F3812301BE4100E4863B /* XENDPreprocessorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENDPreprocessorManager.h; sourceTree = "<group>"; };
-		C9F2F3AA2301BE4700E4863B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		C9F2F3AB2301BE4700E4863B /* ObjectiveGumbo.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ObjectiveGumbo.podspec; sourceTree = "<group>"; };
 		C9F2F3AE2301BE4700E4863B /* string_buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = string_buffer.c; sourceTree = "<group>"; };
 		C9F2F3AF2301BE4700E4863B /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
 		C9F2F3B02301BE4700E4863B /* util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = util.c; sourceTree = "<group>"; };
@@ -190,6 +195,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C97CF9F52321806D00A3A014 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		C97CF9F6232182B700A3A014 /* Injected */ = {
+			isa = PBXGroup;
+			children = (
+				C97CF9F7232182D100A3A014 /* infostats2.js */,
+				C97CF9F8232182DE00A3A014 /* groovyapi.js */,
+				C97CF9F9232182F400A3A014 /* xeninfo.js */,
+			);
+			path = Injected;
+			sourceTree = "<group>";
+		};
+		C97CF9FA2321831A00A3A014 /* XenInfo */ = {
+			isa = PBXGroup;
+			children = (
+				C97CF9FB2321834F00A3A014 /* XIPreProcessor.h */,
+				C97CF9FC2321834F00A3A014 /* XIPreProcessor.m */,
+			);
+			path = XenInfo;
+			sourceTree = "<group>";
+		};
 		C9F2F3312301BE1E00E4863B = {
 			isa = PBXGroup;
 			children = (
@@ -203,7 +234,9 @@
 		C9F2F3562301BE4100E4863B /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				C9F2F4072301C35C00E4863B /* Extensions */,
+				C97CF9F6232182B700A3A014 /* Injected */,
+				C97CF9F52321806D00A3A014 /* Internal */,
+				C9F2F4072301C35C00E4863B /* Hooks */,
 				C9F2F4062301C34A00E4863B /* Data Providers */,
 				C9F2F3572301BE4100E4863B /* Preprocessors */,
 			);
@@ -213,6 +246,7 @@
 		C9F2F3572301BE4100E4863B /* Preprocessors */ = {
 			isa = PBXGroup;
 			children = (
+				C97CF9FA2321831A00A3A014 /* XenInfo */,
 				C9F2F3582301BE4100E4863B /* InfoStats2 */,
 				C9F2F3802301BE4100E4863B /* XENDPreprocessorManager.m */,
 				C9F2F3812301BE4100E4863B /* XENDPreprocessorManager.h */,
@@ -225,8 +259,8 @@
 			isa = PBXGroup;
 			children = (
 				C9F2F35B2301BE4100E4863B /* Cylang */,
-				C9F2F3592301BE4100E4863B /* IS2PreProcessor.mm */,
 				C9F2F35A2301BE4100E4863B /* IS2PreProcessor.h */,
+				C9F2F3592301BE4100E4863B /* IS2PreProcessor.mm */,
 			);
 			path = InfoStats2;
 			sourceTree = "<group>";
@@ -299,8 +333,6 @@
 		C9F2F3A92301BE4700E4863B /* ObjectiveGumbo */ = {
 			isa = PBXGroup;
 			children = (
-				C9F2F3AA2301BE4700E4863B /* README.md */,
-				C9F2F3AB2301BE4700E4863B /* ObjectiveGumbo.podspec */,
 				C9F2F3AC2301BE4700E4863B /* ObjectiveGumbo */,
 			);
 			path = ObjectiveGumbo;
@@ -368,7 +400,7 @@
 			path = "Data Providers";
 			sourceTree = "<group>";
 		};
-		C9F2F4072301C35C00E4863B /* Extensions */ = {
+		C9F2F4072301C35C00E4863B /* Hooks */ = {
 			isa = PBXGroup;
 			children = (
 				C9F2F40A2301C3A200E4863B /* WKWebView_WidgetData.h */,
@@ -376,7 +408,7 @@
 				C97CF9F123217A1200A3A014 /* XENDHijackedWebViewDelegate.h */,
 				C97CF9F223217A1200A3A014 /* XENDHijackedWebViewDelegate.m */,
 			);
-			path = Extensions;
+			path = Hooks;
 			sourceTree = "<group>";
 		};
 		C9F2F40E2301C3E000E4863B /* Frameworks */ = {
@@ -406,6 +438,7 @@
 				C9F2F3DE2301BE4800E4863B /* tokenizer.h in Headers */,
 				C9F2F3EE2301BE4800E4863B /* gumbo.h in Headers */,
 				C9F2F3F32301BE4800E4863B /* OGElement.h in Headers */,
+				C97CF9FD2321834F00A3A014 /* XIPreProcessor.h in Headers */,
 				C9F2F3F12301BE4800E4863B /* OGText.h in Headers */,
 				C9F2F3EB2301BE4800E4863B /* utf8.h in Headers */,
 				C9F2F39C2301BE4100E4863B /* Options.hpp in Headers */,
@@ -524,6 +557,7 @@
 				C9F2F3E62301BE4800E4863B /* tag.c in Sources */,
 				C9F2F3A62301BE4100E4863B /* XENDPreprocessorManager.m in Sources */,
 				C9F2F3852301BE4100E4863B /* Compile.cpp in Sources */,
+				C97CF9FE2321834F00A3A014 /* XIPreProcessor.m in Sources */,
 				C9F2F3ED2301BE4800E4863B /* string_piece.c in Sources */,
 				C9F2F3922301BE4100E4863B /* Scanner.cpp in Sources */,
 				C9F2F3912301BE4100E4863B /* Output.cpp in Sources */,

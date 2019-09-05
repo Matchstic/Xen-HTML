@@ -11,6 +11,4 @@
 
 @interface IS2PreProcessor : NSObject <XENDPreProcessor>
 
-- (NSString*)parseScriptNodeContents:(NSString*)contents withAttributes:(NSDictionary*)attributes;
-
 @end
