@@ -94,9 +94,6 @@
 		C97CF9ED23216ED600A3A014 /* XENDPreProcessor-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENDPreProcessor-Protocol.h"; sourceTree = "<group>"; };
 		C97CF9F123217A1200A3A014 /* XENDHijackedWebViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDHijackedWebViewDelegate.h; sourceTree = "<group>"; };
 		C97CF9F223217A1200A3A014 /* XENDHijackedWebViewDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDHijackedWebViewDelegate.m; sourceTree = "<group>"; };
-		C97CF9F7232182D100A3A014 /* infostats2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = infostats2.js; sourceTree = "<group>"; };
-		C97CF9F8232182DE00A3A014 /* groovyapi.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = groovyapi.js; sourceTree = "<group>"; };
-		C97CF9F9232182F400A3A014 /* xeninfo.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = xeninfo.js; sourceTree = "<group>"; };
 		C97CF9FB2321834F00A3A014 /* XIPreProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XIPreProcessor.h; sourceTree = "<group>"; };
 		C97CF9FC2321834F00A3A014 /* XIPreProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XIPreProcessor.m; sourceTree = "<group>"; };
 		C9F2F3592301BE4100E4863B /* IS2PreProcessor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IS2PreProcessor.mm; sourceTree = "<group>"; };
@@ -202,16 +199,6 @@
 			path = Internal;
 			sourceTree = "<group>";
 		};
-		C97CF9F6232182B700A3A014 /* Injected */ = {
-			isa = PBXGroup;
-			children = (
-				C97CF9F7232182D100A3A014 /* infostats2.js */,
-				C97CF9F8232182DE00A3A014 /* groovyapi.js */,
-				C97CF9F9232182F400A3A014 /* xeninfo.js */,
-			);
-			path = Injected;
-			sourceTree = "<group>";
-		};
 		C97CF9FA2321831A00A3A014 /* XenInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,7 +221,6 @@
 		C9F2F3562301BE4100E4863B /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				C97CF9F6232182B700A3A014 /* Injected */,
 				C97CF9F52321806D00A3A014 /* Internal */,
 				C9F2F4072301C35C00E4863B /* Hooks */,
 				C9F2F4062301C34A00E4863B /* Data Providers */,
