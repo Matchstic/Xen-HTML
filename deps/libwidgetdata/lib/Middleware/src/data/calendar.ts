@@ -1,9 +1,5 @@
-export default class XENDCalendarProvider {
+import { XENDBaseProvider } from '../types';
 
-    private _properties: any = {};
-    get properties() {
-        return this.properties;
-    }
+export default class XENDCalendarProvider extends XENDBaseProvider {
 
-    
 }

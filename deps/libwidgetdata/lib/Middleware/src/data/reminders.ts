@@ -1,9 +1,5 @@
-export default class XENDRemindersProvider {
+import { XENDBaseProvider } from '../types';
 
-    private _properties: any = {};
-    get properties() {
-        return this.properties;
-    }
+export default class XENDRemindersProvider extends XENDBaseProvider {
 
-    
 }

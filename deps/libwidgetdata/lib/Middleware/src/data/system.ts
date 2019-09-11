@@ -1,9 +1,5 @@
-export default class XENDSystemProvider {
+import { XENDBaseProvider } from '../types';
 
-    private _properties: any = {};
-    get properties() {
-        return this.properties;
-    }
+export default class XENDSystemProvider extends XENDBaseProvider {
 
-    
 }
