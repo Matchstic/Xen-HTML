@@ -1,4 +1,6 @@
 var path = require('path');
+var webpack = require("webpack");
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = {
     mode: 'development',
@@ -6,7 +8,8 @@ module.exports = {
     output: {
         library: 'WidgetInfo',
         path: path.resolve(__dirname, 'build'),
-        filename: "libwidgetinfo.js"
+        filename: "libwidgetinfo.js",
+        libraryTarget: 'var'
     },
     resolve: {
         extensions: [".ts", ".js"]
@@ -16,5 +19,10 @@ module.exports = {
             // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
             { test: /\.tsx?$/, use: ["ts-loader"], exclude: /node_modules/ }
         ]
-    }
+    },
+    plugins: [
+        new WebpackShellPlugin({
+            onBuildEnd:['./patch-build.sh']
+        })
+    ],
 }
