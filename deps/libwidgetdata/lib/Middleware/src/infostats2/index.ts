@@ -1,8 +1,8 @@
-import { XenHTMLMiddleware } from '../types';
+import { XenHTMLMiddleware, DataProviderUpdateNamespace } from '../types';
 import NativeInterface from '../native-interface';
 
 export default class IS2Middleware implements XenHTMLMiddleware {
-    public initialise(parent: NativeInterface): void {
+    public initialise(parent: NativeInterface, providers: Map<DataProviderUpdateNamespace, any>): void {
         // Register observers to the data providers
     }
 

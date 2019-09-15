@@ -1,6 +1,20 @@
+import { DataProviderUpdateNamespace } from './types';
+
 enum NativeMessageType {
     DataUpdate = 'dataupdate',
     Callback = 'callback',
+}
+
+class NativeInterfaceInternalMessage {
+    type: NativeMessageType;
+    data: any;
+    callbackId?: number;
+}
+
+export class NativeInterfaceMessage {
+    namespace: DataProviderUpdateNamespace;
+    functionDefinition: string;
+    data: any;
 }
 
 export default class NativeInterface {
@@ -12,14 +26,15 @@ export default class NativeInterface {
     constructor() {
         this._connectionAvailable = (window as any).webkit !== undefined && 
                                     (window as any).webkit.messageHandlers !== undefined &&
-                                    (window as any).webkit.messageHandlers.xenhtml !== undefined;
+                                    (window as any).webkit.messageHandlers.libwidgetinfo !== undefined;
     }
 
     protected onDataProviderUpdate(body: any) {}
-    private onInternalNativeMessage(messageType: string, body: any) {
+    private onInternalNativeMessage(message: NativeInterfaceInternalMessage) {
+        const messageType = message.type;
         if (messageType === NativeMessageType.Callback) {
-            const callbackId = body.callbackid;
-            const data = body.data;
+            const callbackId = message.callbackId;
+            const data = message.data;
 
             // If there is a valid callback ID, call on it
             if (callbackId !== -1) {
@@ -30,11 +45,11 @@ export default class NativeInterface {
             }
         } else if (messageType === NativeMessageType.DataUpdate) {
             // Forward data to public stub
-            this.onDataProviderUpdate(body);
+            this.onDataProviderUpdate(message.data);
         }
     }
 
-    public sendNativeMessage(body: any, callback?: (payload: any) => void) {
+    public sendNativeMessage(body: NativeInterfaceMessage, callback?: (payload: any) => void) {
         if (this._connectionAvailable) {
 
             // If a callback is specified, cache it client-side
@@ -44,11 +59,11 @@ export default class NativeInterface {
                 this.pendingCallbacks.set(callbackId, callback);
             }
 
-            const message = { payload: body, callbackid: callbackId };
+            const message = { payload: body, callbackId: callbackId };
 
-            (window as any).webkit.messageHandlers.xenhtml.postMessage(message);
+            (window as any).webkit.messageHandlers.libwidgetinfo.postMessage(message);
         } else {
-            console.log('Cannot send native message, no connection available');
+            console.error('Cannot send native message, no connection available');
         }
     }
 

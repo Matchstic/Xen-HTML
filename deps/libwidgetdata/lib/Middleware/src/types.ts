@@ -1,7 +1,7 @@
 import NativeInterface from './native-interface';
 
 export interface XenHTMLMiddleware {
-    initialise(parent: NativeInterface): void;
+    initialise(parent: NativeInterface, providers: Map<DataProviderUpdateNamespace, any>): void;
 }
 
 export enum DataProviderUpdateNamespace {
@@ -9,6 +9,8 @@ export enum DataProviderUpdateNamespace {
     Media = 'media',
     Calendar = 'calendar',
     Reminders = 'reminders',
+    Resources = 'resources',
+    Applications = 'applications',
     System = 'system'
 }
 
@@ -17,32 +19,42 @@ export class DataProviderUpdate {
     payload: any;
 }
 
-export class XENDBaseProvider {
-    private observers: Array<(newProperties: any) => void> = [];
+export class NativeError {
+    code: number;
+    message: string;
+}
 
-    private _properties: any = {};
-    get properties() {
-        return this._properties;
+export class XENDBaseProvider {
+
+    constructor(protected connection: NativeInterface) {
+
     }
 
-    set properties(payload: any) {
-        this._properties = payload;
+    private observers: Array<(newData: any) => void> = [];
+
+    protected _data: any = {};
+    get data() {
+        return this._data;
+    }
+
+    set data(payload: any) {
+        this._data = payload;
 
         // Notify observers of change
-        this.observers.forEach((fn: (newProperties: any) => void) => {
-            fn(this.properties);
+        this.observers.forEach((fn: (newdata: any) => void) => {
+            fn(this.data);
         });
     }
 
     /**
-     * Add a function that gets called whenever the properties of this data
+     * Add a function that gets called whenever the data of this
      * provider changes.
      * 
-     * The new properties are provided as the parameter into your callback function.
+     * The new data is provided as the parameter into your callback function.
      * 
-     * @param callback A callback that is notified whenever the provider's properties change
+     * @param callback A callback that is notified whenever the provider's data change
      */
-    public observeProperties(callback: (newProperties: any) => void) {
+    public observeData(callback: (newData: any) => void) {
         this.observers.push(callback);
     }
 }
