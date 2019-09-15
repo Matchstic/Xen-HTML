@@ -88,6 +88,10 @@
 		C9F2F40C2301C3A200E4863B /* WKWebView_WidgetData.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F2F40A2301C3A200E4863B /* WKWebView_WidgetData.h */; };
 		C9F2F40D2301C3A200E4863B /* WKWebView_WidgetData.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2F40B2301C3A200E4863B /* WKWebView_WidgetData.m */; };
 		C9F2F4102301C3E100E4863B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9F2F40F2301C3E100E4863B /* WebKit.framework */; };
+		C9F886FC232ED8DA00E87EF3 /* XENDWidgetManager.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F886FA232ED8DA00E87EF3 /* XENDWidgetManager.h */; };
+		C9F886FD232ED8DA00E87EF3 /* XENDWidgetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F886FB232ED8DA00E87EF3 /* XENDWidgetManager.m */; };
+		C9F88700232ED8E800E87EF3 /* XENDWidgetMessageHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C9F886FE232ED8E800E87EF3 /* XENDWidgetMessageHandler.h */; };
+		C9F88701232ED8E800E87EF3 /* XENDWidgetMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F886FF232ED8E800E87EF3 /* XENDWidgetMessageHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,6 +182,10 @@
 		C9F2F40A2301C3A200E4863B /* WKWebView_WidgetData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKWebView_WidgetData.h; sourceTree = "<group>"; };
 		C9F2F40B2301C3A200E4863B /* WKWebView_WidgetData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WKWebView_WidgetData.m; sourceTree = "<group>"; };
 		C9F2F40F2301C3E100E4863B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		C9F886FA232ED8DA00E87EF3 /* XENDWidgetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetManager.h; sourceTree = "<group>"; };
+		C9F886FB232ED8DA00E87EF3 /* XENDWidgetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetManager.m; sourceTree = "<group>"; };
+		C9F886FE232ED8E800E87EF3 /* XENDWidgetMessageHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetMessageHandler.h; sourceTree = "<group>"; };
+		C9F886FF232ED8E800E87EF3 /* XENDWidgetMessageHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetMessageHandler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +203,10 @@
 		C97CF9F52321806D00A3A014 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				C9F886FA232ED8DA00E87EF3 /* XENDWidgetManager.h */,
+				C9F886FB232ED8DA00E87EF3 /* XENDWidgetManager.m */,
+				C9F886FE232ED8E800E87EF3 /* XENDWidgetMessageHandler.h */,
+				C9F886FF232ED8E800E87EF3 /* XENDWidgetMessageHandler.m */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -234,8 +246,8 @@
 			children = (
 				C97CF9FA2321831A00A3A014 /* XenInfo */,
 				C9F2F3582301BE4100E4863B /* InfoStats2 */,
-				C9F2F3802301BE4100E4863B /* XENDPreprocessorManager.m */,
 				C9F2F3812301BE4100E4863B /* XENDPreprocessorManager.h */,
+				C9F2F3802301BE4100E4863B /* XENDPreprocessorManager.m */,
 				C97CF9ED23216ED600A3A014 /* XENDPreProcessor-Protocol.h */,
 			);
 			path = Preprocessors;
@@ -444,11 +456,13 @@
 				C9F2F3FC2301BE4800E4863B /* OGDocument.h in Headers */,
 				C9F2F40C2301C3A200E4863B /* WKWebView_WidgetData.h in Headers */,
 				C9F2F3F02301BE4800E4863B /* OGUtility.h in Headers */,
+				C9F886FC232ED8DA00E87EF3 /* XENDWidgetManager.h in Headers */,
 				C9F2F3992301BE4100E4863B /* Location.hpp in Headers */,
 				C9F2F3D72301BE4800E4863B /* error.h in Headers */,
 				C9F2F39B2301BE4100E4863B /* Pooling.hpp in Headers */,
 				C9F2F3942301BE4100E4863B /* Replace.hpp in Headers */,
 				C9F2F3E22301BE4800E4863B /* token_type.h in Headers */,
+				C9F88700232ED8E800E87EF3 /* XENDWidgetMessageHandler.h in Headers */,
 				C9F2F38D2301BE4100E4863B /* Driver.hpp in Headers */,
 				C9F2F3E12301BE4800E4863B /* tokenizer_states.h in Headers */,
 				C9F2F3E52301BE4800E4863B /* util.h in Headers */,
@@ -531,6 +545,7 @@
 				C9F2F3FB2301BE4800E4863B /* OGText.m in Sources */,
 				C9F2F38F2301BE4100E4863B /* Parser.tab.cpp in Sources */,
 				C9F2F38A2301BE4100E4863B /* Error.cpp in Sources */,
+				C9F88701232ED8E800E87EF3 /* XENDWidgetMessageHandler.m in Sources */,
 				C9F2F3DB2301BE4800E4863B /* vector.c in Sources */,
 				C97CF9F423217A1200A3A014 /* XENDHijackedWebViewDelegate.m in Sources */,
 				C9F2F3F82301BE4800E4863B /* NSString+OGString.m in Sources */,
@@ -538,6 +553,7 @@
 				C9F2F3A42301BE4100E4863B /* Output.cpp in Sources */,
 				C9F2F3DF2301BE4800E4863B /* utf8.c in Sources */,
 				C9F2F3822301BE4100E4863B /* IS2PreProcessor.mm in Sources */,
+				C9F886FD232ED8DA00E87EF3 /* XENDWidgetManager.m in Sources */,
 				C9F2F3A12301BE4100E4863B /* Syntax.cpp in Sources */,
 				C9F2F3F52301BE4800E4863B /* OGDocument.m in Sources */,
 				C9F2F3E62301BE4800E4863B /* tag.c in Sources */,

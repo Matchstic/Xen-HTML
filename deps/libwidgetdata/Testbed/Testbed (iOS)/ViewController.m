@@ -12,6 +12,10 @@
 
 @end
 
+@interface WKWebView (libwidgetinfo)
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
+@end
+
 @implementation ViewController
 
 - (void)viewDidLoad {
@@ -20,7 +24,7 @@
     [self setupWebView];
     
     // Load the webview
-    NSString *testWidget = @"/opt/simject/var/mobile/Library/iWidgets/Xperia Clock/Widget.html";
+    NSString *testWidget = @"/opt/simject/var/mobile/Library/iWidgets/Xperia Clock DEBUG/Widget.html";
     NSURL *url = [NSURL fileURLWithPath:testWidget];
     
     [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
@@ -55,7 +59,7 @@
     
     config.userContentController = userContentController;
     
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config injectWidgetData:YES];
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     self.webView.backgroundColor = [UIColor clearColor];
     self.webView.opaque = NO;

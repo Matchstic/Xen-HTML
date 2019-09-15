@@ -8,6 +8,7 @@
 #import "WKWebView_WidgetData.h"
 #import "XENDHijackedWebViewDelegate.h"
 #import "../Preprocessors/XENDPreprocessorManager.h"
+#import "../Internal/XENDWidgetManager.h"
 
 #import <objc/runtime.h>
 
@@ -20,6 +21,34 @@
 - (id)hijackedNavigationDelegate {
     return objc_getAssociatedObject(self, @selector(hijackedNavigationDelegate));
 }
+
+- (void)_setHasInjectedRuntime:(BOOL)value {
+    objc_setAssociatedObject(self, @selector(_hasInjectedRuntime), [NSNumber numberWithBool:value], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)_hasInjectedRuntime {
+    NSNumber *obj = objc_getAssociatedObject(self, @selector(_hasInjectedRuntime));
+    return obj ? [obj boolValue] : NO;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Additions for init
+//////////////////////////////////////////////////////////////////////////////////////////
+
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData {
+    
+    // Inject runtime stuff if required
+    if (injectWidgetData) {
+        [[XENDWidgetManager sharedInstance] injectRuntime:configuration.userContentController];
+        [self _setHasInjectedRuntime:YES];
+    }
+    
+    return [self initWithFrame:frame configuration:configuration];
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Swizzling
+//////////////////////////////////////////////////////////////////////////////////////////
 
 + (void)load {
     static dispatch_once_t once_token;
@@ -43,25 +72,39 @@
 - (WKNavigation *)xenhtml_loadFileURL:(NSURL *)URL allowingReadAccessToURL:(NSURL *)readAccessURL {
     NSLog(@"DEBUG :: Call into swizzled loadFileURL");
     
-    NSString *filePath = [URL path];
-    NSURL *baseUrl = [URL URLByDeletingLastPathComponent];
-    
-    NSString *preprocessedDocument = [[XENDPreprocessorManager sharedInstance] parseDocument:filePath];
-    
-    // Setup our hijacked navigation delegate if required
-    if (![self hijackedNavigationDelegate]) {
+    if (![self _hasInjectedRuntime]) {
+        NSLog(@"DEBUG :: Returning original implementation");
         
-        [self setHijackedNavigationDelegate:[[XENDHijackedWebViewDelegate alloc] initWithOriginalDelegate:self.navigationDelegate]];
+        // Return the original implementation
+        return [self xenhtml_loadFileURL:URL allowingReadAccessToURL:readAccessURL];
+    } else {
+        NSLog(@"DEBUG :: Beginning pre-processing...");
         
-        self.navigationDelegate = [self hijackedNavigationDelegate];
+        NSString *filePath = [URL path];
+        NSURL *baseUrl = [URL URLByDeletingLastPathComponent];
+        
+        NSString *preprocessedDocument = [[XENDPreprocessorManager sharedInstance] parseDocument:filePath];
+        
+        // Setup our hijacked navigation delegate if required
+        if (![self hijackedNavigationDelegate]) {
+            NSLog(@"DEBUG :: Injecting navigation delegate...");
+            
+            [self setHijackedNavigationDelegate:[[XENDHijackedWebViewDelegate alloc] initWithOriginalDelegate:self.navigationDelegate]];
+            
+            self.navigationDelegate = [self hijackedNavigationDelegate];
+        }
+        
+        NSLog(@"DEBUG :: Finished injection");
+        
+        return [self loadHTMLString:preprocessedDocument baseURL:baseUrl];
     }
-    
-    return [self loadHTMLString:preprocessedDocument baseURL:baseUrl];
 }
 
 - (void)xenhtml_stopLoading {
     NSString *url = [self.URL absoluteString];
     NSLog(@"DEBUG :: Unregistering widget presenting from: %@", url);
+    
+    [[XENDWidgetManager sharedInstance] deregisterWebView:self];
     
     // Call original stopLoading - not a loop ;P
     [self xenhtml_stopLoading];

@@ -15,7 +15,6 @@
 @interface XENDPreprocessorManager ()
 @property (nonatomic, strong) NSString *baseDocumentPath;
 @property (nonatomic, strong) NSArray* preprocessors;
-@property (nonatomic, strong) NSArray* injectedLibraries;
 @end
 
 @implementation XENDPreprocessorManager
@@ -35,7 +34,6 @@
     
     if (self) {
         self.preprocessors = [self _createPreprocessors];
-        self.injectedLibraries = [self _populateInjectedLibraries];
     }
     
     return self;
@@ -49,14 +47,6 @@
     
     XIPreProcessor *xiPreprocessor = [[XIPreProcessor alloc] init];
     [array addObject:xiPreprocessor];
-    
-    return array;
-}
-
-- (NSArray*)_populateInjectedLibraries {
-    NSMutableArray *array = [NSMutableArray array];
-    
-    [array addObject:@"/Users/matt/Downloads/test-is2-update/test.js"];
     
     return array;
 }
@@ -81,9 +71,6 @@
     
     // Parse all script sections
     document = [self _parseNodes:document];
-    
-    // Inject libraries
-    document = [self _injectRuntimeLibraries:document];
     
     return [document html];
 }
@@ -129,36 +116,6 @@
         scriptNode.children = @[textNode]; // Reset children
         scriptNode.attributes = @{}; // Reset attributes
     }
-    
-    return document;
-}
-
-- (OGElement*)_injectRuntimeLibraries:(OGElement*)document {
-    OGElement *headNode = [[document elementsWithTag:GUMBO_TAG_HEAD] firstObject];
-    
-    // Find the index of the first <script> element, and move to one index beforehand.
-    // Ensures that any injected libraries utilised will be loaded first.
-    OGNode *firstScriptNode = [headNode first:[OGUtility tagForGumboTag:GUMBO_TAG_SCRIPT]];
-    int index = firstScriptNode != nil ? (int)[headNode.children indexOfObject:firstScriptNode] - 1 : (int)headNode.children.count - 1;
-    if (index < 0)
-        index = 0;
-    
-    NSMutableArray *mutableChildren = [headNode.children mutableCopy];
-    
-    for (NSString *filepath in self.injectedLibraries) {
-        NSString *content = [NSString stringWithContentsOfFile:filepath encoding:NSUTF8StringEncoding error:nil];
-        
-        OGElement *elementNode = [[OGElement alloc] init];
-        elementNode.tag = GUMBO_TAG_SCRIPT;
-        elementNode.tagNamespace = GUMBO_NAMESPACE_HTML;
-        
-        OGText *textNode = [[OGText alloc] initWithText:content andType:GUMBO_NODE_TEXT];
-        elementNode.children = @[textNode];
-        
-        [mutableChildren insertObject:elementNode atIndex:index];
-    }
-    
-    headNode.children = mutableChildren; // Set child nodes
     
     return document;
 }
