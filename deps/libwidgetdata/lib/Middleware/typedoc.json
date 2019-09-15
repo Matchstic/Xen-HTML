@@ -1,0 +1,8 @@
+{
+    "out": "build/docs",
+    "include": "**/data/*",
+    "exclude": [ "groovyapi", "infostats2", "xeninfo"],
+    "excludeNotExported": true,
+    "excludePrivate": true,
+    "excludeProtected": true
+}
