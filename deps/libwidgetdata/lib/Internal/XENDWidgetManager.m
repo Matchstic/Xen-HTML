@@ -47,6 +47,10 @@
     }
 }
 
+- (void)notifyWebViewLoaded:(WKWebView*)webView {
+    
+}
+
 - (void)injectRuntime:(WKUserContentController*)contentController {
 #if TARGET_IPHONE_SIMULATOR==0
     NSString *scriptLocation = @"/Library/Application Support/Xen HTML/libwidgetinfo.js";

@@ -18,5 +18,6 @@
 - (void)deregisterWebView:(WKWebView*)webView;
 
 - (void)injectRuntime:(WKUserContentController*)contentController;
+- (void)notifyWebViewLoaded:(WKWebView*)webView;
 
 @end

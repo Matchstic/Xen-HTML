@@ -94,6 +94,9 @@
             self.navigationDelegate = [self hijackedNavigationDelegate];
         }
         
+        // Register widget
+        [[XENDWidgetManager sharedInstance] registerWebView:self];
+        
         NSLog(@"DEBUG :: Finished injection");
         
         return [self loadHTMLString:preprocessedDocument baseURL:baseUrl];

@@ -19,14 +19,13 @@ export class NativeInterfaceMessage {
 
 export default class NativeInterface {
 
-    private _connectionAvailable: boolean;
     private pendingCallbacks: Map<number, (payload: any) => void> = new Map<number, (payload: any) => void>();
     private _pendingCallbackIdentifier: number = 0;
 
-    constructor() {
-        this._connectionAvailable = (window as any).webkit !== undefined && 
-                                    (window as any).webkit.messageHandlers !== undefined &&
-                                    (window as any).webkit.messageHandlers.libwidgetinfo !== undefined;
+    get _connectionAvailable(): boolean {
+        return (window as any).webkit !== undefined && 
+               (window as any).webkit.messageHandlers !== undefined &&
+               (window as any).webkit.messageHandlers.libwidgetinfo !== undefined;
     }
 
     protected onDataProviderUpdate(body: any) {}
