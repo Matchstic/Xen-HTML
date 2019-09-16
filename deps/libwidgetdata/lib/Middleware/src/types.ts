@@ -37,7 +37,7 @@ export class XENDBaseProvider {
         return this._data;
     }
 
-    set data(payload: any) {
+    _setData(payload: any) {
         this._data = payload;
 
         // Notify observers of change

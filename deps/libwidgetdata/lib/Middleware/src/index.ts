@@ -43,7 +43,7 @@ class XENDMiddleware extends NativeInterface {
 
     protected onDataProviderUpdate(update: DataProviderUpdate) {
         // Forward new data to correct provider
-        this.dataProviders.get(update.namespace).properties = update.payload;
+        this.dataProviders.get(update.namespace)._setData(update.payload);
     }
 
     public dataProviderInNamespace(namespace: DataProviderUpdateNamespace) {

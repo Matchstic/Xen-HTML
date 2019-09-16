@@ -15,7 +15,6 @@ export class XENDSystemProperties {
     isTwentyFourHourTimeEnabled: boolean;
     isLowPowerModeEnabled: boolean;
     isNetworkConnected: boolean;
-    networkIpAddress: string;
 }
 
 export default class XENDSystemProvider extends XENDBaseProvider {

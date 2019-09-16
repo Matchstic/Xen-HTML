@@ -9,8 +9,9 @@
 #import <WebKit/WebKit.h>
 
 #import "XENDWidgetMessageHandler.h"
+#import "XENDWidgetManager-Protocol.h"
 
-@interface XENDWidgetManager : NSObject <XENDWidgetMessageHandlerDelegate>
+@interface XENDWidgetManager : NSObject <XENDWidgetMessageHandlerDelegate, XENDWidgetManagerDelegate>
 
 + (instancetype)sharedInstance;
 
