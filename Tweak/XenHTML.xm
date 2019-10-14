@@ -827,15 +827,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %hook SBDashBoardQuickActionsViewController
 
-- (_Bool)hasCamera {
-    if ([XENHResources lsenabled] && [XENHResources LSHideTorchAndCamera]) {
-        return NO;
-    }
-    
-    return %orig;
-}
-
-- (_Bool)hasFlashlight {
++ (_Bool)deviceSupportsButtons {
     if ([XENHResources lsenabled] && [XENHResources LSHideTorchAndCamera]) {
         return NO;
     }
