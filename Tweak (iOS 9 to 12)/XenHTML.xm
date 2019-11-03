@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-//%config(generator=internal);
+%config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -146,6 +146,7 @@
 @interface SpringBoard : UIApplication
 -(void)_relaunchSpringBoardNow;
 - (id)_accessibilityFrontMostApplication;
+- (_Bool)isLocked;
 @end
 
 @interface SBFLockScreenDateView : UIView
@@ -336,6 +337,7 @@
 
 - (void)_xenhtml_recievedSettingsUpdate;
 - (void)_xenhtml_setDockPositionIfNeeded;
+- (void)_xenhtml_initialise;
 - (id)dockView;
 @end
 
@@ -560,6 +562,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
     
     // Alright; add background and foreground webviews to the LS!
     if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
+        BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
+        
         // Make sure we initialise our UI with the right orientation.
         BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
         
@@ -574,6 +578,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
                 foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
             else if (![XENHResources LSPersistentWidgets])
                 [foregroundViewController reloadWidgets:NO];
+            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                [foregroundViewController setPaused:NO];
+            }
             
             // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
             // and then feed that to the isolating controller to present.
@@ -602,6 +609,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
                 backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
             else if (![XENHResources LSPersistentWidgets])
                 [backgroundViewController reloadWidgets:NO];
+            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                [backgroundViewController setPaused:NO];
+            }
             
             // Not using self.backgroundView now as that goes weird when swiping to the camera
             [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
@@ -2781,7 +2791,11 @@ void cancelIdleTimer() {
             }
         }
         
-        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 13.0) {
+            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
+        } else {
+            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
+        }
     }
 }
 
@@ -2941,32 +2955,37 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     SBRootFolderView *orig = %orig;
     
     if (orig) {        
-        orig._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
-        [orig._xenhtml_addButton addTarget:orig
-                action:@selector(_xenhtml_addWidgetButtonTapped:)
-                forControlEvents:UIControlEventTouchUpInside];
-        
-        // Hide until UI is in editing UI
-        orig._xenhtml_addButton.hidden = YES;
-        
-        [orig addSubview:orig._xenhtml_addButton];
-        
-        // and the editing platter
-        orig._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
-        orig._xenhtml_editingPlatter.hidden = YES;
-        
-        [orig addSubview:orig._xenhtml_editingPlatter];
-        
-        orig._xenhtml_editingVerticalIndicator = [[UIView alloc] initWithFrame:CGRectZero];
-        orig._xenhtml_editingVerticalIndicator.userInteractionEnabled = NO;
-        orig._xenhtml_editingVerticalIndicator.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-        orig._xenhtml_editingVerticalIndicator.hidden = YES;
-        orig._xenhtml_editingVerticalIndicator.alpha = 0.0;
-        
-        [orig insertSubview:orig._xenhtml_editingVerticalIndicator belowSubview:orig._xenhtml_editingPlatter];
+        [orig _xenhtml_initialise];
     }
     
     return orig;
+}
+
+%new
+- (void)_xenhtml_initialise {
+    self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
+    [self._xenhtml_addButton addTarget:self
+            action:@selector(_xenhtml_addWidgetButtonTapped:)
+            forControlEvents:UIControlEventTouchUpInside];
+    
+    // Hide until UI is in editing UI
+    self._xenhtml_addButton.hidden = YES;
+    
+    [self addSubview:self._xenhtml_addButton];
+    
+    // and the editing platter
+    self._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
+    self._xenhtml_editingPlatter.hidden = YES;
+    
+    [self addSubview:self._xenhtml_editingPlatter];
+    
+    self._xenhtml_editingVerticalIndicator = [[UIView alloc] initWithFrame:CGRectZero];
+    self._xenhtml_editingVerticalIndicator.userInteractionEnabled = NO;
+    self._xenhtml_editingVerticalIndicator.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    self._xenhtml_editingVerticalIndicator.hidden = YES;
+    self._xenhtml_editingVerticalIndicator.alpha = 0.0;
+    
+    [self insertSubview:self._xenhtml_editingVerticalIndicator belowSubview:self._xenhtml_editingPlatter];
 }
 
 - (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
@@ -4042,12 +4061,11 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 #pragma mark Constructor
 
 %ctor {
-    XENlog(@"Injecting Xen HTML");
+    XENlog(@"******* Injecting Xen HTML");
     
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
-    // BOOL backboardd = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
     
     if (sb) {
         // We need the setup UI to always be accessible.
@@ -4083,7 +4101,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/sbconfigchanged"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidRequestRespring, CFSTR("com.matchstic.xenhtml/wantsrespring"), NULL, 0);
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
-    }/* else if (backboardd) {
-        %init(backboardd);
-    }*/
+    }
 }

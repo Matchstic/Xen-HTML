@@ -52,6 +52,7 @@ static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
         if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
             return;
         
+        XENlog(@"DEBUG :: initialising hooks");
         %init(backboardd);
     }
 }

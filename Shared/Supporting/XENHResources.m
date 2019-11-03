@@ -531,6 +531,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Settings handling
 
 +(void)reloadSettings {
+#if TARGET_IPHONE_SIMULATOR==1
+    settings = [NSDictionary dictionaryWithContentsOfFile:@"/opt/simject/var/mobile/Library/Preferences/com.matchstic.xenhtml.plist"];
+    XENlog(@"****** LOADED PREFS: %@", settings);
+#else
     CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
     
     CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
@@ -556,6 +560,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
     
     [self _migrateWidgetSettingsToRC5OrHigher];
+#endif
 }
 
 + (void)_migrateWidgetSettingsToRC5OrHigher {

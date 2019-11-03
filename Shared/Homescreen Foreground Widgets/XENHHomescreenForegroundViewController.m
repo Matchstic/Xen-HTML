@@ -23,6 +23,7 @@
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
 #import "XENHFallbackOnlyOptionsController.h"
+#import "XENHResources.h"
 
 @interface SBRootFolderView : UIView
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;

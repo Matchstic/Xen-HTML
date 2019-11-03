@@ -159,12 +159,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         
         // Update activity state
         setWKWebViewActivityState(self.webView, paused);
-        
-        /*void *page = MSHookIvar<void*>(self.webView, "_page");
-        if (page && ![self.webView _webProcessIsResponsive]) {
-            XENlog(@"Detected a non-responsive webprocess, reloading");
-            [self webViewWebContentProcessDidTerminate:self.webView];
-        }*/
     }
 }
 
@@ -245,6 +239,10 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
         
         WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
+        if (WebPageProxy$activityStateDidChange == NULL) {
+            WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEN3WTF9OptionSetIN7WebCore13ActivityState4FlagEEEbNS0_31ActivityStateChangeDispatchModeE");
+        }
+        
         // App state stuff
         WebPageProxy$applicationDidEnterBackground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy29applicationDidEnterBackgroundEv");
         WebPageProxy$applicationWillEnterForeground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy30applicationWillEnterForegroundEv");
@@ -262,6 +260,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             return;
 
+        XENlog(@"DEBUG :: initialising hooks");
         %init(SpringBoard);
     }
 }
