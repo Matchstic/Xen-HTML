@@ -395,6 +395,7 @@
 		C97152FE236F8CC30021277B /* XENSetupInitialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupInitialController.h; sourceTree = "<group>"; };
 		C97152FF236F8CC40021277B /* XENSetupFinalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupFinalController.h; sourceTree = "<group>"; };
 		C9715318236F902A0021277B /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		C971531F236F96970021277B /* PrivateHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateHeaders.h; sourceTree = "<group>"; };
 		C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C97FBD0C1BA8C88000173993 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C99CDD721C0AC36D00761684 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -477,12 +478,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9164313227A48910078338F /* Dependancies */ = {
+		C9164313227A48910078338F /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
 				C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */,
 			);
-			path = Dependancies;
+			path = Dependencies;
 			sourceTree = "<group>";
 		};
 		C916432D227A4ABF0078338F /* Products */ = {
@@ -521,7 +522,7 @@
 				C971523A236F86F10021277B /* Shared */,
 				C94774FF20715D150003D039 /* Preferences */,
 				C9B604E2229331AE0043581A /* Helpers */,
-				C9164313227A48910078338F /* Dependancies */,
+				C9164313227A48910078338F /* Dependencies */,
 				C93C30AE1BA72CA90037BA09 /* Frameworks */,
 				C93C30AD1BA72CA90037BA09 /* Products */,
 			);
@@ -835,6 +836,7 @@
 			children = (
 				C971525B236F88080021277B /* XenHTML.xm */,
 				C971525C236F88080021277B /* XenHTML.mm */,
+				C971531F236F96970021277B /* PrivateHeaders.h */,
 			);
 			path = "Tweak (iOS 13)";
 			sourceTree = "<group>";
@@ -1496,7 +1498,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_9to12;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1541,7 +1543,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_9to12;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
@@ -1816,7 +1818,7 @@
 				LLVM_LTO = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				THEOS = /opt/theos;
 				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -1852,7 +1854,7 @@
 				LLVM_LTO = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				THEOS = /opt/theos;
 				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -1888,7 +1890,7 @@
 				LLVM_LTO = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				THEOS = /opt/theos;
 				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -2030,7 +2032,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_9to12;
 				SDKROOT = iphoneos;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
 				iOSOpenDevBuildPackageOnAnyBuild = YES;

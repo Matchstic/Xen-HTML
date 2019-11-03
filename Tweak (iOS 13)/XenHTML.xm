@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2018  Matt Clarke
+ Copyright (C) 2019 Matt Clarke
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -22,11 +22,9 @@
 #import "XENHTouchPassThroughView.h"
 #import "XENHButton.h"
 
-#include "WebCycript.h"
-#include <dlfcn.h>
-#include <JavaScriptCore/JSContextRef.h> // For debug support
 #import "XENHTouchForwardingRecognizer.h"
 #import "XENSetupWindow.h"
+#import "PrivateHeaders.h"
 #import <objc/runtime.h>
 
 #pragma mark Simulator support
@@ -41,328 +39,7 @@
  Note: the simulator *really* doesn't like MSHookIvar.
  */
 
-#pragma mark Private headers
-
-///////////////////////////////////////////////////////////////////
-// Sorry about this, too lazy to resolve before open-sourcing
-///////////////////////////////////////////////////////////////////
-
-@interface WebScriptObject : NSObject
-@end
-
-@interface WebFrame : NSObject
-- (id)dataSource;
-- (OpaqueJSContext*)globalContext;
-@end
-
-@interface WebView : NSObject
--(void)setPreferencesIdentifier:(id)arg1;
--(void)_setAllowsMessaging:(BOOL)arg1;
--(void)setScriptDebugDelegate:(id)delegate;
-@end
-
-@class WebView;
-@class WebScriptCallFrame;
-
-@interface WebScriptCallFrame
-- (NSString *)functionName;
-@end
-
-@interface UIWebDocumentView : UIView
--(WebView*)webView;
-@end
-
-@interface UIWebView (Apple)
-- (void)webView:(WebView *)view addMessageToConsole:(NSDictionary *)message;
-- (void)webView:(WebView *)webview didClearWindowObject:(WebScriptObject *)window forFrame:(id)frame;
--(UIWebDocumentView*)_documentView;
-@end
-
-@interface SBLockScreenScrollView : UIView
-@end
-
-@interface SBLockScreenNotificationListController : NSObject
--(NSArray*)_xenhtml_listItems;
-@end
-
-@interface SBLockScreenNotificationListView : UIView
-@property(assign, nonatomic) SBLockScreenNotificationListController *delegate;
-@end
-
-@interface PHContainerView : UIView
-@property (readonly) NSString* selectedAppID;
-@end
-
-@interface SBHomeScreenViewController : UIViewController
--(void)_xenhtml_addTouchRecogniser;
-@end
-
-@interface SBHomeScreenView : UIView
-@end
-
-@interface FBProcessState : NSObject <NSCopying>
-
-- (int)effectiveVisibility;
-- (BOOL)isForeground;
-- (BOOL)isRunning;
-- (int)pid;
-- (int)taskState;
-- (int)visibility;
-
-@end
-
-@interface FBSystemService : NSObject
-+ (id)sharedInstance;
-- (void)exitAndRelaunch:(bool)arg1;
-- (void)shutdownAndReboot:(bool)arg1;
-@end
-
-@interface SBBacklightController : NSObject
-+(id)sharedInstance;
--(void)resetLockScreenIdleTimer;
--(void)cancelLockScreenIdleTimer;
-@property(readonly, nonatomic) _Bool screenIsOn;
-@end
-
-@interface SBIdleTimerGlobalCoordinator : NSObject
-+ (id)sharedInstance;
-- (void)resetIdleTimer;
-@end
-
-@interface SBRootIconListView : UIView
-@end
-
-@interface UITapGestureRecognizer (Private)
-@property (nonatomic, readonly) NSArray *touches;
-@end
-
-@interface SBLockScreenManager : NSObject
-+(instancetype)sharedInstance;
-- (void)setBioUnlockingDisabled:(BOOL)disabled forRequester:(id)requester;
-- (id)lockScreenViewController;
-@property(readonly) _Bool isUILocked;
-@end
-
-@interface SpringBoard : UIApplication
--(void)_relaunchSpringBoardNow;
-- (id)_accessibilityFrontMostApplication;
-- (_Bool)isLocked;
-@end
-
-@interface SBFLockScreenDateView : UIView
-@end
-
-@interface SBLockScreenView : UIView
-- (void)_layoutBottomLeftGrabberView;
-- (void)_layoutCameraGrabberView;
-- (void)_layoutGrabberView:(UIView*)view atTop:(BOOL)top;
-- (void)_xenhtml_addBackgroundTouchIfNeeded:(UIView*)view;
-@end
-
-@interface SBDashBoardView : UIView
-@property(strong, nonatomic) UIView *backgroundView;
-@property(strong, nonatomic) UIView *wallpaperEffectView;
-@property(readonly, nonatomic) UIView *slideableContentView;
-@end
-
-@interface SBUIProudLockIconView : UIView
-- (NSInteger)state;
-@end
-
-@interface SBDashBoardProudLockViewController : UIViewController
-- (void)_setIconVisible:(_Bool)arg1 animated:(_Bool)arg2;
-@end
-
-@interface _NowPlayingArtView : UIView
-@end
-
-@interface SBTelephonyManager : NSObject
-+ (id)sharedTelephonyManager;
-- (_Bool)inCall;
-@end
-
-@interface SBConferenceManager : NSObject
-+ (id)sharedInstance;
-- (_Bool)inFaceTime;
-@end
-
-// iOS 10 additions.
-@interface SBDashBoardBehavior : NSObject
-+ (id)behaviorForProvider:(id)arg1;
-+ (id)behavior;
-@property(nonatomic) unsigned int restrictedCapabilities;
-@property(nonatomic) int notificationBehavior;
-@property(nonatomic) int scrollingMode;
-@property(nonatomic) int idleWarnMode;
-@property(nonatomic) int idleTimerMode;
-@property(nonatomic) int idleTimerDuration;
-@end
-
-@interface SBLockScreenManager (iOS10)
-- (void)setBiometricAutoUnlockingDisabled:(_Bool)arg1 forReason:(id)arg2;
-
-@end
-
-@interface SBDashBoardPageViewController : UIViewController
-- (void)aggregateBehavior:(id)arg1;
-- (void)aggregateAppearance:(id)arg1;
-@end
-
-@interface SBDashBoardAppearance : NSObject
-- (void)addComponent:(id)arg1;
-- (void)unionAppearance:(id)arg1;
-@property(copy, nonatomic) NSSet *components;
-- (void)removeComponent:(id)arg1;
-@end
-
-@interface SBDashBoardComponent : NSObject
-+ (id)tinting;
-+ (id)wallpaper;
-+ (id)slideableContent;
-+ (id)pageContent;
-+ (id)pageControl;
-+ (id)statusBar;
-+ (id)dateView;
-@property(nonatomic) CGPoint offset;
-@property(nonatomic) long long type;
-@property(nonatomic, getter=isHidden) _Bool hidden;
-- (id)offset:(CGPoint)arg1;
-- (id)legibilitySettings:(id)arg1;
-- (id)view:(id)arg1;
-- (id)value:(id)arg1;
-- (id)string:(id)arg1;
-- (id)flag:(long long)arg1;
-- (id)hidden:(_Bool)arg1;
-- (id)identifier:(id)arg1;
-- (id)priority:(long long)arg1;
-@end
-
-@interface SBDashBoardViewControllerBase : UIViewController
-- (void)registerView:(id)arg1 forRole:(long long)arg2;
-- (void)unregisterView:(id)arg1;
-@end
-
-@interface SBDashBoardNotificationAdjunctListViewController : SBDashBoardViewControllerBase
-@property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
-@end
-
-@interface XENDashBoardWebViewController : SBDashBoardViewControllerBase
--(void)setWebView:(UIView*)view;
-@end
-
-@interface SBDashBoardPresentationViewController : SBDashBoardViewControllerBase
-- (void)dismissContentViewController:(id)arg1 animated:(_Bool)arg2;
-- (void)presentContentViewController:(id)arg1 animated:(_Bool)arg2;
-@end
-
-@interface SBDashBoardNotificationListViewController : SBDashBoardViewControllerBase
-@property(readonly, nonatomic) _Bool hasContent;
-@end
-
-@interface SBDashBoardMainPageContentViewController : SBDashBoardPresentationViewController
-@property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
-@property(readonly, nonatomic) SBDashBoardNotificationListViewController *notificationListViewController;
-@property(readonly, copy, nonatomic) SBDashBoardBehavior *activeBehavior;
-@end
-
-@interface SBDashBoardMainPageViewController : SBDashBoardPageViewController
-@property(readonly, nonatomic) SBDashBoardMainPageContentViewController *contentViewController;
-@end
-
-@interface SBDashBoardViewController : UIViewController
-@property(nonatomic) unsigned long long lastSettledPageIndex;
--(unsigned long long)_indexOfMainPage;
-@end
-
-@interface UIGestureRecognizer (touch)
-- (void)_touchesBegan:(NSSet*)touches withEvent:(UIEvent *)event;
-- (void)_touchesMoved:(NSSet*)touches withEvent:(UIEvent *)event;
-- (void)_touchesEnded:(NSSet*)touches withEvent:(UIEvent *)event;
-- (void)_touchesCancelled:(NSSet*)touches withEvent:(UIEvent *)event;
-@end
-
-@interface UITouch (touch)
-- (void)setView:(id)arg1;
-- (void)set_xh_forwardingView:(id)view;
-- (id)_xh_forwardingView;
-@end
-
-@interface SBFolderIconBackgroundView : UIView
-@end
-
-@interface SBIconLegibilityLabelView : UIView
-@end
-
-@interface SBMainDisplayLayoutState : NSObject
-@property(readonly, nonatomic) long long unlockedEnvironmentMode;
-@end
-
-@interface SBWorkspaceApplicationSceneTransitionContext : NSObject
-@property(readonly, nonatomic) SBMainDisplayLayoutState *layoutState;
-@end
-
-@interface SBMainWorkspaceTransitionRequest : NSObject
-@property(copy, nonatomic) NSString *eventLabel;
-@property(retain, nonatomic) SBWorkspaceApplicationSceneTransitionContext *applicationContext;
-@end
-
-@interface SBDashBoardCombinedListViewController : SBDashBoardViewControllerBase
-@property(nonatomic, getter=isNotificationContentHidden) _Bool notificationContentHidden;
-- (void)_updateListViewContentInset;
-- (UIView*)notificationListScrollView;
-@end
-
-@interface SBIconScrollView : UIScrollView
-@property (nonatomic) BOOL _xenhtml_isForegroundWidgetHoster;
--(void)_xenhtml_recievedSettingsUpdate;
-@end
-
-@interface SBIconListPageControl : UIPageControl
-@property (nonatomic) BOOL _xenhtml_hidden;
-@end
-
-@interface SBRootFolderView : UIView
-- (SBIconScrollView*)scrollView;
-@property (nonatomic, strong) XENHButton *_xenhtml_addButton;
-@property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
-@property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
-@property(retain, nonatomic) UIView *pageControl;
--(CGRect)effectivePageControlFrame;
-
-- (void)_xenhtml_layoutAddWidgetButton;
-- (void)_xenhtml_layoutEditingPlatter;
-
-- (void)_xenhtml_showVerticalEditingGuide;
-- (void)_xenhtml_hideVerticalEditingGuide;
-
-- (void)_xenhtml_recievedSettingsUpdate;
-- (void)_xenhtml_setDockPositionIfNeeded;
-- (void)_xenhtml_initialise;
-- (id)dockView;
-@end
-
-@interface SBRootFolderController : UIViewController
-@property (nonatomic,retain,readonly) SBRootFolderView *contentView;
-@property(readonly, nonatomic) long long currentPageIndex;
-@end
-
-// iOS 11
-@interface SBIconDragManager : NSObject
--(BOOL)isTrackingUserActiveIconDrags;
-@end
-
-@interface SBIconController : UIViewController
-+ (instancetype)sharedInstance;
--(SBRootFolderController*)_rootFolderController;
--(id)rootIconListAtIndex:(long long)arg1;
--(BOOL)scrollToIconListAtIndex:(long long)arg1 animate:(BOOL)arg2;
-
-@property(readonly, nonatomic) SBIconDragManager *iconDragManager; // iOS 11
-- (id)grabbedIcon; // iOS 10
-@end
-
-@interface SBDockView : UIView
-@end
+#pragma mark Function definitions
 
 static void hideForegroundForLSNotifIfNeeded();
 static void showForegroundForLSNotifIfNeeded();
@@ -375,6 +52,8 @@ void cancelIdleTimer();
 
 static XENHSetupWindow *setupWindow;
 
+#pragma mark Start hooks
+
 %group SpringBoard
 
 static XENHWidgetLayerController *backgroundViewController = nil;
@@ -382,12 +61,10 @@ static XENHWidgetLayerController *foregroundViewController = nil;
 static XENHWidgetLayerController *sbhtmlViewController = nil;
 static XENHHomescreenForegroundViewController *sbhtmlForegroundViewController = nil;
 
-static PHContainerView * __weak phContainerView;
 static NSMutableArray *foregroundHiddenRequesters;
 static XENHTouchForwardingRecognizer *lsBackgroundForwarder;
 static XENHTouchForwardingRecognizer *sbhtmlForwardingGesture;
-static BOOL iOS10ForegroundAddAttempted = NO;
-static XENDashBoardWebViewController *iOS10ForegroundWrapperController;
+static XENDashBoardWebViewController *lockscreenForegroundWrapperController;
 
 static id dashBoardMainPageViewController;
 static id dashBoardMainPageContentViewController;
@@ -469,13 +146,13 @@ static BOOL refuseToLoadDueToRehosting = NO;
             // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
             // and then feed that to the isolating controller to present.
             
-            if (!iOS10ForegroundWrapperController) {
-                iOS10ForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+            if (!lockscreenForegroundWrapperController) {
+                lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
             }
             
-            [iOS10ForegroundWrapperController setWebView:foregroundViewController.view];
+            [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
             
-            [dashBoardMainPageContentViewController presentContentViewController:iOS10ForegroundWrapperController animated:NO];
+            [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
             
             BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
             if (canHideForeground) {
@@ -548,12 +225,12 @@ static BOOL refuseToLoadDueToRehosting = NO;
         
         [XENHResources setHasSeenFirstUnlock:YES];
         
-        if (iOS10ForegroundWrapperController) {
+        if (lockscreenForegroundWrapperController) {
             
-            [[(UIViewController*)iOS10ForegroundWrapperController view] removeFromSuperview];
-            [(UIViewController*)iOS10ForegroundWrapperController removeFromParentViewController];
+            [[(UIViewController*)lockscreenForegroundWrapperController view] removeFromSuperview];
+            [(UIViewController*)lockscreenForegroundWrapperController removeFromParentViewController];
             
-            iOS10ForegroundWrapperController = nil;
+            lockscreenForegroundWrapperController = nil;
         }
         
         
@@ -594,7 +271,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         if (![XENHResources LSWidgetScrollPriority] && point.y >= SCREEN_HEIGHT*0.81) {
             outview = orig;
         } else {
-            outview = [iOS10ForegroundWrapperController.view hitTest:point withEvent:event];
+            outview = [lockscreenForegroundWrapperController.view hitTest:point withEvent:event];
         
             if (!outview)
                 outview = orig;
@@ -673,6 +350,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
     
     return orig;
 }
+
+%end
 
 #pragma mark Hide clock (iOS 11+)
 
@@ -1512,7 +1191,7 @@ void cancelIdleTimer() {
     }
 }
 
-#pragma mark Handle SBHTML touches (iOS 9+)
+#pragma mark Handle SBHTML touches (iOS 13+)
 
 %new
 - (BOOL)shouldIgnoreWebTouch {
@@ -1555,7 +1234,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide dock blur (iOS 9+)
+#pragma mark Hide dock blur (iOS 13+)
 
 %hook SBDockView
 
@@ -1607,7 +1286,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide dock blur (iOS 11 + iPad)
+#pragma mark Hide dock blur (iOS 13 + iPad)
 
 %hook SBFloatingDockPlatterView
 
@@ -1643,7 +1322,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide folder icon blur (iOS 9+)
+#pragma mark Hide folder icon blur (iOS 13+)
 
 %hook SBFolderIconBackgroundView
 
@@ -1686,7 +1365,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide icon labels (iOS 9+)
+#pragma mark Hide icon labels (iOS 13+)
 
 %hook SBIconView
 
@@ -1722,7 +1401,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide SB page dots (iOS 9+)
+#pragma mark Hide SB page dots (iOS 13+)
 
 %hook SBIconListPageControl
 
@@ -1771,7 +1450,7 @@ void cancelIdleTimer() {
 #endif
     }
     
-#pragma mark Layout foreground SBHTML add button and editing view (iOS 9+)
+#pragma mark Layout foreground SBHTML add button and editing view (iOS 13+)
     
     // Layout the add button at the very bottom of the scrollview
     [self _xenhtml_layoutAddWidgetButton];
@@ -1800,134 +1479,9 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Foreground SBHTML init (iOS 9)
-
-%hook SBIconController
-
-- (void)loadView {
-    %orig;
-    
-    // iOS verison guard
-    if ([XENHResources isAtLeastiOSVersion:10 subversion:0])
-        return;
-    
-    XENlog(@"SBIconController loadView");
-    
-    if ([XENHResources SBEnabled]) {
-        // Add view to root scroll view, and set that scrollview to be the hoster
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-        
-        XENlog(@"Created foreground SBHTML widgets view, pending presentation");
-    }
-    
-    // Register for settings updates
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLPerPageUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate"
-                                               object:nil];
-    
-    // Update dock position if necessary
-    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
-    [rootFolderView _xenhtml_setDockPositionIfNeeded];
-}
-
-// Patched in to support SBRootFolderController signature
-
-%new
-- (id)_xenhtml_contentView {
-    return [self _rootFolderController].contentView;
-}
-
-%new
-- (long long)_xenhtml_currentPageIndex {
-    return [self _rootFolderController].currentPageIndex;
-}
-
-%new
-- (id)iconListViewAtIndex:(long long)index {
-    return [self rootIconListAtIndex:index];
-}
-
-%new
-- (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2 {
-    return [self scrollToIconListAtIndex:arg1 animate:arg2];
-}
-
-// Will need to reload SBHTML if settings change.
-%new
--(void)recievedSBHTMLUpdate:(id)sender {
-    if ([XENHResources SBEnabled]) {
-        if (sbhtmlForegroundViewController) {
-            [sbhtmlForegroundViewController noteUserPreferencesDidChange];
-        } else {
-            XENlog(@"Loading foreground SBHTML widgets view");
-            
-            BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
-            
-            if (isOnMainScreen) {
-                sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-                [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-                
-                SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
-                rootFolderView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-                [rootFolderView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
-                XENlog(@"Added foreground SBHTML widgets view");
-            }
-        }
-    } else if (sbhtmlForegroundViewController) {
-        [sbhtmlForegroundViewController unloadWidgets];
-        [sbhtmlForegroundViewController.view removeFromSuperview];
-        sbhtmlForegroundViewController = nil;
-    }
-    
-    // Notify the scrollview amd contentView of changes
-    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
-    [rootFolderView _xenhtml_recievedSettingsUpdate];
-    [rootFolderView.scrollView _xenhtml_recievedSettingsUpdate];
-}
-
-%new
--(void)recievedSBHTMLPerPageUpdate:(id)sender {
-    // Notify the contentView of changes
-    SBRootFolderView *rootFolderView = [self _rootFolderController].contentView;
-    [rootFolderView _xenhtml_recievedSettingsUpdate];
-    [rootFolderView.scrollView _xenhtml_recievedSettingsUpdate];
-}
-
-%end
+#pragma mark Foreground SBHTML init (iOS 13+)
 
 %hook SBRootFolderController
-
--(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
-    
-    if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
-        SBRootFolderController *orig = %orig;
-        
-        if (orig) {
-            
-            orig.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-            
-            if ([XENHResources SBEnabled]) {
-                [orig.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
-                XENlog(@"Presented foreground SBHTML");
-            }
-        }
-        
-        return orig;
-    } else {
-        return %orig;
-    }
-}
 
 - (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
     // Set orientation?
@@ -1936,18 +1490,8 @@ void cancelIdleTimer() {
     return %orig;
 }
 
-%end
-
-#pragma mark Foreground SBHTML init (iOS 10+)
-
-%hook SBRootFolderController
-
 - (void)loadView {
     %orig;
-    
-    // iOS verison guard
-    if ([XENHResources isBelowiOSVersion:10 subversion:0])
-        return;
     
     XENlog(@"SBRootFolderController loadView");
     
@@ -2029,7 +1573,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Foreground SBHTML layout (iOS 9+)
+#pragma mark Foreground SBHTML layout (iOS 13+)
 
 %hook SBIconScrollView
 
@@ -2058,11 +1602,7 @@ void cancelIdleTimer() {
             }
         }
         
-        if ([UIDevice currentDevice].systemVersion.floatValue >= 13.0) {
-            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
-        } else {
-            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, -statusBarHeight, self.contentSize.width, SCREEN_HEIGHT);
-        }
+        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
     }
 }
 
@@ -2110,19 +1650,13 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Touch corrections for Per Page HTML mode (iOS 9+)
+#pragma mark Touch corrections for Per Page HTML mode (iOS 13+)
 
 %hook SBRootIconListView
 
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
-        BOOL isDraggingIcon = NO;
-        
-        if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
-            isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
-        } else {
-            isDraggingIcon = [[objc_getClass("SBIconController") sharedInstance] grabbedIcon] != nil;
-        }
+        BOOL isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
         
         // Allow any "overhanging" views to respond
         if (!self.clipsToBounds && !self.hidden && self.alpha > 0) {
@@ -2149,7 +1683,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Dock position for PerPageHTML mode (iOS 9+)
+#pragma mark Dock position for PerPageHTML mode (iOS 13+)
 
 %hook SBRootFolderView
 
@@ -2188,7 +1722,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Display Homescreen foreground add button when editing (iOS 9+)
+#pragma mark Display Homescreen foreground add button when editing (iOS 13+)
 
 static BOOL _xenhtml_inEditingMode = NO;
 static BOOL _xenhtml_isPreviewGeneration = NO;
@@ -2543,30 +2077,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %end
 
-#pragma mark Add proper debugging capabilities to UIWebView (iOS 13+)
-
-%hook UIWebView
-
-- (void)webView:(WebView *)webView exceptionWasRaised:(WebScriptCallFrame *)frame sourceId:(int)sid line:(int)line forWebFrame:(WebFrame *)webFrame {
-    NSString *url = [self.request.URL absoluteString];
-    NSString *errorString = [NSString stringWithFormat: @"Exception at %@, in function: %@ line: %@", url , [frame functionName], [NSNumber numberWithInt: line]];
-    
-    XENlog(errorString);
-    
-    %orig;
-}
-
-- (void)webView:(WebView *)webView failedToParseSource:(NSString *)source baseLineNumber:(unsigned)line fromURL:(NSURL *)url withError:(NSError *)error forWebFrame:(WebFrame *)webFrame {
-    NSString *urlstr = [url absoluteString];
-    NSString *errorString = [NSString stringWithFormat: @"Failed to parse source at %@, line: %@\n\n%@", urlstr, [NSNumber numberWithInt:line], error];
-    
-    XENlog(errorString);
-    
-    %orig;
-}
-
-%end
-
 #pragma mark Properly handle media controls on lockscreen (iOS 9)
 
 static void hideForegroundIfNeeded() {
@@ -2834,7 +2344,7 @@ static BOOL launchCydiaForSource = NO;
      * that cause serious issues for users on installation.
      *
      * This is to ensure that Xen HTML will only run when installed from:
-     * - http://xenpublic.incendo.ws
+     * - https://xenpublic.incendo.ws
      * - Packix
      * - Manual installation
      *
