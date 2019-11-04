@@ -265,9 +265,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
     
     UIView *outview = orig;
     
-    // TODO: Fix this on iOS 13
-    XENlog(@"HITTESTING %@", outview);
-    
     if ([(UIView*)orig class] == objc_getClass("NCNotificationListView")) {
         // We allow scrolling/touching the widget in the lower 20% of the display if the user
         // has toggled ON Prioritise Touch in Widget, else prevent swiping to old notifications.
