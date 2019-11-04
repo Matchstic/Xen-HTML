@@ -87,11 +87,11 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Layout LS web views (iOS 13+)
 
-%hook SBDashBoardView
+%hook CSCoverSheetView
 
 -(void)layoutSubviews {
     // Update orientation if needed.
-    BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+    BOOL canRotate = [[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController] shouldAutorotate];
     
     int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
     [XENHResources setCurrentOrientation:orientation];
@@ -122,11 +122,12 @@ static BOOL refuseToLoadDueToRehosting = NO;
     // i.e., on lock and on NC display.
     
     // Alright; add background and foreground webviews to the LS!
-    if ([XENHResources isAtLeastiOSVersion:13 subversion:0] && [XENHResources lsenabled]) {
+    if ([XENHResources lsenabled]) {
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         // Make sure we initialise our UI with the right orientation.
-        BOOL canRotate = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController] shouldAutorotate];
+        CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+        BOOL canRotate = [cont shouldAutorotate];
         
         int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
         [XENHResources setCurrentOrientation:orientation];
@@ -180,12 +181,12 @@ static BOOL refuseToLoadDueToRehosting = NO;
     }
 }
 
-#pragma mark Fix background controller being hidden when going to the camera (iOS 11)
+#pragma mark Fix background controller being hidden when going to the camera (iOS 13+)
 
 - (void)setWallpaperEffectView:(UIView*)wallpaperEffectView {
     %orig;
     
-    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
+    if ([XENHResources lsenabled]) {
         if (wallpaperEffectView) {
             [self.slideableContentView insertSubview:backgroundViewController.view aboveSubview:wallpaperEffectView];
         } else {
@@ -194,13 +195,13 @@ static BOOL refuseToLoadDueToRehosting = NO;
     }
 }
 
-#pragma mark Destroy UI on unlock (iOS 11)
+#pragma mark Destroy UI on unlock (iOS 13+)
 
 - (void)viewControllerDidDisappear {
     %orig;
     
     // On iOS 11, this is called whenever dashboard is hidden.
-    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
+    if ([XENHResources lsenabled]) {
         
         if (![XENHResources LSPersistentWidgets]) {
             XENlog(@"Unloading background HTML if present...");
@@ -234,8 +235,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
         }
         
         
-        // Don't reset the hidden requesters on iOS 12 for weirdness reasons
-        if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
+        // Don't reset the hidden requesters on iOS 13 for weirdness reasons
+        if ([XENHResources isBelowiOSVersion:13 subversion:0]) {
             [foregroundHiddenRequesters removeAllObjects];
             foregroundHiddenRequesters = nil;
         }
@@ -246,9 +247,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Fix touch through to the LS notifications gesture. (iOS 11)
+#pragma mark Fix touch through to the LS notifications gesture. (iOS 13+)
 
-%hook SBDashBoardMainPageView
+%hook CSMainPageView
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     // This class is also in iOS 10.
@@ -264,7 +265,10 @@ static BOOL refuseToLoadDueToRehosting = NO;
     
     UIView *outview = orig;
     
-    if ([(UIView*)orig class] == objc_getClass("NCNotificationListCollectionView")) {
+    // TODO: Fix this on iOS 13
+    XENlog(@"HITTESTING %@", outview);
+    
+    if ([(UIView*)orig class] == objc_getClass("NCNotificationListView")) {
         // We allow scrolling/touching the widget in the lower 20% of the display if the user
         // has toggled ON Prioritise Touch in Widget, else prevent swiping to old notifications.
         
@@ -285,7 +289,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Backing view controller for LS foreground webview. (iOS 10+)
+#pragma mark Backing view controller for LS foreground webview. (iOS 13+)
 
 %hook XENDashBoardWebViewController
 
@@ -307,7 +311,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 }
 
 /*
- * We were defining an SBDashBoardRegion. However, it appears Apple check whether any overlap,
+ * We were defining a CSRegion. However, it appears Apple check whether any overlap,
  * and if any do, the higher priority one is the only one displayed.
  */
 
@@ -328,7 +332,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-%hook SBDashBoardMainPageContentViewController
+%hook CSMainPageContentViewController
 
 -(id)init {
     id orig = %orig;
@@ -340,34 +344,16 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-// Doesn't exist in iOS 11!
-%hook SBDashBoardMainPageViewController
+#pragma mark Hide clock (iOS 13+)
 
--(id)init {
-    id orig = %orig;
-    
-    dashBoardMainPageViewController = orig;
-    
-    return orig;
-}
+%hook CSMainPageContentViewController
 
-%end
-
-#pragma mark Hide clock (iOS 11+)
-
-%hook SBDashBoardMainPageContentViewController
-
-- (void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
+- (void)aggregateAppearance:(CSAppearance*)arg1 {
     %orig;
     
-    // This class is also in iOS 10.
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        return;
-    }
+    CSComponent *dateView = nil;
     
-    SBDashBoardComponent *dateView = nil;
-    
-    for (SBDashBoardComponent *component in arg1.components) {
+    for (CSComponent *component in arg1.components) {
         if (component.type == 1) {
             dateView = component;
             break;
@@ -383,9 +369,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Hide Torch and Camera (iOS 11+)
+#pragma mark Hide Torch and Camera (iOS 13+)
 
-%hook SBDashBoardQuickActionsViewController
+%hook CSQuickActionsViewController
 
 - (_Bool)hasCamera {
     if ([XENHResources lsenabled] && [XENHResources LSHideTorchAndCamera]) {
@@ -407,7 +393,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Handle orientation (iOS 13+)
 
-%hook SBDashBoardViewController
+%hook CSCoverSheetViewController
 
 - (void)viewWillTransitionToSize:(CGSize)arg1 withTransitionCoordinator:(id)arg2 {
     %orig;
@@ -449,7 +435,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-%hook SBPagedScrollView
+%hook CSScrollView
 
 - (BOOL)touchesShouldCancelInContentView:(UIView *)view {
     BOOL orig = %orig;
@@ -457,7 +443,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
     if ([XENHResources lsenabled] && foregroundViewController) {
         // Either touches will be "stolen" more by the scroll view, or by the widget.
         if ([XENHResources LSWidgetScrollPriority]) {
-            SBDashBoardViewController *cont = [[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenViewController];
+            CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
             BOOL onMainPage = cont.lastSettledPageIndex == [cont _indexOfMainPage];
         
             if (onMainPage) {
@@ -484,24 +470,17 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 -(void)layoutSubviews {
     %orig;
-    
-    if ([XENHResources isAtLeastiOSVersion:10 subversion:0]) {
-        if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
-            self.hidden = YES;
-        }
-        return;
-    }
-    
-    if ([XENHResources lsenabled] && [XENHResources hideClock]) {
+
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
         self.hidden = YES;
     }
 }
 
 -(void)setHidden:(BOOL)hidden {
-    if ([XENHResources isAtLeastiOSVersion:10 subversion:0]) {
-        ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2 ? %orig(YES) : %orig);
+    if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
+        %orig(YES);
     } else {
-        ([XENHResources lsenabled] && [XENHResources hideClock] ? %orig(YES) : %orig);
+        %orig;
     }
 }
 
@@ -509,7 +488,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Same sized status bar (iOS 10+)
 
-%hook SBDashBoardViewController
+%hook CSCoverSheetViewController
 
 - (long long)statusBarStyle {
     return [XENHResources lsenabled] && [XENHResources useSameSizedStatusBar] ? 0 : %orig;
@@ -519,14 +498,14 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Hide LS status bar (iOS 10+)
 
-%hook SBDashBoardPageViewController
+%hook CSPageViewController
 
--(void)aggregateAppearance:(SBDashBoardAppearance*)arg1 {
+-(void)aggregateAppearance:(CSAppearance*)arg1 {
     %orig;
     
     // Slide statusBar with the lockscreen when presenting page. (needs confirmation)
     if ([XENHResources lsenabled] && [XENHResources hideStatusBar]) {
-        SBDashBoardComponent *statusBar = [[objc_getClass("SBDashBoardComponent") statusBar] hidden:YES];
+        CSComponent *statusBar = [[objc_getClass("CSComponent") statusBar] hidden:YES];
         [arg1 addComponent:statusBar];
     }
 }
@@ -535,7 +514,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 #pragma mark Clock in status bar (iOS 10+)
 
-%hook SBDashBoardViewController
+%hook CSCoverSheetViewController
 
 - (_Bool)wantsTimeInStatusBar {
     BOOL onMainPage = self.lastSettledPageIndex == [self _indexOfMainPage];
@@ -566,11 +545,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 %hook SBMainStatusBarStateProvider
 
 - (void)setTimeCloaked:(_Bool)arg1 {
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        %orig(arg1);
-        return;
-    }
-    
     if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
         %orig(NO);
     } else {
@@ -579,11 +553,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 }
 
 - (void)enableTime:(_Bool)arg1 crossfade:(_Bool)arg2 crossfadeDuration:(double)arg3 {
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        %orig(arg1, arg2, arg3);
-        return;
-    }
-    
     if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
         %orig(YES, arg2, arg3);
     } else {
@@ -592,11 +561,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 }
 
 - (void)enableTime:(_Bool)arg1 {
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        %orig(arg1);
-        return;
-    }
-    
     if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
         %orig(YES);
     } else {
@@ -605,10 +569,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 }
 
 - (_Bool)isTimeEnabled {
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        return %orig;
-    }
-    
     if ([XENHResources LSShowClockInStatusBar] && [XENHResources lsenabled]) {
         return YES;
     } else {
@@ -618,7 +578,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Ensure to always reset idle timer when we see touches in the LS (iOS 9+)
+#pragma mark Ensure to always reset idle timer when we see touches in the LS (iOS 13+)
 
 void resetIdleTimer() {
     // Idle timer handling has changed in iOS 11 (really?!)
@@ -631,7 +591,7 @@ void cancelIdleTimer() {
     resetIdleTimer();
 }
 
-// iOS 11
+// iOS 13
 %hook SBCoverSheetWindow
 
 - (void)sendEvent:(UIEvent *)event {
@@ -651,25 +611,11 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide STU view if necessary (iOS 10)
-
-%hook SBUICallToActionLabel
-
-- (void)setText:(id)arg1 forLanguage:(id)arg2 animated:(BOOL)arg3 {
-    if ([XENHResources lsenabled] && [XENHResources hideSTU]) {
-        %orig(@"", arg2, arg3);
-    } else {
-        %orig;
-    }
-}
-
-%end
-
 #pragma mark Hide STU view if necessary (iOS 11) and...
 #pragma mark Hide Home Bar (iOS 11 + iPhone X) and...
 #pragma mark Hide D22 Control Centre grabber (iOS 11 + iPhone X)
 
-%hook SBDashBoardTeachableMomentsContainerView
+%hook CSTeachableMomentsContainerView
 
 - (void)layoutSubviews {
     %orig;
@@ -681,10 +627,8 @@ void cancelIdleTimer() {
     UIView *homebar = MSHookIvar<UIView*>(self, "_homeAffordanceContainerView");
     homebar.hidden = [XENHResources lsenabled] && [XENHResources LSHideHomeBar];
     
-    if ([XENHResources isAtLeastiOSVersion:11 subversion:2]) {
-        UIView *grabber = MSHookIvar<UIView*>(self, "_controlCenterGrabberView");
-        grabber.hidden = [XENHResources lsenabled] && [XENHResources LSHideD22CCGrabber];
-    }
+    UIView *grabber = MSHookIvar<UIView*>(self, "_controlCenterGrabberView");
+    grabber.hidden = [XENHResources lsenabled] && [XENHResources LSHideD22CCGrabber];
 #endif
 }
 
@@ -731,7 +675,7 @@ void cancelIdleTimer() {
 
 #pragma mark Hide Handoff grabber (iOS 10)
 
-%hook SBDashBoardMainPageView
+%hook CSMainPageView
 
 - (void)_layoutSlideUpAppGrabberView {
     %orig;
@@ -755,7 +699,7 @@ void cancelIdleTimer() {
 
 #pragma mark Hide page control dots (iOS 11)
 
-%hook SBDashBoardFixedFooterView
+%hook CSFixedFooterView
 
 - (void)_layoutPageControl {
     %orig;
@@ -815,10 +759,6 @@ void cancelIdleTimer() {
 
 %new
 -(CGFloat)_xenhtml_minimumLockscreenIdleTime {
-    // This is iOS 11 onwards
-    if ([XENHResources isBelowiOSVersion:11 subversion:0]) {
-        return 0;
-    }
     
     if ([XENHResources lsenabled]) {
         return [XENHResources lockScreenIdleTime];
@@ -947,7 +887,7 @@ void cancelIdleTimer() {
     // There is: home-screen, app-switcher, and application
     
     // This class is also in iOS 10, and we don't want to do anything when locked.
-    if ([XENHResources isBelowiOSVersion:11 subversion:0] || [[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
         return %orig;
     }
     
@@ -1046,7 +986,7 @@ void cancelIdleTimer() {
 - (void)_handleBacklightLevelWillChange:(NSNotification*)arg1 {
     %orig;
     
-    if ([XENHResources isAtLeastiOSVersion:11 subversion:0] && [XENHResources lsenabled]) {
+    if ([XENHResources lsenabled]) {
         NSDictionary *userInfo = arg1.userInfo;
         
         CGFloat newBacklight = [[userInfo objectForKey:@"SBBacklightNewFactorKey"] floatValue];
@@ -1070,7 +1010,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark SBHTML (iOS 9+)
+#pragma mark SBHTML (iOS 13+)
 
 @interface UIViewController (Private)
 - (id)_screen;
@@ -2202,10 +2142,10 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-#pragma mark Properly handle media controls and notification on lockscreen (iOS 11+)
+#pragma mark Properly handle media controls and notification on lockscreen (iOS 13+)
 
 // Notifications visibility
-%hook SBDashBoardCombinedListViewController
+%hook CSCombinedListViewController
 
 - (void)_setListHasContent:(_Bool)arg1 {
     %orig;
@@ -2223,9 +2163,9 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-#pragma mark Adjust notification view positioning as required (iOS 11)
+#pragma mark Adjust notification view positioning as required (iOS 13+)
 
-%hook SBDashBoardCombinedListViewController
+%hook CSCombinedListViewController
 
 - (UIEdgeInsets)_listViewDefaultContentInsets {
     UIEdgeInsets orig = %orig;
@@ -2246,7 +2186,7 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-#pragma mark Used to forward touches to other views via a view tag. (iOS 9+)
+#pragma mark Used to forward touches to other views via a view tag. (iOS 13+)
 
 %hook UITouchesEvent
 
@@ -2307,15 +2247,6 @@ static void showForegroundForLSNotifIfNeeded() {
 
 %end
 
-// TODO: Not valid for iOS 10 and 11
-%hook SBLockScreenViewController
-
--(BOOL)suppressesSiri {
-    return ([XENHResources lsenabled] && setupWindow) ? YES : %orig;
-}
-
-%end
-
 %hook SBBacklightController
 
 - (void)_lockScreenDimTimerFired {
@@ -2327,10 +2258,6 @@ static void showForegroundForLSNotifIfNeeded() {
 }
 
 %end
-
-@interface SBLockScreenManager (Rehosting)
-- (_Bool)unlockUIFromSource:(int)arg1 withOptions:(id)arg2;
-@end
 
 static BOOL launchCydiaForSource = NO;
 
@@ -2537,8 +2464,8 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
             return;
         }
         
-        if (objc_getClass("SBDashBoardViewControllerBase")) {
-            Class $XENDashBoardWebViewController = objc_allocateClassPair(objc_getClass("SBDashBoardViewControllerBase"), "XENDashBoardWebViewController", 0);
+        if (objc_getClass("CSCoverSheetViewControllerBase")) {
+            Class $XENDashBoardWebViewController = objc_allocateClassPair(objc_getClass("CSCoverSheetViewControllerBase"), "XENDashBoardWebViewController", 0);
             objc_registerClassPair($XENDashBoardWebViewController);
         }
         

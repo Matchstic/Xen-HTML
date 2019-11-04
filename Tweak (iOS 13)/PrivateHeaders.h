@@ -44,11 +44,41 @@
 @property (nonatomic, readonly) NSArray *touches;
 @end
 
+@protocol SBLockScreenIdleTimerControlling <NSObject>
+@property(nonatomic) __weak id  idleTimerCoordinator;
+
+@optional
+- (void)removeIdleTimerDisabledAssertionReason:(NSString *)arg1;
+- (void)addIdleTimerDisabledAssertionReason:(NSString *)arg1;
+- (id)requestIdleTimerBehaviorForReason:(NSString *)arg1;
+@end
+
+@protocol SBLockScreenBacklightControlling <NSObject>
+@property(nonatomic) double backlightLevel;
+- (_Bool)shouldDisableALS;
+- (void)startLockScreenFadeInAnimationForSource:(int)arg1;
+- (void)setInScreenOffMode:(_Bool)arg1 forAutoUnlock:(_Bool)arg2 fromUnlockSource:(int)arg3;
+- (void)setInScreenOffMode:(_Bool)arg1;
+- (_Bool)isInScreenOffMode;
+@end
+
+@protocol SBIdleTimerProviding <NSObject>
+- (id)coordinatorRequestedIdleTimerBehavior:(id)arg1;
+@end
+
+@protocol SBLockScreenEnvironment <NSObject>
+@property(readonly, nonatomic) id <SBLockScreenIdleTimerControlling> idleTimerController;
+@property(readonly, nonatomic) id <SBLockScreenBacklightControlling> backlightController;
+@property(readonly, nonatomic) id <SBIdleTimerProviding> idleTimerProvider;
+@property(readonly, nonatomic) UIViewController *rootViewController;
+@end
+
 @interface SBLockScreenManager : NSObject
 +(instancetype)sharedInstance;
 - (void)setBioUnlockingDisabled:(BOOL)disabled forRequester:(id)requester;
-- (id)lockScreenViewController;
+- (id <SBLockScreenEnvironment>)lockScreenEnvironment;
 @property(readonly) _Bool isUILocked;
+- (_Bool)unlockUIFromSource:(int)arg1 withOptions:(id)arg2;
 @end
 
 @interface SpringBoard : UIApplication
@@ -67,7 +97,7 @@
 - (void)_xenhtml_addBackgroundTouchIfNeeded:(UIView*)view;
 @end
 
-@interface SBDashBoardView : UIView
+@interface CSCoverSheetView : UIView
 @property(strong, nonatomic) UIView *backgroundView;
 @property(strong, nonatomic) UIView *wallpaperEffectView;
 @property(readonly, nonatomic) UIView *slideableContentView;
@@ -77,12 +107,12 @@
 - (NSInteger)state;
 @end
 
-@interface SBDashBoardProudLockViewController : UIViewController
+@interface CSProudLockViewController : UIViewController
 - (void)_setIconVisible:(_Bool)arg1 animated:(_Bool)arg2;
 @end
 
 // iOS 10 additions.
-@interface SBDashBoardBehavior : NSObject
+@interface CSBehavior : NSObject
 + (id)behaviorForProvider:(id)arg1;
 + (id)behavior;
 @property(nonatomic) unsigned int restrictedCapabilities;
@@ -93,19 +123,19 @@
 @property(nonatomic) int idleTimerDuration;
 @end
 
-@interface SBDashBoardPageViewController : UIViewController
+@interface CSPageViewController : UIViewController
 - (void)aggregateBehavior:(id)arg1;
 - (void)aggregateAppearance:(id)arg1;
 @end
 
-@interface SBDashBoardAppearance : NSObject
+@interface CSAppearance : NSObject
 - (void)addComponent:(id)arg1;
 - (void)unionAppearance:(id)arg1;
 @property(copy, nonatomic) NSSet *components;
 - (void)removeComponent:(id)arg1;
 @end
 
-@interface SBDashBoardComponent : NSObject
+@interface CSComponent : NSObject
 + (id)tinting;
 + (id)wallpaper;
 + (id)slideableContent;
@@ -127,39 +157,38 @@
 - (id)priority:(long long)arg1;
 @end
 
-@interface SBDashBoardViewControllerBase : UIViewController
+@interface CSCoverSheetViewControllerBase : UIViewController
 - (void)registerView:(id)arg1 forRole:(long long)arg2;
 - (void)unregisterView:(id)arg1;
 @end
 
-@interface SBDashBoardNotificationAdjunctListViewController : SBDashBoardViewControllerBase
+@interface CSNotificationAdjunctListViewController : CSCoverSheetViewControllerBase
 @property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
 @end
 
-@interface XENDashBoardWebViewController : SBDashBoardViewControllerBase
+@interface XENDashBoardWebViewController : CSCoverSheetViewControllerBase
 -(void)setWebView:(UIView*)view;
 @end
 
-@interface SBDashBoardPresentationViewController : SBDashBoardViewControllerBase
+@interface CSPresentationViewController : CSCoverSheetViewControllerBase
 - (void)dismissContentViewController:(id)arg1 animated:(_Bool)arg2;
 - (void)presentContentViewController:(id)arg1 animated:(_Bool)arg2;
 @end
 
-@interface SBDashBoardNotificationListViewController : SBDashBoardViewControllerBase
+@interface CSNotificationListViewController : CSCoverSheetViewControllerBase
 @property(readonly, nonatomic) _Bool hasContent;
 @end
 
-@interface SBDashBoardMainPageContentViewController : SBDashBoardPresentationViewController
+@interface CSMainPageContentViewController : CSPresentationViewController
 @property(readonly, nonatomic, getter=isShowingMediaControls) _Bool showingMediaControls;
-@property(readonly, nonatomic) SBDashBoardNotificationListViewController *notificationListViewController;
-@property(readonly, copy, nonatomic) SBDashBoardBehavior *activeBehavior;
+@property(readonly, copy, nonatomic) CSBehavior *activeBehavior;
 @end
 
-@interface SBDashBoardMainPageViewController : SBDashBoardPageViewController
-@property(readonly, nonatomic) SBDashBoardMainPageContentViewController *contentViewController;
+@interface CSMainPageViewController : CSPageViewController
+@property(readonly, nonatomic) CSMainPageContentViewController *contentViewController;
 @end
 
-@interface SBDashBoardViewController : UIViewController
+@interface CSCoverSheetViewController : UIViewController
 @property(nonatomic) unsigned long long lastSettledPageIndex;
 -(unsigned long long)_indexOfMainPage;
 @end
@@ -196,7 +225,7 @@
 @property(retain, nonatomic) SBWorkspaceApplicationSceneTransitionContext *applicationContext;
 @end
 
-@interface SBDashBoardCombinedListViewController : SBDashBoardViewControllerBase
+@interface CSCombinedListViewController : CSCoverSheetViewControllerBase
 @property(nonatomic, getter=isNotificationContentHidden) _Bool notificationContentHidden;
 - (void)_updateListViewContentInset;
 - (UIView*)notificationListScrollView;
