@@ -31,7 +31,7 @@
 
 #pragma mark Simulator support
 
-%config(generator=internal);
+// %config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
