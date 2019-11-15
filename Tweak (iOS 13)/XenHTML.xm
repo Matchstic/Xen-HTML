@@ -29,7 +29,7 @@
 
 #pragma mark Simulator support
 
-%config(generator=internal);
+// %config(generator=internal);
 
 /*
  Other steps to compile for actual device again:
@@ -40,9 +40,6 @@
  */
 
 #pragma mark Function definitions
-
-static void hideForegroundForLSNotifIfNeeded();
-static void showForegroundForLSNotifIfNeeded();
 
 static void hideForegroundIfNeeded();
 static void showForegroundIfNeeded();
@@ -1076,7 +1073,8 @@ void cancelIdleTimer() {
         sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + inset, inset, inset, inset);
         
         // Add the gesture!
-        [mainView addGestureRecognizer:sbhtmlForwardingGesture];
+        // TODO: Fix why this breaks foreground touches on e.g. buttons!
+        // [mainView addGestureRecognizer:sbhtmlForwardingGesture];
     }
 }
 
@@ -1442,7 +1440,7 @@ void cancelIdleTimer() {
         
         [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
         
-        XENlog(@"Added foreground SBHTML widgets view");
+        XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
     }
     
     // Register for settings updates
@@ -1593,6 +1591,9 @@ void cancelIdleTimer() {
 
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
+        
+        XENlog(@"SBRootIconListView hitTest");
+        
         BOOL isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
         
         // Allow any "overhanging" views to respond
@@ -1601,6 +1602,7 @@ void cancelIdleTimer() {
                 CGPoint subPoint = [subview convertPoint:point fromView:self];
                 UIView *result = [subview hitTest:subPoint withEvent:event];
                 if (result != nil) {
+                    XENlog(@"SBRootIconListView hitTest (overhang) %@", result);
                     return result;
                 }
             }
@@ -1609,8 +1611,11 @@ void cancelIdleTimer() {
         // Ignore self as a valid view when not editing
         UIView *view = %orig;
         if ([view isEqual:self] && !isDraggingIcon) {
+            XENlog(@"SBRootIconListView hitTest set view to nil");
             view = nil;
         }
+        
+        XENlog(@"SBRootIconListView hitTest %@", view);
         
         return view;
     } else {
@@ -1964,6 +1969,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
     UIView *dockResult = [[self dockView] hitTest:dockSubPoint withEvent:event];
     
+    XENlog(@"SBRootFolderView hitTest dockResult: %@", dockResult);
+    
     // Favouring dock icons over anything else
     if (dockResult &&
         ![[dockResult class] isEqual:objc_getClass("SBRootFolderDockIconListView")] &&
@@ -2093,52 +2100,6 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-#pragma mark Hide widget for notifications if needed. (iOS 9)
-
-static void hideForegroundForLSNotifIfNeeded() {
-    if ([XENHResources LSFadeForegroundForNotifications] && ![XENHResources LSInStateNotificationsHidden]) {
-        addForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
-    }
-}
-
-static void showForegroundForLSNotifIfNeeded() {
-    if ([XENHResources LSFadeForegroundForNotifications] && [XENHResources LSInStateNotificationsHidden]) {
-        removeForegroundHiddenRequester(@"com.matchstic.xenhtml.notifications");
-    }
-}
-
-%hook SBLockScreenNotificationListController
-
-- (id)initWithNibName:(id)arg1 bundle:(id)arg2 {
-    id orig = %orig;
-    
-    if (orig) {
-        [XENHResources cacheNotificationListController:orig];
-    }
-    
-    return orig;
-}
-
-- (void)_updateModelAndViewForRemovalOfItem:(id)arg1 {
-    %orig;
-    
-    showForegroundForLSNotifIfNeeded();
-}
-
-- (void)_updateModelForRemovalOfItem:(id)arg1 updateView:(_Bool)arg2 {
-    %orig;
-    
-    showForegroundForLSNotifIfNeeded();
-}
-
-- (void)_updateModelAndViewForAdditionOfItem:(id)arg1 {
-    %orig;
-    
-    hideForegroundForLSNotifIfNeeded();
-}
-
-%end
-
 #pragma mark Properly handle media controls and notification on lockscreen (iOS 13+)
 
 // Notifications visibility
@@ -2260,6 +2221,7 @@ static BOOL launchCydiaForSource = NO;
 
 %hook SpringBoard
 
+// TODO: CHECKME: Does this still exist?
 -(void)applicationDidFinishLaunching:(id)arg1 {
     %orig;
     
@@ -2467,6 +2429,9 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         }
         
         %init(SpringBoard);
+        
+        // Do initial settings loading
+        [XENHResources reloadSettings];
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);

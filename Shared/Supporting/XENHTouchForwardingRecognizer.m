@@ -151,6 +151,8 @@
     
     // Handle safe area - views
     if (![[arg3 class] isEqual:objc_getClass("SBRootIconListView")] && // Icons
+        !([[arg3 class] isEqual:objc_getClass("SBIconListView")] &&
+          [XENHResources isAtLeastiOSVersion:13 subversion:0]) && // Icons (iOS 13)
         ![[arg3 class] isEqual:objc_getClass("SBIconScrollView")] && // Icon scrollview
         ![[arg3 class] isEqual:objc_getClass("IWWidgetsView")] && // iWidgets
         ![[arg3.layer name] isEqualToString:@"RootContent"] && // WKWebView

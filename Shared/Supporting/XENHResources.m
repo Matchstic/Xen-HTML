@@ -524,7 +524,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     [XENHResources setPreferenceKey:@"widgets" withValue:allLayerPreferences andPost:NO];
 }
 
-+(id)getPreferenceKey:(NSString*)key {
++ (id)getPreferenceKey:(NSString*)key {
+    if (!settings)
+        [self reloadSettings];
+    
     return [settings objectForKey:key];
 }
 
