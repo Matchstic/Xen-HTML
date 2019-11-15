@@ -15,6 +15,7 @@
 				C97152BF236F8BFA0021277B /* Compile into deb */,
 			);
 			dependencies = (
+				C94F49F9237DB23D004A74B0 /* PBXTargetDependency */,
 				C97152BE236F8BDE0021277B /* PBXTargetDependency */,
 				C97152BC236F8BDB0021277B /* PBXTargetDependency */,
 				C97152BA236F8BD70021277B /* PBXTargetDependency */,
@@ -110,6 +111,9 @@
 		C94775B620715D160003D039 /* XENHWallpaperViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947755A20715D150003D039 /* XENHWallpaperViewController.h */; };
 		C94775B720715D160003D039 /* XENHMoreReposController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947755B20715D150003D039 /* XENHMoreReposController.m */; };
 		C94775B820715D160003D039 /* XENHLSMediaController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947756520715D150003D039 /* XENHLSMediaController.m */; };
+		C94F49D7237DB0B9004A74B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
+		C94F49E2237DB0B9004A74B0 /* XenHTML.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94F49E1237DB0B9004A74B0 /* XenHTML.mm */; };
+		C94F49ED237DB10D004A74B0 /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; };
 		C9606EEB1C20E204006C8917 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606EEA1C20E204006C8917 /* WebKit.framework */; };
 		C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
@@ -181,6 +185,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C916431F227A4A790078338F;
 			remoteInfo = libpackageinfo;
+		};
+		C94F49F8237DB23D004A74B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C93C30A21BA72CA90037BA09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C94F49D5237DB0B9004A74B0;
+			remoteInfo = Loader;
 		};
 		C9715247236F87D90021277B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -333,6 +344,9 @@
 		C947755B20715D150003D039 /* XENHMoreReposController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHMoreReposController.m; sourceTree = "<group>"; };
 		C947756520715D150003D039 /* XENHLSMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHLSMediaController.m; sourceTree = "<group>"; };
 		C94E9A111E63AA2600932F4F /* libpackageinfo.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpackageinfo.dylib; path = ../../../../../opt/iOSOpenDev/lib/libpackageinfo.dylib; sourceTree = "<group>"; };
+		C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_Loader.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C94F49E0237DB0B9004A74B0 /* XenHTML.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		C94F49E1237DB0B9004A74B0 /* XenHTML.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.mm; sourceTree = "<group>"; };
 		C9606EEA1C20E204006C8917 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C9715239236F86F10021277B /* libTweak (Shared).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libTweak (Shared).a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9715251236F88080021277B /* XenHTML_13.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_13.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -408,6 +422,7 @@
 		C9B60546229347D10043581A /* BatteryManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BatteryManager.xcodeproj; path = BatteryManager/BatteryManager.xcodeproj; sourceTree = "<group>"; };
 		C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHSBForegroundController.h; sourceTree = "<group>"; };
 		C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHSBForegroundController.m; sourceTree = "<group>"; };
+		C9BDC30C2370EC35000D348E /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = PackageVersion.plist; path = Deploy/PackageVersion.plist; sourceTree = SOURCE_ROOT; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
 		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
@@ -430,6 +445,15 @@
 				C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */,
 				C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */,
 				C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C94F49D1237DB0B9004A74B0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C94F49ED237DB10D004A74B0 /* libsubstrate.tbd in Frameworks */,
+				C94F49D7237DB0B9004A74B0 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -517,6 +541,7 @@
 		C93C30A11BA72CA90037BA09 = {
 			isa = PBXGroup;
 			children = (
+				C94F49D8237DB0B9004A74B0 /* Loader */,
 				C9715266236F89A40021277B /* Tweak (iOS 9 to 12) */,
 				C9715253236F88080021277B /* Tweak (iOS 13) */,
 				C971523A236F86F10021277B /* Shared */,
@@ -535,6 +560,7 @@
 				C9F770491C7A459900C52880 /* XenHTMLPrefs.bundle */,
 				C9715239236F86F10021277B /* libTweak (Shared).a */,
 				C9715251236F88080021277B /* XenHTML_13.dylib */,
+				C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -819,9 +845,19 @@
 			path = "Support Panel";
 			sourceTree = "<group>";
 		};
+		C94F49D8237DB0B9004A74B0 /* Loader */ = {
+			isa = PBXGroup;
+			children = (
+				C94F49E0237DB0B9004A74B0 /* XenHTML.xm */,
+				C94F49E1237DB0B9004A74B0 /* XenHTML.mm */,
+			);
+			path = Loader;
+			sourceTree = "<group>";
+		};
 		C971523A236F86F10021277B /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C9BDC30C2370EC35000D348E /* PackageVersion.plist */,
 				C9715318236F902A0021277B /* Prefix.pch */,
 				C97152C0236F8CB30021277B /* Web Controller */,
 				C97152D9236F8CC30021277B /* Homescreen Foreground Widgets */,
@@ -853,14 +889,14 @@
 		C97152C0236F8CB30021277B /* Web Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C97152C1236F8CB30021277B /* XENHWidgetLayerController.h */,
-				C97152C2236F8CB30021277B /* XENHWidgetController.m */,
-				C97152C3236F8CB30021277B /* XENHWidgetLayerContainerView.h */,
-				C97152C4236F8CB30021277B /* PrivateWebKitHeaders.h */,
-				C97152C5236F8CB30021277B /* XENHWidgetEditingDelegate.h */,
-				C97152C6236F8CB30021277B /* XENHWidgetLayerController.m */,
-				C97152C7236F8CB30021277B /* XENHWidgetLayerContainerView.m */,
 				C97152C8236F8CB30021277B /* XENHWidgetController.h */,
+				C97152C2236F8CB30021277B /* XENHWidgetController.m */,
+				C97152C1236F8CB30021277B /* XENHWidgetLayerController.h */,
+				C97152C6236F8CB30021277B /* XENHWidgetLayerController.m */,
+				C97152C3236F8CB30021277B /* XENHWidgetLayerContainerView.h */,
+				C97152C7236F8CB30021277B /* XENHWidgetLayerContainerView.m */,
+				C97152C5236F8CB30021277B /* XENHWidgetEditingDelegate.h */,
+				C97152C4236F8CB30021277B /* PrivateWebKitHeaders.h */,
 			);
 			path = "Web Controller";
 			sourceTree = "<group>";
@@ -868,14 +904,14 @@
 		C97152CC236F8CBC0021277B /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
-				C97152CD236F8CBC0021277B /* XENHTouchPassThroughView.h */,
+				C97152D3236F8CBC0021277B /* XENHTouchForwardingRecognizer.h */,
 				C97152CE236F8CBC0021277B /* XENHTouchForwardingRecognizer.m */,
-				C97152CF236F8CBC0021277B /* XENHResources.h */,
+				C97152D4236F8CBC0021277B /* XENHWallpaperViewController.h */,
 				C97152D0236F8CBC0021277B /* XENHWallpaperViewController.m */,
 				C97152D1236F8CBC0021277B /* XENHTouchPassThroughView.m */,
+				C97152CD236F8CBC0021277B /* XENHTouchPassThroughView.h */,
+				C97152CF236F8CBC0021277B /* XENHResources.h */,
 				C97152D2236F8CBC0021277B /* XENHResources.m */,
-				C97152D3236F8CBC0021277B /* XENHTouchForwardingRecognizer.h */,
-				C97152D4236F8CBC0021277B /* XENHWallpaperViewController.h */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -883,12 +919,12 @@
 		C97152D9236F8CC30021277B /* Homescreen Foreground Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				C97152DA236F8CC30021277B /* XENHHomescreenForegroundViewController.m */,
-				C97152DB236F8CC30021277B /* XENHCloseButton.m */,
 				C97152DC236F8CC30021277B /* Picker */,
-				C97152ED236F8CC30021277B /* XENHButton.h */,
 				C97152EE236F8CC30021277B /* XENHHomescreenForegroundViewController.h */,
+				C97152DA236F8CC30021277B /* XENHHomescreenForegroundViewController.m */,
 				C97152EF236F8CC30021277B /* XENHCloseButton.h */,
+				C97152DB236F8CC30021277B /* XENHCloseButton.m */,
+				C97152ED236F8CC30021277B /* XENHButton.h */,
 				C97152F0236F8CC30021277B /* XENHButton.m */,
 			);
 			path = "Homescreen Foreground Widgets";
@@ -989,6 +1025,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C94F49D2237DB0B9004A74B0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C971524D236F88080021277B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1068,6 +1111,24 @@
 			productReference = C911F1D21C1E051300D4D582 /* XenHTML_9to12.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
+		C94F49D5237DB0B9004A74B0 /* Loader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C94F49EC237DB0B9004A74B0 /* Build configuration list for PBXNativeTarget "Loader" */;
+			buildPhases = (
+				C94F49CF237DB0B9004A74B0 /* ShellScript */,
+				C94F49D0237DB0B9004A74B0 /* Sources */,
+				C94F49D1237DB0B9004A74B0 /* Frameworks */,
+				C94F49D2237DB0B9004A74B0 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Loader;
+			productName = Loader;
+			productReference = C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		C9715238236F86F10021277B /* Tweak (Shared) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C971523F236F86F10021277B /* Build configuration list for PBXNativeTarget "Tweak (Shared)" */;
@@ -1136,6 +1197,10 @@
 					C911F1D11C1E051300D4D582 = {
 						CreatedOnToolsVersion = 6.4;
 					};
+					C94F49D5237DB0B9004A74B0 = {
+						CreatedOnToolsVersion = 11.2;
+						ProvisioningStyle = Automatic;
+					};
 					C9715238236F86F10021277B = {
 						CreatedOnToolsVersion = 11.2;
 						ProvisioningStyle = Automatic;
@@ -1180,6 +1245,7 @@
 			);
 			projectRoot = "";
 			targets = (
+				C94F49D5237DB0B9004A74B0 /* Loader */,
 				C911F1D11C1E051300D4D582 /* Tweak (iOS 9 to 12) */,
 				C9715250236F88080021277B /* Tweak (iOS 13) */,
 				C9715238236F86F10021277B /* Tweak (Shared) */,
@@ -1227,6 +1293,23 @@
 			shellPath = /bin/sh;
 			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
 		};
+		C94F49CF237DB0B9004A74B0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+		};
 		C971524A236F88080021277B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1260,7 +1343,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_BatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_BatteryManager.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_BatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_BatteryManager.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n\necho \"Copying Loader\"\ncp \"$builtpath/XenHTML_Loader.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib\"\n";
 		};
 		C97152BF236F8BFA0021277B /* Compile into deb */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1337,6 +1420,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C971529E236F89DB0021277B /* XenHTML.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C94F49D0237DB0B9004A74B0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C94F49E2237DB0B9004A74B0 /* XenHTML.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1434,6 +1525,11 @@
 			isa = PBXTargetDependency;
 			name = libpackageinfo;
 			targetProxy = C9164374227A4F270078338F /* PBXContainerItemProxy */;
+		};
+		C94F49F9237DB23D004A74B0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C94F49D5237DB0B9004A74B0 /* Loader */;
+			targetProxy = C94F49F8237DB23D004A74B0 /* PBXContainerItemProxy */;
 		};
 		C9715248236F87D90021277B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1655,6 +1751,94 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		C94F49E7237DB0B9004A74B0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_Loader;
+				SIMJECT = NO;
+				THEOS = /opt/theos;
+			};
+			name = Debug;
+		};
+		C94F49E8237DB0B9004A74B0 /* Simulator */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_Loader;
+				SIMJECT = NO;
+				THEOS = /opt/theos;
+			};
+			name = Simulator;
+		};
+		C94F49E9237DB0B9004A74B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = XenHTML_Loader;
+				SIMJECT = NO;
+				THEOS = /opt/theos;
 			};
 			name = Release;
 		};
@@ -2208,6 +2392,16 @@
 				C93C30C01BA72CAA0037BA09 /* Debug */,
 				C998B37F1E0E84C70073502C /* Simulator */,
 				C93C30C11BA72CAA0037BA09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C94F49EC237DB0B9004A74B0 /* Build configuration list for PBXNativeTarget "Loader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C94F49E7237DB0B9004A74B0 /* Debug */,
+				C94F49E8237DB0B9004A74B0 /* Simulator */,
+				C94F49E9237DB0B9004A74B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
