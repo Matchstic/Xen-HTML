@@ -1074,7 +1074,7 @@ void cancelIdleTimer() {
         
         // Add the gesture!
         // TODO: Fix why this breaks foreground touches on e.g. buttons!
-        // [mainView addGestureRecognizer:sbhtmlForwardingGesture];
+        [mainView addGestureRecognizer:sbhtmlForwardingGesture];
     }
 }
 
@@ -1846,7 +1846,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
         
     CGFloat scrollViewHeight = self.scrollView.frame.size.height;
-    if ([XENHResources isHarbour2Available])
+    if ([XENHResources isHarbour2Available] || IS_IPAD)
         scrollViewHeight -= 115.0; // Harbour 2 height and padding
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
@@ -1895,8 +1895,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     for (UIView *view in [self.subviews reverseObjectEnumerator]) {
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
-        
-        XENlog(@"DEBUG :: Inner loop checking: %@", hittested);
         
         if (hittested == nil)
             continue;
@@ -1969,8 +1967,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
     UIView *dockResult = [[self dockView] hitTest:dockSubPoint withEvent:event];
     
-    XENlog(@"SBRootFolderView hitTest dockResult: %@", dockResult);
-    
     // Favouring dock icons over anything else
     if (dockResult &&
         ![[dockResult class] isEqual:objc_getClass("SBRootFolderDockIconListView")] &&
@@ -2021,7 +2017,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %end
 
-#pragma mark Properly handle media controls on lockscreen (iOS 9)
+#pragma mark Properly handle widget hiding on lockscreen (iOS 13)
 
 static void hideForegroundIfNeeded() {
     
@@ -2068,37 +2064,6 @@ static void removeForegroundHiddenRequester(NSString* requester) {
     
     showForegroundIfNeeded();
 }
-
-%hook SBLockScreenViewController
-
-- (void)_setMediaControlsVisible:(BOOL)visible {
-    %orig;
-    
-    if (foregroundViewController && [XENHResources LSFadeForegroundForMedia]) {
-        // If showing controls, fade the foreground ONLY if set to.
-        
-#if TARGET_IPHONE_SIMULATOR==0
-        BOOL actuallyHasControls = YES;
-        
-        UIViewController *mpu = MSHookIvar<UIViewController*>(self, "_mediaControlsViewController");
-        if (!mpu) {
-            actuallyHasControls = NO;
-        } else if (!mpu.view.superview) {
-            actuallyHasControls = NO;
-        } else if (mpu.view.alpha == 0.0) {
-            actuallyHasControls = NO;
-        }
-        
-        if (visible && actuallyHasControls) {
-            addForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
-        } else {
-            removeForegroundHiddenRequester(@"com.matchstic.xenhtml.mediacontrols");
-        }
-#endif
-    }
-}
-
-%end
 
 #pragma mark Properly handle media controls and notification on lockscreen (iOS 13+)
 
@@ -2221,7 +2186,6 @@ static BOOL launchCydiaForSource = NO;
 
 %hook SpringBoard
 
-// TODO: CHECKME: Does this still exist?
 -(void)applicationDidFinishLaunching:(id)arg1 {
     %orig;
     

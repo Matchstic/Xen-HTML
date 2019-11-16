@@ -129,7 +129,15 @@
     return NO;
 }
 
-- (BOOL)_shouldReceiveTouch:(UITouch*)touch recognizerView:(UIView*)arg2 touchView:(UIView*)arg3; {
+- (BOOL)_shouldReceiveTouch:(UITouch*)touch recognizerView:(UIView*)arg2 touchView:(UIView*)arg3 {
+    return [self shouldReceiveTouch:touch inView:arg3];
+}
+
+- (BOOL)_shouldReceiveTouch:(UITouch*)touch forEvent:(id)event recognizerView:(UIView*)arg3 {
+    return [self shouldReceiveTouch:touch inView:touch.view];
+}
+
+- (BOOL)shouldReceiveTouch:(UITouch*)touch inView:(UIView*)arg3 {
     CGPoint pointInView = [touch _locationInSceneReferenceSpace];
     
     // Handle safe area - insets
