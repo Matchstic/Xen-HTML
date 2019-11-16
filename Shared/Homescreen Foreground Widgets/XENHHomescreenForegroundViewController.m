@@ -41,6 +41,7 @@
 - (long long)_xenhtml_currentPageIndex;
 - (_Bool)setCurrentPageIndex:(long long)arg1 animated:(_Bool)arg2;
 - (SBIconListView*)iconListViewAtIndex:(unsigned long long)arg1;
+@property(readonly, nonatomic) long long todayViewPageIndex;
 @end
 
 
@@ -564,6 +565,12 @@
     
     long long currentPage = self.popoverPresentationController._xenhtml_currentPageIndex;
     
+    if ([XENHResources isAtLeastiOSVersion:13 subversion:0] &&
+        // TODO: Is this check valid on iPad?
+        self.popoverPresentationController.todayViewPageIndex == currentPage - 1) {
+        return;
+    }
+    
     // Move one page backwards, but don't allow going to the today page
     [self.popoverPresentationController setCurrentPageIndex:currentPage - 1 animated:YES];
 }
@@ -575,8 +582,16 @@
     long long currentPage = self.popoverPresentationController._xenhtml_currentPageIndex;
     long long nextPage = currentPage + 1;
     
-    if ([[self.popoverPresentationController iconListViewAtIndex:nextPage] isEmpty])
-        return; // Don't add a widget to an empty list view, because it will become inaccessible
+    // Don't add a widget to an empty list view, because it will become inaccessible
+    if ([XENHResources isAtLeastiOSVersion:13 subversion:0]) {
+        // Convert to array indexing
+        // TODO: Is this conversion valid on iPad?
+        long long nextPageConverted = nextPage - 101;
+        
+        if ([[self.popoverPresentationController iconListViewAtIndex:nextPageConverted] isEmpty]) return;
+    } else {
+        if ([[self.popoverPresentationController iconListViewAtIndex:nextPage] isEmpty]) return;
+    }
     
     [self.popoverPresentationController setCurrentPageIndex:nextPage animated:YES];
 }
