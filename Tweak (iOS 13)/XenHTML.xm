@@ -1841,8 +1841,10 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
         
     CGFloat scrollViewHeight = self.scrollView.frame.size.height;
-    if ([XENHResources isHarbour2Available] || IS_IPAD)
+    if ([XENHResources isHarbour2Available])
         scrollViewHeight -= 115.0; // Harbour 2 height and padding
+    else if (IS_IPAD)
+        scrollViewHeight -= 145.0; // guesstimate
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
                                                  scrollViewHeight
