@@ -1073,7 +1073,6 @@ void cancelIdleTimer() {
         sbhtmlForwardingGesture.safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + inset, inset, inset, inset);
         
         // Add the gesture!
-        // TODO: Fix why this breaks foreground touches on e.g. buttons!
         [mainView addGestureRecognizer:sbhtmlForwardingGesture];
     }
 }
@@ -1530,7 +1529,7 @@ void cancelIdleTimer() {
         
         for (UIView *view in self.subviews) {
             // First iconlist subview
-            if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+            if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
                 noTodayPage = view.frame.origin.x == 0;
                 
                 break;
@@ -1587,12 +1586,10 @@ void cancelIdleTimer() {
 
 #pragma mark Touch corrections for Per Page HTML mode (iOS 13+)
 
-%hook SBRootIconListView
+%hook SBIconListView
 
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if ([XENHResources SBEnabled] && [XENHResources SBPerPageHTMLWidgetMode]) {
-        
-        XENlog(@"SBRootIconListView hitTest");
         
         BOOL isDraggingIcon = [[[objc_getClass("SBIconController") sharedInstance] iconDragManager] isTrackingUserActiveIconDrags];
         
@@ -1602,7 +1599,7 @@ void cancelIdleTimer() {
                 CGPoint subPoint = [subview convertPoint:point fromView:self];
                 UIView *result = [subview hitTest:subPoint withEvent:event];
                 if (result != nil) {
-                    XENlog(@"SBRootIconListView hitTest (overhang) %@", result);
+                    XENlog(@"SBIconListView hitTest (overhang) %@", result);
                     return result;
                 }
             }
@@ -1611,11 +1608,9 @@ void cancelIdleTimer() {
         // Ignore self as a valid view when not editing
         UIView *view = %orig;
         if ([view isEqual:self] && !isDraggingIcon) {
-            XENlog(@"SBRootIconListView hitTest set view to nil");
+            XENlog(@"SBIconListView hitTest set view to nil");
             view = nil;
         }
-        
-        XENlog(@"SBRootIconListView hitTest %@", view);
         
         return view;
     } else {
@@ -1835,7 +1830,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     
     for (UIView *view in self.scrollView.subviews) {
         // First iconlist subview
-        if ([[view class] isEqual:objc_getClass("SBRootIconListView")]) {
+        if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
             lowestOffset = view.frame.origin.x;
             
             break;
@@ -1916,7 +1911,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         }
         
         // Lowest subview gets a special case
-        if ([[hittested class] isEqual:objc_getClass("SBRootIconListView")]) {
+        if ([[hittested class] isEqual:objc_getClass("SBIconListView")]) {
             if (!result) {
                 // Only set if we don't have anything caught beforehand
                 result = hittested;

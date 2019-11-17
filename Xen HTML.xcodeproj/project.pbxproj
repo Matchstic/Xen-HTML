@@ -1379,7 +1379,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ${SIMJECT} = \"YES\" ]; then\n\necho \"Automating simject...\"\ncp \"${PROJECT_DIR}/LatestBuild/XenHTML_13.dylib\" /opt/simject\nfor dylib in /opt/simject/*.dylib; do ldid -S \"$dylib\"; done\nresim\n\nfi\n";
+			shellScript = "if [ ${SIMJECT} = \"YES\" ]; then\n\necho \"Automating simject...\"\ncp \"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}\" /opt/simject\nfor dylib in /opt/simject/*.dylib; do ldid -S \"$dylib\"; done\nresim\n\nfi\n";
 		};
 		C9CD07F42252BADD006C94FF /* Copy for simject if needed */ = {
 			isa = PBXShellScriptBuildPhase;

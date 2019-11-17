@@ -204,6 +204,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
                              isWidgetFullscreen ? SCREEN_HEIGHT : [[self.widgetMetadata objectForKey:@"height"] floatValue]
                              );
     
+    if (rect.size.height > SCREEN_HEIGHT)
+        rect.size.height = self.view.bounds.size.height;
+    
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     //config.processPool = [XENHWidgetController sharedProcessPool];
@@ -339,6 +342,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
                              isWidgetFullscreen ? SCREEN_HEIGHT : [[self.widgetMetadata objectForKey:@"height"] floatValue]
                              );
     
+    if (rect.size.height > SCREEN_HEIGHT)
+        rect.size.height = self.view.bounds.size.height;
+    
     if (self.legacyWebView) {
         [self.legacyWebView removeFromSuperview];
         self.legacyWebView = nil;
@@ -469,6 +475,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
                             isWidgetFullscreen ? SCREEN_WIDTH : [[self.widgetMetadata objectForKey:@"width"] floatValue],
                             isWidgetFullscreen ? SCREEN_HEIGHT : [[self.widgetMetadata objectForKey:@"height"] floatValue]
                   );
+    
+    if (rect.size.height > self.view.bounds.size.height)
+        rect.size.height = self.view.bounds.size.height;
     
     self.webView.frame = rect;
     self.legacyWebView.frame = rect;

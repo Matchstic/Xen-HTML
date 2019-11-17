@@ -37,7 +37,7 @@
 - (void)resetIdleTimer;
 @end
 
-@interface SBRootIconListView : UIView
+@interface SBIconListView : UIView
 @end
 
 @interface UITapGestureRecognizer (Private)
