@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBHomeScreenView; @class _UIPlatterView; @class CSCoverSheetView; @class SBFolderIconBackgroundView; @class CSQuickActionsViewController; @class SBBacklightController; @class SBApplication; @class SBIconView; @class CSScrollView; @class SBHomeScreenViewController; @class SBIconListPageControl; @class SpringBoard; @class CSMainPageContentViewController; @class CSCoverSheetViewController; @class XENDashBoardWebViewController; @class SBIdleTimerDefaults; @class SBHorizontalScrollFailureRecognizer; @class SBFloatingDockPlatterView; @class SBRootFolderView; @class SBLockScreenManager; @class SBRootFolderController; @class CSCombinedListViewController; @class SBFLockScreenDateView; @class CSTeachableMomentsContainerView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBIconListView; @class CSFixedFooterView; @class UITouchesEvent; @class SBScreenWakeAnimationController; @class CSMainPageView; @class SBCoverSheetWindow; @class SBMainWorkspace; @class SBDockView; @class SBHomeScreenWindow; @class CSPageViewController; @class UIWKTextLoupeInteraction; @class SBUIProudLockIconView; @class UITouch; @class SBHomeScreenPreviewView; @class SBMainSwitcherViewController; @class WKWebView; @class SBIconScrollView; @class SBMainStatusBarStateProvider; 
+@class CSTeachableMomentsContainerView; @class SBIconView; @class SBRootFolderView; @class SBBacklightController; @class SpringBoard; @class SBHomeScreenViewController; @class CSPageViewController; @class SBScreenWakeAnimationController; @class SBRootFolderController; @class CSMainPageContentViewController; @class XENDashBoardWebViewController; @class SBMainWorkspace; @class _UIPlatterView; @class WKWebView; @class CSCoverSheetViewController; @class CSScrollView; @class SBHomeScreenWindow; @class SBMainStatusBarStateProvider; @class SBFolderIconBackgroundView; @class SBLockScreenManager; @class UITouchesEvent; @class SBHorizontalScrollFailureRecognizer; @class SBIconListView; @class SBIconScrollView; @class CSCoverSheetView; @class CSQuickActionsViewController; @class UIWKTextLoupeInteraction; @class CSCombinedListViewController; @class UITouch; @class SBFloatingDockPlatterView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBHomeScreenPreviewView; @class CSFixedFooterView; @class SBHomeScreenView; @class SBDockView; @class CSMainPageView; @class SBIdleTimerDefaults; @class SBUIProudLockIconView; @class SBCoverSheetWindow; @class SBMainSwitcherViewController; @class SBIconListPageControl; @class SBApplication; @class SBFLockScreenDateView; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -489,6 +489,8 @@ static BOOL _logos_method$SpringBoard$CSScrollView$touchesShouldCancelInContentV
 
 
 static void _logos_method$SpringBoard$SBFLockScreenDateView$layoutSubviews(_LOGOS_SELF_TYPE_NORMAL SBFLockScreenDateView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+    self.hidden = NO;
+    
     _logos_orig$SpringBoard$SBFLockScreenDateView$layoutSubviews(self, _cmd);
 
     if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
@@ -2401,7 +2403,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_456de7ab(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_c3e2db95(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     {}

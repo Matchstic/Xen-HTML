@@ -463,6 +463,8 @@ static BOOL refuseToLoadDueToRehosting = NO;
 %hook SBFLockScreenDateView
 
 -(void)layoutSubviews {
+    self.hidden = NO;
+    
     %orig;
 
     if ([XENHResources lsenabled] && [XENHResources _hideClock10] == 2) {
