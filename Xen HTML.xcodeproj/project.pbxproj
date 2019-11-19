@@ -15,6 +15,8 @@
 				C97152BF236F8BFA0021277B /* Compile into deb */,
 			);
 			dependencies = (
+				C9400C112383003400EE5164 /* PBXTargetDependency */,
+				C9400C0D2383003100EE5164 /* PBXTargetDependency */,
 				C94F49F9237DB23D004A74B0 /* PBXTargetDependency */,
 				C97152BE236F8BDE0021277B /* PBXTargetDependency */,
 				C97152BC236F8BDB0021277B /* PBXTargetDependency */,
@@ -185,6 +187,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = C916431F227A4A790078338F;
 			remoteInfo = libpackageinfo;
+		};
+		C9400C0C2383003100EE5164 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60546229347D10043581A /* BatteryManager.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9B6051B229346840043581A;
+			remoteInfo = BatteryManager;
+		};
+		C9400C102383003400EE5164 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9B60509229336600043581A /* WebGL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9B604ED2293320E0043581A;
+			remoteInfo = WebGL;
 		};
 		C94F49F8237DB23D004A74B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1525,6 +1541,16 @@
 			isa = PBXTargetDependency;
 			name = libpackageinfo;
 			targetProxy = C9164374227A4F270078338F /* PBXContainerItemProxy */;
+		};
+		C9400C0D2383003100EE5164 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BatteryManager;
+			targetProxy = C9400C0C2383003100EE5164 /* PBXContainerItemProxy */;
+		};
+		C9400C112383003400EE5164 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WebGL;
+			targetProxy = C9400C102383003400EE5164 /* PBXContainerItemProxy */;
 		};
 		C94F49F9237DB23D004A74B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

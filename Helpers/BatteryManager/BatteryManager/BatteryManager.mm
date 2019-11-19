@@ -89,7 +89,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class UIApp; @class XENHWidgetController; 
+@class UIApp; @class XENHWidgetController; @class WKWebView; 
 
 
 #line 70 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -160,7 +160,11 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     BOOL wasPausedPreviously = webView._xh_isPaused;
     webView._xh_isPaused = isPaused;
     
-    doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+    try {
+        doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+    } catch (...) {
+        XENlog(@"Woah what the heck?");
+    }
 }
 
 
@@ -256,7 +260,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_d2bd0324(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_d1105d9c(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];

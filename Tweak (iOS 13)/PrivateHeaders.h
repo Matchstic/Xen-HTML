@@ -288,4 +288,12 @@
 
 @end
 
+@interface FBApplicationProcess : NSObject
+@property (nonatomic,copy,readonly) NSString * bundleIdentifier;
+@end
+
+@interface SBApplication : NSObject
+@property (nonatomic,copy,readonly) NSString * bundleIdentifier;
+@end
+
 #endif /* Headers_h */

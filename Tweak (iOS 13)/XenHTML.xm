@@ -786,16 +786,26 @@ void cancelIdleTimer() {
 
 %hook SBMainWorkspace
 
-- (void)applicationProcessDidExit:(id)arg1 withContext:(id)arg2 {
+- (void)applicationProcessDidExit:(FBApplicationProcess*)arg1 withContext:(id)arg2 {
     // Here, we will handle when an app crashes, or closes. We will assume going back to the homescreen.
     // Furthermore, it can be assumed that SBHTML will be visible already if quit from the switcher.
     
-    XENlog(@"Showing SBHTML due to application exit, and the assumption that we will progress to the homescreen");
-    [sbhtmlViewController setPaused:NO];
-    [sbhtmlForegroundViewController setPaused:NO];
-    
-    [sbhtmlViewController doJITWidgetLoadIfNecessary];
-    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    dispatch_async(dispatch_get_main_queue(), ^(){
+        SBApplication *frontmost = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
+                   
+        // Compare frontmost bundleID to arg1's.
+        // If match, then the frontmost just exited and we're at the Homescreen
+        
+        if (!frontmost || [frontmost.bundleIdentifier isEqualToString:arg1.bundleIdentifier]) {
+             XENlog(@"Showing SBHTML due to application exit onto the homescreen");
+            
+            [sbhtmlViewController setPaused:NO];
+            [sbhtmlForegroundViewController setPaused:NO];
+            
+            [sbhtmlViewController doJITWidgetLoadIfNecessary];
+            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+        }
+    });
     
     %orig;
 }

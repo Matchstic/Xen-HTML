@@ -134,7 +134,11 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     BOOL wasPausedPreviously = webView._xh_isPaused;
     webView._xh_isPaused = isPaused;
     
-    doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+    try {
+        doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+    } catch (...) {
+        XENlog(@"Woah what the heck?");
+    }
 }
 
 
