@@ -44,6 +44,10 @@
 @interface SBIconListView : UIView
 @end
 
+@interface SBIconView : UIView
+- (void)_xenhtml_registerNotification;
+@end
+
 @interface UITapGestureRecognizer (Private)
 @property (nonatomic, readonly) NSArray *touches;
 @end

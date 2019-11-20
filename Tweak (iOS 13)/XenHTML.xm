@@ -1276,15 +1276,30 @@ void cancelIdleTimer() {
 
 %hook SBIconView
 
--(id)initWithContentType:(unsigned long long)arg1 {
+-(id)initWithFrame:(CGRect)arg1 {
     id orig = %orig;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:orig
+    [orig _xenhtml_registerNotification];
+    return orig;
+}
+
+-(id)initWithConfigurationOptions:(unsigned long long)arg1 {
+    id orig = %orig;
+    [orig _xenhtml_registerNotification];
+    return orig;
+}
+
+-(id)initWithConfigurationOptions:(unsigned long long)arg1 listLayoutProvider:(id)arg2 {
+    id orig = %orig;
+    [orig _xenhtml_registerNotification];
+    return orig;
+}
+
+%new
+- (void)_xenhtml_registerNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlIconLabelsUpdate"
                                                object:nil];
-    
-    return orig;
 }
 
 -(void)layoutSubviews {
