@@ -37,6 +37,10 @@
 - (void)resetIdleTimer;
 @end
 
+@interface SBIdleTimerDefaults : NSObject
+- (CGFloat)_xenhtml_minimumLockscreenIdleTime;
+@end
+
 @interface SBIconListView : UIView
 @end
 

@@ -717,45 +717,11 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Lockscreen dim duration adjustments (iOS 11+)
+#pragma mark Lockscreen dim duration adjustments (iOS 13+)
 
-%hook SBIdleTimerDefaults
+%hook SBIdleTimerGlobalStateMonitor
 
-- (void)_bindAndRegisterDefaults {
-    %orig;
-    
-    /*
-     * Now this was an interesting one to figure out.
-     *
-     * As part of the implementation of this method, Apple goes and binds
-     * a default value to the various properties this class presents.
-     *
-     * When hooking minimumLockscreenIdleTime directly, this binding
-     * has the effect of overwriting the newly hooked method with a singular
-     * value, but only with Substrate. Substitute happily ignores this, and still
-     * ensures any call to minimumLockscreenIdleTime is handled by the hooked version.
-     *
-     * To get around this, I'm using some ObjC swizzling to point at my "hooked" function
-     * when the binding is done with at runtime.
-     */
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Class clazz = objc_getClass("SBIdleTimerDefaults");
-        
-        SEL originalSelector = @selector(minimumLockscreenIdleTime);
-        SEL swizzledSelector = @selector(_xenhtml_minimumLockscreenIdleTime);
-        
-        Method originalMethod = class_getInstanceMethod(clazz, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(clazz, swizzledSelector);
-        
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-    });
-}
-
-%new
--(CGFloat)_xenhtml_minimumLockscreenIdleTime {
-    
+-(CGFloat)minimumLockscreenIdleTime {
     if ([XENHResources lsenabled]) {
         return [XENHResources lockScreenIdleTime];
     }
@@ -763,8 +729,8 @@ void cancelIdleTimer() {
     if (setupWindow || ![XENHResources hasDisplayedSetupUI]) {
         return 1000;
     }
-    
-    return 0;
+
+    return %orig;
 }
 
 %end
