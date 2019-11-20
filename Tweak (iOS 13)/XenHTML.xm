@@ -1236,18 +1236,7 @@ void cancelIdleTimer() {
 
 #pragma mark Hide folder icon blur (iOS 13+)
 
-%hook SBFolderIconBackgroundView
-
--(id)initWithDefaultSize {
-    id orig = %orig;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:orig
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlFolderUpdate"
-                                               object:nil];
-    
-    return orig;
-}
+%hook SBFolderIconImageView
 
 -(id)initWithFrame:(CGRect)arg1 {
     id orig = %orig;
@@ -1264,14 +1253,20 @@ void cancelIdleTimer() {
     %orig;
     
     if ([XENHResources SBEnabled] && [XENHResources hideBlurredFolderBG]) {
-        [self setHidden:YES];
+        #if TARGET_IPHONE_SIMULATOR==0
+            [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:YES];
+            [MSHookIvar<UIView*>(self, "_solidColorBackgroundView") setHidden:YES];
+        #endif
     }
 }
 
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
     if ([XENHResources SBEnabled]) {
-        [self setHidden:[XENHResources hideBlurredFolderBG]];
+        #if TARGET_IPHONE_SIMULATOR==0
+            [MSHookIvar<UIView*>(self, "_backgroundView") setHidden:[XENHResources hideBlurredFolderBG]];
+            [MSHookIvar<UIView*>(self, "_solidColorBackgroundView") setHidden:[XENHResources hideBlurredFolderBG]];
+        #endif
     }
 }
 
