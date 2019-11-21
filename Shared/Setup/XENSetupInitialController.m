@@ -39,7 +39,11 @@
     self.installComplete.backgroundColor = [UIColor clearColor];
     self.installComplete.text = [XENHResources localisedStringForKey:@"SETUP_INITIAL_TITLE"];
     self.installComplete.textAlignment = NSTextAlignmentCenter;
-    self.installComplete.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.installComplete.textColor = [UIColor labelColor];
+    } else {
+        self.installComplete.textColor = [UIColor blackColor];
+    }
     self.installComplete.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
     self.installComplete.numberOfLines = 0;
     
@@ -49,7 +53,11 @@
     self.helloText.backgroundColor = [UIColor clearColor];
     self.helloText.text = [XENHResources localisedStringForKey:@"SETUP_INITIAL_FOOTER"];
     self.helloText.textAlignment = NSTextAlignmentCenter;
-    self.helloText.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.helloText.textColor = [UIColor labelColor];
+    } else {
+        self.helloText.textColor = [UIColor blackColor];
+    }
     self.helloText.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
     self.helloText.numberOfLines = 0;
     

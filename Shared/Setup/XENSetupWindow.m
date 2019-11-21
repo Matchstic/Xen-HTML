@@ -85,7 +85,13 @@ static XENHSetupWindow *shared;
     self = [super initWithFrame:frame];
     
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        } else {
+            // Fallback on earlier versions
+            self.backgroundColor = [UIColor whiteColor];
+        }
+        
         self.windowLevel = 1081;
         
         self.usingQuickSetup = NO;

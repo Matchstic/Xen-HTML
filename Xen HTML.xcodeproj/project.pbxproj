@@ -952,11 +952,11 @@
 				C97152DD236F8CC30021277B /* Settings */,
 				C97152E6236F8CC30021277B /* XENHPickerPreviewController.h */,
 				C97152E7236F8CC30021277B /* XENHHomescreenForegroundPickerCell.h */,
-				C97152E8236F8CC30021277B /* XENHHomescreenForegroundPickerController.h */,
-				C97152E9236F8CC30021277B /* XENHHomescreenForegroundPickerDelegate.h */,
 				C97152EA236F8CC30021277B /* XENHHomescreenForegroundPickerCell.m */,
-				C97152EB236F8CC30021277B /* XENHPickerPreviewController.m */,
+				C97152E8236F8CC30021277B /* XENHHomescreenForegroundPickerController.h */,
 				C97152EC236F8CC30021277B /* XENHHomescreenForegroundPickerController.m */,
+				C97152E9236F8CC30021277B /* XENHHomescreenForegroundPickerDelegate.h */,
+				C97152EB236F8CC30021277B /* XENHPickerPreviewController.m */,
 			);
 			path = Picker;
 			sourceTree = "<group>";
@@ -965,13 +965,13 @@
 			isa = PBXGroup;
 			children = (
 				C97152DE236F8CC30021277B /* XENHConfigJSController.h */,
-				C97152DF236F8CC30021277B /* XENHMetadataOptionsController.h */,
-				C97152E0236F8CC30021277B /* XENHConfigJSCell.m */,
-				C97152E1236F8CC30021277B /* XENHFallbackOnlyOptionsController.m */,
 				C97152E2236F8CC30021277B /* XENHConfigJSController.m */,
 				C97152E3236F8CC30021277B /* XENHConfigJSCell.h */,
+				C97152E0236F8CC30021277B /* XENHConfigJSCell.m */,
+				C97152DF236F8CC30021277B /* XENHMetadataOptionsController.h */,
 				C97152E4236F8CC30021277B /* XENHMetadataOptionsController.m */,
 				C97152E5236F8CC30021277B /* XENHFallbackOnlyOptionsController.h */,
+				C97152E1236F8CC30021277B /* XENHFallbackOnlyOptionsController.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -979,20 +979,20 @@
 		C97152F1236F8CC30021277B /* Setup */ = {
 			isa = PBXGroup;
 			children = (
-				C97152F2236F8CC30021277B /* XENHSetupLockscreenImportController.m */,
-				C97152F3236F8CC30021277B /* XENSFinalTickView.m */,
-				C97152F4236F8CC30021277B /* XENHSetupHomescreenImportController.h */,
-				C97152F5236F8CC30021277B /* XENSetupWindow.m */,
-				C97152F6236F8CC30021277B /* XENSetupFinalController.m */,
-				C97152F7236F8CC30021277B /* XENSetupInitialController.m */,
-				C97152F8236F8CC30021277B /* XENSetupBaseTableController.h */,
-				C97152F9236F8CC30021277B /* XENSFinalTickView.h */,
-				C97152FA236F8CC30021277B /* XENHSetupLockscreenImportController.h */,
 				C97152FB236F8CC30021277B /* XENSetupWindow.h */,
-				C97152FC236F8CC30021277B /* XENHSetupHomescreenImportController.m */,
+				C97152F5236F8CC30021277B /* XENSetupWindow.m */,
+				C97152F8236F8CC30021277B /* XENSetupBaseTableController.h */,
 				C97152FD236F8CC30021277B /* XENSetupBaseTableController.m */,
 				C97152FE236F8CC30021277B /* XENSetupInitialController.h */,
+				C97152F7236F8CC30021277B /* XENSetupInitialController.m */,
+				C97152F4236F8CC30021277B /* XENHSetupHomescreenImportController.h */,
+				C97152FC236F8CC30021277B /* XENHSetupHomescreenImportController.m */,
+				C97152FA236F8CC30021277B /* XENHSetupLockscreenImportController.h */,
+				C97152F2236F8CC30021277B /* XENHSetupLockscreenImportController.m */,
 				C97152FF236F8CC40021277B /* XENSetupFinalController.h */,
+				C97152F6236F8CC30021277B /* XENSetupFinalController.m */,
+				C97152F9236F8CC30021277B /* XENSFinalTickView.h */,
+				C97152F3236F8CC30021277B /* XENSFinalTickView.m */,
 			);
 			path = Setup;
 			sourceTree = "<group>";

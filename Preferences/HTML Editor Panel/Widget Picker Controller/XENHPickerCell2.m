@@ -24,7 +24,11 @@
 -(void)_configureViewsIfRequired {
     if (!self.filesystemName) {
         self.filesystemName = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.filesystemName.textColor = [UIColor darkTextColor];
+        if (@available(iOS 13.0, *)) {
+            self.filesystemName.textColor = [UIColor labelColor];
+        } else {
+            self.filesystemName.textColor = [UIColor darkTextColor];
+        }
         self.filesystemName.textAlignment = NSTextAlignmentLeft;
         self.filesystemName.font = [UIFont systemFontOfSize:18];
         
@@ -33,7 +37,11 @@
     
     if (!self.author) {
         self.author = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.author.textColor = [UIColor grayColor];
+        if (@available(iOS 13.0, *)) {
+            self.author.textColor = [UIColor secondaryLabelColor];
+        } else {
+            self.author.textColor = [UIColor grayColor];
+        }
         self.author.textAlignment = NSTextAlignmentLeft;
         self.author.font = [UIFont systemFontOfSize:14];
         
@@ -42,7 +50,11 @@
     
     if (!self.packageName) {
         self.packageName = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.packageName.textColor = [UIColor grayColor];
+        if (@available(iOS 13.0, *)) {
+            self.packageName.textColor = [UIColor secondaryLabelColor];
+        } else {
+            self.packageName.textColor = [UIColor grayColor];
+        }
         self.packageName.textAlignment = NSTextAlignmentLeft;
         self.packageName.font = [UIFont systemFontOfSize:14];
         
@@ -59,13 +71,21 @@
         [self.contentView addSubview:self.screenshot];
     }
     
-    self.filesystemName.textColor = [UIColor darkTextColor];
+    if (@available(iOS 13.0, *)) {
+        self.filesystemName.textColor = [UIColor labelColor];
+    } else {
+        self.filesystemName.textColor = [UIColor darkTextColor];
+    }
 }
 
 - (void)setupForNoWidgetsWithWidgetType:(NSString*)type {
     [self _configureViewsIfRequired];
     
-    self.filesystemName.textColor = [UIColor grayColor];
+    if (@available(iOS 13.0, *)) {
+        self.packageName.textColor = [UIColor secondaryLabelColor];
+    } else {
+        self.packageName.textColor = [UIColor grayColor];
+    }
     
     self.filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NO_WIDGETS_AVAILABLE"];
     

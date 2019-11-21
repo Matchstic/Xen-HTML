@@ -727,7 +727,7 @@ void cancelIdleTimer() {
     }
     
     if (setupWindow || ![XENHResources hasDisplayedSetupUI]) {
-        return 1000;
+        return 120;
     }
 
     return %orig;

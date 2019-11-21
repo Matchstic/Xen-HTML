@@ -28,14 +28,23 @@
 
 -(void)loadView {
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
-    self.view.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        // Fallback on earlier versions
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
     
     _finishedFauxUI = NO;
     
     self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     self.headerLabel.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_TITLE"];
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
-    self.headerLabel.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.headerLabel.textColor = [UIColor labelColor];
+    } else {
+        self.headerLabel.textColor = [UIColor blackColor];
+    }
     self.headerLabel.numberOfLines = 0;
     self.headerLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
     
@@ -45,7 +54,11 @@
     self.restartText.backgroundColor = [UIColor clearColor];
     self.restartText.text = [XENHResources localisedStringForKey:@"SETUP_FINAL_RESTART_TITLE"];
     self.restartText.textAlignment = NSTextAlignmentCenter;
-    self.restartText.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.restartText.textColor = [UIColor labelColor];
+    } else {
+        self.restartText.textColor = [UIColor blackColor];
+    }
     self.restartText.font = [UIFont systemFontOfSize:15 weight:UIFontWeightRegular];
     self.restartText.numberOfLines = 0;
     self.restartText.hidden = YES;

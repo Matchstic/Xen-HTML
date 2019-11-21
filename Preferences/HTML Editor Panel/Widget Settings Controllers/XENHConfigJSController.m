@@ -407,7 +407,12 @@
         cell.accessoryView = switchView;
         
         cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"];
-        cell.textLabel.textColor = [UIColor darkTextColor];
+
+        if (@available(iOS 13.0, *)) {
+            cell.textLabel.textColor = [UIColor labelColor];
+        } else {
+            cell.textLabel.textColor = [UIColor darkTextColor];
+        }
         
         return cell;
     } else {

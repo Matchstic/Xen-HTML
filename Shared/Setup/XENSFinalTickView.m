@@ -44,14 +44,22 @@
         self.textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.textLabel.text = @"";
         self.textLabel.textAlignment = NSTextAlignmentLeft;
-        self.textLabel.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            self.textLabel.textColor = [UIColor labelColor];
+        } else {
+            self.textLabel.textColor = [UIColor blackColor];
+        }
         self.textLabel.font = [UIFont systemFontOfSize:18];
         self.textLabel.numberOfLines = 0;
         
         [self addSubview:self.textLabel];
         
         self.activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectZero];
-        self.activityView.tintColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            self.activityView.color = [UIColor labelColor];
+        } else {
+            self.activityView.tintColor = [UIColor blackColor];
+        }
         self.activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         
         [self addSubview:self.activityView];

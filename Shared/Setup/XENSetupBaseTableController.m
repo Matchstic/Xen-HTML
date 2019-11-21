@@ -119,7 +119,11 @@
         self.headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.headerLabel.text = [self headerTitle];
         self.headerLabel.textAlignment = NSTextAlignmentCenter;
-        self.headerLabel.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            self.headerLabel.textColor = [UIColor labelColor];
+        } else {
+            self.headerLabel.textColor = [UIColor blackColor];
+        }
         self.headerLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightLight];
         self.headerLabel.numberOfLines = 0;
     }
@@ -130,7 +134,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        // Fallback on earlier versions
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
     
     if ([self shouldDisplayNextButton]) {
         // We need a "Next" bar item in the top right.
@@ -298,7 +307,11 @@
     self.footerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.footerLabel.text = [self footerTitle];
     self.footerLabel.textAlignment = NSTextAlignmentCenter;
-    self.footerLabel.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.footerLabel.textColor = [UIColor labelColor];
+    } else {
+        self.footerLabel.textColor = [UIColor blackColor];
+    }
     self.footerLabel.font = [UIFont systemFontOfSize:18 weight:UIFontWeightMedium];
     
     [self.footerContainer addSubview:self.footerLabel];
@@ -310,7 +323,11 @@
     self.footerExplanation = [[UILabel alloc] initWithFrame:CGRectZero];
     self.footerExplanation.text = [self footerBody];
     self.footerExplanation.textAlignment = NSTextAlignmentCenter;
-    self.footerExplanation.textColor = [UIColor blackColor];
+    if (@available(iOS 13.0, *)) {
+        self.footerExplanation.textColor = [UIColor labelColor];
+    } else {
+        self.footerExplanation.textColor = [UIColor blackColor];
+    }
     self.footerExplanation.font = [UIFont systemFontOfSize:16 weight:UIFontWeightRegular];
     self.footerExplanation.numberOfLines = 0;
     

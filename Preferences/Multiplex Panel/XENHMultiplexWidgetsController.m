@@ -133,7 +133,12 @@
     }
     
     // Reset the cell
-    cell.textLabel.textColor = [UIColor darkTextColor];
+    if (@available(iOS 13.0, *)) {
+        cell.textLabel.textColor = [UIColor labelColor];
+    } else {
+        cell.textLabel.textColor = [UIColor darkTextColor];
+    }
+    
     cell.showsReorderControl = NO;
     
     // Configure the cell...
@@ -141,7 +146,12 @@
         
         // Handle when no widgets available if so required.
         if (indexPath.row == 0 && self.dataSource.count == 0) {
-            cell.textLabel.textColor = [UIColor grayColor];
+            
+            if (@available(iOS 13.0, *)) {
+                cell.textLabel.textColor = [UIColor secondaryLabelColor];
+            } else {
+                cell.textLabel.textColor = [UIColor grayColor];
+            }
             
             cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGETS_NONE_SELECTED"];
             cell.accessoryType = UITableViewCellAccessoryNone;
