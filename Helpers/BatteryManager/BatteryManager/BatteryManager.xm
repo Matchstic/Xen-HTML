@@ -16,6 +16,9 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
+@property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
+
+- (void)_xh_clearJavaScriptPendingCalls;
 
 - (BOOL)_webProcessIsResponsive; // private API, iOS 10+
 @end
@@ -136,6 +139,10 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     
     try {
         doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+        
+        if (!isPaused) {
+            [webView _xh_clearJavaScriptPendingCalls];
+        }
     } catch (...) {
         XENlog(@"Woah what the heck?");
     }
@@ -198,6 +205,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
 
+// Queue of evaluateJavaScript calls when paused
+%property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
+
 - (id)initWithFrame:(CGRect)arg1 configuration:(id)arg2 {
     WKWebView *orig = %orig;
     
@@ -215,6 +225,39 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     } else {
         return %orig;
     }
+}
+
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
+    if (self._xh_isPaused) {
+        
+        if (!self._xh_pendingJavaScriptCalls) {
+            self._xh_pendingJavaScriptCalls = [NSMutableArray array];
+        }
+        
+        [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
+        
+        completionHandler(nil, nil);
+    } else {
+        %orig;
+    }
+}
+
+%new
+- (void)_xh_clearJavaScriptPendingCalls {
+    if (!self._xh_pendingJavaScriptCalls)
+        return;
+    
+    NSMutableString *combinedExecution = [@"" mutableCopy];
+    
+    for (NSString *call in self._xh_pendingJavaScriptCalls) {
+        [combinedExecution appendString:call];
+    }
+    
+    // Do a combined execution
+    [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
+    
+    // Then clear state
+    [self._xh_pendingJavaScriptCalls removeAllObjects];
 }
 
 %end
