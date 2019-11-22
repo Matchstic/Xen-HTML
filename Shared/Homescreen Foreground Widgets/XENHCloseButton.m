@@ -26,7 +26,15 @@ static CGFloat BUTTON_HEIGHT = 28.0;
         
         // Setup image view. Going for asset with name, IconCloseBoxX
         // Available on at least iOS 9.0 and up
-        UIImage *icon = [UIImage imageNamed:@"IconCloseBoxX"];
+        UIImage *icon = nil;
+        
+        if (@available(iOS 13.0, *)) {
+            icon = [UIImage imageNamed:@"IconCloseBoxX"
+                              inBundle:[NSBundle bundleWithIdentifier:@"com.apple.SpringBoardHome"]
+                     withConfiguration:nil];
+        } else {
+            icon = [UIImage imageNamed:@"IconCloseBoxX"];
+        }
         
         self.iconView = [[UIImageView alloc] initWithImage:icon];
         self.iconView.backgroundColor = [UIColor clearColor];
