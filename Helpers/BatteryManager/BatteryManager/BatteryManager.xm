@@ -57,6 +57,8 @@ struct WebCoreActivityState {
     };
 };
 
+BOOL useJavaScriptExecutionQueue = NO;
+
 // Hooks
 
 // void WebPageProxy::activityStateDidChange(unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode)
@@ -228,7 +230,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 }
 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
-    if (self._xh_isPaused) {
+    if (useJavaScriptExecutionQueue && self._xh_isPaused) {
         
         if (!self._xh_pendingJavaScriptCalls) {
             self._xh_pendingJavaScriptCalls = [NSMutableArray array];
@@ -244,7 +246,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_xh_clearJavaScriptPendingCalls {
-    if (!self._xh_pendingJavaScriptCalls)
+    if (!useJavaScriptExecutionQueue || !self._xh_pendingJavaScriptCalls)
         return;
     
     NSMutableString *combinedExecution = [@"" mutableCopy];
@@ -277,10 +279,20 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
+static inline bool _xenhtml_bm_supportJavaScriptExecutionQueue() {
+    NSOperatingSystemVersion version;
+    version.majorVersion = 13;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
+
 %ctor {
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    useJavaScriptExecutionQueue = _xenhtml_bm_supportJavaScriptExecutionQueue();
     
     if (sb) {
         
