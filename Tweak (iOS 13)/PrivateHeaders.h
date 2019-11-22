@@ -254,6 +254,7 @@
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
 @property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 @property(retain, nonatomic) UIView *pageControl;
+@property (nonatomic,readonly) double dockHeight;  // iOS 13
 -(CGRect)effectivePageControlFrame;
 
 - (void)_xenhtml_layoutAddWidgetButton;

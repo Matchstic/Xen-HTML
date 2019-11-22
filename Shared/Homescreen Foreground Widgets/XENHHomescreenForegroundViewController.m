@@ -564,9 +564,10 @@
     XENlog(@"Notified of page advancement; left");
     
     long long currentPage = self.popoverPresentationController._xenhtml_currentPageIndex;
+    BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
     
     if ([XENHResources isAtLeastiOSVersion:13 subversion:0] &&
-        // TODO: Is this check valid on iPad?
+        !isIpad && // Not needed on iPad due to Today page slideover
         self.popoverPresentationController.todayViewPageIndex == currentPage - 1) {
         return;
     }
@@ -585,8 +586,8 @@
     // Don't add a widget to an empty list view, because it will become inaccessible
     if ([XENHResources isAtLeastiOSVersion:13 subversion:0]) {
         // Convert to array indexing
-        // TODO: Is this conversion valid on iPad?
-        long long nextPageConverted = nextPage - 101;
+        BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;        
+        long long nextPageConverted = isIpad ? nextPage - 100 : nextPage - 101;
         
         if ([[self.popoverPresentationController iconListViewAtIndex:nextPageConverted] isEmpty]) return;
     } else {

@@ -1506,7 +1506,6 @@ void cancelIdleTimer() {
     
     // Layout if needed
     if (self._xenhtml_isForegroundWidgetHoster) {
-        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
         
         // If the today page is hidden, then we layout by -SCREEN_WIDTH as the x origin.
         // This is to allow all existing logic inside the view controller to not need changing!
@@ -1515,13 +1514,19 @@ void cancelIdleTimer() {
         
         BOOL noTodayPage = NO;
         
-        for (UIView *view in self.subviews) {
-            // First iconlist subview
-            if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
-                noTodayPage = view.frame.origin.x == 0;
-                
-                break;
+        // There is no specific today page on iPad now
+        BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+        if (!isIpad) {
+            for (UIView *view in self.subviews) {
+                // First iconlist subview
+                if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
+                    noTodayPage = view.frame.origin.x == 0;
+                    
+                    break;
+                }
             }
+        } else {
+            noTodayPage = YES;
         }
         
         sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
@@ -1825,14 +1830,19 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         }
     }
     
+    BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+    
     CGFloat effectiveXOffset = lowestOffset - self.scrollView.contentOffset.x;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
+        
+    // Due to how the Today page functions on iPad, also go to scrollview's offset
+    if (isIpad) effectiveXOffset = 0;
         
     CGFloat scrollViewHeight = self.scrollView.frame.size.height;
     if ([XENHResources isHarbour2Available])
         scrollViewHeight -= 115.0; // Harbour 2 height and padding
-    else if (IS_IPAD)
-        scrollViewHeight -= 145.0; // guesstimate
+    else if (isIpad)
+        scrollViewHeight -= self.dockHeight + 20; // guesstimate
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
                                                  scrollViewHeight

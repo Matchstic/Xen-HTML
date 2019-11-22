@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBFLockScreenDateView; @class CSFixedFooterView; @class SBIdleTimerGlobalStateMonitor; @class SBFolderIconImageView; @class SBCoverSheetWindow; @class SBIconView; @class SBFloatingDockPlatterView; @class XENDashBoardWebViewController; @class CSCombinedListViewController; @class SBDockView; @class SBUIProudLockIconView; @class UIWKTextLoupeInteraction; @class SBMainSwitcherViewController; @class CSTeachableMomentsContainerView; @class SBIconScrollView; @class UITouch; @class SpringBoard; @class CSPageViewController; @class SBHomeScreenWindow; @class SBBacklightController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBHorizontalScrollFailureRecognizer; @class SBIconListPageControl; @class SBHomeScreenViewController; @class SBIconListView; @class UITouchesEvent; @class CSQuickActionsViewController; @class SBLockScreenManager; @class _UIPlatterView; @class CSMainPageContentViewController; @class CSCoverSheetView; @class CSCoverSheetViewController; @class SBRootFolderController; @class WKWebView; @class CSScrollView; @class SBMainStatusBarStateProvider; @class SBHomeScreenView; @class CSMainPageView; @class SBApplication; @class SBHomeScreenPreviewView; @class SBRootFolderView; @class SBScreenWakeAnimationController; @class SBMainWorkspace; 
+@class CSMainPageContentViewController; @class CSScrollView; @class UITouchesEvent; @class CSQuickActionsViewController; @class SBMainStatusBarStateProvider; @class SBBacklightController; @class SBLockScreenManager; @class SBIdleTimerGlobalStateMonitor; @class CSFixedFooterView; @class SBIconView; @class CSMainPageView; @class SBMainSwitcherViewController; @class SBFloatingDockPlatterView; @class SBUIProudLockIconView; @class SBHorizontalScrollFailureRecognizer; @class CSTeachableMomentsContainerView; @class SBIconListView; @class SBHomeScreenPreviewView; @class SBCoverSheetWindow; @class SBFolderIconImageView; @class CSCoverSheetViewController; @class SBIconScrollView; @class CSCombinedListViewController; @class UITouch; @class SBFLockScreenDateView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SpringBoard; @class SBRootFolderController; @class XENDashBoardWebViewController; @class CSCoverSheetView; @class SBMainWorkspace; @class CSPageViewController; @class UIWKTextLoupeInteraction; @class SBHomeScreenView; @class SBScreenWakeAnimationController; @class SBIconListPageControl; @class SBHomeScreenWindow; @class SBApplication; @class SBHomeScreenViewController; @class SBRootFolderView; @class _UIPlatterView; @class SBDockView; @class WKWebView; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -753,7 +753,7 @@ static CGFloat _logos_method$SpringBoard$SBIdleTimerGlobalStateMonitor$minimumLo
     }
     
     if (setupWindow || ![XENHResources hasDisplayedSetupUI]) {
-        return 1000;
+        return 120;
     }
 
     return _logos_orig$SpringBoard$SBIdleTimerGlobalStateMonitor$minimumLockscreenIdleTime(self, _cmd);
@@ -1532,7 +1532,6 @@ static void _logos_method$SpringBoard$SBIconScrollView$layoutSubviews(_LOGOS_SEL
     
     
     if (self._xenhtml_isForegroundWidgetHoster) {
-        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
         
         
         
@@ -1541,13 +1540,19 @@ static void _logos_method$SpringBoard$SBIconScrollView$layoutSubviews(_LOGOS_SEL
         
         BOOL noTodayPage = NO;
         
-        for (UIView *view in self.subviews) {
-            
-            if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
-                noTodayPage = view.frame.origin.x == 0;
+        
+        BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+        if (!isIpad) {
+            for (UIView *view in self.subviews) {
                 
-                break;
+                if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
+                    noTodayPage = view.frame.origin.x == 0;
+                    
+                    break;
+                }
             }
+        } else {
+            noTodayPage = YES;
         }
         
         sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
@@ -1851,14 +1856,19 @@ static void _logos_method$SpringBoard$SBRootFolderView$_xenhtml_layoutAddWidgetB
         }
     }
     
+    BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+    
     CGFloat effectiveXOffset = lowestOffset - self.scrollView.contentOffset.x;
     if (effectiveXOffset < 0) effectiveXOffset = 0;
+        
+    
+    if (isIpad) effectiveXOffset = 0;
         
     CGFloat scrollViewHeight = self.scrollView.frame.size.height;
     if ([XENHResources isHarbour2Available])
         scrollViewHeight -= 115.0; 
-    else if (IS_IPAD)
-        scrollViewHeight -= 145.0; 
+    else if (isIpad)
+        scrollViewHeight -= self.dockHeight + 20; 
     
     self._xenhtml_addButton.center = CGPointMake(effectiveXOffset + SCREEN_WIDTH/2.0,
                                                  scrollViewHeight
@@ -2379,7 +2389,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_aedbfd86(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_44096e89(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     {}
