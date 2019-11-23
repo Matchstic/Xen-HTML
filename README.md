@@ -4,18 +4,32 @@ Unified and simplified HTML rendering
 
 Xen HTML provides users the ability to display any HTML-based widget on the Lockscreen and Homescreen of their iOS devices.
 
-### Remaining Issues
-
-- [x] Add proper localisation support throughout the tweak and preferences
-- [x] Work out which feature enhancements should be taken through into v1.0
-
 ### Building
 
-This project requires iOSOpenDev. Dependant third-party libraries and private headers are included within this repository for portability reasons.
+This project requires [iOSOpenDev](https://github.com/Matchstic/iOSOpenDev). Dependant third-party libraries and private headers are included within this repository for portability reasons.
 
 ### Notes for development
 
-`XenHTML.xm` is rather horrendous; its got too many headers inline, and all modifications in SpringBoard are contained within the same file. Sorry about that.
+Support for different iOS versions is split into multiple dylibs.
+
+The `Loader` subproject manages loading the correct dylib at runtime for the current iOS version. At the time of writing, there are two dylibs generated: `XenHTML_9to12.dylib` and `XenHTML_13.dylib`. It is intended that a new one will be created when either the following are satisfied:
+
+a) there has been significant underlying changes in iOS's handling of the Lockscreen or Homescreen
+b) the most recent dylib already supports 2 major iOS versions
+
+This is to help reduce the chance of regressions breaking previous iOS version support, and also to ease development overhead.
+
+The core of Xen HTML's rendering is handled as a shared (but static) library, linked into each dylib. Any changes here should always be tested on as many versions of iOS as reasonably possible.
+
+### Future plans
+
+As part of a modernisation project, the following are going to be built at some point:
+
+- [ ] An integrated widget info library, providing full backwards compatibility for all previous libraries
+- [ ] A desktop widget simulator (most likely written in Electron for portability)
+- [ ] Revisions to where widgets are installed to on the filesystem
+- [ ] Improvements to widget settings for developers
+- ???
 
 #### Want to help out?
 
