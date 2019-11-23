@@ -14,8 +14,8 @@ Support for different iOS versions is split into multiple dylibs.
 
 The `Loader` subproject manages loading the correct dylib at runtime for the current iOS version. At the time of writing, there are two dylibs generated: `XenHTML_9to12.dylib` and `XenHTML_13.dylib`. It is intended that a new one will be created when either the following are satisfied:
 
-a) there has been significant underlying changes in iOS's handling of the Lockscreen or Homescreen
-b) the most recent dylib already supports 2 major iOS versions
+- There has been significant underlying changes in iOS's handling of the Lockscreen or Homescreen
+- The most recent dylib already supports 2 major iOS versions
 
 This is to help reduce the chance of regressions breaking previous iOS version support, and also to ease development overhead.
 
