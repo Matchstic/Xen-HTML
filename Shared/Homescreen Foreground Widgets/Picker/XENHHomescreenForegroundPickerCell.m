@@ -16,10 +16,10 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHPickerCell2.h"
-#import "XENHPResources.h"
+#import "XENHHomescreenForegroundPickerCell.h"
+#import "XENHResources.h"
 
-@implementation XENHPickerCell2
+@implementation XENHHomescreenForegroundPickerCell
 
 -(void)_configureViewsIfRequired {
     if (!self.filesystemName) {
@@ -133,7 +133,7 @@
     
     // We now have the URL of this widget. Proceed to ask libpackageinfo for details, and check for a screenshot.
     
-    XENHPickerCell2 * __weak weakSelf = self;
+    XENHHomescreenForegroundPickerCell * __weak weakSelf = self;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
         NSString *cachedurl = [url copy];
@@ -225,7 +225,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

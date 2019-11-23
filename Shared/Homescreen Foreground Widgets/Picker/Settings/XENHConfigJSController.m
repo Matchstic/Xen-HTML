@@ -17,7 +17,7 @@
  */
 
 #import "XENHConfigJSController.h"
-#import "XENHPResources.h"
+#import "XENHResources.h"
 
 @interface UBClient: NSObject
 
@@ -54,6 +54,34 @@
     }
     
     return self;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // Done button.
+    if ([self respondsToSelector:@selector(navigationItem)]) {
+        [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGET_PICKER_AVAILABLE_WIDGETS"]];
+        
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked:)];
+        [[self navigationItem] setRightBarButtonItem:done];
+        
+        if (self.showCancel) {
+            UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelClicked:)];
+            [[self navigationItem] setLeftBarButtonItem:cancel];
+        }
+    }
+}
+
+- (void)doneClicked:(id)sender {
+    [self saveData];
+    
+    // Notify the delegate of success
+    [self.delegate didChooseWidget:self.widgetURL withMetadata:@{} fallbackState:self.fallbackState];
+}
+
+- (void)cancelClicked:(id)sender {
+    [self.delegate cancelShowingPicker];
 }
 
 -(void)loadView {
@@ -266,6 +294,7 @@
     
     // Have full string, now we can save it out!
     
+    /*
     // We're going to use UAUnbox here to ensure we get a nice saving going on.
     // First, back up original.
     NSString *newName = [NSString stringWithFormat:@"%@.bak", _filePath];
@@ -273,7 +302,7 @@
     if ([UBClient class]) {
         [[UBClient sharedInstance] copyFile:_filePath toFile:newName];
         [[UBClient sharedInstance] chmodFile:[_filePath stringByDeletingLastPathComponent] mode:0777];
-    }
+    }*/
     
     NSError *error;
     BOOL succeed = [data writeToFile:_filePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
@@ -370,7 +399,6 @@
 
 -(void)switchDidChange:(UISwitch*)sender {
     self.fallbackState = sender.on;
-    [self.fallbackDelegate fallbackStateDidChange:sender.on];
 }
 
 #pragma mark - Table view data source
@@ -407,7 +435,7 @@
         cell.accessoryView = switchView;
         
         cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"];
-
+        
         if (@available(iOS 13.0, *)) {
             cell.textLabel.textColor = [UIColor labelColor];
         } else {

@@ -323,12 +323,22 @@
         if ([_currentSelected containsObject:url]) {
             cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
+            if (@available(iOS 13.0, *)) {
+                cell.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+            } else {
+                // Fallback on earlier versions
+                cell.backgroundColor = [UIColor whiteColor];
+            }
         }
     } else {
         // There's no items in this section, so state it!
         [cell setupForNoWidgetsWithWidgetType:[self _nameForSection:indexPath.section]];
-        cell.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            cell.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
+        } else {
+            // Fallback on earlier versions
+            cell.backgroundColor = [UIColor whiteColor];
+        }
     }
     
     return cell;

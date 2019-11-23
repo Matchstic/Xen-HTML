@@ -6,7 +6,7 @@
 //
 
 #import "XENHFallbackOnlyOptionsController.h"
-#import "XENHPResources.h"
+#import "XENHResources.h"
 
 #define REUSE @"fallbackCell"
 
@@ -41,13 +41,30 @@
 -(void)viewWillAppear:(BOOL)view {
     if ([self respondsToSelector:@selector(navigationItem)]) {
         [[self navigationItem] setTitle:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+        
+        UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked:)];
+        [[self navigationItem] setRightBarButtonItem:done];
+        
+        if (self.showCancel) {
+            UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIBarButtonItemStyleDone target:self action:@selector(cancelClicked:)];
+            [[self navigationItem] setLeftBarButtonItem:cancel];
+        }
     }
     
     [super viewWillAppear:view];
 }
 
+- (void)doneClicked:(id)sender {
+    // Notify the delegate of success
+    [self.delegate didChooseWidget:self.widgetURL withMetadata:@{} fallbackState:self.fallbackState];
+}
+
+- (void)cancelClicked:(id)sender {
+    [self.delegate cancelShowingPicker];
+}
+
 -(void)switchDidChange:(UISwitch*)sender {
-    [self.fallbackDelegate fallbackStateDidChange:sender.on];
+    self.fallbackState = sender.on;
 }
 
 #pragma mark - Table view data source
@@ -95,6 +112,7 @@
         cell.accessoryView = nil;
         
         cell.textLabel.text = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_NONE"];
+        
         
         if (@available(iOS 13.0, *)) {
             cell.textLabel.textColor = [UIColor placeholderTextColor];

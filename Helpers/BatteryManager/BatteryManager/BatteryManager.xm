@@ -16,6 +16,9 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
+@property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
+
+- (void)_xh_clearJavaScriptPendingCalls;
 
 - (BOOL)_webProcessIsResponsive; // private API, iOS 10+
 @end
@@ -53,6 +56,8 @@ struct WebCoreActivityState {
         IsCapturingMedia = 1 << 8,
     };
 };
+
+BOOL useJavaScriptExecutionQueue = NO;
 
 // Hooks
 
@@ -100,7 +105,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         // Notify widget of restart, but put it to the back of the main queue
         // to ensure that whatever called into here isn't delayed too much
         dispatch_async(dispatch_get_main_queue(), ^(){
-            [webView evaluateJavaScript:@"window.onresume();" completionHandler:^(id, NSError*) {}];
+            [webView evaluateJavaScript:@"if (window.onresume !== undefined) window.onresume();" completionHandler:^(id, NSError*) {}];
         });
     } else if (isPaused && !wasPausedPreviously) {
         // Did enter background
@@ -134,7 +139,15 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     BOOL wasPausedPreviously = webView._xh_isPaused;
     webView._xh_isPaused = isPaused;
     
-    doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+    try {
+        doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+        
+        if (!isPaused) {
+            [webView _xh_clearJavaScriptPendingCalls];
+        }
+    } catch (...) {
+        XENlog(@"Woah what the heck?");
+    }
 }
 
 
@@ -159,12 +172,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         
         // Update activity state
         setWKWebViewActivityState(self.webView, paused);
-        
-        /*void *page = MSHookIvar<void*>(self.webView, "_page");
-        if (page && ![self.webView _webProcessIsResponsive]) {
-            XENlog(@"Detected a non-responsive webprocess, reloading");
-            [self webViewWebContentProcessDidTerminate:self.webView];
-        }*/
     }
 }
 
@@ -200,6 +207,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
 
+// Queue of evaluateJavaScript calls when paused
+%property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
+
 - (id)initWithFrame:(CGRect)arg1 configuration:(id)arg2 {
     WKWebView *orig = %orig;
     
@@ -219,6 +229,39 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     }
 }
 
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
+    if (useJavaScriptExecutionQueue && self._xh_isPaused) {
+        
+        if (!self._xh_pendingJavaScriptCalls) {
+            self._xh_pendingJavaScriptCalls = [NSMutableArray array];
+        }
+        
+        [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
+        
+        completionHandler(nil, nil);
+    } else {
+        %orig;
+    }
+}
+
+%new
+- (void)_xh_clearJavaScriptPendingCalls {
+    if (!useJavaScriptExecutionQueue || !self._xh_pendingJavaScriptCalls)
+        return;
+    
+    NSMutableString *combinedExecution = [@"" mutableCopy];
+    
+    for (NSString *call in self._xh_pendingJavaScriptCalls) {
+        [combinedExecution appendString:call];
+    }
+    
+    // Do a combined execution
+    [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
+    
+    // Then clear state
+    [self._xh_pendingJavaScriptCalls removeAllObjects];
+}
+
 %end
 
 %hook UIApp
@@ -236,14 +279,28 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
+static inline bool _xenhtml_bm_supportJavaScriptExecutionQueue() {
+    NSOperatingSystemVersion version;
+    version.majorVersion = 13;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
+
 %ctor {
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    useJavaScriptExecutionQueue = _xenhtml_bm_supportJavaScriptExecutionQueue();
     
     if (sb) {
         
         WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
+        
+        if (WebPageProxy$activityStateDidChange == NULL) {
+            WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEN3WTF9OptionSetIN7WebCore13ActivityState4FlagEEEbNS0_31ActivityStateChangeDispatchModeE");
+        }
         
         // App state stuff
         WebPageProxy$applicationDidEnterBackground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy29applicationDidEnterBackgroundEv");
@@ -262,6 +319,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             return;
 
+        XENlog(@"DEBUG :: initialising hooks");
         %init(SpringBoard);
     }
 }

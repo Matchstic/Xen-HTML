@@ -39,7 +39,11 @@
     [self addSubview:self.icon];
     
     self.label = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.label.textColor = [UIColor darkGrayColor];
+    if (@available(iOS 13.0, *)) {
+        self.label.textColor = [UIColor secondaryLabelColor];
+    } else {
+        self.label.textColor = [UIColor darkGrayColor];
+    }
     self.label.font = [UIFont systemFontOfSize:16];
     self.label.textAlignment = NSTextAlignmentCenter;
     self.label.numberOfLines = 0;
