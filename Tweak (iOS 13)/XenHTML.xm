@@ -2283,6 +2283,20 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
+// Hooks for overriding legacy XenInfo data providers
+
+%group XenInfoLegacy
+
+%hook XIAlarms
+
+- (void)requestRefresh {
+    // Do nothing
+}
+
+%end
+
+%end
+
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
     NSDictionary *oldSBHTML = [XENHResources widgetPreferencesForLocation:kLocationSBBackground];
@@ -2388,6 +2402,10 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         }
         
         %init(SpringBoard);
+        
+        // Handle XenInfo
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
+        %init(XenInfoLegacy);
         
         // Do initial settings loading
         [XENHResources reloadSettings];
