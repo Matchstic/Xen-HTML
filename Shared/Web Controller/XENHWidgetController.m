@@ -187,6 +187,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (BOOL)_widgetIndexFile:(NSString*)widgetIndexFile wantsFallbackForMetadata:(NSDictionary*)metadata {
+    if ([XENHResources isAtLeastiOSVersion:13 subversion:0])
+        return NO;
+    
     BOOL forcedFallback = [XENHResources useFallbackForHTMLFile:widgetIndexFile];
     BOOL metadataFallback = [[metadata objectForKey:@"useFallback"] boolValue];
     
