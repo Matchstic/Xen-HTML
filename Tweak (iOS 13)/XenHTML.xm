@@ -773,6 +773,8 @@ void cancelIdleTimer() {
     // When changed to state visibility Foreground, we can hide SBHTML.
     // In addition, we also do vice-versa to handle any potential issues as a failsafe.
     
+    XENlog(@"Process %@ state did change to %@", arg1, arg3);
+    
     %orig;
     
     // First, handle background -> foreground.
@@ -806,67 +808,27 @@ void cancelIdleTimer() {
 
 %end
 
-// Also, we need to hook the opening of the switcher. If we switch to another application, we can catch that in SBMainWorkspace.
-
-%hook SBMainSwitcherViewController
-
-- (void)performPresentationAnimationForTransitionRequest:(id)arg1 withCompletion:(id)arg2 {
-    XENlog(@"Showing SBHTML due to opening the Application Switcher");
-    [sbhtmlViewController setPaused:NO];
-    [sbhtmlForegroundViewController setPaused:NO];
-    
-    [sbhtmlViewController doJITWidgetLoadIfNecessary];
-    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-    
-    %orig;
-}
-
-%end
-
-// iOS 11
-
 %hook SBMainWorkspace
 
+// NOTE: Accessing layoutState here interferes with the ability to open apps
+// from notifications
 - (_Bool)_preflightTransitionRequest:(SBMainWorkspaceTransitionRequest*)arg1 {
     
-    // We use the unlockedEnvironmentMode to define what to do!
-    // There is: home-screen, app-switcher, and application
+    // We don't want to do anything when locked.
+    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+        return %orig;
+    }
     
-    dispatch_async(dispatch_get_main_queue(), ^(){
-       // 1 - homescreen
-       // 2 - switcher
-       // 3 - app
-                   
-        long long environmentMode = arg1.applicationContext.layoutState.unlockedEnvironmentMode;
-                   
-       // We don't want to do anything when locked.
-       if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
-            return;
-       }
-                   
-        switch (environmentMode) {
-            case 1:
-                XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
-                
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-                
-                [sbhtmlViewController doJITWidgetLoadIfNecessary];
-                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-                
-                break;
-            case 2:
-                XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
-                
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-                
-                [sbhtmlViewController doJITWidgetLoadIfNecessary];
-                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-                
-                break;
-        }
-    });
+    if ([arg1.eventLabel isEqualToString:@"ActivateSpringBoard"] ||
+        [arg1.eventLabel hasPrefix:@"ActivateSwitcher"] ) {
+        
+        XENlog(@"Showing SBHTML due to transition (SBMainWorkspace)");
+        [sbhtmlViewController setPaused:NO];
+        [sbhtmlForegroundViewController setPaused:NO];
+        
+        [sbhtmlViewController doJITWidgetLoadIfNecessary];
+        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    }
     
     return %orig;
 }
