@@ -231,13 +231,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
             lockscreenForegroundWrapperController = nil;
         }
         
-        
-        // Don't reset the hidden requesters on iOS 13 for weirdness reasons
-        if ([XENHResources isBelowiOSVersion:13 subversion:0]) {
-            [foregroundHiddenRequesters removeAllObjects];
-            foregroundHiddenRequesters = nil;
-        }
-        
         lsBackgroundForwarder = nil;
     }
 }
@@ -249,7 +242,6 @@ static BOOL refuseToLoadDueToRehosting = NO;
 %hook CSMainPageView
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    // This class is also in iOS 10.
     if (![XENHResources lsenabled]) {
         return %orig;
     }
@@ -458,7 +450,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Hide clock (iOS 9+)
+#pragma mark Hide clock (iOS 13+)
 
 %hook SBFLockScreenDateView
 
@@ -482,7 +474,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Same sized status bar (iOS 10+)
+#pragma mark Same sized status bar (iOS 13+)
 
 %hook CSCoverSheetViewController
 
@@ -492,7 +484,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Hide LS status bar (iOS 10+)
+#pragma mark Hide LS status bar (iOS 13+)
 
 %hook CSPageViewController
 
@@ -508,7 +500,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Clock in status bar (iOS 10+)
+#pragma mark Clock in status bar (iOS 13+)
 
 %hook CSCoverSheetViewController
 
@@ -532,11 +524,10 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Clock in status bar (iOS 11 fixes)
+#pragma mark Clock in status bar (iOS 13_)
 
 /*
  * The status bar time is *always* enabled except for the case of the Lockscreen, where DashBoard overrides it.
- * For whatever reason, our Dashboard overrides are not working as expected. Therefore, we override here for iOS 11.
  */
 %hook SBMainStatusBarStateProvider
 
@@ -607,9 +598,9 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide STU view if necessary (iOS 11) and...
-#pragma mark Hide Home Bar (iOS 11 + iPhone X) and...
-#pragma mark Hide D22 Control Centre grabber (iOS 11 + iPhone X)
+#pragma mark Hide STU view if necessary (iOS 13) and...
+#pragma mark Hide Home Bar (iOS 13 + D22) and...
+#pragma mark Hide D22 Control Centre grabber (iOS 13 + D22)
 
 %hook CSTeachableMomentsContainerView
 
@@ -630,7 +621,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide Face ID padlock (iOS 11 + iPhone X)
+#pragma mark Hide Face ID padlock (iOS 13 + D22)
 
 %hook SBUIProudLockIconView
 
@@ -669,7 +660,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide Handoff grabber (iOS 10)
+#pragma mark Hide Handoff grabber (iOS 13+)
 
 %hook CSMainPageView
 
@@ -693,7 +684,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide page control dots (iOS 11)
+#pragma mark Hide page control dots (iOS 13+)
 
 %hook CSFixedFooterView
 
@@ -755,8 +746,10 @@ void cancelIdleTimer() {
 %hook SBMainWorkspace
 
 - (void)applicationProcessDidExit:(FBApplicationProcess*)arg1 withContext:(id)arg2 {
-    // Here, we will handle when an app crashes, or closes. We will assume going back to the homescreen.
+    // Here, handle when an app crashes, or closes.
     // Furthermore, it can be assumed that SBHTML will be visible already if quit from the switcher.
+    
+    %orig;
     
     dispatch_async(dispatch_get_main_queue(), ^(){
         SBApplication *frontmost = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
@@ -774,13 +767,13 @@ void cancelIdleTimer() {
             [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
         }
     });
-    
-    %orig;
 }
 
 - (void)process:(id)arg1 stateDidChangeFromState:(FBProcessState*)arg2 toState:(FBProcessState*)arg3 {
     // When changed to state visibility Foreground, we can hide SBHTML.
     // In addition, we also do vice-versa to handle any potential issues as a failsafe.
+    
+    %orig;
     
     // First, handle background -> foreground.
     if (![arg2 isForeground] && [arg3 isForeground]) {
@@ -809,25 +802,6 @@ void cancelIdleTimer() {
             }
         });
     }
-    
-    %orig;
-}
-
-%end
-
-// Next, handle precisely the moment the home button is clicked when in-app and not locked.
-%hook SBApplication
-
-// CHECKME: This is missing on iOS 10.
-- (void)willAnimateDeactivation:(_Bool)arg1 {
-    XENlog(@"Showing SBHTML due to an application animating deactivation");
-    [sbhtmlViewController setPaused:NO];
-    [sbhtmlForegroundViewController setPaused:NO];
-    
-    [sbhtmlViewController doJITWidgetLoadIfNecessary];
-    [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-    
-    %orig;
 }
 
 %end
@@ -858,39 +832,41 @@ void cancelIdleTimer() {
     // We use the unlockedEnvironmentMode to define what to do!
     // There is: home-screen, app-switcher, and application
     
-    // This class is also in iOS 10, and we don't want to do anything when locked.
-    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
-        return %orig;
-    }
-    
-    long long environmentMode = arg1.applicationContext.layoutState.unlockedEnvironmentMode;
-    
-    // 1 - homescreen
-    // 2 - switcher
-    // 3 - app
-    
-    switch (environmentMode) {
-        case 1:
-            XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
-            
-            [sbhtmlViewController setPaused:NO];
-            [sbhtmlForegroundViewController setPaused:NO];
-            
-            [sbhtmlViewController doJITWidgetLoadIfNecessary];
-            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-            
-            break;
-        case 2:
-            XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
-            
-            [sbhtmlViewController setPaused:NO];
-            [sbhtmlForegroundViewController setPaused:NO];
-            
-            [sbhtmlViewController doJITWidgetLoadIfNecessary];
-            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-            
-            break;
-    }
+    dispatch_async(dispatch_get_main_queue(), ^(){
+       // 1 - homescreen
+       // 2 - switcher
+       // 3 - app
+                   
+        long long environmentMode = arg1.applicationContext.layoutState.unlockedEnvironmentMode;
+                   
+       // We don't want to do anything when locked.
+       if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+            return;
+       }
+                   
+        switch (environmentMode) {
+            case 1:
+                XENlog(@"Showing SBHTML due to transitioning to the Homescreen (SBMainWorkspace)");
+                
+                [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
+                
+                [sbhtmlViewController doJITWidgetLoadIfNecessary];
+                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+                
+                break;
+            case 2:
+                XENlog(@"Showing SBHTML due to opening the Application Switcher (SBMainWorkspace)");
+                
+                [sbhtmlViewController setPaused:NO];
+                [sbhtmlForegroundViewController setPaused:NO];
+                
+                [sbhtmlViewController doJITWidgetLoadIfNecessary];
+                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+                
+                break;
+        }
+    });
     
     return %orig;
 }
@@ -916,7 +892,7 @@ void cancelIdleTimer() {
 
 %end
 
-#pragma mark Hide LockHTML when the display is off. (iOS 11)
+#pragma mark Hide LockHTML when the display is off. (iOS 13)
 
 %hook SBScreenWakeAnimationController
 
@@ -2184,59 +2160,27 @@ static BOOL launchCydiaForSource = NO;
 -(void)applicationDidFinishLaunching:(id)arg1 {
     %orig;
     
-    /*
-     * I can't believe I have to do this. There exists outdated versions of Xen HTML on pirate repos,
-     * that cause serious issues for users on installation.
-     *
-     * This is to ensure that Xen HTML will only run when installed from:
-     * - https://xenpublic.incendo.ws
-     * - Packix
-     * - Manual installation
-     *
-     * This will unfortunately break for users not using Cydia; sorry about that.
-     */
-    if (refuseToLoadDueToRehosting) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                                                                       message:@"This tweak has not been installed from the official repository. For your safety, it will not function until installed officially.\n\nTap below to add the official repository to Cydia."
-                                                                preferredStyle:UIAlertControllerStyleAlert];
+    // Do initial settings loading
+    [XENHResources reloadSettings];
+    
+    // Show setup UI if needed
+    if (![XENHResources hasDisplayedSetupUI]) {
+        setupWindow = [XENHSetupWindow sharedInstance];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction * action) {}];
+        setupWindow.hidden = NO;
+        [setupWindow makeKeyAndVisible];
+        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
         
-        [alert addAction:defaultAction];
-        
-        UIAlertAction* repoAction = [UIAlertAction actionWithTitle:@"Add Repository" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        @try {
+            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
             
-            launchCydiaForSource = YES;
-            [[objc_getClass("SBLockScreenManager") sharedInstance] unlockUIFromSource:17 withOptions:nil];
-        }];
-        
-        [alert addAction:repoAction];
-        
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-    } else {
-        // Do initial settings loading
-        [XENHResources reloadSettings];
-        
-        // Show setup UI if needed
-        if (![XENHResources hasDisplayedSetupUI]) {
-            setupWindow = [XENHSetupWindow sharedInstance];
-            
-            setupWindow.hidden = NO;
-            [setupWindow makeKeyAndVisible];
-            setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
-            
-            @try {
-                SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
-                
-                if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-                    [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-                } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-                    [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
-                }
-            } @catch (NSException *e) {
-                // wut.
+            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
+                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
+            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
+                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
             }
+        } @catch (NSException *e) {
+            // wut.
         }
     }
 }
@@ -2252,14 +2196,6 @@ static BOOL launchCydiaForSource = NO;
     // Hooking here to do things just after the device is unlocked
     
     %orig;
-    
-    // Launch Cydia to install from the official source
-    if (launchCydiaForSource) {
-        launchCydiaForSource = NO;
-        
-        NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
-        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-    }
     
     // Show the how-to for Homescreen foreground widgets
     if ([XENHResources requiresHomescreenForegroundAlert]) {
