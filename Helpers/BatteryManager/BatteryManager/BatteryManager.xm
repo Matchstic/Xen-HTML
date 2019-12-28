@@ -236,6 +236,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
             self._xh_pendingJavaScriptCalls = [NSMutableArray array];
         }
         
+        if (![javaScriptString hasSuffix:@";"])
+            javaScriptString = [javaScriptString stringByAppendingString:@";"];
+            
         [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
         
         completionHandler(nil, nil);
