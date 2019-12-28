@@ -129,6 +129,10 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [self.view addSubview:self.editingBackground];
 }
 
+- (BOOL)_canShowWhileLocked{
+        return YES;
+}
+
 - (void)dealloc {
     [self unloadWidget];
 }

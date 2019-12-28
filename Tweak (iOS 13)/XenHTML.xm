@@ -316,6 +316,10 @@ static BOOL refuseToLoadDueToRehosting = NO;
     }
 }
 
+- (BOOL)_canShowWhileLocked{
+        return YES;
+}
+
 %end
 
 %hook CSMainPageContentViewController

@@ -45,6 +45,10 @@
     return self;
 }
 
+- (BOOL)_canShowWhileLocked{
+        return YES;
+}
+
 - (void)dealloc {
     [self unloadWidgets];
 }
