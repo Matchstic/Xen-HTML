@@ -773,13 +773,16 @@ void cancelIdleTimer() {
     });
 }
 
-- (void)process:(id)arg1 stateDidChangeFromState:(FBProcessState*)arg2 toState:(FBProcessState*)arg3 {
+- (void)process:(FBApplicationProcess*)arg1 stateDidChangeFromState:(FBProcessState*)arg2 toState:(FBProcessState*)arg3 {
     // When changed to state visibility Foreground, we can hide SBHTML.
     // In addition, we also do vice-versa to handle any potential issues as a failsafe.
     
     XENlog(@"Process %@ state did change to %@", arg1, arg3);
     
     %orig;
+    
+    // Ignore Spotlight
+    if ([arg1.bundleIdentifier isEqualToString:@"com.apple.Spotlight"]) return;
     
     // First, handle background -> foreground.
     if (![arg2 isForeground] && [arg3 isForeground]) {
@@ -2188,14 +2191,6 @@ static BOOL launchCydiaForSource = NO;
 // Hooks for overriding legacy XenInfo data providers
 
 %group XenInfoLegacy
-
-%hook XIAlarms
-
-- (void)requestRefresh {
-    // Do nothing
-}
-
-%end
 
 %end
 
