@@ -986,8 +986,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)hasDisplayedSetupUI {
-    id value = settings[@"hasDisplayedSetupUI"];
-    return (value ? [value boolValue] : NO);
+    return YES;
+    
+    /*id value = settings[@"hasDisplayedSetupUI"];
+    return (value ? [value boolValue] : NO);*/
 }
 
 + (BOOL)hasSeenFirstUnlock {
