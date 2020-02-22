@@ -1,0 +1,147 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+
+    overflow: auto;
+
+    -webkit-overflow-scrolling: auto;
+    -webkit-tap-highlight-color: transparent;
+
+    * {
+        box-sizing: border-box;
+
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+
+        -webkit-user-drag: none;
+        -khtml-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+    }
+}
+
+:root {
+    --padding-h-small: 6px;
+    --padding-h: 12px;
+    --padding-h-large: 18px;
+    --padding-h-xlarge: 24px;
+    --padding-v: 12px;
+    --padding-v-small: 6px;
+    --padding-v-large: 18px;
+
+    --page-control-height: 25px;
+
+    --text-color: #E5E5E5;
+    --subtext-color: #C7C7CC;
+    --app-color: #642525;
+    --shadow-color: #3636369f;
+    --base-icon-color: #aaaaaa;
+}
+
+h1 {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 28px;
+    width: 100%;
+
+    margin: var(--padding-v) 0;
+    padding-right: var(--padding-h-large);
+}
+
+h2 {
+    color: var(--subtext-color);
+    font-weight: normal;
+    font-size: 22px;
+    width: 100%;
+
+    margin: var(--padding-v) 0;
+    padding-right: var(--padding-h-large);
+}
+
+button {
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--app-color);
+    border: none;
+    border-radius: 35px;
+    font-size: 16px;
+    height: 35px;
+    backdrop-filter: blur(30px);
+
+    cursor: pointer;
+
+    margin: var(--padding-v) 0;
+    padding: 0 var(--padding-h-large);
+
+    &:active {
+        opacity: 0.6;
+    }
+}
+
+code {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 0 var(--padding-h-small);
+}
+
+.page {
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    .page-content {
+        padding: var(--padding-v) var(--padding-h);
+    }
+
+    .page-header {
+        padding-top: 24px;
+        width: 100%;
+    }
+
+    .page-detail {
+        width: 100%;
+    }
+
+    .page-control {
+        width: 100%;
+
+        position: fixed;
+        bottom: 0;
+        margin-bottom: env(safe-area-inset-bottom);
+
+        .page-control-platter {
+            width: fit-content;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            padding: 0 var(--padding-h);
+            margin: 10px auto;
+        }
+    }
+
+    .page-diagram {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        user-select: none;
+        pointer-events: none;
+
+        height: 100%;
+        position: relative;
+
+        .page-diagram-content {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,84 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='100%'>
+    <defs>
+        <linearGradient id='a' gradientUnits='userSpaceOnUse' x1='0' x2='0' y1='0' y2='100%' gradientTransform='rotate(240)'>
+            <stop offset='0' stop-color='#cc5577' />
+            <stop offset='1' stop-color='#2d9bff' />
+        </linearGradient>
+        <pattern patternUnits='userSpaceOnUse' id='b' width='540' height='450' x='0' y='0' viewBox='001080900'>
+            <g fill-opacity='0.03'>
+                <polygon fill='#444' points='901500300180300' />
+                <polygon points='90150180000' />
+                <polygon fill='#AAA' points='27015036001800' />
+                <polygon fill='#DDD' points='450150360300540300' />
+                <polygon fill='#999' points='45015054003600' />
+                <polygon points='630150540300720300' />
+                <polygon fill='#DDD' points='63015072005400' />
+                <polygon fill='#444' points='810150720300900300' />
+                <polygon fill='#FFF' points='81015090007200' />
+                <polygon fill='#DDD' points='9901509003001080300' />
+                <polygon fill='#444' points='990150108009000' />
+                <polygon fill='#DDD' points='904500600180600' />
+                <polygon points='904501803000300' />
+                <polygon fill='#666' points='270450180600360600' />
+                <polygon fill='#AAA' points='270450360300180300' />
+                <polygon fill='#DDD' points='450450360600540600' />
+                <polygon fill='#999' points='450450540300360300' />
+                <polygon fill='#999' points='630450540600720600' />
+                <polygon fill='#FFF' points='630450720300540300' />
+                <polygon points='810450720600900600' />
+                <polygon fill='#DDD' points='810450900300720300' />
+                <polygon fill='#AAA' points='9904509006001080600' />
+                <polygon fill='#444' points='9904501080300900300' />
+                <polygon fill='#222' points='907500900180900' />
+                <polygon points='270750180900360900' />
+                <polygon fill='#DDD' points='270750360600180600' />
+                <polygon points='450750540600360600' />
+                <polygon points='630750540900720900' />
+                <polygon fill='#444' points='630750720600540600' />
+                <polygon fill='#AAA' points='810750720900900900' />
+                <polygon fill='#666' points='810750900600720600' />
+                <polygon fill='#999' points='9907509009001080900' />
+                <polygon fill='#999' points='180090150270150' />
+                <polygon fill='#444' points='3600270150450150' />
+                <polygon fill='#FFF' points='5400450150630150' />
+                <polygon points='9000810150990150' />
+                <polygon fill='#222' points='0300-9045090450' />
+                <polygon fill='#FFF' points='030090150-90150' />
+                <polygon fill='#FFF' points='18030090450270450' />
+                <polygon fill='#666' points='18030027015090150' />
+                <polygon fill='#222' points='360300270450450450' />
+                <polygon fill='#FFF' points='360300450150270150' />
+                <polygon fill='#444' points='540300450450630450' />
+                <polygon fill='#222' points='540300630150450150' />
+                <polygon fill='#AAA' points='720300630450810450' />
+                <polygon fill='#666' points='720300810150630150' />
+                <polygon fill='#FFF' points='900300810450990450' />
+                <polygon fill='#999' points='900300990150810150' />
+                <polygon points='0600-9075090750' />
+                <polygon fill='#666' points='060090450-90450' />
+                <polygon fill='#AAA' points='18060090750270750' />
+                <polygon fill='#444' points='18060027045090450' />
+                <polygon fill='#444' points='360600270750450750' />
+                <polygon fill='#999' points='360600450450270450' />
+                <polygon fill='#666' points='540600630450450450' />
+                <polygon fill='#222' points='720600630750810750' />
+                <polygon fill='#FFF' points='900600810750990750' />
+                <polygon fill='#222' points='900600990450810450' />
+                <polygon fill='#DDD' points='090090750-90750' />
+                <polygon fill='#444' points='18090027075090750' />
+                <polygon fill='#FFF' points='360900450750270750' />
+                <polygon fill='#AAA' points='540900630750450750' />
+                <polygon fill='#FFF' points='720900810750630750' />
+                <polygon fill='#222' points='900900990750810750' />
+                <polygon fill='#222' points='10803009904501170450' />
+                <polygon fill='#FFF' points='10803001170150990150' />
+                <polygon points='10806009907501170750' />
+                <polygon fill='#666' points='10806001170450990450' />
+                <polygon fill='#DDD' points='10809001170750990750' />
+            </g>
+        </pattern>
+    </defs>
+
+    <rectx='0' y='0' fill='url(#a)' width='100%' height='100%' />
+    <rectx='0' y='0' fill='url(#b)' width='100%' height='100%' />
+</svg>
