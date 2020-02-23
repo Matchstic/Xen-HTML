@@ -2122,8 +2122,6 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-static BOOL launchCydiaForSource = NO;
-
 %hook SpringBoard
 
 -(void)applicationDidFinishLaunching:(id)arg1 {

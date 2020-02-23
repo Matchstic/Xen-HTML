@@ -37,6 +37,7 @@ static XENHSetupWindow *shared;
 }
 
 +(void)finishSetupMode {
+    [XENHResources setPreferenceKey:@"hasDisplayedSetupUI" withValue:@1 andPost:NO];
     
     CGRect existingFrame = shared.rootViewController.view.frame;
     
