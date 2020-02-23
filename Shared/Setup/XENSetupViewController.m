@@ -11,6 +11,10 @@
 
 @interface XENSetupViewController ()
 
+@property (nonatomic, strong) UIView *fallbackContainerView;
+@property (nonatomic, strong) UILabel *fallbackLabelView;
+@property (nonatomic, strong) UIButton *fallbackButton;
+
 @end
 
 @implementation XENSetupViewController
@@ -37,11 +41,16 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    CGFloat width       = 0.0;
+    CGFloat height      = 0.0;
+    CGFloat topInset    = 0.0;
+    CGFloat bottomInset = 0.0;
+    
+    CGFloat fallbackPaddingY = 20;
+    
     // Set frame and scroll bounds
     if (IS_IPAD) {
-        CGFloat width = 0.0;
-        CGFloat height = 0.0;
-        CGFloat bottomInset = 20;
+        bottomInset = 20;
         
         if (orient3 == UIInterfaceOrientationPortrait ||
             orient3 == UIInterfaceOrientationPortraitUpsideDown) {
@@ -51,12 +60,28 @@
             width = SCREEN_WIDTH * 0.7;
             height = SCREEN_HEIGHT * 0.7;
         }
-        
-        self.webView.frame = CGRectMake((SCREEN_WIDTH/2) - (width/2), SCREEN_HEIGHT - height - bottomInset, width, height);
     } else {
-        CGFloat topInset = [UIApplication sharedApplication].statusBarFrame.size.height + 20;
-        CGFloat sideInset = 0;
-        self.webView.frame = CGRectMake(sideInset, topInset, SCREEN_WIDTH - (sideInset*2), SCREEN_HEIGHT - topInset - sideInset);
+        topInset = [UIApplication sharedApplication].statusBarFrame.size.height + 20;
+        bottomInset = 0.0;
+        
+        height = SCREEN_HEIGHT - topInset;
+        width = SCREEN_WIDTH;
+    }
+        
+    self.webView.frame = CGRectMake((SCREEN_WIDTH/2) - (width/2), SCREEN_HEIGHT - height - bottomInset, width, height);
+        
+    if (self.fallbackContainerView) {
+        CGRect labelRect = [XENHResources boundedRectForFont:self.fallbackLabelView.font andText:self.fallbackLabelView.text width:width * 0.8];
+        
+        self.fallbackLabelView.frame = CGRectMake(width * 0.1, fallbackPaddingY, width * 0.8, labelRect.size.height);
+        
+        [self.fallbackButton sizeToFit];
+        
+        self.fallbackButton.frame = CGRectMake((width / 2) - (self.fallbackButton.frame.size.width / 2), labelRect.size.height + fallbackPaddingY + fallbackPaddingY, self.fallbackButton.frame.size.width, self.fallbackButton.frame.size.height);
+        
+        CGFloat height = (fallbackPaddingY * 3) + labelRect.size.height + self.fallbackButton.frame.size.height;
+        
+        self.fallbackContainerView.frame = CGRectMake((SCREEN_WIDTH/2) - (width/2), SCREEN_HEIGHT - height - bottomInset, width, height);
     }
     
     self.webView.scrollView.contentSize = self.webView.bounds.size;
@@ -94,7 +119,36 @@
         
         [self.view addSubview:self.webView];
     } else {
+        self.fallbackContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.fallbackContainerView.layer.cornerRadius = 12.5;
+        self.fallbackContainerView.clipsToBounds = YES;
         
+        if (@available(iOS 13.0, *)) {
+            self.fallbackContainerView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+        } else {
+            self.fallbackContainerView.backgroundColor = [UIColor whiteColor];
+        }
+        
+        [self.view addSubview:self.fallbackContainerView];
+        
+        self.fallbackLabelView = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.fallbackLabelView.text = @"Failed to load Setup UI for Xen HTML";
+        if (@available(iOS 13.0, *)) {
+            self.fallbackLabelView.textColor = [UIColor labelColor];
+        } else {
+            self.fallbackLabelView.textColor = [UIColor darkTextColor];
+        }
+        
+        self.fallbackLabelView.textAlignment = NSTextAlignmentCenter;
+        
+        [self.fallbackContainerView addSubview:self.fallbackLabelView];
+        
+        self.fallbackButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        self.fallbackButton.titleLabel.textColor = self.view.tintColor;
+        [self.fallbackButton setTitle:@"Dismiss" forState:UIControlStateNormal];
+        [self.fallbackButton addTarget:self action:@selector(_fallbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.fallbackContainerView addSubview:self.fallbackButton];
     }
 }
 
@@ -119,9 +173,12 @@
     NSURL *url = [NSURL fileURLWithPath:path isDirectory:NO];
     
     if (url) {
-        XENlog(@"Loading setup UI from: %@", url);
         [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
     }
+}
+
+- (void)_fallbackButtonPressed:(id)sender {
+    [XENHSetupWindow finishSetupMode];
 }
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
