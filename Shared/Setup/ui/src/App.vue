@@ -60,7 +60,13 @@ export default class App extends Vue {
 
     this.$nextTick(() => {
       this.internalCurrentPage++;
-      if (this.internalCurrentPage >= this.availablePages.length) this.internalCurrentPage = this.availablePages.length - 1;
+      if (this.internalCurrentPage >= this.availablePages.length) {
+        this.internalCurrentPage = this.availablePages.length - 1;
+
+        // Send finished notification
+        // @ts-ignore
+        window.webkit.messageHandlers.xenhtml.postMessage('finish');
+      }
     });
   }
 

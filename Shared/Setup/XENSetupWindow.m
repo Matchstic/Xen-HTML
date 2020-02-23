@@ -17,19 +17,9 @@
  */
 
 #import "XENSetupWindow.h"
-#import "XENSetupInitialController.h"
+#import "XENSetupViewController.h"
 #import "XENHResources.h"
 #import <objc/runtime.h>
-
-@interface SpringBoard : NSObject
-@end
-
-@interface SpringBoard (SetupEditor)
-//-(void)_xenhtml_relayoutAfterSetupContentEditorDisplayed;
-//-(void)_xenhtml_releaseSetupUI;
-//-(void)_xenhtml_finaliseAfterSetup;
--(void)_xenhtml_relaunchSpringBoardAfterSetup;
-@end
 
 static XENHSetupWindow *shared;
 
@@ -47,88 +37,35 @@ static XENHSetupWindow *shared;
 }
 
 +(void)finishSetupMode {
-    UIView *black = [[UIView alloc] initWithFrame:shared.bounds];
-    black.backgroundColor = [UIColor blackColor];
-    black.alpha = 1.0;
     
-    [shared insertSubview:black atIndex:0];
+    CGRect existingFrame = shared.rootViewController.view.frame;
     
-    shared.backgroundColor = [UIColor clearColor];
-    
-    shared.backgroundImageView.hidden = YES; // Obscured by pages now
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        shared.rootViewController.view.alpha = 0.0;
-        shared.rootViewController.view.transform = CGAffineTransformMakeScale(2.0, 2.0);
-        shared.bar.alpha = 0.0;
+    [UIView animateWithDuration:0.35 animations:^{
+        shared.alpha = 0.0;
+        shared.rootViewController.view.frame = CGRectMake(existingFrame.origin.x, SCREEN_HEIGHT, existingFrame.size.width, existingFrame.size.height);
     } completion:^(BOOL finished) {
         if (finished) {
             shared = nil;
-            [(SpringBoard*)[UIApplication sharedApplication] _xenhtml_relaunchSpringBoardAfterSetup];
         }
     }];
 }
 
-// Allows it to render on LS.
+// Allow rendering on LS.
 - (bool)_shouldCreateContextAsSecure {
     return YES;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.backgroundImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-    self.bar.frame = CGRectMake(0, 0, self.bounds.size.width, self.bar.frame.size.height);
 }
 
 -(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
-        if (@available(iOS 13.0, *)) {
-            self.backgroundColor = [UIColor systemGroupedBackgroundColor];
-        } else {
-            // Fallback on earlier versions
-            self.backgroundColor = [UIColor whiteColor];
-        }
-        
+        // Properties
+        self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
         self.windowLevel = 1081;
         
-        self.usingQuickSetup = NO;
-        
-        // Background
-        NSString *imagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
-            // Oh for crying out loud CoolStar
-            imagePath = [NSString stringWithFormat:@"/bootstrap/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
-        }
-        
-        UIImage *backgroundImage = [UIImage imageWithContentsOfFile:imagePath];
-        
-        self.backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-        self.backgroundImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        self.backgroundImageView.alpha = 0.3;
-        self.backgroundImageView.contentMode = UIViewContentModeScaleAspectFill;
-        
-        [self addSubview:self.backgroundImageView];
-        
-        // We want a navigation controller
-        XENHSetupInitialController *initial = [[XENHSetupInitialController alloc] init];
-        UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:initial];
-        [navigation setNavigationBarHidden:YES];
-        self.rootViewController = navigation;
-        
-        [navigation.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-        [navigation.navigationBar setShadowImage:[UIImage new]];
-        
-        self.bar = [[objc_getClass("UIStatusBar") alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 20) showForegroundView:YES];
-        [(UIStatusBar*)self.bar requestStyle:0 animated:YES];
-        [(UIStatusBar*)self.bar setLegibilityStyle:0];
-        self.bar.frame = CGRectMake(0, 0, frame.size.width, self.bar.frame.size.height);
-        self.bar.tag = 1337;
-        
-        [self addSubview:self.bar];
+        // Add the web controller for the Setup UI
+        XENSetupViewController *controller = [[XENSetupViewController alloc] init];
+        self.rootViewController = controller;
     }
     
     return self;

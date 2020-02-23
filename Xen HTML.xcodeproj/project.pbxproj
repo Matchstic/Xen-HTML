@@ -119,6 +119,7 @@
 		C9606EEB1C20E204006C8917 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606EEA1C20E204006C8917 /* WebKit.framework */; };
 		C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
+		C96E50002401F0BC00600A17 /* XENSetupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96E4FFF2401F0BC00600A17 /* XENSetupViewController.m */; };
 		C9715249236F87E60021277B /* libTweak (Shared).a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9715239236F86F10021277B /* libTweak (Shared).a */; };
 		C9715252236F88080021277B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C971525D236F88080021277B /* XenHTML.mm in Sources */ = {isa = PBXBuildFile; fileRef = C971525C236F88080021277B /* XenHTML.mm */; };
@@ -149,13 +150,7 @@
 		C9715307236F8CC40021277B /* XENHPickerPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152EB236F8CC30021277B /* XENHPickerPreviewController.m */; };
 		C9715308236F8CC40021277B /* XENHHomescreenForegroundPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152EC236F8CC30021277B /* XENHHomescreenForegroundPickerController.m */; };
 		C9715309236F8CC40021277B /* XENHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F0236F8CC30021277B /* XENHButton.m */; };
-		C971530A236F8CC40021277B /* XENHSetupLockscreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F2236F8CC30021277B /* XENHSetupLockscreenImportController.m */; };
-		C971530B236F8CC40021277B /* XENSFinalTickView.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F3236F8CC30021277B /* XENSFinalTickView.m */; };
 		C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F5236F8CC30021277B /* XENSetupWindow.m */; };
-		C971530D236F8CC40021277B /* XENSetupFinalController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F6236F8CC30021277B /* XENSetupFinalController.m */; };
-		C971530E236F8CC40021277B /* XENSetupInitialController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F7236F8CC30021277B /* XENSetupInitialController.m */; };
-		C971530F236F8CC40021277B /* XENHSetupHomescreenImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152FC236F8CC30021277B /* XENHSetupHomescreenImportController.m */; };
-		C9715310236F8CC40021277B /* XENSetupBaseTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152FD236F8CC30021277B /* XENSetupBaseTableController.m */; };
 		C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
@@ -364,6 +359,8 @@
 		C94F49E0237DB0B9004A74B0 /* XenHTML.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		C94F49E1237DB0B9004A74B0 /* XenHTML.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.mm; sourceTree = "<group>"; };
 		C9606EEA1C20E204006C8917 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		C96E4FFE2401F0BC00600A17 /* XENSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENSetupViewController.h; sourceTree = "<group>"; };
+		C96E4FFF2401F0BC00600A17 /* XENSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENSetupViewController.m; sourceTree = "<group>"; };
 		C9715239236F86F10021277B /* libTweak (Shared).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libTweak (Shared).a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9715251236F88080021277B /* XenHTML_13.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_13.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C971525B236F88080021277B /* XenHTML.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -410,20 +407,8 @@
 		C97152EE236F8CC30021277B /* XENHHomescreenForegroundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHHomescreenForegroundViewController.h; sourceTree = "<group>"; };
 		C97152EF236F8CC30021277B /* XENHCloseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHCloseButton.h; sourceTree = "<group>"; };
 		C97152F0236F8CC30021277B /* XENHButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHButton.m; sourceTree = "<group>"; };
-		C97152F2236F8CC30021277B /* XENHSetupLockscreenImportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHSetupLockscreenImportController.m; sourceTree = "<group>"; };
-		C97152F3236F8CC30021277B /* XENSFinalTickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSFinalTickView.m; sourceTree = "<group>"; };
-		C97152F4236F8CC30021277B /* XENHSetupHomescreenImportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHSetupHomescreenImportController.h; sourceTree = "<group>"; };
 		C97152F5236F8CC30021277B /* XENSetupWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupWindow.m; sourceTree = "<group>"; };
-		C97152F6236F8CC30021277B /* XENSetupFinalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupFinalController.m; sourceTree = "<group>"; };
-		C97152F7236F8CC30021277B /* XENSetupInitialController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupInitialController.m; sourceTree = "<group>"; };
-		C97152F8236F8CC30021277B /* XENSetupBaseTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupBaseTableController.h; sourceTree = "<group>"; };
-		C97152F9236F8CC30021277B /* XENSFinalTickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSFinalTickView.h; sourceTree = "<group>"; };
-		C97152FA236F8CC30021277B /* XENHSetupLockscreenImportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHSetupLockscreenImportController.h; sourceTree = "<group>"; };
 		C97152FB236F8CC30021277B /* XENSetupWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupWindow.h; sourceTree = "<group>"; };
-		C97152FC236F8CC30021277B /* XENHSetupHomescreenImportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHSetupHomescreenImportController.m; sourceTree = "<group>"; };
-		C97152FD236F8CC30021277B /* XENSetupBaseTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENSetupBaseTableController.m; sourceTree = "<group>"; };
-		C97152FE236F8CC30021277B /* XENSetupInitialController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupInitialController.h; sourceTree = "<group>"; };
-		C97152FF236F8CC40021277B /* XENSetupFinalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupFinalController.h; sourceTree = "<group>"; };
 		C9715318236F902A0021277B /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		C971531F236F96970021277B /* PrivateHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateHeaders.h; sourceTree = "<group>"; };
 		C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -981,18 +966,8 @@
 			children = (
 				C97152FB236F8CC30021277B /* XENSetupWindow.h */,
 				C97152F5236F8CC30021277B /* XENSetupWindow.m */,
-				C97152F8236F8CC30021277B /* XENSetupBaseTableController.h */,
-				C97152FD236F8CC30021277B /* XENSetupBaseTableController.m */,
-				C97152FE236F8CC30021277B /* XENSetupInitialController.h */,
-				C97152F7236F8CC30021277B /* XENSetupInitialController.m */,
-				C97152F4236F8CC30021277B /* XENHSetupHomescreenImportController.h */,
-				C97152FC236F8CC30021277B /* XENHSetupHomescreenImportController.m */,
-				C97152FA236F8CC30021277B /* XENHSetupLockscreenImportController.h */,
-				C97152F2236F8CC30021277B /* XENHSetupLockscreenImportController.m */,
-				C97152FF236F8CC40021277B /* XENSetupFinalController.h */,
-				C97152F6236F8CC30021277B /* XENSetupFinalController.m */,
-				C97152F9236F8CC30021277B /* XENSFinalTickView.h */,
-				C97152F3236F8CC30021277B /* XENSFinalTickView.m */,
+				C96E4FFE2401F0BC00600A17 /* XENSetupViewController.h */,
+				C96E4FFF2401F0BC00600A17 /* XENSetupViewController.m */,
 			);
 			path = Setup;
 			sourceTree = "<group>";
@@ -1451,15 +1426,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C971530A236F8CC40021277B /* XENHSetupLockscreenImportController.m in Sources */,
 				C9715307236F8CC40021277B /* XENHPickerPreviewController.m in Sources */,
 				C9715305236F8CC40021277B /* XENHMetadataOptionsController.m in Sources */,
-				C9715310236F8CC40021277B /* XENSetupBaseTableController.m in Sources */,
-				C971530B236F8CC40021277B /* XENSFinalTickView.m in Sources */,
-				C971530E236F8CC40021277B /* XENSetupInitialController.m in Sources */,
 				C9715301236F8CC40021277B /* XENHCloseButton.m in Sources */,
 				C97152CB236F8CB30021277B /* XENHWidgetLayerContainerView.m in Sources */,
 				C9715300236F8CC40021277B /* XENHHomescreenForegroundViewController.m in Sources */,
+				C96E50002401F0BC00600A17 /* XENSetupViewController.m in Sources */,
 				C9715302236F8CC40021277B /* XENHConfigJSCell.m in Sources */,
 				C97152D8236F8CBD0021277B /* XENHResources.m in Sources */,
 				C9715306236F8CC40021277B /* XENHHomescreenForegroundPickerCell.m in Sources */,
@@ -1467,13 +1439,11 @@
 				C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */,
 				C97152CA236F8CB30021277B /* XENHWidgetLayerController.m in Sources */,
 				C9715309236F8CC40021277B /* XENHButton.m in Sources */,
-				C971530D236F8CC40021277B /* XENSetupFinalController.m in Sources */,
 				C97152D6236F8CBC0021277B /* XENHWallpaperViewController.m in Sources */,
 				C97152C9236F8CB30021277B /* XENHWidgetController.m in Sources */,
 				C97152D7236F8CBD0021277B /* XENHTouchPassThroughView.m in Sources */,
 				C97152D5236F8CBC0021277B /* XENHTouchForwardingRecognizer.m in Sources */,
 				C9715308236F8CC40021277B /* XENHHomescreenForegroundPickerController.m in Sources */,
-				C971530F236F8CC40021277B /* XENHSetupHomescreenImportController.m in Sources */,
 				C9715303236F8CC40021277B /* XENHFallbackOnlyOptionsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
