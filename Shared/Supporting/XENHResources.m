@@ -985,7 +985,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return currentOrientation;
 }
 
-+(BOOL)hasDisplayedSetupUI {
++(BOOL)hasDisplayedSetupUI {    
     id value = settings[@"hasDisplayedSetupUI"];
     return (value ? [value boolValue] : NO);
 }

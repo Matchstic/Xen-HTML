@@ -62,7 +62,6 @@
         }
     } else {
         topInset = [UIApplication sharedApplication].statusBarFrame.size.height + 20;
-        bottomInset = 0.0;
         
         height = SCREEN_HEIGHT - topInset;
         width = SCREEN_WIDTH;
