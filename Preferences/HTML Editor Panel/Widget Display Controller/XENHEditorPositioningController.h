@@ -20,6 +20,9 @@
 
 @protocol XENHEditorPositioningDelegate <NSObject>
 - (void)didUpdatePositioningWithX:(CGFloat)x andY:(CGFloat)y;
+
+- (void)didStartPositioning;
+- (void)didEndPositioning;
 @end
 
 @interface XENHEditorPositioningController : UIViewController

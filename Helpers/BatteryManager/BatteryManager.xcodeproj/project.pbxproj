@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_BatteryManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B6051C229346840043581A /* XenHTML_ZBatteryManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_ZBatteryManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B6051F229346840043581A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9B60544229347500043581A /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
 		C9B6054E229348570043581A /* BatteryManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BatteryManager.mm; sourceTree = "<group>"; };
@@ -55,7 +55,7 @@
 		C9B6051D229346840043581A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */,
+				C9B6051C229346840043581A /* XenHTML_ZBatteryManager.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 			);
 			name = BatteryManager;
 			productName = BatteryManager;
-			productReference = C9B6051C229346840043581A /* XenHTML_BatteryManager.dylib */;
+			productReference = C9B6051C229346840043581A /* XenHTML_ZBatteryManager.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -263,7 +263,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
-				PRODUCT_NAME = XenHTML_BatteryManager;
+				PRODUCT_NAME = XenHTML_ZBatteryManager;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -297,7 +297,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
-				PRODUCT_NAME = XenHTML_BatteryManager;
+				PRODUCT_NAME = XenHTML_ZBatteryManager;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";

@@ -468,6 +468,26 @@
     [self.webViewController setMetadata:newMetadata reloadingWebView:NO];
 }
 
+- (void)didStartPositioning {
+    // Animate away the toolbar
+    [UIView animateWithDuration:0.15 animations:^{
+        self.toolbarController.view.frame = CGRectMake(0,
+                                                       [self.toolbarController effectiveToolbarHeight],
+                                                       self.toolbarController.view.frame.size.width,
+                                                       self.toolbarController.view.frame.size.height);
+    }];
+}
+
+- (void)didEndPositioning {
+    // Animate in the toolbar
+    [UIView animateWithDuration:0.15 animations:^{
+        self.toolbarController.view.frame = CGRectMake(0,
+                                                       0,
+                                                       self.toolbarController.view.frame.size.width,
+                                                       self.toolbarController.view.frame.size.height);
+    }];
+}
+
 #pragma mark Fallback delegate
 
 - (void)fallbackStateDidChange:(BOOL)state {

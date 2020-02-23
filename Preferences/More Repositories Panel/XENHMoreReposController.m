@@ -129,16 +129,31 @@ static NSString *listFile;
     [super loadView];
     
     self.tableOverlayView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.tableOverlayView.backgroundColor = [UIColor whiteColor];
+    
+    if (@available(iOS 13.0, *)) {
+        self.tableOverlayView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        // Fallback on earlier versions
+        self.tableOverlayView.backgroundColor = [UIColor whiteColor];
+    }
     
     [self.view addSubview:self.tableOverlayView];
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    if (@available(iOS 13.0, *)) {
+        self.spinner.color = [UIColor labelColor];
+    } else {
+        self.spinner.tintColor = [UIColor darkTextColor];
+    }
     [self.tableOverlayView addSubview:self.spinner];
     
     self.loadingLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.loadingLabel.textAlignment = NSTextAlignmentCenter;
-    self.loadingLabel.textColor = [UIColor darkTextColor];
+    if (@available(iOS 13.0, *)) {
+        self.loadingLabel.textColor = [UIColor labelColor];
+    } else {
+        self.loadingLabel.textColor = [UIColor darkTextColor];
+    }
     self.loadingLabel.font = [UIFont systemFontOfSize:18];
     self.loadingLabel.numberOfLines = 0;
     self.loadingLabel.text = [XENHResources localisedStringForKey:@"MORE_REPOS_CONTACTING_SERVER"];

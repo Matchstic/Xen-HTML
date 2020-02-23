@@ -29,24 +29,17 @@ extern "C" {
 #include <ptrauth.h>
 #endif
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-function"
-
 // Given a pointer to instructions, sign it so you can call it like a normal fptr.
 static void *make_sym_callable(void *ptr) {
 #if __arm64e__
+    if (!ptr)
+        return ptr;
+    
+    XENlog(@"pointer pre-PAC signing: %p", ptr);
     ptr = ptrauth_sign_unauthenticated(ptrauth_strip(ptr, ptrauth_key_function_pointer), ptrauth_key_function_pointer, 0);
+    XENlog(@"pointer after-PAC signing: %p", ptr);
 #endif
     return ptr;
 }
 
-// Given a function pointer, strip the PAC so you can read the instructions.
-static void *make_sym_readable(void *ptr) {
-#if __arm64e__
-    ptr = ptrauth_strip(ptr, ptrauth_key_function_pointer);
-#endif
-    return ptr;
-}
-
-#pragma clang diagnostic pop
 #endif
