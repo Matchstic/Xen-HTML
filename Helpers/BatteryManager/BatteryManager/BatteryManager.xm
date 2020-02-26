@@ -240,7 +240,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
             if (![javaScriptString hasSuffix:@";"])
                 javaScriptString = [javaScriptString stringByAppendingString:@";"];
                 
-            [self._xh_pendingJavaScriptCalls addObject:javaScriptString];)
+            [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
         }
         
         if (completionHandler)
