@@ -294,7 +294,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     config.preferences = preferences;
     
     if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
-        [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
+        // Silence compiler warning
+        if (@available(iOS 11.0, *)) {
+            [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     if (self.webView) {
@@ -305,6 +310,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     self.webView = [[WKWebView alloc] initWithFrame:rect configuration:config];
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     self.webView.backgroundColor = [UIColor clearColor];
     self.webView.opaque = NO;
     self.webView.scrollView.layer.masksToBounds = NO;
@@ -1079,6 +1085,78 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_removeEditingPositioningBackdrop {
     [self.editingPositioningBackground removeFromSuperview];
     self.editingPositioningBackground = nil;
+}
+
+#pragma mark WKUIDelegate
+
+- (void)webView:(WKWebView *)webView
+    runJavaScriptAlertPanelWithMessage:(NSString *)message
+    initiatedByFrame:(WKFrameInfo *)frame
+    completionHandler:(void (^)(void))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+    
+    // Immediately call completion handler once alert goes up
+    completionHandler();
+}
+
+- (void)webView:(WKWebView *)webView
+    runJavaScriptConfirmPanelWithMessage:(nonnull NSString *)message
+    initiatedByFrame:(nonnull WKFrameInfo *)frame
+    completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(YES);
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(NO);
+    }];
+    
+    [controller addAction:cancelAction];
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+#pragma mark WKUIDelegatePrivate
+
+- (void)_webView:(WKWebView*)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4 {
+    // Override requests for location API to true always
+    arg4(YES);
+}
+
+- (void)_webView:(WKWebView*)arg1 shouldAllowDeviceOrientationAndMotionAccessRequestedByFrame:(id)arg2 decisionHandler:(void (^)(BOOL))arg3 {
+    // Override requests for motion API to true always
+    arg3(YES);
+}
+
+- (void)_webView:(WKWebView*)arg1 requestMediaCaptureAuthorization:(int)devices decisionHandler:(void (^)(BOOL))arg3 {
+    // Override requests for audio and video capture to true always
+    arg3(YES);
+}
+
+- (void)_webView:(WKWebView*)arg1 checkUserMediaPermissionForURL:(id)arg2 mainFrameURL:(id)arg3 frameIdentifier:(unsigned long long)arg4 decisionHandler:(void (^)(NSString*, BOOL))arg5 {
+    // Override requests for user media access to true always
+    arg5(@"", YES);
 }
 
 @end

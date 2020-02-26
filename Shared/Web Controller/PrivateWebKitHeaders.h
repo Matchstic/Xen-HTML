@@ -122,4 +122,14 @@
 - (CGPoint)_locationInSceneReferenceSpace;
 @end
 
+@protocol WKUIDelegatePrivate <WKUIDelegate>
+
+@optional
+-(void)_webView:(id)arg1 requestUserMediaAuthorizationForDevices:(unsigned long long)arg2 url:(id)arg3 mainFrameURL:(id)arg4 decisionHandler:(/*^block*/id)arg5;
+-(void)_webView:(id)arg1 checkUserMediaPermissionForURL:(id)arg2 mainFrameURL:(id)arg3 frameIdentifier:(unsigned long long)arg4 decisionHandler:(void (^)(NSString*, BOOL))arg5;
+-(void)_webView:(id)arg1 requestGeolocationPermissionForFrame:(id)arg2 decisionHandler:(/*^block*/id)arg3;
+-(void)_webView:(id)arg1 didNotHandleTapAsClickAtPoint:(CGPoint)arg2;
+-(void)_webView:(id)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4;
+@end
+
 #endif /* PrivateWebKitHeaders_h */

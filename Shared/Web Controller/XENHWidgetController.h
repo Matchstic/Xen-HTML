@@ -24,7 +24,7 @@
 
 #import "XENHWidgetEditingDelegate.h"
 
-@interface XENHWidgetController : UIViewController <WKNavigationDelegate, XENHTouchPassThroughViewDelegate>
+@interface XENHWidgetController : UIViewController <WKNavigationDelegate, XENHTouchPassThroughViewDelegate, WKUIDelegate>
 
 // Internal webviews
 @property (nonatomic, strong) WKWebView *webView;
