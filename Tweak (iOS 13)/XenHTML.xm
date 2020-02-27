@@ -2186,11 +2186,25 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-// Hooks for overriding legacy XenInfo data providers
+#pragma mark Hooks for overriding legacy XenInfo data providers
 
 %group XenInfoLegacy
 
 %end
+
+#pragma mark Hooks for overriding WebKit behaviour
+
+// DeviceOrientationOrMotionPermissionState WebDeviceOrientationAndMotionAccessController::cachedDeviceOrientationPermission(const SecurityOriginData& origin) const
+// Override to always return DeviceOrientationOrMotionPermissionState::Granted
+
+// See: https://github.com/WebKit/webkit/blob/master/Source/WebKit/UIProcess/WebsiteData/WebDeviceOrientationAndMotionAccessController.cpp
+// Also: https://github.com/WebKit/webkit/blob/master/Source/WebCore/dom/DeviceOrientationOrMotionPermissionState.h
+enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied, Prompt };
+%hookf(DeviceOrientationOrMotionPermissionState, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE", void *_this, void *originData) {
+    return DeviceOrientationOrMotionPermissionState::Granted;
+}
+
+#pragma mark Initialisation and Settings callbacks
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     

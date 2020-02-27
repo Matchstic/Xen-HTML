@@ -217,6 +217,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     //config.processPool = [XENHWidgetController sharedProcessPool];
+    config.allowsInlineMediaPlayback = YES;
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
