@@ -284,6 +284,10 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [preferences _setLogsPageMessagesToSystemConsoleEnabled:YES];
     //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
     
+    if ([preferences respondsToSelector:@selector(_setMediaDevicesEnabled:)]) {
+        [preferences _setMediaDevicesEnabled:YES];
+    }
+    
     // Developer tools
     if ([XENHResources developerOptionsEnabled]) {
         [preferences _setDeveloperExtrasEnabled:YES];

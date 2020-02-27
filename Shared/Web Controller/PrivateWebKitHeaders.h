@@ -63,6 +63,7 @@
 - (void)_setFullScreenEnabled:(BOOL)arg1;
 - (void)_setJavaScriptRuntimeFlags:(unsigned int)arg1;
 - (void)_setLogsPageMessagesToSystemConsoleEnabled:(BOOL)arg1;
+- (void)_setMediaDevicesEnabled:(bool)arg1;
 - (void)_setPageVisibilityBasedProcessSuppressionEnabled:(bool)arg1;
 - (void)_setOfflineApplicationCacheIsEnabled:(BOOL)arg1;
 - (void)_setSimpleLineLayoutDebugBordersEnabled:(BOOL)arg1;
