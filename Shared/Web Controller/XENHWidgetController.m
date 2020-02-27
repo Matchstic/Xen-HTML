@@ -1137,6 +1137,40 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [rootController presentViewController:controller animated:YES completion:nil];
 }
 
+- (void)webView:(WKWebView *)webView
+    runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt
+    defaultText:(NSString *)defaultText
+    initiatedByFrame:(WKFrameInfo *)frame
+    completionHandler:(void (^)(NSString *result))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:prompt preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UITextField *textField = controller.textFields[0];
+        completionHandler(textField.text);
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(@"");
+    }];
+    
+    [controller addAction:cancelAction];
+    [controller addAction:okAction];
+    
+    [controller addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = defaultText;
+        textField.keyboardType = UIKeyboardTypeDefault;
+    }];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
 #pragma mark WKUIDelegatePrivate
 
 - (void)_webView:(WKWebView*)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4 {
@@ -1147,16 +1181,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_webView:(WKWebView*)arg1 shouldAllowDeviceOrientationAndMotionAccessRequestedByFrame:(id)arg2 decisionHandler:(void (^)(BOOL))arg3 {
     // Override requests for motion API to true always
     arg3(YES);
-}
-
-- (void)_webView:(WKWebView*)arg1 requestMediaCaptureAuthorization:(int)devices decisionHandler:(void (^)(BOOL))arg3 {
-    // Override requests for audio and video capture to true always
-    arg3(YES);
-}
-
-- (void)_webView:(WKWebView*)arg1 checkUserMediaPermissionForURL:(id)arg2 mainFrameURL:(id)arg3 frameIdentifier:(unsigned long long)arg4 decisionHandler:(void (^)(NSString*, BOOL))arg5 {
-    // Override requests for user media access to true always
-    arg5(@"", YES);
 }
 
 @end
