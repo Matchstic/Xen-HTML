@@ -183,6 +183,8 @@
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
     if ([message.name isEqualToString:@"xenhtml"] && [message.body isEqualToString:@"finish"]) {
         [XENHSetupWindow finishSetupMode];
+    } else if ([message.name isEqualToString:@"xenhtml"] && [message.body isEqualToString:@"error"]) {
+        [XENHSetupWindow finishSetupMode];
     }
 }
 
