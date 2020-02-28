@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class CSMainPageView; @class UITouch; @class SBIconListPageControl; @class SBHomeScreenView; @class UIWKTextLoupeInteraction; @class SBFLockScreenDateView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBBacklightController; @class SBUIProudLockIconView; @class SBFloatingDockPlatterView; @class SBCoverSheetWindow; @class XENDashBoardWebViewController; @class CSCoverSheetViewController; @class SBHomeScreenWindow; @class SBIconView; @class SBMainWorkspace; @class CSScrollView; @class SBHomeScreenViewController; @class SBScreenWakeAnimationController; @class SBRootFolderController; @class CSQuickActionsViewController; @class SBFolderIconImageView; @class SBRootFolderView; @class SBIdleTimerGlobalStateMonitor; @class SBHorizontalScrollFailureRecognizer; @class SBHomeScreenPreviewView; @class WKWebView; @class SBIconListView; @class UITouchesEvent; @class _UIPlatterView; @class SpringBoard; @class CSTeachableMomentsContainerView; @class SBMainStatusBarStateProvider; @class CSFixedFooterView; @class CSPageViewController; @class SBLockScreenManager; @class CSMainPageContentViewController; @class CSCoverSheetView; @class SBDockView; @class CSCombinedListViewController; @class SBIconScrollView; 
+@class SBFolderIconImageView; @class SBIdleTimerGlobalStateMonitor; @class SBHomeScreenViewController; @class SBHorizontalScrollFailureRecognizer; @class UITouch; @class SBIconListPageControl; @class UIWKTextLoupeInteraction; @class SBRootFolderView; @class CSCombinedListViewController; @class SBRootFolderController; @class _UIPlatterView; @class SBHomeScreenView; @class SBScreenWakeAnimationController; @class CSMainPageView; @class SBHomeScreenWindow; @class SBFloatingDockPlatterView; @class UITouchesEvent; @class SBHomeScreenPreviewView; @class SBUIProudLockIconView; @class SBLockScreenManager; @class CSFixedFooterView; @class XENDashBoardWebViewController; @class SpringBoard; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBMainStatusBarStateProvider; @class CSMainPageContentViewController; @class SBFLockScreenDateView; @class SBIconScrollView; @class CSCoverSheetViewController; @class CSCoverSheetView; @class SBBacklightController; @class CSPageViewController; @class CSScrollView; @class SBDockView; @class CSTeachableMomentsContainerView; @class SBCoverSheetWindow; @class SBIconListView; @class SBMainWorkspace; @class SBIconView; @class WKWebView; @class CSQuickActionsViewController; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -2212,11 +2212,25 @@ static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_T
 
 
 
+#pragma mark Hooks for overriding legacy XenInfo data providers
 
 
 
 
 
+#pragma mark Hooks for overriding WebKit behaviour
+
+
+
+
+
+
+enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied, Prompt };
+__unused static DeviceOrientationOrMotionPermissionState (*_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE)(void *_this, void *originData); __unused static DeviceOrientationOrMotionPermissionState _logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE(void *_this, void *originData) {
+    return DeviceOrientationOrMotionPermissionState::Granted;
+}
+
+#pragma mark Initialisation and Settings callbacks
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
@@ -2298,10 +2312,10 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_5d3cc46b(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_d0323f3c(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
-    {}
+    { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
