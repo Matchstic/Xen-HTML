@@ -216,8 +216,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    //config.processPool = [XENHWidgetController sharedProcessPool];
     config.allowsInlineMediaPlayback = YES;
+    
+    // Ensure WebKit creates remote CAContext as secure
+    if ([config respondsToSelector:@selector(_setCanShowWhileLocked:)]) {
+        [config _setCanShowWhileLocked:YES];
+    }
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
