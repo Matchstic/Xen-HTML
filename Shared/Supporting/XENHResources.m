@@ -556,78 +556,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         [self setPreferenceKey:@"hideClock10" withValue:[NSNumber numberWithInt:hideClock ? 2 : 0] andPost:YES];
         [self setPreferenceKey:@"hideClockTransferred10" withValue:[NSNumber numberWithBool:YES] andPost:YES];
     }
-    
-    [self _migrateWidgetSettingsToRC5OrHigher];
-}
-
-+ (void)_migrateWidgetSettingsToRC5OrHigher {
-    id widgets = settings[@"widgets"];
-    
-    if (!widgets) {
-        // We need to migrate the widget settings through to the new format.
-        
-        // Load from old settings
-        NSString *backgroundLocation = settings[@"backgroundLocation"] != nil ? settings[@"backgroundLocation"] : @"";
-        NSString *foregroundLocation = settings[@"foregroundLocation"] != nil ? settings[@"foregroundLocation"] : @"";
-        NSString *sbLocation = settings[@"SBLocation"] != nil ? settings[@"SBLocation"] : @"";
-        
-        BOOL lsForceLegacy = [self LSUseLegacyMode];
-        BOOL sbForceLegacy = [self SBUseLegacyMode];
-        
-        NSMutableDictionary *backgroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSBackground"] mutableCopy];
-        if (!backgroundMetadata)
-            backgroundMetadata = [NSMutableDictionary dictionary];
-        
-        NSMutableDictionary *foregroundMetadata = [[settings[@"widgetPrefs"] objectForKey:@"LSForeground"] mutableCopy];
-        if (!foregroundMetadata)
-            foregroundMetadata = [NSMutableDictionary dictionary];
-        
-        NSMutableDictionary *sbMetadata = [[settings[@"widgetPrefs"] objectForKey:@"SBBackground"] mutableCopy];
-        if (!sbMetadata)
-            sbMetadata = [NSMutableDictionary dictionary];
-        
-        // Update metadata for fallback per-widget
-        [backgroundMetadata setObject:[NSNumber numberWithBool:lsForceLegacy] forKey:@"useFallback"];
-        [foregroundMetadata setObject:[NSNumber numberWithBool:lsForceLegacy] forKey:@"useFallback"];
-        [sbMetadata setObject:[NSNumber numberWithBool:sbForceLegacy] forKey:@"useFallback"];
-        
-        // Create new dictionary
-        NSMutableDictionary *newWidgetPreferences = [NSMutableDictionary dictionary];
-        
-        // LSBackground
-        NSMutableDictionary *newLSBackgroundPreferences = [NSMutableDictionary dictionary];
-        if (backgroundLocation && ![backgroundLocation isEqualToString:@""]) {
-            [newLSBackgroundPreferences setObject:@[ backgroundLocation ] forKey:@"widgetArray"];
-            [newLSBackgroundPreferences setObject:@{ backgroundLocation: backgroundMetadata } forKey:@"widgetMetadata"];
-        }
-        [newWidgetPreferences setObject:newLSBackgroundPreferences forKey:@"LSBackground"];
-        
-        // LSForeground
-        NSMutableDictionary *newLSForegroundPreferences = [NSMutableDictionary dictionary];
-        if (foregroundLocation && ![foregroundLocation isEqualToString:@""]) {
-            [newLSForegroundPreferences setObject:@[ foregroundLocation ] forKey:@"widgetArray"];
-            [newLSForegroundPreferences setObject:@{ foregroundLocation: foregroundMetadata } forKey:@"widgetMetadata"];
-        }
-        [newWidgetPreferences setObject:newLSForegroundPreferences forKey:@"LSForeground"];
-        
-        // SBBackground
-        NSMutableDictionary *newSBBackgroundPreferences = [NSMutableDictionary dictionary];
-        if (sbLocation && ![sbLocation isEqualToString:@""]) {
-            [newSBBackgroundPreferences setObject:@[ sbLocation ] forKey:@"widgetArray"];
-            [newSBBackgroundPreferences setObject:@{ sbLocation: sbMetadata } forKey:@"widgetMetadata"];
-        }
-        [newWidgetPreferences setObject:newSBBackgroundPreferences forKey:@"SBBackground"];
-        
-        // Save new dictionary!
-        [self setPreferenceKey:@"widgets" withValue:newWidgetPreferences andPost:YES];
-
-        XENlog(@"Migrated settings!");
-    }
 }
 
 + (BOOL)_isOnSupportedIOSVersion {
     long long minVersion = 9;
-    long long maxVersion = 12;
+    long long maxVersion = 13;
     
     return [XENHResources isAtLeastiOSVersion:minVersion subversion:0] && [XENHResources isBelowiOSVersion:maxVersion subversion:0];
 }
