@@ -798,16 +798,13 @@ void cancelIdleTimer() {
         [sbhtmlForegroundViewController setPaused:YES animated:YES];
                    
     // And now, handle the reverse as a failsafe.
-    } else if ([arg2 isForeground] && ![arg3 isForeground]) {
-            
-            if (isSpringBoardForeground) {
-                XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-                
-                [sbhtmlViewController doJITWidgetLoadIfNecessary];
-                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-            }
+    } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
+        XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
+        [sbhtmlViewController setPaused:NO];
+        [sbhtmlForegroundViewController setPaused:NO];
+        
+        [sbhtmlViewController doJITWidgetLoadIfNecessary];
+        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
     }
     
     });
