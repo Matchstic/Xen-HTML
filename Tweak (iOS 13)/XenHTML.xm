@@ -781,11 +781,14 @@ void cancelIdleTimer() {
     
     %orig;
     
-    // Ignore Spotlight
-    if ([arg1.bundleIdentifier isEqualToString:@"com.apple.Spotlight"]) return;
+    // ONLY show SBHTML again if we're actually heading to SpringBoard
+    dispatch_async(dispatch_get_main_queue(), ^(){
+    
+    // Ignore going to foreground if SpringBoard is frontmost
+    BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
     
     // First, handle background -> foreground.
-    if (![arg2 isForeground] && [arg3 isForeground]) {
+    if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
         
         // CHECKME: When launching an app, this functions but causes the widget to disappear BEFORE the application zoom-up is done.
         // CHECMKE: When launching an app thats backgrounded, this doesn't cause the widget to disappear...
@@ -793,13 +796,9 @@ void cancelIdleTimer() {
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
         [sbhtmlForegroundViewController setPaused:YES animated:YES];
+                   
     // And now, handle the reverse as a failsafe.
     } else if ([arg2 isForeground] && ![arg3 isForeground]) {
-        
-        // ONLY show SBHTML again if we're actually heading to SpringBoard
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            
-            BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
             
             if (isSpringBoardForeground) {
                 XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
@@ -809,8 +808,9 @@ void cancelIdleTimer() {
                 [sbhtmlViewController doJITWidgetLoadIfNecessary];
                 [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
             }
-        });
     }
+    
+    });
 }
 
 %end

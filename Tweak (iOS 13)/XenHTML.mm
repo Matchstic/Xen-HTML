@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBFolderIconImageView; @class SBIdleTimerGlobalStateMonitor; @class SBHomeScreenViewController; @class SBHorizontalScrollFailureRecognizer; @class UITouch; @class SBIconListPageControl; @class UIWKTextLoupeInteraction; @class SBRootFolderView; @class CSCombinedListViewController; @class SBRootFolderController; @class _UIPlatterView; @class SBHomeScreenView; @class SBScreenWakeAnimationController; @class CSMainPageView; @class SBHomeScreenWindow; @class SBFloatingDockPlatterView; @class UITouchesEvent; @class SBHomeScreenPreviewView; @class SBUIProudLockIconView; @class SBLockScreenManager; @class CSFixedFooterView; @class XENDashBoardWebViewController; @class SpringBoard; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBMainStatusBarStateProvider; @class CSMainPageContentViewController; @class SBFLockScreenDateView; @class SBIconScrollView; @class CSCoverSheetViewController; @class CSCoverSheetView; @class SBBacklightController; @class CSPageViewController; @class CSScrollView; @class SBDockView; @class CSTeachableMomentsContainerView; @class SBCoverSheetWindow; @class SBIconListView; @class SBMainWorkspace; @class SBIconView; @class WKWebView; @class CSQuickActionsViewController; 
+@class SBHomeScreenWindow; @class CSScrollView; @class SBBacklightController; @class UITouchesEvent; @class CSCombinedListViewController; @class CSCoverSheetViewController; @class CSQuickActionsViewController; @class SBHomeScreenViewController; @class SBIconListView; @class SBFolderIconImageView; @class SBFLockScreenDateView; @class UITouch; @class SBIconView; @class CSPageViewController; @class _UIPlatterView; @class SBRootFolderController; @class WKWebView; @class SBCoverSheetWindow; @class XENDashBoardWebViewController; @class SBFloatingDockPlatterView; @class SBIconScrollView; @class SBRootFolderView; @class CSFixedFooterView; @class SBIconListPageControl; @class SBHomeScreenView; @class CSCoverSheetView; @class CSMainPageView; @class SBUIProudLockIconView; @class SBHomeScreenPreviewView; @class SpringBoard; @class SBDockView; @class SBLockScreenManager; @class SBIdleTimerGlobalStateMonitor; @class SBFluidSwitcherGestureWorkspaceTransaction; @class CSMainPageContentViewController; @class SBHorizontalScrollFailureRecognizer; @class UIWKTextLoupeInteraction; @class SBScreenWakeAnimationController; @class CSTeachableMomentsContainerView; @class SBMainWorkspace; @class SBMainStatusBarStateProvider; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -808,10 +808,15 @@ static void _logos_method$SpringBoard$SBMainWorkspace$process$stateDidChangeFrom
     _logos_orig$SpringBoard$SBMainWorkspace$process$stateDidChangeFromState$toState$(self, _cmd, arg1, arg2, arg3);
     
     
-    if ([arg1.bundleIdentifier isEqualToString:@"com.apple.Spotlight"]) return;
+    dispatch_async(dispatch_get_main_queue(), ^(){
     
     
-    if (![arg2 isForeground] && [arg3 isForeground]) {
+    
+                   
+    BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
+    
+    
+    if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
         
         
         
@@ -819,13 +824,9 @@ static void _logos_method$SpringBoard$SBMainWorkspace$process$stateDidChangeFrom
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
         [sbhtmlForegroundViewController setPaused:YES animated:YES];
+                   
     
     } else if ([arg2 isForeground] && ![arg3 isForeground]) {
-        
-        
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            
-            BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
             
             if (isSpringBoardForeground) {
                 XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
@@ -835,8 +836,9 @@ static void _logos_method$SpringBoard$SBMainWorkspace$process$stateDidChangeFrom
                 [sbhtmlViewController doJITWidgetLoadIfNecessary];
                 [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
             }
-        });
     }
+    
+    });
 }
 
 
@@ -2312,7 +2314,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_d0323f3c(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_e042263d(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}
