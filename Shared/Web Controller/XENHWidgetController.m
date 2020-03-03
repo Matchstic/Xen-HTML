@@ -725,6 +725,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     return isTracking;
 }
 
+- (BOOL)_touchForwardedViewIsScroll:(id)view {
+    return [[view class] isKindOfClass:[UIScrollView class]] ||
+           [[view class] isEqual:objc_getClass("UIWebOverflowScrollView")] ||
+           [[view class] isEqual:objc_getClass("WKChildScrollView")];
+}
+
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location {
     // only prevent on scrollviews
     
@@ -732,8 +738,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     UIView *_touchForwardedView = [view hitTest:location withEvent:nil];
     
-    if ([[_touchForwardedView class] isEqual:[UIScrollView class]] || [[_touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
-        
+    if ([self _touchForwardedViewIsScroll:_touchForwardedView]) {
         return YES;
     }
     
@@ -803,7 +808,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
         }
     }
     
-    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
+    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
         // Need to forward to the scrollView also!
         
         // Used for getting touches for gestureRecognizers.
@@ -819,21 +824,33 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     [recog _touchesBegan:set withEvent:event];
                     break;
                 case 1:
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _delayTouchesForEventIfNeeded:event];
                     [recog _touchesMoved:set withEvent:event];
                     break;
                 case 2:
                     [recog _touchesEnded:set withEvent:event];
                     
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _clearDelayedTouches];
                     [recog _resetGestureRecognizer];
                     break;
                 case 3:
                     [recog _touchesCancelled:set withEvent:event];
                     
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _clearDelayedTouches];
                     [recog _resetGestureRecognizer];
                     break;

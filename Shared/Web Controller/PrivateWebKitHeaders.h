@@ -113,7 +113,11 @@
 - (bool)_isActive;
 - (bool)_isRecognized;
 
+// Up to iOS 12.4 (?)
 - (void)_updateGestureWithEvent:(id)arg1 buttonEvent:(id)arg2;
+
+// Definitely iOS 13
+- (void)_updateGestureForActiveEvents;
 - (void)_delayTouchesForEventIfNeeded:(id)arg1;
 
 - (void)_clearDelayedTouches;
