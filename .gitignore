@@ -13,3 +13,5 @@ Tweak/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs
 Helpers/BatteryManager/BatteryManager/BatteryManager.mm
 Helpers/WebGL/WebGL/WebGL.mm
 Deploy/Package/Library/Application Support/Xen HTML/Setup UI/*
+Deploy/Package/Library/LaunchDaemons/com.matchstic.widgetinfod.plist
+Deploy/Package/Library/Application Support/Widgets/libwidgetinfo.js

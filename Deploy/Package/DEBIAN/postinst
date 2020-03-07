@@ -20,6 +20,15 @@ ln -s "/var/mobile/Library/LockHTML/Background | Particles" "/var/mobile/Library
 echo "/var/mobile/Library/SBHTML/Background | Kaleidoscope" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
 echo "/var/mobile/Library/SBHTML/Background | Particles" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
 
+# Handle the daemon
+echo "(Re)-loading daemon..."
+chown root /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
+
+# Unload for an upgrade. - Might spew an error, so hide that.
+/bin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null || /sbin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null
+/bin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2> /dev/null || /sbin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
+
+
 echo "	"
 echo "===================================="
 echo "With credits to:"

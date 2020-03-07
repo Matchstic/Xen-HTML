@@ -12,9 +12,12 @@
 			buildConfigurationList = C97152B4236F8AFB0021277B /* Build configuration list for PBXAggregateTarget "Deploy" */;
 			buildPhases = (
 				C97152B8236F8B020021277B /* Copy Helpers and Preferences */,
+				C94A9F3D24140CFE0062CDCD /* Auto-generation */,
 				C97152BF236F8BFA0021277B /* Compile into deb */,
 			);
 			dependencies = (
+				C9A371CC2414113F0086FC2A /* PBXTargetDependency */,
+				C94A9F3524140BF00062CDCD /* PBXTargetDependency */,
 				C9400C112383003400EE5164 /* PBXTargetDependency */,
 				C9400C0D2383003100EE5164 /* PBXTargetDependency */,
 				C94F49F9237DB23D004A74B0 /* PBXTargetDependency */,
@@ -197,6 +200,20 @@
 			remoteGlobalIDString = C9B604ED2293320E0043581A;
 			remoteInfo = WebGL;
 		};
+		C94A9F14241407CE0062CDCD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C94A9EF7241407C30062CDCD;
+			remoteInfo = WidgetInfo;
+		};
+		C94A9F3424140BF00062CDCD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C94A9EF6241407C30062CDCD;
+			remoteInfo = WidgetInfo;
+		};
 		C94F49F8237DB23D004A74B0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C93C30A21BA72CA90037BA09 /* Project object */;
@@ -238,6 +255,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C9F770481C7A459900C52880;
 			remoteInfo = Preferences;
+		};
+		C9A371CB2414113F0086FC2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C94A9F4124140F070062CDCD;
+			remoteInfo = Daemon;
 		};
 		C9B6050D229336600043581A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -354,6 +378,7 @@
 		C947755A20715D150003D039 /* XENHWallpaperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHWallpaperViewController.h; sourceTree = "<group>"; };
 		C947755B20715D150003D039 /* XENHMoreReposController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHMoreReposController.m; sourceTree = "<group>"; };
 		C947756520715D150003D039 /* XENHLSMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHLSMediaController.m; sourceTree = "<group>"; };
+		C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WidgetInfo.xcodeproj; path = WidgetInfo/WidgetInfo.xcodeproj; sourceTree = "<group>"; };
 		C94E9A111E63AA2600932F4F /* libpackageinfo.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpackageinfo.dylib; path = ../../../../../opt/iOSOpenDev/lib/libpackageinfo.dylib; sourceTree = "<group>"; };
 		C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_Loader.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C94F49E0237DB0B9004A74B0 /* XenHTML.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -846,6 +871,14 @@
 			path = "Support Panel";
 			sourceTree = "<group>";
 		};
+		C94A9F11241407CE0062CDCD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C94A9F15241407CE0062CDCD /* XenHTML_WidgetInfo.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C94F49D8237DB0B9004A74B0 /* Loader */ = {
 			isa = PBXGroup;
 			children = (
@@ -975,6 +1008,7 @@
 		C9B604E2229331AE0043581A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */,
 				C9B60546229347D10043581A /* BatteryManager.xcodeproj */,
 				C9B60509229336600043581A /* WebGL.xcodeproj */,
 			);
@@ -1233,6 +1267,10 @@
 					ProductGroup = C9B6050A229336600043581A /* Products */;
 					ProjectRef = C9B60509229336600043581A /* WebGL.xcodeproj */;
 				},
+				{
+					ProductGroup = C94A9F11241407CE0062CDCD /* Products */;
+					ProjectRef = C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1252,6 +1290,13 @@
 			fileType = archive.ar;
 			path = libpackageinfo.a;
 			remoteRef = C9164330227A4ABF0078338F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C94A9F15241407CE0062CDCD /* XenHTML_WidgetInfo.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = XenHTML_WidgetInfo.dylib;
+			remoteRef = C94A9F14241407CE0062CDCD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C9B6050E229336600043581A /* XenHTML_WebGL.dylib */ = {
@@ -1283,6 +1328,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+		};
+		C94A9F3D24140CFE0062CDCD /* Auto-generation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Auto-generation";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Generating and copying Setup UI\"\n\nif [ -d \"${PROJECT_DIR}/Shared/Setup/ui/dist\" ] \nthen    \n    mkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI\"\n    rm -r \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/.\"\n    cp -a \"${PROJECT_DIR}/Shared/Setup/ui/dist/.\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/\"\nelse\n    echo \"Auto-generating Setup UI...\"\n    \n    if ! [ -x \"$(command -v yarn)\" ]; then\n        echo 'Warning: yarn is not installed, cannot generate Setup UI' >&2\n    else\n        cd \"${PROJECT_DIR}/Shared/Setup/ui\"\n        yarn && yarn build\n        \n        mkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI\"\n        rm -r \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/.\"\n        cp -a \"${PROJECT_DIR}/Shared/Setup/ui/dist/.\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/\"\n    fi\nfi\n\necho \"Generating and copying libwidgetinfo.js\"\n\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Widgets\"\n\nif [ -f \"${PROJECT_DIR}/deps/libwidgetinfo/lib/Middleware/build/libwidgetinfo.js\" ] \nthen    \n\n    cp -a \"${PROJECT_DIR}/deps/libwidgetinfo/lib/Middleware/build/libwidgetinfo.js\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Widgets/libwidgetinfo.js\"\nelse\n    echo \"Auto-generating libwidgetinfo.js\"\n    \n    if ! [ -x \"$(command -v yarn)\" ]; then\n        echo 'Warning: yarn is not installed, cannot generate libwidgetinfo.js' >&2\n    else\n        cd \"${PROJECT_DIR}/deps/libwidgetinfo/lib/Middleware/\"\n        yarn && yarn package\n        \n        cp -a \"${PROJECT_DIR}/deps/libwidgetinfo/lib/Middleware/build/libwidgetinfo.js\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Widgets/libwidgetinfo.js\"\n    fi\nfi\n";
 		};
 		C94F49CF237DB0B9004A74B0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1334,7 +1397,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_ZBatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_ZBatteryManager.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n\necho \"Copying Loader\"\ncp \"$builtpath/XenHTML_Loader.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib\"\n\necho \"Copying Setup UI\"\n\nif [ -d \"${PROJECT_DIR}/Shared/Setup/ui/dist\" ] \nthen    \n    mkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI\"\n    rm -r \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/.\"\n    cp -a \"${PROJECT_DIR}/Shared/Setup/ui/dist/.\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/\"\nelse\n    echo \"Auto-generating Setup UI...\"\n    \n    if ! [ -x \"$(command -v yarn)\" ]; then\n        echo 'Warning: yarn is not installed, cannot generate Setup UI' >&2\n    else\n        cd \"${PROJECT_DIR}/Shared/Setup/ui\"\n        yarn && yarn build\n        \n        mkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI\"\n        rm -r \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/.\"\n        cp -a \"${PROJECT_DIR}/Shared/Setup/ui/dist/.\" \"${PROJECT_DIR}/Deploy/Package/Library/Application Support/Xen HTML/Setup UI/\"\n    fi\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_ZBatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_ZBatteryManager.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n\necho \"Copying WidgetInfo helper...\"\ncp \"$builtpath/XenHTML_WidgetInfo.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WidgetInfo/XenHTML_WidgetInfo.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WidgetInfo.dylib\"\n\necho \"Copying WidgetInfo daemon...\"\n\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons\"\n\ncp \"$builtpath/widgetinfod\" \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\ncp \"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/com.matchstic.widgetinfod.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons/\"\n\nldid2 -S\"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/entitlements.plist\" \"${PROJECT_DIR}/Deploy/Package/usr/bin/widgetinfod\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n\necho \"Copying Loader\"\ncp \"$builtpath/XenHTML_Loader.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib\"\n";
 		};
 		C97152BF236F8BFA0021277B /* Compile into deb */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1522,6 +1585,11 @@
 			name = WebGL;
 			targetProxy = C9400C102383003400EE5164 /* PBXContainerItemProxy */;
 		};
+		C94A9F3524140BF00062CDCD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WidgetInfo;
+			targetProxy = C94A9F3424140BF00062CDCD /* PBXContainerItemProxy */;
+		};
 		C94F49F9237DB23D004A74B0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C94F49D5237DB0B9004A74B0 /* Loader */;
@@ -1551,6 +1619,11 @@
 			isa = PBXTargetDependency;
 			target = C9F770481C7A459900C52880 /* Preferences */;
 			targetProxy = C97152BD236F8BDE0021277B /* PBXContainerItemProxy */;
+		};
+		C9A371CC2414113F0086FC2A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Daemon;
+			targetProxy = C9A371CB2414113F0086FC2A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -45,6 +45,10 @@ extern char **environ;
 + (MTMaterialView*)materialViewWithRecipe:(long long)arg1 options:(unsigned long long)arg2;
 @end
 
+@interface WKWebView (WidgetInfo)
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
+@end
+
 @interface XENHWidgetController ()
 
 // Editing mode
@@ -316,7 +320,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
         self.webView = nil;
     }
     
-    self.webView = [[WKWebView alloc] initWithFrame:rect configuration:config];
+	// Load for widget info, if available
+	id webview = [WKWebView alloc];
+	if ([webview respondsToSelector:@selector(initWithFrame:configuration:injectWidgetData:)]) {
+		XENlog(@"Initialising with widgetinfo injection");
+		self.webView = [webview initWithFrame:rect configuration:config injectWidgetData:YES];
+	} else
+		self.webView = [webview initWithFrame:rect configuration:config];
+	
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self;
