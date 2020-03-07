@@ -13,58 +13,12 @@ struct process_name_t {
     unsigned char *name;
 };
 
+static NSString * const kCAContextSecure = @"secure";
+
 #include <sys/sysctl.h>
-
-NSString *proc_pidpath(int);
-NSString *proc_pidpath(int pid) {
-    
-    // First ask the system how big a buffer we should allocate
-    int mib[3] = {CTL_KERN, KERN_ARGMAX, 0};
-
-    size_t argmaxsize = sizeof(size_t);
-    size_t size;
-
-    int ret = sysctl(mib, 2, &size, &argmaxsize, NULL, 0);
-
-    if (ret != 0) {
-        return @"";
-    } else if (size == 0) {
-        return @"";
-    }
-
-    // Then we can get the path information we actually want
-    mib[1] = KERN_PROCARGS2;
-    mib[2] = (int)pid;
-
-    char *procargv = (char*)malloc(size);
-
-    ret = sysctl(mib, 3, procargv, &size, NULL, 0);
-
-    if (ret != 0) {
-        free(procargv);
-
-        return nil;
-    }
-
-    // procargv is actually a data structure.
-    // The path is at procargv + sizeof(int)
-    if (!procargv) {
-        return @"";
-    } else {
-        NSString *path = [[NSString stringWithCString:(procargv + sizeof(int))
-                                             encoding:NSASCIIStringEncoding] copy];
-
-        free(procargv);
-
-        return path;
-    }
-}
 
 // process_name_t* CA::Render::Context::process_name()
 static process_name_t* (*CA$Render$Context$process_name)(void *_this);
-
-// const char* CA::Render::Context::process_path()
-static int (*CA$Render$Context$process_id)(void *_this);
 
 %group backboardd
 
@@ -81,20 +35,28 @@ static int (*CA$Render$Context$process_id)(void *_this);
         if (process_name->length == 115) {
             return YES;
         }
-    } else if (CA$Render$Context$process_id != NULL) {
-        pid_t pid = CA$Render$Context$process_id(context);
-
-        if (pid > 0) {
-            NSString *path = proc_pidpath(pid);
-            
-            if ([path rangeOfString:@"com.apple.WebKit.WebContent"].location != NSNotFound) {
-                return YES;
-            }
-        }
     }
 
     return %orig(_this, context, var2);
 }
+
+%end
+
+// Override CAContext options in the webcontent process
+// Want to always ensure that its secure rendering
+%group WebContent
+
+%hook CAContext
+
++ (id)remoteContextWithOptions:(NSDictionary*)options {
+    NSMutableDictionary* overrideOptions = [options mutableCopy];
+    
+    [overrideOptions setObject:@1 forKey:kCAContextSecure];
+    
+    return %orig(overrideOptions);
+}
+
+%end
 
 %end
 
@@ -107,16 +69,19 @@ static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
     %init;
     
     BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    BOOL webProcess = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.WebKit.WebContent"];
     
     if (bb) {
         CA$Render$Context$process_name = (process_name_t* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
-        CA$Render$Context$process_id = (int (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZNK2CA6Render7Context10process_idEv");
         
-        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name") &&
-            !_xenhtml_wg_validate((void*)CA$Render$Context$process_id, @"CA::Render::Context::process_id"))
+        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
             return;
         
         XENlog(@"DEBUG :: initialising hooks");
         %init(backboardd);
+    } else if (webProcess) {
+        XENlog(@"DEBUG :: initialising hooks");
+        
+        %init(WebContent);
     }
 }

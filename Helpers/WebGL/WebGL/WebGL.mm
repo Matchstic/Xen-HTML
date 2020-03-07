@@ -14,58 +14,12 @@ struct process_name_t {
     unsigned char *name;
 };
 
+static NSString * const kCAContextSecure = @"secure";
+
 #include <sys/sysctl.h>
-
-NSString *proc_pidpath(int);
-NSString *proc_pidpath(int pid) {
-    
-    
-    int mib[3] = {CTL_KERN, KERN_ARGMAX, 0};
-
-    size_t argmaxsize = sizeof(size_t);
-    size_t size;
-
-    int ret = sysctl(mib, 2, &size, &argmaxsize, NULL, 0);
-
-    if (ret != 0) {
-        return @"";
-    } else if (size == 0) {
-        return @"";
-    }
-
-    
-    mib[1] = KERN_PROCARGS2;
-    mib[2] = (int)pid;
-
-    char *procargv = (char*)malloc(size);
-
-    ret = sysctl(mib, 3, procargv, &size, NULL, 0);
-
-    if (ret != 0) {
-        free(procargv);
-
-        return nil;
-    }
-
-    
-    
-    if (!procargv) {
-        return @"";
-    } else {
-        NSString *path = [[NSString stringWithCString:(procargv + sizeof(int))
-                                             encoding:NSASCIIStringEncoding] copy];
-
-        free(procargv);
-
-        return path;
-    }
-}
 
 
 static process_name_t* (*CA$Render$Context$process_name)(void *_this);
-
-
-static int (*CA$Render$Context$process_id)(void *_this);
 
 
 #include <substrate.h>
@@ -88,10 +42,10 @@ static int (*CA$Render$Context$process_id)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
+@class CAContext; 
 
 
-
-#line 69 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
+#line 23 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WebGL/WebGL/WebGL.xm"
 
 
 __unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE)(void *_this, void *context, const void *var2 ); __unused static BOOL _logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(void *_this, void *context, const void *var2 ) {
@@ -107,20 +61,28 @@ __unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allo
         if (process_name->length == 115) {
             return YES;
         }
-    } else if (CA$Render$Context$process_id != NULL) {
-        pid_t pid = CA$Render$Context$process_id(context);
-
-        if (pid > 0) {
-            NSString *path = proc_pidpath(pid);
-            
-            if ([path rangeOfString:@"com.apple.WebKit.WebContent"].location != NSNotFound) {
-                return YES;
-            }
-        }
     }
 
     return _logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE(_this, context, var2);
 }
+
+
+
+
+
+static id (*_logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary*); static id _logos_meta_method$WebContent$CAContext$remoteContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary*); 
+
+
+
+static id _logos_meta_method$WebContent$CAContext$remoteContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSDictionary* options) {
+    NSMutableDictionary* overrideOptions = [options mutableCopy];
+    
+    [overrideOptions setObject:@1 forKey:kCAContextSecure];
+    
+    return _logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$(self, _cmd, overrideOptions);
+}
+
+
 
 
 
@@ -129,20 +91,23 @@ static inline bool _xenhtml_wg_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_cf446c74(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_7ea7e065(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL bb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.backboardd"];
+    BOOL webProcess = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.WebKit.WebContent"];
     
     if (bb) {
         CA$Render$Context$process_name = (process_name_t* (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZN2CA6Render7Context12process_nameEv");
-        CA$Render$Context$process_id = (int (*)(void*)) $_MSFindSymbolCallable(NULL, "__ZNK2CA6Render7Context10process_idEv");
         
-        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name") &&
-            !_xenhtml_wg_validate((void*)CA$Render$Context$process_id, @"CA::Render::Context::process_id"))
+        if (!_xenhtml_wg_validate((void*)CA$Render$Context$process_name, @"CA::Render::Context::process_name"))
             return;
         
         XENlog(@"DEBUG :: initialising hooks");
         { MSHookFunction((void *)MSFindSymbol(NULL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE"), (void *)&_logos_function$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE, (void **)&_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE);}
+    } else if (webProcess) {
+        XENlog(@"DEBUG :: initialising hooks");
+        
+        {Class _logos_class$WebContent$CAContext = objc_getClass("CAContext"); Class _logos_metaclass$WebContent$CAContext = object_getClass(_logos_class$WebContent$CAContext); MSHookMessageEx(_logos_metaclass$WebContent$CAContext, @selector(remoteContextWithOptions:), (IMP)&_logos_meta_method$WebContent$CAContext$remoteContextWithOptions$, (IMP*)&_logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$);}
     }
 }

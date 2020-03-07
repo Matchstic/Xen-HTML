@@ -63,6 +63,7 @@
 - (void)_setFullScreenEnabled:(BOOL)arg1;
 - (void)_setJavaScriptRuntimeFlags:(unsigned int)arg1;
 - (void)_setLogsPageMessagesToSystemConsoleEnabled:(BOOL)arg1;
+- (void)_setMediaDevicesEnabled:(bool)arg1;
 - (void)_setPageVisibilityBasedProcessSuppressionEnabled:(bool)arg1;
 - (void)_setOfflineApplicationCacheIsEnabled:(BOOL)arg1;
 - (void)_setSimpleLineLayoutDebugBordersEnabled:(BOOL)arg1;
@@ -78,6 +79,7 @@
 @interface WKWebViewConfiguration (Private)
 - (void)_setWaitsForPaintAfterViewDidMoveToWindow:(bool)arg1 NS_AVAILABLE_IOS(10_3);
 - (void)_setAlwaysRunsAtForegroundPriority:(BOOL)arg1;
+- (void)_setCanShowWhileLocked:(BOOL)value;
 @end
 
 @interface WKContentView : UIView
@@ -111,7 +113,11 @@
 - (bool)_isActive;
 - (bool)_isRecognized;
 
+// Up to iOS 12.4 (?)
 - (void)_updateGestureWithEvent:(id)arg1 buttonEvent:(id)arg2;
+
+// Definitely iOS 13
+- (void)_updateGestureForActiveEvents;
 - (void)_delayTouchesForEventIfNeeded:(id)arg1;
 
 - (void)_clearDelayedTouches;
@@ -120,6 +126,16 @@
 
 @interface UITouch (Private2)
 - (CGPoint)_locationInSceneReferenceSpace;
+@end
+
+@protocol WKUIDelegatePrivate <WKUIDelegate>
+
+@optional
+-(void)_webView:(id)arg1 requestUserMediaAuthorizationForDevices:(unsigned long long)arg2 url:(id)arg3 mainFrameURL:(id)arg4 decisionHandler:(/*^block*/id)arg5;
+-(void)_webView:(id)arg1 checkUserMediaPermissionForURL:(id)arg2 mainFrameURL:(id)arg3 frameIdentifier:(unsigned long long)arg4 decisionHandler:(void (^)(NSString*, BOOL))arg5;
+-(void)_webView:(id)arg1 requestGeolocationPermissionForFrame:(id)arg2 decisionHandler:(/*^block*/id)arg3;
+-(void)_webView:(id)arg1 didNotHandleTapAsClickAtPoint:(CGPoint)arg2;
+-(void)_webView:(id)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4;
 @end
 
 #endif /* PrivateWebKitHeaders_h */

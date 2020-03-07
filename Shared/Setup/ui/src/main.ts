@@ -13,3 +13,8 @@ Vue.use(VueParticles);
 new Vue({
   render: h => h(App),
 }).$mount('#app');
+
+(window as any).onerror = (error: any) => {
+  // @ts-ignore
+  window.webkit.messageHandlers.xenhtml.postMessage('error');
+};

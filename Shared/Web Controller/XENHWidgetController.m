@@ -216,7 +216,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     // Setup configuration for the WKWebView
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    //config.processPool = [XENHWidgetController sharedProcessPool];
+    config.allowsInlineMediaPlayback = YES;
+    
+    // Ensure WebKit creates remote CAContext as secure
+    if ([config respondsToSelector:@selector(_setCanShowWhileLocked:)]) {
+        [config _setCanShowWhileLocked:YES];
+    }
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
@@ -283,6 +288,10 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [preferences _setLogsPageMessagesToSystemConsoleEnabled:YES];
     //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
     
+    if ([preferences respondsToSelector:@selector(_setMediaDevicesEnabled:)]) {
+        [preferences _setMediaDevicesEnabled:YES];
+    }
+    
     // Developer tools
     if ([XENHResources developerOptionsEnabled]) {
         [preferences _setDeveloperExtrasEnabled:YES];
@@ -294,7 +303,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     config.preferences = preferences;
     
     if ([XENHResources isAtLeastiOSVersion:11 subversion:0]) {
-        [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
+        // Silence compiler warning
+        if (@available(iOS 11.0, *)) {
+            [config _setWaitsForPaintAfterViewDidMoveToWindow:YES];
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     if (self.webView) {
@@ -305,6 +319,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     self.webView = [[WKWebView alloc] initWithFrame:rect configuration:config];
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     self.webView.backgroundColor = [UIColor clearColor];
     self.webView.opaque = NO;
     self.webView.scrollView.layer.masksToBounds = NO;
@@ -710,6 +725,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
     return isTracking;
 }
 
+- (BOOL)_touchForwardedViewIsScroll:(id)view {
+    return [[view class] isKindOfClass:[UIScrollView class]] ||
+           [[view class] isEqual:objc_getClass("UIWebOverflowScrollView")] ||
+           [[view class] isEqual:objc_getClass("WKChildScrollView")];
+}
+
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer*)arg1 atLocation:(CGPoint)location {
     // only prevent on scrollviews
     
@@ -717,8 +738,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     UIView *_touchForwardedView = [view hitTest:location withEvent:nil];
     
-    if ([[_touchForwardedView class] isEqual:[UIScrollView class]] || [[_touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
-        
+    if ([self _touchForwardedViewIsScroll:_touchForwardedView]) {
         return YES;
     }
     
@@ -788,7 +808,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
         }
     }
     
-    if ([[self._touchForwardedView class] isEqual:[UIScrollView class]] || [[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowScrollView")]) {
+    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
         // Need to forward to the scrollView also!
         
         // Used for getting touches for gestureRecognizers.
@@ -804,21 +824,33 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     [recog _touchesBegan:set withEvent:event];
                     break;
                 case 1:
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _delayTouchesForEventIfNeeded:event];
                     [recog _touchesMoved:set withEvent:event];
                     break;
                 case 2:
                     [recog _touchesEnded:set withEvent:event];
                     
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _clearDelayedTouches];
                     [recog _resetGestureRecognizer];
                     break;
                 case 3:
                     [recog _touchesCancelled:set withEvent:event];
                     
-                    [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
+                        [recog _updateGestureWithEvent:event buttonEvent:nil];
+                    else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
                     [recog _clearDelayedTouches];
                     [recog _resetGestureRecognizer];
                     break;
@@ -1079,6 +1111,102 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_removeEditingPositioningBackdrop {
     [self.editingPositioningBackground removeFromSuperview];
     self.editingPositioningBackground = nil;
+}
+
+#pragma mark WKUIDelegate
+
+- (void)webView:(WKWebView *)webView
+    runJavaScriptAlertPanelWithMessage:(NSString *)message
+    initiatedByFrame:(WKFrameInfo *)frame
+    completionHandler:(void (^)(void))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+    
+    // Immediately call completion handler once alert goes up
+    completionHandler();
+}
+
+- (void)webView:(WKWebView *)webView
+    runJavaScriptConfirmPanelWithMessage:(nonnull NSString *)message
+    initiatedByFrame:(nonnull WKFrameInfo *)frame
+    completionHandler:(nonnull void (^)(BOOL))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(YES);
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(NO);
+    }];
+    
+    [controller addAction:cancelAction];
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)webView:(WKWebView *)webView
+    runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt
+    defaultText:(NSString *)defaultText
+    initiatedByFrame:(WKFrameInfo *)frame
+    completionHandler:(void (^)(NSString *result))completionHandler {
+    
+    NSString *directory = [[frame.request.URL absoluteString] stringByDeletingLastPathComponent];
+    NSArray *parts = [directory componentsSeparatedByString:@"/"];
+    NSString *widgetName = [[parts lastObject] stringByRemovingPercentEncoding];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:widgetName message:prompt preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UITextField *textField = controller.textFields[0];
+        completionHandler(textField.text);
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        completionHandler(@"");
+    }];
+    
+    [controller addAction:cancelAction];
+    [controller addAction:okAction];
+    
+    [controller addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = defaultText;
+        textField.keyboardType = UIKeyboardTypeDefault;
+    }];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+#pragma mark WKUIDelegatePrivate
+
+- (void)_webView:(WKWebView*)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4 {
+    // Override requests for location API to true always
+    arg4(YES);
+}
+
+- (void)_webView:(WKWebView*)arg1 shouldAllowDeviceOrientationAndMotionAccessRequestedByFrame:(id)arg2 decisionHandler:(void (^)(BOOL))arg3 {
+    // Override requests for motion API to true always
+    arg3(YES);
 }
 
 @end

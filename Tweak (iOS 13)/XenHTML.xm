@@ -781,11 +781,14 @@ void cancelIdleTimer() {
     
     %orig;
     
-    // Ignore Spotlight
-    if ([arg1.bundleIdentifier isEqualToString:@"com.apple.Spotlight"]) return;
+    // ONLY show SBHTML again if we're actually heading to SpringBoard
+    dispatch_async(dispatch_get_main_queue(), ^(){
+    
+    // Ignore going to foreground if SpringBoard is frontmost
+    BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
     
     // First, handle background -> foreground.
-    if (![arg2 isForeground] && [arg3 isForeground]) {
+    if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
         
         // CHECKME: When launching an app, this functions but causes the widget to disappear BEFORE the application zoom-up is done.
         // CHECMKE: When launching an app thats backgrounded, this doesn't cause the widget to disappear...
@@ -793,24 +796,18 @@ void cancelIdleTimer() {
         XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
         [sbhtmlViewController setPaused:YES animated:YES];
         [sbhtmlForegroundViewController setPaused:YES animated:YES];
+                   
     // And now, handle the reverse as a failsafe.
-    } else if ([arg2 isForeground] && ![arg3 isForeground]) {
+    } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
+        XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
+        [sbhtmlViewController setPaused:NO];
+        [sbhtmlForegroundViewController setPaused:NO];
         
-        // ONLY show SBHTML again if we're actually heading to SpringBoard
-        dispatch_async(dispatch_get_main_queue(), ^(){
-            
-            BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
-            
-            if (isSpringBoardForeground) {
-                XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
-                [sbhtmlViewController setPaused:NO];
-                [sbhtmlForegroundViewController setPaused:NO];
-                
-                [sbhtmlViewController doJITWidgetLoadIfNecessary];
-                [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-            }
-        });
+        [sbhtmlViewController doJITWidgetLoadIfNecessary];
+        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
     }
+    
+    });
 }
 
 %end
@@ -2186,11 +2183,25 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-// Hooks for overriding legacy XenInfo data providers
+#pragma mark Hooks for overriding legacy XenInfo data providers
 
 %group XenInfoLegacy
 
 %end
+
+#pragma mark Hooks for overriding WebKit behaviour
+
+// DeviceOrientationOrMotionPermissionState WebDeviceOrientationAndMotionAccessController::cachedDeviceOrientationPermission(const SecurityOriginData& origin) const
+// Override to always return DeviceOrientationOrMotionPermissionState::Granted
+
+// See: https://github.com/WebKit/webkit/blob/master/Source/WebKit/UIProcess/WebsiteData/WebDeviceOrientationAndMotionAccessController.cpp
+// Also: https://github.com/WebKit/webkit/blob/master/Source/WebCore/dom/DeviceOrientationOrMotionPermissionState.h
+enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied, Prompt };
+%hookf(DeviceOrientationOrMotionPermissionState, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE", void *_this, void *originData) {
+    return DeviceOrientationOrMotionPermissionState::Granted;
+}
+
+#pragma mark Initialisation and Settings callbacks
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     
