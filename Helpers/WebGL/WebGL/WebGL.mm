@@ -14,7 +14,7 @@ struct process_name_t {
     unsigned char *name;
 };
 
-static NSString * const kCAContextSecure = @"";
+static NSString * const kCAContextSecure = @"secure";
 
 #include <sys/sysctl.h>
 
@@ -69,6 +69,7 @@ __unused static BOOL (*_logos_orig$backboardd$lookup$__ZN2CA6Render6Update24allo
 
 
 
+
 static id (*_logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary*); static id _logos_meta_method$WebContent$CAContext$remoteContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL, NSDictionary*); 
 
 
@@ -76,8 +77,7 @@ static id (*_logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$)(_LO
 static id _logos_meta_method$WebContent$CAContext$remoteContextWithOptions$(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSDictionary* options) {
     NSMutableDictionary* overrideOptions = [options mutableCopy];
     
-    
-    XENlog(@"DEBUG :: Overrode remote context options, with: %@", overrideOptions);
+    [overrideOptions setObject:@1 forKey:kCAContextSecure];
     
     return _logos_meta_orig$WebContent$CAContext$remoteContextWithOptions$(self, _cmd, overrideOptions);
 }
