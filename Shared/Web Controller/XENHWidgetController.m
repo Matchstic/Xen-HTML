@@ -290,7 +290,9 @@ static UIWindow *sharedOffscreenRenderingWindow;
     [preferences _setTelephoneNumberDetectionIsEnabled:NO];
     [preferences _setTiledScrollingIndicatorVisible:NO];
     [preferences _setLogsPageMessagesToSystemConsoleEnabled:YES];
-    //[preferences _setPageVisibilityBasedProcessSuppressionEnabled:YES];
+	
+	if ([preferences respondsToSelector:@selector(_setMediaCaptureRequiresSecureConnection:)])
+		[preferences _setMediaCaptureRequiresSecureConnection:NO];
     
     if ([preferences respondsToSelector:@selector(_setMediaDevicesEnabled:)]) {
         [preferences _setMediaDevicesEnabled:YES];
