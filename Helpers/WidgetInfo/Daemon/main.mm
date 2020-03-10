@@ -17,9 +17,9 @@
 */
 
 #include <stdio.h>
-#import "../../../deps/libwidgetinfo/daemon/Connection/XENDXPCDaemonListener.h"
+#import "../../../deps/libwidgetinfo/daemon/Connection/XENDIPCDaemonListener.h"
 
 int main (int argc, const char * argv[]) {
-	return libwidgetinfo_main(nil);
+	return libwidgetinfo_main_ipc();
 }
 
