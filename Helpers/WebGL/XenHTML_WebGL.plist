@@ -7,7 +7,6 @@
 		<key>Bundles</key>
 		<array>
 			<string>com.apple.backboardd</string>
-			<string>com.apple.WebKit.WebContent</string>
 		</array>
 	</dict>
 </dict>
