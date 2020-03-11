@@ -106,7 +106,7 @@ static NSString *listFile;
                 [mutable exchangeObjectAtIndex:i withObjectAtIndex:n];
             }
             
-            _items = mutable;
+            self->_items = mutable;
             
             [self finishLoadingData];
         }

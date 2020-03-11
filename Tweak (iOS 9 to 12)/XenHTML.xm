@@ -16,6 +16,9 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
@@ -2640,7 +2643,7 @@ void cancelIdleTimer() {
 
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
     // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
+    [XENHResources setCurrentOrientation:(int)arg2];
     
     if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
         SBRootFolderController *orig = %orig;
@@ -2664,7 +2667,7 @@ void cancelIdleTimer() {
 
 - (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
     // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
+    [XENHResources setCurrentOrientation:(int)arg2];
     
     return %orig;
 }
@@ -4103,3 +4106,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
     }
 }
+
+#pragma clang diagnostic pop

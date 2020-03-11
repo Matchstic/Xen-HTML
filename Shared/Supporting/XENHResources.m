@@ -317,7 +317,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         
     BOOL hasgAPI = NO;
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/lib/groovyAPI.dylib" isDirectory:NO]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/lib/groovyAPI.dylib" isDirectory:nil]) {
         if (!error && [string rangeOfString:@"groovyAPI."].location != NSNotFound) {
             hasgAPI = YES;
         } else {

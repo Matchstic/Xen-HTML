@@ -157,13 +157,13 @@
     [self.view addSubview:self.wallpaperController.view];
     
     // 2. Any existing widgets
-    self.existingWidgetsController = [[XENHEditorExistingWidgetsController alloc] initWithVariant:self.variant andCurrentWidget:self.isNewWidget ? @"" :  self.widgetURL];
+    self.existingWidgetsController = [[XENHEditorExistingWidgetsController alloc] initWithVariant:(int)self.variant andCurrentWidget:self.isNewWidget ? @"" :  self.widgetURL];
     
     [self addChildViewController:self.existingWidgetsController];
     [self.view addSubview:self.existingWidgetsController.view];
     
     // 3. Webview
-    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:NO];
+    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:(int)self.variant showNoHTMLLabel:NO];
     [self.webViewController reloadWebViewToPath:self.widgetURL updateMetadata:YES ignorePreexistingMetadata:NO];
     
     [self addChildViewController:self.webViewController];

@@ -16,6 +16,9 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
@@ -123,7 +126,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         // Make sure we initialise our UI with the right orientation.
-        CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+        CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
         BOOL canRotate = [cont shouldAutorotate];
         
         int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
@@ -433,7 +436,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
     if ([XENHResources lsenabled] && foregroundViewController) {
         // Either touches will be "stolen" more by the scroll view, or by the widget.
         if ([XENHResources LSWidgetScrollPriority]) {
-            CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+            CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
             BOOL onMainPage = cont.lastSettledPageIndex == [cont _indexOfMainPage];
         
             if (onMainPage) {
@@ -1349,7 +1352,7 @@ void cancelIdleTimer() {
 
 - (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
     // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
+    [XENHResources setCurrentOrientation:(int)arg2];
     
     return %orig;
 }
@@ -2323,3 +2326,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
     }
 }
+
+#pragma clang diagnostic pop
