@@ -18,6 +18,8 @@
 		C94A9F4D24140F070062CDCD /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94A9F4C24140F070062CDCD /* main.mm */; };
 		C94A9F52241410180062CDCD /* libwidgetinfodaemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94A9F2B241408980062CDCD /* libwidgetinfodaemon.a */; };
 		C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A371CE241417720086FC2A /* Foundation.framework */; };
+		C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
+		C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,13 @@
 			remoteGlobalIDString = C9F2F33A2301BE1E00E4863B;
 			remoteInfo = libwidgetinfo;
 		};
+		C9A5E9B8241954A600FCD778 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F23241408980062CDCD /* libwidgetdata.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C9A5E98D2419519300FCD778;
+			remoteInfo = objcipc;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */,
 				C94A9F2E241408B20062CDCD /* libwidgetinfo.a in Frameworks */,
 				C94A9F3B24140C840062CDCD /* libsubstrate.tbd in Frameworks */,
 				C94A9F33241409400062CDCD /* libc++.tbd in Frameworks */,
@@ -78,6 +88,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */,
+				C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */,
 				C94A9F52241410180062CDCD /* libwidgetinfodaemon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,6 +151,7 @@
 			children = (
 				C94A9F29241408980062CDCD /* libwidgetinfo.a */,
 				C94A9F2B241408980062CDCD /* libwidgetinfodaemon.a */,
+				C9A5E9B9241954A600FCD778 /* libobjcipc.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -255,6 +267,13 @@
 			fileType = archive.ar;
 			path = libwidgetinfodaemon.a;
 			remoteRef = C94A9F2A241408980062CDCD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C9A5E9B9241954A600FCD778 /* libobjcipc.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libobjcipc.a;
+			remoteRef = C9A5E9B8241954A600FCD778 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -377,6 +396,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000,-all_load";
 				PRODUCT_NAME = XenHTML_WidgetInfo;
 				SIMJECT = NO;
+				STRIP_STYLE = all;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 192.168.0.0;
@@ -399,6 +419,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -410,6 +431,7 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000,-all_load";
 				PRODUCT_NAME = XenHTML_WidgetInfo;
 				SIMJECT = NO;
+				STRIP_STYLE = all;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 192.168.0.0;
