@@ -44,6 +44,10 @@
 - (void)_close;
 @end
 
+@interface WKWebView (WidgetInfo)
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
+@end
+
 @interface UIScrollView (iOS11)
 @property(nonatomic) int contentInsetAdjustmentBehavior;
 @end
@@ -285,7 +289,16 @@ static WKProcessPool *sharedProcessPool;
     
     config.preferences = preferences;
     
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    // Load for widget info, if available
+    id _webview = [WKWebView alloc];
+    WKWebView *webView = nil;
+    
+    if ([_webview respondsToSelector:@selector(initWithFrame:configuration:injectWidgetData:)]) {
+        NSLog(@"Initialising with widgetinfo injection");
+        webView = [_webview initWithFrame:CGRectZero configuration:config injectWidgetData:YES];
+    } else
+        webView = [_webview initWithFrame:CGRectZero configuration:config];
+    
     webView.translatesAutoresizingMaskIntoConstraints = NO;
     webView.navigationDelegate = self;
     webView.backgroundColor = [UIColor clearColor];

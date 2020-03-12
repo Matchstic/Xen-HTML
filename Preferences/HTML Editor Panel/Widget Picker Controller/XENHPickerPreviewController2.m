@@ -46,6 +46,10 @@
 @property (nonatomic, readonly) UIEdgeInsets safeAreaInsets;
 @end
 
+@interface WKWebView (WidgetInfo)
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
+@end
+
 @interface XENHPickerPreviewController2 ()
 
 @end
@@ -116,7 +120,14 @@
     
     config.preferences = preferences;
     
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    // Load for widget info, if available
+    id webview = [WKWebView alloc];
+    if ([webview respondsToSelector:@selector(initWithFrame:configuration:injectWidgetData:)]) {
+        NSLog(@"Initialising with widgetinfo injection");
+        self.webView = [webview initWithFrame:CGRectZero configuration:config injectWidgetData:YES];
+    } else
+        self.webView = [webview initWithFrame:CGRectZero configuration:config];
+    
     _webView.backgroundColor = [UIColor clearColor];
     _webView.opaque = NO;
     _webView.userInteractionEnabled = NO;
