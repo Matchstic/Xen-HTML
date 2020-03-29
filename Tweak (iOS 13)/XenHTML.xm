@@ -1667,6 +1667,11 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 - (void)setEditing:(_Bool)arg1 animated:(_Bool)arg2 {
     %orig;
     
+    if (_xenhtml_inEditingMode == arg1) {
+        // Already in this editing mode, not doing anything
+        return;
+    }
+    
     _xenhtml_inEditingMode = arg1;
     
     // If the SB is not enabled, then don't go any further than this
@@ -1717,7 +1722,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             self._xenhtml_addButton.alpha = 0.0;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
         } completion:^(BOOL finished) {
-            if (finished && self) {
+            if (finished) {
                 self._xenhtml_addButton.hidden = YES;
                 self._xenhtml_editingPlatter.hidden = YES;
             }
