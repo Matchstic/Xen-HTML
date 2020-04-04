@@ -28,6 +28,8 @@ chown root /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
 /bin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null || /sbin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null
 /bin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2> /dev/null || /sbin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
 
+# Clear debug logs if present
+if [ -d "/var/mobile/Library/Logs/Xen-HTML" ]; then rm -Rf /var/mobile/Library/Logs/Xen-HTML; fi
 
 echo "	"
 echo "===================================="
