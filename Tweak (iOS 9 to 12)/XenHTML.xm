@@ -2636,51 +2636,18 @@ void cancelIdleTimer() {
 
 %end
 
-%hook SBRootFolderController
-
--(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
-    
-    if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
-        SBRootFolderController *orig = %orig;
-        
-        if (orig) {
-            
-            orig.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-            
-            if ([XENHResources SBEnabled]) {
-                [orig.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
-                XENlog(@"Presented foreground SBHTML");
-            }
-        }
-        
-        return orig;
-    } else {
-        return %orig;
-    }
-}
-
-- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
-    
-    return %orig;
-}
-
-%end
-
 #pragma mark Foreground SBHTML init (iOS 10+)
 
 %hook SBRootFolderController
 
+- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
+    [XENHResources setCurrentOrientation:(int)arg2];
+    
+    return %orig;
+}
+
 - (void)loadView {
     %orig;
-    
-    // iOS verison guard
-    if ([XENHResources isBelowiOSVersion:10 subversion:0])
-        return;
     
     XENlog(@"SBRootFolderController loadView");
     
@@ -2688,9 +2655,11 @@ void cancelIdleTimer() {
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
     if ([XENHResources SBEnabled]) {
-        // Add view to root scroll view, and set that scrollview to be the hoster
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        if (!sbhtmlForegroundViewController) {
+            // Add view to root scroll view, and set that scrollview to be the hoster
+            sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+            [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        }
         
         [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
         
