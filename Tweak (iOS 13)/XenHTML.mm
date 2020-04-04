@@ -76,7 +76,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class CSCoverSheetViewController; @class CSScrollView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBLockScreenManager; @class SBUIProudLockIconView; @class SBBacklightController; @class _UIPlatterView; @class CSMainPageView; @class SBIconScrollView; @class XENDashBoardWebViewController; @class SBMainWorkspace; @class SBRootFolderView; @class SBFLockScreenDateView; @class SBHomeScreenViewController; @class SBIconListPageControl; @class SBFolderIconImageView; @class SBHomeScreenView; @class SBDockView; @class SBHorizontalScrollFailureRecognizer; @class SBFloatingDockPlatterView; @class SBScreenWakeAnimationController; @class UITouchesEvent; @class SBMainStatusBarStateProvider; @class SBCoverSheetWindow; @class WKWebView; @class SpringBoard; @class CSCombinedListViewController; @class CSCoverSheetView; @class CSPageViewController; @class SBRootFolderController; @class SBIconView; @class SBHomeScreenWindow; @class CSMainPageContentViewController; @class SBIdleTimerGlobalStateMonitor; @class UIWKTextLoupeInteraction; @class UITouch; @class CSFixedFooterView; @class CSTeachableMomentsContainerView; @class SBIconListView; @class SBHomeScreenPreviewView; @class CSQuickActionsViewController; 
+@class SBHomeScreenPreviewView; @class SBScreenWakeAnimationController; @class WKWebView; @class SBHomeScreenViewController; @class SBDockView; @class SBFloatingDockPlatterView; @class CSCombinedListViewController; @class SBRootFolderController; @class SBIconScrollView; @class CSPageViewController; @class CSQuickActionsViewController; @class SBBacklightController; @class SBIconView; @class CSMainPageContentViewController; @class CSFixedFooterView; @class UITouchesEvent; @class CSCoverSheetView; @class CSScrollView; @class SBIdleTimerGlobalStateMonitor; @class SBLockScreenManager; @class SBHomeScreenWindow; @class SBFLockScreenDateView; @class XENDashBoardWebViewController; @class SBMainWorkspace; @class UITouch; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SpringBoard; @class SBIconListPageControl; @class SBHorizontalScrollFailureRecognizer; @class CSMainPageView; @class SBMainStatusBarStateProvider; @class SBIconListView; @class SBRootFolderView; @class SBCoverSheetWindow; @class SBFolderIconImageView; @class SBHomeScreenView; @class _UIPlatterView; @class SBUIProudLockIconView; @class CSTeachableMomentsContainerView; @class CSCoverSheetViewController; @class UIWKTextLoupeInteraction; 
 
 
 #line 57 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -1693,6 +1693,11 @@ static void _logos_method$SpringBoard$SBRootFolderView$_xenhtml_initialise(_LOGO
 static void _logos_method$SpringBoard$SBRootFolderView$setEditing$animated$(_LOGOS_SELF_TYPE_NORMAL SBRootFolderView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, _Bool arg1, _Bool arg2) {
     _logos_orig$SpringBoard$SBRootFolderView$setEditing$animated$(self, _cmd, arg1, arg2);
     
+    if (_xenhtml_inEditingMode == arg1) {
+        
+        return;
+    }
+    
     _xenhtml_inEditingMode = arg1;
     
     
@@ -1743,7 +1748,7 @@ static void _logos_method$SpringBoard$SBRootFolderView$setEditing$animated$(_LOG
             self._xenhtml_addButton.alpha = 0.0;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
         } completion:^(BOOL finished) {
-            if (finished && self) {
+            if (finished) {
                 self._xenhtml_addButton.hidden = YES;
                 self._xenhtml_editingPlatter.hidden = YES;
             }
@@ -2312,7 +2317,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_d0323f3c(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_3b1207c0(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}

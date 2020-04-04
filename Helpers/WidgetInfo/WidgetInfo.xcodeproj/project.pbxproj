@@ -18,6 +18,7 @@
 		C94A9F4D24140F070062CDCD /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94A9F4C24140F070062CDCD /* main.mm */; };
 		C94A9F52241410180062CDCD /* libwidgetinfodaemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94A9F2B241408980062CDCD /* libwidgetinfodaemon.a */; };
 		C978A2152438DADD00398FBB /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A2142438DADD00398FBB /* liblogger.a */; };
+		C978A2162438DB2400398FBB /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A2142438DADD00398FBB /* liblogger.a */; };
 		C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A371CE241417720086FC2A /* Foundation.framework */; };
 		C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
 		C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
@@ -81,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C978A2162438DB2400398FBB /* liblogger.a in Frameworks */,
 				C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */,
 				C94A9F2E241408B20062CDCD /* libwidgetinfo.a in Frameworks */,
 				C94A9F3B24140C840062CDCD /* libsubstrate.tbd in Frameworks */,
