@@ -2505,6 +2505,12 @@ void cancelIdleTimer() {
                                                    object:nil];
     });
     
+    // This is nasty, but works around an iOS 10.3 issue when this class gets instaniated
+    // handle _xenhtml_isPreviewGeneration ?
+    if (!self._xenhtml_addButton) {
+        [self _xenhtml_initialise];
+    }
+    
     if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots] && ![XENHResources isPageBarAvailable]) {
 #if TARGET_IPHONE_SIMULATOR==0
         SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
@@ -2645,17 +2651,6 @@ void cancelIdleTimer() {
 
 %end
 
-%hook SBRootFolderController
-
-- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:arg2];
-    
-    return %orig;
-}
-
-%end
-
 #pragma mark Foreground SBHTML init (iOS 10+)
 
 %hook SBRootFolderController
@@ -2668,6 +2663,8 @@ void cancelIdleTimer() {
         return;
     
     XENlog(@"SBRootFolderController loadView");
+    
+    
     
     // Set first to allow proper layout of views
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
@@ -2931,20 +2928,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 %property (nonatomic, strong) XENHButton *_xenhtml_addButton;
 %property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
 %property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
-
-- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    if (_xenhtml_isPreviewGeneration) {
-        return %orig;
-    }
-    
-    SBRootFolderView *orig = %orig;
-    
-    if (orig) {        
-        [orig _xenhtml_initialise];
-    }
-    
-    return orig;
-}
 
 %new
 - (void)_xenhtml_initialise {

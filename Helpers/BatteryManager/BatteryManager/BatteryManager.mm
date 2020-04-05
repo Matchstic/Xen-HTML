@@ -94,7 +94,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class XENHWidgetController; @class UIApp; 
+@class UIApp; @class WKWebView; @class XENHWidgetController; 
 
 
 #line 75 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
