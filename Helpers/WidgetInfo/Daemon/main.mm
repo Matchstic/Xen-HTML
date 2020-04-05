@@ -20,6 +20,14 @@
 #import "../../../deps/libwidgetinfo/daemon/Connection/XENDIPCDaemonListener.h"
 
 int main (int argc, const char * argv[]) {
-	return libwidgetinfo_main_ipc();
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion <= 9) {
+        // Just run the run loop forever.
+        [[NSRunLoop currentRunLoop] run];
+        
+        return EXIT_SUCCESS;
+    } else {
+        return libwidgetinfo_main_ipc();
+    }
 }
 

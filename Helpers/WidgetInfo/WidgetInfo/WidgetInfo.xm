@@ -46,7 +46,13 @@
 %ctor {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
-	// TODO: Load settings, and apply widgetweather config
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion <= 9) {
+        // Do not initialise anything
+        return;
+    }
+    
+    // TODO: Load settings, and apply widgetweather config
 	
     BOOL isSpringBoard = [[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"];
     
