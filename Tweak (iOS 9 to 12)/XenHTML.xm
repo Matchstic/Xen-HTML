@@ -1682,8 +1682,11 @@ void cancelIdleTimer() {
     dispatch_once(&onceToken, ^{
         Class clazz = objc_getClass("SBIdleTimerDefaults");
         
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
         SEL originalSelector = @selector(minimumLockscreenIdleTime);
         SEL swizzledSelector = @selector(_xenhtml_minimumLockscreenIdleTime);
+#pragma clang diagnostic pop
         
         Method originalMethod = class_getInstanceMethod(clazz, originalSelector);
         Method swizzledMethod = class_getInstanceMethod(clazz, swizzledSelector);
@@ -2160,12 +2163,15 @@ void cancelIdleTimer() {
     
     [self _xenhtml_addTouchRecogniser];
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlUpdate"
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recievedSBHTMLUpdateForGesture:) name:@"com.matchstic.xenhtml/sbhtmlUpdateGesture" object:nil];
+#pragma clang diagnostic pop
 }
 
 - (void)_animateTransitionToSize:(CGSize)size andInterfaceOrientation:(int)orientation withTransitionContext:(id)transitionContext {
@@ -2298,10 +2304,13 @@ void cancelIdleTimer() {
 -(id)initWithDockListView:(id)arg1 forSnapshot:(BOOL)arg2 {
     id orig = %orig;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     [[NSNotificationCenter defaultCenter] addObserver:orig
                                              selector:@selector(recievedSBHTMLUpdate:)
                                                  name:@"com.matchstic.xenhtml/sbhtmlDockUpdate"
                                                object:nil];
+#pragma clang diagnostic pop
     
     return orig;
 }
@@ -2499,6 +2508,12 @@ void cancelIdleTimer() {
                                                    object:nil];
     });
     
+    // This is nasty, but works around an iOS 10.3 issue when this class gets instaniated
+    // handle _xenhtml_isPreviewGeneration ?
+    if (!self._xenhtml_addButton) {
+        [self _xenhtml_initialise];
+    }
+    
     if ([XENHResources SBEnabled] && [XENHResources SBHidePageDots] && ![XENHResources isPageBarAvailable]) {
 #if TARGET_IPHONE_SIMULATOR==0
         SBIconListPageControl *pageControl = MSHookIvar<SBIconListPageControl*>(self, "_pageControl");
@@ -2639,41 +2654,6 @@ void cancelIdleTimer() {
 
 %end
 
-%hook SBRootFolderController
-
--(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:(int)arg2];
-    
-    if ([XENHResources isBelowiOSVersion:10 subversion:0]) {
-        SBRootFolderController *orig = %orig;
-        
-        if (orig) {
-            
-            orig.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-            
-            if ([XENHResources SBEnabled]) {
-                [orig.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-                
-                XENlog(@"Presented foreground SBHTML");
-            }
-        }
-        
-        return orig;
-    } else {
-        return %orig;
-    }
-}
-
-- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    // Set orientation?
-    [XENHResources setCurrentOrientation:(int)arg2];
-    
-    return %orig;
-}
-
-%end
-
 #pragma mark Foreground SBHTML init (iOS 10+)
 
 %hook SBRootFolderController
@@ -2686,6 +2666,8 @@ void cancelIdleTimer() {
         return;
     
     XENlog(@"SBRootFolderController loadView");
+    
+    
     
     // Set first to allow proper layout of views
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
@@ -2949,20 +2931,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 %property (nonatomic, strong) XENHButton *_xenhtml_addButton;
 %property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
 %property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
-
-- (id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 context:(id)arg4 {
-    if (_xenhtml_isPreviewGeneration) {
-        return %orig;
-    }
-    
-    SBRootFolderView *orig = %orig;
-    
-    if (orig) {        
-        [orig _xenhtml_initialise];
-    }
-    
-    return orig;
-}
 
 %new
 - (void)_xenhtml_initialise {
@@ -3895,8 +3863,9 @@ static BOOL launchCydiaForSource = NO;
         // Do initial settings loading
         [XENHResources reloadSettings];
         
-        // Show setup UI if needed
-        if (![XENHResources hasDisplayedSetupUI]) {
+        // Show setup UI if needed - ignore on iOS 9 due to missing ES5/CSS support
+        NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (![XENHResources hasDisplayedSetupUI] && version.majorVersion > 9) {
             setupWindow = [XENHSetupWindow sharedInstance];
             
             setupWindow.hidden = NO;
@@ -3954,6 +3923,34 @@ static BOOL launchCydiaForSource = NO;
         // Update preferences for showing the alert
         [XENHResources setHomescreenForegroundAlertSeen:YES];
     }
+}
+
+%end
+
+%end
+
+%group iOS9
+
+%hook SBRootFolderController
+
+-(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
+    // Set orientation
+    [XENHResources setCurrentOrientation:arg2];
+    
+    SBRootFolderController *orig = %orig;
+        
+    if (orig) {
+        
+        orig.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
+        
+        if ([XENHResources SBEnabled]) {
+            [orig.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Presented foreground SBHTML");
+        }
+    }
+    
+    return orig;
 }
 
 %end
@@ -4071,6 +4068,8 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
         // We need the setup UI to always be accessible.
         %init(Setup);
         
@@ -4098,6 +4097,14 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         dlopen("/System/Library/SpringBoardPlugins/NowPlayingArtLockScreen.lockbundle/NowPlayingArtLockScreen", RTLD_NOW);
         
         %init(SpringBoard);
+
+        
+        // iOS 9 only stuff
+        NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (version.majorVersion == 9) {
+            %init(iOS9);
+        }
+#pragma clang diagnostic pop
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);

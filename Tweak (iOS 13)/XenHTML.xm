@@ -2191,12 +2191,6 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
-#pragma mark Hooks for overriding legacy XenInfo data providers
-
-%group XenInfoLegacy
-
-%end
-
 #pragma mark Hooks for overriding WebKit behaviour
 
 // DeviceOrientationOrMotionPermissionState WebDeviceOrientationAndMotionAccessController::cachedDeviceOrientationPermission(const SecurityOriginData& origin) const
@@ -2299,6 +2293,8 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
         // We need the setup UI to always be accessible.
         %init(Setup);
         
@@ -2316,10 +2312,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         }
         
         %init(SpringBoard);
-        
-        // Handle XenInfo
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
-        %init(XenInfoLegacy);
+#pragma clang diagnostic pop
         
         // Do initial settings loading
         [XENHResources reloadSettings];
