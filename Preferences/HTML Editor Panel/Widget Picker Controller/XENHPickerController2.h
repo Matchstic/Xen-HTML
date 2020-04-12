@@ -23,21 +23,27 @@
 -(void)cancelShowingPicker;
 @end
 
-@interface XENHPickerController2 : UITableViewController {
-    int _variant;
-    id<XENHPickerDelegate2> _delegate;
-    NSArray *_sbhtmlArray;
-    NSArray *_lockHTMLArray;
-    NSArray *_groovylockArray;
-    NSArray *_cydgetBackgroundArray;
-    NSArray *_cydgetForegroundArray;
-    NSArray *_winterboardArray;
-    NSArray *_iwidgetsArray;
-    
-    NSArray *_currentSelected;
-}
+typedef enum : NSUInteger {
+    kPickerVariantLockscreenBackground = 0,
+    kPickerVariantLockscreenForeground = 1,
+    kPickerVariantHomescreenBackground = 2,
+    kPickerVariantHomescreenForeground = 3,
+} XENHPickerVariant;
 
--(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString*)current;
--(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray;
+@interface XENHPickerController2 : UITableViewController
+
+@property (nonatomic, strong) NSArray *sbhtmlArray;
+@property (nonatomic, strong) NSArray *lockHTMLArray;
+@property (nonatomic, strong) NSArray *groovylockArray;
+@property (nonatomic, strong) NSArray *cydgetBackgroundArray;
+@property (nonatomic, strong) NSArray *cydgetForegroundArray;
+@property (nonatomic, strong) NSArray *iwidgetsArray;
+
+@property (nonatomic, readwrite) XENHPickerVariant variant;
+@property (nonatomic, weak) id<XENHPickerDelegate2> delegate;
+@property (nonatomic, strong) NSArray *currentSelected;
+
+-(id)initWithVariant:(XENHPickerVariant)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString*)current;
+-(id)initWithVariant:(XENHPickerVariant)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray;
 
 @end

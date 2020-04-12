@@ -19,6 +19,7 @@
 #import "XENHPickerPreviewController2.h"
 #import "XENHPickerCell2.h"
 #import "XENHPResources.h"
+#import "XENHPickerItem.h"
 
 #define REUSE @"picker2"
 
@@ -28,63 +29,22 @@
 
 @implementation XENHPickerController2
 
--(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray {
+-(id)initWithVariant:(XENHPickerVariant)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if (self) {
-        _variant = variant; // 0 = ls bg/fg, 1 = ls widgets, 2 = SBHTML
-        _delegate = delegate;
+        self.variant = variant;
+        self.delegate = delegate;
         
-        _currentSelected = currentArray;
+        self.currentSelected = currentArray;
         
-        // Load all arrays for widgets based on variant
-        
-        switch (_variant) {
-            case 3: {
-                // iWidgets now
-                [self _setupiWidgetsArray];
-                
-                break;
-            }
-            case 2: {
-                // SBHTML array.
-                [self _setupSBHTMLArray];
-                
-                // iWidgets now
-                [self _setupiWidgetsArray];
-                
-                break;
-            }
-            case 1:
-            case 0: {
-                // iWidgets
-                [self _setupiWidgetsArray];
-                
-                // LockHTML
-                [self _setupLockHTMLArray];
-                
-                // GroovyLock.
-                [self _setupGroovyLockArray];
-                
-                if ([self _shouldDisplayCydget]) {
-                    // Cydget (foreground)
-                    [self _setupCydgetForegroundArray];
-                    
-                    // Cydget (background)
-                    [self _setupCydgetBackgroundArray];
-                }
-                
-                break;
-            }
-            default:
-                break;
-        }
+        [self loadLegacyWidgets];
     }
     
     return self;
 }
 
--(id)initWithVariant:(int)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString *)current {
+-(id)initWithVariant:(XENHPickerVariant)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelected:(NSString *)current {
     return [self initWithVariant:variant andDelegate:delegate andCurrentSelectedArray:@[current]];
 }
 
@@ -112,166 +72,160 @@
     [self.tableView registerClass:[XENHPickerCell2 class] forCellReuseIdentifier:REUSE];
 }
 
-- (NSMutableArray*)_orderAlphabetically:(NSMutableArray*)array {
-    return [[array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
+- (NSArray*)_orderAlphabetically:(NSArray*)array {
+    return [array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 }
 
-- (void)_setupSBHTMLArray {
-    NSMutableArray *sbhtml = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
-    
-    // Order the array alphabetically.
-    sbhtml = [self _orderAlphabetically:sbhtml];
-    
-    for (NSString *thing in sbhtml.copy) {
-        int index = (int)[sbhtml indexOfObject:thing];
-        NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
-        [sbhtml replaceObjectAtIndex:index withObject:absoluteURL];
-    }
-    
-    _sbhtmlArray = sbhtml;
-}
-
-- (void)_setupiWidgetsArray {
-    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil] mutableCopy];
-    
-    // Order the array alphabetically.
-    widgets = [self _orderAlphabetically:widgets];
-    
-    for (NSString *thing in widgets.copy) {
-        int index = (int)[widgets indexOfObject:thing];
-        NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
-        [widgets replaceObjectAtIndex:index withObject:absoluteURL];
-    }
-    
-    _iwidgetsArray = widgets;
-}
-
-- (void)_setupLockHTMLArray {
-    NSMutableArray *lockhtml = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/LockHTML/" error:nil] mutableCopy];
-    
-    // Now, we order the array alphabetically.
-    lockhtml = [self _orderAlphabetically:lockhtml];
-    
-    for (NSString *thing in lockhtml.copy) {
-        if ([thing isEqualToString:@"LockHTML"]) {
-            // What the actual...?
-            [lockhtml removeObject:thing];
+- (void)loadLegacyWidgets {
+    // SBHTML
+    if (self.variant == kPickerVariantHomescreenBackground ||
+        self.variant == kPickerVariantHomescreenForeground) {
+        NSMutableArray *result = [NSMutableArray array];
+        
+        NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil];
+        sbhtml = [self _orderAlphabetically:sbhtml];
+        
+        for (NSString *thing in sbhtml) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [result addObject:item];
         }
         
-        int index = (int)[lockhtml indexOfObject:thing];
-        
-        // Might be a weird one?
-        
-        NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/LockHTML/%@/", thing] mutableCopy];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
-            [absoluteURL appendString:@"index.html"];
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
-            [absoluteURL appendString:@"LockBackground.html"];
-        } else {
-            [lockhtml removeObject:thing];
-            continue;
-        }
-        
-        [lockhtml replaceObjectAtIndex:index withObject:absoluteURL];
+        self.sbhtmlArray = result;
     }
     
-    _lockHTMLArray = lockhtml;
-}
-
-- (void)_setupGroovyLockArray {
-    NSMutableArray *groovylock = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/GroovyLock/" error:nil] mutableCopy];
-    
-    // Order the array alphabetically.
-    groovylock = [self _orderAlphabetically:groovylock];
-    
-    for (NSString *thing in groovylock.copy) {
-        if ([thing isEqualToString:@"GroovyLock"]) {
-            // What the actual...?
-            [groovylock removeObject:thing];
+    // iWidgets
+    {
+        NSMutableArray *result = [NSMutableArray array];
+        
+        NSArray *iwidgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
+        iwidgets = [self _orderAlphabetically:iwidgets];
+        
+        for (NSString *thing in iwidgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [result addObject:item];
         }
         
-        int index = (int)[groovylock indexOfObject:thing];
-        
-        // Might be a weird one.
-        
-        NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/GroovyLock/%@/", thing] mutableCopy];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
-            [absoluteURL appendString:@"index.html"];
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
-            [absoluteURL appendString:@"LockBackground.html"];
-        } else {
-            [groovylock removeObject:thing];
-            continue;
-        }
-        
-        [groovylock replaceObjectAtIndex:index withObject:absoluteURL];
+        self.iwidgetsArray = result;
     }
     
-    _groovylockArray = groovylock;
-}
-
-- (void)_setupCydgetForegroundArray {
-    NSMutableArray *cydgetFore = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil] mutableCopy];
-    
-    // Order the array alphabetically.
-    cydgetFore = [self _orderAlphabetically:cydgetFore];
-    
-    for (NSString *thing in cydgetFore.copy) {
-        int index = (int)[cydgetFore indexOfObject:thing];
+    // LockHTML
+    if (self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground) {
+        NSMutableArray *result = [NSMutableArray array];
         
-        // Read plist.
-        NSString *plistPath = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/Info.plist", thing];
-        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        NSDictionary *cyConfiguration = [plist objectForKey:@"CYConfiguration"];
+        NSArray *lockhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/LockHTML/" error:nil];
+        lockhtml = [self _orderAlphabetically:lockhtml];
+         
+         for (NSString *thing in lockhtml) {
+             if ([thing isEqualToString:@"LockHTML"]) continue;
+             
+             NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/LockHTML/%@/", thing] mutableCopy];
+             if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
+                 [absoluteURL appendString:@"index.html"];
+             } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
+                 [absoluteURL appendString:@"LockBackground.html"];
+             } else {
+                 continue;
+             }
+             
+             XENHPickerItem *item = [[XENHPickerItem alloc] init];
+             item.absoluteUrl = absoluteURL;
+             item.name = thing;
+             
+             [result addObject:item];
+         }
         
-        NSString *base = [[cyConfiguration objectForKey:@"Homepage"] lastPathComponent];
-        NSString *absolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", thing, base];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:absolute]) {
-            [cydgetFore removeObject:thing];
-        } else {
-            [cydgetFore replaceObjectAtIndex:index withObject:absolute];
-        }
+        self.lockHTMLArray = result;
     }
     
-    _cydgetForegroundArray = cydgetFore;
-}
-
-- (void)_setupCydgetBackgroundArray {
-    NSMutableArray *cydgetBack = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil] mutableCopy];
-    
-    // Order the array alphabetically.
-    cydgetBack = [self _orderAlphabetically:cydgetBack];
-    
-    for (NSString *thing in cydgetBack.copy) {
+    // GroovyLock
+    if (self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground) {
+        NSMutableArray *result = [NSMutableArray array];
         
-        int index = (int)[cydgetBack indexOfObject:thing];
+        NSArray *groovylock = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/GroovyLock/" error:nil];
+        groovylock = [self _orderAlphabetically:groovylock];
         
-        // Read plist.
-        NSString *plistPath = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/Info.plist", thing];
-        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        NSDictionary *cyConfiguration = [plist objectForKey:@"CYConfiguration"];
-        
-        NSString *base = [[cyConfiguration objectForKey:@"Background"] lastPathComponent];
-        NSString *absolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", thing, base];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:absolute]) {
-            [cydgetBack removeObject:thing];
-        } else {
-            [cydgetBack replaceObjectAtIndex:index withObject:absolute];
+        for (NSString *thing in groovylock) {
+            if ([thing isEqualToString:@"GroovyLock"]) continue;
+            
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/GroovyLock/%@/", thing] mutableCopy];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
+                [absoluteURL appendString:@"index.html"];
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
+                [absoluteURL appendString:@"LockBackground.html"];
+            } else {
+                continue;
+            }
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [result addObject:item];
         }
+        
+        self.groovylockArray = result;
     }
     
-    _cydgetBackgroundArray = cydgetBack;
+    if ([self _shouldDisplayCydget]) {
+        NSMutableArray *resultFg = [NSMutableArray array];
+        NSMutableArray *resultBg = [NSMutableArray array];
+        
+        NSArray *cydget = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil];
+        cydget = [self _orderAlphabetically:cydget];
+        
+        for (NSString *entry in cydget) {
+            // Read plist.
+            NSString *plistPath = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/Info.plist", entry];
+            NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+            NSDictionary *cyConfiguration = [plist objectForKey:@"CYConfiguration"];
+            
+            // Handle Foreground first
+            NSString *foregroundBase = [[cyConfiguration objectForKey:@"Homepage"] lastPathComponent];
+            NSString *foregroundAbsolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", entry, foregroundBase];
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:foregroundAbsolute]) {
+                XENHPickerItem *item = [[XENHPickerItem alloc] init];
+                item.absoluteUrl = foregroundAbsolute;
+                item.name = [NSString stringWithFormat:@"Foreground | %@", entry];
+                
+                [resultFg addObject:item];
+            }
+            
+            // And also background
+            NSString *backgroundBase = [[cyConfiguration objectForKey:@"Background"] lastPathComponent];
+            NSString *backgroundAbsolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", entry, backgroundBase];
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:backgroundAbsolute]) {
+                XENHPickerItem *item = [[XENHPickerItem alloc] init];
+                item.absoluteUrl = backgroundAbsolute;
+                item.name = [NSString stringWithFormat:@"Background | %@", entry];
+                
+                [resultBg addObject:item];
+            }
+        }
+        
+        self.cydgetBackgroundArray = resultBg;
+        self.cydgetForegroundArray = resultFg;
+    }
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self _shouldDisplayCydget]) {
-         return _variant == 0 ? 5 : 2;
+         return self.variant == kPickerVariantHomescreenBackground ? 2 : 5;
     } else {
-         return _variant == 0 ? 3 : 2;
+         return self.variant == kPickerVariantHomescreenBackground ? 2 : 3;
     }
 }
 
@@ -352,9 +306,6 @@
         // Get URL of selected cell.
         NSString *url = [self _urlForIndexPath:indexPath];
         
-        // ~Only allow a single instance of a widget per layer~
-        // We now allow multiple instance of the same widget per layer.
-        //if (![_currentSelected containsObject:url])
         [_delegate didChooseWidget:url];
     }
 }
@@ -385,30 +336,31 @@
 }
 
 - (NSInteger)_itemCountForSection:(NSInteger)section {
-    switch (_variant) {
-        case 2:
+    switch (self.variant) {
+        case kPickerVariantHomescreenBackground:
             switch (section) {
                 case 0:
-                    return _sbhtmlArray.count;
+                    return self.sbhtmlArray.count;
                 case 1:
-                    return _iwidgetsArray.count;
+                    return self.iwidgetsArray.count;
                     
                 default:
                     return 0;
             }
             
-        case 0:
+        case kPickerVariantLockscreenForeground:
+        case kPickerVariantLockscreenBackground:
             switch (section) {
                 case 0:
-                    return _lockHTMLArray.count;
+                    return self.lockHTMLArray.count;
                 case 1:
-                    return _groovylockArray.count;
+                    return self.groovylockArray.count;
                 case 2:
-                    return _iwidgetsArray.count;
+                    return self.iwidgetsArray.count;
                 case 3:
-                    return _cydgetForegroundArray.count;
+                    return self.cydgetForegroundArray.count;
                 case 4:
-                    return _cydgetBackgroundArray.count;
+                    return self.cydgetBackgroundArray.count;
                     
                 default:
                     return 0;
@@ -421,14 +373,14 @@
 
 - (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
     NSString *url = @"";
-    switch (_variant) {
-        case 2:
+    
+    switch (self.variant) {
+        case kPickerVariantHomescreenBackground:
             switch (indexPath.section) {
                 case 0:
-                    url = [_sbhtmlArray objectAtIndex:indexPath.item];
-                    break;
+                    url = [[self.sbhtmlArray objectAtIndex:indexPath.item] absoluteUrl];
                 case 1:
-                    url = [_iwidgetsArray objectAtIndex:indexPath.item];
+                    url = [[self.iwidgetsArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                     
                 default:
@@ -436,22 +388,23 @@
             }
             break;
             
-        case 0:
+        case kPickerVariantLockscreenForeground:
+        case kPickerVariantLockscreenBackground:
             switch (indexPath.section) {
                 case 0:
-                    url = [_lockHTMLArray objectAtIndex:indexPath.item];
+                    url = [[self.lockHTMLArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                 case 1:
-                    url = [_groovylockArray objectAtIndex:indexPath.item];
+                    url = [[self.groovylockArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                 case 2:
-                    url = [_iwidgetsArray objectAtIndex:indexPath.item];
+                    url = [[self.iwidgetsArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                 case 3:
-                    url = [_cydgetForegroundArray objectAtIndex:indexPath.item];
+                    url = [[self.cydgetForegroundArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                 case 4:
-                    url = [_cydgetBackgroundArray objectAtIndex:indexPath.item];
+                    url = [[self.cydgetBackgroundArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
                     
                 default:
@@ -466,8 +419,8 @@
 
 - (NSString*)_nameForSection:(NSInteger)section {
     NSString *name = @"";
-    switch (_variant) {
-        case 2:
+    switch (self.variant) {
+        case kPickerVariantHomescreenBackground:
             switch (section) {
                 case 0:
                     name = @"SBHTML";
@@ -481,7 +434,8 @@
             }
             break;
             
-        case 0:
+        case kPickerVariantLockscreenForeground:
+        case kPickerVariantLockscreenBackground:
             switch (section) {
                 case 0:
                     name = @"Lock HTML";
