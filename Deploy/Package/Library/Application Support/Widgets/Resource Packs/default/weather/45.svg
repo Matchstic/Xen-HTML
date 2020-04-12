@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="40px" viewBox="0 0 34 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Scattered Showers Night Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-1331.000000, -134.000000)">
+            <g id="Scattered-Showers-Night-Icon-Group" transform="translate(1320.000000, 127.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Scattered-Showers-Night-Icon" transform="translate(11.000000, 7.000000)">
+                    <path d="M9.8638359,35.4502263 L11.2797609,36.4787013 L9.0024234,39.6139638 L7.5864984,38.5854888 L9.8638359,35.4502263 Z M17.7841715,33.4786885 L19.2000965,34.5071635 L16.922759,37.642426 L15.506834,36.613951 L17.7841715,33.4786885 Z M25.0295605,32.7634947 L26.4451355,33.7923197 L24.167023,36.9268072 L22.751448,35.8979822 L25.0295605,32.7634947 Z M4.7515042,31.4271284 L6.1674292,32.4556034 L3.8900917,35.5908659 L2.4741667,34.5623909 L4.7515042,31.4271284 Z" id="Rectangle-path" fill="#5AC8FA"></path>
+                    <path d="M30,22.5 C30,18.358 26.643,15 22.5,15 C22.352,15 22.207,15.014 22.061,15.022 C20.915,11.526 17.629,9 13.75,9 C8.918,9 5,12.918 5,17.75 C5,17.864 5.013,17.975 5.017,18.088 C2.172,18.558 0,21.023 0,24 C0,27.313 2.687,30 6,30 L23,30 L23,29.975 C26.908,29.717 30,26.474 30,22.5 L30,22.5 Z" id="Shape" fill="#FFFFFF" opacity="0.5"></path>
+                    <path d="M23.413,13.044 C25.784,13.271 27.9,14.376 29.44,16.025 C31.869,14.749 33.607,12.335 33.937,9.488 C33.318,9.653 32.671,9.75 31.999,9.75 C27.856,9.75 24.499,6.393 24.499,2.25 C24.499,1.479 24.616,0.734 24.833,0.034 C20.771,0.349 17.513,3.516 17.059,7.537 C19.813,8.428 22.125,10.39 23.413,13.044 L23.413,13.044 Z" id="Shape" fill="#FFFFFF"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

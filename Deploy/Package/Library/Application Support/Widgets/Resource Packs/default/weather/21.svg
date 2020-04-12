@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="27px" viewBox="0 0 38 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Haze Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-49.000000, -1257.000000)">
+            <g id="Haze-Icon-Group" transform="translate(40.000000, 1243.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Haze-Icon" transform="translate(9.000000, 14.000000)">
+                    <rect id="Rectangle-path" fill="#FFFFFF" opacity="0.8" x="0" y="17" width="8" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#FFFFFF" opacity="0.8" x="0" y="21" width="10" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#FFFFFF" opacity="0.8" x="0" y="25" width="38" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#FFFFFF" opacity="0.8" x="28" y="21" width="10" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#F0E578" x="14" y="21" width="10" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#FFFFFF" opacity="0.8" x="30" y="17" width="8" height="2"></rect>
+                    <rect id="Rectangle-path" fill="#F0E578" x="11" y="17" width="16" height="2"></rect>
+                    <path d="M19,7 C22.866,7 26,10.358 26,14.5 C26,14.669 25.987,14.834 25.977,15 L25.977,15 L12.023,15 C12.014,14.834 12,14.669 12,14.5 C12,10.358 15.134,7 19,7 Z M10,12 L10,14 L5,14 L5,12 L10,12 Z M33,12 L33,14 L28,14 L28,12 L33,12 Z M28.4297479,2.9880703 L29.8439479,4.4022703 L27.0155479,7.2306703 L25.6013479,5.8164703 L28.4297479,2.9880703 Z M9.4262,2.7947182 L12.2546,5.6231182 L10.8404,7.0373182 L8.012,4.2089182 L9.4262,2.7947182 Z M20.0000006,7.09267261e-07 L20.0000006,5.00000071 L18.0000006,5.00000071 L18.0000006,7.09178495e-07 L20.0000006,7.09267261e-07 Z" id="Rectangle-path" fill="#FCDE00"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="30px" viewBox="0 0 18 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Hurricane Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-699.000000, -326.000000)">
+            <g id="Hurricane-Icon-Group" transform="translate(680.000000, 313.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Hurricane-Icon" transform="translate(19.000000, 12.000000)" fill="#FFFFFF">
+                    <path d="M9,14 C10.103,14 11,14.897 11,16 C11,17.103 10.103,18 9,18 C7.897,18 7,17.103 7,16 C7,14.897 7.897,14 9,14 L9,14 Z M9,12 C6.791,12 5,13.791 5,16 C5,18.209 6.791,20 9,20 C11.209,20 13,18.209 13,16 C13,13.791 11.209,12 9,12 L9,12 L9,12 Z" id="Shape"></path>
+                    <path d="M9,7 C7.169,7 5.468,7.55 4.046,8.489 C6.143,5.133 9.595,2.929 13.5,2.929 C14.01,2.929 14.508,2.98 15,3.052 L15,1.097 C14.507,1.036 14.008,0.999 13.5,0.999 C6.044,0.999 0,7.715 0,15.999 C0,20.97 4.029,24.999 9,24.999 C10.831,24.999 12.532,24.449 13.954,23.51 C11.857,26.866 8.405,29.07 4.5,29.07 C3.641,29.07 2.807,28.956 2,28.755 L2,30.733 C2.812,30.902 3.645,31.001 4.5,31.001 C11.956,31.001 18,24.285 18,16.001 C18,11.029 13.971,7 9,7 L9,7 Z M9,23 C5.141,23 2,19.86 2,16 C2,12.141 5.141,9 9,9 C12.859,9 16,12.141 16,16 C16,19.86 12.859,23 9,23 L9,23 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

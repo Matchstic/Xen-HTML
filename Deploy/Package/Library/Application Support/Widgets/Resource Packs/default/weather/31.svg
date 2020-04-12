@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="32px" viewBox="0 0 35 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Clear Night Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-52.000000, -417.000000)">
+            <g id="Clear-Night-Icon-Group" transform="translate(40.000000, 406.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <path d="M24.719,15.064 C23.021,17.262 22,20.009 22,23 C22,30.18 27.82,36 35,36 C36.169,36 37.296,35.831 38.373,35.542 C36.024,39.977 31.367,43 26,43 C18.268,43 12,36.732 12,29 C12,21.7 17.588,15.712 24.719,15.064 Z M41.5,13.498 L42.685,16.263 C42.887,16.735 43.264,17.112 43.736,17.314 L46.501,18.499 L43.736,19.684 C43.264,19.886 42.887,20.263 42.685,20.735 L41.5,23.5 L40.315,20.735 C40.113,20.263 39.736,19.886 39.264,19.684 L36.499,18.499 L39.264,17.314 C39.736,17.112 40.113,16.735 40.315,16.263 L41.5,13.498 Z M32.5,11 L33.093,12.383 C33.194,12.618 33.382,12.807 33.617,12.907 L35,13.5 L33.617,14.093 C33.382,14.194 33.193,14.382 33.093,14.617 L32.5,16 L31.907,14.617 C31.806,14.382 31.618,14.193 31.383,14.093 L30,13.5 L31.383,12.907 C31.618,12.806 31.807,12.618 31.907,12.383 L32.5,11 Z" id="Clear-Night-Icon" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

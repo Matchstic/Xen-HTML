@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="41px" height="32px" viewBox="0 0 41 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Partly Cloudy Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-687.000000, -1069.000000)">
+            <g id="Partly-Cloudy-Icon-Group" transform="translate(680.000000, 1057.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Partly-Cloudy-Icon" transform="translate(7.000000, 12.000000)">
+                    <path d="M41,24.5 C41,20.357 37.643,17 33.5,17 C33.352,17 33.207,17.014 33.061,17.022 C31.915,13.526 28.629,11 24.75,11 C19.918,11 16,14.918 16,19.75 C16,19.864 16.013,19.975 16.017,20.088 C13.172,20.558 11,23.022 11,26 C11,29.313 13.687,32 17,32 L34,32 L34,31.975 C37.908,31.717 41,28.474 41,24.5 L41,24.5 Z" id="Shape" fill="#FFFFFF" opacity="0.8"></path>
+                    <path d="M7.2157638,21.57355 L8.6299638,22.98775 L5.0944638,26.52325 L3.6802638,25.10905 L7.2157638,21.57355 Z M15,8 C16.962,8 18.732,8.808 20.003,10.109 C16.789,11.698 14.476,14.845 14.065,18.559 C12.859,19.031 11.817,19.788 10.989,20.732 C9.184,19.466 8,17.373 8,15 C8,11.134 11.134,8 15,8 Z M5.00000066,14.0000007 L5.00000066,16.0000007 L6.61460945e-07,16.0000007 L6.61550075e-07,14.0000007 L5.00000066,14.0000007 Z M24.8933362,3.89385 L26.3075362,5.30805 L22.7720362,8.84355 L21.3578362,7.42935 L24.8933362,3.89385 Z M4.8923362,3.68015 L8.4278362,7.21565 L7.0136362,8.62985 L3.4781362,5.09435 L4.8923362,3.68015 Z M16,0 L16,5 L14,5 L14,0 L16,0 Z" id="Rectangle-path" fill="#FCDE00"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

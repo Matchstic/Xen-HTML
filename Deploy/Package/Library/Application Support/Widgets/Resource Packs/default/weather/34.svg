@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Mostly Sunny Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-691.000000, -882.000000)">
+            <g id="Mostly-Sunny-Icon-Group" transform="translate(680.000000, 871.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <path d="M29,39 L29,45 L27,45 L27,39 L29,39 Z M19.5091032,35.27725 L20.9233032,36.69145 L17.3878032,40.22695 L15.9736032,38.81275 L19.5091032,35.27725 Z M36.2785032,35.06645 L39.8140032,38.60195 L38.3998032,40.01615 L34.8643032,36.48065 L36.2785032,35.06645 Z M28,20 C32.418278,20 36,23.581722 36,28 C36,32.418278 32.418278,36 28,36 C23.581722,36 20,32.418278 20,28 C20,23.581722 23.581722,20 28,20 Z M17.0000007,27.0000007 L17.0000007,29.0000007 L11.0000007,29.0000007 L11.0000007,27.0000007 L17.0000007,27.0000007 Z M45.0000007,27.0000007 L45.0000007,29.0000007 L39.0000007,29.0000007 L39.0000007,27.0000007 L45.0000007,27.0000007 Z M38.6019968,16.18735 L40.0161968,17.60155 L36.4806968,21.13705 L35.0664968,19.72285 L38.6019968,16.18735 Z M17.1867968,15.97365 L20.7222968,19.50915 L19.3080968,20.92335 L15.7725968,17.38785 L17.1867968,15.97365 Z M29,11 L29,17 L27,17 L27,11 L29,11 Z" id="Mostly-Sunny-Icon" fill="#FCDE00"></path>
+            </g>
+        </g>
+    </g>
+</svg>

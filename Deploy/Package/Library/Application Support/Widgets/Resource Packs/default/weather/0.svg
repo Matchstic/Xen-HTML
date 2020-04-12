@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="26px" viewBox="0 0 33 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Tornado Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-1331.000000, -1165.000000)">
+            <g id="Tornado-Icon-Group" transform="translate(1320.000000, 1150.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <path d="M29,39 L29,41 L26,41 L26,39 L29,39 Z M35,35 L35,37 L27,37 L27,35 L35,35 Z M39,30 L39,32 L26,32 L26,30 L39,30 Z M41,25 L41,27 L22,27 L22,25 L41,25 Z M39,20 L39,22 L16,22 L16,20 L39,20 Z M43.992,15 L43.992,17 L11.992,17 L11.992,15 L43.992,15 Z" id="Tornado-Icon" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
