@@ -77,6 +77,26 @@
 }
 
 - (void)loadLegacyWidgets {
+    // iWidgets
+    {
+        NSMutableArray *result = [NSMutableArray array];
+        
+        NSArray *iwidgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
+        iwidgets = [self _orderAlphabetically:iwidgets];
+        
+        for (NSString *thing in iwidgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [result addObject:item];
+        }
+        
+        self.iwidgetsArray = result;
+    }
+    
     // SBHTML
     if (self.variant == kPickerVariantHomescreenBackground ||
         self.variant == kPickerVariantHomescreenForeground) {
@@ -96,26 +116,6 @@
         }
         
         self.sbhtmlArray = result;
-    }
-    
-    // iWidgets
-    {
-        NSMutableArray *result = [NSMutableArray array];
-        
-        NSArray *iwidgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
-        iwidgets = [self _orderAlphabetically:iwidgets];
-        
-        for (NSString *thing in iwidgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = thing;
-            
-            [result addObject:item];
-        }
-        
-        self.iwidgetsArray = result;
     }
     
     // LockHTML
@@ -338,6 +338,7 @@
 - (NSInteger)_itemCountForSection:(NSInteger)section {
     switch (self.variant) {
         case kPickerVariantHomescreenBackground:
+        case kPickerVariantHomescreenForeground:
             switch (section) {
                 case 0:
                     return self.sbhtmlArray.count;
@@ -376,9 +377,11 @@
     
     switch (self.variant) {
         case kPickerVariantHomescreenBackground:
+        case kPickerVariantHomescreenForeground:
             switch (indexPath.section) {
                 case 0:
                     url = [[self.sbhtmlArray objectAtIndex:indexPath.item] absoluteUrl];
+                    break;
                 case 1:
                     url = [[self.iwidgetsArray objectAtIndex:indexPath.item] absoluteUrl];
                     break;
@@ -421,6 +424,7 @@
     NSString *name = @"";
     switch (self.variant) {
         case kPickerVariantHomescreenBackground:
+        case kPickerVariantHomescreenForeground:
             switch (section) {
                 case 0:
                     name = @"SBHTML";
