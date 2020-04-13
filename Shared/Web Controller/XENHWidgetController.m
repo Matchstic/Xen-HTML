@@ -300,6 +300,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     // Developer tools
     if ([XENHResources developerOptionsEnabled]) {
+        // Allow Safari remote debugging - needs get-task-allow though
         [preferences _setDeveloperExtrasEnabled:YES];
         
         [preferences _setResourceUsageOverlayVisible:[XENHResources showResourceUsageInWidgets]];
