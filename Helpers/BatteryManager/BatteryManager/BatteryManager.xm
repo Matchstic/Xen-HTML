@@ -240,6 +240,11 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
             if (![javaScriptString hasSuffix:@";"])
                 javaScriptString = [javaScriptString stringByAppendingString:@";"];
                 
+            // Duplicated to ensure this is always applied
+            if ([javaScriptString hasPrefix:@"mainUpdate"]) {
+                javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
+            }
+                
             [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
         }
         

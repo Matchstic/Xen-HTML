@@ -26,6 +26,23 @@
 + (void)setHandlerEnabled:(BOOL)enabled;
 @end
 
+#pragma mark Fix XenInfo JS bugs
+
+%hook WKWebView
+
+- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
+    
+    if ([javaScriptString hasPrefix:@"mainUpdate"]) {
+        javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
+    }
+    
+    NSLog(@"Running JS: %@", javaScriptString);
+    
+    %orig(javaScriptString, completionHandler);
+}
+
+%end
+
 #pragma mark Disable components of XenInfo that are superseded
 
 %hook XIWidgetManager
