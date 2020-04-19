@@ -231,7 +231,7 @@
     if (indexPath.section == 1) {
         // Launch widget picker UI.
         
-        XENHPickerController2 *mc = [[XENHPickerController2 alloc] initWithVariant:(int)self.variant andDelegate:self andCurrentSelectedArray:self.dataSource];
+        XENHPickerController *mc = [[XENHPickerController alloc] initWithVariant:(int)self.variant andDelegate:self andCurrentSelectedArray:self.dataSource];
         
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:mc];
         if (IS_IPAD) {

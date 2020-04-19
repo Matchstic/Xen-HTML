@@ -16,7 +16,7 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHPickerPreviewController2.h"
+#import "XENHPickerPreviewController.h"
 #import "XENHPResources.h"
 
 @interface WKPreferences (Private)
@@ -50,11 +50,11 @@
 - (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
 @end
 
-@interface XENHPickerPreviewController2 ()
+@interface XENHPickerPreviewController ()
 
 @end
 
-@implementation XENHPickerPreviewController2
+@implementation XENHPickerPreviewController
 
 -(instancetype)initWithURL:(NSString*)url {
     self = [super init];

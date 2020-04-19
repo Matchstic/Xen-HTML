@@ -38,7 +38,7 @@
 -(void)didClickScreenshotButton:(PIPackage*)package;
 @end
 
-@interface XENHPickerCell2 : UITableViewCell
+@interface XENHPickerCell : UITableViewCell
 @property(nonatomic, strong) PIPackage *package;
 @property(nonatomic, strong) UILabel *filesystemName;
 @property(nonatomic, strong) UILabel *author;

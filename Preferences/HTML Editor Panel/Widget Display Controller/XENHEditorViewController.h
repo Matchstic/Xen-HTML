@@ -20,7 +20,7 @@
 #import <Preferences/PSViewController.h>
 #import "XENHEditorToolbarController.h"
 #import "XENHEditorPositioningController.h"
-#import "XENHPickerController2.h"
+#import "XENHPickerController.h"
 #import "XENHFallbackOnlyOptionsController.h"
 
 typedef enum : NSUInteger {

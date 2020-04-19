@@ -30,7 +30,7 @@ typedef enum : NSUInteger {
     kPickerVariantHomescreenForeground = 3,
 } XENHPickerVariant;
 
-@interface XENHPickerController2 : UITableViewController
+@interface XENHPickerController : UITableViewController
 
 @property (nonatomic, strong) NSArray *sbhtmlArray;
 @property (nonatomic, strong) NSArray *lockHTMLArray;
@@ -38,6 +38,10 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSArray *cydgetBackgroundArray;
 @property (nonatomic, strong) NSArray *cydgetForegroundArray;
 @property (nonatomic, strong) NSArray *iwidgetsArray;
+
+@property (nonatomic, strong) NSArray *universalWidgets;
+@property (nonatomic, strong) NSArray *layerWidgets;
+@property (nonatomic, strong) NSArray *backgroundWidgets;
 
 @property (nonatomic, readwrite) XENHPickerVariant variant;
 @property (nonatomic, weak) id<XENHPickerDelegate2> delegate;

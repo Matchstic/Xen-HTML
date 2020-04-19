@@ -46,7 +46,7 @@
 		C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */; };
 		C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */; };
 		C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750120715D150003D039 /* XENHFauxIconsViewController.h */; };
-		C947756820715D150003D039 /* XENHPickerPreviewController2.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750220715D150003D039 /* XENHPickerPreviewController2.h */; };
+		C947756820715D150003D039 /* XENHPickerPreviewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750220715D150003D039 /* XENHPickerPreviewController.h */; };
 		C947756920715D150003D039 /* XENHPHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750320715D150003D039 /* XENHPHeaderView.h */; };
 		C947756A20715D150003D039 /* XENHFauxLockNotificationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947750420715D150003D039 /* XENHFauxLockNotificationsController.m */; };
 		C947756B20715D150003D039 /* XENHTouchPassThroughView.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750520715D150003D039 /* XENHTouchPassThroughView.h */; };
@@ -71,10 +71,10 @@
 		C947758120715D150003D039 /* XENHEditorToolbarController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947751E20715D150003D039 /* XENHEditorToolbarController.h */; };
 		C947758220715D150003D039 /* XENHLSVisibilityController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947751F20715D150003D039 /* XENHLSVisibilityController.m */; };
 		C947758320715D150003D039 /* XENHRootController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752020715D150003D039 /* XENHRootController.h */; };
-		C947758420715D150003D039 /* XENHPickerController2.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752120715D150003D039 /* XENHPickerController2.m */; };
+		C947758420715D150003D039 /* XENHPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752120715D150003D039 /* XENHPickerController.m */; };
 		C947758520715D150003D039 /* XENHMoreReposCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752220715D150003D039 /* XENHMoreReposCell.h */; };
 		C947758620715D150003D039 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C947752320715D150003D039 /* Prefix.pch */; };
-		C947758720715D150003D039 /* XENHPickerCell2.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752420715D150003D039 /* XENHPickerCell2.h */; };
+		C947758720715D150003D039 /* XENHPickerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752420715D150003D039 /* XENHPickerCell.h */; };
 		C947758920715D150003D039 /* XENHFauxLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752620715D150003D039 /* XENHFauxLockViewController.m */; };
 		C947758A20715D150003D039 /* XENHLSMediaController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752720715D150003D039 /* XENHLSMediaController.h */; };
 		C947758B20715D150003D039 /* XENHWallpaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752820715D150003D039 /* XENHWallpaperViewController.m */; };
@@ -82,7 +82,7 @@
 		C947758E20715D150003D039 /* XENHTouchPassThroughView.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752B20715D150003D039 /* XENHTouchPassThroughView.m */; };
 		C947758F20715D150003D039 /* XENHFauxLockNotificationsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947752C20715D150003D039 /* XENHFauxLockNotificationsController.h */; };
 		C947759020715D150003D039 /* XENHPHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752D20715D150003D039 /* XENHPHeaderView.m */; };
-		C947759120715D150003D039 /* XENHPickerPreviewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752E20715D150003D039 /* XENHPickerPreviewController2.m */; };
+		C947759120715D150003D039 /* XENHPickerPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752E20715D150003D039 /* XENHPickerPreviewController.m */; };
 		C947759220715D160003D039 /* XENHFauxIconsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947752F20715D150003D039 /* XENHFauxIconsViewController.m */; };
 		C947759420715D160003D039 /* XENHResources.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753120715D150003D039 /* XENHResources.m */; };
 		C947759520715D160003D039 /* XENHRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753220715D150003D039 /* XENHRootController.m */; };
@@ -92,8 +92,8 @@
 		C947759A20715D160003D039 /* XENHFauxLockViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753720715D150003D039 /* XENHFauxLockViewController.h */; };
 		C947759D20715D160003D039 /* AYVibrantButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C947753D20715D150003D039 /* AYVibrantButton.m */; };
 		C947759E20715D160003D039 /* AYVibrantButton.h in Headers */ = {isa = PBXBuildFile; fileRef = C947753E20715D150003D039 /* AYVibrantButton.h */; };
-		C94775A020715D160003D039 /* XENHPickerCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = C947754020715D150003D039 /* XENHPickerCell2.m */; };
-		C94775A120715D160003D039 /* XENHPickerController2.h in Headers */ = {isa = PBXBuildFile; fileRef = C947754120715D150003D039 /* XENHPickerController2.h */; };
+		C94775A020715D160003D039 /* XENHPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C947754020715D150003D039 /* XENHPickerCell.m */; };
+		C94775A120715D160003D039 /* XENHPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947754120715D150003D039 /* XENHPickerController.h */; };
 		C94775A220715D160003D039 /* XENHMoreReposCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C947754220715D150003D039 /* XENHMoreReposCell.m */; };
 		C94775A320715D160003D039 /* XENHDonationController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947754420715D150003D039 /* XENHDonationController.h */; };
 		C94775A420715D160003D039 /* XENHDonationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947754520715D150003D039 /* XENHDonationController.m */; };
@@ -311,7 +311,7 @@
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C93C30CE1BA735490037BA09 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C947750120715D150003D039 /* XENHFauxIconsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHFauxIconsViewController.h; sourceTree = "<group>"; };
-		C947750220715D150003D039 /* XENHPickerPreviewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerPreviewController2.h; sourceTree = "<group>"; };
+		C947750220715D150003D039 /* XENHPickerPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerPreviewController.h; sourceTree = "<group>"; };
 		C947750320715D150003D039 /* XENHPHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPHeaderView.h; sourceTree = "<group>"; };
 		C947750420715D150003D039 /* XENHFauxLockNotificationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHFauxLockNotificationsController.m; sourceTree = "<group>"; };
 		C947750520715D150003D039 /* XENHTouchPassThroughView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHTouchPassThroughView.h; sourceTree = "<group>"; };
@@ -336,10 +336,10 @@
 		C947751E20715D150003D039 /* XENHEditorToolbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHEditorToolbarController.h; sourceTree = "<group>"; };
 		C947751F20715D150003D039 /* XENHLSVisibilityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHLSVisibilityController.m; sourceTree = "<group>"; };
 		C947752020715D150003D039 /* XENHRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHRootController.h; sourceTree = "<group>"; };
-		C947752120715D150003D039 /* XENHPickerController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerController2.m; sourceTree = "<group>"; };
+		C947752120715D150003D039 /* XENHPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerController.m; sourceTree = "<group>"; };
 		C947752220715D150003D039 /* XENHMoreReposCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHMoreReposCell.h; sourceTree = "<group>"; };
 		C947752320715D150003D039 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		C947752420715D150003D039 /* XENHPickerCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerCell2.h; sourceTree = "<group>"; };
+		C947752420715D150003D039 /* XENHPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerCell.h; sourceTree = "<group>"; };
 		C947752620715D150003D039 /* XENHFauxLockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHFauxLockViewController.m; sourceTree = "<group>"; };
 		C947752720715D150003D039 /* XENHLSMediaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHLSMediaController.h; sourceTree = "<group>"; };
 		C947752820715D150003D039 /* XENHWallpaperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHWallpaperViewController.m; sourceTree = "<group>"; };
@@ -347,7 +347,7 @@
 		C947752B20715D150003D039 /* XENHTouchPassThroughView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHTouchPassThroughView.m; sourceTree = "<group>"; };
 		C947752C20715D150003D039 /* XENHFauxLockNotificationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHFauxLockNotificationsController.h; sourceTree = "<group>"; };
 		C947752D20715D150003D039 /* XENHPHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPHeaderView.m; sourceTree = "<group>"; };
-		C947752E20715D150003D039 /* XENHPickerPreviewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerPreviewController2.m; sourceTree = "<group>"; };
+		C947752E20715D150003D039 /* XENHPickerPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerPreviewController.m; sourceTree = "<group>"; };
 		C947752F20715D150003D039 /* XENHFauxIconsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHFauxIconsViewController.m; sourceTree = "<group>"; };
 		C947753120715D150003D039 /* XENHResources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHResources.m; sourceTree = "<group>"; };
 		C947753220715D150003D039 /* XENHRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHRootController.m; sourceTree = "<group>"; };
@@ -357,8 +357,8 @@
 		C947753720715D150003D039 /* XENHFauxLockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHFauxLockViewController.h; sourceTree = "<group>"; };
 		C947753D20715D150003D039 /* AYVibrantButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYVibrantButton.m; sourceTree = "<group>"; };
 		C947753E20715D150003D039 /* AYVibrantButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYVibrantButton.h; sourceTree = "<group>"; };
-		C947754020715D150003D039 /* XENHPickerCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerCell2.m; sourceTree = "<group>"; };
-		C947754120715D150003D039 /* XENHPickerController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerController2.h; sourceTree = "<group>"; };
+		C947754020715D150003D039 /* XENHPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerCell.m; sourceTree = "<group>"; };
+		C947754120715D150003D039 /* XENHPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerController.h; sourceTree = "<group>"; };
 		C947754220715D150003D039 /* XENHMoreReposCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHMoreReposCell.m; sourceTree = "<group>"; };
 		C947754420715D150003D039 /* XENHDonationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHDonationController.h; sourceTree = "<group>"; };
 		C947754520715D150003D039 /* XENHDonationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHDonationController.m; sourceTree = "<group>"; };
@@ -726,12 +726,12 @@
 		C94775B920715D7C0003D039 /* Widget Picker Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C947750220715D150003D039 /* XENHPickerPreviewController2.h */,
-				C947752E20715D150003D039 /* XENHPickerPreviewController2.m */,
-				C947754120715D150003D039 /* XENHPickerController2.h */,
-				C947752120715D150003D039 /* XENHPickerController2.m */,
-				C947752420715D150003D039 /* XENHPickerCell2.h */,
-				C947754020715D150003D039 /* XENHPickerCell2.m */,
+				C947750220715D150003D039 /* XENHPickerPreviewController.h */,
+				C947752E20715D150003D039 /* XENHPickerPreviewController.m */,
+				C947754120715D150003D039 /* XENHPickerController.h */,
+				C947752120715D150003D039 /* XENHPickerController.m */,
+				C947752420715D150003D039 /* XENHPickerCell.h */,
+				C947754020715D150003D039 /* XENHPickerCell.m */,
 				C9D3260C244371C300E59F79 /* XENHPickerItem.h */,
 				C9D3260D244371C300E59F79 /* XENHPickerItem.m */,
 			);
@@ -1098,7 +1098,7 @@
 				C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */,
 				C947758A20715D150003D039 /* XENHLSMediaController.h in Headers */,
 				C947758320715D150003D039 /* XENHRootController.h in Headers */,
-				C94775A120715D160003D039 /* XENHPickerController2.h in Headers */,
+				C94775A120715D160003D039 /* XENHPickerController.h in Headers */,
 				C947758120715D150003D039 /* XENHEditorToolbarController.h in Headers */,
 				C9B92AF8226CA92100CE6322 /* XENHSBForegroundController.h in Headers */,
 				C947758520715D150003D039 /* XENHMoreReposCell.h in Headers */,
@@ -1107,7 +1107,7 @@
 				C947757B20715D150003D039 /* XENHMetadataOptionsController.h in Headers */,
 				C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */,
 				C9DBDBAF244C928B009E855E /* XENHDeveloperOptionsController.h in Headers */,
-				C947758720715D150003D039 /* XENHPickerCell2.h in Headers */,
+				C947758720715D150003D039 /* XENHPickerCell.h in Headers */,
 				C947757820715D150003D039 /* XENHEditorWebViewController.h in Headers */,
 				C947757920715D150003D039 /* XENHEditorDragDropController.h in Headers */,
 				C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */,
@@ -1121,7 +1121,7 @@
 				C947759620715D160003D039 /* XENHLSVisibilityController.h in Headers */,
 				C947759820715D160003D039 /* XENHLSNotificationsController.h in Headers */,
 				C94775A720715D160003D039 /* XENHHomescreenPreferenceController.h in Headers */,
-				C947756820715D150003D039 /* XENHPickerPreviewController2.h in Headers */,
+				C947756820715D150003D039 /* XENHPickerPreviewController.h in Headers */,
 				C947758020715D150003D039 /* XENHEditorViewController.h in Headers */,
 				C947758620715D150003D039 /* Prefix.pch in Headers */,
 			);
@@ -1553,15 +1553,15 @@
 				C947757C20715D150003D039 /* XENHConfigJSCell.m in Sources */,
 				C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */,
 				C94775AD20715D160003D039 /* XENHLockscreenPreviewCell.m in Sources */,
-				C94775A020715D160003D039 /* XENHPickerCell2.m in Sources */,
+				C94775A020715D160003D039 /* XENHPickerCell.m in Sources */,
 				C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */,
 				C94775A520715D160003D039 /* XENHBaseHTMLPreferenceController.m in Sources */,
 				C94775A620715D160003D039 /* XENHLockscreenPreferenceController.m in Sources */,
 				C947758E20715D150003D039 /* XENHTouchPassThroughView.m in Sources */,
-				C947758420715D150003D039 /* XENHPickerController2.m in Sources */,
+				C947758420715D150003D039 /* XENHPickerController.m in Sources */,
 				C947757F20715D150003D039 /* XENHMetadataOptionsController.m in Sources */,
 				C947757320715D150003D039 /* XENHEditorViewController.m in Sources */,
-				C947759120715D150003D039 /* XENHPickerPreviewController2.m in Sources */,
+				C947759120715D150003D039 /* XENHPickerPreviewController.m in Sources */,
 				C94775AA20715D160003D039 /* XENHPreviewSliderCell.m in Sources */,
 				C947757220715D150003D039 /* XENHEditorWebViewController.m in Sources */,
 				C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */,

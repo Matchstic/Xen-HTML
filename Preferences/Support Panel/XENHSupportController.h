@@ -19,7 +19,7 @@
 #import <Preferences/PSListController.h>
 #import <MessageUI/MessageUI.h>
 
-@interface XENHSupportController : PSListController <MFMailComposeViewControllerDelegate, UIAlertViewDelegate> {
+@interface XENHSupportController : PSListController <MFMailComposeViewControllerDelegate> {
     BOOL _showingRespring;
 }
 

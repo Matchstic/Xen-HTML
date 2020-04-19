@@ -19,7 +19,7 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-@interface XENHPickerPreviewController2 : UIViewController {
+@interface XENHPickerPreviewController : UIViewController {
     NSString *_url;
     NSDictionary *_metadata;
 }

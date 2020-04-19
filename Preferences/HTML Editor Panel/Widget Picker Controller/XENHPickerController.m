@@ -15,19 +15,19 @@
  with this program; if not, write to the Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-#import "XENHPickerController2.h"
-#import "XENHPickerPreviewController2.h"
-#import "XENHPickerCell2.h"
+#import "XENHPickerController.h"
+#import "XENHPickerPreviewController.h"
+#import "XENHPickerCell.h"
 #import "XENHPResources.h"
 #import "XENHPickerItem.h"
 
 #define REUSE @"picker2"
 
-@interface XENHPickerController2 ()
+@interface XENHPickerController ()
 
 @end
 
-@implementation XENHPickerController2
+@implementation XENHPickerController
 
 -(id)initWithVariant:(XENHPickerVariant)variant andDelegate:(id<XENHPickerDelegate2>)delegate andCurrentSelectedArray:(NSArray*)currentArray {
     self = [super initWithStyle:UITableViewStyleGrouped];
@@ -38,7 +38,9 @@
         
         self.currentSelected = currentArray;
         
-        [self loadLegacyWidgets];
+        [self loadLayerWidgets];
+        [self loadUniversalWidgets];
+        [self loadBackgroundWidgets];
     }
     
     return self;
@@ -69,61 +71,141 @@
     [super viewDidLoad];
     
     // Configure table view's cell class.
-    [self.tableView registerClass:[XENHPickerCell2 class] forCellReuseIdentifier:REUSE];
+    [self.tableView registerClass:[XENHPickerCell class] forCellReuseIdentifier:REUSE];
 }
 
 - (NSArray*)_orderAlphabetically:(NSArray*)array {
-    return [array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    return [array sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        XENHPickerItem *leftItem = (XENHPickerItem*)obj1;
+        XENHPickerItem *rightItem = (XENHPickerItem*)obj2;
+        
+        return [leftItem.name caseInsensitiveCompare:rightItem.name];
+    }];
 }
 
-- (void)loadLegacyWidgets {
+- (void)loadUniversalWidgets {
+    NSMutableArray *results = [NSMutableArray array];
+    
+    // Universal
+    {
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/Widgets/Universal" error:nil];
+        
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/Universal/%@/index.html", result];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = result;
+            
+            [results addObject:item];
+        }
+    }
+    
     // iWidgets
     {
-        NSMutableArray *result = [NSMutableArray array];
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
         
-        NSArray *iwidgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
-        iwidgets = [self _orderAlphabetically:iwidgets];
-        
-        for (NSString *thing in iwidgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", result];
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;
-            item.name = thing;
+            item.name = result;
             
-            [result addObject:item];
+            [results addObject:item];
         }
+    }
         
-        self.iwidgetsArray = result;
+    self.universalWidgets = [self _orderAlphabetically:results];
+}
+
+- (void)loadBackgroundWidgets {
+    BOOL allowBackgrounds = self.variant == kPickerVariantHomescreenBackground || self.variant == kPickerVariantLockscreenBackground;
+    if (!allowBackgrounds) return;
+    
+    NSMutableArray *results = [NSMutableArray array];
+    
+    // Backgrounds
+    {
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/Widgets/Backgrounds" error:nil];
+        
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/Backgrounds/%@/index.html", result];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = result;
+            
+            [results addObject:item];
+        }
     }
     
-    // SBHTML
-    if (self.variant == kPickerVariantHomescreenBackground ||
-        self.variant == kPickerVariantHomescreenForeground) {
-        NSMutableArray *result = [NSMutableArray array];
+    // Cydget backgrounds, if allowed for backwards compatibility reasons
+    if ([self _shouldDisplayCydget]) {
+        NSArray *cydget = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil];
         
-        NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil];
-        sbhtml = [self _orderAlphabetically:sbhtml];
+        for (NSString *entry in cydget) {
+            // Read plist.
+            NSString *plistPath = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/Info.plist", entry];
+            NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+            NSDictionary *cyConfiguration = [plist objectForKey:@"CYConfiguration"];
+            
+            // And also background
+            NSString *backgroundBase = [[cyConfiguration objectForKey:@"Background"] lastPathComponent];
+            NSString *backgroundAbsolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", entry, backgroundBase];
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:backgroundAbsolute]) {
+                XENHPickerItem *item = [[XENHPickerItem alloc] init];
+                item.absoluteUrl = backgroundAbsolute;
+                item.name = [NSString stringWithFormat:@"Background | %@", entry];
+                
+                [results addObject:item];
+            }
+        }
+    }
+    
+    self.backgroundWidgets = [self _orderAlphabetically:results];
+}
+
+- (void)loadLayerWidgets {
+
+    BOOL isLockscreen = self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground;
+    
+    NSMutableArray *results = [NSMutableArray array];
+    
+    // Layer-specific widgets
+    NSString *layerKey = isLockscreen ? @"Lockscreen" : @"Homescreen";
+    {
+        NSString *path = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/%@", layerKey];
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
         
-        for (NSString *thing in sbhtml) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/%@/%@/index.html", layerKey, result];
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;
-            item.name = thing;
+            item.name = result;
             
-            [result addObject:item];
+            [results addObject:item];
         }
-        
-        self.sbhtmlArray = result;
     }
+    
+    // Legacy folders
+    if (isLockscreen) {
+        [results addObjectsFromArray:[self legacyLockscreenResults]];
+    } else {
+        [results addObjectsFromArray:[self legacyHomescreenResults]];
+    }
+    
+    self.layerWidgets = [self _orderAlphabetically:results];
+}
+
+- (NSArray*)legacyLockscreenResults {
+    NSMutableArray *result = [NSMutableArray array];
     
     // LockHTML
-    if (self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground) {
-        NSMutableArray *result = [NSMutableArray array];
-        
+    {
         NSArray *lockhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/LockHTML/" error:nil];
-        lockhtml = [self _orderAlphabetically:lockhtml];
          
          for (NSString *thing in lockhtml) {
              if ([thing isEqualToString:@"LockHTML"]) continue;
@@ -143,16 +225,11 @@
              
              [result addObject:item];
          }
-        
-        self.lockHTMLArray = result;
     }
     
     // GroovyLock
-    if (self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground) {
-        NSMutableArray *result = [NSMutableArray array];
-        
+    {
         NSArray *groovylock = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/GroovyLock/" error:nil];
-        groovylock = [self _orderAlphabetically:groovylock];
         
         for (NSString *thing in groovylock) {
             if ([thing isEqualToString:@"GroovyLock"]) continue;
@@ -172,16 +249,11 @@
             
             [result addObject:item];
         }
-        
-        self.groovylockArray = result;
     }
     
+    // Cydget, if allowed
     if ([self _shouldDisplayCydget]) {
-        NSMutableArray *resultFg = [NSMutableArray array];
-        NSMutableArray *resultBg = [NSMutableArray array];
-        
         NSArray *cydget = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/System/Library/LockCydgets/" error:nil];
-        cydget = [self _orderAlphabetically:cydget];
         
         for (NSString *entry in cydget) {
             // Read plist.
@@ -198,35 +270,40 @@
                 item.absoluteUrl = foregroundAbsolute;
                 item.name = [NSString stringWithFormat:@"Foreground | %@", entry];
                 
-                [resultFg addObject:item];
-            }
-            
-            // And also background
-            NSString *backgroundBase = [[cyConfiguration objectForKey:@"Background"] lastPathComponent];
-            NSString *backgroundAbsolute = [NSString stringWithFormat:@"/System/Library/LockCydgets/%@/%@", entry, backgroundBase];
-            
-            if ([[NSFileManager defaultManager] fileExistsAtPath:backgroundAbsolute]) {
-                XENHPickerItem *item = [[XENHPickerItem alloc] init];
-                item.absoluteUrl = backgroundAbsolute;
-                item.name = [NSString stringWithFormat:@"Background | %@", entry];
-                
-                [resultBg addObject:item];
+                [result addObject:item];
             }
         }
-        
-        self.cydgetBackgroundArray = resultBg;
-        self.cydgetForegroundArray = resultFg;
     }
+    
+    return result;
+}
+
+- (NSArray*)legacyHomescreenResults {
+    NSMutableArray *result = [NSMutableArray array];
+    
+    // SBHTML
+    {
+        NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil];
+        
+        for (NSString *thing in sbhtml) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [result addObject:item];
+        }
+    }
+    
+    return result;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([self _shouldDisplayCydget]) {
-         return self.variant == kPickerVariantHomescreenBackground ? 2 : 5;
-    } else {
-         return self.variant == kPickerVariantHomescreenBackground ? 2 : 3;
-    }
+    BOOL allowBackgrounds = self.variant == kPickerVariantHomescreenBackground || self.variant == kPickerVariantLockscreenBackground;
+    return allowBackgrounds ? 3 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -253,9 +330,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    XENHPickerCell2 *cell = (XENHPickerCell2*)[tableView dequeueReusableCellWithIdentifier:REUSE forIndexPath:indexPath];
+    XENHPickerCell *cell = (XENHPickerCell*)[tableView dequeueReusableCellWithIdentifier:REUSE forIndexPath:indexPath];
     if (!cell) {
-        cell = [[XENHPickerCell2 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE];
+        cell = [[XENHPickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE];
     }
     
     // Configure the cell...
@@ -275,7 +352,14 @@
         // a light green.
         
         if ([_currentSelected containsObject:url]) {
-            cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            if (@available(iOS 13.0, *)) {
+                if ([UITraitCollection.currentTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark)
+                    cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:0.3];
+                else
+                    cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            } else {
+                cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            }
         } else {
             if (@available(iOS 13.0, *)) {
                 cell.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
@@ -317,7 +401,7 @@
     
     // Segue to the previewer.
     
-    XENHPickerPreviewController2 *preview = [[XENHPickerPreviewController2 alloc] initWithURL:url];
+    XENHPickerPreviewController *preview = [[XENHPickerPreviewController alloc] initWithURL:url];
     [self.navigationController pushViewController:preview animated:YES];
     
     UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"BACK"]
@@ -336,36 +420,13 @@
 }
 
 - (NSInteger)_itemCountForSection:(NSInteger)section {
-    switch (self.variant) {
-        case kPickerVariantHomescreenBackground:
-        case kPickerVariantHomescreenForeground:
-            switch (section) {
-                case 0:
-                    return self.sbhtmlArray.count;
-                case 1:
-                    return self.iwidgetsArray.count;
-                    
-                default:
-                    return 0;
-            }
-            
-        case kPickerVariantLockscreenForeground:
-        case kPickerVariantLockscreenBackground:
-            switch (section) {
-                case 0:
-                    return self.lockHTMLArray.count;
-                case 1:
-                    return self.groovylockArray.count;
-                case 2:
-                    return self.iwidgetsArray.count;
-                case 3:
-                    return self.cydgetForegroundArray.count;
-                case 4:
-                    return self.cydgetBackgroundArray.count;
-                    
-                default:
-                    return 0;
-            }
+    switch (section) {
+        case 0:
+            return self.layerWidgets.count;
+        case 1:
+            return self.universalWidgets.count;
+        case 2:
+            return self.backgroundWidgets.count;
             
         default:
             return 0;
@@ -373,98 +434,31 @@
 }
 
 - (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
-    NSString *url = @"";
-    
-    switch (self.variant) {
-        case kPickerVariantHomescreenBackground:
-        case kPickerVariantHomescreenForeground:
-            switch (indexPath.section) {
-                case 0:
-                    url = [[self.sbhtmlArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                case 1:
-                    url = [[self.iwidgetsArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                    
-                default:
-                    break;
-            }
-            break;
-            
-        case kPickerVariantLockscreenForeground:
-        case kPickerVariantLockscreenBackground:
-            switch (indexPath.section) {
-                case 0:
-                    url = [[self.lockHTMLArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                case 1:
-                    url = [[self.groovylockArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                case 2:
-                    url = [[self.iwidgetsArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                case 3:
-                    url = [[self.cydgetForegroundArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                case 4:
-                    url = [[self.cydgetBackgroundArray objectAtIndex:indexPath.item] absoluteUrl];
-                    break;
-                    
-                default:
-                    break;
-            }
+    switch (indexPath.section) {
+        case 0:
+            return [[self.layerWidgets objectAtIndex:indexPath.item] absoluteUrl];
+        case 1:
+            return [[self.universalWidgets objectAtIndex:indexPath.item] absoluteUrl];
+        case 2:
+            return [[self.backgroundWidgets objectAtIndex:indexPath.item] absoluteUrl];
         default:
-            break;
+            return @"";
     }
-    
-    return url;
 }
 
 - (NSString*)_nameForSection:(NSInteger)section {
-    NSString *name = @"";
-    switch (self.variant) {
-        case kPickerVariantHomescreenBackground:
-        case kPickerVariantHomescreenForeground:
-            switch (section) {
-                case 0:
-                    name = @"SBHTML";
-                    break;
-                case 1:
-                    name = @"iWidgets";
-                    break;
-                    
-                default:
-                    break;
-            }
-            break;
-            
-        case kPickerVariantLockscreenForeground:
-        case kPickerVariantLockscreenBackground:
-            switch (section) {
-                case 0:
-                    name = @"Lock HTML";
-                    break;
-                case 1:
-                    name = @"GroovyLock";
-                    break;
-                case 2:
-                    name = @"iWidgets";
-                    break;
-                case 3:
-                    name = [XENHResources localisedStringForKey:@"WIDGET_PICKER_CYDGET_FOREGROUND"];
-                    break;
-                case 4:
-                    name = [XENHResources localisedStringForKey:@"WIDGET_PICKER_CYDGET_BACKGROUND"];
-                    break;
-                    
-                default:
-                    break;
-            }
-        default:
-            break;
-    }
+    BOOL isLockscreen = self.variant == kPickerVariantLockscreenBackground || self.variant == kPickerVariantLockscreenForeground;
     
-    return name;
+    switch (section) {
+        case 0:
+            return isLockscreen ? @"Lockscreen" : @"Homescreen";
+        case 1:
+            return @"Universal";
+        case 2:
+            return @"Backgrounds";
+        default:
+            return @"";
+    }
 }
 
 

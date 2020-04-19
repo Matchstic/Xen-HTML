@@ -18,7 +18,7 @@
 
 #import <Preferences/PSListController.h>
 #import "XENHMultiplexWidgetsHeaderView.h"
-#import "XENHPickerController2.h"
+#import "XENHPickerController.h"
 #import "XENHEditorViewController.h"
 
 @interface XENHMultiplexWidgetsController : PSListController <XENHPickerDelegate2, XENHEditorDelegate>
