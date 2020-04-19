@@ -1,0 +1,15 @@
+/* 
+  DevOptions.strings
+  Xen HTML
+*/
+
+"TITLE" = "Developer Options";
+
+"WW_OVERRIDE" = "Override Widget Weather";
+"WW_OVERRIDE_FOOTER" = "If Widget Weather is installed, Xen HTML will defer to it when providing backwards compatibility for widget data.";
+
+"WIDGET_LOGGING" = "Redirect console.log to Filesystem";
+"WIDGET_LOGGING_FOOTER" = "This option allows redirection of console.* JS calls in widgets to the filesystem. Logs can be found in /var/mobile/Library/Logs/Xen-HTML";
+
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Developer options require a respring to apply.";

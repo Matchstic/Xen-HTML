@@ -21,10 +21,8 @@
 #include <dlfcn.h>
 
 #import "../../../deps/libwidgetinfo/lib/Internal/XENDWidgetManager.h"
-
-@interface XENDWidgetWeatherURLHandler  : NSObject
-+ (void)setHandlerEnabled:(BOOL)enabled;
-@end
+#import "../../../deps/libwidgetinfo/lib/URL Handlers/XENDWidgetWeatherURLHandler.h"
+#import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
 
 #pragma mark Fix XenInfo JS bugs
 
@@ -35,8 +33,6 @@
     if ([javaScriptString hasPrefix:@"mainUpdate"]) {
         javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
     }
-    
-    NSLog(@"Running JS: %@", javaScriptString);
     
     %orig(javaScriptString, completionHandler);
 }
@@ -69,13 +65,48 @@
         return;
     }
     
-    // TODO: Load settings, and apply widgetweather config
+    // Load settings, and apply widgetweather config
+    
+    NSDictionary *settings;
+    CFPreferencesAppSynchronize(CFSTR("com.matchstic.xenhtml"));
+    
+    CFArrayRef keyList = CFPreferencesCopyKeyList(CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+    if (!keyList) {
+        settings = [NSMutableDictionary dictionary];
+    } else {
+        CFDictionaryRef dictionary = CFPreferencesCopyMultiple(keyList, CFSTR("com.matchstic.xenhtml"), kCFPreferencesCurrentUser, kCFPreferencesAnyHost);
+        
+        settings = [(__bridge NSDictionary *)dictionary copy];
+        CFRelease(dictionary);
+        CFRelease(keyList);
+    }
+    
+    BOOL forceWidgetWeatherOverride = [settings objectForKey:@"forceWidgetWeatherOverride"] ?
+        [[settings objectForKey:@"forceWidgetWeatherOverride"] boolValue] :
+        NO;
+    BOOL widgetsLogToFilesystem = [settings objectForKey:@"widgetsLogToFilesystem"] ?
+        [[settings objectForKey:@"widgetsLogToFilesystem"] boolValue] :
+        NO;
+    
+    // If WidgetWeather is present, defer to it
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/WWRefresh.dylib"] && !forceWidgetWeatherOverride) {
+        
+        [XENDWidgetWeatherURLHandler setHandlerEnabled:NO];
+    }
+    
+    // Set filesystem logging as required
+    
+    [XENDLogger setFilesystemLoggingEnabled:widgetsLogToFilesystem];
+    
+    // Load XenInfo first to enable hooking into it
 	
     BOOL isSpringBoard = [[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"];
     
 	if (isSpringBoard && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib"]) {
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
 	}
+    
+    // Initialise library
 	
 	[XENDWidgetManager initialiseLibrary];
 	

@@ -50,6 +50,16 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>DEV_OPTIONS</string>
+			<key>detail</key>
+			<string>XENHDeveloperOptionsController</string>
+			<key>isController</key>
+			<string>YES</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
 			<string>RESET_FOOTER</string>
