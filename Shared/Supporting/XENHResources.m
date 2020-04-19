@@ -971,8 +971,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled {
-    id value = settings[@"dev_optionsEnabled"];
-    return (value ? [value boolValue] : NO);
+    return [self showResourceUsageInWidgets] || [self showCompositingBordersInWidgets];
 }
 
 + (BOOL)showResourceUsageInWidgets {

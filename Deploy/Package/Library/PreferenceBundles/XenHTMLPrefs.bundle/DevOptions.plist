@@ -49,6 +49,40 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+            <key>label</key>
+            <string>WEBKIT_DEV_OPTIONS</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>dev_showResourceUsageInWidgets</string>
+			<key>label</key>
+			<string>RESOURCE_USAGE_OVERLAY</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>dev_showCompositingBordersInWidgets</string>
+			<key>label</key>
+			<string>COMPOSITING_BORDERS</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 			<key>footerText</key>
 			<string>RESPRING_FOOTER</string>
 		</dict>

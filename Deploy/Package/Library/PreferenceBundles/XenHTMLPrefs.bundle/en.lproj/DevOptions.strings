@@ -11,5 +11,9 @@
 "WIDGET_LOGGING" = "Redirect console.log to Filesystem";
 "WIDGET_LOGGING_FOOTER" = "This option allows redirection of console.* JS calls in widgets to the filesystem. Logs can be found in /var/mobile/Library/Logs/Xen-HTML";
 
+"WEBKIT_DEV_OPTIONS" = "WebKit Development Options";
+"RESOURCE_USAGE_OVERLAY" = "Resource Usage Overlay";
+"COMPOSITING_BORDERS" = "Show Compositing Borders";
+
 "RESPRING" = "Respring";
 "RESPRING_FOOTER" = "Developer options require a respring to apply.";
