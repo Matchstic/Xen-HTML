@@ -17,6 +17,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "XENHPickerItem.h"
 
 @interface PIPackage : NSObject
 @property(nonatomic, readonly) NSString *identifier;
@@ -47,6 +48,6 @@
 @property(nonatomic, strong) NSString *url;
 
 - (void)setupForNoWidgetsWithWidgetType:(NSString*)type;
--(void)setupWithFilename:(NSString*)filename screenshotFilename:(NSString*)screenshot andAssociatedUrl:(NSString*)url;
+- (void)setupWithItem:(XENHPickerItem*)item;
 
 @end

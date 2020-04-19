@@ -42,7 +42,7 @@
 "WIDGETS_LOCKSCREEN" = "Lockscreen";
 "WIDGETS_HOMESCREEN" = "Homescreen";
 "WIDGETS_UNIVERSAL" = "Universal";
-"WIDGETS_BACKGROUND" = "Background";
+"WIDGETS_BACKGROUND_PICKER" = "Background";
 "WIDGETS_SETTINGS" = "Settings";
 
 "WIDGET_EDITOR_NONE_SELECTED" = "No Widget Selected";

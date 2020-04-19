@@ -11,5 +11,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *absoluteUrl;
+@property (nonatomic, strong) NSString *screenshotUrl;
+@property (nonatomic, strong) NSDictionary *config;
 
 @end

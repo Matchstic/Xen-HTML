@@ -52,6 +52,41 @@
     return self;
 }
 
+- (NSArray*)widgetsFromPath:(NSString*)path {
+    NSMutableArray *results = [NSMutableArray array];
+    
+    NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+    
+    for (NSString *result in widgets) {
+        NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
+        
+        XENHPickerItem *item = [[XENHPickerItem alloc] init];
+        item.absoluteUrl = absoluteURL;
+        
+        // Load config.json if available
+        NSString *configPath = [NSString stringWithFormat:@"%@/%@/config.json", path, result];
+        NSData *data = [NSData dataWithContentsOfFile:configPath];
+        NSDictionary *config;
+        
+        if (data) {
+            NSError *error;
+            config = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:configPath] options:kNilOptions error:&error];
+        }
+        
+        if (config) {
+            item.name = [config objectForKey:@"name"] ? [config objectForKey:@"name"] : result;
+            item.config = config;
+        } else {
+            item.name = result;
+            item.config = config;
+        }
+        
+        [results addObject:item];
+    }
+    
+    return results;
+}
+
 - (void)loadLayerWidgets {
     NSMutableArray *results = [NSMutableArray array];
     
@@ -62,17 +97,7 @@
 #else
         NSString *path = @"/opt/simject/var/mobile/Library/Widgets/Homescreen";
 #endif
-        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-        
-        for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = result;
-            
-            [results addObject:item];
-        }
+        [results addObjectsFromArray:[self widgetsFromPath:path]];
     }
     
     // Legacy widgets (SBHTML)
@@ -108,17 +133,7 @@
 #else
         NSString *path = @"/opt/simject/var/mobile/Library/Widgets/Universal";
 #endif
-        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-        
-        for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = result;
-            
-            [results addObject:item];
-        }
+        [results addObjectsFromArray:[self widgetsFromPath:path]];
     }
     
     // iWidgets
@@ -194,7 +209,7 @@
     }
     
     // Next, check if this cell can have a screenshot. If so, we can give it some more height.
-    NSString *url = [self _urlForIndexPath:indexPath];
+    NSString *url = [self _itemForIndexPath:indexPath].absoluteUrl;
     
     NSString *thing = [url stringByDeletingLastPathComponent];
     thing = [thing stringByAppendingString:@"/Screenshot.png"];
@@ -214,21 +229,26 @@
     
     // Configure the cell...
     if ([self _itemCountForSection:indexPath.section] > 0) {
-        NSString *url = [self _urlForIndexPath:indexPath];
+        XENHPickerItem *item = [self _itemForIndexPath:indexPath];
         
-        NSString *thing = [url stringByDeletingLastPathComponent];
-        thing = [thing stringByAppendingString:@"/Screenshot.png"];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:thing]) {
-            thing = nil;
+        // Only doing this here for backwards compatibility purposes
+        if (!item.screenshotUrl) {
+            NSString *screenshotUrl = [item.absoluteUrl stringByDeletingLastPathComponent];
+            screenshotUrl = [screenshotUrl stringByAppendingString:@"/Screenshot.png"];
+            
+            if (![[NSFileManager defaultManager] fileExistsAtPath:screenshotUrl]) {
+                screenshotUrl = @"";
+            }
+            
+            item.screenshotUrl = screenshotUrl;
         }
-        
-        [cell setupWithFilename:url screenshotFilename:thing andAssociatedUrl:url];
+
+        [cell setupWithItem:item];
         
         // Based off the variant, we will also check to see if this cell is currently enabled. If so, we will colour it
         // a light green.
         
-        if ([_currentSelected containsObject:url]) {
+        if ([_currentSelected containsObject:item.absoluteUrl]) {
             if (@available(iOS 13.0, *)) {
                 if ([UITraitCollection.currentTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark)
                     cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:0.3];
@@ -265,7 +285,7 @@
     // Select row if its a "real" item, not a placeholder for "no widgets available"
     if ([self _itemCountForSection:indexPath.section] > 0) {
         // Get URL of selected cell.
-        NSString *url = [self _urlForIndexPath:indexPath];
+        NSString *url = [self _itemForIndexPath:indexPath].absoluteUrl;
         
         // See: _handleSettingsButtonPressed, and implement as a method here too!
         // Set widgetURL, and delegate on whatever settings controller is used, since that
@@ -292,7 +312,7 @@
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     // We can assume that if this is called, that the cell *definitely* doesn't have a screenshot.
     
-    NSString *url = [self _urlForIndexPath:indexPath];
+    NSString *url = [self _itemForIndexPath:indexPath].absoluteUrl;
     
     // Segue to the previewer.
     
@@ -317,10 +337,10 @@
     return section == 0 ? self.layerWidgets.count : self.universalWidgets.count;
 }
 
-- (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
+- (XENHPickerItem*)_itemForIndexPath:(NSIndexPath*)indexPath {
     return indexPath.section == 0 ?
-        [[self.layerWidgets objectAtIndex:indexPath.item] absoluteUrl] :
-        [[self.universalWidgets objectAtIndex:indexPath.item] absoluteUrl];
+        [self.layerWidgets objectAtIndex:indexPath.item] :
+        [self.universalWidgets objectAtIndex:indexPath.item];
 }
 
 - (NSString*)_nameForSection:(NSInteger)section {

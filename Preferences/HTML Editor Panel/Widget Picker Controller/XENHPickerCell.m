@@ -97,15 +97,13 @@
     self.screenshot.hidden = YES;
 }
 
--(void)setupWithFilename:(NSString *)filename screenshotFilename:(NSString *)screenshot andAssociatedUrl:(NSString *)url {
-    // Setup cell for new incoming data.
-    self.url = url;
+- (void)setupWithItem:(XENHPickerItem*)item {
+    self.url = item.absoluteUrl;
     
     [self _configureViewsIfRequired];
     
-    // Configure filename as appropriate.
-    NSString *thing = [filename stringByDeletingLastPathComponent];
-    if ([thing isEqualToString:@""]) {
+    NSString *widgetName = item.name;
+    if ([widgetName isEqualToString:@""]) {
         self.filesystemName.text = [XENHResources localisedStringForKey:@"WIDGET_PICKER_NONE"];
         
         // Blank out everything else.
@@ -117,16 +115,23 @@
         
         return;
     } else {
-        filename = [thing lastPathComponent];
-        filename = [filename stringByReplacingOccurrencesOfString:@".theme" withString:@""];
-        filename = [filename stringByReplacingOccurrencesOfString:@".cydget" withString:@""];
+        widgetName = [widgetName stringByReplacingOccurrencesOfString:@".theme" withString:@""];
+        widgetName = [widgetName stringByReplacingOccurrencesOfString:@".cydget" withString:@""];
     }
     
-    self.filesystemName.text = filename;
+    self.filesystemName.text = widgetName;
+    
+    // Author and package name
     
     NSString *loading = [XENHResources localisedStringForKey:@"WIDGET_PICKER_LOADING"];
-    
-    self.author.text = loading;
+
+    BOOL needsAuthorLookup = YES;
+    if (item.config && [item.config objectForKey:@"author"]) {
+        self.author.text = [item.config objectForKey:@"author"];
+        needsAuthorLookup = NO;
+    } else {
+        self.author.text = loading;
+    }
     
     NSString *inPackageStatic = [XENHResources localisedStringForKey:@"WIDGET_PICKER_PACKAGE_PREFIX"];
     self.packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, loading];
@@ -136,12 +141,12 @@
     XENHPickerCell * __weak weakSelf = self;
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         //Background Thread
-        NSString *cachedurl = [url copy];
+        NSString *cachedurl = [self.url copy];
         
         PIPackage *package;
         
         @try {
-            package = [PIPackage packageForFile:url];
+            package = [PIPackage packageForFile:self.url];
         } @catch (NSException *e) {
             NSLog(@"Error loading package information! %@", e);
             package = nil;
@@ -156,25 +161,27 @@
         dispatch_async(dispatch_get_main_queue(), ^(void){
             //Run UI Updates
             
-            // Check if the author needs any changes.
-            NSString *authorText = package.author && ![package.author isEqualToString:@""] ? package.author : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_AUTHOR"];
-            
-            if ([authorText rangeOfString:@"<"].location != NSNotFound) {
-                // Take off the author email.
-                NSUInteger location = [authorText rangeOfString:@"<"].location;
+            if (needsAuthorLookup) {
+                // Check if the author needs any changes.
+                NSString *authorText = package.author && ![package.author isEqualToString:@""] ? package.author : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_AUTHOR"];
                 
-                authorText = [authorText substringToIndex:location];
+                if ([authorText rangeOfString:@"<"].location != NSNotFound) {
+                    // Take off the author email.
+                    NSUInteger location = [authorText rangeOfString:@"<"].location;
+                    
+                    authorText = [authorText substringToIndex:location];
+                }
+                
+                weakSelf.author.text = authorText;
             }
-            
-            weakSelf.author.text = authorText;
-            
+
             NSString *packageText = package.name && ![package.name isEqualToString:@""] ? package.name : [XENHResources localisedStringForKey:@"WIDGET_PICKER_UNKNOWN_PACKAGE"];
             
             weakSelf.packageName.text = [NSString stringWithFormat:@"%@ %@", inPackageStatic, packageText];
             
-            if (screenshot) {
+            if (item.screenshotUrl && item.screenshotUrl.length > 0) {
                 dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                    UIImage *img = [UIImage imageWithContentsOfFile:screenshot];
+                    UIImage *img = [UIImage imageWithContentsOfFile:item.screenshotUrl];
                     
                     dispatch_async(dispatch_get_main_queue(), ^(void){
                         weakSelf.screenshot.image = img;

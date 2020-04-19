@@ -83,22 +83,47 @@
     }];
 }
 
+- (NSArray*)widgetsFromPath:(NSString*)path {
+    NSMutableArray *results = [NSMutableArray array];
+    
+    NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+    
+    for (NSString *result in widgets) {
+        NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
+        
+        XENHPickerItem *item = [[XENHPickerItem alloc] init];
+        item.absoluteUrl = absoluteURL;
+        
+        // Load config.json if available
+        NSString *configPath = [NSString stringWithFormat:@"%@/%@/config.json", path, result];
+        NSData *data = [NSData dataWithContentsOfFile:configPath];
+        NSDictionary *config;
+        
+        if (data) {
+            NSError *error;
+            config = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:configPath] options:kNilOptions error:&error];
+        }
+        
+        if (config) {
+            item.name = [config objectForKey:@"name"] ? [config objectForKey:@"name"] : result;
+            item.config = config;
+        } else {
+            item.name = result;
+            item.config = config;
+        }
+        
+        [results addObject:item];
+    }
+    
+    return results;
+}
+
 - (void)loadUniversalWidgets {
     NSMutableArray *results = [NSMutableArray array];
     
     // Universal
     {
-        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/Widgets/Universal" error:nil];
-        
-        for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/Universal/%@/index.html", result];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = result;
-            
-            [results addObject:item];
-        }
+        [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Universal"]];
     }
     
     // iWidgets
@@ -127,17 +152,7 @@
     
     // Backgrounds
     {
-        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/Widgets/Backgrounds" error:nil];
-        
-        for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/Backgrounds/%@/index.html", result];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = result;
-            
-            [results addObject:item];
-        }
+        [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Backgrounds"]];
     }
     
     // Cydget backgrounds, if allowed for backwards compatibility reasons
@@ -174,20 +189,11 @@
     NSMutableArray *results = [NSMutableArray array];
     
     // Layer-specific widgets
-    NSString *layerKey = isLockscreen ? @"Lockscreen" : @"Homescreen";
     {
-        NSString *path = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/%@", layerKey];
-        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-        
-        for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/Widgets/%@/%@/index.html", layerKey, result];
-            
-            XENHPickerItem *item = [[XENHPickerItem alloc] init];
-            item.absoluteUrl = absoluteURL;
-            item.name = result;
-            
-            [results addObject:item];
-        }
+        if (isLockscreen)
+            [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Lockscreen"]];
+        else
+            [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Homescreen"]];
     }
     
     // Legacy folders
@@ -317,9 +323,10 @@
     }
     
     // Next, check if this cell can have a screenshot. If so, we can give it some more height.
-    NSString *url = [self _urlForIndexPath:indexPath];
+    XENHPickerItem *item = [self _itemForIndexPath:indexPath];
     
-    NSString *thing = [url stringByDeletingLastPathComponent];
+    // Only doing this here for backwards compatibility purposes
+    NSString *thing = [item.absoluteUrl stringByDeletingLastPathComponent];
     thing = [thing stringByAppendingString:@"/Screenshot.png"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:thing]) {
@@ -337,21 +344,26 @@
     
     // Configure the cell...
     if ([self _itemCountForSection:indexPath.section] > 0) {
-        NSString *url = [self _urlForIndexPath:indexPath];
+        XENHPickerItem *item = [self _itemForIndexPath:indexPath];
         
-        NSString *thing = [url stringByDeletingLastPathComponent];
-        thing = [thing stringByAppendingString:@"/Screenshot.png"];
-        
-        if (![[NSFileManager defaultManager] fileExistsAtPath:thing]) {
-            thing = nil;
+        // Only doing this here for backwards compatibility purposes
+        if (!item.screenshotUrl) {
+            NSString *screenshotUrl = [item.absoluteUrl stringByDeletingLastPathComponent];
+            screenshotUrl = [screenshotUrl stringByAppendingString:@"/Screenshot.png"];
+            
+            if (![[NSFileManager defaultManager] fileExistsAtPath:screenshotUrl]) {
+                screenshotUrl = @"";
+            }
+            
+            item.screenshotUrl = screenshotUrl;
         }
-        
-        [cell setupWithFilename:url screenshotFilename:thing andAssociatedUrl:url];
+
+        [cell setupWithItem:item];
         
         // Based off the variant, we will also check to see if this cell is currently enabled. If so, we will colour it
         // a light green.
         
-        if ([_currentSelected containsObject:url]) {
+        if ([_currentSelected containsObject:item.absoluteUrl]) {
             if (@available(iOS 13.0, *)) {
                 if ([UITraitCollection.currentTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark)
                     cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:0.3];
@@ -388,7 +400,7 @@
     // Select row if its a "real" item, not a placeholder for "no widgets available"
     if ([self _itemCountForSection:indexPath.section] > 0) {
         // Get URL of selected cell.
-        NSString *url = [self _urlForIndexPath:indexPath];
+        NSString *url = [self _itemForIndexPath:indexPath].absoluteUrl;
         
         [_delegate didChooseWidget:url];
     }
@@ -397,7 +409,7 @@
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     // We can assume that if this is called, that the cell *definitely* doesn't have a screenshot.
     
-    NSString *url = [self _urlForIndexPath:indexPath];
+    NSString *url = [self _itemForIndexPath:indexPath].absoluteUrl;
     
     // Segue to the previewer.
     
@@ -433,16 +445,16 @@
     }
 }
 
-- (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
+- (XENHPickerItem*)_itemForIndexPath:(NSIndexPath*)indexPath {
     switch (indexPath.section) {
         case 0:
-            return [[self.layerWidgets objectAtIndex:indexPath.item] absoluteUrl];
+            return [self.layerWidgets objectAtIndex:indexPath.item];
         case 1:
-            return [[self.universalWidgets objectAtIndex:indexPath.item] absoluteUrl];
+            return [self.universalWidgets objectAtIndex:indexPath.item];
         case 2:
-            return [[self.backgroundWidgets objectAtIndex:indexPath.item] absoluteUrl];
+            return [self.backgroundWidgets objectAtIndex:indexPath.item];
         default:
-            return @"";
+            return nil;
     }
 }
 
@@ -455,7 +467,7 @@
         case 1:
             return [XENHResources localisedStringForKey:@"WIDGETS_UNIVERSAL"];
         case 2:
-            return [XENHResources localisedStringForKey:@"WIDGETS_BACKGROUND"];
+            return [XENHResources localisedStringForKey:@"WIDGETS_BACKGROUND_PICKER"];
         default:
             return @"";
     }
