@@ -167,6 +167,7 @@
 		C9D3260F244371C300E59F79 /* XENHPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3260D244371C300E59F79 /* XENHPickerItem.m */; };
 		C9DBDBAF244C928B009E855E /* XENHDeveloperOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DBDBAD244C928B009E855E /* XENHDeveloperOptionsController.h */; };
 		C9DBDBB0244C928B009E855E /* XENHDeveloperOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DBDBAE244C928B009E855E /* XENHDeveloperOptionsController.m */; };
+		C9DBDBBD244CECF3009E855E /* XENHPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */; };
 		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
 		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
 		C9F7704A1C7A459900C52880 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
@@ -458,6 +459,8 @@
 		C9D3260D244371C300E59F79 /* XENHPickerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHPickerItem.m; sourceTree = "<group>"; };
 		C9DBDBAD244C928B009E855E /* XENHDeveloperOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHDeveloperOptionsController.h; sourceTree = "<group>"; };
 		C9DBDBAE244C928B009E855E /* XENHDeveloperOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHDeveloperOptionsController.m; sourceTree = "<group>"; };
+		C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerItem.m; sourceTree = "<group>"; };
+		C9DBDBBC244CECF3009E855E /* XENHPickerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerItem.h; sourceTree = "<group>"; };
 		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
 		C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHFallbackOnlyOptionsController.m; sourceTree = "<group>"; };
 		C9ED32A0209D1290001F0251 /* XENHFallbackDelegate-Protocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XENHFallbackDelegate-Protocol.h"; sourceTree = "<group>"; };
@@ -980,6 +983,8 @@
 			isa = PBXGroup;
 			children = (
 				C97152DD236F8CC30021277B /* Settings */,
+				C9DBDBBC244CECF3009E855E /* XENHPickerItem.h */,
+				C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */,
 				C97152E6236F8CC30021277B /* XENHPickerPreviewController.h */,
 				C97152E7236F8CC30021277B /* XENHHomescreenForegroundPickerCell.h */,
 				C97152EA236F8CC30021277B /* XENHHomescreenForegroundPickerCell.m */,
@@ -1518,6 +1523,7 @@
 				C9715309236F8CC40021277B /* XENHButton.m in Sources */,
 				C97152D6236F8CBC0021277B /* XENHWallpaperViewController.m in Sources */,
 				C97152C9236F8CB30021277B /* XENHWidgetController.m in Sources */,
+				C9DBDBBD244CECF3009E855E /* XENHPickerItem.m in Sources */,
 				C97152D7236F8CBD0021277B /* XENHTouchPassThroughView.m in Sources */,
 				C97152D5236F8CBC0021277B /* XENHTouchForwardingRecognizer.m in Sources */,
 				C9715308236F8CC40021277B /* XENHHomescreenForegroundPickerController.m in Sources */,

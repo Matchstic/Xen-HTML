@@ -20,6 +20,7 @@
 #import "XENHPickerPreviewController.h"
 #import "XENHHomescreenForegroundPickerCell.h"
 #import "XENHResources.h"
+#import "XENHPickerItem.h"
 
 #import "XENHHomescreenForegroundViewController.h"
 
@@ -30,8 +31,8 @@
 @property (nonatomic, weak) id<XENHHomescreenForegroundPickerDelegate> delegate;
 @property (nonatomic, strong) NSArray* currentSelected;
 
-@property (nonatomic, strong) NSArray* iwidgetsArray;
-@property (nonatomic, strong) NSArray* sbhtmlArray;
+@property (nonatomic, strong) NSArray *universalWidgets;
+@property (nonatomic, strong) NSArray *layerWidgets;
 
 @end
 
@@ -44,11 +45,103 @@
         self.delegate = delegate;
         self.currentSelected = currentArray;
         
-        [self _setupiWidgetsArray];
-        [self _setupSBHTMLArray];
+        [self loadLayerWidgets];
+        [self loadUniversalWidgets];
     }
     
     return self;
+}
+
+- (void)loadLayerWidgets {
+    NSMutableArray *results = [NSMutableArray array];
+    
+    // Layer-specific widgets
+    {
+#if TARGET_IPHONE_SIMULATOR==0
+        NSString *path = @"/var/mobile/Library/Widgets/Homescreen";
+#else
+        NSString *path = @"/opt/simject/var/mobile/Library/Widgets/Homescreen";
+#endif
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = result;
+            
+            [results addObject:item];
+        }
+    }
+    
+    // Legacy widgets (SBHTML)
+    {
+#if TARGET_IPHONE_SIMULATOR==0
+        NSString *path = @"/var/mobile/Library/SBHTML";
+#else
+        NSString *path = @"/opt/simject/var/mobile/Library/SBHTML";
+#endif
+        NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        
+        for (NSString *thing in sbhtml) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/Wallpaper.html", path, thing];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = thing;
+            
+            [results addObject:item];
+        }
+    }
+    
+    self.layerWidgets = [self _orderAlphabetically:results];
+}
+
+- (void)loadUniversalWidgets {
+    NSMutableArray *results = [NSMutableArray array];
+    
+    // Universal
+    {
+#if TARGET_IPHONE_SIMULATOR==0
+        NSString *path = @"/var/mobile/Library/Widgets/Universal";
+#else
+        NSString *path = @"/opt/simject/var/mobile/Library/Widgets/Universal";
+#endif
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = result;
+            
+            [results addObject:item];
+        }
+    }
+    
+    // iWidgets
+    {
+#if TARGET_IPHONE_SIMULATOR==0
+        NSString *path = @"/var/mobile/Library/iWidgets";
+#else
+        NSString *path = @"/opt/simject/var/mobile/Library/iWidgets";
+#endif
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        
+        for (NSString *result in widgets) {
+            NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/Widget.html", path, result];
+            
+            XENHPickerItem *item = [[XENHPickerItem alloc] init];
+            item.absoluteUrl = absoluteURL;
+            item.name = result;
+            
+            [results addObject:item];
+        }
+    }
+        
+    self.universalWidgets = [self _orderAlphabetically:results];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -75,56 +168,13 @@
     [self.tableView registerClass:[XENHHomescreenForegroundPickerCell class] forCellReuseIdentifier:REUSE];
 }
 
-- (NSMutableArray*)_orderAlphabetically:(NSMutableArray*)array {
-    return [[array sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-}
-
-- (void)_setupiWidgetsArray {
-    
-#if TARGET_IPHONE_SIMULATOR==0
-    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil] mutableCopy];
-#else
-    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/iWidgets/" error:nil] mutableCopy];
-#endif
-    
-    // Order the array alphabetically.
-    widgets = [self _orderAlphabetically:widgets];
-    
-    for (NSString *thing in widgets.copy) {
-        int index = (int)[widgets indexOfObject:thing];
+- (NSArray*)_orderAlphabetically:(NSMutableArray*)array {
+    return [array sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        XENHPickerItem *leftItem = (XENHPickerItem*)obj1;
+        XENHPickerItem *rightItem = (XENHPickerItem*)obj2;
         
-#if TARGET_IPHONE_SIMULATOR==0
-        NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", thing];
-#else
-        NSString *absoluteURL = [NSString stringWithFormat:@"/opt/simject/var/mobile/Library/iWidgets/%@/Widget.html", thing];
-#endif
-        [widgets replaceObjectAtIndex:index withObject:absoluteURL];
-    }
-    
-    self.iwidgetsArray = widgets;
-}
-    
-- (void)_setupSBHTMLArray {
-#if TARGET_IPHONE_SIMULATOR==0
-    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
-#else
-    NSMutableArray *widgets = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/SBHTML/" error:nil] mutableCopy];
-#endif
-    
-    // Order the array alphabetically.
-    widgets = [self _orderAlphabetically:widgets];
-    
-    for (NSString *thing in widgets.copy) {
-        int index = (int)[widgets indexOfObject:thing];
-#if TARGET_IPHONE_SIMULATOR==0
-        NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
-#else
-        NSString *absoluteURL = [NSString stringWithFormat:@"/opt/simject/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
-#endif
-        [widgets replaceObjectAtIndex:index withObject:absoluteURL];
-    }
-    
-    self.sbhtmlArray = widgets;
+        return [leftItem.name caseInsensitiveCompare:rightItem.name];
+    }];
 }
 
 #pragma mark - Table view data source
@@ -179,7 +229,14 @@
         // a light green.
         
         if ([_currentSelected containsObject:url]) {
-            cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            if (@available(iOS 13.0, *)) {
+                if ([UITraitCollection.currentTraitCollection userInterfaceStyle] == UIUserInterfaceStyleDark)
+                    cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:0.3];
+                else
+                    cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            } else {
+                cell.backgroundColor = [UIColor colorWithRed:232.0/255.0 green:1.0 blue:238.0/255.0 alpha:1.0];
+            }
         } else {
             if (@available(iOS 13.0, *)) {
                 cell.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];
@@ -237,8 +294,6 @@
     
     NSString *url = [self _urlForIndexPath:indexPath];
     
-    // TODO: Segue to the previewer.
-    
     // Segue to the previewer.
     
     XENHPickerPreviewController *preview = [[XENHPickerPreviewController alloc] initWithURL:url];
@@ -259,15 +314,17 @@
 }
 
 - (NSInteger)_itemCountForSection:(NSInteger)section {
-    return section == 0 ? self.iwidgetsArray.count : self.sbhtmlArray.count;
+    return section == 0 ? self.layerWidgets.count : self.universalWidgets.count;
 }
 
 - (NSString*)_urlForIndexPath:(NSIndexPath*)indexPath {
-    return indexPath.section == 0 ? [self.iwidgetsArray objectAtIndex:indexPath.item] : [self.sbhtmlArray objectAtIndex:indexPath.item];
+    return indexPath.section == 0 ?
+        [[self.layerWidgets objectAtIndex:indexPath.item] absoluteUrl] :
+        [[self.universalWidgets objectAtIndex:indexPath.item] absoluteUrl];
 }
 
 - (NSString*)_nameForSection:(NSInteger)section {
-    return section == 0 ? @"iWidgets" : @"SBHTML";
+    return section == 0 ? [XENHResources localisedStringForKey:@"WIDGETS_HOMESCREEN"] : [XENHResources localisedStringForKey:@"WIDGETS_UNIVERSAL"];
 }
 
 @end

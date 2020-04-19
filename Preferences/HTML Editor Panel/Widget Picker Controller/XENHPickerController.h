@@ -32,13 +32,6 @@ typedef enum : NSUInteger {
 
 @interface XENHPickerController : UITableViewController
 
-@property (nonatomic, strong) NSArray *sbhtmlArray;
-@property (nonatomic, strong) NSArray *lockHTMLArray;
-@property (nonatomic, strong) NSArray *groovylockArray;
-@property (nonatomic, strong) NSArray *cydgetBackgroundArray;
-@property (nonatomic, strong) NSArray *cydgetForegroundArray;
-@property (nonatomic, strong) NSArray *iwidgetsArray;
-
 @property (nonatomic, strong) NSArray *universalWidgets;
 @property (nonatomic, strong) NSArray *layerWidgets;
 @property (nonatomic, strong) NSArray *backgroundWidgets;

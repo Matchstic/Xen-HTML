@@ -451,11 +451,11 @@
     
     switch (section) {
         case 0:
-            return isLockscreen ? @"Lockscreen" : @"Homescreen";
+            return isLockscreen ? [XENHResources localisedStringForKey:@"WIDGETS_LOCKSCREEN"] : [XENHResources localisedStringForKey:@"WIDGETS_HOMESCREEN"];
         case 1:
-            return @"Universal";
+            return [XENHResources localisedStringForKey:@"WIDGETS_UNIVERSAL"];
         case 2:
-            return @"Backgrounds";
+            return [XENHResources localisedStringForKey:@"WIDGETS_BACKGROUND"];
         default:
             return @"";
     }
