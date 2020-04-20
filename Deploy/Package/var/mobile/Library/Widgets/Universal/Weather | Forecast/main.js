@@ -16,7 +16,7 @@ function onload() {
 
     api.system.observeData(function(newData) {
         // Refresh forecasts in case 24-hour time state has changed
-        updateForecasts(newData);
+        updateForecasts(api.weather);
     });
 }
 
