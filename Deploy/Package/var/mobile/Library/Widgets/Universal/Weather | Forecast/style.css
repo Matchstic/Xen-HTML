@@ -12,11 +12,12 @@ html, body {
 }
 
 :root {
-    --height: 155px;
+    --height: 220px;
     --title-height: 46px;
+    --bottom-height: 62px;
     --color: #111;
     --light-color: #333;
-    --border-color: rgba(68, 68, 68, 0.5);
+    --border-color: rgba(68, 68, 68, 0.15);
 }
 
 p {
@@ -42,6 +43,17 @@ p {
     justify-content: space-between;
     padding: 20px;
     border-bottom: solid 1px var(--border-color);
+}
+
+.bottom-row {
+    width: 100%;
+    height: var(--bottom-height);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-top: solid 1px var(--border-color);
 }
 
 #city {
@@ -71,7 +83,7 @@ p {
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
-    height: calc(var(--height) - var(--title-height));
+    height: calc(var(--height) - var(--title-height)  - var(--bottom-height));
     padding: 10px;
 }
 

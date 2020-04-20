@@ -9,6 +9,13 @@ function onload() {
         document.getElementById('high').innerText = newData.now.temperature.maximum;
         document.getElementById('low').innerText = newData.now.temperature.minimum;
 
+        document.getElementById('narrative').innerText = newData.now.condition.narrative;
+
+        updateForecasts(newData);
+    });
+
+    api.system.observeData(function(newData) {
+        // Refresh forecasts in case 24-hour time state has changed
         updateForecasts(newData);
     });
 }
