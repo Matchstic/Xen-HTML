@@ -96,9 +96,13 @@
 
 - (void)_alertCopied {
     // Alert the user
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"DONATE_ADDRESS_COPIED"] delegate:self cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"] otherButtonTitles:nil];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"DONATE_ADDRESS_COPIED"] preferredStyle:UIAlertControllerStyleAlert];
     
-    [av show];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:okAction];
+    
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 @end

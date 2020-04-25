@@ -378,12 +378,13 @@
     BOOL parseError = [self.configOptions parseJSONFile:file];
     
     if (parseError) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
-                                                     message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"]
-                                                    delegate:nil
-                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"]
-                                           otherButtonTitles:nil];
-        [av show];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"WARNING"] message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"] preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [controller addAction:okAction];
+        
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
     }
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.configOptions];
