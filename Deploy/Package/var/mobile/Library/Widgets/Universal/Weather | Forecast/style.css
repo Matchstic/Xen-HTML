@@ -107,6 +107,7 @@ p {
     color: rgb(116, 189, 227);
     width: 100%;
     text-align: center;
+    text-shadow: 0px 0px 10px rgba(15, 6, 4, 0.5);
 }
 
 .forecast-placeholder {
