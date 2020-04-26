@@ -24,6 +24,10 @@ chown root /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
 
 # Clear debug logs if present
 if [ -d "/var/mobile/Library/Logs/Xen-HTML" ]; then rm -Rf /var/mobile/Library/Logs/Xen-HTML; fi
+    
+# Clear old symlink if present
+[ -e "/var/mobile/Library/SBHTML/Background | Kaleidoscope" ] && rm "/var/mobile/Library/SBHTML/Background | Kaleidoscope"
+[ -e "/var/mobile/Library/SBHTML/Background | Particles" ] && rm "/var/mobile/Library/SBHTML/Background | Particles"
 
 echo "	"
 echo "===================================="

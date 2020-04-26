@@ -96,25 +96,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     NSLog(@"Xen HTML :: (%s:%d) %s",
           [fileName UTF8String],
           lineNumber, [body UTF8String]);
-    
-    // Append to log file
-    /*NSString *txtFileName = @"/var/mobile/Documents/XenHTMLDebug.txt";
-    NSString *final = [NSString stringWithFormat:@"(%@) %s", [NSDate date], [body UTF8String]];
-     
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:txtFileName];
-    if (fileHandle) {
-        [fileHandle seekToEndOfFile];
-        [fileHandle writeData:[final dataUsingEncoding:NSUTF8StringEncoding]];
-        [fileHandle closeFile];
-    } else {
-        [final writeToFile:txtFileName
-                atomically:NO
-                  encoding:NSStringEncodingConversionAllowLossy
-                     error:nil];
-    }*/
 }
 
-+(BOOL)debugLogging {
++ (BOOL)debugLogging {
     return YES;
 }
 
@@ -556,11 +540,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         [self setPreferenceKey:@"hideClock10" withValue:[NSNumber numberWithInt:hideClock ? 2 : 0] andPost:YES];
         [self setPreferenceKey:@"hideClockTransferred10" withValue:[NSNumber numberWithBool:YES] andPost:YES];
     }
+    
+    // Move "Background" widgets to new location
+    settings = [self migrateBackgroundWidgetsIfNecessary:settings];
 }
 
 + (BOOL)_isOnSupportedIOSVersion {
     long long minVersion = 9;
-    long long maxVersion = 13;
+    long long maxVersion = 14;
     
     return [XENHResources isAtLeastiOSVersion:minVersion subversion:0] && [XENHResources isBelowiOSVersion:maxVersion subversion:0];
 }
@@ -580,6 +567,75 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     
     // Not okay-ed in advance, and not supported for certain.
     return YES;
+}
+
++ (NSDictionary*)migrateBackgroundWidgetsIfNecessary:(NSDictionary*)settings {
+    NSMutableDictionary *allLayerPreferences = [[settings objectForKey:@"widgets"] mutableCopy];
+    if (!allLayerPreferences)
+        return settings;
+    
+    BOOL didChange = NO;
+    
+    NSString* (^nameReplacer)(NSString *) = ^(NSString *location) {
+        NSString *newLocation = [location stringByReplacingOccurrencesOfString:@"/var/mobile/Library/LockHTML/Background" withString:@"/var/mobile/Library/Widgets/Backgrounds/Background"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"/var/mobile/Library/SBHTML/Background" withString:@"/var/mobile/Library/Widgets/Backgrounds/Background"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"LockBackground.html" withString:@"index.html"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"Wallpaper.html" withString:@"index.html"];
+        
+        return newLocation;
+    };
+    
+    for (NSString *layer in allLayerPreferences.allKeys) {
+        NSMutableDictionary *layerPreferences = [[allLayerPreferences objectForKey:layer] mutableCopy];
+        NSMutableArray *layerWidgets = [[layerPreferences objectForKey:@"widgetArray"] mutableCopy];
+        NSMutableDictionary *layerMetadata = [[layerPreferences objectForKey:@"widgetMetadata"] mutableCopy];
+        
+        if (!layerWidgets || !layerMetadata)
+            continue;
+        
+        // Handle widget path name
+        for (NSString *location in layerWidgets.copy) {
+            if ([location rangeOfString:@"/var/mobile/Library/LockHTML/Background"].location != NSNotFound ||
+                [location rangeOfString:@"/var/mobile/Library/SBHTML/Background"].location != NSNotFound) {
+                
+                // Replace path components
+                NSString *newLocation = nameReplacer(location);
+                [layerWidgets replaceObjectAtIndex:[layerWidgets indexOfObject:location] withObject:newLocation];
+                
+                didChange = YES;
+            }
+        }
+        
+        // And also do the same for metadata
+        for (NSString *key in layerMetadata.allKeys.copy) {
+            if ([key rangeOfString:@"/var/mobile/Library/LockHTML/Background"].location != NSNotFound ||
+                [key rangeOfString:@"/var/mobile/Library/SBHTML/Background"].location != NSNotFound) {
+                
+                NSString *newKey = nameReplacer(key);
+                NSDictionary *data = [layerMetadata objectForKey:key];
+                
+                [layerMetadata removeObjectForKey:key];
+                [layerMetadata setObject:data forKey:newKey];
+                
+                didChange = YES;
+            }
+        }
+        
+        // Finally, update the layerPreferences
+        [layerPreferences setObject:layerWidgets forKey:@"widgetArray"];
+        [layerPreferences setObject:layerMetadata forKey:@"widgetMetadata"];
+        
+        [allLayerPreferences setObject:layerPreferences forKey:layer];
+    }
+    
+    // Update allLayerPreferences
+    NSMutableDictionary *result = [settings mutableCopy];
+    [result setObject:allLayerPreferences forKey:@"widgets"];
+    
+    if (didChange)
+        [self setPreferenceKey:@"widgets" withValue:allLayerPreferences andPost:NO];
+    
+    return result;
 }
 
 + (void)userRequestsForceSupportForCurrentVersion {
