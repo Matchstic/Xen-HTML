@@ -69,9 +69,18 @@
 
 #pragma mark - Table view data source
 
+- (BOOL)_allowLegacyMode {
+    NSOperatingSystemVersion version;
+    version.majorVersion = 10.0;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    return ![[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return [self _allowLegacyMode] ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,7 +89,7 @@
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 0 && [self _allowLegacyMode]) {
         return [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
     } else {
         return nil;
@@ -94,7 +103,7 @@
     }
     
     // Configure the cell...
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && [self _allowLegacyMode]) {
         UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
         [switchView setOn:self.fallbackState];
         [switchView addTarget:self action:@selector(switchDidChange:) forControlEvents:UIControlEventValueChanged];
