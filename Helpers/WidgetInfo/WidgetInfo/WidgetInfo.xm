@@ -48,8 +48,11 @@
 	
 	// Disable Weather API
 	[dict setObject:@NO forKey:@"weather"];
-	
 	NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Weather API");
+    
+    // Disable battery/memory API
+    [dict setObject:@NO forKey:@"battery"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
 	
 	return dict;
 }
