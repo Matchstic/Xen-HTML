@@ -107,7 +107,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class UIApp; @class XENHWidgetController; 
+@class UIApp; @class WKWebView; @class XENHWidgetController; 
 
 
 #line 88 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -279,7 +279,7 @@ static void _logos_method$SpringBoard$WKWebView$evaluateJavaScript$completionHan
         
         
         
-        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware"];
+        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         if (!isProviderUpdate) {
             
             
@@ -296,7 +296,7 @@ static void _logos_method$SpringBoard$WKWebView$evaluateJavaScript$completionHan
         } else {
             
             self._xh_requiresXIProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"];
-            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware"];
+            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         }
         
         if (completionHandler)

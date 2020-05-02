@@ -253,7 +253,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         // This means that when the widget is unpaused, both may need to be notified to "re-seed" the widget
         // with the latest data
         
-        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware"];
+        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         if (!isProviderUpdate) {
             
             // Push to update queue for all other use cases
@@ -270,7 +270,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         } else {
             // Set provider flags
             self._xh_requiresXIProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"];
-            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware"];
+            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         }
         
         if (completionHandler)
