@@ -16,6 +16,8 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
+@property (nonatomic) BOOL _xh_requiresXIProviderUpdate;
+@property (nonatomic) BOOL _xh_requiresXENProviderUpdate;
 @property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
 
 - (void)_xh_clearJavaScriptPendingCalls;
@@ -39,6 +41,17 @@
 
 @interface XENHResources : NSObject
 + (BOOL)displayState; // YES == on, NO == off
+@end
+
+@interface XENDWidgetManager : NSObject
++ (void)initialiseLibrary;
++ (instancetype)sharedInstance;
+- (void)notifyWidgetUnpaused:(WKWebView*)webView;
+@end
+
+@interface XIWidgetManager : NSObject
++ (instancetype)sharedInstance;
+- (void)_updateWidgetWithCachedInformation:(id)widget;
 @end
 
 // For setting WebPageProxy activity state
@@ -206,6 +219,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
+%property (nonatomic) BOOL _xh_requiresXIProviderUpdate;
+%property (nonatomic) BOOL _xh_requiresXENProviderUpdate;
 
 // Queue of evaluateJavaScript calls when paused
 %property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
@@ -232,20 +247,30 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
     if (useJavaScriptExecutionQueue && self._xh_isPaused) {
         
-        if (!self._xh_pendingJavaScriptCalls) {
-            self._xh_pendingJavaScriptCalls = [NSMutableArray array];
-        }
+        // If the JavaScript to be executed is from XenInfo or libwidgetinfo, drop it.
+        // Otherwise, we can end up in a situation where a large amount of updates are pushed to the widget,
+        // potentially leading an unstable state in SpringBoard.
+        // This means that when the widget is unpaused, both may need to be notified to "re-seed" the widget
+        // with the latest data
         
-        if (javaScriptString) {
-            if (![javaScriptString hasSuffix:@";"])
-                javaScriptString = [javaScriptString stringByAppendingString:@";"];
-                
-            // Duplicated to ensure this is always applied
-            if ([javaScriptString hasPrefix:@"mainUpdate"]) {
-                javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
+        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware"];
+        if (!isProviderUpdate) {
+            
+            // Push to update queue for all other use cases
+            if (!self._xh_pendingJavaScriptCalls) {
+                self._xh_pendingJavaScriptCalls = [NSMutableArray array];
             }
-                
-            [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
+            
+            if (javaScriptString) {
+                if (![javaScriptString hasSuffix:@";"])
+                    javaScriptString = [javaScriptString stringByAppendingString:@";"];
+                    
+                [self._xh_pendingJavaScriptCalls addObject:javaScriptString];
+            }
+        } else {
+            // Set provider flags
+            self._xh_requiresXIProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"];
+            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware"];
         }
         
         if (completionHandler)
@@ -257,20 +282,32 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_xh_clearJavaScriptPendingCalls {
-    if (!useJavaScriptExecutionQueue || !self._xh_pendingJavaScriptCalls)
+    if (!useJavaScriptExecutionQueue)
         return;
     
-    NSMutableString *combinedExecution = [@"" mutableCopy];
-    
-    for (NSString *call in self._xh_pendingJavaScriptCalls) {
-        [combinedExecution appendString:call];
+    if (self._xh_pendingJavaScriptCalls) {
+        NSMutableString *combinedExecution = [@"" mutableCopy];
+        
+        for (NSString *call in self._xh_pendingJavaScriptCalls) {
+            [combinedExecution appendString:call];
+        }
+        
+        // Do a combined execution
+        [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
+        
+        // Then clear state
+        [self._xh_pendingJavaScriptCalls removeAllObjects];
     }
-    
-    // Do a combined execution
-    [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
-    
-    // Then clear state
-    [self._xh_pendingJavaScriptCalls removeAllObjects];
+
+    // Finally, reach out to data providers to flush current data
+    if (self._xh_requiresXENProviderUpdate && objc_getClass("XENDWidgetManager")) {
+        self._xh_requiresXENProviderUpdate = NO;
+        [[objc_getClass("XENDWidgetManager") sharedInstance] notifyWidgetUnpaused:self];
+    }
+    if (self._xh_requiresXIProviderUpdate && objc_getClass("XIWidgetManager")) {
+        self._xh_requiresXIProviderUpdate = NO;
+        [[objc_getClass("XIWidgetManager") sharedInstance] _updateWidgetWithCachedInformation:self];
+    }
 }
 
 %end
