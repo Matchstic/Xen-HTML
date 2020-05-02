@@ -8,27 +8,27 @@ function onload() {
         let iconElement = document.getElementById('battery-icon');
 
         if (newData.battery.percentage === 100) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/100.svg';
         } else if (newData.battery.percentage >= 90) {
-            iconElement.src = 'images/Battery90.svg';
+            iconElement.src = 'xui://resource/default/battery/90.svg';
         } else if (newData.battery.percentage >= 80) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/80.svg';
         } else if (newData.battery.percentage >= 70) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/70.svg';
         } else if (newData.battery.percentage >= 60) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/60.svg';
         } else if (newData.battery.percentage >= 50) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/50.svg';
         } else if (newData.battery.percentage >= 40) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/40.svg';
         } else if (newData.battery.percentage >= 30) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/30.svg';
         } else if (newData.battery.percentage >= 20) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/20.svg';
         } else if (newData.battery.percentage >= 10) {
-            iconElement.src = 'images/Battery100.svg';
+            iconElement.src = 'xui://resource/default/battery/10.svg';
         } else {
-            iconElement.src = 'images/Battery0.svg';
+            iconElement.src = 'xui://resource/default/battery/0.svg';
         }
 
         // Generate text to display underneath the current percent
