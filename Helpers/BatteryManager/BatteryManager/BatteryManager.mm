@@ -107,7 +107,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class UIApp; @class WKWebView; @class XENHWidgetController; 
+@class UIApp; @class XENHWidgetController; @class WKWebView; 
 
 
 #line 88 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -324,8 +324,6 @@ static void _logos_method$SpringBoard$WKWebView$_xh_clearJavaScriptPendingCalls(
         
         [self._xh_pendingJavaScriptCalls removeAllObjects];
     }
-    
-    XENlog(@"DEBUG :: Clearing JavaScript calls with XI: %d, XEN: %d", self._xh_requiresXIProviderUpdate, self._xh_requiresXENProviderUpdate);
 
     
     if (self._xh_requiresXENProviderUpdate && objc_getClass("XENDWidgetManager")) {
@@ -364,7 +362,7 @@ static inline bool _xenhtml_bm_supportJavaScriptExecutionQueue() {
     return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_7ce6bb99(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_b8498dde(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];

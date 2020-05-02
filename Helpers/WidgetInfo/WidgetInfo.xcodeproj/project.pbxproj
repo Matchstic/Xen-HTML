@@ -22,6 +22,7 @@
 		C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A371CE241417720086FC2A /* Foundation.framework */; };
 		C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
 		C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
+		C9B3D709245E0756004D048E /* IOKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3D705245E0756004D048E /* IOKit.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		C94A9F3A24140C840062CDCD /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
 		C94A9F4C24140F070062CDCD /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		C9A371CE241417720086FC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		C9B3D705245E0756004D048E /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/IOKit.tbd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B3D709245E0756004D048E /* IOKit.tbd in Frameworks */,
 				C978A2152438DADD00398FBB /* liblogger.a in Frameworks */,
 				C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */,
 				C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */,
@@ -129,6 +132,7 @@
 		C94A9EF9241407C30062CDCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9B3D705245E0756004D048E /* IOKit.tbd */,
 				C9A371CE241417720086FC2A /* Foundation.framework */,
 				C94A9F3A24140C840062CDCD /* libsubstrate.tbd */,
 				C94A9F3724140C6E0062CDCD /* UIKit.framework */,

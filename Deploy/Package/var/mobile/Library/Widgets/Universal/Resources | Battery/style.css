@@ -1,0 +1,68 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    padding: 0 6px;
+    font-size: 14px;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+    color: #111;
+}
+
+:root {
+    --card-height: 76px;
+}
+
+.card {
+    border-radius: 12.5px;
+    background-color: rgba(255, 255, 255, 0.47);
+    width: 100%;
+    height: var(--card-height);
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+
+    -webkit-backdrop-filter: blur(30px);
+}
+
+.icon {
+    height: var(--card-height);
+    width: var(--card-height);
+    flex: 0 0 var(--card-height);
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+}
+
+.details {
+    flex: 1 1 auto;
+    height: fit-content;
+    padding-left: 5px;
+}
+
+.missing {
+    opacity: 0.5;
+}
+
+.percent-row {
+    width: 100%;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.condition-detail {
+    width: 100%;
+}
