@@ -36,7 +36,7 @@ function onload() {
         if (newData.battery.state === 2) {
             underneathText = 'Fully charged';
         } else if (newData.battery.state === 1) {
-            underneathText = 'Charged in: ' + minutesToHumanReadable(newData.battery.timeUntilCharged);
+            underneathText = 'Battery charging';
         } else {
             underneathText = 'Estimated time left: ' + minutesToHumanReadable(newData.battery.timeUntilEmpty);
         }
