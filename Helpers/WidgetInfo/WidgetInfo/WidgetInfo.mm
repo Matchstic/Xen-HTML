@@ -48,7 +48,7 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class XIWidgetManager; 
+@class XIWidgetManager; @class WKWebView; 
 static void (*_logos_orig$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static NSMutableDictionary* (*_logos_orig$_ungrouped$XIWidgetManager$_populateWidgetSettings)(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWidgetSettings(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); 
 
 #line 29 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WidgetInfo/WidgetInfo/WidgetInfo.xm"
@@ -79,13 +79,17 @@ static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWi
     
     [dict setObject:@NO forKey:@"battery"];
     NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
+    
+    
+    [dict setObject:@NO forKey:@"system"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
 	
 	return dict;
 }
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_9f2e78ec(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_b80a3c95(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];

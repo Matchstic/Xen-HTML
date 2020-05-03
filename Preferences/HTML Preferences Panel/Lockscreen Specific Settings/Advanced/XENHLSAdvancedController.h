@@ -5,8 +5,8 @@
 //  Created by Matt Clarke on 30/04/2018.
 //
 
-#import <Preferences/PSListController.h>
+#import "XENHBaseListController.h"
 
-@interface XENHLSAdvancedController : PSListController
+@interface XENHLSAdvancedController : XENHBaseListController
 
 @end

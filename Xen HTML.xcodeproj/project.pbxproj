@@ -154,6 +154,8 @@
 		C9715308236F8CC40021277B /* XENHHomescreenForegroundPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152EC236F8CC30021277B /* XENHHomescreenForegroundPickerController.m */; };
 		C9715309236F8CC40021277B /* XENHButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F0236F8CC30021277B /* XENHButton.m */; };
 		C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F5236F8CC30021277B /* XENSetupWindow.m */; };
+		C977C2DF245EEB8F001040FC /* XENHBaseListController.h in Headers */ = {isa = PBXBuildFile; fileRef = C977C2DD245EEB8F001040FC /* XENHBaseListController.h */; };
+		C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C977C2DE245EEB8F001040FC /* XENHBaseListController.m */; };
 		C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
@@ -441,6 +443,8 @@
 		C97152FB236F8CC30021277B /* XENSetupWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENSetupWindow.h; sourceTree = "<group>"; };
 		C9715318236F902A0021277B /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		C971531F236F96970021277B /* PrivateHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateHeaders.h; sourceTree = "<group>"; };
+		C977C2DD245EEB8F001040FC /* XENHBaseListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHBaseListController.h; sourceTree = "<group>"; };
+		C977C2DE245EEB8F001040FC /* XENHBaseListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHBaseListController.m; sourceTree = "<group>"; };
 		C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C97FBD0C1BA8C88000173993 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C99CDD721C0AC36D00761684 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -793,6 +797,8 @@
 			isa = PBXGroup;
 			children = (
 				C947753820715D150003D039 /* Third-Party Libraries */,
+				C977C2DD245EEB8F001040FC /* XENHBaseListController.h */,
+				C977C2DE245EEB8F001040FC /* XENHBaseListController.m */,
 				C947750A20715D150003D039 /* XENHPResources.h */,
 				C947753120715D150003D039 /* XENHResources.m */,
 				C947750520715D150003D039 /* XENHTouchPassThroughView.h */,
@@ -1119,6 +1125,7 @@
 				C947756B20715D150003D039 /* XENHTouchPassThroughView.h in Headers */,
 				C94775AB20715D160003D039 /* XENHPreviewScaledController.h in Headers */,
 				C947756920715D150003D039 /* XENHPHeaderView.h in Headers */,
+				C977C2DF245EEB8F001040FC /* XENHBaseListController.h in Headers */,
 				C947758C20715D150003D039 /* XENHMoreReposController.h in Headers */,
 				C94775A820715D160003D039 /* XENHBaseHTMLPreferenceController.h in Headers */,
 				C947756F20715D150003D039 /* XENHPResources.h in Headers */,
@@ -1572,6 +1579,7 @@
 				C947757220715D150003D039 /* XENHEditorWebViewController.m in Sources */,
 				C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */,
 				C947759420715D160003D039 /* XENHResources.m in Sources */,
+				C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */,
 				C947759D20715D160003D039 /* AYVibrantButton.m in Sources */,
 				C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */,
 				C94775B820715D160003D039 /* XENHLSMediaController.m in Sources */,

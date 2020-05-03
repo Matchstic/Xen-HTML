@@ -25,6 +25,10 @@
 
 @implementation XENHLSMediaController
 
+- (NSString*)plistName {
+    return @"LSMedia";
+}
+
 -(id)specifiers {
     if (_specifiers == nil) {
         NSMutableArray *testingSpecs = [self loadSpecifiersFromPlistName:@"LSMedia" target:self];
@@ -56,24 +60,6 @@
     }
     
     return _specifiers;
-}
-
--(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
-    int i;
-    for (i=0; i<[s count]; i++) {
-        if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[[s objectAtIndex: i] name] table:nil]];
-        }
-        if ([[s objectAtIndex: i] titleDictionary]) {
-            NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
-            for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] table:nil] forKey: key];
-            }
-            [[s objectAtIndex: i] setTitleDictionary: newTitles];
-        }
-    }
-    
-    return s;
 }
 
 -(void)setPreferenceValue:(id)value specifier:(PSSpecifier*)specifier {

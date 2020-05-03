@@ -16,11 +16,11 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHBaseListController.h"
-#import <MessageUI/MessageUI.h>
+#import <Preferences/PSListController.h>
 
-@interface XENHSupportController : XENHBaseListController <MFMailComposeViewControllerDelegate> {
-    BOOL _showingRespring;
-}
+@interface XENHBaseListController : PSListController
+
+- (NSString*)plistName;
+- (NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)specifiers;
 
 @end

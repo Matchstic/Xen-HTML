@@ -16,8 +16,7 @@
 
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
-@property (nonatomic) BOOL _xh_requiresXIProviderUpdate;
-@property (nonatomic) BOOL _xh_requiresXENProviderUpdate;
+@property (nonatomic) BOOL _xh_requiresProviderUpdate;
 @property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
 
 - (void)_xh_clearJavaScriptPendingCalls;

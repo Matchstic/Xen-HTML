@@ -16,10 +16,10 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import <Preferences/PSListController.h>
+#import "XENHBaseListController.h"
 #import "XENHMultiplexWidgetsHeaderView.h"
 
-@interface XENHSBForegroundController : PSListController
+@interface XENHSBForegroundController : XENHBaseListController
 
 @property (nonatomic, strong) XENHMultiplexWidgetsHeaderView *headerView;
 
