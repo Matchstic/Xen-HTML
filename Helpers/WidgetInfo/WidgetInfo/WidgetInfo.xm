@@ -53,6 +53,10 @@
     // Disable battery/memory API
     [dict setObject:@NO forKey:@"battery"];
     NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
+    
+    // Disable system API
+    [dict setObject:@NO forKey:@"system"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
 	
 	return dict;
 }
