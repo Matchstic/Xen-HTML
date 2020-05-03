@@ -7,25 +7,25 @@ function onload() {
         // Update icon
         let iconElement = document.getElementById('battery-icon');
 
-        if (newData.battery.percentage === 100) {
+        if (newData.battery.percentage >= 95) {
             iconElement.src = 'xui://resource/default/battery/100.svg';
-        } else if (newData.battery.percentage >= 90) {
+        } else if (newData.battery.percentage >= 85) {
             iconElement.src = 'xui://resource/default/battery/90.svg';
-        } else if (newData.battery.percentage >= 80) {
+        } else if (newData.battery.percentage >= 75) {
             iconElement.src = 'xui://resource/default/battery/80.svg';
-        } else if (newData.battery.percentage >= 70) {
+        } else if (newData.battery.percentage >= 65) {
             iconElement.src = 'xui://resource/default/battery/70.svg';
-        } else if (newData.battery.percentage >= 60) {
+        } else if (newData.battery.percentage >= 55) {
             iconElement.src = 'xui://resource/default/battery/60.svg';
-        } else if (newData.battery.percentage >= 50) {
+        } else if (newData.battery.percentage >= 45) {
             iconElement.src = 'xui://resource/default/battery/50.svg';
-        } else if (newData.battery.percentage >= 40) {
+        } else if (newData.battery.percentage >= 35) {
             iconElement.src = 'xui://resource/default/battery/40.svg';
-        } else if (newData.battery.percentage >= 30) {
+        } else if (newData.battery.percentage >= 25) {
             iconElement.src = 'xui://resource/default/battery/30.svg';
-        } else if (newData.battery.percentage >= 20) {
+        } else if (newData.battery.percentage >= 15) {
             iconElement.src = 'xui://resource/default/battery/20.svg';
-        } else if (newData.battery.percentage >= 10) {
+        } else if (newData.battery.percentage >= 5) {
             iconElement.src = 'xui://resource/default/battery/10.svg';
         } else {
             iconElement.src = 'xui://resource/default/battery/0.svg';
