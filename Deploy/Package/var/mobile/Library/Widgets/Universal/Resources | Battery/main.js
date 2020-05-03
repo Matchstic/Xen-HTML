@@ -38,7 +38,7 @@ function onload() {
         } else if (newData.battery.state === 1) {
             underneathText = 'Charged in: ' + minutesToHumanReadable(newData.battery.timeUntilCharged);
         } else {
-            underneathText = 'Usage left: ' + minutesToHumanReadable(newData.battery.timeUntilEmpty);
+            underneathText = 'Estimated time left: ' + minutesToHumanReadable(newData.battery.timeUntilEmpty);
         }
 
         document.getElementById('info').innerHTML = underneathText;
@@ -49,10 +49,10 @@ function minutesToHumanReadable(mins) {
     if (mins <= 0) return '<span class="missing">No information</span>';
 
     let hours = Math.floor(mins / 60);
-    let reducedMins = mins - (hours * 60);
+    let reducedMins = Math.floor(mins - (hours * 60));
 
     if (hours > 0) {
-        return hours + ' hour' + (hours === 1 ? '' : 's') + ', ' + reducedMins + ' minute' + (reducedMins === 1 ? '' : 's');
+        return hours + ' hr' + (hours === 1 ? '' : 's') + ', ' + reducedMins + ' min' + (reducedMins === 1 ? '' : 's');
     } else {
         return reducedMins + ' minute' + (reducedMins === 1 ? '' : 's');
     }
