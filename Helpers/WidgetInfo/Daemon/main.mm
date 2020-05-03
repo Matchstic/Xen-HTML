@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #import "../../../deps/libwidgetinfo/daemon/Connection/XENDIPCDaemonListener.h"
+#import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
 
 int main (int argc, const char * argv[]) {
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
@@ -27,6 +28,7 @@ int main (int argc, const char * argv[]) {
         
         return EXIT_SUCCESS;
     } else {
+        [XENDLogger setFilesystemLoggingEnabled:YES];
         return libwidgetinfo_main_ipc();
     }
 }

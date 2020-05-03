@@ -74,15 +74,18 @@ static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWi
 	
 	
 	[dict setObject:@NO forKey:@"weather"];
-	
 	NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Weather API");
+    
+    
+    [dict setObject:@NO forKey:@"battery"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
 	
 	return dict;
 }
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_f1ee81aa(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_9f2e78ec(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
