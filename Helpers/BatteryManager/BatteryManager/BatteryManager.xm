@@ -219,8 +219,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
-%property (nonatomic) BOOL _xh_requiresXIProviderUpdate;
-%property (nonatomic) BOOL _xh_requiresXENProviderUpdate;
+%property (nonatomic) BOOL _xh_requiresProviderUpdate;
 
 // Queue of evaluateJavaScript calls when paused
 %property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
@@ -247,13 +246,13 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
     if (useJavaScriptExecutionQueue && self._xh_isPaused) {
         
-        // If the JavaScript to be executed is from XenInfo or libwidgetinfo, drop it.
+        // If the JavaScript to be executed is from libwidgetinfo, drop it.
         // Otherwise, we can end up in a situation where a large amount of updates are pushed to the widget,
         // potentially leading an unstable state in SpringBoard.
         // This means that when the widget is unpaused, both may need to be notified to "re-seed" the widget
         // with the latest data
         
-        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"] || [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
+        BOOL isProviderUpdate = [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         if (!isProviderUpdate) {
             
             // Push to update queue for all other use cases
@@ -269,8 +268,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
             }
         } else {
             // Set provider flags
-            self._xh_requiresXIProviderUpdate = [javaScriptString hasPrefix:@"mainUpdate"];
-            self._xh_requiresXENProviderUpdate = [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
+            self._xh_requiresProviderUpdate = [javaScriptString hasPrefix:@"api._middleware.onInternalNativeMessage"];
         }
         
         if (completionHandler)
@@ -299,14 +297,10 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         [self._xh_pendingJavaScriptCalls removeAllObjects];
     }
 
-    // Finally, reach out to data providers to flush current data
-    if (self._xh_requiresXENProviderUpdate && objc_getClass("XENDWidgetManager")) {
-        self._xh_requiresXENProviderUpdate = NO;
+    // Finally, reach out to data provider to flush current data
+    if (self._xh_requiresProviderUpdate && objc_getClass("XENDWidgetManager")) {
+        self._xh_requiresProviderUpdate = NO;
         [[objc_getClass("XENDWidgetManager") sharedInstance] notifyWidgetUnpaused:self];
-    }
-    if (self._xh_requiresXIProviderUpdate && objc_getClass("XIWidgetManager")) {
-        self._xh_requiresXIProviderUpdate = NO;
-        [[objc_getClass("XIWidgetManager") sharedInstance] _updateWidgetWithCachedInformation:self];
     }
 }
 
