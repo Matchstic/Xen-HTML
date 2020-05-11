@@ -259,6 +259,10 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 self._xh_pendingJavaScriptCalls = [NSMutableArray array];
             }
             
+            if ([javaScriptString hasPrefix:@"mainUpdate"]) {
+                javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
+            }
+            
             if (javaScriptString) {
                 if (![javaScriptString hasSuffix:@";"])
                     javaScriptString = [javaScriptString stringByAppendingString:@";"];

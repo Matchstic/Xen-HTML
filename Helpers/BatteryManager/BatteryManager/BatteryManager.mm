@@ -106,7 +106,7 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class UIApp; @class XENHWidgetController; 
+@class UIApp; @class WKWebView; @class XENHWidgetController; 
 
 
 #line 87 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -285,6 +285,10 @@ static void _logos_method$SpringBoard$WKWebView$evaluateJavaScript$completionHan
                 self._xh_pendingJavaScriptCalls = [NSMutableArray array];
             }
             
+            if ([javaScriptString hasPrefix:@"mainUpdate"]) {
+                javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
+            }
+            
             if (javaScriptString) {
                 if (![javaScriptString hasSuffix:@";"])
                     javaScriptString = [javaScriptString stringByAppendingString:@";"];
@@ -355,7 +359,7 @@ static inline bool _xenhtml_bm_supportJavaScriptExecutionQueue() {
     return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_4d344eb2(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_39c394ae(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
