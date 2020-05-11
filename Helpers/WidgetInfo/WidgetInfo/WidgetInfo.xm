@@ -24,7 +24,7 @@
 #import "../../../deps/libwidgetinfo/lib/URL Handlers/XENDWidgetWeatherURLHandler.h"
 #import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
 
-#pragma mark Fix XenInfo JS bugs
+#pragma mark - Fix XenInfo JS bugs
 
 %hook WKWebView
 
@@ -39,7 +39,7 @@
 
 %end
 
-#pragma mark Disable components of XenInfo that are superseded
+#pragma mark - Disable components of XenInfo that are superseded
 
 %hook XIWidgetManager
 
@@ -57,6 +57,10 @@
     // Disable system API
     [dict setObject:@NO forKey:@"system"];
     NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
+    
+    // Disable music API
+    [dict setObject:@NO forKey:@"music"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
 	
 	return dict;
 }

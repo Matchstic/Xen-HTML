@@ -25,7 +25,7 @@
 #import "../../../deps/libwidgetinfo/lib/URL Handlers/XENDWidgetWeatherURLHandler.h"
 #import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
 
-#pragma mark Fix XenInfo JS bugs
+#pragma mark - Fix XenInfo JS bugs
 
 
 #include <substrate.h>
@@ -48,7 +48,7 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class XIWidgetManager; @class WKWebView; 
+@class WKWebView; @class XIWidgetManager; 
 static void (*_logos_orig$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static NSMutableDictionary* (*_logos_orig$_ungrouped$XIWidgetManager$_populateWidgetSettings)(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWidgetSettings(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); 
 
 #line 29 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WidgetInfo/WidgetInfo/WidgetInfo.xm"
@@ -65,7 +65,7 @@ static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHand
 
 
 
-#pragma mark Disable components of XenInfo that are superseded
+#pragma mark - Disable components of XenInfo that are superseded
 
 
 
@@ -83,13 +83,17 @@ static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWi
     
     [dict setObject:@NO forKey:@"system"];
     NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
+    
+    
+    [dict setObject:@NO forKey:@"music"];
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
 	
 	return dict;
 }
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_b80a3c95(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_84dcc16b(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];

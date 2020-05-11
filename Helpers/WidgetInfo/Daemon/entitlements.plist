@@ -17,7 +17,7 @@
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.matchstic.widgetinfod</string>
-        <string>group.com.apple.weather</string>
+		<string>group.com.apple.weather</string>
 	</array>
 	<key>com.apple.CoreLocation.PrivateMode</key>
 	<true/>
@@ -35,6 +35,10 @@
 	<true/>
 	<key>com.apple.private.memorystatus</key>
 	<true/>
-    
+	<key>com.apple.private.mobileinstall.allowedSPI</key>
+	<array>
+		<string>Lookup</string>
+		<string>Browse</string>
+	</array>
 </dict>
 </plist>
