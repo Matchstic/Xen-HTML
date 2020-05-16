@@ -199,12 +199,74 @@
     NSString *path = [filePath stringByDeletingLastPathComponent];
     NSString *lastPathComponent = [filePath lastPathComponent];
     
+    NSString *configPath = [path stringByAppendingString:@"/config.json"];
     NSString *widgetPlistPath = [path stringByAppendingString:@"/Widget.plist"];
     NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
     
-    // Only check Widget.plist if we're loading an iWidget
-    if ([lastPathComponent isEqualToString:@"Widget.html"] && [[NSFileManager defaultManager] fileExistsAtPath:widgetPlistPath]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configPath]) {
+        
+        // Load from config.json
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:configPath] options:kNilOptions error:&error];
+        
+        CGFloat (^toReal)(NSString *string, NSString *max, int mode) = ^(NSString *string, NSString *max, int mode) {
+            CGFloat result = 0.0;
+            CGFloat modeWidth = mode == 0 ? SCREEN_WIDTH : SCREEN_HEIGHT;
+            
+            if ([string hasSuffix:@"%"]) {
+                // Percentage of the screen size
+                CGFloat percentage = [[string stringByReplacingOccurrencesOfString:@"%" withString:@""] floatValue];
+                result = modeWidth * (percentage / 100.0);
+            } else {
+                // Exact points
+                CGFloat exact = [[string stringByReplacingOccurrencesOfString:@"px" withString:@""] floatValue];
+                result = exact;
+            }
+            
+            // Handle max size
+            if (max) {
+                CGFloat maxSize = [[max stringByReplacingOccurrencesOfString:@"px" withString:@""] floatValue];
+                
+                if (maxSize < result) result = maxSize;
+            }
+            
+            return result;
+        };
+        
+        NSDictionary *size = [config objectForKey:@"size"];
+        
+        if (size) {
+            NSString *width = [size objectForKey:@"width"];
+            NSString *maxwidth = [size objectForKey:@"max-width"];
+            NSString *height = [size objectForKey:@"height"];
+            NSString *maxheight = [size objectForKey:@"max-height"];
+            
+            // Compute width first
+            if (width) {
+                CGFloat requestedWidth = toReal(width, maxwidth, 0);
+                [dict setValue:@(requestedWidth) forKey:@"width"];
+            } else {
+                [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
+            }
+            
+            if (height) {
+                CGFloat requestedWidth = toReal(height, maxheight, 1);
+                [dict setValue:@(requestedWidth) forKey:@"height"];
+            } else {
+                [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
+            }
+        } else {
+            [dict setValue:@NO forKey:@"isFullscreen"];
+            [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
+            [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
+        }
+        
+        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
+        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
+        
+    } else if ([lastPathComponent isEqualToString:@"Widget.html"] && [[NSFileManager defaultManager] fileExistsAtPath:widgetPlistPath]) {
+        // Only check Widget.plist if we're loading an iWidget
         [dict setValue:@NO forKey:@"isFullscreen"];
         
         NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetPlistPath];
@@ -219,7 +281,7 @@
         }
         
         // Ignore the initial position of the widget, as it's fundamentally not compatible with
-        // how we do positioning. Plus, I'm lazy and it's close to release day.
+        // how we do positioning.
         [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
         [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
         
