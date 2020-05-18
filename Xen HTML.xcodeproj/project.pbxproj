@@ -156,6 +156,9 @@
 		C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F5236F8CC30021277B /* XENSetupWindow.m */; };
 		C977C2DF245EEB8F001040FC /* XENHBaseListController.h in Headers */ = {isa = PBXBuildFile; fileRef = C977C2DD245EEB8F001040FC /* XENHBaseListController.h */; };
 		C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C977C2DE245EEB8F001040FC /* XENHBaseListController.m */; };
+		C992AB3D24730FAE00D7F27E /* XENHWidgetConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = C992AB3B24730FAE00D7F27E /* XENHWidgetConfiguration.h */; };
+		C992AB3E24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */; };
+		C992AB3F24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */; };
 		C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
@@ -447,6 +450,8 @@
 		C977C2DE245EEB8F001040FC /* XENHBaseListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHBaseListController.m; sourceTree = "<group>"; };
 		C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C97FBD0C1BA8C88000173993 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C992AB3B24730FAE00D7F27E /* XENHWidgetConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetConfiguration.h; sourceTree = "<group>"; };
+		C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetConfiguration.m; sourceTree = "<group>"; };
 		C99CDD721C0AC36D00761684 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C9A17FC8207177680099FF1E /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = lib/libsubstrate.tbd; sourceTree = "<group>"; };
 		C9A17FCA207178680099FF1E /* Preferences.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = Preferences.tbd; path = lib/Preferences.tbd; sourceTree = "<group>"; };
@@ -967,6 +972,8 @@
 				C97152CD236F8CBC0021277B /* XENHTouchPassThroughView.h */,
 				C97152CF236F8CBC0021277B /* XENHResources.h */,
 				C97152D2236F8CBC0021277B /* XENHResources.m */,
+				C992AB3B24730FAE00D7F27E /* XENHWidgetConfiguration.h */,
+				C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */,
 			);
 			path = Supporting;
 			sourceTree = "<group>";
@@ -1131,6 +1138,7 @@
 				C947756F20715D150003D039 /* XENHPResources.h in Headers */,
 				C94775AC20715D160003D039 /* XENHBasePreviewCell.h in Headers */,
 				C947759620715D160003D039 /* XENHLSVisibilityController.h in Headers */,
+				C992AB3D24730FAE00D7F27E /* XENHWidgetConfiguration.h in Headers */,
 				C947759820715D160003D039 /* XENHLSNotificationsController.h in Headers */,
 				C94775A720715D160003D039 /* XENHHomescreenPreferenceController.h in Headers */,
 				C947756820715D150003D039 /* XENHPickerPreviewController.h in Headers */,
@@ -1515,6 +1523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C992AB3E24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */,
 				C9715307236F8CC40021277B /* XENHPickerPreviewController.m in Sources */,
 				C9715305236F8CC40021277B /* XENHMetadataOptionsController.m in Sources */,
 				C9715301236F8CC40021277B /* XENHCloseButton.m in Sources */,
@@ -1565,6 +1574,7 @@
 				C94775B020715D160003D039 /* XENHPreviewScaledController.m in Sources */,
 				C947757C20715D150003D039 /* XENHConfigJSCell.m in Sources */,
 				C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */,
+				C992AB3F24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */,
 				C94775AD20715D160003D039 /* XENHLockscreenPreviewCell.m in Sources */,
 				C94775A020715D160003D039 /* XENHPickerCell.m in Sources */,
 				C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */,
