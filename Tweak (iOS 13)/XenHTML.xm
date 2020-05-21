@@ -736,6 +736,9 @@ void cancelIdleTimer() {
 
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
+    
+    // Don't run on first lock
+    if (![XENHResources hasSeenFirstUnlock]) return;
 
     if (sbhtmlViewController)
         [sbhtmlViewController setPaused:arg1];

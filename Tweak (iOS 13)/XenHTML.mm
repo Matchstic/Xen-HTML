@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class UITouchesEvent; @class UIWKTextLoupeInteraction; @class SBHorizontalScrollFailureRecognizer; @class SBIconView; @class CSCombinedListViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBHomeScreenView; @class SBLockScreenManager; @class SBDockView; @class CSTeachableMomentsContainerView; @class SBIconListView; @class SBMainWorkspace; @class CSQuickActionsViewController; @class SBScreenWakeAnimationController; @class CSCoverSheetViewController; @class SBHomeScreenPreviewView; @class CSFixedFooterView; @class SBUIProudLockIconView; @class SBIconScrollView; @class UITouch; @class CSMainPageView; @class SBFloatingDockPlatterView; @class CSScrollView; @class CSCoverSheetView; @class SBFLockScreenDateView; @class SBCoverSheetWindow; @class SBFolderIconImageView; @class WKWebView; @class SBHomeScreenViewController; @class CSPageViewController; @class SBIconListPageControl; @class SpringBoard; @class SBRootFolderView; @class SBHomeScreenWindow; @class CSMainPageContentViewController; @class SBIdleTimerGlobalStateMonitor; @class XENDashBoardWebViewController; @class SBRootFolderController; @class SBBacklightController; @class _UIPlatterView; @class SBMainStatusBarStateProvider; 
+@class SpringBoard; @class UITouch; @class SBHorizontalScrollFailureRecognizer; @class UIWKTextLoupeInteraction; @class SBFolderIconImageView; @class SBBacklightController; @class _UIPlatterView; @class SBIconListView; @class CSCombinedListViewController; @class CSQuickActionsViewController; @class CSFixedFooterView; @class UITouchesEvent; @class SBIconView; @class SBMainStatusBarStateProvider; @class SBHomeScreenView; @class SBScreenWakeAnimationController; @class SBRootFolderController; @class CSTeachableMomentsContainerView; @class SBRootFolderView; @class SBHomeScreenPreviewView; @class SBIconListPageControl; @class SBCoverSheetWindow; @class CSMainPageContentViewController; @class SBHomeScreenViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBMainWorkspace; @class XENDashBoardWebViewController; @class SBFLockScreenDateView; @class SBLockScreenManager; @class SBDockView; @class CSScrollView; @class SBUIProudLockIconView; @class SBIdleTimerGlobalStateMonitor; @class WKWebView; @class SBHomeScreenWindow; @class CSCoverSheetViewController; @class CSPageViewController; @class SBIconScrollView; @class SBFloatingDockPlatterView; @class CSMainPageView; @class CSCoverSheetView; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -762,6 +762,9 @@ static CGFloat _logos_method$SpringBoard$SBIdleTimerGlobalStateMonitor$minimumLo
 
 static void _logos_method$SpringBoard$SBLockScreenManager$_setUILocked$(_LOGOS_SELF_TYPE_NORMAL SBLockScreenManager* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, _Bool arg1) {
     _logos_orig$SpringBoard$SBLockScreenManager$_setUILocked$(self, _cmd, arg1);
+    
+    
+    if (![XENHResources hasSeenFirstUnlock]) return;
 
     if (sbhtmlViewController)
         [sbhtmlViewController setPaused:arg1];
@@ -2308,7 +2311,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_64a94b16(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_b0be1326(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}

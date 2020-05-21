@@ -49,9 +49,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 - (NSSet*)_allTouches;
 @end
 
-static BOOL didEndGraceMode = NO;
-static BOOL shownGraceEnded = NO;
-
 @interface XENHResources : NSObject
 
 // Load up views as required.
