@@ -84,6 +84,10 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 %group SpringBoard
 
+static inline bool allowJSExecutionQueue() {
+    return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){ 10, 0, 0 }];
+}
+
 static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused, bool wasPausedPreviously) {
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
@@ -241,7 +245,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 }
 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
-    if (self._xh_isPaused) {
+    if (allowJSExecutionQueue() && self._xh_isPaused) {
         
         // If the JavaScript to be executed is from libwidgetinfo, drop it.
         // Otherwise, we can end up in a situation where a large amount of updates are pushed to the widget,
@@ -282,6 +286,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_xh_postResume {
+    if (!allowJSExecutionQueue()) return;
+    
     // Flush any pending JS calls
     if (self._xh_pendingJavaScriptCalls) {
         NSMutableString *combinedExecution = [@"" mutableCopy];
