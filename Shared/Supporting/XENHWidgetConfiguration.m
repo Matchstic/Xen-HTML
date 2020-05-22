@@ -271,8 +271,9 @@
 - (BOOL)loadOptionsPlist {
     NSString *widgetInfoPlistPath = [self.path stringByAppendingString:@"/WidgetInfo.plist"];
     BOOL isWidgetHTML = [self.lastPathComponent isEqualToString:@"Widget.html"];
+    BOOL isCentralLocation = [self.path rangeOfString:@"/var/mobile/Library/Widgets"].location != NSNotFound;
     
-    BOOL allowLoading = isWidgetHTML || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath];
+    BOOL allowLoading = isWidgetHTML || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath] || isCentralLocation;
     
     if (!allowLoading) return NO;
     
