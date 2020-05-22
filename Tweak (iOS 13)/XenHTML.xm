@@ -122,67 +122,62 @@ static BOOL refuseToLoadDueToRehosting = NO;
     if ([XENHResources lsenabled]) {
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
-        // Wait until the end of the main queue before doing this
-        // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
-        dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
-        dispatch_after(delay, dispatch_get_main_queue(), ^{
-            // Make sure we initialise our UI with the right orientation.
-            CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
-            BOOL canRotate = [cont shouldAutorotate];
-            
-            int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
-            [XENHResources setCurrentOrientation:orientation];
-            
-            XENlog(@"Adding webviews to Dashboard if needed...");
-            
-            // Foreground HTML -> SBDashBoardMainPageContentViewController approach
-            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
-                if (!foregroundViewController)
-                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-                else if (![XENHResources LSPersistentWidgets])
-                    [foregroundViewController reloadWidgets:NO];
-                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                    [foregroundViewController setPaused:NO];
-                }
-                
-                // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
-                // and then feed that to the isolating controller to present.
-                
-                if (!lockscreenForegroundWrapperController) {
-                    lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
-                }
-                
-                [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
-                
-                [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
-                
-                BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
-                if (canHideForeground) {
-                    XENlog(@"Should hide foreground on LS webview init");
-                    hideForegroundIfNeeded();
-                } else {
-                    XENlog(@"Should show foreground on LS webview init");
-                    showForegroundIfNeeded();
-                }
+        // Make sure we initialise our UI with the right orientation.
+        CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+        BOOL canRotate = [cont shouldAutorotate];
+        
+        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+        [XENHResources setCurrentOrientation:orientation];
+        
+        XENlog(@"Adding webviews to Dashboard if needed...");
+        
+        // Foreground HTML -> SBDashBoardMainPageContentViewController approach
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
+            if (!foregroundViewController)
+                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
+            else if (![XENHResources LSPersistentWidgets])
+                [foregroundViewController reloadWidgets:NO];
+            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                [foregroundViewController setPaused:NO];
             }
             
-            // Now for the background.
-            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
-                if (!backgroundViewController)
-                    backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-                else if (![XENHResources LSPersistentWidgets])
-                    [backgroundViewController reloadWidgets:NO];
-                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                    [backgroundViewController setPaused:NO];
-                }
-                
-                // Not using self.backgroundView now as that goes weird when swiping to the camera
-                [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+            // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
+            // and then feed that to the isolating controller to present.
+            
+            if (!lockscreenForegroundWrapperController) {
+                lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
             }
-                       
-            // Force a relayout, since the background controller lives on another view
-            [self setNeedsLayout];
-        });
+            
+            [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
+            
+            [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
+            
+            BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
+            if (canHideForeground) {
+                XENlog(@"Should hide foreground on LS webview init");
+                hideForegroundIfNeeded();
+            } else {
+                XENlog(@"Should show foreground on LS webview init");
+                showForegroundIfNeeded();
+            }
+        }
+        
+        // Now for the background.
+        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
+            if (!backgroundViewController)
+                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+            else if (![XENHResources LSPersistentWidgets])
+                [backgroundViewController reloadWidgets:NO];
+            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                [backgroundViewController setPaused:NO];
+            }
+            
+            // Not using self.backgroundView now as that goes weird when swiping to the camera
+            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
+        }
+                   
+        // Force a relayout, since the background controller lives on another view
+        [self setNeedsLayout];
     }
 }
 
@@ -536,7 +531,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
 
 %end
 
-#pragma mark Clock in status bar (iOS 13_)
+#pragma mark Clock in status bar (iOS 13+)
 
 /*
  * The status bar time is *always* enabled except for the case of the Lockscreen, where DashBoard overrides it.
@@ -795,28 +790,28 @@ void cancelIdleTimer() {
     // ONLY show SBHTML again if we're actually heading to SpringBoard
     dispatch_async(dispatch_get_main_queue(), ^(){
     
-    // Ignore going to foreground if SpringBoard is frontmost
-    BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
-    
-    // First, handle background -> foreground.
-    if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
+        // Ignore going to foreground if SpringBoard is frontmost
+        BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
         
-        // CHECKME: When launching an app, this functions but causes the widget to disappear BEFORE the application zoom-up is done.
-        // CHECMKE: When launching an app thats backgrounded, this doesn't cause the widget to disappear...
-        
-        XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
-        [sbhtmlViewController setPaused:YES animated:YES];
-        [sbhtmlForegroundViewController setPaused:YES animated:YES];
-                   
-    // And now, handle the reverse as a failsafe.
-    } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
-        XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
-        [sbhtmlViewController setPaused:NO];
-        [sbhtmlForegroundViewController setPaused:NO];
-        
-        [sbhtmlViewController doJITWidgetLoadIfNecessary];
-        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-    }
+        // First, handle background -> foreground.
+        if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
+            
+            // CHECKME: When launching an app, this functions but causes the widget to disappear BEFORE the application zoom-up is done.
+            // CHECMKE: When launching an app thats backgrounded, this doesn't cause the widget to disappear...
+            
+            XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
+            [sbhtmlViewController setPaused:YES animated:YES];
+            [sbhtmlForegroundViewController setPaused:YES animated:YES];
+                       
+        // And now, handle the reverse as a failsafe.
+        } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
+            XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
+            [sbhtmlViewController setPaused:NO];
+            [sbhtmlForegroundViewController setPaused:NO];
+            
+            [sbhtmlViewController doJITWidgetLoadIfNecessary];
+            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+        }
     
     });
 }
@@ -959,14 +954,10 @@ void cancelIdleTimer() {
         BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
         
         if (isOnMainScreen) {
-            // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
-            dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
-            dispatch_after(delay, dispatch_get_main_queue(), ^{
-                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+            sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
                 
-                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
-            });
+            sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
         }
     }
     
@@ -1306,7 +1297,7 @@ void cancelIdleTimer() {
         @try {
             %orig;
         } @catch (NSException *e) {
-            XENlog(@"Caught exception from Pagebar, assuming non-fatal.");
+            XENlog(@"Caught exception in SBRootFolderView -layoutSubviews, assuming non-fatal.");
         }
     } else {
         %orig;
@@ -1377,19 +1368,15 @@ void cancelIdleTimer() {
     // Set first to allow proper layout of views
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
-    // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
-    dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
-    dispatch_after(delay, dispatch_get_main_queue(), ^{
-        if ([XENHResources SBEnabled]) {
-            // Add view to root scroll view, and set that scrollview to be the hoster
-            sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-            [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-            
-            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-            
-            XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
-        }
-    });
+    if ([XENHResources SBEnabled]) {
+        // Add view to root scroll view, and set that scrollview to be the hoster
+        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+        
+        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        
+        XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
+    }
     
     // Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -2111,7 +2098,6 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 %end
 
 #pragma mark Setup UI stuff
-// Annoyingly, this must all be ungrouped for when Xen HTML does not load.
 
 %group Setup
 
@@ -2143,6 +2129,8 @@ static void removeForegroundHiddenRequester(NSString* requester) {
 
 %end
 
+static BOOL launchCydiaForSource = NO;
+
 %hook SpringBoard
 
 -(void)applicationDidFinishLaunching:(id)arg1 {
@@ -2171,6 +2159,38 @@ static void removeForegroundHiddenRequester(NSString* requester) {
             // wut.
         }
     }
+    
+    /*
+     * I can't believe I have to do this. There exists outdated versions of Xen HTML on pirate repos,
+     * that cause serious issues for users on installation.
+     *
+     * This is to ensure that Xen HTML will only run when installed from:
+     * - http://xenpublic.incendo.ws
+     * - BigBoss
+     * - Manual installation
+     *
+     * This will unfortunately break for users not using Cydia; sorry about that.
+     */
+    if (refuseToLoadDueToRehosting) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                                                                       message:@"This tweak has not been installed from the official repository. For your safety, it will not function until installed officially.\n\nTap below to add the official repository to Cydia."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        UIAlertAction* repoAction = [UIAlertAction actionWithTitle:@"Add Repository" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            
+            launchCydiaForSource = YES;
+            [[objc_getClass("SBLockScreenManager") sharedInstance] unlockUIFromSource:17 withOptions:nil];
+        }];
+        
+        [alert addAction:repoAction];
+        
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 %end
@@ -2185,21 +2205,12 @@ static void removeForegroundHiddenRequester(NSString* requester) {
     
     %orig;
     
-    // Show the how-to for Homescreen foreground widgets
-    if ([XENHResources requiresHomescreenForegroundAlert]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                                    message:@"You can now add widgets that move with your Homescreen icons.\n\nPress and hold an icon to enter editing mode, then tap 'Add widget' above the dock."
-                                    preferredStyle:UIAlertControllerStyleAlert];
+    // Launch Cydia to install from the official source
+    if (launchCydiaForSource) {
+        launchCydiaForSource = NO;
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        
-        [self.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        // Update preferences for showing the alert
-        [XENHResources setHomescreenForegroundAlertSeen:YES];
+        NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
 }
 

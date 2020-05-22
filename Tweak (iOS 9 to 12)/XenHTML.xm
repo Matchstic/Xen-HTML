@@ -3903,23 +3903,6 @@ static BOOL launchCydiaForSource = NO;
         NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
-    
-    // Show the how-to for Homescreen foreground widgets
-    if ([XENHResources requiresHomescreenForegroundAlert]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                                    message:@"You can now add widgets that move with your Homescreen icons.\n\nPress and hold an icon to enter editing mode, then tap 'Add widget' above the dock."
-                                    preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        
-        [self.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        // Update preferences for showing the alert
-        [XENHResources setHomescreenForegroundAlertSeen:YES];
-    }
 }
 
 %end
