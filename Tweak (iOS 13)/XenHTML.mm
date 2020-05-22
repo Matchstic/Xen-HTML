@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SpringBoard; @class UITouch; @class SBHorizontalScrollFailureRecognizer; @class UIWKTextLoupeInteraction; @class SBFolderIconImageView; @class SBBacklightController; @class _UIPlatterView; @class SBIconListView; @class CSCombinedListViewController; @class CSQuickActionsViewController; @class CSFixedFooterView; @class UITouchesEvent; @class SBIconView; @class SBMainStatusBarStateProvider; @class SBHomeScreenView; @class SBScreenWakeAnimationController; @class SBRootFolderController; @class CSTeachableMomentsContainerView; @class SBRootFolderView; @class SBHomeScreenPreviewView; @class SBIconListPageControl; @class SBCoverSheetWindow; @class CSMainPageContentViewController; @class SBHomeScreenViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBMainWorkspace; @class XENDashBoardWebViewController; @class SBFLockScreenDateView; @class SBLockScreenManager; @class SBDockView; @class CSScrollView; @class SBUIProudLockIconView; @class SBIdleTimerGlobalStateMonitor; @class WKWebView; @class SBHomeScreenWindow; @class CSCoverSheetViewController; @class CSPageViewController; @class SBIconScrollView; @class SBFloatingDockPlatterView; @class CSMainPageView; @class CSCoverSheetView; 
+@class CSFixedFooterView; @class SBRootFolderView; @class SBUIProudLockIconView; @class CSPageViewController; @class SBMainWorkspace; @class UIWKTextLoupeInteraction; @class CSMainPageContentViewController; @class _UIPlatterView; @class SBIconListView; @class CSCoverSheetView; @class SpringBoard; @class UITouch; @class SBFloatingDockPlatterView; @class SBMainStatusBarStateProvider; @class SBHomeScreenView; @class SBFolderIconImageView; @class SBIdleTimerGlobalStateMonitor; @class SBFLockScreenDateView; @class SBIconListPageControl; @class SBHomeScreenViewController; @class CSCombinedListViewController; @class UITouchesEvent; @class CSMainPageView; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenManager; @class WKWebView; @class XENDashBoardWebViewController; @class SBCoverSheetWindow; @class CSTeachableMomentsContainerView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBHomeScreenWindow; @class CSQuickActionsViewController; @class SBDockView; @class SBScreenWakeAnimationController; @class SBRootFolderController; @class SBHomeScreenPreviewView; @class SBIconScrollView; @class SBBacklightController; @class CSCoverSheetViewController; @class SBIconView; @class CSScrollView; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -149,58 +149,61 @@ static void _logos_method$SpringBoard$CSCoverSheetView$viewControllerWillAppear(
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         
-        CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
-        BOOL canRotate = [cont shouldAutorotate];
-        
-        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
-        [XENHResources setCurrentOrientation:orientation];
-        
-        XENlog(@"Adding webviews to Dashboard if needed...");
-        
-        
-        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
-            if (!foregroundViewController)
-                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else if (![XENHResources LSPersistentWidgets])
-                [foregroundViewController reloadWidgets:NO];
-            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                [foregroundViewController setPaused:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+            BOOL canRotate = [cont shouldAutorotate];
+            
+            int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+            [XENHResources setCurrentOrientation:orientation];
+            
+            XENlog(@"Adding webviews to Dashboard if needed...");
+            
+            
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
+                if (!foregroundViewController)
+                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
+                else if (![XENHResources LSPersistentWidgets])
+                    [foregroundViewController reloadWidgets:NO];
+                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                    [foregroundViewController setPaused:NO];
+                }
+                
+                
+                
+                
+                if (!lockscreenForegroundWrapperController) {
+                    lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+                }
+                
+                [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
+                
+                [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
+                
+                BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
+                if (canHideForeground) {
+                    XENlog(@"Should hide foreground on LS webview init");
+                    hideForegroundIfNeeded();
+                } else {
+                    XENlog(@"Should show foreground on LS webview init");
+                    showForegroundIfNeeded();
+                }
             }
             
             
-            
-            
-            if (!lockscreenForegroundWrapperController) {
-                lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
+                if (!backgroundViewController)
+                    backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                else if (![XENHResources LSPersistentWidgets])
+                    [backgroundViewController reloadWidgets:NO];
+                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                    [backgroundViewController setPaused:NO];
+                }
+                
+                
+                [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
             }
-            
-            [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
-            
-            [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
-            
-            BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
-            if (canHideForeground) {
-                XENlog(@"Should hide foreground on LS webview init");
-                hideForegroundIfNeeded();
-            } else {
-                XENlog(@"Should show foreground on LS webview init");
-                showForegroundIfNeeded();
-            }
-        }
-        
-        
-        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
-            if (!backgroundViewController)
-                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else if (![XENHResources LSPersistentWidgets])
-                [backgroundViewController reloadWidgets:NO];
-            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                [backgroundViewController setPaused:NO];
-            }
-            
-            
-            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
-        }
+        });
     }
 }
 
@@ -2311,7 +2314,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_b0be1326(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_e042263d(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}
