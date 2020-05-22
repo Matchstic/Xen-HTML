@@ -6,7 +6,14 @@
 //
 
 #import "XENHWidgetConfiguration.h"
-#import "XENHResources.h"
+
+#define orient3 [[UIApplication sharedApplication] statusBarOrientation]
+
+#define SCREEN_MAX_LENGTH (MAX([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height))
+#define SCREEN_MIN_LENGTH (MIN([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height))
+
+#define SCREEN_HEIGHT (orient3 == 1 || orient3 == 2 ? SCREEN_MAX_LENGTH : SCREEN_MIN_LENGTH)
+#define SCREEN_WIDTH (orient3 == 1 || orient3 == 2 ? SCREEN_MIN_LENGTH : SCREEN_MAX_LENGTH)
 
 @interface XENHWidgetConfiguration ()
 
@@ -32,8 +39,12 @@
     [result setObject:@(self.width) forKey:@"width"];
     [result setObject:@(self.x) forKey:@"x"];
     [result setObject:@(self.y) forKey:@"y"];
+    [result setObject:@(self.xLandscape) forKey:@"xLandscape"];
+    [result setObject:@(self.yLandscape) forKey:@"yLandscape"];
     [result setObject:self.options ? self.options : @{} forKey:@"options"];
     [result setObject:@(self.isFullscreen) forKey:@"isFullscreen"];
+    [result setObject:@(self.widgetCanScroll) forKey:@"widgetCanScroll"];
+    [result setObject:@(self.useFallback) forKey:@"useFallback"];
     
     return result;
 }
@@ -64,6 +75,8 @@
         self.y = [[dictionary objectForKey:@"y"] floatValue];
         
         self.isFullscreen = [[dictionary objectForKey:@"isFullscreen"] boolValue];
+        self.widgetCanScroll = [[dictionary objectForKey:@"widgetCanScroll"] boolValue];
+        self.useFallback = [[dictionary objectForKey:@"useFallback"] boolValue];
         self.options = [dictionary objectForKey:@"options"];
     }
     
@@ -150,6 +163,7 @@
         
         self.x = 0.0;
         self.y = 0.0;
+        self.widgetCanScroll = NO;
         
         return YES;
     }
@@ -185,6 +199,7 @@
 
         self.x = 0.0;
         self.y = 0.0;
+        self.widgetCanScroll = NO;
         
         return YES;
     }
@@ -198,7 +213,6 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
         // Handle WidgetInfo.plist
         // This can be loaded for ANY HTML widget, which is neat.
-        
         
         NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetInfoPlistPath];
         NSDictionary *size = [widgetPlist objectForKey:@"size"];
@@ -222,6 +236,10 @@
         self.x = 0.0;
         self.y = 0.0;
         
+        // Does the widget scroll?
+        id allowScroll = [widgetPlist objectForKey:@"widgetCanScroll"];
+        self.widgetCanScroll = allowScroll ? [allowScroll boolValue] : NO;
+        
         return YES;
     }
     
@@ -234,11 +252,16 @@
     self.height = SCREEN_HEIGHT;
     self.x = 0.0;
     self.y = 0.0;
+    self.widgetCanScroll = NO;
 }
 
 #pragma mark - Widget options
 
 - (void)loadOptions {
+    // Default to not using legacy mode
+    self.useFallback = NO;
+    self.widgetCanScroll = NO;
+    
     if ([self loadOptionsPlist])
         return;
     

@@ -58,7 +58,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 // Metadata
 + (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath;
-+ (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath;
 + (BOOL)useFallbackForHTMLFile:(NSString*)filePath;
 
 // Settings handling

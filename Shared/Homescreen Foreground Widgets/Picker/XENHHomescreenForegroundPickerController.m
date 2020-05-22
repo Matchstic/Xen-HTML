@@ -21,6 +21,7 @@
 #import "XENHHomescreenForegroundPickerCell.h"
 #import "XENHResources.h"
 #import "XENHPickerItem.h"
+#import "XENHWidgetConfiguration.h"
 
 #import "XENHHomescreenForegroundViewController.h"
 
@@ -295,7 +296,7 @@
         // is used to end the picker flow
         
         // Fetch default metadata for this widget
-        NSDictionary *defaultMetadata = [XENHResources rawMetadataForHTMLFile:url];
+        NSDictionary *defaultMetadata = [[XENHWidgetConfiguration defaultConfigurationForPath:url] serialise];
         
         UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:url currentMetadata:defaultMetadata showCancel:NO  andDelegate:self.delegate];
         [self.navigationController pushViewController:settings animated:YES];

@@ -24,6 +24,7 @@
 #import "XENHConfigJSController.h"
 #import "XENHFallbackOnlyOptionsController.h"
 #import "XENHResources.h"
+#import "XENHWidgetConfiguration.h"
 
 @interface SBRootFolderView : UIView
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
@@ -273,7 +274,7 @@
     
     NSMutableDictionary *widgetMetadata;
     if (isNewWidget) {
-        widgetMetadata = [[XENHResources rawMetadataForHTMLFile:filePath] mutableCopy];
+        widgetMetadata = [[[XENHWidgetConfiguration defaultConfigurationForPath:filePath] serialise] mutableCopy];
     } else {
         widgetMetadata = [[[layerPreferences objectForKey:@"widgetMetadata"] objectForKey:filePath] mutableCopy];
     }

@@ -18,7 +18,11 @@
 @property (nonatomic, readwrite) CGFloat height;
 @property (nonatomic, readwrite) CGFloat x;
 @property (nonatomic, readwrite) CGFloat y;
+@property (nonatomic, readwrite) CGFloat xLandscape;
+@property (nonatomic, readwrite) CGFloat yLandscape;
 @property (nonatomic, readwrite) BOOL isFullscreen;
+@property (nonatomic, readwrite) BOOL widgetCanScroll;
+@property (nonatomic, readwrite) BOOL useFallback;
 @property (nonatomic, strong) NSDictionary *options;
 
 /**
