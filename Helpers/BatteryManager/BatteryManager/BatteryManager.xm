@@ -19,7 +19,7 @@
 @property (nonatomic) BOOL _xh_requiresProviderUpdate;
 @property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
 
-- (void)_xh_clearJavaScriptPendingCalls;
+- (void)_xh_postResume;
 
 - (BOOL)_webProcessIsResponsive; // private API, iOS 10+
 @end
@@ -68,8 +68,6 @@ struct WebCoreActivityState {
         IsCapturingMedia = 1 << 8,
     };
 };
-
-BOOL useJavaScriptExecutionQueue = NO;
 
 // Hooks
 
@@ -155,7 +153,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
         
         if (!isPaused) {
-            [webView _xh_clearJavaScriptPendingCalls];
+            [webView _xh_postResume];
         }
     } catch (...) {
         XENlog(@"Woah what the heck?");
@@ -243,7 +241,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 }
 
 - (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *error))completionHandler {
-    if (useJavaScriptExecutionQueue && self._xh_isPaused) {
+    if (self._xh_isPaused) {
         
         // If the JavaScript to be executed is from libwidgetinfo, drop it.
         // Otherwise, we can end up in a situation where a large amount of updates are pushed to the widget,
@@ -259,6 +257,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 self._xh_pendingJavaScriptCalls = [NSMutableArray array];
             }
             
+            // Bugfix for XenInfo -- legacy
             if ([javaScriptString hasPrefix:@"mainUpdate"]) {
                 javaScriptString = [NSString stringWithFormat:@"if (window.mainUpdate !== undefined) { %@ } ", javaScriptString];
             }
@@ -282,10 +281,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 }
 
 %new
-- (void)_xh_clearJavaScriptPendingCalls {
-    if (!useJavaScriptExecutionQueue)
-        return;
-    
+- (void)_xh_postResume {
+    // Flush any pending JS calls
     if (self._xh_pendingJavaScriptCalls) {
         NSMutableString *combinedExecution = [@"" mutableCopy];
         
@@ -324,20 +321,10 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static inline bool _xenhtml_bm_supportJavaScriptExecutionQueue() {
-    NSOperatingSystemVersion version;
-    version.majorVersion = 13;
-    version.minorVersion = 0;
-    version.patchVersion = 0;
-    
-    return [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
-}
-
 %ctor {
     %init;
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
-    useJavaScriptExecutionQueue = _xenhtml_bm_supportJavaScriptExecutionQueue();
     
     if (sb) {
         
