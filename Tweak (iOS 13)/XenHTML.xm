@@ -123,7 +123,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         // Wait until the end of the main queue before doing this
-        dispatch_async(dispatch_get_main_queue(), ^{
+        // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
+        dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+        dispatch_after(delay, dispatch_get_main_queue(), ^{
             // Make sure we initialise our UI with the right orientation.
             CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
             BOOL canRotate = [cont shouldAutorotate];
@@ -954,10 +956,14 @@ void cancelIdleTimer() {
         BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
         
         if (isOnMainScreen) {
-            sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
-            
-            sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+            // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
+            dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+            dispatch_after(delay, dispatch_get_main_queue(), ^{
+                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                
+                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+            });
         }
     }
     
@@ -1368,15 +1374,19 @@ void cancelIdleTimer() {
     // Set first to allow proper layout of views
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
-    if ([XENHResources SBEnabled]) {
-        // Add view to root scroll view, and set that scrollview to be the hoster
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-        
-        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-        
-        XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
-    }
+    // Delay for a couple of seconds until the first unlock has been seen. This aims to avoid deadlock on SB load
+    dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        if ([XENHResources SBEnabled]) {
+            // Add view to root scroll view, and set that scrollview to be the hoster
+            sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+            [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+            
+            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
+        }
+    });
     
     // Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver:self

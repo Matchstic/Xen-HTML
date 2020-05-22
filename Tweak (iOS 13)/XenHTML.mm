@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBMainStatusBarStateProvider; @class CSCombinedListViewController; @class CSMainPageView; @class CSMainPageContentViewController; @class SBHorizontalScrollFailureRecognizer; @class CSPageViewController; @class SBIconScrollView; @class WKWebView; @class SBLockScreenManager; @class SBRootFolderView; @class UIWKTextLoupeInteraction; @class SBDockView; @class CSCoverSheetView; @class UITouch; @class SBHomeScreenView; @class SBFLockScreenDateView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBIconListPageControl; @class SBHomeScreenPreviewView; @class SBRootFolderController; @class SBHomeScreenWindow; @class CSQuickActionsViewController; @class SBBacklightController; @class CSFixedFooterView; @class SBFloatingDockPlatterView; @class SBCoverSheetWindow; @class CSTeachableMomentsContainerView; @class SpringBoard; @class SBScreenWakeAnimationController; @class SBIconView; @class SBMainWorkspace; @class CSCoverSheetViewController; @class SBFolderIconImageView; @class SBIdleTimerGlobalStateMonitor; @class SBIconListView; @class _UIPlatterView; @class SBHomeScreenViewController; @class SBUIProudLockIconView; @class CSScrollView; @class XENDashBoardWebViewController; @class UITouchesEvent; 
+@class UITouchesEvent; @class SBHomeScreenView; @class CSMainPageContentViewController; @class CSCoverSheetViewController; @class SBHorizontalScrollFailureRecognizer; @class SBUIProudLockIconView; @class SBMainWorkspace; @class CSScrollView; @class SBHomeScreenViewController; @class SBIconView; @class SBIconScrollView; @class XENDashBoardWebViewController; @class CSCoverSheetView; @class SBHomeScreenWindow; @class SBFloatingDockPlatterView; @class CSPageViewController; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBBacklightController; @class CSCombinedListViewController; @class CSFixedFooterView; @class SBFLockScreenDateView; @class SBMainStatusBarStateProvider; @class SBIdleTimerGlobalStateMonitor; @class _UIPlatterView; @class UITouch; @class CSQuickActionsViewController; @class SBLockScreenManager; @class CSTeachableMomentsContainerView; @class SBScreenWakeAnimationController; @class SBRootFolderView; @class SBIconListView; @class CSMainPageView; @class SBHomeScreenPreviewView; @class SBRootFolderController; @class SpringBoard; @class SBIconListPageControl; @class SBDockView; @class SBFolderIconImageView; @class UIWKTextLoupeInteraction; @class SBCoverSheetWindow; @class WKWebView; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -149,7 +149,9 @@ static void _logos_method$SpringBoard$CSCoverSheetView$viewControllerWillAppear(
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        
+        dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+        dispatch_after(delay, dispatch_get_main_queue(), ^{
             
             CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
             BOOL canRotate = [cont shouldAutorotate];
@@ -980,10 +982,14 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$loadView(_LOGOS
         BOOL isOnMainScreen = [[self _screen] isEqual:[UIScreen mainScreen]];
         
         if (isOnMainScreen) {
-            sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
-            [mainView insertSubview:sbhtmlViewController.view atIndex:0];
             
-            sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+            dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+            dispatch_after(delay, dispatch_get_main_queue(), ^{
+                sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
+                [mainView insertSubview:sbhtmlViewController.view atIndex:0];
+                
+                sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
+            });
         }
     }
     
@@ -1394,15 +1400,19 @@ static void _logos_method$SpringBoard$SBRootFolderController$loadView(_LOGOS_SEL
     
     self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
     
-    if ([XENHResources SBEnabled]) {
-        
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
-        
-        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
-        
-        XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
-    }
+    
+    dispatch_time_t delay = ![XENHResources hasSeenFirstUnlock] ? dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC) : DISPATCH_TIME_NOW;
+    dispatch_after(delay, dispatch_get_main_queue(), ^{
+        if ([XENHResources SBEnabled]) {
+            
+            sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+            [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+            
+            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
+        }
+    });
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -2314,7 +2324,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_e042263d(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_2718c30f(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}
