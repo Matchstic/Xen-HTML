@@ -18,11 +18,14 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import <notify.h>
 #include <dlfcn.h>
 
 #import "../../../deps/libwidgetinfo/lib/Internal/XENDWidgetManager.h"
 #import "../../../deps/libwidgetinfo/lib/URL Handlers/XENDWidgetWeatherURLHandler.h"
 #import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
+
+static int springboardLaunchToken;
 
 #pragma mark - Fix XenInfo JS bugs
 
@@ -66,6 +69,23 @@
 }
 
 %end
+
+#pragma mark - Notify daemon of SpringBoard launch
+
+%group SpringBoard
+%hook SpringBoard
+
+-(void)applicationDidFinishLaunching:(id)arg1 {
+    %orig;
+    
+    notify_set_state(springboardLaunchToken, getpid());
+    notify_post("com.matchstic.widgetinfo/springboardLaunch");
+}
+
+%end
+%end
+
+#pragma mark - Constructor
 
 %ctor {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
@@ -117,9 +137,22 @@
 		dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
 	}
     
+    // Setup notifying of SpringBoard launch
+    if (isSpringBoard) {
+        int status = notify_register_check("com.matchstic.widgetinfo/springboardLaunch", &springboardLaunchToken);
+        if (status != NOTIFY_STATUS_OK) {
+            NSLog(@"Xen HTML (widgetinfo) :: registration failed (%u)", status);
+            return;
+        }
+    }
+    
     // Initialise library
 	
 	[XENDWidgetManager initialiseLibrary];
 	
 	%init();
+    
+    if (isSpringBoard) {
+        %init(SpringBoard);
+    }
 }

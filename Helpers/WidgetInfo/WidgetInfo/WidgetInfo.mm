@@ -19,11 +19,14 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
+#import <notify.h>
 #include <dlfcn.h>
 
 #import "../../../deps/libwidgetinfo/lib/Internal/XENDWidgetManager.h"
 #import "../../../deps/libwidgetinfo/lib/URL Handlers/XENDWidgetWeatherURLHandler.h"
 #import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
+
+static int springboardLaunchToken;
 
 #pragma mark - Fix XenInfo JS bugs
 
@@ -48,10 +51,10 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class XIWidgetManager; @class WKWebView; 
+@class WKWebView; @class XIWidgetManager; @class SpringBoard; 
 static void (*_logos_orig$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static NSMutableDictionary* (*_logos_orig$_ungrouped$XIWidgetManager$_populateWidgetSettings)(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWidgetSettings(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST, SEL); 
 
-#line 29 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WidgetInfo/WidgetInfo/WidgetInfo.xm"
+#line 32 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/WidgetInfo/WidgetInfo/WidgetInfo.xm"
 
 
 static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, NSString * javaScriptString, void (^completionHandler)(id, NSError *error)) {
@@ -93,7 +96,24 @@ static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWi
 
 
 
-static __attribute__((constructor)) void _logosLocalCtor_84dcc16b(int __unused argc, char __unused **argv, char __unused **envp) {
+#pragma mark - Notify daemon of SpringBoard launch
+
+static void (*_logos_orig$SpringBoard$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); 
+
+
+static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id arg1) {
+    _logos_orig$SpringBoard$SpringBoard$applicationDidFinishLaunching$(self, _cmd, arg1);
+    
+    notify_set_state(springboardLaunchToken, getpid());
+    notify_post("com.matchstic.widgetinfo/springboardLaunch");
+}
+
+
+
+
+#pragma mark - Constructor
+
+static __attribute__((constructor)) void _logosLocalCtor_07b3768c(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
@@ -144,8 +164,21 @@ static __attribute__((constructor)) void _logosLocalCtor_84dcc16b(int __unused a
 	}
     
     
+    if (isSpringBoard) {
+        int status = notify_register_check("com.matchstic.widgetinfo/springboardLaunch", &springboardLaunchToken);
+        if (status != NOTIFY_STATUS_OK) {
+            NSLog(@"Xen HTML (widgetinfo) :: registration failed (%u)", status);
+            return;
+        }
+    }
+    
+    
 	
 	[XENDWidgetManager initialiseLibrary];
 	
 	{Class _logos_class$_ungrouped$WKWebView = objc_getClass("WKWebView"); MSHookMessageEx(_logos_class$_ungrouped$WKWebView, @selector(evaluateJavaScript:completionHandler:), (IMP)&_logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$, (IMP*)&_logos_orig$_ungrouped$WKWebView$evaluateJavaScript$completionHandler$);Class _logos_class$_ungrouped$XIWidgetManager = objc_getClass("XIWidgetManager"); MSHookMessageEx(_logos_class$_ungrouped$XIWidgetManager, @selector(_populateWidgetSettings), (IMP)&_logos_method$_ungrouped$XIWidgetManager$_populateWidgetSettings, (IMP*)&_logos_orig$_ungrouped$XIWidgetManager$_populateWidgetSettings);}
+    
+    if (isSpringBoard) {
+        {Class _logos_class$SpringBoard$SpringBoard = objc_getClass("SpringBoard"); MSHookMessageEx(_logos_class$SpringBoard$SpringBoard, @selector(applicationDidFinishLaunching:), (IMP)&_logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$, (IMP*)&_logos_orig$SpringBoard$SpringBoard$applicationDidFinishLaunching$);}
+    }
 }

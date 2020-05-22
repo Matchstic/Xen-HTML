@@ -85,6 +85,7 @@
 		C9A371CE241417720086FC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		C9B351202465A7C200E531E1 /* MediaRemote.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = MediaRemote.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/MediaRemote.tbd; sourceTree = "<group>"; };
 		C9B3D705245E0756004D048E /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/IOKit.tbd; sourceTree = "<group>"; };
+		C9F0C1182478283E00993517 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +144,7 @@
 		C94A9EF9241407C30062CDCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9F0C1182478283E00993517 /* SystemConfiguration.framework */,
 				C94927862468D58E00B7DF85 /* libMobileGestalt.tbd */,
 				C94927842468C0D300B7DF85 /* MobileIcons.tbd */,
 				C949277A2468776900B7DF85 /* AVFoundation.framework */,
@@ -503,6 +505,7 @@
 				MACH_O_TYPE = mh_execute;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = widgetinfod;
+				SDKROOT = iphoneos;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 192.168.0.0;
@@ -535,6 +538,7 @@
 				MACH_O_TYPE = mh_execute;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = widgetinfod;
+				SDKROOT = iphoneos;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = 192.168.0.0;
