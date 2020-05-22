@@ -122,59 +122,62 @@ static BOOL refuseToLoadDueToRehosting = NO;
     if ([XENHResources lsenabled]) {
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
-        // Make sure we initialise our UI with the right orientation.
-        CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
-        BOOL canRotate = [cont shouldAutorotate];
-        
-        int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
-        [XENHResources setCurrentOrientation:orientation];
-        
-        XENlog(@"Adding webviews to Dashboard if needed...");
-        
-        // Foreground HTML -> SBDashBoardMainPageContentViewController approach
-        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
-            if (!foregroundViewController)
-                foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
-            else if (![XENHResources LSPersistentWidgets])
-                [foregroundViewController reloadWidgets:NO];
-            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                [foregroundViewController setPaused:NO];
+        // Wait until the end of the main queue before doing this
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Make sure we initialise our UI with the right orientation.
+            CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+            BOOL canRotate = [cont shouldAutorotate];
+            
+            int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
+            [XENHResources setCurrentOrientation:orientation];
+            
+            XENlog(@"Adding webviews to Dashboard if needed...");
+            
+            // Foreground HTML -> SBDashBoardMainPageContentViewController approach
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSForeground]) {
+                if (!foregroundViewController)
+                    foregroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSForeground];
+                else if (![XENHResources LSPersistentWidgets])
+                    [foregroundViewController reloadWidgets:NO];
+                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                    [foregroundViewController setPaused:NO];
+                }
+                
+                // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
+                // and then feed that to the isolating controller to present.
+                
+                if (!lockscreenForegroundWrapperController) {
+                    lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+                }
+                
+                [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
+                
+                [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
+                
+                BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
+                if (canHideForeground) {
+                    XENlog(@"Should hide foreground on LS webview init");
+                    hideForegroundIfNeeded();
+                } else {
+                    XENlog(@"Should show foreground on LS webview init");
+                    showForegroundIfNeeded();
+                }
             }
             
-            // We now have the foreground view. We should add it to an instance of XENDashBoardWebViewController
-            // and then feed that to the isolating controller to present.
-            
-            if (!lockscreenForegroundWrapperController) {
-                lockscreenForegroundWrapperController = [[objc_getClass("XENDashBoardWebViewController") alloc] init];
+            // Now for the background.
+            if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
+                if (!backgroundViewController)
+                    backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
+                else if (![XENHResources LSPersistentWidgets])
+                    [backgroundViewController reloadWidgets:NO];
+                else if ([XENHResources LSPersistentWidgets] && !isLocked) {
+                    [backgroundViewController setPaused:NO];
+                }
+                
+                // Not using self.backgroundView now as that goes weird when swiping to the camera
+                [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
             }
-            
-            [lockscreenForegroundWrapperController setWebView:foregroundViewController.view];
-            
-            [dashBoardMainPageContentViewController presentContentViewController:lockscreenForegroundWrapperController animated:NO];
-            
-            BOOL canHideForeground = foregroundHiddenRequesters.count > 0;
-            if (canHideForeground) {
-                XENlog(@"Should hide foreground on LS webview init");
-                hideForegroundIfNeeded();
-            } else {
-                XENlog(@"Should show foreground on LS webview init");
-                showForegroundIfNeeded();
-            }
-        }
-        
-        // Now for the background.
-        if ([XENHResources widgetLayerHasContentForLocation:kLocationLSBackground]) {
-            if (!backgroundViewController)
-                backgroundViewController = [XENHResources widgetLayerControllerForLocation:kLocationLSBackground];
-            else if (![XENHResources LSPersistentWidgets])
-                [backgroundViewController reloadWidgets:NO];
-            else if ([XENHResources LSPersistentWidgets] && !isLocked) {
-                [backgroundViewController setPaused:NO];
-            }
-            
-            // Not using self.backgroundView now as that goes weird when swiping to the camera
-            [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
-        }
+        });
     }
 }
 
