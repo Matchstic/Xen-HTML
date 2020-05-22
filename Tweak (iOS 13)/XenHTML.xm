@@ -179,6 +179,9 @@ static BOOL refuseToLoadDueToRehosting = NO;
                 // Not using self.backgroundView now as that goes weird when swiping to the camera
                 [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
             }
+                       
+            // Force a relayout, since the background controller lives on another view
+            [self setNeedsLayout];
         });
     }
 }
