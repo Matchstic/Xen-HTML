@@ -20,18 +20,30 @@ p {
     --card-height: 76px;
 }
 
-.card {
+.backdrop {
     border-radius: 12.5px;
     background-color: rgba(255, 255, 255, 0.47);
+    -webkit-backdrop-filter: blur(30px);
+
+    position: absolute;
+    width: calc(100% - 24px);
+    height: 100%;
+
+    top: 0;
+    left: 12px;
+    z-index: -2;
+}
+
+.card {
+    border-radius: 12.5px;
     width: 100%;
     height: var(--card-height);
+    position: relative;
 
     display: flex;
     flex-direction: row;
     align-items: center;
     padding-left: 5px;
-
-    -webkit-backdrop-filter: blur(30px);
 }
 
 .icon-outer {
