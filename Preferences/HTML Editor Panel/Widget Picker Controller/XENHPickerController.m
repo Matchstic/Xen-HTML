@@ -90,6 +90,7 @@
     
     for (NSString *result in widgets) {
         NSString *absoluteURL = [NSString stringWithFormat:@"%@/%@/index.html", path, result];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:absoluteURL]) continue;
         
         XENHPickerItem *item = [[XENHPickerItem alloc] init];
         item.absoluteUrl = absoluteURL;
@@ -132,6 +133,7 @@
         
         for (NSString *result in widgets) {
             NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", result];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:absoluteURL]) continue;
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;
@@ -293,6 +295,7 @@
         
         for (NSString *thing in sbhtml) {
             NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
+            if (![[NSFileManager defaultManager] fileExistsAtPath:absoluteURL]) continue;
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;

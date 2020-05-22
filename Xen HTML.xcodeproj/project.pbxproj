@@ -996,14 +996,14 @@
 			isa = PBXGroup;
 			children = (
 				C97152DD236F8CC30021277B /* Settings */,
-				C9DBDBBC244CECF3009E855E /* XENHPickerItem.h */,
-				C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */,
-				C97152E6236F8CC30021277B /* XENHPickerPreviewController.h */,
 				C97152E7236F8CC30021277B /* XENHHomescreenForegroundPickerCell.h */,
 				C97152EA236F8CC30021277B /* XENHHomescreenForegroundPickerCell.m */,
 				C97152E8236F8CC30021277B /* XENHHomescreenForegroundPickerController.h */,
 				C97152EC236F8CC30021277B /* XENHHomescreenForegroundPickerController.m */,
 				C97152E9236F8CC30021277B /* XENHHomescreenForegroundPickerDelegate.h */,
+				C9DBDBBC244CECF3009E855E /* XENHPickerItem.h */,
+				C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */,
+				C97152E6236F8CC30021277B /* XENHPickerPreviewController.h */,
 				C97152EB236F8CC30021277B /* XENHPickerPreviewController.m */,
 			);
 			path = Picker;
