@@ -124,7 +124,6 @@
 /////////////////////////////////////////////////////////////////////////////
 
 - (void)unloadWidgets {
-    NSLog(@"XEN HTML :: DEBUG :: UNLOADING WIDGETS in %@", self);
     for (XENHWidgetController *widgetController in self.multiplexedWidgets.allValues) {
         [widgetController unloadWidget];
     }

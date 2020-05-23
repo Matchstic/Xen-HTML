@@ -3120,8 +3120,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         CGPoint subPoint = [view convertPoint:point fromView:self];
         UIView *hittested = [view hitTest:subPoint withEvent:event];
         
-        XENlog(@"DEBUG :: Inner loop checking: %@", hittested);
-        
         if (hittested == nil)
             continue;
         
