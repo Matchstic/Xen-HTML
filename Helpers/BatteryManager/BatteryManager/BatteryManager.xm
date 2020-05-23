@@ -297,7 +297,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         }
         
         // Do a combined execution
-        [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self evaluateJavaScript:combinedExecution completionHandler:^(id result, NSError *error) {}];
+        });
         
         // Then clear state
         [self._xh_pendingJavaScriptCalls removeAllObjects];
