@@ -6,8 +6,9 @@
 	<dict>
 		<key>Bundles</key>
 		<array>
-			<string>com.apple.backboardd</string>
 			<string>com.apple.WebKit.WebContent</string>
+            <string>com.apple.WebKit.Networking</string>
+            <string>com.apple.WebKit.GPU</string>
 		</array>
 	</dict>
 </dict>
