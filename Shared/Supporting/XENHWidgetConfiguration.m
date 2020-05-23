@@ -155,17 +155,13 @@
             } else {
                 self.height = SCREEN_HEIGHT;
             }
-        } else {
-            self.isFullscreen = NO;
-            self.width = SCREEN_WIDTH;
-            self.height = SCREEN_HEIGHT;
+            
+            self.x = 0.0;
+            self.y = 0.0;
+            self.widgetCanScroll = NO;
+            
+            return YES;
         }
-        
-        self.x = 0.0;
-        self.y = 0.0;
-        self.widgetCanScroll = NO;
-        
-        return YES;
     }
     
     return NO;
