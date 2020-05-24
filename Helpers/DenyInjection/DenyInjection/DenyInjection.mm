@@ -85,8 +85,8 @@ __unused static void * (*_logos_orig$_ungrouped$dlopen)(const char *path, int mo
         char **args = *_NSGetArgv();
         NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
         
+        
         if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
-            NSLog(@"Xen HTML (DenyInjection) :: Blocked loading of %s in %@", path, processName);
             return NULL;
         }
     }
