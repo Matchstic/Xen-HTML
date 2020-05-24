@@ -30,6 +30,7 @@
  
 #import <Foundation/Foundation.h>
 
+#include <string.h>
 #include <libgen.h>
 #include <crt_externs.h>
 
@@ -61,7 +62,7 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
 
 
 
-#line 39 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/DenyInjection/DenyInjection/DenyInjection.xm"
+#line 40 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/DenyInjection/DenyInjection/DenyInjection.xm"
 __unused static void * (*_logos_orig$_ungrouped$dlopen)(const char *path, int mode); __unused static void * _logos_function$_ungrouped$dlopen(const char *path, int mode) {
     if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
     
@@ -73,9 +74,9 @@ __unused static void * (*_logos_orig$_ungrouped$dlopen)(const char *path, int mo
         
         NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
         
+        
         if (!filterPlist) {
-            NSLog(@"Xen HTML (DenyInjection) :: Failed to load filter plist at %@", plistPath);
-            return NULL;
+            return _logos_orig$_ungrouped$dlopen(path, mode);
         }
         
         NSArray *bundles = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"];
@@ -92,6 +93,15 @@ __unused static void * (*_logos_orig$_ungrouped$dlopen)(const char *path, int mo
         
     return _logos_orig$_ungrouped$dlopen(path, mode);
 }
-static __attribute__((constructor)) void _logosLocalInit() {
-{ MSHookFunction((void *)dlopen, (void *)&_logos_function$_ungrouped$dlopen, (void **)&_logos_orig$_ungrouped$dlopen);} }
-#line 69 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/DenyInjection/DenyInjection/DenyInjection.xm"
+
+static __attribute__((constructor)) void _logosLocalCtor_7e2484d5(int __unused argc, char __unused **argv, char __unused **envp) {
+    char **args = *_NSGetArgv();
+    const char *processName = args[0];
+    
+    if ((hasPrefix(processName, "/usr") ||
+         hasPrefix(processName, "/System") ||
+         strstr(".framework/", processName) != NULL)
+        && strstr(processName, "SpringBoard") == NULL) {
+        { MSHookFunction((void *)dlopen, (void *)&_logos_function$_ungrouped$dlopen, (void **)&_logos_orig$_ungrouped$dlopen);}
+    }
+}

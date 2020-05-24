@@ -24,11 +24,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
  * In some cases, this can lead to a system freeze, which then is attibuted (incorrectly)
  * to Xen HTML.
  *
- * Implementation is heavily based upon StopCrashingPls (https://github.com/hbang/StopCrashingPls)
+ * Implementation is heavily based upon StopCrashingPls (https://github.com/KritantaDev/StopCrashingPls)
  */
  
 #import <Foundation/Foundation.h>
 
+#include <string.h>
 #include <libgen.h>
 #include <crt_externs.h>
 
@@ -47,9 +48,9 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
         
         NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
         
+        // Additionally, if there is no filter plist, then it has been dlopen'd by another tweak
         if (!filterPlist) {
-            NSLog(@"Xen HTML (DenyInjection) :: Failed to load filter plist at %@", plistPath);
-            return NULL;
+            return %orig;
         }
         
         NSArray *bundles = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"];
@@ -58,11 +59,23 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
         char **args = *_NSGetArgv();
         NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
         
+        // Block if necessary
         if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
-            NSLog(@"Xen HTML (DenyInjection) :: Blocked loading of %s in %@", path, processName);
             return NULL;
         }
     }
         
     return %orig;
+}
+
+%ctor {
+    char **args = *_NSGetArgv();
+    const char *processName = args[0];
+    
+    if ((hasPrefix(processName, "/usr") ||
+         hasPrefix(processName, "/System") ||
+         strstr(".framework/", processName) != NULL)
+        && strstr(processName, "SpringBoard") == NULL) {
+        %init();
+    }
 }
