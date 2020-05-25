@@ -1,6 +1,6 @@
 Package: com.matchstic.xenhtml
 Name: Xen HTML
-Version: 2.0~alpha53
+Version: 2.0~alpha53.1
 Description: Unified HTML rendering; lockscreen and homescreen
 Section: System
 Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, firmware (>= 11.0) | com.unlimapps.uaunbox
@@ -12,4 +12,4 @@ dev: Matt Clarke <matt@incendo.ws>
 Maintainer: Matt Clarke <matt@incendo.ws>
 Depiction: https://xenpublic.incendo.ws/depictions/com.matchstic.xenhtml.html
 SileoDepiction: https://xenpublic.incendo.ws/sileo/com.matchstic.xenhtml.json
-Icon: file:///Library/PreferenceBundles/XenHTMLPrefs.bundle/Icon@2x.png
+Icon: file:///Library/PreferenceBundles/XenHTMLPrefs.bundle/IconPackageManager.png
