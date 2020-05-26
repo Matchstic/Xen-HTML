@@ -1,9 +1,26 @@
+:root {
+    --card-height: 76px;
+    --horizontal-spacing: 12px;
+    --color: #111;
+    --light-color: #333;
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --light-color: #ccc;
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+    }
+}
+
 html, body {
     height: 100%;
     width: 100%;
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     padding: 0 6px;
     font-size: 14px;
+    color: var(--color);
 }
 
 * {
@@ -13,24 +30,19 @@ html, body {
 
 p {
     margin: 0;
-    color: #111;
-}
-
-:root {
-    --card-height: 76px;
 }
 
 .backdrop {
     border-radius: 12.5px;
-    background-color: rgba(255, 255, 255, 0.47);
-    -webkit-backdrop-filter: blur(30px);
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
 
     position: absolute;
-    width: calc(100% - 24px);
+    width: calc(100% - var(--horizontal-spacing) * 2);
     height: 100%;
 
     top: 0;
-    left: 12px;
+    left: var(--horizontal-spacing);
     z-index: -2;
 }
 
@@ -68,7 +80,7 @@ p {
 .location {
     font-size: 1rem;
     line-height: 1.4rem;
-    color: #333;
+    color: var(--light-color);
     display: inline-block;
     position: relative;
     top: -2px;
@@ -76,7 +88,7 @@ p {
 
 .unit {
     font-size: 0.8rem;
-    color: #333;
+    color: var(--light-color);
     display: inline-block;
     position: relative;
     top: -7px;
