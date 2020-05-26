@@ -1,9 +1,32 @@
+:root {
+    --card-height: 232px;
+    --top-section-height: 76px;
+    --horizontal-spacing: 12px;
+    --color: #111;
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+    --slider-thumb-color: #fff;
+    --slider-thumb-shadow-color: rgba(0, 0, 0, 0.1);
+    --music-progress-color: #fff;
+    --progress-background: rgba(80, 80, 80, 1.0);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        /*--light-color: #ccc;*/
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+        --progress-background: rgba(175, 175, 175, 1.0);
+        --slider-thumb-shadow-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
 html, body {
     height: 100%;
     width: 100%;
     font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     padding: 0 6px;
     font-size: 14px;
+    color: var(--color);
 }
 
 * {
@@ -13,25 +36,19 @@ html, body {
 
 p {
     margin: 0;
-    color: #111;
-}
-
-:root {
-    --card-height: 232px;
-    --top-section-height: 76px;
 }
 
 .backdrop {
     border-radius: 12.5px;
-    background-color: rgba(255, 255, 255, 0.47);
-    -webkit-backdrop-filter: blur(30px);
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
 
     position: absolute;
-    width: calc(100% - 24px);
+    width: calc(100% - var(--horizontal-spacing) * 2);
     height: 100%;
 
     top: 0;
-    left: 12px;
+    left: var(--horizontal-spacing);
     z-index: -2;
 }
 
@@ -50,7 +67,7 @@ p {
     width: 100%;
     height: 100%;
 
-    filter: blur(30px);
+    filter: blur(var(--backdrop-blur));
     top: 0;
     left: 0;
     z-index: -1;
@@ -82,7 +99,7 @@ input[type=range] {
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: 5px;
-    background: rgba(80, 80, 80, 1.0);
+    background: var(--progress-background);
     border: none;
     border-radius: 5px;
 }
@@ -94,8 +111,8 @@ input[type=range]::-webkit-slider-thumb {
     height: 16px;
     border-radius: 16px;
     border: none;
-    background: #fff;
-    box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.1);
+    background: var(--slider-thumb-color);
+    box-shadow: 0px 2px 3px 1px var(--slider-thumb-shadow-color);
     top: -6px;
     position: relative;
 }
@@ -206,11 +223,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 #playback-time::-webkit-progress-bar {
-    background: rgba(80, 80, 80, 1.0);
+    background: var(--progress-background);
 }
 
 #playback-time::-webkit-progress-value {
-    background-color: #fff;
+    background-color: var(--music-progress-color);
 }
 
 .controls {
