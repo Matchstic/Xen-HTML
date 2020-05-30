@@ -75,7 +75,8 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
     if ((hasPrefix(processName, "/usr") ||
          hasPrefix(processName, "/System") ||
          strstr(".framework/", processName) != NULL)
-        && strstr(processName, "SpringBoard") == NULL) {
+        && strstr(processName, "SpringBoard") == NULL
+        && !hasPrefix(processName, "/System/Library/CoreServices")) {
         %init();
     }
 }
