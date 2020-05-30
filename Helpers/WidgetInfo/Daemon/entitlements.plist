@@ -35,10 +35,14 @@
 	<true/>
 	<key>com.apple.private.memorystatus</key>
 	<true/>
+	<key>com.apple.frontboard.app-badge-value-access</key>
+	<true/>
 	<key>com.apple.private.mobileinstall.allowedSPI</key>
 	<array>
 		<string>Lookup</string>
 		<string>Browse</string>
+		<string>Uninstall</string>
+		<string>UninstallForLaunchServices</string>
 	</array>
 </dict>
 </plist>
