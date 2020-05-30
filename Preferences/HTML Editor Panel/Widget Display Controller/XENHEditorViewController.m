@@ -26,6 +26,7 @@
 #import "XENHPResources.h"
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
+#import "XENHWidgetConfiguration.h"
 
 #import <Preferences/PSSplitViewController.h>
 
@@ -294,12 +295,7 @@
     NSString *path = [filepath stringByDeletingLastPathComponent];
     NSString *lastPathComponent = [filepath lastPathComponent];
     
-    BOOL canActuallyUtiliseOptionsPlist = NO;
-    
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    if ([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        canActuallyUtiliseOptionsPlist = YES;
-    }
+    BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:filepath];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
     NSString *configJSOne = [path stringByAppendingString:@"/config.js"];

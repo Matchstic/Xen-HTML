@@ -40,4 +40,9 @@
  */
 - (NSDictionary*)serialise;
 
+/**
+ Checks whether the widget at the given path is able to use Options.plist
+ */
++ (BOOL)shouldAllowOptionsPlist:(NSString*)filepath;
+
 @end

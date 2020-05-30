@@ -174,15 +174,8 @@
         path = [path substringFromIndex:range.location];
     }
     
-    NSString *lastPathComponent = [widgetURL lastPathComponent];
-    
     // Check for Options.plist support
-    BOOL canActuallyUtiliseOptionsPlist = NO;
-    
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    if ([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        canActuallyUtiliseOptionsPlist = YES;
-    }
+    BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:widgetURL];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
     BOOL fallbackState = [[currentMetadata objectForKey:@"useFallback"] boolValue];
