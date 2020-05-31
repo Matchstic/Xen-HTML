@@ -101,7 +101,8 @@ static __attribute__((constructor)) void _logosLocalCtor_7e2484d5(int __unused a
     if ((hasPrefix(processName, "/usr") ||
          hasPrefix(processName, "/System") ||
          strstr(".framework/", processName) != NULL)
-        && strstr(processName, "SpringBoard") == NULL) {
+        && strstr(processName, "SpringBoard") == NULL
+        && !hasPrefix(processName, "/System/Library/CoreServices")) {
         { MSHookFunction((void *)dlopen, (void *)&_logos_function$_ungrouped$dlopen, (void **)&_logos_orig$_ungrouped$dlopen);}
     }
 }
