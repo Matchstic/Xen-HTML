@@ -132,8 +132,15 @@
         NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
         
         for (NSString *result in widgets) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/Widget.html", result];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:absoluteURL]) continue;
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/", result] mutableCopy];
+            
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
+                [absoluteURL appendString:@"index.html"];
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@Widget.html", absoluteURL]]) {
+                [absoluteURL appendString:@"Widget.html"];
+            } else {
+                continue;
+            }
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;
@@ -294,8 +301,15 @@
         NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil];
         
         for (NSString *thing in sbhtml) {
-            NSString *absoluteURL = [NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/Wallpaper.html", thing];
-            if (![[NSFileManager defaultManager] fileExistsAtPath:absoluteURL]) continue;
+            
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/", thing] mutableCopy];
+            if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
+                [absoluteURL appendString:@"index.html"];
+            } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@Wallpaper.html", absoluteURL]]) {
+                [absoluteURL appendString:@"Wallpaper.html"];
+            } else {
+                continue;
+            }
             
             XENHPickerItem *item = [[XENHPickerItem alloc] init];
             item.absoluteUrl = absoluteURL;
