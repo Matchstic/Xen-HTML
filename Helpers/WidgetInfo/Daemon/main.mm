@@ -22,7 +22,7 @@
 
 #import "../../../deps/libwidgetinfo/daemon/Connection/XENDIPCDaemonListener.h"
 #import "../../../deps/libwidgetinfo/Shared/XENDLogger.h"
-#import "../../../deps/libwidgetinfo/deps/libobjcipc/kern_memorystatus.h"
+#import "kern_memorystatus.h"
 
 #pragma mark - Raise SpringBoard's memory high water mark
 
