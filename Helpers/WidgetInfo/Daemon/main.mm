@@ -145,6 +145,24 @@ static void applySpringBoardMemoryProfile(pid_t pid) {
     }
 }
 
+static void applySelfProfile() {
+    // Increase local memory limit to 100 MB
+    pid_t pid = getpid();
+    
+    // call memorystatus_control
+    memorystatus_memlimit_properties_t memlimit;
+    memlimit.memlimit_active = 100;
+    memlimit.memlimit_inactive = 100;
+    
+    int rc = _memorystatus_control(MEMORYSTATUS_CMD_SET_MEMLIMIT_PROPERTIES,
+                                   pid,  // pid
+                                   0,  // flags
+                                   &memlimit,  // buffer
+                                   sizeof(memlimit));  // buffersize
+    
+    XENDLog(@"setting memory limit for self (pid: %d), with result: %d", pid, rc);
+}
+
 #pragma mark - Setup
 
 int main (int argc, const char * argv[]) {
@@ -176,6 +194,9 @@ int main (int argc, const char * argv[]) {
                     applySpringBoardMemoryProfile((pid_t)pid);
                 }
             });
+            
+            // Apply our own memory profile
+            applySelfProfile();
         }
         
         return libwidgetinfo_main_ipc();
