@@ -22,8 +22,8 @@
 		C978A2162438DB2400398FBB /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A2142438DADD00398FBB /* liblogger.a */; };
 		C99BBF032467155D00A6F426 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99BBEFF2467155D00A6F426 /* MobileCoreServices.framework */; };
 		C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A371CE241417720086FC2A /* Foundation.framework */; };
-		C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
-		C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A5E9B9241954A600FCD778 /* libobjcipc.a */; };
+		C9A7A5D8248931A400319885 /* librocketbootstrap.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */; };
+		C9A7A5D9248931AB00319885 /* librocketbootstrap.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */; };
 		C9B351242465A7C200E531E1 /* MediaRemote.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B351202465A7C200E531E1 /* MediaRemote.tbd */; };
 		C9B3D709245E0756004D048E /* IOKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B3D705245E0756004D048E /* IOKit.tbd */; };
 /* End PBXBuildFile section */
@@ -83,6 +83,7 @@
 		C94A9F4C24140F070062CDCD /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		C99BBEFF2467155D00A6F426 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9A371CE241417720086FC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = librocketbootstrap.tbd; path = ../../deps/libwidgetinfo/external/librocketbootstrap.tbd; sourceTree = "<group>"; };
 		C9B351202465A7C200E531E1 /* MediaRemote.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = MediaRemote.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/MediaRemote.tbd; sourceTree = "<group>"; };
 		C9B3D705245E0756004D048E /* IOKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = IOKit.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/IOKit.tbd; sourceTree = "<group>"; };
 		C9F0C1182478283E00993517 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
@@ -94,8 +95,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C978A2162438DB2400398FBB /* liblogger.a in Frameworks */,
-				C9A5E9BA241954A600FCD778 /* libobjcipc.a in Frameworks */,
 				C94A9F2E241408B20062CDCD /* libwidgetinfo.a in Frameworks */,
+				C9A7A5D8248931A400319885 /* librocketbootstrap.tbd in Frameworks */,
 				C94A9F3B24140C840062CDCD /* libsubstrate.tbd in Frameworks */,
 				C94A9F33241409400062CDCD /* libc++.tbd in Frameworks */,
 				C94A9F3924140C6E0062CDCD /* UIKit.framework in Frameworks */,
@@ -111,10 +112,10 @@
 				C94927872468D58E00B7DF85 /* libMobileGestalt.tbd in Frameworks */,
 				C9B351242465A7C200E531E1 /* MediaRemote.tbd in Frameworks */,
 				C9B3D709245E0756004D048E /* IOKit.tbd in Frameworks */,
+				C9A7A5D9248931AB00319885 /* librocketbootstrap.tbd in Frameworks */,
 				C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */,
 				C99BBF032467155D00A6F426 /* MobileCoreServices.framework in Frameworks */,
 				C978A2152438DADD00398FBB /* liblogger.a in Frameworks */,
-				C9A5E9BB241954AB00FCD778 /* libobjcipc.a in Frameworks */,
 				C94A9F52241410180062CDCD /* libwidgetinfodaemon.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,6 +145,7 @@
 		C94A9EF9241407C30062CDCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */,
 				C9F0C1182478283E00993517 /* SystemConfiguration.framework */,
 				C94927862468D58E00B7DF85 /* libMobileGestalt.tbd */,
 				C94927842468C0D300B7DF85 /* MobileIcons.tbd */,
