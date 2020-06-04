@@ -78,8 +78,6 @@
 		C99BBEFF2467155D00A6F426 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9A371CE241417720086FC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = librocketbootstrap.tbd; path = ../../deps/libwidgetinfo/external/librocketbootstrap.tbd; sourceTree = "<group>"; };
-		C9A7A5DE2489786400319885 /* fishhook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
-		C9A7A5E12489786400319885 /* fishhook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
 		C9A7A5E4248978A100319885 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		C9A7A5E624897B6C00319885 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9B351202465A7C200E531E1 /* MediaRemote.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = MediaRemote.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/MediaRemote.tbd; sourceTree = "<group>"; };
@@ -194,28 +192,10 @@
 		C94A9F4224140F070062CDCD /* Daemon */ = {
 			isa = PBXGroup;
 			children = (
-				C9A7A5DA2489786400319885 /* deps */,
 				C94A9F4C24140F070062CDCD /* main.mm */,
 				C9A7A5E624897B6C00319885 /* Info.plist */,
 			);
 			path = Daemon;
-			sourceTree = "<group>";
-		};
-		C9A7A5DA2489786400319885 /* deps */ = {
-			isa = PBXGroup;
-			children = (
-				C9A7A5DB2489786400319885 /* fishhook */,
-			);
-			path = deps;
-			sourceTree = "<group>";
-		};
-		C9A7A5DB2489786400319885 /* fishhook */ = {
-			isa = PBXGroup;
-			children = (
-				C9A7A5DE2489786400319885 /* fishhook.c */,
-				C9A7A5E12489786400319885 /* fishhook.h */,
-			);
-			path = fishhook;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
