@@ -1,0 +1,111 @@
+:root {
+    --entry-height: 52px;
+    --vertical-spacing: 6px;
+    --horizontal-padding: 6px;
+    --dock-height: 96px;
+    --color: #111;
+    --border-color: rgba(50, 50, 50, 0.2);
+    --badge-color: #eee;
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+    }
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    color: var(--color);
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+.header {
+    font-size: 2rem;
+    font-weight: 500;
+    padding: 0 calc(2 * var(--horizontal-padding));
+    color: #fff;
+    height: 34px;
+
+    margin: calc(3 * var(--vertical-spacing)) 0;
+    margin-top: calc(3 * var(--vertical-spacing) + env(safe-area-inset-top, 0px));
+}
+
+#drawer {
+    height: calc(100% - 34px - calc(5 * var(--vertical-spacing)) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - var(--dock-height));
+    overflow-y: auto;
+    padding-bottom: var(--vertical-spacing);
+}
+
+.application-entry {
+    position: relative;
+    border-radius: 12.5px;
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+
+    width: calc(100% - calc(4 * var(--horizontal-padding)));
+    left: calc(2 * var(--horizontal-padding));
+    height: var(--entry-height);
+    margin-bottom: var(--vertical-spacing);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--horizontal-padding);
+}
+
+.application-entry img {
+    display: block;
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+    min-height: 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+
+    flex: 0;
+    margin-right: var(--horizontal-padding);
+}
+
+.application-entry p {
+    display: block;
+    flex: 1 1 auto;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.2rem;
+}
+
+.application-badge {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 20px;
+
+    flex: 0 0 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(255, 59, 48);
+    margin: 0 var(--horizontal-padding);
+    font-size: 0.8rem;
+    color: var(--badge-color);
+}

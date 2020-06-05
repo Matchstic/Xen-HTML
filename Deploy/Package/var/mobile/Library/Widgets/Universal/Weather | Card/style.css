@@ -1,0 +1,100 @@
+:root {
+    --card-height: 76px;
+    --horizontal-spacing: 12px;
+    --color: #111;
+    --light-color: #333;
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --light-color: #ccc;
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+    }
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    padding: 0 6px;
+    font-size: 14px;
+    color: var(--color);
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+.backdrop {
+    border-radius: 12.5px;
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+
+    position: absolute;
+    width: calc(100% - var(--horizontal-spacing) * 2);
+    height: 100%;
+
+    top: 0;
+    left: var(--horizontal-spacing);
+    z-index: -2;
+}
+
+.card {
+    border-radius: 12.5px;
+    width: 100%;
+    height: var(--card-height);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.icon {
+    height: var(--card-height);
+    width: var(--card-height);
+    flex: 0 0 var(--card-height);
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.details {
+    flex: 1 1 auto;
+    height: fit-content;
+    padding-left: 5px;
+}
+
+.temperature-row {
+    width: 100%;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.location {
+    font-size: 1rem;
+    line-height: 1.4rem;
+    color: var(--light-color);
+    display: inline-block;
+    position: relative;
+    top: -2px;
+}
+
+.unit {
+    font-size: 0.8rem;
+    color: var(--light-color);
+    display: inline-block;
+    position: relative;
+    top: -7px;
+    left: -3px;
+}
+
+.condition-detail {
+    width: 100%;
+}

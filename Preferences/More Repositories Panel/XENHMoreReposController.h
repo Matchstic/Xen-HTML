@@ -19,7 +19,7 @@
 #import <UIKit/UIKit.h>
 #import <Preferences/PSListController.h>
 
-@interface XENHMoreReposController : PSListController <UIAlertViewDelegate> {
+@interface XENHMoreReposController : PSListController {
     NSArray *_items;
     NSString *_selectedRepo;
 }

@@ -1,3 +1,6 @@
 [submodule "deps/libpackageinfo/src"]
 	path = deps/libpackageinfo/src
 	url = https://github.com/ashikase/libpackageinfo.git
+[submodule "deps/libwidgetinfo"]
+	path = deps/libwidgetinfo
+	url = git@github.com:Matchstic/libwidgetinfo.git

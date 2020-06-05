@@ -106,7 +106,7 @@ static NSString *listFile;
                 [mutable exchangeObjectAtIndex:i withObjectAtIndex:n];
             }
             
-            _items = mutable;
+            self->_items = mutable;
             
             [self finishLoadingData];
         }
@@ -331,11 +331,20 @@ static NSString *listFile;
         message = [XENHResources localisedStringForKey:@"MORE_REPOS_OPEN_IN_CYDIA"];
     }
     
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Xen HTML"
-                                                 message:message
-                                                delegate:self
-                                       cancelButtonTitle:[XENHResources localisedStringForKey:@"CANCEL"] otherButtonTitles:[XENHResources localisedStringForKey:@"OK"], nil];
-    [av show];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"DONATE_ADDRESS_COPIED"] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *urlPath = [NSString stringWithFormat:@"cydia://url/https://cydia.saurik.com/api/share#?source=%@", _selectedRepo];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlPath]];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:okAction];
+    [controller addAction:cancelAction];
+    
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (BOOL)tableView:(UITableView*)arg1 canEditRowAtIndexPath:(id)arg2 {
@@ -363,17 +372,6 @@ static NSString *listFile;
 
 - (id)tableView:(UITableView*)arg1 viewForHeaderInSection:(NSInteger)arg2 {
     return nil;
-}
-
-#pragma mark UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        // Pop open Cydia URL.
-        NSString *urlPath = [NSString stringWithFormat:@"cydia://url/https://cydia.saurik.com/api/share#?source=%@", _selectedRepo];
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlPath]];
-    }
 }
 
 @end

@@ -1,0 +1,304 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C977F13024795AC600C963CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C977F12F24795AC600C963CD /* Foundation.framework */; };
+		C977F13B24795AC600C963CD /* DenyInjection.mm in Sources */ = {isa = PBXBuildFile; fileRef = C977F13A24795AC600C963CD /* DenyInjection.mm */; };
+		C978CAA124795B2900E38FAF /* DenyInjection-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = C978CAA024795B2900E38FAF /* DenyInjection-Prefix.pch */; };
+		C978CAA324795FE200E38FAF /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C978CAA224795FE200E38FAF /* libsubstrate.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C977F12C24795AC600C963CD /* AAA_XenHTML_DenyInjection.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = AAA_XenHTML_DenyInjection.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		C977F12F24795AC600C963CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C977F13924795AC600C963CD /* DenyInjection.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DenyInjection.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		C977F13A24795AC600C963CD /* DenyInjection.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DenyInjection.mm; sourceTree = "<group>"; };
+		C978CAA024795B2900E38FAF /* DenyInjection-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DenyInjection-Prefix.pch"; sourceTree = "<group>"; };
+		C978CAA224795FE200E38FAF /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C977F12724795AC600C963CD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C978CAA324795FE200E38FAF /* libsubstrate.tbd in Frameworks */,
+				C977F13024795AC600C963CD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C977F12024795AC600C963CD = {
+			isa = PBXGroup;
+			children = (
+				C977F13124795AC600C963CD /* DenyInjection */,
+				C977F12E24795AC600C963CD /* Frameworks */,
+				C977F12D24795AC600C963CD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C977F12D24795AC600C963CD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C977F12C24795AC600C963CD /* AAA_XenHTML_DenyInjection.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C977F12E24795AC600C963CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C978CAA224795FE200E38FAF /* libsubstrate.tbd */,
+				C977F12F24795AC600C963CD /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C977F13124795AC600C963CD /* DenyInjection */ = {
+			isa = PBXGroup;
+			children = (
+				C977F13924795AC600C963CD /* DenyInjection.xm */,
+				C977F13A24795AC600C963CD /* DenyInjection.mm */,
+				C978CAA024795B2900E38FAF /* DenyInjection-Prefix.pch */,
+			);
+			path = DenyInjection;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		C977F12824795AC600C963CD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C978CAA124795B2900E38FAF /* DenyInjection-Prefix.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		C977F12B24795AC600C963CD /* DenyInjection */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C977F14224795AC600C963CD /* Build configuration list for PBXNativeTarget "DenyInjection" */;
+			buildPhases = (
+				C977F12524795AC600C963CD /* ShellScript */,
+				C977F12624795AC600C963CD /* Sources */,
+				C977F12724795AC600C963CD /* Frameworks */,
+				C977F12824795AC600C963CD /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DenyInjection;
+			productName = DenyInjection;
+			productReference = C977F12C24795AC600C963CD /* AAA_XenHTML_DenyInjection.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C977F12124795AC600C963CD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1130;
+				TargetAttributes = {
+					C977F12B24795AC600C963CD = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+				};
+			};
+			buildConfigurationList = C977F12424795AC600C963CD /* Build configuration list for PBXProject "DenyInjection" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C977F12024795AC600C963CD;
+			productRefGroup = C977F12D24795AC600C963CD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C977F12B24795AC600C963CD /* DenyInjection */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C977F12524795AC600C963CD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C977F12624795AC600C963CD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C977F13B24795AC600C963CD /* DenyInjection.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C977F14024795AC600C963CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/System/Library/PrivateFrameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(THEOS)/vendor/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(THEOS)/vendor/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				THEOS = /opt/theos;
+				VALIDATE_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		C977F14124795AC600C963CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/System/Library/PrivateFrameworks";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(THEOS)/vendor/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LIBRARY_SEARCH_PATHS = "$(THEOS)/vendor/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				THEOS = /opt/theos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C977F14324795AC600C963CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DenyInjection/DenyInjection-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = AAA_XenHTML_DenyInjection;
+				SIMJECT = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = 192.168.0.0;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		C977F14424795AC600C963CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					arm64,
+					arm64e,
+					armv7,
+					armv7s,
+				);
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DenyInjection/DenyInjection-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "-Wl,-segalign,4000";
+				PRODUCT_NAME = AAA_XenHTML_DenyInjection;
+				SIMJECT = NO;
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = 192.168.0.0;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = NO;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C977F12424795AC600C963CD /* Build configuration list for PBXProject "DenyInjection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C977F14024795AC600C963CD /* Debug */,
+				C977F14124795AC600C963CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C977F14224795AC600C963CD /* Build configuration list for PBXNativeTarget "DenyInjection" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C977F14324795AC600C963CD /* Debug */,
+				C977F14424795AC600C963CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C977F12124795AC600C963CD /* Project object */;
+}

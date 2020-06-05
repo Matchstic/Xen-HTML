@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Resources | Battery</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body onload="onload()">
+    <div class="backdrop"></div>
+    <div class="card">
+        <img class="icon" id="battery-icon" src="xui://resource/default/battery/100.svg" />
+        <div class="details">
+            <p class="percent-row">
+                { resources.battery.percentage }% <span class="subtitle">remaining</span>
+            </p>
+            <p class="condition-detail" id="info">--</p>
+        </div>
+    </div>
+</body>
+</html>

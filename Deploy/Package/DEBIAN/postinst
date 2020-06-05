@@ -5,20 +5,29 @@ echo "Fixing widget permissions if needed..."
 chown -R mobile:mobile /var/mobile/Library/LockHTML 2>&1
 chown -R mobile:mobile /var/mobile/Library/SBHTML 2>&1
 chown -R mobile:mobile /var/mobile/Library/iWidgets 2>&1
+chown -R mobile:mobile /var/mobile/Library/Widgets 2>&1
 
 chmod -R 0755 /var/mobile/Library/LockHTML 2>&1
 chmod -R 0755 /var/mobile/Library/SBHTML 2>&1
 chmod -R 0755 /var/mobile/Library/iWidgets 2>&1
+chmod -R 0755 /var/mobile/Library/Widgets 2>&1
 echo "Fixed permissions."
 echo "Re-install Xen HTML if you experience the 'fix permissions' alert when changing widget settings."
 
-# Add symlinks
-ln -s "/var/mobile/Library/LockHTML/Background | Kaleidoscope" "/var/mobile/Library/SBHTML/Background | Kaleidoscope"
-ln -s "/var/mobile/Library/LockHTML/Background | Particles" "/var/mobile/Library/SBHTML/Background | Particles"
+# Handle the daemon
+echo "(Re)-loading daemon..."
+chown root /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
 
-# Add to the .list file
-echo "/var/mobile/Library/SBHTML/Background | Kaleidoscope" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
-echo "/var/mobile/Library/SBHTML/Background | Particles" >> /var/lib/dpkg/info/com.matchstic.xenhtml.list
+# Unload for an upgrade. - Might spew an error, so hide that.
+/bin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null || /sbin/launchctl unload /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2>/dev/null
+/bin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist 2> /dev/null || /sbin/launchctl load /Library/LaunchDaemons/com.matchstic.widgetinfod.plist
+
+# Clear debug logs if present
+if [ -d "/var/mobile/Library/Logs/Xen-HTML" ]; then rm -Rf /var/mobile/Library/Logs/Xen-HTML; fi
+    
+# Clear old symlink if present
+[ -e "/var/mobile/Library/SBHTML/Background | Kaleidoscope" ] && rm "/var/mobile/Library/SBHTML/Background | Kaleidoscope"
+[ -e "/var/mobile/Library/SBHTML/Background | Particles" ] && rm "/var/mobile/Library/SBHTML/Background | Particles"
 
 echo "	"
 echo "===================================="
@@ -29,7 +38,7 @@ echo "orangefreddie, simon, BootsBrown"
 echo "chevymusclecar, mamajaay, martymcfly"
 echo "meth357, GroovyCarrot, Jato_BZ"
 echo "ev_ynw, junesiphone, dubailive"
-echo "... and many more!"
+echo "KritantaDev, ... and many more!"
 echo "===================================="
 echo "Translations by:"
 echo "Anniem -- Français"
@@ -48,5 +57,4 @@ echo "Lucas (@lucaspedrrosa) -- Português"
 echo "serif61 -- Türk"
 echo "===================================="
 echo "	"
-echo "It's been a damn good run."
-echo "Thank you, to all."
+echo "Roads? Where we're going, we don't need roads."

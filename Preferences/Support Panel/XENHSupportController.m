@@ -21,7 +21,7 @@
 #import <libMobileGestalt.h>
 #include <sys/stat.h>
 #import "XENHPResources.h"
-//#import <libGitHubIssues.h>
+
 #include <spawn.h>
 
 extern char **environ;
@@ -32,43 +32,8 @@ extern char **environ;
 
 @implementation XENHSupportController
 
--(id)specifiers {
-    if (_specifiers == nil) {
-        NSMutableArray *testingSpecs = [self loadSpecifiersFromPlistName:@"Support" target:self];
-        
-        _specifiers = testingSpecs;
-        _specifiers = [self localizedSpecifiersForSpecifiers:_specifiers];
-    }
-    
-    return _specifiers;
-}
-
-// From: https://stackoverflow.com/a/47297734
-- (NSString*)_fallbackStringForKey:(NSString*)key {
-    NSString *fallbackLanguage = @"en";
-    NSString *fallbackBundlePath = [[NSBundle mainBundle] pathForResource:fallbackLanguage ofType:@"lproj"];
-    NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
-    NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
-    
-    return fallbackString;
-}
-
--(NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)s {
-    int i;
-    for (i=0; i<[s count]; i++) {
-        if ([[s objectAtIndex: i] name]) {
-            [[s objectAtIndex: i] setName:[[self bundle] localizedStringForKey:[[s objectAtIndex: i] name] value:[self _fallbackStringForKey:[[s objectAtIndex: i] name]] table:nil]];
-        }
-        if ([[s objectAtIndex: i] titleDictionary]) {
-            NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
-            for(NSString *key in [[s objectAtIndex: i] titleDictionary]) {
-                [newTitles setObject: [[self bundle] localizedStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key] value:[self _fallbackStringForKey:[[[s objectAtIndex: i] titleDictionary] objectForKey:key]] table:nil] forKey: key];
-            }
-            [[s objectAtIndex: i] setTitleDictionary: newTitles];
-        }
-    }
-    
-    return s;
+- (NSString*)plistName {
+    return @"Support";
 }
 
 -(void)_actuallyNukeAllSettings {
@@ -99,14 +64,17 @@ extern char **environ;
 }
 
 -(void)nukeAllSettings:(id)sender {
-    UIAlertView *av = [[UIAlertView alloc]
-                       initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
-                       message:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_RESET"]
-                       delegate:self
-                       cancelButtonTitle:[XENHResources localisedStringForKey:@"CANCEL"]
-                       otherButtonTitles:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_OPTION"], nil];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"WARNING"] message:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_RESET"] preferredStyle:UIAlertControllerStyleAlert];
     
-    [av show];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) { }];
+    [alertController addAction:cancel];
+    
+    UIAlertAction *nuke = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"SUPPORT_CONFIRM_OPTION"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self _actuallyNukeAllSettings];
+    }];
+    [alertController addAction:nuke];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 -(void)openInTwitter:(id)sender {
@@ -162,7 +130,6 @@ extern char **environ;
     posix_spawn(&pid, argv[0], NULL, NULL, argv, environ);
     waitpid(pid, NULL, 0);
     
-    //system("/usr/bin/dpkg -l >/tmp/dpkgl.log");
     NSData *dpkgLog = [NSData dataWithContentsOfFile:dpkgLogPath];
     if (dpkgLog)
         [mc addAttachmentData:dpkgLog mimeType:@"text/plain" fileName:@"dpkgl.txt"];
@@ -176,33 +143,8 @@ extern char **environ;
 }
 
 -(void)openGitHubIssues:(id)sender {
-    /*GIRootViewController *rootModal = [[GIRootViewController alloc] init];
-    
-    [GIRootViewController registerClientID:@"604b0348c13943dc28fd" andSecret:@"a885c24a81a98d2dae25f64274a267b8f1188daf"];
-    [GIRootViewController registerCurrentRepositoryName:@"Xen-HTML" andOwner:@"Matchstic"];
-    
-    if (IS_IPAD) {
-        rootModal.providesPresentationContextTransitionStyle = YES;
-        rootModal.definesPresentationContext = YES;
-        rootModal.modalPresentationStyle = UIModalPresentationFormSheet;
-    }
-    
-    [self.navigationController presentViewController:rootModal animated:YES completion:nil];*/
-    
     NSURL *url = [NSURL URLWithString:@"https://github.com/Matchstic/Xen-HTML/issues"];
     [[UIApplication sharedApplication] openURL:url];
-}
-
-#pragma mark UIAlertViewDelegate
-
--(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    // Request Xen HTML to respring.
-    if (_showingRespring) {
-        CFStringRef toPost = (__bridge CFStringRef)@"com.matchstic.xenhtml/wantsrespring";
-        if (toPost) CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), toPost, NULL, NULL, YES);
-    } else if (buttonIndex == 1) {
-        [self _actuallyNukeAllSettings];
-    }
 }
 
 @end

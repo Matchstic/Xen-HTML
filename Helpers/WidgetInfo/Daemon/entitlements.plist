@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>platform-application</key>
+	<true/>
+	<key>com.apple.private.security.no-container</key>
+	<true/>
+	<key>com.apple.private.security.container-required</key>
+	<false/>
+	<key>com.apple.private.skip-library-validation</key>
+	<true/>
+	<key>com.apple.private.security.no-sandbox</key>
+	<true/>
+	<key>application-identifier</key>
+	<string>com.matchstic.widgetinfod</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.matchstic.widgetinfod</string>
+		<string>group.com.apple.weather</string>
+	</array>
+	<key>com.apple.CoreLocation.PrivateMode</key>
+	<true/>
+	<key>com.apple.locationd.authorizeapplications</key>
+	<true/>
+	<key>com.apple.locationd.effective_bundle</key>
+	<true/>
+	<key>com.apple.locationd.simulation</key>
+	<true/>
+	<key>com.apple.locationd.spectator</key>
+	<true/>
+	<key>com.apple.locationd.status</key>
+	<true/>
+	<key>com.apple.locationd.preauthorized</key>
+	<true/>
+	<key>com.apple.private.memorystatus</key>
+	<true/>
+	<key>com.apple.frontboard.app-badge-value-access</key>
+	<true/>
+	<key>com.apple.private.mobileinstall.allowedSPI</key>
+	<array>
+		<string>Lookup</string>
+		<string>Browse</string>
+		<string>Uninstall</string>
+		<string>UninstallForLaunchServices</string>
+	</array>
+</dict>
+</plist>

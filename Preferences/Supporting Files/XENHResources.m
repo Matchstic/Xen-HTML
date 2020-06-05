@@ -97,8 +97,7 @@ static int mainVariant = 0;
 
 // From: https://stackoverflow.com/a/47297734
 + (NSString*)_fallbackStringForKey:(NSString*)key {
-    NSString *fallbackLanguage = @"en";
-    NSString *fallbackBundlePath = [strings pathForResource:fallbackLanguage ofType:@"lproj"];
+    NSString *fallbackBundlePath = [strings pathForResource:@"en" ofType:@"lproj"];
     NSBundle *fallbackBundle = [NSBundle bundleWithPath:fallbackBundlePath];
     NSString *fallbackString = [fallbackBundle localizedStringForKey:key value:key table:nil];
     

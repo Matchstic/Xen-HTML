@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="36px" viewBox="0 0 33 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Mix Rainfall Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-691.000000, -602.000000)">
+            <g id="Mix-Rainfall-Icon-Group" transform="translate(680.000000, 592.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Mix-Rainfall-Icon" transform="translate(11.000000, 10.000000)">
+                    <polygon id="Shape" fill="#FFFFFF" points="13 12 20 12 18.5 18 22 18 13.25 33 14 23 10.5 23"></polygon>
+                    <path d="M25,7 C24.7,7 24.405,7.02 24.113,7.052 C22.942,2.981 19.197,0 14.75,0 C9.365,0 5,4.365 5,9.75 C5,10.2 5.041,10.641 5.101,11.074 C2.215,11.51 0,13.993 0,17 C0,20.313 2.687,23 6,23 L8.449,23 L8.55,22.557 L11.05,11.557 L11.404,10 L13.001,10 L20.001,10 L22.563,10 L21.942,12.485 L21.063,16 L22.001,16 L25.483,16 L23.728,19.008 L21.399,23 L25.001,23 C29.419,23 33.001,19.418 33.001,15 C33.001,10.582 29.418,7 25,7 L25,7 Z" id="Shape" fill="#FFFFFF" opacity="0.8"></path>
+                    <path d="M23.715986,26.706397 L25.1305772,27.7349839 L19.4701147,35.5196839 L18.0555235,34.491097 L23.715986,26.706397 Z M10.0687658,29.011144 L11.4843408,30.040144 L7.9563408,34.893544 L6.5407658,33.864544 L10.0687658,29.011144 Z M27.8582818,26.4030762 L29.2740318,27.4317262 L26.0411318,31.8812262 L24.6253818,30.8525762 L27.8582818,26.4030762 Z M4.543398,23.8306864 L5.959148,24.8593364 L2.726248,29.3088364 L1.310498,28.2801864 L4.543398,23.8306864 Z" id="Rectangle-path" fill="#5AC8FA"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

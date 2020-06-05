@@ -375,18 +375,27 @@
 
 #pragma mark - Table view data source
 
+- (BOOL)_allowLegacyMode {
+    NSOperatingSystemVersion version;
+    version.majorVersion = 10.0;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    return ![[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 2;
+    return [self _allowLegacyMode] ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return section == 0 ? 1 : _dataSource.count;
+    return section == 0 && [self _allowLegacyMode] ? 1 : _dataSource.count;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == 0 && [self _allowLegacyMode]) {
         return [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
     } else {
         return nil;
@@ -394,7 +403,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && [self _allowLegacyMode]) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE2 forIndexPath:indexPath];
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:REUSE2];
@@ -432,7 +441,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && [self _allowLegacyMode]) {
         return UITableViewAutomaticDimension;
     }
     
@@ -452,7 +461,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && [self _allowLegacyMode]) {
         return UITableViewAutomaticDimension;
     }
     

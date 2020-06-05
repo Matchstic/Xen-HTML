@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="980px" height="416px" viewBox="0 0 980 416" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Battery80</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Battery" fill-rule="nonzero">
+            <path d="M829.2,0.7 C870.8,0.7 904.6,34.5 904.6,76.1 L904.6,76.1 L904.6,113.8 L904.6,113.8 L942.3,113.8 C963.1,113.8 980,130.6 980,151.5 L980,151.5 L980,264.5 C980,285.3 963.1,302.2 942.3,302.2 L942.3,302.2 L904.6,302.2 L904.6,339.9 C904.6,381.5 870.8,415.3 829.2,415.3 L829.2,415.3 L75.4,415.3 C33.7,415.3 0,381.5 0,339.9 L0,339.9 L0,76.1 C0,34.5 33.7,0.7 75.4,0.7 L75.4,0.7 Z M829.2,38.4 L75.4,38.4 C54.5,38.4 37.7,55.3 37.7,76.1 L37.7,76.1 L37.7,339.9 C37.7,360.7 54.6,377.6 75.4,377.6 L75.4,377.6 L829.2,377.6 C850,377.6 866.9,360.7 866.9,339.9 L866.9,339.9 L866.9,76.1 C866.9,55.2 850,38.4 829.2,38.4 L829.2,38.4 Z" id="Shape" fill="#FFFFFF"></path>
+            <rect id="Inlay" fill="#34C759" x="75" y="75.7" width="602.56" height="264" rx="20"></rect>
+        </g>
+    </g>
+</svg>

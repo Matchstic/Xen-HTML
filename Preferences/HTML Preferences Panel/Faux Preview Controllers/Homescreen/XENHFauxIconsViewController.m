@@ -49,31 +49,7 @@
     self.cachedIcons = [NSMutableDictionary dictionary];
     
     [self _configureIconsForPage:0];
-    
-    // And add the dock view.
-    //_dockView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, (IS_IPAD ? 90 : 80))];
-    //_dockView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.35];
-    
-    //[self.view addSubview:_dockView];
-    
-    /*self.imageView = [[UIImageView alloc] initWithImage:nil];
-    [self.view addSubview:self.imageView];
-    
-    // Get snapshot from SpringBoard
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-        NSDictionary *reply = [self.c sendMessageAndReceiveReplyName:@"com.matchstic.xenhtml/previewsnapshot" userInfo:nil];
-        
-        NSData *snapshot = [reply objectForKey:@"snapshot"];
-        
-        [self.imageView setImage:[UIImage imageWithData:snapshot]];
-    });*/
 }
-
-/*- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self _configureIconsForPage:0];
-}*/
 
 - (void)_configureIconsForPage:(int)page {
     NSString *iconStatePlist = @"/var/mobile/Library/SpringBoard/IconState.plist";
@@ -112,7 +88,7 @@
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
                         UIImage *image = [UIImage _applicationIconImageForBundleIdentifier:identifier format:0 scale:[UIScreen mainScreen].scale];
                         if (image && identifier && ![identifier isEqualToString:@""])
-                            [self.cachedIcons setObject:image forKey:identifier];
+                            [self.cachedIcons setObject:[image copy] forKey:identifier];
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
                             icon.image = image;
@@ -198,9 +174,6 @@
     [super viewDidLayoutSubviews];
     
     [self _layoutIconsForPage:0];
-    
-    // Layout dock.
-    //_dockView.frame = CGRectMake(0, self.view.bounds.size.height - dockHeight, self.view.bounds.size.width, dockHeight);
 }
 
 @end

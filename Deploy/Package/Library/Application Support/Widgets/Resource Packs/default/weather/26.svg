@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="23px" viewBox="0 0 33 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Mostly Cloudy Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-691.000000, -794.000000)">
+            <g id="Mostly-Cloudy-Icon-Group" transform="translate(680.000000, 778.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <path d="M36,23 C35.7,23 35.405,23.02 35.113,23.052 C33.942,18.982 30.197,16 25.75,16 C20.365,16 16,20.365 16,25.75 C16,26.2 16.041,26.641 16.101,27.075 C13.215,27.51 11,29.993 11,33 C11,36.313 13.687,39 17,39 L36,39 C40.418,39 44,35.418 44,31 C44,26.582 40.418,23 36,23 L36,23 Z" id="Mostly-Cloudy-Icon" fill="#FFFFFF" opacity="0.8"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -73,6 +73,7 @@
 - (void)_setTiledScrollingIndicatorVisible:(BOOL)arg1;
 - (void)_setVisibleDebugOverlayRegions:(unsigned int)arg1;
 
+- (void)_setMediaCaptureRequiresSecureConnection:(bool)arg1;
 - (void)_setResourceUsageOverlayVisible:(bool)arg1 ;
 @end
 

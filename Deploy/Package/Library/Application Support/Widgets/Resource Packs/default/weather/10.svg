@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="33px" height="36px" viewBox="0 0 33 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Rain Icon Group</title>
+    <desc>Created with Sketch.</desc>
+    <g id="iOS-9.3-UI-Kit" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Icons" transform="translate(-1331.000000, -44.000000)">
+            <g id="Rain-Icon-Group" transform="translate(1320.000000, 34.000000)">
+                <rect id="Weather-Icon-Frame" fill="#161A2E" opacity="0" x="0" y="0" width="56" height="56"></rect>
+                <g id="Rain-Icon" transform="translate(11.000000, 10.000000)">
+                    <path d="M25,7 C24.7,7 24.405,7.02 24.113,7.052 C22.942,2.982 19.197,0 14.75,0 C9.365,0 5,4.365 5,9.75 C5,10.2 5.041,10.641 5.101,11.075 C2.215,11.51 0,13.993 0,17 C0,20.313 2.687,23 6,23 L25,23 C29.418,23 33,19.418 33,15 C33,10.582 29.418,7 25,7 L25,7 Z" id="Shape" fill="#FFFFFF" opacity="0.8"></path>
+                    <path d="M11.6138359,27.6228183 L13.0294109,28.6518183 L8.1784109,35.3252433 L6.7628359,34.2962433 L11.6138359,27.6228183 Z M24.6605862,25.221345 L26.0763362,26.249995 L19.9044362,34.744495 L18.4886862,33.715845 L24.6605862,25.221345 Z M28.9495888,30.1240984 L30.3653388,31.1529234 L28.6016388,33.5799234 L27.1858888,32.5510984 L28.9495888,30.1240984 Z M18.8652117,25.1791069 L20.2809617,26.2079319 L15.5777617,32.6799319 L14.1620117,31.6511069 L18.8652117,25.1791069 Z M5.742492,25.5074976 L7.157433,26.5355598 L3.116308,32.0974348 L1.701367,31.0693726 L5.742492,25.5074976 Z" id="Rectangle-path" fill="#5AC8FA"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

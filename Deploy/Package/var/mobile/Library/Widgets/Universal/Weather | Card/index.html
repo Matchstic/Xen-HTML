@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Weather | Card</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="backdrop"></div>
+    <div class="card">
+        <!-- Load an icon for the forecast from the default resource pack -->
+        <img class="icon" xui-src="'xui://resource/default/weather/%s.svg' | inject weather.now.condition.code" />
+        <div class="details">
+            <p class="temperature-row">
+                { weather.now.temperature.current }
+                <span class="unit">&deg;{ weather.units.temperature }</span>
+                <span class="location">&bull; { weather.now.condition.description }</span>
+            </p>
+            <p class="condition-detail">{ weather.metadata.address.city }</p>
+        </div>
+    </div>
+
+</body>
+</html>

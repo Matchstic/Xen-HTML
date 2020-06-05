@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>Music | Mini</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="backdrop"></div>
+    <div class="card">
+        <!-- Set img src from now playing item -->
+        <div class="icon-outer">
+            <img xui-class-content="media.nowPlaying.artwork" xui-src="media.nowPlaying.artwork | fallback 'xui://resource/default/media/no-artwork.svg'" />
+        </div>
+
+        <!-- Hide details if playback is stopped -->
+        <div class="details" xui-hide="media.isStopped">
+            <p class="track">{ media.nowPlaying.title }</p>
+            <p class="artist">{ media.nowPlaying.artist }</p>
+        </div>
+
+        <!-- Placeholder for no playback -->
+        <div class="details" xui-show="media.isStopped">
+            <p class="no-media">No media playing</p>
+        </div>
+
+        <!-- Media controls, which gain the 'disabled' class if media is stopped -->
+        <div class="controls" xui-class-disabled="media.isStopped">
+            <img src="xui://resource/default/media/play.svg" xui-hide="media.isPlaying" onclick="api.media.togglePlayPause()" class="control" />
+            <img src="xui://resource/default/media/pause.svg" xui-show="media.isPlaying" onclick="api.media.togglePlayPause()" class="control" />
+
+            <img src="xui://resource/default/media/next.svg" onclick="api.media.nextTrack()" class="control auxillary-control" />
+        </div>
+    </div>
+
+</body>
+</html>

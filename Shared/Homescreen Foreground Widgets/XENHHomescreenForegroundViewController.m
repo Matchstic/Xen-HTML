@@ -24,6 +24,7 @@
 #import "XENHConfigJSController.h"
 #import "XENHFallbackOnlyOptionsController.h"
 #import "XENHResources.h"
+#import "XENHWidgetConfiguration.h"
 
 @interface SBRootFolderView : UIView
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
@@ -173,15 +174,8 @@
         path = [path substringFromIndex:range.location];
     }
     
-    NSString *lastPathComponent = [widgetURL lastPathComponent];
-    
     // Check for Options.plist support
-    BOOL canActuallyUtiliseOptionsPlist = NO;
-    
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    if ([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        canActuallyUtiliseOptionsPlist = YES;
-    }
+    BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:widgetURL];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
     BOOL fallbackState = [[currentMetadata objectForKey:@"useFallback"] boolValue];
@@ -213,12 +207,14 @@
             
             // Parse the config file
             if ([_controller parseJSONFile:testingPath]) {
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
-                                                             message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"]
-                                                            delegate:nil
-                                                   cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"]
-                                                   otherButtonTitles:nil];
-                [av show];
+                UIAlertController *controller = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"WARNING"] message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"] preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+                
+                [controller addAction:okAction];
+                
+                UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+                [rootController presentViewController:controller animated:YES completion:nil];
             }
             
             return _controller;
@@ -271,7 +267,7 @@
     
     NSMutableDictionary *widgetMetadata;
     if (isNewWidget) {
-        widgetMetadata = [[XENHResources rawMetadataForHTMLFile:filePath] mutableCopy];
+        widgetMetadata = [[[XENHWidgetConfiguration defaultConfigurationForPath:filePath] serialise] mutableCopy];
     } else {
         widgetMetadata = [[[layerPreferences objectForKey:@"widgetMetadata"] objectForKey:filePath] mutableCopy];
     }

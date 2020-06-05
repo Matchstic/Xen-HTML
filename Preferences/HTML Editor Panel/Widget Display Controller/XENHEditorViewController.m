@@ -26,6 +26,7 @@
 #import "XENHPResources.h"
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
+#import "XENHWidgetConfiguration.h"
 
 #import <Preferences/PSSplitViewController.h>
 
@@ -157,13 +158,13 @@
     [self.view addSubview:self.wallpaperController.view];
     
     // 2. Any existing widgets
-    self.existingWidgetsController = [[XENHEditorExistingWidgetsController alloc] initWithVariant:self.variant andCurrentWidget:self.isNewWidget ? @"" :  self.widgetURL];
+    self.existingWidgetsController = [[XENHEditorExistingWidgetsController alloc] initWithVariant:(int)self.variant andCurrentWidget:self.isNewWidget ? @"" :  self.widgetURL];
     
     [self addChildViewController:self.existingWidgetsController];
     [self.view addSubview:self.existingWidgetsController.view];
     
     // 3. Webview
-    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:self.variant showNoHTMLLabel:NO];
+    self.webViewController = [[XENHEditorWebViewController alloc] initWithVariant:(int)self.variant showNoHTMLLabel:NO];
     [self.webViewController reloadWebViewToPath:self.widgetURL updateMetadata:YES ignorePreexistingMetadata:NO];
     
     [self addChildViewController:self.webViewController];
@@ -294,12 +295,7 @@
     NSString *path = [filepath stringByDeletingLastPathComponent];
     NSString *lastPathComponent = [filepath lastPathComponent];
     
-    BOOL canActuallyUtiliseOptionsPlist = NO;
-    
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    if ([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        canActuallyUtiliseOptionsPlist = YES;
-    }
+    BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:filepath];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
     NSString *configJSOne = [path stringByAppendingString:@"/config.js"];
@@ -378,12 +374,13 @@
     BOOL parseError = [self.configOptions parseJSONFile:file];
     
     if (parseError) {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[XENHResources localisedStringForKey:@"WARNING"]
-                                                     message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"]
-                                                    delegate:nil
-                                           cancelButtonTitle:[XENHResources localisedStringForKey:@"OK"]
-                                           otherButtonTitles:nil];
-        [av show];
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:[XENHResources localisedStringForKey:@"WARNING"] message:[XENHResources localisedStringForKey:@"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS"] preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [controller addAction:okAction];
+        
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
     }
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.configOptions];

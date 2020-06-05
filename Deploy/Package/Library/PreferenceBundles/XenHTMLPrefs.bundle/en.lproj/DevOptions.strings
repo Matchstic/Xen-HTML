@@ -1,0 +1,19 @@
+/* 
+  DevOptions.strings
+  Xen HTML
+*/
+
+"TITLE" = "Developer Options";
+
+"WW_OVERRIDE" = "Override Widget Weather";
+"WW_OVERRIDE_FOOTER" = "If Widget Weather is installed, Xen HTML will defer to it when providing backwards compatibility for widget data.\nThis option forces Xen HTML to always override Widget Weather's output.";
+
+"WIDGET_LOGGING" = "Redirect console.log to Filesystem";
+"WIDGET_LOGGING_FOOTER" = "This option allows redirection of console.* JS calls in widgets to the filesystem. Logs can be found in /var/mobile/Library/Logs/Xen-HTML";
+
+"WEBKIT_DEV_OPTIONS" = "WebKit Development Options";
+"RESOURCE_USAGE_OVERLAY" = "Resource Usage Overlay";
+"COMPOSITING_BORDERS" = "Show Compositing Borders";
+
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Developer options require a respring to apply.";

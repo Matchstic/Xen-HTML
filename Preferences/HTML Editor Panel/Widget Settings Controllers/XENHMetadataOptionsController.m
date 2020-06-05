@@ -53,25 +53,34 @@
          * options (select only)
          */
         
-        // Legacy mode toggle first
-        PSSpecifier *legacyGroup = [PSSpecifier groupSpecifierWithName:@""];
-        NSString *fallbackFooter = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
-        [legacyGroup setProperty:fallbackFooter forKey:@"footerText"];
-        [testingSpecs addObject:legacyGroup];
+        NSOperatingSystemVersion version;
+        version.majorVersion = 10.0;
+        version.minorVersion = 0;
+        version.patchVersion = 0;
         
-        PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"]
-                                                                target:self
-                                                                   set:@selector(setPreferenceValue:specifier:)
-                                                                   get:@selector(readPreferenceValue:)
-                                                                detail:nil
-                                                                  cell:PSSwitchCell
-                                                                  edit:nil];
-        [specifier setProperty:@YES forKey:@"enabled"];
-        [specifier setProperty:[NSNumber numberWithBool:self.fallbackState] forKey:@"default"];
-        [specifier setProperty:@"_xh_fallback" forKey:@"key"];
+        BOOL allowLegacyMode = ![[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version];
         
-        [testingSpecs addObject:specifier];
-        
+        if (allowLegacyMode) {
+            // Legacy mode toggle first
+            PSSpecifier *legacyGroup = [PSSpecifier groupSpecifierWithName:@""];
+            NSString *fallbackFooter = [XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_FOOTER"];
+            [legacyGroup setProperty:fallbackFooter forKey:@"footerText"];
+            [testingSpecs addObject:legacyGroup];
+            
+            PSSpecifier* specifier = [PSSpecifier preferenceSpecifierNamed:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_LEGACY_MODE"]
+                                                                    target:self
+                                                                       set:@selector(setPreferenceValue:specifier:)
+                                                                       get:@selector(readPreferenceValue:)
+                                                                    detail:nil
+                                                                      cell:PSSwitchCell
+                                                                      edit:nil];
+            [specifier setProperty:@YES forKey:@"enabled"];
+            [specifier setProperty:[NSNumber numberWithBool:self.fallbackState] forKey:@"default"];
+            [specifier setProperty:@"_xh_fallback" forKey:@"key"];
+            
+            [testingSpecs addObject:specifier];
+        }
+
         PSSpecifier *mainGroup = [PSSpecifier groupSpecifierWithName:@""];
         [testingSpecs addObject:mainGroup];
         
@@ -80,8 +89,6 @@
             NSString *key = [item objectForKey:@"name"];
             NSString *label = [item objectForKey:@"label"];
             id defaultValue = [item objectForKey:@"default"];
-            
-            NSLog(@"SETTING UP WITH:\ntype %@\nkey %@\nlabel %@\ndefaultValue %@", type, key, label, defaultValue);
             
             // Hold up. We might be seeing some weird usage of the iWidget UI on the part of the modder.
             if (!key || [key isEqualToString:@""]) {

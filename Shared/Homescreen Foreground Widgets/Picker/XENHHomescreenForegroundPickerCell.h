@@ -17,6 +17,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "XENHPickerItem.h"
 
 // Header for libpackageinfo
 
@@ -46,6 +47,6 @@
 @property(nonatomic, strong) NSString *url;
 
 - (void)setupForNoWidgetsWithWidgetType:(NSString*)type;
-- (void)setupWithFilename:(NSString*)filename screenshotFilename:(NSString*)screenshot andAssociatedUrl:(NSString*)url;
+- (void)setupWithItem:(XENHPickerItem*)item;
 
 @end

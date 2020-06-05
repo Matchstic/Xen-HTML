@@ -5,7 +5,7 @@
 #import "PSSpecifier.h"
 #import "PSRootController.h"
 
-@interface PSViewController : UIViewController /*<PSController>*/ {
+@interface PSViewController : UIViewController {
     UIViewController *_parentController;
     PSRootController *_rootController;
     PSSpecifier *_specifier;

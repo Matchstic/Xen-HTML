@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Music | Player</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+
+<body onload="onload()">
+    <div class="backdrop"></div>
+
+    <div class="card">
+        <img id="background-artwork" />
+
+        <div class="top-section">
+            <!-- Set img src from now playing item -->
+            <div class="icon-outer">
+                <img id="artwork" src="xui://resource/default/media/no-artwork.svg" />
+            </div>
+
+            <!-- Details are hidden if playback is stopped -->
+            <div class="details" id="visible-details">
+                <p id="track"></p>
+                <p id="artist"></p>
+            </div>
+
+            <!-- Placeholder for no playback -->
+            <div class="details" id="no-details">
+                <p class="no-media">No media playing</p>
+            </div>
+        </div>
+
+        <!-- Progress bar for elapsed and length -->
+        <div class="scrobble-section">
+            <progress id="playback-time"></progress>
+            <div class="scrobble-times">
+                <p id="elapsed"></p>
+                <p id="length"></p>
+            </div>
+
+            <!-- Overlay a slider to the playback time, so that it can be adjusted -->
+            <div class="slider-wrapper scrobble-slider-container">
+                <input type="range" min="0" id="scrobble-slider" oninput="onScrobbleUIChanged(this.value)" onchange="onScrobbleChanged(this.value)" />
+            </div>
+        </div>
+
+        <!-- Media controls, which gain the 'disabled' class if media is stopped -->
+        <div class="controls" xui-class-disabled="media.isStopped">
+            <img src="xui://resource/default/media/previous.svg" onclick="api.media.previousTrack()" class="control auxillary-control" />
+
+            <img src="xui://resource/default/media/play.svg" id="play" onclick="api.media.togglePlayPause()" class="control" />
+            <img src="xui://resource/default/media/pause.svg" id="pause" onclick="api.media.togglePlayPause()" class="control" />
+
+            <img src="xui://resource/default/media/next.svg" onclick="api.media.nextTrack()" class="control auxillary-control" />
+        </div>
+
+        <!-- Volume control -->
+        <div class="volume-section">
+            <img src="xui://resource/default/media/volume-min.svg" class="volume-icon" />
+            <div class="slider-wrapper">
+                <input type="range" min="0" max="100" value="0" id="volume-slider" oninput="onVolumeChanged(this.value)" onchange="onVolumeChanged(this.value)" />
+            </div>
+            <img src="xui://resource/default/media/volume-max.svg" class="volume-icon" />
+        </div>
+    </div>
+
+</body>
+</html>

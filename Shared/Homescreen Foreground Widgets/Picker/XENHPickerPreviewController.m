@@ -20,6 +20,7 @@
 #import "XENHResources.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHWallpaperViewController.h"
+#import "XENHWidgetConfiguration.h"
 
 @interface WKPreferences (Private)
 - (void)_setAllowFileAccessFromFileURLs:(BOOL)arg1;
@@ -48,6 +49,10 @@
 @property (nonatomic, readonly) UIEdgeInsets safeAreaInsets;
 @end
 
+@interface WKWebView (WidgetInfo)
+- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration injectWidgetData:(BOOL)injectWidgetData;
+@end
+
 @interface XENHPickerPreviewController ()
 
 @property (nonatomic, strong) XENHWallpaperViewController *wallpaperController;
@@ -61,7 +66,7 @@
     
     if (self) {
         _url = url;
-        _metadata = [self rawMetadataForHTMLFile:url];
+        _metadata = [[XENHWidgetConfiguration defaultConfigurationForPath:url] serialise];
     }
     
     return self;
@@ -112,7 +117,14 @@
     
     config.preferences = preferences;
     
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:config];
+    // Load for widget info, if available
+    id webview = [WKWebView alloc];
+    if ([webview respondsToSelector:@selector(initWithFrame:configuration:injectWidgetData:)]) {
+        NSLog(@"Initialising with widgetinfo injection");
+        self.webView = [webview initWithFrame:CGRectZero configuration:config injectWidgetData:YES];
+    } else
+        self.webView = [webview initWithFrame:CGRectZero configuration:config];
+    
     _webView.backgroundColor = [UIColor clearColor];
     _webView.opaque = NO;
     _webView.userInteractionEnabled = NO;
@@ -186,7 +198,7 @@
     // Progress to the settings UI
     
     // Fetch default metadata for this widget
-    NSDictionary *defaultMetadata = [XENHResources rawMetadataForHTMLFile:_url];
+    NSDictionary *defaultMetadata = [[XENHWidgetConfiguration defaultConfigurationForPath:_url] serialise];
     
     UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:_url currentMetadata:defaultMetadata showCancel:NO andDelegate:self.delegate];
     [self.navigationController pushViewController:settings animated:YES];
@@ -203,117 +215,6 @@
     
     [self.webView removeFromSuperview];
     self.webView = nil;
-}
-
--(NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    
-    // First, check if this is an iWidget.
-    // If so, we can fill in the size from Widget.plist
-    // Also, we can fill in default values from Options.plist if available, and then re-populate with user set values.
-    NSString *path = [filePath stringByDeletingLastPathComponent];
-    NSString *lastPathComponent = [filePath lastPathComponent];
-    
-    NSString *widgetPlistPath = [path stringByAppendingString:@"/Widget.plist"];
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
-    
-    // Only check Widget.plist if we're loading an iWidget
-    if ([lastPathComponent isEqualToString:@"Widget.html"] && [[NSFileManager defaultManager] fileExistsAtPath:widgetPlistPath]) {
-        [dict setValue:@NO forKey:@"isFullscreen"];
-        
-        NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetPlistPath];
-        NSDictionary *size = [widgetPlist objectForKey:@"size"];
-        
-        if (size) {
-            [dict setValue:[size objectForKey:@"width"] forKey:@"width"];
-            [dict setValue:[size objectForKey:@"height"] forKey:@"height"];
-        } else {
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-        }
-        
-        // Ignore the initial position of the widget, as it's fundamentally not compatible with
-        // how we do positioning. Plus, I'm lazy and it's close to release day.
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-        
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        // Handle WidgetInfo.plist
-        // This can be loaded for ANY HTML widget, which is neat.
-        
-        
-        NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetInfoPlistPath];
-        NSDictionary *size = [widgetPlist objectForKey:@"size"];
-        id isFullscreenVal = [widgetPlist objectForKey:@"isFullscreen"];
-        
-        // Fullscreen.
-        BOOL isFullscreen = (isFullscreenVal ? [isFullscreenVal boolValue] : YES);
-        [dict setValue:[NSNumber numberWithBool:isFullscreen] forKey:@"isFullscreen"];
-        
-        if (size && !isFullscreen) {
-            [dict setValue:[size objectForKey:@"width"] forKey:@"width"];
-            [dict setValue:[size objectForKey:@"height"] forKey:@"height"];
-        } else {
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-        }
-        
-        // Default widget position
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-    } else {
-        [dict setValue:@YES forKey:@"isFullscreen"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-    }
-    
-    // Next, we handle default options.
-    // If Widget.html is being loaded, or WidgetInfo.plist exists, load up the Options.plist and add into metadata.
-    
-    // TODO: Handle cases where there is ONLY an Options.plist in a non-iWidget.
-    
-    
-    if (([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) && [[NSFileManager defaultManager] fileExistsAtPath:optionsPath]) {
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        
-        
-        NSArray *optionsPlist = [NSArray arrayWithContentsOfFile:optionsPath];
-        
-        for (NSDictionary *option in optionsPlist) {
-            NSString *name = [option objectForKey:@"name"];
-            
-            /* Options.plist will contain the following types:
-             edit
-             select
-             switch
-             */
-            
-            id value = nil;
-            
-            NSString *type = [option objectForKey:@"type"];
-            if ([type isEqualToString:@"select"]) {
-                NSString *defaultKey = [option objectForKey:@"default"];
-                
-                value = [[option objectForKey:@"options"] objectForKey:defaultKey];
-            } else if ([type isEqualToString:@"switch"]) {
-                value = [option objectForKey:@"default"];
-            } else {
-                value = [option objectForKey:@"default"];
-            }
-            
-            [options setValue:value forKey:name];
-        }
-        
-        [dict setValue:options forKey:@"options"];
-    } else {
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        [dict setValue:options forKey:@"options"];
-    }
-    
-    return dict;
 }
 
 @end

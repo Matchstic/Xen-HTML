@@ -73,7 +73,7 @@ static XENHSetupWindow *setupWindow;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class CSCoverSheetViewController; @class SBMainWorkspace; @class SBFLockScreenDateView; @class SBRootFolderController; @class SBIconListView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBLockScreenManager; @class CSMainPageContentViewController; @class _UIPlatterView; @class SBFloatingDockPlatterView; @class CSPageViewController; @class SBIdleTimerGlobalStateMonitor; @class SBHomeScreenWindow; @class SBIconView; @class SBHorizontalScrollFailureRecognizer; @class CSMainPageView; @class CSScrollView; @class UIWKTextLoupeInteraction; @class XENDashBoardWebViewController; @class CSTeachableMomentsContainerView; @class CSCoverSheetView; @class SBScreenWakeAnimationController; @class SpringBoard; @class SBBacklightController; @class SBFolderIconImageView; @class CSQuickActionsViewController; @class UITouch; @class SBUIProudLockIconView; @class SBIconScrollView; @class SBRootFolderView; @class SBHomeScreenPreviewView; @class CSFixedFooterView; @class SBMainStatusBarStateProvider; @class WKWebView; @class SBDockView; @class UITouchesEvent; @class CSCombinedListViewController; @class SBHomeScreenViewController; @class SBCoverSheetWindow; @class SBIconListPageControl; @class SBHomeScreenView; 
+@class CSQuickActionsViewController; @class CSCombinedListViewController; @class SBIconListPageControl; @class SBHomeScreenViewController; @class SBHomeScreenPreviewView; @class SBMainStatusBarStateProvider; @class SBIconScrollView; @class SBRootFolderController; @class SBFLockScreenDateView; @class SpringBoard; @class SBIdleTimerGlobalStateMonitor; @class SBLockScreenManager; @class SBScreenWakeAnimationController; @class SBHomeScreenView; @class SBFolderIconImageView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class _UIPlatterView; @class SBIconView; @class UITouchesEvent; @class CSTeachableMomentsContainerView; @class CSPageViewController; @class XENDashBoardWebViewController; @class SBFloatingDockPlatterView; @class CSCoverSheetView; @class SBCoverSheetWindow; @class SBMainWorkspace; @class SBBacklightController; @class CSScrollView; @class SBHomeScreenWindow; @class CSMainPageContentViewController; @class WKWebView; @class SBHorizontalScrollFailureRecognizer; @class SBDockView; @class SBIconListView; @class SBRootFolderView; @class SBUIProudLockIconView; @class CSMainPageView; @class UIWKTextLoupeInteraction; @class CSFixedFooterView; @class UITouch; @class CSCoverSheetViewController; 
 
 
 #line 54 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -149,7 +149,7 @@ static void _logos_method$SpringBoard$CSCoverSheetView$viewControllerWillAppear(
         BOOL isLocked = [(SpringBoard*)[UIApplication sharedApplication] isLocked];
         
         
-        CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+        CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
         BOOL canRotate = [cont shouldAutorotate];
         
         int orientation = canRotate ? (int)[UIApplication sharedApplication].statusBarOrientation : 1;
@@ -201,6 +201,9 @@ static void _logos_method$SpringBoard$CSCoverSheetView$viewControllerWillAppear(
             
             [self.slideableContentView insertSubview:backgroundViewController.view atIndex:0];
         }
+                   
+        
+        [self setNeedsLayout];
     }
 }
 
@@ -459,7 +462,7 @@ static BOOL _logos_method$SpringBoard$CSScrollView$touchesShouldCancelInContentV
     if ([XENHResources lsenabled] && foregroundViewController) {
         
         if ([XENHResources LSWidgetScrollPriority]) {
-            CSCoverSheetViewController *cont = [[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
+            CSCoverSheetViewController *cont = (CSCoverSheetViewController *)[[[objc_getClass("SBLockScreenManager") sharedInstance] lockScreenEnvironment] rootViewController];
             BOOL onMainPage = cont.lastSettledPageIndex == [cont _indexOfMainPage];
         
             if (onMainPage) {
@@ -554,7 +557,7 @@ static _Bool _logos_method$SpringBoard$CSCoverSheetViewController$shouldShowLock
 
 
 
-#pragma mark Clock in status bar (iOS 13_)
+#pragma mark Clock in status bar (iOS 13+)
 
 
 
@@ -762,6 +765,9 @@ static CGFloat _logos_method$SpringBoard$SBIdleTimerGlobalStateMonitor$minimumLo
 
 static void _logos_method$SpringBoard$SBLockScreenManager$_setUILocked$(_LOGOS_SELF_TYPE_NORMAL SBLockScreenManager* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, _Bool arg1) {
     _logos_orig$SpringBoard$SBLockScreenManager$_setUILocked$(self, _cmd, arg1);
+    
+    
+    if (![XENHResources hasSeenFirstUnlock]) return;
 
     if (sbhtmlViewController)
         [sbhtmlViewController setPaused:arg1];
@@ -810,28 +816,28 @@ static void _logos_method$SpringBoard$SBMainWorkspace$process$stateDidChangeFrom
     
     dispatch_async(dispatch_get_main_queue(), ^(){
     
-    
-    BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
-    
-    
-    if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
+        
+        BOOL isSpringBoardForeground = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication] == nil;
         
         
+        if (![arg2 isForeground] && [arg3 isForeground] && !isSpringBoardForeground) {
+            
+            
+            
+            
+            XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
+            [sbhtmlViewController setPaused:YES animated:YES];
+            [sbhtmlForegroundViewController setPaused:YES animated:YES];
+                       
         
-        
-        XENlog(@"Hiding SBHTML due to an application becoming foreground (failsafe).");
-        [sbhtmlViewController setPaused:YES animated:YES];
-        [sbhtmlForegroundViewController setPaused:YES animated:YES];
-                   
-    
-    } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
-        XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
-        [sbhtmlViewController setPaused:NO];
-        [sbhtmlForegroundViewController setPaused:NO];
-        
-        [sbhtmlViewController doJITWidgetLoadIfNecessary];
-        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
-    }
+        } else if ([arg2 isForeground] && ![arg3 isForeground] && isSpringBoardForeground) {
+            XENlog(@"Showing SBHTML due to an application leaving foregound (failsafe).");
+            [sbhtmlViewController setPaused:NO];
+            [sbhtmlForegroundViewController setPaused:NO];
+            
+            [sbhtmlViewController doJITWidgetLoadIfNecessary];
+            [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+        }
     
     });
 }
@@ -976,7 +982,7 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$loadView(_LOGOS
         if (isOnMainScreen) {
             sbhtmlViewController = [XENHResources widgetLayerControllerForLocation:kLocationSBBackground];
             [mainView insertSubview:sbhtmlViewController.view atIndex:0];
-            
+                
             sbhtmlForwardingGesture.widgetController = sbhtmlViewController;
         }
     }
@@ -1317,7 +1323,7 @@ static void _logos_method$SpringBoard$SBRootFolderView$layoutSubviews(_LOGOS_SEL
         @try {
             _logos_orig$SpringBoard$SBRootFolderView$layoutSubviews(self, _cmd);
         } @catch (NSException *e) {
-            XENlog(@"Caught exception from Pagebar, assuming non-fatal.");
+            XENlog(@"Caught exception in SBRootFolderView -layoutSubviews, assuming non-fatal.");
         }
     } else {
         _logos_orig$SpringBoard$SBRootFolderView$layoutSubviews(self, _cmd);
@@ -1375,7 +1381,7 @@ static void _logos_method$SpringBoard$SBRootFolderView$recievedSBHTMLUpdate$(_LO
 
 static SBRootFolderController* _logos_method$SpringBoard$SBRootFolderController$initWithFolder$orientation$viewMap$context$(_LOGOS_SELF_TYPE_INIT SBRootFolderController* __unused self, SEL __unused _cmd, id arg1, long long arg2, id arg3, id arg4) _LOGOS_RETURN_RETAINED {
     
-    [XENHResources setCurrentOrientation:arg2];
+    [XENHResources setCurrentOrientation:(int)arg2];
     
     return _logos_orig$SpringBoard$SBRootFolderController$initWithFolder$orientation$viewMap$context$(self, _cmd, arg1, arg2, arg3, arg4);
 }
@@ -1690,6 +1696,11 @@ static void _logos_method$SpringBoard$SBRootFolderView$_xenhtml_initialise(_LOGO
 static void _logos_method$SpringBoard$SBRootFolderView$setEditing$animated$(_LOGOS_SELF_TYPE_NORMAL SBRootFolderView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, _Bool arg1, _Bool arg2) {
     _logos_orig$SpringBoard$SBRootFolderView$setEditing$animated$(self, _cmd, arg1, arg2);
     
+    if (_xenhtml_inEditingMode == arg1) {
+        
+        return;
+    }
+    
     _xenhtml_inEditingMode = arg1;
     
     
@@ -1740,7 +1751,7 @@ static void _logos_method$SpringBoard$SBRootFolderView$setEditing$animated$(_LOG
             self._xenhtml_addButton.alpha = 0.0;
             self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
         } completion:^(BOOL finished) {
-            if (finished && self) {
+            if (finished) {
                 self._xenhtml_addButton.hidden = YES;
                 self._xenhtml_editingPlatter.hidden = YES;
             }
@@ -2114,7 +2125,6 @@ static id _logos_method$SpringBoard$UITouch$view(_LOGOS_SELF_TYPE_NORMAL UITouch
 
 #pragma mark Setup UI stuff
 
-
 static void _logos_method$Setup$SpringBoard$_xenhtml_relaunchSpringBoardAfterSetup(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$Setup$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$Setup$SBBacklightController$_lockScreenDimTimerFired)(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); static void _logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$Setup$SBHomeScreenWindow$becomeKeyWindow)(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenWindow* _LOGOS_SELF_CONST, SEL); static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenWindow* _LOGOS_SELF_CONST, SEL); 
 
 
@@ -2145,6 +2155,8 @@ static void _logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired(_
 
 
 
+static BOOL launchCydiaForSource = NO;
+
 
 
 static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id arg1) {
@@ -2173,6 +2185,38 @@ static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGO
             
         }
     }
+    
+    
+
+
+
+
+
+
+
+
+
+
+    if (refuseToLoadDueToRehosting) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                                                                       message:@"This tweak has not been installed from the official repository. For your safety, it will not function until installed officially.\n\nTap below to add the official repository to Cydia."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        UIAlertAction* repoAction = [UIAlertAction actionWithTitle:@"Add Repository" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            
+            launchCydiaForSource = YES;
+            [[objc_getClass("SBLockScreenManager") sharedInstance] unlockUIFromSource:17 withOptions:nil];
+        }];
+        
+        [alert addAction:repoAction];
+        
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 
@@ -2188,20 +2232,11 @@ static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_T
     _logos_orig$Setup$SBHomeScreenWindow$becomeKeyWindow(self, _cmd);
     
     
-    if ([XENHResources requiresHomescreenForegroundAlert]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                                    message:@"You can now add widgets that move with your Homescreen icons.\n\nPress and hold an icon to enter editing mode, then tap 'Add widget' above the dock."
-                                    preferredStyle:UIAlertControllerStyleAlert];
+    if (launchCydiaForSource) {
+        launchCydiaForSource = NO;
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        
-        [self.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        
-        [XENHResources setHomescreenForegroundAlertSeen:YES];
+        NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
 }
 
@@ -2303,7 +2338,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_70d7295d(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_85ac905a(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}

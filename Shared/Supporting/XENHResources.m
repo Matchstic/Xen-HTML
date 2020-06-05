@@ -96,25 +96,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     NSLog(@"Xen HTML :: (%s:%d) %s",
           [fileName UTF8String],
           lineNumber, [body UTF8String]);
-    
-    // Append to log file
-    /*NSString *txtFileName = @"/var/mobile/Documents/XenHTMLDebug.txt";
-    NSString *final = [NSString stringWithFormat:@"(%@) %s", [NSDate date], [body UTF8String]];
-     
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:txtFileName];
-    if (fileHandle) {
-        [fileHandle seekToEndOfFile];
-        [fileHandle writeData:[final dataUsingEncoding:NSUTF8StringEncoding]];
-        [fileHandle closeFile];
-    } else {
-        [final writeToFile:txtFileName
-                atomically:NO
-                  encoding:NSStringEncodingConversionAllowLossy
-                     error:nil];
-    }*/
 }
 
-+(BOOL)debugLogging {
++ (BOOL)debugLogging {
     return YES;
 }
 
@@ -317,7 +301,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         
     BOOL hasgAPI = NO;
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/lib/groovyAPI.dylib" isDirectory:NO]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/usr/lib/groovyAPI.dylib" isDirectory:nil]) {
         if (!error && [string rangeOfString:@"groovyAPI."].location != NSNotFound) {
             hasgAPI = YES;
         } else {
@@ -332,113 +316,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         value = YES;
     
     return value;
-}
-
-+ (NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    
-    // First, check if this is an iWidget.
-    // If so, we can fill in the size from Widget.plist
-    // Also, we can fill in default values from Options.plist if available, and then re-populate with user set values.
-    NSString *path = [filePath stringByDeletingLastPathComponent];
-    NSString *lastPathComponent = [filePath lastPathComponent];
-    
-    NSString *widgetPlistPath = [path stringByAppendingString:@"/Widget.plist"];
-    NSString *widgetInfoPlistPath = [path stringByAppendingString:@"/WidgetInfo.plist"];
-    NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
-    
-    // Only check Widget.plist if we're loading an iWidget
-    if ([lastPathComponent isEqualToString:@"Widget.html"] && [[NSFileManager defaultManager] fileExistsAtPath:widgetPlistPath]) {
-        [dict setValue:@NO forKey:@"isFullscreen"];
-        
-        NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetPlistPath];
-        NSDictionary *size = [widgetPlist objectForKey:@"size"];
-        
-        if (size) {
-            [dict setValue:[size objectForKey:@"width"] forKey:@"width"];
-            [dict setValue:[size objectForKey:@"height"] forKey:@"height"];
-        } else {
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-        }
-        
-        // Ignore the initial position of the widget, as it's fundamentally not compatible with
-        // how we do positioning. Plus, I'm lazy and it's close to release day.
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-        
-    } else if ([[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) {
-        // Handle WidgetInfo.plist
-        // This can be loaded for ANY HTML widget, which is neat.
-        
-        
-        NSDictionary *widgetPlist = [NSDictionary dictionaryWithContentsOfFile:widgetInfoPlistPath];
-        NSDictionary *size = [widgetPlist objectForKey:@"size"];
-        id isFullscreenVal = [widgetPlist objectForKey:@"isFullscreen"];
-        
-        // Fullscreen.
-        BOOL isFullscreen = (isFullscreenVal ? [isFullscreenVal boolValue] : YES);
-        [dict setValue:[NSNumber numberWithBool:isFullscreen] forKey:@"isFullscreen"];
-        
-        if (size && !isFullscreen) {
-            [dict setValue:[size objectForKey:@"width"] forKey:@"width"];
-            [dict setValue:[size objectForKey:@"height"] forKey:@"height"];
-        } else {
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-            [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-        }
-        
-        // Default widget position
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-    } else {
-        [dict setValue:@YES forKey:@"isFullscreen"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"x"];
-        [dict setValue:[NSNumber numberWithFloat:0.0] forKey:@"y"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_WIDTH] forKey:@"width"];
-        [dict setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT] forKey:@"height"];
-    }
-    
-    // Next, we handle default options.
-    // If Widget.html is being loaded, or WidgetInfo.plist exists, load up the Options.plist and add into metadata.
-    
-    if (([lastPathComponent isEqualToString:@"Widget.html"] || [[NSFileManager defaultManager] fileExistsAtPath:widgetInfoPlistPath]) && [[NSFileManager defaultManager] fileExistsAtPath:optionsPath]) {
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        
-        
-        NSArray *optionsPlist = [NSArray arrayWithContentsOfFile:optionsPath];
-        
-        for (NSDictionary *option in optionsPlist) {
-            NSString *name = [option objectForKey:@"name"];
-            
-            // Options.plist will contain the following types:
-            // edit
-            // select
-            // switch
-            
-            id value = nil;
-            
-            NSString *type = [option objectForKey:@"type"];
-            if ([type isEqualToString:@"select"]) {
-                NSString *defaultKey = [option objectForKey:@"default"];
-                
-                value = [[option objectForKey:@"options"] objectForKey:defaultKey];
-            } else if ([type isEqualToString:@"switch"]) {
-                value = [option objectForKey:@"default"];
-            } else {
-                value = [option objectForKey:@"default"];
-            }
-            
-            [options setValue:value forKey:name];
-        }
-        
-        [dict setValue:options forKey:@"options"];
-    } else {
-        NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        [dict setValue:options forKey:@"options"];
-    }
-    
-    return dict;
 }
 
 + (NSDictionary*)widgetMetadataForHTMLFile:(NSString*)filePath {
@@ -556,11 +433,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         [self setPreferenceKey:@"hideClock10" withValue:[NSNumber numberWithInt:hideClock ? 2 : 0] andPost:YES];
         [self setPreferenceKey:@"hideClockTransferred10" withValue:[NSNumber numberWithBool:YES] andPost:YES];
     }
+    
+    // Move "Background" widgets to new location
+    settings = [self migrateBackgroundWidgetsIfNecessary:settings];
 }
 
 + (BOOL)_isOnSupportedIOSVersion {
     long long minVersion = 9;
-    long long maxVersion = 13;
+    long long maxVersion = 14;
     
     return [XENHResources isAtLeastiOSVersion:minVersion subversion:0] && [XENHResources isBelowiOSVersion:maxVersion subversion:0];
 }
@@ -580,6 +460,75 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     
     // Not okay-ed in advance, and not supported for certain.
     return YES;
+}
+
++ (NSDictionary*)migrateBackgroundWidgetsIfNecessary:(NSDictionary*)settings {
+    NSMutableDictionary *allLayerPreferences = [[settings objectForKey:@"widgets"] mutableCopy];
+    if (!allLayerPreferences)
+        return settings;
+    
+    BOOL didChange = NO;
+    
+    NSString* (^nameReplacer)(NSString *) = ^(NSString *location) {
+        NSString *newLocation = [location stringByReplacingOccurrencesOfString:@"/var/mobile/Library/LockHTML/Background" withString:@"/var/mobile/Library/Widgets/Backgrounds/Background"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"/var/mobile/Library/SBHTML/Background" withString:@"/var/mobile/Library/Widgets/Backgrounds/Background"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"LockBackground.html" withString:@"index.html"];
+        newLocation = [newLocation stringByReplacingOccurrencesOfString:@"Wallpaper.html" withString:@"index.html"];
+        
+        return newLocation;
+    };
+    
+    for (NSString *layer in allLayerPreferences.allKeys) {
+        NSMutableDictionary *layerPreferences = [[allLayerPreferences objectForKey:layer] mutableCopy];
+        NSMutableArray *layerWidgets = [[layerPreferences objectForKey:@"widgetArray"] mutableCopy];
+        NSMutableDictionary *layerMetadata = [[layerPreferences objectForKey:@"widgetMetadata"] mutableCopy];
+        
+        if (!layerWidgets || !layerMetadata)
+            continue;
+        
+        // Handle widget path name
+        for (NSString *location in layerWidgets.copy) {
+            if ([location rangeOfString:@"/var/mobile/Library/LockHTML/Background"].location != NSNotFound ||
+                [location rangeOfString:@"/var/mobile/Library/SBHTML/Background"].location != NSNotFound) {
+                
+                // Replace path components
+                NSString *newLocation = nameReplacer(location);
+                [layerWidgets replaceObjectAtIndex:[layerWidgets indexOfObject:location] withObject:newLocation];
+                
+                didChange = YES;
+            }
+        }
+        
+        // And also do the same for metadata
+        for (NSString *key in layerMetadata.allKeys.copy) {
+            if ([key rangeOfString:@"/var/mobile/Library/LockHTML/Background"].location != NSNotFound ||
+                [key rangeOfString:@"/var/mobile/Library/SBHTML/Background"].location != NSNotFound) {
+                
+                NSString *newKey = nameReplacer(key);
+                NSDictionary *data = [layerMetadata objectForKey:key];
+                
+                [layerMetadata removeObjectForKey:key];
+                [layerMetadata setObject:data forKey:newKey];
+                
+                didChange = YES;
+            }
+        }
+        
+        // Finally, update the layerPreferences
+        [layerPreferences setObject:layerWidgets forKey:@"widgetArray"];
+        [layerPreferences setObject:layerMetadata forKey:@"widgetMetadata"];
+        
+        [allLayerPreferences setObject:layerPreferences forKey:layer];
+    }
+    
+    // Update allLayerPreferences
+    NSMutableDictionary *result = [settings mutableCopy];
+    [result setObject:allLayerPreferences forKey:@"widgets"];
+    
+    if (didChange)
+        [self setPreferenceKey:@"widgets" withValue:allLayerPreferences andPost:NO];
+    
+    return result;
 }
 
 + (void)userRequestsForceSupportForCurrentVersion {
@@ -971,8 +920,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Developer options
 
 + (BOOL)developerOptionsEnabled {
-    id value = settings[@"dev_optionsEnabled"];
-    return (value ? [value boolValue] : NO);
+    return [self showResourceUsageInWidgets] || [self showCompositingBordersInWidgets];
 }
 
 + (BOOL)showResourceUsageInWidgets {
