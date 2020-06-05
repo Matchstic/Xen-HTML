@@ -61,13 +61,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // Internal webviews
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) UIWebView *legacyWebView;
-
+@property (nonatomic, strong) UIImageView *snapshotWebView;
+@property (nonatomic, strong) UIView *editingBackground;
+@property (nonatomic, strong) NSString *widgetIndexFile;
+@property (nonatomic) BOOL pendingHighStrategyLoad;
 @property (nonatomic, readwrite) BOOL isPaused;
 
 - (void)_setInternalHidden:(BOOL)paused;
 - (void)_setInternalPaused:(BOOL)paused;
 
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView;
+- (void)snapshotWidget:(void (^)(UIImage *))completion;
+- (void)_unloadWebView;
+- (void)_loadWebView;
+- (CGRect)widgetFrame;
 
 @end
 
@@ -183,7 +190,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
 }
 
-static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {    
+static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
     if (!webView)
         return;
     
@@ -212,6 +219,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 }
 
 %hook XENHWidgetController
+
+%property (nonatomic, strong) UIImageView *snapshotWebView;
+%property (nonatomic) BOOL pendingHighStrategyLoad;
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
     // Pause as needed, and only if needed
@@ -252,7 +262,36 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
          As a result, this incurs a slight delay during 'unpause' for the widget to reload.
         */
         case kHigh:
-            // TODO: Un/Re-load the entire widget
+            // Un/Re-load the entire widget
+            if (paused) {
+                // Get a snapshot for this widget, then unload it
+                [self snapshotWidget:^(UIImage *snapshot) {
+                    // Load snapshot
+                    self.snapshotWebView = [[UIImageView alloc] initWithImage:snapshot];
+                    [self.view addSubview:self.snapshotWebView];
+                    
+                    // Direct the webview to about:blank
+                    NSURL *url = [NSURL URLWithString:@"about:blank"];
+                    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                    [self.webView loadRequest:request];
+                    
+                    // Hide the webview
+                    self.webView.hidden = YES;
+                    
+                    // Request layout for the snapshot
+                    [self.view setNeedsLayout];
+                    [self.view setNeedsDisplay];
+                }];
+            } else {
+                // Load the widget, then remove snapshot in didFinishNavigation
+                self.pendingHighStrategyLoad = YES;
+                
+                // Restore URL
+                NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
+                if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
+                    [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+                }
+            }
             
             break;
             
@@ -290,7 +329,47 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     
     // Update activity states due to the underlying webview getting terminated
     if (paused) {
+        // Ignore for the 'high' strategy
+        if (self.webView._xh_currentPauseStrategy == kHigh)
+            return;
+        
         [self _setInternalPaused:paused];
+    }
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    %orig;
+    
+    if (self.pendingHighStrategyLoad &&
+        ![[webView.URL absoluteString] isEqualToString:@"about:blank"]) {
+        self.pendingHighStrategyLoad = NO;
+        
+        // Show the webview
+        self.webView.hidden = NO;
+        self.webView.alpha = 0.0;
+
+        // Request display update
+        [self.view setNeedsDisplay];
+        
+        // Transition in the webview
+        [UIView animateWithDuration:0.15 animations:^{
+            self.webView.alpha = 1.0;
+            self.snapshotWebView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                // Remove the snapshot
+                [self.snapshotWebView removeFromSuperview];
+                self.snapshotWebView = nil;
+            }
+        }];
+    }
+}
+
+- (void)viewDidLayoutSubviews {
+    %orig;
+    
+    if (self.snapshotWebView) {
+        self.snapshotWebView.frame = [self widgetFrame];
     }
 }
 

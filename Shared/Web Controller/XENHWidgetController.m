@@ -499,11 +499,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
 #pragma mark Orientation and layout handling
 /////////////////////////////////////////////////////////////////////////////
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
+- (CGRect)widgetFrame {
     BOOL isWidgetFullscreen = [[self.widgetMetadata objectForKey:@"isFullscreen"] boolValue];
-    BOOL widgetCanScroll = [[self.widgetMetadata objectForKey:@"widgetCanScroll"] boolValue];
     
     CGRect rect = CGRectMake(
                             [[self.widgetMetadata objectForKey:@"x"] floatValue]*SCREEN_WIDTH,
@@ -514,6 +511,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     if (rect.size.height > self.view.bounds.size.height)
         rect.size.height = self.view.bounds.size.height;
+    
+    return rect;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    BOOL widgetCanScroll = [[self.widgetMetadata objectForKey:@"widgetCanScroll"] boolValue];
+    CGRect rect = [self widgetFrame];
     
     self.webView.frame = rect;
     self.legacyWebView.frame = rect;
@@ -1221,6 +1227,29 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_webView:(WKWebView*)arg1 shouldAllowDeviceOrientationAndMotionAccessRequestedByFrame:(id)arg2 decisionHandler:(void (^)(BOOL))arg3 {
     // Override requests for motion API to true always
     arg3(YES);
+}
+
+#pragma mark - Snapshots
+
+- (void)snapshotWidget:(void (^)(UIImage *))completion {
+    if (@available(iOS 11, *)) {
+        // Use WebKit method for snapshot
+        WKSnapshotConfiguration *wkSnapshotConfig = [WKSnapshotConfiguration new];
+        wkSnapshotConfig.rect = self.webView.bounds;
+
+        [self.webView takeSnapshotWithConfiguration:wkSnapshotConfig completionHandler:^(UIImage * _Nullable snapshotImage, NSError * _Nullable error) {
+            
+            completion(snapshotImage);
+        }];
+        
+    } else {
+        UIGraphicsBeginImageContextWithOptions(self.webView.bounds.size, NO, 0);
+        [self.webView drawViewHierarchyInRect:self.webView.bounds afterScreenUpdates:YES];
+        UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        completion(snapshotImage);
+    }
 }
 
 @end
