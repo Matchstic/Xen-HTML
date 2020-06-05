@@ -11,10 +11,10 @@
 "BATTERY_MANAGEMENT_OPTION_LOW" = "Low";
 "BATTERY_MANAGEMENT_OPTION_MED" = "Moderate";
 "BATTERY_MANAGEMENT_OPTION_HIGH" = "High";
-"BATTERY_MANAGEMENT_FOOTER" = "Battery management helps to reduce drainage from widgets when they are not visible.\n\nAvailable modes:\n\n• Low: stops widgets from updating their UI \n• Moderate: pauses JavaScript execution in widgets (i.e., 'freezes' them)\n• High: completely unloads widgets\n\nA higher mode leads to less drainage, but may cause potential visual issues when widgets become visible again.";
+"BATTERY_MANAGEMENT_FOOTER" = "Battery management helps to reduce drainage from widgets when they are not visible.\n\nAvailable modes:\n\n• Low: stops widgets from updating their UI \n• Moderate: pauses JavaScript execution in widgets (i.e., 'freezes' them)\n• High: completely unloads widgets\n\nA higher mode leads to less drainage, but may cause visual issues when widgets become visible again.";
 
 "WW_OVERRIDE" = "Override Widget Weather";
-"WW_OVERRIDE_FOOTER" = "If Widget Weather is installed, Xen HTML will defer to it when providing backwards compatibility for widget data.\nThis option forces Xen HTML to always override Widget Weather's output.";
+"WW_OVERRIDE_FOOTER" = "If Widget Weather is installed, Xen HTML will defer to it when providing backwards compatibility for widget data.\n\nThis option forces Xen HTML to always override Widget Weather's output.";
 
 "WIDGET_LOGGING" = "Widget Logging";
 "WIDGET_LOGGING_FOOTER" = "This option redirects console.* JavaScript calls in widgets to the filesystem.\n\nLogs can be found in /var/mobile/Library/Logs/Xen-HTML";
