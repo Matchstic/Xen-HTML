@@ -8,6 +8,14 @@ Xen HTML provides users the ability to display any HTML-based widget on the Lock
 
 This project requires [iOSOpenDev](https://github.com/Matchstic/iOSOpenDev). Dependant third-party libraries and private headers are included within this repository for portability reasons.
 
+### Branches
+
+The `master` branch is a snapshot of development on each public release.
+
+All development efforts occur in the `develop` branch until they are stable enough for a release.
+
+The `v1.x.y` branch is a legacy branch for Xen HTML 1.x.y, in the event a hotfix is required there.
+
 ### Notes for development
 
 Support for different iOS versions is split into multiple dylibs.
