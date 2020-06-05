@@ -363,6 +363,17 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     %orig;
 }
 
+- (void)_unloadWebView {
+    %orig;
+    
+    int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
+    if (defaultStrategy == kHigh && self.snapshotWebView) {
+        // Ensure the snapshot gets removed
+        [self.snapshotWebView removeFromSuperview];
+        self.snapshotWebView = nil;
+    }
+}
+
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     %orig;
     
