@@ -684,8 +684,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 //////////////////////////////////////////////////////
 
 +(BOOL)LSUseBatteryManagement {
-    id value = settings[@"LSUseBatteryManagement"];
-    return (value ? [value boolValue] : YES);
+    return YES;
+    
+    /*id value = settings[@"LSUseBatteryManagement"];
+    return (value ? [value boolValue] : YES);*/
 }
 
 +(BOOL)LSFadeForegroundForNotifications {

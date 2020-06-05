@@ -38,6 +38,24 @@
 			<key>icon</key>
 			<string>CellIcons/Homescreen.png</string>
 		</dict>
+        
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkCell</string>
+			<key>label</key>
+			<string>ADVANCED</string>
+			<key>detail</key>
+			<string>XENHAdvancedController</string>
+			<key>isController</key>
+			<string>YES</string>
+			<key>icon</key>
+			<string>CellIcons/More.png</string>
+		</dict>
+        
 		<dict>
 			<key>footerText</key>
 			<string>Xen HTML © 2016-20 Matt Clarke (Matchstic)</string>

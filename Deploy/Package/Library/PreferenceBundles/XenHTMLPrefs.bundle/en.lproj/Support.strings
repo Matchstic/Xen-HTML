@@ -12,7 +12,5 @@
 
 "BUGS_FEATURES" = "Report Bugs and Request Features";
 
-"DEV_OPTIONS" = "Developer Options";
-
 "RESET_FOOTER" = "This will clear all Xen HTML settings.";
 "RESET_SETTINGS" = "Reset All Settings";

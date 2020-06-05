@@ -65,6 +65,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 @property (nonatomic, strong) UIView *editingBackground;
 @property (nonatomic, strong) NSString *widgetIndexFile;
 @property (nonatomic) BOOL pendingHighStrategyLoad;
+@property (nonatomic, readwrite) BOOL pendingWidgetJITLoad;
 @property (nonatomic, readwrite) BOOL isPaused;
 
 - (void)_setInternalHidden:(BOOL)paused;
@@ -263,10 +264,15 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         */
         case kHigh:
             // Un/Re-load the entire widget
-            if (paused) {
+            if (paused && !self.pendingWidgetJITLoad) {
                 // Get a snapshot for this widget, then unload it
                 [self snapshotWidget:^(UIImage *snapshot) {
                     // Load snapshot
+                    if (self.snapshotWebView) {
+                        [self.snapshotWebView removeFromSuperview];
+                        self.snapshotWebView = nil;
+                    }
+                    
                     self.snapshotWebView = [[UIImageView alloc] initWithImage:snapshot];
                     [self.view addSubview:self.snapshotWebView];
                     
@@ -291,6 +297,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
                     [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
                 }
+                
+                // Add failsafe for clearing the snapshot
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [self.snapshotWebView removeFromSuperview];
+                    self.snapshotWebView = nil;
+                });
             }
             
             break;
@@ -335,6 +347,20 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         
         [self _setInternalPaused:paused];
     }
+}
+
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    // Give it a retry if in high strategy
+    
+    int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
+    if (defaultStrategy == kHigh) {
+        NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
+        if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
+            [webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+        }
+    }
+    
+    %orig;
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
