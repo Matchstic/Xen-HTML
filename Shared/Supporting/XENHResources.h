@@ -159,6 +159,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 #pragma mark Extra stuff
 
++ (int)currentPauseStrategy;
+
 + (void)setCurrentOrientation:(int)orient;
 + (int)getCurrentOrientation;
 

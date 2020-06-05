@@ -17,6 +17,7 @@
 @interface WKWebView (XH_Extended)
 @property (nonatomic) BOOL _xh_isPaused;
 @property (nonatomic) BOOL _xh_requiresProviderUpdate;
+@property (nonatomic) int _xh_currentPauseStrategy;
 @property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
 
 - (void)_xh_postResume;
@@ -32,7 +33,8 @@
 
 @property (nonatomic, readwrite) BOOL isPaused;
 
-- (void)_setMainThreadPaused:(BOOL)paused;
+- (void)_setInternalHidden:(BOOL)paused;
+- (void)_setInternalPaused:(BOOL)paused;
 
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView;
 
@@ -40,6 +42,7 @@
 
 @interface XENHResources : NSObject
 + (BOOL)displayState; // YES == on, NO == off
++ (int)currentPauseStrategy;
 @end
 
 @interface XENDWidgetManager : NSObject
@@ -52,6 +55,12 @@
 + (instancetype)sharedInstance;
 - (void)_updateWidgetWithCachedInformation:(id)widget;
 @end
+
+typedef enum : NSUInteger {
+    kLow = 0,
+    kModerate,
+    kHigh,
+} XENDPauseStrategy;
 
 // For setting WebPageProxy activity state
 enum class ActivityStateChangeDispatchMode { Deferrable, Immediate };
@@ -81,6 +90,8 @@ static void (*WebPageProxy$applicationWillEnterForeground)(void *_this);
 static void (*WebPageProxy$applicationWillResignActive)(void *_this);
 // void WebPageProxy::applicationDidBecomeActive()
 static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
+
+static BOOL isModerateStrategyPossible = YES;
 
 %group SpringBoard
 
@@ -142,6 +153,12 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    // Do not attempt this state change if symbols are not found
+    if (!isModerateStrategyPossible) {
+        XENlog(@"DEBUG :: Moderate strategy requested but is not available");
+        return;
+    }
+    
     if (!webView)
         return;
     
@@ -164,7 +181,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     }
 }
 
-
 %hook XENHWidgetController
 
 -(void)setPaused:(BOOL)paused animated:(BOOL)animated {
@@ -174,41 +190,82 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     %orig;
     
     if (needsStateChange) {
-        
-        // Need to make 100% sure we're on the main thread doing this part.
-        if ([NSThread isMainThread]) {
-            [self _setMainThreadPaused:paused];
-        } else {
-            dispatch_sync(dispatch_get_main_queue(), ^(void){
-                [self _setMainThreadPaused:paused];
-            });
-        }
-        
-        // Update activity state
-        setWKWebViewActivityState(self.webView, paused);
+        [self _setInternalPaused:paused];
     }
+}
+
+%new
+- (void)_setInternalPaused:(BOOL)paused {
+    // If setting to be not paused, then check what the strategy used previously
+    // was so that we can effectively undo it
+    int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
+    int strategy = !paused ? self.webView._xh_currentPauseStrategy : defaultStrategy;
+    
+    switch (strategy) {
+        /*
+         The 'Low' strategy involves just pausing GPU updates on the widget.
+         This means that JavaScript execution is untouched, and therefore
+         interferes the least with widget lifecycles.
+         */
+        case kLow:
+            if ([NSThread isMainThread]) {
+                [self _setInternalHidden:paused];
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^(void){
+                    [self _setInternalHidden:paused];
+                });
+            }
+            
+            break;
+        /*
+         The 'High' strategy involves unloading the entire widget when it is paused.
+         As a result, this incurs a slight delay during 'unpause' for the widget to reload.
+        */
+        case kHigh:
+            // TODO: Un/Re-load the entire widget
+            
+            break;
+            
+        /*
+         The 'Moderate' strategy involves pausing GPU updates, and notifying WebKit of
+         application events. This is done by faking 'app backgrounded' and 'app resumed' events
+         per widget.
+         
+         This strategy is the most prone to breakages from iOS major updates. If it is detected
+         that the required WebKit symbols have changed, then this strategy will gracefully degrade
+         to the 'Low' variant.
+        */
+        case kModerate:
+        default: {
+            if ([NSThread isMainThread]) {
+                [self _setInternalHidden:paused];
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^(void){
+                    [self _setInternalHidden:paused];
+                });
+            }
+            
+            // Update activity state
+            setWKWebViewActivityState(self.webView, paused);
+        }
+    }
+    
+    // Store the strategy for later re-use
+    if (paused)
+        self.webView._xh_currentPauseStrategy = strategy;
 }
 
 - (void)setPausedAfterTerminationRecovery:(BOOL)paused {
     %orig;
     
     // Update activity states due to the underlying webview getting terminated
-    
-    // Need to make 100% sure we're on the main thread doing this part.
-    if ([NSThread isMainThread]) {
-        [self _setMainThreadPaused:paused];
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^(void){
-            [self _setMainThreadPaused:paused];
-        });
+    if (paused) {
+        [self _setInternalPaused:paused];
     }
-    
-    // Update activity state
-    setWKWebViewActivityState(self.webView, paused);
 }
 
 %new
-- (void)_setMainThreadPaused:(BOOL)paused {
+- (void)_setInternalHidden:(BOOL)paused {
     // Remove the views from being updated
     self.legacyWebView.hidden = paused ? YES : NO;
     self.webView.hidden = paused ? YES : NO;
@@ -221,6 +278,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 // Override the result of _isBackground as needed
 %property (nonatomic) BOOL _xh_isPaused;
 %property (nonatomic) BOOL _xh_requiresProviderUpdate;
+%property (nonatomic) int  _xh_currentPauseStrategy;
 
 // Queue of evaluateJavaScript calls when paused
 %property (nonatomic, strong) NSMutableArray *_xh_pendingJavaScriptCalls;
@@ -348,16 +406,18 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
         WebPageProxy$applicationWillResignActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy27applicationWillResignActiveEv");
         WebPageProxy$applicationDidBecomeActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy26applicationDidBecomeActiveEv");
         
+        // If any of the required symbols are missing, the moderate strategy needs to degrade
+        // gracefully to the low strategy
         if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
-            return;
+            isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidEnterBackground, @"WebPageProxy::applicationDidEnterBackground"))
-            return;
+            isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillEnterForeground, @"WebPageProxy::applicationWillEnterForeground"))
-            return;
+            isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillResignActive, @"WebPageProxy::applicationWillResignActive"))
-            return;
+            isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
-            return;
+            isModerateStrategyPossible = NO;
 
         XENlog(@"DEBUG :: initialising hooks");
         %init(SpringBoard);

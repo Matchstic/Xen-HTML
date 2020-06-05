@@ -858,6 +858,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? value : @{});
 }
 
++ (int)currentPauseStrategy {
+    id value = settings[@"widgetPauseStrategy"];
+    return (value ? [value intValue] : 1); // defaults to medium
+}
+
 // Extra
 +(void)setCurrentOrientation:(int)orient {
     currentOrientation = orient;
