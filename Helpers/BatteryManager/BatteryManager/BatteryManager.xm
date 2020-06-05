@@ -1,3 +1,34 @@
+/*
+Copyright (C) 2018  Matt Clarke
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
+/**
+ * The goal with this helper is to apply battery management to widgets, so that they do not cause
+ * severe drainage on the user's device.
+ *
+ * It follows the principle of 'management strategies'; users can choose how invasive the management
+ * strategy should be, with each providing differing degrees of battery usage improvements.
+ *
+ * The following strategies are available:
+ * - Low :: just pauses GPU updates on the widget
+ * - Moderate :: same as above, but also notifies WebKit of application lifecycle events per widget
+ * - High :: completely unloads the widget and removes it from the view hierarchy
+ */
+
 #import "XENBMResources.h"
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
@@ -152,13 +183,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
 }
 
-static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
-    // Do not attempt this state change if symbols are not found
-    if (!isModerateStrategyPossible) {
-        XENlog(@"DEBUG :: Moderate strategy requested but is not available");
-        return;
-    }
-    
+static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {    
     if (!webView)
         return;
     
@@ -171,7 +196,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
     webView._xh_isPaused = isPaused;
     
     try {
-        doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+        if (isModerateStrategyPossible) {
+            // Do not attempt this state change if symbols are not found
+            doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
+        } else {
+            XENlog(@"DEBUG :: Moderate strategy requested but is not available");
+        }
         
         if (!isPaused) {
             [webView _xh_postResume];
