@@ -157,8 +157,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Can now reload the widget since SpringBoard has launched
     [self reloadWidget];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    XENlog(@"DEBUG :: Loading widget since SpringBoard has finished launching");
 }
 
 - (void)configureWithWidgetIndexFile:(NSString*)widgetIndexFile andMetadata:(NSDictionary*)metadata {
@@ -177,8 +175,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
         NSRange range = [widgetIndexFile rangeOfString:@"/"];
         
         widgetIndexFile = [widgetIndexFile substringFromIndex:range.location];
-        
-        XENlog(@"Handling multiple instances for this widget! Substring: %@", widgetIndexFile);
     }
     
     self.widgetIndexFile = widgetIndexFile;
@@ -190,8 +186,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Check if SpringBoard has finished launching. If not, then wait until it has
     if (![XENHResources hasSeenSpringBoardLaunch]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureAfterFirstLaunch:) name:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
-        
-        XENlog(@"DEBUG :: Not loading widget now, because SpringBoard has not finished launching");
         
         return;
     }
