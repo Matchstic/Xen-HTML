@@ -56,6 +56,7 @@
 - (void)loadView {
     self.view = [[XENHWidgetLayerContainerView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor clearColor];
+    self.view.layer.masksToBounds = YES;
     
     [(XENHWidgetLayerContainerView*)self.view setDelegate:self];
 }
