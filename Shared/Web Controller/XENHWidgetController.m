@@ -153,6 +153,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
 #pragma mark Configuration
 /////////////////////////////////////////////////////////////////////////////
 
+- (void)configureAfterFirstLaunch:(NSNotification*)notification {
+    // Can now reload the widget since SpringBoard has launched
+    [self reloadWidget];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    XENlog(@"DEBUG :: Loading widget since SpringBoard has finished launching");
+}
+
 - (void)configureWithWidgetIndexFile:(NSString*)widgetIndexFile andMetadata:(NSDictionary*)metadata {
     // First, unload the existing widget
     [self unloadWidget];
@@ -178,6 +186,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     // Check fallback state.
     self.usingLegacyWebView = [self _widgetIndexFile:widgetIndexFile wantsFallbackForMetadata:metadata];
+    
+    // Check if SpringBoard has finished launching. If not, then wait until it has
+    if (![XENHResources hasSeenSpringBoardLaunch]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureAfterFirstLaunch:) name:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
+        
+        XENlog(@"DEBUG :: Not loading widget now, because SpringBoard has not finished launching");
+        
+        return;
+    }
     
     if (self.usingLegacyWebView) {
         // Load using UIWebView
@@ -611,6 +628,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     [self _unloadWebView];
     [self _unloadLegacyWebView];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     self.isUnloading = NO;
 }

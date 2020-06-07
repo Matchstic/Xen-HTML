@@ -2191,6 +2191,17 @@ static BOOL launchCydiaForSource = NO;
         
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
     }
+    
+    /*
+     * Notify widgets that they are now free to do their first load
+     *
+     * This is to ensure WebKit related processes don't spin up until SpringBoard
+     * is fully initialised.
+     */
+    
+    [XENHResources setHasSeenSpringBoardLaunch:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
 }
 
 %end

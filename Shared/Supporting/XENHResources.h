@@ -166,6 +166,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)hasDisplayedSetupUI;
 + (BOOL)hasSeenFirstUnlock;
++ (BOOL)hasSeenSpringBoardLaunch;
++ (void)setHasSeenSpringBoardLaunch:(BOOL)state;
 + (void)setHasSeenFirstUnlock:(BOOL)state;
 
 + (BOOL)isInstalledFromOfficialRepository;
