@@ -53,7 +53,7 @@
 			<key>isController</key>
 			<string>YES</string>
 			<key>icon</key>
-			<string>CellIcons/More.png</string>
+			<string>CellIcons/Advanced.png</string>
 		</dict>
         
 		<dict>
