@@ -86,11 +86,11 @@ static void _logos_method$_ungrouped$SpringBoard$applicationDidFinishLaunching$(
     
     if (!isRootless) {
         if (!hasBatteryManager) {
-            presentAlert(@"Battery manager has been disabled.\n\nThis will result in greatly increased battery drainage by widgets");
+            presentAlert(@"\"Battery Management\" has been disabled.\n\nThis will result in greatly increased battery drainage by widgets");
         }
         
         if (!hasWebGL) {
-            presentAlert(@"WebGL helper has been disabled.\n\nSome widgets will fail to render correctly on the Lockscreen");
+            presentAlert(@"\"WebGL Rendering\" has been disabled.\n\nSome widgets will fail to render correctly on the Lockscreen");
         }
         
         if (!hasWidgetInfo) {
