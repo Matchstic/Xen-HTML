@@ -264,7 +264,10 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         */
         case kHigh:
             // Un/Re-load the entire widget
-            if (paused && !self.pendingWidgetJITLoad) {
+            if (paused) {
+                // Ignore if pending a JIT load
+                if (self.pendingWidgetJITLoad) return;
+                
                 // Get a snapshot for this widget, then unload it
                 [self snapshotWidget:^(UIImage *snapshot) {
                     // Load snapshot
@@ -273,20 +276,25 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                         self.snapshotWebView = nil;
                     }
                     
-                    self.snapshotWebView = [[UIImageView alloc] initWithImage:snapshot];
-                    [self.view addSubview:self.snapshotWebView];
-                    
-                    // Direct the webview to about:blank
-                    NSURL *url = [NSURL URLWithString:@"about:blank"];
-                    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                    [self.webView loadRequest:request];
-                    
-                    // Hide the webview
-                    self.webView.hidden = YES;
-                    
-                    // Request layout for the snapshot
-                    [self.view setNeedsLayout];
-                    [self.view setNeedsDisplay];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // If the pause state has toggled again, don't do anything
+                        if (!self.isPaused) return;
+                        
+                        self.snapshotWebView = [[UIImageView alloc] initWithImage:snapshot];
+                        [self.view addSubview:self.snapshotWebView];
+
+                        // Direct the webview to about:blank
+                        NSURL *url = [NSURL URLWithString:@"about:blank"];
+                        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                        [self.webView loadRequest:request];
+
+                        // Hide the webview
+                        self.webView.hidden = YES;
+
+                        // Request layout for the snapshot
+                        [self.view setNeedsLayout];
+                        [self.view setNeedsDisplay];
+                    });
                 }];
             } else {
                 // Load the widget, then remove snapshot in didFinishNavigation
@@ -300,8 +308,12 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 
                 // Add failsafe for clearing the snapshot
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                    [self.snapshotWebView removeFromSuperview];
-                    self.snapshotWebView = nil;
+                   if (self.snapshotWebView) {
+                       [self.snapshotWebView removeFromSuperview];
+                       self.snapshotWebView = nil;
+                                  
+                       self.webView.hidden = NO;
+                   }
                 });
             }
             
@@ -366,8 +378,9 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 - (void)_unloadWebView {
     %orig;
     
-    int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
-    if (defaultStrategy == kHigh && self.snapshotWebView) {
+    if (self.snapshotWebView) {
+        self.pendingHighStrategyLoad = NO;
+        
         // Ensure the snapshot gets removed
         [self.snapshotWebView removeFromSuperview];
         self.snapshotWebView = nil;
@@ -382,23 +395,22 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         self.pendingHighStrategyLoad = NO;
         
         // Show the webview
-        self.webView.hidden = NO;
-        self.webView.alpha = 0.0;
-
-        // Request display update
-        [self.view setNeedsDisplay];
-        
-        // Transition in the webview
-        [UIView animateWithDuration:0.15 animations:^{
-            self.webView.alpha = 1.0;
-            self.snapshotWebView.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                // Remove the snapshot
-                [self.snapshotWebView removeFromSuperview];
-                self.snapshotWebView = nil;
-            }
-        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           self.webView.hidden = NO;
+           self.webView.alpha = 0.0;
+           
+           // Transition in the webview
+           [UIView animateWithDuration:0.15 animations:^{
+               self.webView.alpha = 1.0;
+               self.snapshotWebView.alpha = 0.0;
+           } completion:^(BOOL finished) {
+               if (finished) {
+                   // Remove the snapshot
+                   [self.snapshotWebView removeFromSuperview];
+                   self.snapshotWebView = nil;
+               }
+           }];
+        });
     }
 }
 
