@@ -2241,6 +2241,26 @@ enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied,
     return DeviceOrientationOrMotionPermissionState::Granted;
 }
 
+// Prevent double tap to scroll
+
+%hook WKContentView
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)gestureRecognizer;
+
+        // check if it is a 1-finger double-tap, and ignore if so
+        if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
+            XENlog(@"DEBUG :: Blocking %@", gestureRecognizer);
+            return NO;
+        }
+    }
+    
+    return %orig;
+}
+
+%end
+
 #pragma mark Initialisation and Settings callbacks
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
