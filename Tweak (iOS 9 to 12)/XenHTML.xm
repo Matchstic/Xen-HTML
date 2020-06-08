@@ -3958,7 +3958,6 @@ static BOOL launchCydiaForSource = NO;
 
         // check if it is a 1-finger double-tap, and ignore if so
         if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
-            XENlog(@"DEBUG :: Blocking %@", gestureRecognizer);
             return NO;
         }
     }
