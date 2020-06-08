@@ -811,14 +811,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
         [view becomeFirstResponder];
     
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
+        /*if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
             UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
 
             // check if it is a 1-finger double-tap, and ignore if so
             if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
                 continue;
             }
-        }
+        }*/
         
         switch (type) {
             case 0:
@@ -861,14 +861,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
         for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
             // If the (converted) touch is outside of the bounds of the gesture's view, then don't start
             
-            if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
+            /*if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
                 UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
 
                 // check if it is a 1-finger double-tap, and ignore if so
                 if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
                     continue;
                 }
-            }
+            }*/
             
             switch (type) {
                 case 0:
