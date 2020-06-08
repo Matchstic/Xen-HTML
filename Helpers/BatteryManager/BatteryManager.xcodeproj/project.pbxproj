@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C9479C48248A8ED000D95773 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9479C47248A8ECF00D95773 /* UIKit.framework */; };
 		C95497E02299FBDE0071D7CD /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6055A229352450043581A /* WebKit.framework */; };
 		C9B60520229346840043581A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B6051F229346840043581A /* Foundation.framework */; };
 		C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B60544229347500043581A /* libsubstrate.tbd */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C9479C47248A8ECF00D95773 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C9B6051C229346840043581A /* XenHTML_ZBatteryManager.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_ZBatteryManager.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9B6051F229346840043581A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9B60544229347500043581A /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
@@ -35,6 +37,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B60545229347500043581A /* libsubstrate.tbd in Frameworks */,
+				C9479C48248A8ED000D95773 /* UIKit.framework in Frameworks */,
 				C95497E02299FBDE0071D7CD /* WebKit.framework in Frameworks */,
 				C9B60520229346840043581A /* Foundation.framework in Frameworks */,
 			);
@@ -63,6 +66,7 @@
 		C9B6051E229346840043581A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9479C47248A8ECF00D95773 /* UIKit.framework */,
 				C9B6055C2294992C0043581A /* JavaScriptCore.framework */,
 				C9B6055A229352450043581A /* WebKit.framework */,
 				C9B60544229347500043581A /* libsubstrate.tbd */,

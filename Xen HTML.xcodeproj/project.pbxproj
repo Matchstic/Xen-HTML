@@ -117,6 +117,8 @@
 		C94775B620715D160003D039 /* XENHWallpaperViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947755A20715D150003D039 /* XENHWallpaperViewController.h */; };
 		C94775B720715D160003D039 /* XENHMoreReposController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947755B20715D150003D039 /* XENHMoreReposController.m */; };
 		C94775B820715D160003D039 /* XENHLSMediaController.m in Sources */ = {isa = PBXBuildFile; fileRef = C947756520715D150003D039 /* XENHLSMediaController.m */; };
+		C9479C4C248A979900D95773 /* XENHAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9479C4A248A979900D95773 /* XENHAdvancedController.h */; };
+		C9479C4D248A979900D95773 /* XENHAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9479C4B248A979900D95773 /* XENHAdvancedController.m */; };
 		C94F49D7237DB0B9004A74B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C94F49E2237DB0B9004A74B0 /* XenHTML.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94F49E1237DB0B9004A74B0 /* XenHTML.mm */; };
 		C94F49ED237DB10D004A74B0 /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; };
@@ -164,6 +166,7 @@
 		C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
 		C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCC207179CB0099FF1E /* libuaunbox.tbd */; settings = {ATTRIBUTES = (Weak, ); }; };
+		C9A379D8248D3738005A00E4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9B92AF8226CA92100CE6322 /* XENHSBForegroundController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */; };
 		C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */; };
 		C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -171,8 +174,6 @@
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
 		C9D3260E244371C300E59F79 /* XENHPickerItem.h in Headers */ = {isa = PBXBuildFile; fileRef = C9D3260C244371C300E59F79 /* XENHPickerItem.h */; };
 		C9D3260F244371C300E59F79 /* XENHPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3260D244371C300E59F79 /* XENHPickerItem.m */; };
-		C9DBDBAF244C928B009E855E /* XENHDeveloperOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DBDBAD244C928B009E855E /* XENHDeveloperOptionsController.h */; };
-		C9DBDBB0244C928B009E855E /* XENHDeveloperOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DBDBAE244C928B009E855E /* XENHDeveloperOptionsController.m */; };
 		C9DBDBBD244CECF3009E855E /* XENHPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */; };
 		C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */; };
 		C9ED329F209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED329D209D11F2001F0251 /* XENHFallbackOnlyOptionsController.m */; };
@@ -403,6 +404,8 @@
 		C947755A20715D150003D039 /* XENHWallpaperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHWallpaperViewController.h; sourceTree = "<group>"; };
 		C947755B20715D150003D039 /* XENHMoreReposController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHMoreReposController.m; sourceTree = "<group>"; };
 		C947756520715D150003D039 /* XENHLSMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHLSMediaController.m; sourceTree = "<group>"; };
+		C9479C4A248A979900D95773 /* XENHAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHAdvancedController.h; sourceTree = "<group>"; };
+		C9479C4B248A979900D95773 /* XENHAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHAdvancedController.m; sourceTree = "<group>"; };
 		C94A9F10241407CE0062CDCD /* WidgetInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WidgetInfo.xcodeproj; path = WidgetInfo/WidgetInfo.xcodeproj; sourceTree = "<group>"; };
 		C94E9A111E63AA2600932F4F /* libpackageinfo.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpackageinfo.dylib; path = ../../../../../opt/iOSOpenDev/lib/libpackageinfo.dylib; sourceTree = "<group>"; };
 		C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_Loader.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -482,8 +485,6 @@
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		C9D3260C244371C300E59F79 /* XENHPickerItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHPickerItem.h; sourceTree = "<group>"; };
 		C9D3260D244371C300E59F79 /* XENHPickerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHPickerItem.m; sourceTree = "<group>"; };
-		C9DBDBAD244C928B009E855E /* XENHDeveloperOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHDeveloperOptionsController.h; sourceTree = "<group>"; };
-		C9DBDBAE244C928B009E855E /* XENHDeveloperOptionsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHDeveloperOptionsController.m; sourceTree = "<group>"; };
 		C9DBDBBB244CECF2009E855E /* XENHPickerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XENHPickerItem.m; sourceTree = "<group>"; };
 		C9DBDBBC244CECF3009E855E /* XENHPickerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XENHPickerItem.h; sourceTree = "<group>"; };
 		C9ED329C209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHFallbackOnlyOptionsController.h; sourceTree = "<group>"; };
@@ -514,6 +515,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9A379D8248D3738005A00E4 /* UIKit.framework in Frameworks */,
 				C94F49ED237DB10D004A74B0 /* libsubstrate.tbd in Frameworks */,
 				C94F49D7237DB0B9004A74B0 /* Foundation.framework in Frameworks */,
 			);
@@ -655,6 +657,7 @@
 		C94774FF20715D150003D039 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				C9479C49248A977000D95773 /* Advanced Panel */,
 				C91C3A2C209B496C0076182C /* Multiplex Panel */,
 				C947750B20715D150003D039 /* HTML Editor Panel */,
 				C947754620715D150003D039 /* HTML Preferences Panel */,
@@ -907,10 +910,17 @@
 			children = (
 				C947750820715D150003D039 /* XENHSupportController.h */,
 				C947753420715D150003D039 /* XENHSupportController.m */,
-				C9DBDBAD244C928B009E855E /* XENHDeveloperOptionsController.h */,
-				C9DBDBAE244C928B009E855E /* XENHDeveloperOptionsController.m */,
 			);
 			path = "Support Panel";
+			sourceTree = "<group>";
+		};
+		C9479C49248A977000D95773 /* Advanced Panel */ = {
+			isa = PBXGroup;
+			children = (
+				C9479C4A248A979900D95773 /* XENHAdvancedController.h */,
+				C9479C4B248A979900D95773 /* XENHAdvancedController.m */,
+			);
+			path = "Advanced Panel";
 			sourceTree = "<group>";
 		};
 		C94A9F11241407CE0062CDCD /* Products */ = {
@@ -1124,6 +1134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C91C3A2F209B49E30076182C /* XENHMultiplexWidgetsHeaderView.h in Headers */,
+				C9479C4C248A979900D95773 /* XENHAdvancedController.h in Headers */,
 				C947757620715D150003D039 /* XENHEditorPositioningController.h in Headers */,
 				C94775A320715D160003D039 /* XENHDonationController.h in Headers */,
 				C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */,
@@ -1149,7 +1160,6 @@
 				C947757A20715D150003D039 /* XENHConfigJSController.h in Headers */,
 				C947757B20715D150003D039 /* XENHMetadataOptionsController.h in Headers */,
 				C9ED329E209D11F2001F0251 /* XENHFallbackOnlyOptionsController.h in Headers */,
-				C9DBDBAF244C928B009E855E /* XENHDeveloperOptionsController.h in Headers */,
 				C947758720715D150003D039 /* XENHPickerCell.h in Headers */,
 				C947757820715D150003D039 /* XENHEditorWebViewController.h in Headers */,
 				C947757920715D150003D039 /* XENHEditorDragDropController.h in Headers */,
@@ -1623,6 +1633,7 @@
 				C947759120715D150003D039 /* XENHPickerPreviewController.m in Sources */,
 				C94775AA20715D160003D039 /* XENHPreviewSliderCell.m in Sources */,
 				C947757220715D150003D039 /* XENHEditorWebViewController.m in Sources */,
+				C9479C4D248A979900D95773 /* XENHAdvancedController.m in Sources */,
 				C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */,
 				C947759420715D160003D039 /* XENHResources.m in Sources */,
 				C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */,
@@ -1634,7 +1645,6 @@
 				C94775A420715D160003D039 /* XENHDonationController.m in Sources */,
 				C947757520715D150003D039 /* XENHEditorToolbarController.m in Sources */,
 				C94775AF20715D160003D039 /* XENHBasePreviewCell.m in Sources */,
-				C9DBDBB0244C928B009E855E /* XENHDeveloperOptionsController.m in Sources */,
 				C94775AE20715D160003D039 /* XENHHomescreenPreviewCell.m in Sources */,
 				C947759720715D160003D039 /* XENHSupportController.m in Sources */,
 				C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */,
@@ -1921,6 +1931,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1950,6 +1961,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -1979,6 +1991,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = (

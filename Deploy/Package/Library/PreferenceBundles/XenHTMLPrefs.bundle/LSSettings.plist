@@ -231,6 +231,7 @@
 			<string>com.matchstic.xenhtml/settingschanged</string>
 			<key>validTitles</key>
 			<array>
+                <string>MISC_LS_IDLE_TIME_7S</string>
 				<string>MISC_LS_IDLE_TIME_10S</string>
 				<string>MISC_LS_IDLE_TIME_15S</string>
 				<string>MISC_LS_IDLE_TIME_20S</string>
@@ -240,6 +241,7 @@
 			</array>
 			<key>validValues</key>
 			<array>
+                <integer>7</integer>
 				<integer>10</integer>
 				<integer>15</integer>
 				<integer>20</integer>

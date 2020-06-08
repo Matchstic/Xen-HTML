@@ -65,20 +65,7 @@
 
 @end
 
-static WKProcessPool *sharedProcessPool;
-
 @implementation XENHEditorWebViewController
-
-+ (WKProcessPool*)sharedProcessPool {
-    if (!sharedProcessPool) {
-        static dispatch_once_t p = 0;
-        dispatch_once(&p, ^{
-            sharedProcessPool = [[WKProcessPool alloc] init];
-        });
-    }
-    
-    return sharedProcessPool;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +74,9 @@ static WKProcessPool *sharedProcessPool;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    
     // Dispose of any resources that can be recreated.
+    
 }
 
 - (instancetype)initWithVariant:(XENHEditorWebViewVariant)webViewVariant showNoHTMLLabel:(BOOL)enableShowNoHTML {
@@ -218,7 +207,6 @@ static WKProcessPool *sharedProcessPool;
 
 -(WKWebView*)loadWKWebView:(NSString*)baseString {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    //config.processPool = [XENHEditorWebViewController sharedProcessPool];
     
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     
@@ -242,7 +230,7 @@ static WKProcessPool *sharedProcessPool;
     [userContentController addUserScript:stopCallouts];
     [userContentController addUserScript:stopScaling];
     
-    // We also need to inject the settings required by the widget. How to do this, you ask? Click here to find out!
+    // We also need to inject the settings required by the widget
     NSMutableString *settingsInjection = [@"" mutableCopy];
     
     NSDictionary *options = [self.metadata objectForKey:@"options"];
@@ -265,17 +253,6 @@ static WKProcessPool *sharedProcessPool;
     
     WKUserScript *settingsInjector = [[WKUserScript alloc] initWithSource:settingsInjection injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     [userContentController addUserScript:settingsInjector];
-    
-    // Error handler!
-    NSString *errorHandler = @"window.onerror = function(errorMsg, url, lineNumber) {\
-    var str = 'Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber;\
-    window.webkit.messageHandlers.errorCallack.postMessage(JSON.stringify({event:'WKWebViewError',data:str}));\
-    }";
-    
-    WKUserScript *errorHand = [[WKUserScript alloc] initWithSource:errorHandler injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
-    [userContentController addUserScript:errorHand];
-    
-    [userContentController addScriptMessageHandler:self name:@"errorCallback"];
     
     config.userContentController = userContentController;
     config.requiresUserActionForMediaPlayback = YES;
@@ -418,15 +395,5 @@ static WKProcessPool *sharedProcessPool;
         [self.webView loadHTMLString:@"" baseURL:nil];
     }
 }*/
-
-#pragma mark Callback from error logging
-
-- (void)userContentController:(WKUserContentController*)userContentController
-      didReceiveScriptMessage:(WKScriptMessage*)message {
-    if ([message.name isEqualToString:@"errorCallback"]) {
-        // The message.body contains the object being posted back
-        NSLog(@"*********** %@", message.body);
-    }
-}
 
 @end

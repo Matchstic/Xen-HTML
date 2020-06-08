@@ -2191,6 +2191,17 @@ static BOOL launchCydiaForSource = NO;
         
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
     }
+    
+    /*
+     * Notify widgets that they are now free to do their first load
+     *
+     * This is to ensure WebKit related processes don't spin up until SpringBoard
+     * is fully initialised.
+     */
+    
+    [XENHResources setHasSeenSpringBoardLaunch:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
 }
 
 %end
@@ -2229,6 +2240,26 @@ enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied,
 %hookf(DeviceOrientationOrMotionPermissionState, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE", void *_this, void *originData) {
     return DeviceOrientationOrMotionPermissionState::Granted;
 }
+
+// Prevent double tap to scroll
+
+%hook WKContentView
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)gestureRecognizer;
+
+        // check if it is a 1-finger double-tap, and ignore if so
+        if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
+            XENlog(@"DEBUG :: Blocking %@", gestureRecognizer);
+            return NO;
+        }
+    }
+    
+    return %orig;
+}
+
+%end
 
 #pragma mark Initialisation and Settings callbacks
 

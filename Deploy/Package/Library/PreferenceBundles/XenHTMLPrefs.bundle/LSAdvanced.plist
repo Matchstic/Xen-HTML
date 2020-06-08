@@ -20,7 +20,7 @@
 			<key>footerText</key>
 			<string>SCROLL_PRIORITY_IOS11_FOOTER</string>
 			<key>minVer</key>
-			<real>11.0</real>
+			<real>11</real>
 		</dict>
 		<dict>
 			<key>PostNotification</key>
@@ -36,7 +36,7 @@
 			<key>label</key>
 			<string>SCROLL_PRIORITY_IOS10</string>
 			<key>minVer</key>
-			<real>10.0</real>
+			<real>10</real>
 			<key>maxVer</key>
 			<real>10.4</real>
 		</dict>
@@ -54,29 +54,8 @@
 			<key>label</key>
 			<string>SCROLL_PRIORITY_IOS11</string>
 			<key>minVer</key>
-			<real>11.0</real>
+			<real>11</real>
 		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>BATTERY_MANAGEMENT_FOOTER</string>
-		</dict>
-		<dict>
-			<key>PostNotification</key>
-			<string>com.matchstic.xenhtml/settingschanged</string>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>com.matchstic.xenhtml</string>
-			<key>key</key>
-			<string>LSUseBatteryManagement</string>
-			<key>label</key>
-			<string>BATTERY_MANAGEMENT</string>
-		</dict>
-		
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>

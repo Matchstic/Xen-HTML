@@ -3880,6 +3880,17 @@ static BOOL launchCydiaForSource = NO;
             }
         }
     }
+    
+    /*
+     * Notify widgets that they are now free to do their first load
+     *
+     * This is to ensure WebKit related processes don't spin up until SpringBoard
+     * is fully initialised.
+     */
+    
+    [XENHResources setHasSeenSpringBoardLaunch:YES];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
 }
 
 %end
@@ -3935,28 +3946,26 @@ static BOOL launchCydiaForSource = NO;
 
 %end
 
-/*%group backboardd
+#pragma mark - WebKit overrides
 
-#pragma mark Haxx for WebGL on the Lockscreen
+// Prevent double tap to scroll
 
-%hookf(BOOL, "__ZN2CA6Render6Update24allowed_in_secure_updateEPNS0_7ContextEPKNS0_9LayerHostE", void *_this, void *var1, const void *var2) {
+%hook WKContentView
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
+        UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)gestureRecognizer;
+
+        // check if it is a 1-finger double-tap, and ignore if so
+        if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
+            return NO;
+        }
+    }
     
-    /*
-     * WARNING
-     *
-     * This is horrible, I do not like this.
-     * One approach attempted was to hook calls to CA::Render::Context::process_name() from
-     * the original implementation of this method. Fun with return values meant this was not working
-     * as expected.
-     *
-     * Therefore... this is now disabling some security mechanism that I don't know all the details of.
-     * Not cool, but, whatever for now.
-     */
-    
-    /*return YES;
+    return %orig;
 }
 
-%end*/
+%end
 
 static void XENHSettingsChanged(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
     

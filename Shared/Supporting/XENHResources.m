@@ -64,6 +64,7 @@ static BOOL phIsVisible;
 static BOOL xenIsVisible;
 static BOOL displayState = YES;
 static bool hasSeenFirstUnlock = NO;
+static bool hasSeenSpringBoardLaunch = NO;
 static NSUserDefaults *PHDefaults;
 static SBLockScreenNotificationListController * __weak cachedLSNotificationController;
 static int iOS10NotificationCount;
@@ -684,8 +685,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 //////////////////////////////////////////////////////
 
 +(BOOL)LSUseBatteryManagement {
-    id value = settings[@"LSUseBatteryManagement"];
-    return (value ? [value boolValue] : YES);
+    return YES;
+    
+    /*id value = settings[@"LSUseBatteryManagement"];
+    return (value ? [value boolValue] : YES);*/
 }
 
 +(BOOL)LSFadeForegroundForNotifications {
@@ -858,6 +861,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? value : @{});
 }
 
++ (int)currentPauseStrategy {
+    id value = settings[@"widgetPauseStrategy"];
+    return (value ? [value intValue] : 1); // defaults to medium
+}
+
 // Extra
 +(void)setCurrentOrientation:(int)orient {
     currentOrientation = orient;
@@ -878,6 +886,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (void)setHasSeenFirstUnlock:(BOOL)state {
     hasSeenFirstUnlock = state;
+}
+
++ (BOOL)hasSeenSpringBoardLaunch {
+    return hasSeenSpringBoardLaunch;
+}
+
++ (void)setHasSeenSpringBoardLaunch:(BOOL)state {
+    hasSeenSpringBoardLaunch = state;
 }
 
 + (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor {

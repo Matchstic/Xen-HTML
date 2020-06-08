@@ -1,0 +1,27 @@
+/* 
+  DevOptions.strings
+  Xen HTML
+*/
+
+"TITLE" = "Advanced";
+"TITLE_DEV_OPTIONS" = "Developer Options";
+
+"BATTERY_MANAGEMENT" = "Battery Management";
+"BATTERY_MANAGEMENT_MODE" = "Mode";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Low";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Moderate";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "High";
+"BATTERY_MANAGEMENT_FOOTER" = "Battery management helps to reduce drainage from widgets when they are not visible.\n\nAvailable modes:\n\n• Low: prevents UI updates in widgets, but allows them to continue running code in the background\n• Moderate: pauses code execution in widgets (i.e., 'freezes' them)\n• High: completely unloads widgets\n\nA higher mode leads to less drainage, but may cause visual issues when widgets become visible again.";
+
+"WW_OVERRIDE" = "Override Widget Weather";
+"WW_OVERRIDE_FOOTER" = "If Widget Weather is installed, Xen HTML will defer to it when providing backwards compatibility for widget data.\n\nThis option forces Xen HTML to always override Widget Weather's output.";
+
+"WIDGET_LOGGING" = "Widget Logging";
+"WIDGET_LOGGING_FOOTER" = "This option redirects console.* JavaScript calls in widgets to the filesystem.\n\nLogs can be found in /var/mobile/Library/Logs/Xen-HTML";
+
+"WEBKIT_DEV_OPTIONS" = "WebKit Development Options";
+"RESOURCE_USAGE_OVERLAY" = "Resource Usage Overlay";
+"COMPOSITING_BORDERS" = "Show Compositing Borders";
+
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Developer options require a respring to apply.";

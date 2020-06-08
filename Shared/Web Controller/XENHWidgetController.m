@@ -153,6 +153,12 @@ static UIWindow *sharedOffscreenRenderingWindow;
 #pragma mark Configuration
 /////////////////////////////////////////////////////////////////////////////
 
+- (void)configureAfterFirstLaunch:(NSNotification*)notification {
+    // Can now reload the widget since SpringBoard has launched
+    [self reloadWidget];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)configureWithWidgetIndexFile:(NSString*)widgetIndexFile andMetadata:(NSDictionary*)metadata {
     // First, unload the existing widget
     [self unloadWidget];
@@ -169,8 +175,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
         NSRange range = [widgetIndexFile rangeOfString:@"/"];
         
         widgetIndexFile = [widgetIndexFile substringFromIndex:range.location];
-        
-        XENlog(@"Handling multiple instances for this widget! Substring: %@", widgetIndexFile);
     }
     
     self.widgetIndexFile = widgetIndexFile;
@@ -178,6 +182,13 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     // Check fallback state.
     self.usingLegacyWebView = [self _widgetIndexFile:widgetIndexFile wantsFallbackForMetadata:metadata];
+    
+    // Check if SpringBoard has finished launching. If not, then wait until it has
+    if (![XENHResources hasSeenSpringBoardLaunch]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configureAfterFirstLaunch:) name:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
+        
+        return;
+    }
     
     if (self.usingLegacyWebView) {
         // Load using UIWebView
@@ -499,11 +510,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
 #pragma mark Orientation and layout handling
 /////////////////////////////////////////////////////////////////////////////
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
+- (CGRect)widgetFrame {
     BOOL isWidgetFullscreen = [[self.widgetMetadata objectForKey:@"isFullscreen"] boolValue];
-    BOOL widgetCanScroll = [[self.widgetMetadata objectForKey:@"widgetCanScroll"] boolValue];
     
     CGRect rect = CGRectMake(
                             [[self.widgetMetadata objectForKey:@"x"] floatValue]*SCREEN_WIDTH,
@@ -514,6 +522,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     if (rect.size.height > self.view.bounds.size.height)
         rect.size.height = self.view.bounds.size.height;
+    
+    return rect;
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    BOOL widgetCanScroll = [[self.widgetMetadata objectForKey:@"widgetCanScroll"] boolValue];
+    CGRect rect = [self widgetFrame];
     
     self.webView.frame = rect;
     self.legacyWebView.frame = rect;
@@ -605,6 +622,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     [self _unloadWebView];
     [self _unloadLegacyWebView];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     self.isUnloading = NO;
 }
@@ -792,6 +811,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
         [view becomeFirstResponder];
     
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
+        if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
+            UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
+
+            // check if it is a 1-finger double-tap, and ignore if so
+            if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
+                continue;
+            }
+        }
+        
         switch (type) {
             case 0:
                 [recog _touchesBegan:set withEvent:event];
@@ -832,6 +860,15 @@ static UIWindow *sharedOffscreenRenderingWindow;
         // Forward to gestures also
         for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
             // If the (converted) touch is outside of the bounds of the gesture's view, then don't start
+            
+            if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
+                UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
+
+                // check if it is a 1-finger double-tap, and ignore if so
+                if (tapRecogniser.numberOfTapsRequired == 2 && tapRecogniser.numberOfTouchesRequired == 1) {
+                    continue;
+                }
+            }
             
             switch (type) {
                 case 0:
@@ -1221,6 +1258,29 @@ static UIWindow *sharedOffscreenRenderingWindow;
 - (void)_webView:(WKWebView*)arg1 shouldAllowDeviceOrientationAndMotionAccessRequestedByFrame:(id)arg2 decisionHandler:(void (^)(BOOL))arg3 {
     // Override requests for motion API to true always
     arg3(YES);
+}
+
+#pragma mark - Snapshots
+
+- (void)snapshotWidget:(void (^)(UIImage *))completion {
+    if (@available(iOS 11, *)) {
+        // Use WebKit method for snapshot
+        WKSnapshotConfiguration *wkSnapshotConfig = [WKSnapshotConfiguration new];
+        wkSnapshotConfig.rect = self.webView.bounds;
+
+        [self.webView takeSnapshotWithConfiguration:wkSnapshotConfig completionHandler:^(UIImage * _Nullable snapshotImage, NSError * _Nullable error) {
+            
+            completion(snapshotImage);
+        }];
+        
+    } else {
+        UIGraphicsBeginImageContextWithOptions(self.webView.bounds.size, NO, 0);
+        [self.webView drawViewHierarchyInRect:self.webView.bounds afterScreenUpdates:YES];
+        UIImage *snapshotImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        completion(snapshotImage);
+    }
 }
 
 @end

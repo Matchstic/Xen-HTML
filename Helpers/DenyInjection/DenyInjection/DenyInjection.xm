@@ -75,8 +75,11 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
     if ((hasPrefix(processName, "/usr") ||
          hasPrefix(processName, "/System") ||
          strstr(".framework/", processName) != NULL)
-        && strstr(processName, "SpringBoard") == NULL
-        && !hasPrefix(processName, "/System/Library/CoreServices")) {
+        && strstr(processName, "SpringBoard") == NULL // Allow SpringBoard
+        && strstr(processName, ".appex") == NULL // Allow app extensions
+        && !hasPrefix(processName, "/System/Library/CoreServices") // Allow any core service
+        && !hasPrefix(processName, "/System/Library/SpringBoardPlugins")) // Allow plugins
+    {
         %init();
     }
 }

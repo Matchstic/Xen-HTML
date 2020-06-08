@@ -23,6 +23,7 @@
 "MSIC_HEADER" = "Miscellaneous";
 "MISC_LS_STATUS_BAR_SIZE" = "Smaller Lockscreen Status Bar";
 "MISC_LS_IDLE_TIME" = "Lockscreen Idle Duration";
+"MISC_LS_IDLE_TIME_7S" = "Default";
 "MISC_LS_IDLE_TIME_10S" = "10 Seconds";
 "MISC_LS_IDLE_TIME_15S" = "15 Seconds";
 "MISC_LS_IDLE_TIME_20S" = "20 Seconds";
