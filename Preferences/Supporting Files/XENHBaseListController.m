@@ -39,6 +39,24 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     return _specifiers;
 }
 
+- (void)viewWillAppear:(BOOL)arg1 {
+    [super viewWillAppear:arg1];
+    
+    // Load correct translation for the title field
+    NSString *plistPath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/%@.plist", [self plistName]];
+    
+    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    if (!plist) return;
+    
+    NSString *titleKey = [plist objectForKey:@"title"];
+    if (!titleKey) return;
+    
+    NSString *fallbackName = [self _fallbackStringForKey:titleKey];
+    NSString *localisedName = [[self bundle] localizedStringForKey:titleKey value:fallbackName table:[self plistName]];
+    
+    [self setTitle:localisedName];
+}
+
 // From: https://stackoverflow.com/a/47297734
 - (NSString*)_fallbackStringForKey:(NSString*)key {
     NSBundle *mainBundle = [NSBundle bundleWithPath:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
@@ -51,27 +69,39 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 - (NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)specifiers {
     for (int i = 0; i < [specifiers count]; i++) {
+        PSSpecifier *specifier = [specifiers objectAtIndex:i];
         
-        if ([[specifiers objectAtIndex:i] name]) {
-            NSString *correspondingObject = [[specifiers objectAtIndex:i] name];
+        // Label
+        if ([specifier name]) {
+            NSString *correspondingObject = [specifier name];
             NSString *fallbackName = [self _fallbackStringForKey:correspondingObject];
             NSString *localisedName = [[self bundle] localizedStringForKey:correspondingObject value:fallbackName table:[self plistName]];
             
-            [[specifiers objectAtIndex:i] setName:localisedName];
+            [specifier setName:localisedName];
         }
         
-        if ([[specifiers objectAtIndex: i] titleDictionary]) {
+        // Title dictionary for link lists
+        if ([specifier titleDictionary]) {
             NSMutableDictionary *newTitles = [[NSMutableDictionary alloc] init];
             
-            for (NSString *key in [[specifiers objectAtIndex: i] titleDictionary]) {
-                NSString *correspondingObject = [[[specifiers objectAtIndex: i] titleDictionary] objectForKey:key];
+            for (NSString *key in [specifier titleDictionary]) {
+                NSString *correspondingObject = [[specifier titleDictionary] objectForKey:key];
                 NSString *fallbackName = [self _fallbackStringForKey:correspondingObject];
                 NSString *localisedName = [[self bundle] localizedStringForKey:correspondingObject value:fallbackName table:[self plistName]];
                 
                 [newTitles setObject:localisedName forKey:key];
             }
             
-            [[specifiers objectAtIndex: i] setTitleDictionary:newTitles];
+            [specifier setTitleDictionary:newTitles];
+        }
+        
+        // footerText
+        if ([specifier propertyForKey:@"footerText"]) {
+            NSString *correspondingObject = [specifier propertyForKey:@"footerText"];
+            NSString *fallbackName = [self _fallbackStringForKey:correspondingObject];
+            NSString *localisedName = [[self bundle] localizedStringForKey:correspondingObject value:fallbackName table:[self plistName]];
+            
+            [specifier setProperty:localisedName forKey:@"footerText"];
         }
     }
     
