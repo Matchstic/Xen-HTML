@@ -2245,7 +2245,7 @@ enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied,
 
 %hook WKContentView
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+/*- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
         UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)gestureRecognizer;
 
@@ -2257,7 +2257,7 @@ enum class DeviceOrientationOrMotionPermissionState : uint8_t { Granted, Denied,
     }
     
     return %orig;
-}
+}*/
 
 %end
 

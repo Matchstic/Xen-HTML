@@ -3952,7 +3952,7 @@ static BOOL launchCydiaForSource = NO;
 
 %hook WKContentView
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+/*- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
         UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)gestureRecognizer;
 
@@ -3963,7 +3963,7 @@ static BOOL launchCydiaForSource = NO;
     }
     
     return %orig;
-}
+}*/
 
 %end
 
