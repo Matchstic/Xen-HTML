@@ -4,6 +4,9 @@ about: Create a report to help us improve
 
 ---
 
+** YOU MUST FILL THIS FORM OUT **
+This information is asked to help figure out issues. Your issue may be closed without any resolution if you fail to fill out the form.
+
 **Describe the bug**
 
 A clear and concise description of what the bug is.
