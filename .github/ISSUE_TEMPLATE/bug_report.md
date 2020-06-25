@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-** YOU MUST FILL THIS FORM OUT **
+**YOU MUST COMPLETE THIS FORM**
 This information is asked to help figure out issues. Your issue may be closed without any resolution if you fail to fill out the form.
 
 **Describe the bug**
