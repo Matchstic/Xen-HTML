@@ -822,16 +822,20 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         switch (type) {
             case 0:
-                [recog _touchesBegan:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesBegan:withEvent:)])
+                    [recog _touchesBegan:set withEvent:event];
                 break;
             case 1:
-                [recog _touchesMoved:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesMoved:withEvent:)])
+                    [recog _touchesMoved:set withEvent:event];
                 break;
             case 2:
-                [recog _touchesEnded:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesEnded:withEvent:)])
+                    [recog _touchesEnded:set withEvent:event];
                 break;
             case 3:
-                [recog _touchesCancelled:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesCancelled:withEvent:)])
+                    [recog _touchesCancelled:set withEvent:event];
                 break;
                 
             default:
@@ -872,7 +876,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
             
             switch (type) {
                 case 0:
-                    [recog _touchesBegan:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesBegan:withEvent:)])
+                        [recog _touchesBegan:set withEvent:event];
                     break;
                 case 1:
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
@@ -880,30 +885,41 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _delayTouchesForEventIfNeeded:event];
-                    [recog _touchesMoved:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_delayTouchesForEventIfNeeded:)])
+                        [recog _delayTouchesForEventIfNeeded:event];
+                    
+                    if ([recog respondsToSelector:@selector(_touchesMoved:withEvent:)])
+                        [recog _touchesMoved:set withEvent:event];
                     break;
                 case 2:
-                    [recog _touchesEnded:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesEnded:withEvent:)])
+                        [recog _touchesEnded:set withEvent:event];
                     
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
                         [recog _updateGestureWithEvent:event buttonEvent:nil];
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _clearDelayedTouches];
-                    [recog _resetGestureRecognizer];
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    if ([recog respondsToSelector:@selector(_resetGestureRecognizer)])
+                        [recog _resetGestureRecognizer];
                     break;
                 case 3:
-                    [recog _touchesCancelled:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesCancelled:withEvent:)])
+                        [recog _touchesCancelled:set withEvent:event];
                     
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
                         [recog _updateGestureWithEvent:event buttonEvent:nil];
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _clearDelayedTouches];
-                    [recog _resetGestureRecognizer];
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    if ([recog respondsToSelector:@selector(_resetGestureRecognizer)])
+                        [recog _resetGestureRecognizer];
                     break;
                     
                 default:

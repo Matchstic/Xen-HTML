@@ -797,6 +797,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (BOOL)LSPersistentWidgets {
+    if ([self is14]) return NO;
+    
     id value = settings[@"LSPersistentWidgets"];
     return (value ? [value boolValue] : NO);
 }
@@ -834,6 +836,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)SBAllowTouch {
+    if ([self is14]) return NO;
+    
     id value = settings[@"SBAllowTouch"];
     return (value ? [value boolValue] : YES);
 }
@@ -844,11 +848,15 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 +(BOOL)SBOnePageWidgetMode {
+    if ([self is14]) return NO;
+    
     id value = settings[@"SBOnePageWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
 
 +(BOOL)SBPerPageHTMLWidgetMode {
+    if ([self is14]) return NO;
+    
     id value = settings[@"SBPerPageHTMLWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
@@ -907,6 +915,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor {
     return ![self isAtLeastiOSVersion:major subversion:minor];
+}
+
++ (BOOL)is14 {
+    return [self isAtLeastiOSVersion:14 subversion:0];
 }
 
 #pragma mark Compatiblity checks

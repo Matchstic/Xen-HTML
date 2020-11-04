@@ -89,6 +89,8 @@
 			<string>SBAllowTouch</string>
 			<key>label</key>
 			<string>MISC_SB_TOUCH2</string>
+			<key>debugDisable</key>
+			<integer>14</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
