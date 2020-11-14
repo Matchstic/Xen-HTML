@@ -282,6 +282,10 @@
 - (void)widgetButtonTriggered:(id)arg1; // iOS 14
 @end
 
+@interface _UIContextMenuActionsListView : UIView
+- (UIMenu*)displayedMenu;
+@end
+
 @interface SBRootFolderController : UIViewController
 @property (nonatomic,retain,readonly) SBRootFolderView *contentView;
 @property(readonly, nonatomic) long long currentPageIndex;

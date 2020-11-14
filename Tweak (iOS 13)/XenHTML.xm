@@ -1788,7 +1788,6 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     
     // Set dock position if needed
     [self _xenhtml_setDockPositionIfNeeded];
-    
 }
 
 %new
@@ -1862,6 +1861,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 #pragma mark Show widget context menu for 'Add Widget' button (iOS 14+)
 
+#define ADD_WIDGETS_MENU @"com.matchstic.xenhtml.addwidgets.menu"
+
 %hook SBRootFolderView
 
 -(void)setWidgetButton:(UIButton *)arg1 {
@@ -1879,7 +1880,11 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
                 }],
             ];
             
-            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"] children:menuActions];
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]
+                                        image:nil
+                                   identifier:ADD_WIDGETS_MENU
+                                      options:0
+                                     children:menuActions];
         }
     }
 
@@ -1949,7 +1954,11 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
                 }],
             ];
             
-            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"] children:menuActions];
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]
+                                        image:nil
+                                   identifier:ADD_WIDGETS_MENU
+                                      options:0
+                                     children:menuActions];
         }
     }
 
@@ -1959,8 +1968,45 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 %new
 -(void)recievedSBHTMLUpdate:(id)sender {
     // Update button state
-    XENlog(@"DEBUG :: Updating add widget button primary mode");
-    self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+    if (@available(iOS 14, *)) {
+        XENlog(@"DEBUG :: Updating add widget button primary mode");
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+    }
+}
+
+%end
+
+%hook _UIContextMenuActionsListView
+
+- (void)setCenter:(CGPoint)point {
+    // If the underlying menu matches ours, tweak the positioning
+    // This is such a hack but whatever
+    // Don't re-use this elsewhere...
+    
+    if ([self respondsToSelector:@selector(displayedMenu)]) {
+        NSString *identifier = self.displayedMenu ? self.displayedMenu.identifier : @"";
+        if ([identifier isEqualToString:ADD_WIDGETS_MENU]) {
+            // Get the source button
+            SBIconController *iconController = [objc_getClass("SBIconController") sharedInstance];
+            SBRootFolderController *rootFolder = [iconController respondsToSelector:@selector(_rootFolderController)] ?
+            [iconController _rootFolderController] : nil;
+            
+            if (rootFolder) {
+                SBRootFolderView *view = [rootFolder contentView];
+                if ([view respondsToSelector:@selector(widgetButton)]) {
+                    UIButton *widgetButton = [view widgetButton];
+                    
+                    CGFloat originY = widgetButton.frame.origin.y;
+                    CGFloat sizeY = widgetButton.bounds.size.height;
+                    CGFloat inset = 16 + widgetButton.frame.origin.y;
+                    
+                    point.y = originY + sizeY - inset + (inset + widgetButton.frame.origin.y);
+                }
+            }
+        }
+    }
+    
+    %orig(point);
 }
 
 %end
