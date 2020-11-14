@@ -2146,6 +2146,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2167,7 +2168,7 @@
 				PRODUCT_NAME = XenHTML_13;
 				SIMJECT = YES;
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2183,6 +2184,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2203,7 +2205,7 @@
 				PRODUCT_NAME = XenHTML_13;
 				SIMJECT = YES;
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2219,6 +2221,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2239,7 +2242,7 @@
 				PRODUCT_NAME = XenHTML_13;
 				SIMJECT = YES;
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;

@@ -154,7 +154,7 @@ static BOOL isModerateStrategyPossible = YES;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class XENHWidgetController; @class UIApp; 
+@class UIApp; @class XENHWidgetController; @class WKWebView; 
 
 
 #line 135 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"

@@ -255,6 +255,7 @@
 @property (nonatomic, strong) UIView *_xenhtml_editingVerticalIndicator;
 @property(retain, nonatomic) UIView *pageControl;
 @property (nonatomic,readonly) double dockHeight;  // iOS 13
+@property (nonatomic,retain) UIButton *widgetButton; // iOS 14
 -(CGRect)effectivePageControlFrame;
 
 - (void)_xenhtml_layoutAddWidgetButton;
@@ -267,6 +268,18 @@
 - (void)_xenhtml_setDockPositionIfNeeded;
 - (void)_xenhtml_initialise;
 - (id)dockView;
+
+- (void)widgetButtonTriggered:(id)arg1; // iOS 14
+@end
+
+@interface SBHomeScreenOverlayController : UIViewController
+- (void)dismissAnimated:(BOOL)arg1 completionHandler:(/*^block*/id)arg2; // iOS 14
+@end
+
+@interface SBHomeScreenOverlayViewController : UIViewController
+@property (nonatomic,retain) UIButton * widgetButton;  
+@property (assign, nonatomic) SBHomeScreenOverlayController* delegate;
+- (void)widgetButtonTriggered:(id)arg1; // iOS 14
 @end
 
 @interface SBRootFolderController : UIViewController

@@ -22,5 +22,6 @@
 
 - (NSString*)plistName;
 - (NSArray *)localizedSpecifiersForSpecifiers:(NSArray *)specifiers;
+- (NSArray*)mutateSpecifiers:(NSArray*)specs;
 
 @end

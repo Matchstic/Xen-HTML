@@ -29,15 +29,8 @@
 
 #pragma mark Simulator support
 
-// %config(generator=internal);
-
-/*
- Other steps to compile for actual device again:
- 1. Make CydiaSubstrate linking required?
- 2. Change build target
- 
- Note: the simulator *really* doesn't like MSHookIvar.
- */
+// Comment in/out, cannot use macro
+%config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -1596,6 +1589,12 @@ void cancelIdleTimer() {
 %new
 -(void)_xenhtml_recievedSettingsUpdate {
     [self _xenhtml_setDockPositionIfNeeded];
+    
+    // Update add widget button if needed
+    if (@available(iOS 14.0, *)) {
+        XENlog(@"DEBUG :: Updating add widget button primary mode");
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+    }
 }
 
 %end
@@ -1642,15 +1641,17 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %new
 - (void)_xenhtml_initialise {
-    self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
-    [self._xenhtml_addButton addTarget:self
-            action:@selector(_xenhtml_addWidgetButtonTapped:)
-            forControlEvents:UIControlEventTouchUpInside];
-    
-    // Hide until UI is in editing UI
-    self._xenhtml_addButton.hidden = YES;
-    
-    [self addSubview:self._xenhtml_addButton];
+    if (!@available(iOS 14.0, *)) {
+        self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
+        [self._xenhtml_addButton addTarget:self
+                action:@selector(_xenhtml_addWidgetButtonTapped:)
+                forControlEvents:UIControlEventTouchUpInside];
+        
+        // Hide until UI is in editing UI
+        self._xenhtml_addButton.hidden = YES;
+        
+        [self addSubview:self._xenhtml_addButton];
+    }
     
     // and the editing platter
     self._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
@@ -1683,14 +1684,30 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
     
+    
+    
     static CGFloat animationDuration = 0.15;
     
     // Display the add button, and hide the page dots
     if (arg1) {
-        self._xenhtml_addButton.hidden = NO;
+        if (self._xenhtml_addButton) {
+            self._xenhtml_addButton.hidden = NO;
+        }
+        
         self._xenhtml_editingPlatter.hidden = NO;
         
-        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
+        if (@available(iOS 14, *)) {
+            // Always ensure the page dots are visible, because that's the UI flow to
+            // edit SpringBoard pages
+            
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+#endif
+            } else {
+                self.pageControl.hidden = NO;
+            }
+        } else if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -1701,16 +1718,20 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             }
         } // Otherwise, already hidden
         
-        self._xenhtml_addButton.alpha = 0.0;
-        self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        
-        [UIView animateWithDuration:animationDuration animations:^{
-            self._xenhtml_addButton.alpha = 1.0;
-            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
-        }];
+        if (self._xenhtml_addButton) {
+            self._xenhtml_addButton.alpha = 0.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            
+            [UIView animateWithDuration:animationDuration animations:^{
+                self._xenhtml_addButton.alpha = 1.0;
+                self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            }];
+        }
     } else {
         
-        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
+        if (@available(iOS 14, *)) {
+            
+        } else if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -1721,15 +1742,19 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             }
         }
         
-        [UIView animateWithDuration:animationDuration animations:^{
-            self._xenhtml_addButton.alpha = 0.0;
-            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        } completion:^(BOOL finished) {
-            if (finished) {
-                self._xenhtml_addButton.hidden = YES;
-                self._xenhtml_editingPlatter.hidden = YES;
-            }
-        }];
+        if (self._xenhtml_addButton) {
+            [UIView animateWithDuration:animationDuration animations:^{
+                self._xenhtml_addButton.alpha = 0.0;
+                self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    self._xenhtml_addButton.hidden = YES;
+                    self._xenhtml_editingPlatter.hidden = YES;
+                }
+            }];
+        } else {
+            self._xenhtml_editingPlatter.hidden = YES;
+        }
     }
 }
 
@@ -1744,7 +1769,9 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     %orig;
     
     // Bring our views forward again
-    [self bringSubviewToFront:self._xenhtml_addButton];
+    if (self._xenhtml_addButton)
+        [self bringSubviewToFront:self._xenhtml_addButton];
+    
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
     
     // Set dock position if needed
@@ -1755,7 +1782,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     %orig;
     
     // Bring our views forward again
-    [self bringSubviewToFront:self._xenhtml_addButton];
+    if (self._xenhtml_addButton)
+        [self bringSubviewToFront:self._xenhtml_addButton];
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
     
     // Set dock position if needed
@@ -1770,6 +1798,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %new
 - (void)_xenhtml_layoutAddWidgetButton {
+    if (!self._xenhtml_addButton) return;
+    
     // calculate offset needed to apply
     
     CGFloat lowestOffset = SCREEN_WIDTH;
@@ -1826,6 +1856,111 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         if (finished)
             self._xenhtml_editingVerticalIndicator.hidden = YES;
     }];
+}
+
+%end
+
+#pragma mark Show widget context menu for 'Add Widget' button (iOS 14+)
+
+%hook SBRootFolderView
+
+-(void)setWidgetButton:(UIButton *)arg1 {
+    if (@available(iOS 14.0, *)) {
+        if ([XENHResources SBEnabled]) {
+            // Replace button action with a menu
+            arg1.showsMenuAsPrimaryAction = YES;
+            
+            NSArray *menuActions = @[
+                [UIAction actionWithTitle:@"Xen HTML" image:nil identifier:nil handler:^(UIAction *action) {
+                    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+                }],
+                [UIAction actionWithTitle:@"Applications" image:nil identifier:nil handler:^(UIAction *action) {
+                    [self widgetButtonTriggered:nil];
+                }],
+            ];
+            
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"] children:menuActions];
+        }
+    }
+
+    %orig;
+}
+
+- (void)setShowsAddWidgetButton:(BOOL)arg1 {
+    if (_xenhtml_inEditingMode && IS_IPAD && [XENHResources SBEnabled])
+        %orig(YES);
+    else
+        %orig;
+}
+
+- (void)setShowsAddWidgetButton:(BOOL)arg1 animated:(BOOL)arg2 {
+    if (_xenhtml_inEditingMode && IS_IPAD && [XENHResources SBEnabled])
+        %orig(YES, arg2);
+    else
+        %orig;
+}
+
+%end
+
+// On iPad, the homescreen overlay controller is the target of the button
+
+%hook SBHomeScreenOverlayViewController
+
+-(void)viewWillAppear:(BOOL)arg1 {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Ensure correct button state
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+        
+        // Monitor for settings updates
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(recievedSBHTMLUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                                   object:nil];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)arg1 {
+    if (@available(iOS 14, *)) {
+        // Stop watching for settings updates
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
+}
+
+-(void)setWidgetButton:(UIButton *)arg1 {
+    if (@available(iOS 14.0, *)) {
+        if ([XENHResources SBEnabled]) {
+            // Replace button action with a menu
+            arg1.showsMenuAsPrimaryAction = YES;
+            
+            NSArray *menuActions = @[
+                [UIAction actionWithTitle:@"Xen HTML" image:nil identifier:nil handler:^(UIAction *action) {
+                    BOOL isPortrait = [XENHResources getCurrentOrientation] == 1 || [XENHResources getCurrentOrientation] == 2;
+                    
+                    // Dismiss this controller if in portrait mode
+                    if (isPortrait && [self.delegate respondsToSelector:@selector(dismissAnimated:completionHandler:)])
+                        [self.delegate dismissAnimated:YES completionHandler:nil];
+                    
+                    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+                }],
+                [UIAction actionWithTitle:@"Applications" image:nil identifier:nil handler:^(UIAction *action) {
+                    [self widgetButtonTriggered:nil];
+                }],
+            ];
+            
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"] children:menuActions];
+        }
+    }
+
+    %orig;
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    // Update button state
+    XENlog(@"DEBUG :: Updating add widget button primary mode");
+    self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
 }
 
 %end
@@ -2191,6 +2326,7 @@ static BOOL launchCydiaForSource = NO;
         
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
     }
+
     
     /*
      * Notify widgets that they are now free to do their first load
@@ -2222,6 +2358,26 @@ static BOOL launchCydiaForSource = NO;
         
         NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+    }
+    
+    /*
+     * Alert users on iOS 14 and higher that the 'add widget' button allows adding Xen HTML widgets
+     */
+    
+    if (@available(iOS 14, *) && ![XENHResources hasAlertedForAddWidgets14]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                           message:[XENHResources localisedStringForKey:@"ADD_WIDGETS_14"]
+                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"]
+                                                                style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+        
+        [XENHResources setHasAlertedForAddWidgets14];
     }
 }
 

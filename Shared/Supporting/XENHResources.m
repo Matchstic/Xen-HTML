@@ -888,6 +888,16 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++ (BOOL)hasAlertedForAddWidgets14 {
+    id value = settings[@"hasAlertedForAddWidgets14"];
+    return (value ? [value boolValue] : NO);
+}
+
++ (void)setHasAlertedForAddWidgets14 {
+    [self setPreferenceKey:@"hasAlertedForAddWidgets14" withValue:@YES andPost:NO];
+}
+
+
 + (BOOL)hasSeenFirstUnlock {
     return hasSeenFirstUnlock;
 }
