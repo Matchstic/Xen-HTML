@@ -797,8 +797,6 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (BOOL)LSPersistentWidgets {
-    if ([self is14]) return NO;
-    
     id value = settings[@"LSPersistentWidgets"];
     return (value ? [value boolValue] : NO);
 }
@@ -835,9 +833,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
-+(BOOL)SBAllowTouch {
-    if ([self is14]) return NO;
-    
++(BOOL)SBAllowTouch {    
     id value = settings[@"SBAllowTouch"];
     return (value ? [value boolValue] : YES);
 }
