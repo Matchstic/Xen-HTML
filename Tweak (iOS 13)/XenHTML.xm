@@ -30,7 +30,7 @@
 #pragma mark Simulator support
 
 // Comment in/out, cannot use macro
-%config(generator=internal);
+// %config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -1470,19 +1470,23 @@ void cancelIdleTimer() {
         
         BOOL noTodayPage = NO;
         
-        // There is no specific today page on iPad now
-        BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
-        if (!isIpad) {
-            for (UIView *view in self.subviews) {
-                // First iconlist subview
-                if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
-                    noTodayPage = view.frame.origin.x == 0;
-                    
-                    break;
-                }
-            }
-        } else {
+        if (@available(iOS 14, *)) {
             noTodayPage = YES;
+        } else {
+            // There is no specific today page on iPad now
+            BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+            if (!isIpad) {
+                for (UIView *view in self.subviews) {
+                    // First iconlist subview
+                    if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
+                        noTodayPage = view.frame.origin.x == 0;
+                        
+                        break;
+                    }
+                }
+            } else {
+                noTodayPage = YES;
+            }
         }
         
         sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
