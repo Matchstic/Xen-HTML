@@ -30,7 +30,7 @@
 #pragma mark Simulator support
 
 // Comment in/out, cannot use macro
-// %config(generator=internal);
+%config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -736,6 +736,8 @@ void cancelIdleTimer() {
     // Don't run on first lock
     if (![XENHResources hasSeenFirstUnlock]) return;
 
+    XENlog(arg1 ? @"Hiding SBHTML due to device lock" : @"Showing SBHTML due to device unlock");
+
     if (sbhtmlViewController)
         [sbhtmlViewController setPaused:arg1];
     if (sbhtmlForegroundViewController)
@@ -993,6 +995,7 @@ void cancelIdleTimer() {
     UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
     
     if (mainView && [XENHResources SBAllowTouch]) {
+        XENlog(@"DEBUG :: ADDED TOUCH FORWARDER");
         
         // Need to whitelist some views on which touch forwarding should never prevent
         // Just here as a stub now
@@ -1482,11 +1485,7 @@ void cancelIdleTimer() {
             noTodayPage = YES;
         }
         
-        CGRect frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
-        XENlog(@"Setting foreground frame to %@", NSStringFromCGRect(frame));
-        XENlog(@"orientation is %d", [XENHResources getCurrentOrientation]);
-        
-        sbhtmlForegroundViewController.view.frame = frame;
+        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
     }
 }
 
@@ -1599,6 +1598,10 @@ void cancelIdleTimer() {
             
             XENlog(@"*** Sending dock to the back");
         }
+    }
+    
+    if (![XENHResources SBEnabled] && @available(iOS 14.0, *)) {
+        [dockParent bringSubviewToFront:dockView];
     }
 }
 
