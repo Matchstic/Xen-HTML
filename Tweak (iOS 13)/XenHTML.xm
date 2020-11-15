@@ -30,7 +30,7 @@
 #pragma mark Simulator support
 
 // Comment in/out, cannot use macro
-%config(generator=internal);
+// %config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -976,6 +976,18 @@ void cancelIdleTimer() {
     }
 }
 
+-(void)_prepareForTransitionToSize:(CGSize)arg1 andInterfaceOrientation:(long long)orientation withTransitionCoordinator:(id)arg3 {
+    %orig;
+    
+    // Rotate if possible
+    if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
+        [XENHResources setCurrentOrientation:orientation];
+        
+        [sbhtmlViewController rotateToOrientation:orientation];
+        [sbhtmlForegroundViewController rotateToOrientation:orientation];
+    }
+}
+
 %new
 -(void)_xenhtml_addTouchRecogniser {
     UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
@@ -1470,7 +1482,11 @@ void cancelIdleTimer() {
             noTodayPage = YES;
         }
         
-        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
+        CGRect frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
+        XENlog(@"Setting foreground frame to %@", NSStringFromCGRect(frame));
+        XENlog(@"orientation is %d", [XENHResources getCurrentOrientation]);
+        
+        sbhtmlForegroundViewController.view.frame = frame;
     }
 }
 

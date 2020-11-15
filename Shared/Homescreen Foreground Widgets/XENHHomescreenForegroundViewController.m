@@ -287,6 +287,10 @@
         [widgetMetadata removeObjectForKey:@"x"];
         [widgetMetadata removeObjectForKey:@"y"];
         
+        // No default landscape settings -> use portrait by default unless user-set
+        [widgetMetadata removeObjectForKey:@"xLandscape"];
+        [widgetMetadata removeObjectForKey:@"yLandscape"];
+        
         // Convert the origin from the _xenhtml_contentView to our view to auto-handle scroll offsets
         // etc
         
