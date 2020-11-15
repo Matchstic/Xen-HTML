@@ -124,15 +124,27 @@
     
     // Universal
     {
+#if TARGET_IPHONE_SIMULATOR==0
         [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Universal"]];
+#else
+        [results addObjectsFromArray:[self widgetsFromPath:@"/opt/simject/var/mobile/Library/Widgets/Universal"]];
+#endif
     }
     
     // iWidgets
     {
+#if TARGET_IPHONE_SIMULATOR==0
         NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/iWidgets/" error:nil];
+#else
+        NSArray *widgets = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/iWidgets/" error:nil];
+#endif
         
         for (NSString *result in widgets) {
+#if TARGET_IPHONE_SIMULATOR==0
             NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/iWidgets/%@/", result] mutableCopy];
+#else
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/opt/simject/var/mobile/Library/iWidgets/%@/", result] mutableCopy];
+#endif
             
             if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
                 [absoluteURL appendString:@"index.html"];
@@ -161,7 +173,11 @@
     
     // Backgrounds
     {
+#if TARGET_IPHONE_SIMULATOR==0
         [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Backgrounds"]];
+#else
+        [results addObjectsFromArray:[self widgetsFromPath:@"/opt/simject/var/mobile/Library/Widgets/Backgrounds"]];
+#endif
     }
     
     // Cydget backgrounds, if allowed for backwards compatibility reasons
@@ -199,10 +215,17 @@
     
     // Layer-specific widgets
     {
+#if TARGET_IPHONE_SIMULATOR==0
         if (isLockscreen)
             [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Lockscreen"]];
         else
             [results addObjectsFromArray:[self widgetsFromPath:@"/var/mobile/Library/Widgets/Homescreen"]];
+#else
+        if (isLockscreen)
+            [results addObjectsFromArray:[self widgetsFromPath:@"/opt/simject/var/mobile/Library/Widgets/Lockscreen"]];
+        else
+            [results addObjectsFromArray:[self widgetsFromPath:@"/opt/simject/var/mobile/Library/Widgets/Homescreen"]];
+#endif
     }
     
     // Legacy folders
@@ -220,12 +243,21 @@
     
     // LockHTML
     {
+#if TARGET_IPHONE_SIMULATOR==0
         NSArray *lockhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/LockHTML/" error:nil];
+#else
+        NSArray *lockhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/LockHTML/" error:nil];
+#endif
          
          for (NSString *thing in lockhtml) {
              if ([thing isEqualToString:@"LockHTML"]) continue;
              
+#if TARGET_IPHONE_SIMULATOR==0
              NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/LockHTML/%@/", thing] mutableCopy];
+#else
+             NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/opt/simject/var/mobile/Library/LockHTML/%@/", thing] mutableCopy];
+#endif
+             
              if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
                  [absoluteURL appendString:@"index.html"];
              } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
@@ -244,12 +276,21 @@
     
     // GroovyLock
     {
+#if TARGET_IPHONE_SIMULATOR==0
         NSArray *groovylock = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/GroovyLock/" error:nil];
+#else
+        NSArray *groovylock = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/GroovyLock/" error:nil];
+#endif
         
         for (NSString *thing in groovylock) {
             if ([thing isEqualToString:@"GroovyLock"]) continue;
             
+#if TARGET_IPHONE_SIMULATOR==0
             NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/GroovyLock/%@/", thing] mutableCopy];
+#else
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/opt/simject/var/mobile/Library/GroovyLock/%@/", thing] mutableCopy];
+#endif
+            
             if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
                 [absoluteURL appendString:@"index.html"];
             } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@LockBackground.html", absoluteURL]]) {
@@ -298,11 +339,18 @@
     
     // SBHTML
     {
+#if TARGET_IPHONE_SIMULATOR==0
         NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/mobile/Library/SBHTML/" error:nil];
+#else
+        NSArray *sbhtml = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/opt/simject/var/mobile/Library/SBHTML/" error:nil];
+#endif
         
         for (NSString *thing in sbhtml) {
-            
+#if TARGET_IPHONE_SIMULATOR==0
             NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/var/mobile/Library/SBHTML/%@/", thing] mutableCopy];
+#else
+            NSMutableString *absoluteURL = [[NSString stringWithFormat:@"/opt/simject/var/mobile/Library/SBHTML/%@/", thing] mutableCopy];
+#endif
             if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@index.html", absoluteURL]]) {
                 [absoluteURL appendString:@"index.html"];
             } else if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@Wallpaper.html", absoluteURL]]) {

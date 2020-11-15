@@ -106,7 +106,11 @@ static int mainVariant = 0;
 
 +(NSString*)localisedStringForKey:(NSString*)key {
     if (!strings) {
+#if TARGET_IPHONE_SIMULATOR==0
         strings = [NSBundle bundleWithPath:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
+#else
+        strings = [NSBundle bundleWithPath:@"/opt/simject/Library/PreferenceBundles/XenHTMLPrefs.bundle"];
+#endif
     }
     
     if (!strings) {
