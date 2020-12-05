@@ -31,8 +31,6 @@
 			<string>SBOnePageWidgetMode</string>
 			<key>label</key>
 			<string>FOREGROUND_SB_PRIORITISE_TOUCH</string>
-			<key>debugDisable</key>
-			<integer>14</integer>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -53,8 +51,6 @@
 			<string>SBPerPageHTMLWidgetMode</string>
 			<key>label</key>
 			<string>FOREGROUND_SB_BELOW_ICONS</string>
-			<key>debugDisable</key>
-			<integer>14</integer>
 		</dict>
 	</array>
 </dict>

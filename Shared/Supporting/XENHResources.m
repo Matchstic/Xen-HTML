@@ -843,16 +843,12 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : YES);
 }
 
-+(BOOL)SBOnePageWidgetMode {
-    if ([self is14]) return NO;
-    
++(BOOL)SBOnePageWidgetMode {    
     id value = settings[@"SBOnePageWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
 
-+(BOOL)SBPerPageHTMLWidgetMode {
-    if ([self is14]) return NO;
-    
++(BOOL)SBPerPageHTMLWidgetMode {    
     id value = settings[@"SBPerPageHTMLWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
