@@ -29,8 +29,8 @@
 
 #pragma mark Simulator support
 
-// Comment in/out, cannot use macro
-// %config(generator=internal);
+// Comment in/out, cannot use macro due to theos ignoring them
+%config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -733,15 +733,62 @@ void cancelIdleTimer() {
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
     
-    // Don't run on first lock
-    if (![XENHResources hasSeenFirstUnlock]) return;
+    if (!@available(iOS 14, *)) {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
 
-    XENlog(arg1 ? @"Hiding SBHTML due to device lock" : @"Showing SBHTML due to device unlock");
+        XENlog(arg1 ? @"Hiding SBHTML due to device lock" : @"Showing SBHTML due to device unlock");
 
-    if (sbhtmlViewController)
-        [sbhtmlViewController setPaused:arg1];
-    if (sbhtmlForegroundViewController)
-        [sbhtmlForegroundViewController setPaused:arg1];
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:arg1];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:arg1];
+    }
+
+}
+
+%end
+
+%hook SBDashBoardLockScreenEnvironment
+
+-(void)prepareForUILock {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
+        
+        XENlog(@"Hiding SBHTML due to device lock");
+
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:YES];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:YES];
+    }
+}
+
+-(void)prepareForUIUnlock {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
+        
+        // Check if there's an app open
+        SBApplication *frontmost = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
+        
+        if (frontmost) {
+            XENlog(@"Not showing SBHTML due to device unlock, because an app is open");
+            return;
+        }
+        
+        XENlog(@"Showing SBHTML due to device unlock");
+
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:NO];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:NO];
+    }
 }
 
 %end
@@ -1468,11 +1515,12 @@ void cancelIdleTimer() {
         
         // When today is hidden, the first icon list is at offset 0. Otherwise, SCREEN_WIDTH
         
-        BOOL noTodayPage = NO;
-        
         if (@available(iOS 14, *)) {
-            noTodayPage = YES;
+            // No magic needed on 14+
+            sbhtmlForegroundViewController.view.frame = CGRectMake(0, 0, self.contentSize.width, SCREEN_HEIGHT);
         } else {
+            BOOL noTodayPage = NO;
+            
             // There is no specific today page on iPad now
             BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
             if (!isIpad) {
@@ -1487,9 +1535,9 @@ void cancelIdleTimer() {
             } else {
                 noTodayPage = YES;
             }
+            
+            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width + (noTodayPage ? SCREEN_WIDTH : 0), SCREEN_HEIGHT);
         }
-        
-        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
     }
 }
 
@@ -1604,6 +1652,7 @@ void cancelIdleTimer() {
         }
     }
     
+    // Ensure we reset state as needed
     if (![XENHResources SBEnabled] && @available(iOS 14.0, *)) {
         [dockParent bringSubviewToFront:dockView];
     }
@@ -2057,8 +2106,9 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         }
         
         // If in OPW mode, prefer widget touches
-        if ([XENHResources SBOnePageWidgetMode])
+        if ([XENHResources SBOnePageWidgetMode]) {
             return hittested;
+        }
         
         if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
             [[hittested class] isEqual:objc_getClass("SBFolderIconView")] ||
@@ -2114,6 +2164,15 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     // Only needed for the mode of widgets above icons
     if (![XENHResources SBEnabled] || [XENHResources SBPerPageHTMLWidgetMode]) {
         return %orig;
+    }
+    
+    if ([XENHResources SBEnabled] && [XENHResources SBOnePageWidgetMode]) {
+        // Don't always allow dock touches, if we originally were gonna be blocking them
+        // due to a widget above
+        
+        id originalResult = %orig;
+        if (![[originalResult class] isEqual:objc_getClass("SBIconListView")])
+            return originalResult;
     }
     
     CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
