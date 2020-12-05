@@ -132,6 +132,9 @@ static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 static BOOL isModerateStrategyPossible = YES;
 
+// Comment in/out for simulator support, cannot use macro due to theos ignoring them
+// %config(generator=internal);
+
 %group SpringBoard
 
 static inline bool allowJSExecutionQueue() {
@@ -139,6 +142,7 @@ static inline bool allowJSExecutionQueue() {
 }
 
 static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused, bool wasPausedPreviously) {
+#if TARGET_IPHONE_SIMULATOR==0
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
     if (!contentView.browsingContextController) {
@@ -189,6 +193,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
     }
     
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+#endif
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
@@ -237,6 +242,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_setInternalPaused:(BOOL)paused {
+    XENlog(@"_setInternalPaused: %d", paused);
+    
     // If setting to be not paused, then check what the strategy used previously
     // was so that we can effectively undo it
     int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
@@ -287,6 +294,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                         NSURL *url = [NSURL URLWithString:@"about:blank"];
                         NSURLRequest *request = [NSURLRequest requestWithURL:url];
                         [self.webView loadRequest:request];
+                        
+                        XENlog(@"high strategy pointed webview at about:blank");
 
                         // Hide the webview
                         self.webView.hidden = YES;
@@ -304,6 +313,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
                 if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
                     [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
+                    
+                    XENlog(@"high strategy pointed webview at widget");
                 }
                 
                 // Add failsafe for clearing the snapshot
@@ -394,6 +405,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         ![[webView.URL absoluteString] isEqualToString:@"about:blank"]) {
         self.pendingHighStrategyLoad = NO;
         
+        XENlog(@"webView:didFinishNavigation: for high strategy");
+        
         // Show the webview
         dispatch_async(dispatch_get_main_queue(), ^{
            self.webView.hidden = NO;
@@ -424,6 +437,8 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_setInternalHidden:(BOOL)paused {
+    XENlog(@"_setInternalHidden: %d", paused);
+    
     // Remove the views from being updated
     self.legacyWebView.hidden = paused ? YES : NO;
     self.webView.hidden = paused ? YES : NO;
@@ -538,6 +553,34 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %end
 
+#pragma mark Debug alert to prove management is running
+
+static BOOL shownAlert = NO;
+%hook SBHomeScreenWindow
+
+- (void)becomeKeyWindow {
+    // Hooking here to do things just after the device is unlocked
+    
+    %orig;
+    if (@available(iOS 14, *) && !shownAlert) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                           message:@"DEBUG -- Battery management is online"
+                    preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                                style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+        
+        shownAlert = YES;
+    }
+}
+
+%end
+
 %end
 
 static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
@@ -552,6 +595,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     
     if (sb) {
         
+#if TARGET_IPHONE_SIMULATOR==0
         WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
         if (WebPageProxy$activityStateDidChange == NULL) {
@@ -576,6 +620,9 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
             isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             isModerateStrategyPossible = NO;
+#else
+        isModerateStrategyPossible = NO;
+#endif
 
         XENlog(@"DEBUG :: initialising hooks");
         %init(SpringBoard);
