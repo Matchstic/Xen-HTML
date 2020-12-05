@@ -120,6 +120,13 @@
         
         CGRect rect = CGRectMake(xOffsetMultipler * SCREEN_WIDTH, yOffsetMultipler * SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
         
+        // Make sure that the rect's origin is safely within bounds
+        if (rect.origin.x <= -SCREEN_WIDTH) {
+            rect.origin.x = 0;
+        } else if (rect.origin.x >= self.view.frame.size.width) {
+            rect.origin.x = self.view.frame.size.width - SCREEN_WIDTH;
+        }
+        
         if (shouldAnimateFrame) {
             [UIView animateWithDuration:0.15 animations:^{
                 widgetController.view.frame = rect;
