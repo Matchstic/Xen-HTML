@@ -562,7 +562,8 @@ static BOOL shownAlert = NO;
     // Hooking here to do things just after the device is unlocked
     
     %orig;
-    if (@available(iOS 14, *) && !shownAlert) {
+    
+    if (!shownAlert) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
                            message:@"DEBUG -- Battery management is online"
                     preferredStyle:UIAlertControllerStyleAlert];
