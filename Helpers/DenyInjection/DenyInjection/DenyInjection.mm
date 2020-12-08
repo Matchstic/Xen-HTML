@@ -111,7 +111,6 @@ static __attribute__((constructor)) void _logosLocalCtor_d89c9af8(int __unused a
     version.patchVersion = 0;
     
     if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]) {
-        NSLog(@"Xen HTML :: DenyInjection :: Not loading on iOS 14 or higher");
         return;
     }
     

@@ -104,6 +104,7 @@ typedef enum : NSUInteger {
 
 
 enum class ActivityStateChangeDispatchMode { Deferrable, Immediate };
+enum class ActivityStateChangeReplyMode : bool { Asynchronous, Synchronous };
 struct WebCoreActivityState {
     enum Flag {
         WindowIsActive = 1 << 0,
@@ -123,13 +124,13 @@ struct WebCoreActivityState {
 
 static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode);
 
+
+static void (*WebPageProxy$activityStateDidChange2)(void *_this, unsigned int flags, ActivityStateChangeDispatchMode dispatchMode, ActivityStateChangeReplyMode replyMode);
+
+
 static void (*WebPageProxy$applicationDidEnterBackground)(void *_this);
 
 static void (*WebPageProxy$applicationWillEnterForeground)(void *_this);
-
-static void (*WebPageProxy$applicationWillResignActive)(void *_this);
-
-static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 static BOOL isModerateStrategyPossible = YES;
 
@@ -157,10 +158,10 @@ static BOOL isModerateStrategyPossible = YES;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class SpringBoard; @class UIApp; @class XENHWidgetController; 
+@class WKWebView; @class UIApp; @class SpringBoard; @class XENHWidgetController; 
 
 
-#line 138 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
+#line 139 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
 static void (*_logos_orig$SpringBoard$XENHWidgetController$setPaused$animated$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$_setInternalPaused$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL); static void (*_logos_orig$SpringBoard$XENHWidgetController$setPausedAfterTerminationRecovery$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL); static void _logos_method$SpringBoard$XENHWidgetController$setPausedAfterTerminationRecovery$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL); static void (*_logos_orig$SpringBoard$XENHWidgetController$webView$didFailProvisionalNavigation$withError$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, WKWebView *, WKNavigation *, NSError *); static void _logos_method$SpringBoard$XENHWidgetController$webView$didFailProvisionalNavigation$withError$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, WKWebView *, WKNavigation *, NSError *); static void (*_logos_orig$SpringBoard$XENHWidgetController$_unloadWebView)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL); static void _logos_method$SpringBoard$XENHWidgetController$_unloadWebView(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$SpringBoard$XENHWidgetController$webView$didFinishNavigation$)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, WKWebView *, WKNavigation *); static void _logos_method$SpringBoard$XENHWidgetController$webView$didFinishNavigation$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, WKWebView *, WKNavigation *); static void (*_logos_orig$SpringBoard$XENHWidgetController$viewDidLayoutSubviews)(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL); static void _logos_method$SpringBoard$XENHWidgetController$viewDidLayoutSubviews(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL); static void _logos_method$SpringBoard$XENHWidgetController$_setInternalHidden$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST, SEL, BOOL); static WKWebView* (*_logos_orig$SpringBoard$WKWebView$initWithFrame$configuration$)(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static WKWebView* _logos_method$SpringBoard$WKWebView$initWithFrame$configuration$(_LOGOS_SELF_TYPE_INIT WKWebView*, SEL, CGRect, id) _LOGOS_RETURN_RETAINED; static BOOL (*_logos_orig$SpringBoard$WKWebView$_isBackground)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$WKWebView$_isBackground(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$SpringBoard$WKWebView$evaluateJavaScript$completionHandler$)(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static void _logos_method$SpringBoard$WKWebView$evaluateJavaScript$completionHandler$(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL, NSString *, void (^)(id, NSError *error)); static void _logos_method$SpringBoard$WKWebView$_xh_postResume(_LOGOS_SELF_TYPE_NORMAL WKWebView* _LOGOS_SELF_CONST, SEL); static BOOL (*_logos_orig$SpringBoard$UIApp$isSuspendedUnderLock)(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); static BOOL _logos_method$SpringBoard$UIApp$isSuspendedUnderLock(_LOGOS_SELF_TYPE_NORMAL UIApp* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$SpringBoard$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); 
 
 static inline bool allowJSExecutionQueue() {
@@ -191,7 +192,11 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         WebPageProxy$applicationWillEnterForeground(page); 
         
         
-        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        if (WebPageProxy$activityStateDidChange != NULL) {
+            WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        } else if (WebPageProxy$activityStateDidChange2 != NULL) {
+            WebPageProxy$activityStateDidChange2(page, WebCoreActivityState::Flag::IsVisible, ActivityStateChangeDispatchMode::Immediate, ActivityStateChangeReplyMode::Asynchronous);
+        }
         
         
         [webView setNeedsDisplay];
@@ -214,8 +219,13 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         
         WebPageProxy$applicationDidEnterBackground(page); 
         
-            
-        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
+        
+        if (WebPageProxy$activityStateDidChange != NULL) {
+            WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
+        
+        } else if (WebPageProxy$activityStateDidChange2 != NULL) {
+            WebPageProxy$activityStateDidChange2(page, WebCoreActivityState::Flag::IsVisible, ActivityStateChangeDispatchMode::Immediate, ActivityStateChangeReplyMode::Asynchronous);
+        }
     }
     
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
@@ -604,11 +614,11 @@ static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$
 
 
 static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
-    XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
+    XENlog(@"DEBUG :: %@ is%@ a valid pointer%@", name, pointer == NULL ? @" NOT" : @"");
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_cec71350(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_225a6e64(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
@@ -623,22 +633,23 @@ static __attribute__((constructor)) void _logosLocalCtor_cec71350(int __unused a
         }
         
         
+        if (WebPageProxy$activityStateDidChange == NULL) {
+            
+            WebPageProxy$activityStateDidChange2 = (void (*)(void*, unsigned int, ActivityStateChangeDispatchMode, ActivityStateChangeReplyMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEN3WTF9OptionSetIN7WebCore13ActivityState4FlagEEENS0_31ActivityStateChangeDispatchModeENS0_28ActivityStateChangeReplyModeE");
+        }
+        
+        
         WebPageProxy$applicationDidEnterBackground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy29applicationDidEnterBackgroundEv");
         WebPageProxy$applicationWillEnterForeground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy30applicationWillEnterForegroundEv");
-        WebPageProxy$applicationWillResignActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy27applicationWillResignActiveEv");
-        WebPageProxy$applicationDidBecomeActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy26applicationDidBecomeActiveEv");
         
         
         
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange") &&
+            !_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange2, @"WebPageProxy::activityStateDidChange2"))
             isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidEnterBackground, @"WebPageProxy::applicationDidEnterBackground"))
             isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillEnterForeground, @"WebPageProxy::applicationWillEnterForeground"))
-            isModerateStrategyPossible = NO;
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillResignActive, @"WebPageProxy::applicationWillResignActive"))
-            isModerateStrategyPossible = NO;
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
             isModerateStrategyPossible = NO;
 #else
         isModerateStrategyPossible = NO;
