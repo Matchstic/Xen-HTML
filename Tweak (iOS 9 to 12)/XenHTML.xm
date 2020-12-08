@@ -16,6 +16,9 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
@@ -4055,8 +4058,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
         // We need the setup UI to always be accessible.
         %init(Setup);
         
@@ -4091,7 +4092,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         if (version.majorVersion == 9) {
             %init(iOS9);
         }
-#pragma clang diagnostic pop
         
         CFNotificationCenterRef r = CFNotificationCenterGetDarwinNotifyCenter();
         CFNotificationCenterAddObserver(r, NULL, XENHSettingsChanged, CFSTR("com.matchstic.xenhtml/settingschanged"), NULL, 0);
@@ -4100,3 +4100,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
     }
 }
+
+#pragma clang diagnostic pop

@@ -16,6 +16,9 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
@@ -30,7 +33,7 @@
 #pragma mark Simulator support
 
 // Comment in/out, cannot use macro due to theos ignoring them
-%config(generator=internal);
+// %config(generator=internal);
 
 #pragma mark Function definitions
 
@@ -733,7 +736,9 @@ void cancelIdleTimer() {
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
     
-    if (!@available(iOS 14, *)) {
+    if (@available(iOS 14, *)) {
+        // do nothing -- needed to properly guard for availability
+    } else {
         // Don't run on first lock
         if (![XENHResources hasSeenFirstUnlock]) return;
 
@@ -1653,8 +1658,10 @@ void cancelIdleTimer() {
     }
     
     // Ensure we reset state as needed
-    if (![XENHResources SBEnabled] && @available(iOS 14.0, *)) {
-        [dockParent bringSubviewToFront:dockView];
+    if (@available(iOS 14.0, *)) {
+        if (![XENHResources SBEnabled]) {
+            [dockParent bringSubviewToFront:dockView];
+        }
     }
 }
 
@@ -1713,7 +1720,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %new
 - (void)_xenhtml_initialise {
-    if (!@available(iOS 14.0, *)) {
+    if (@available(iOS 14.0, *)) {
+    } else {
         self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
         [self._xenhtml_addButton addTarget:self
                 action:@selector(_xenhtml_addWidgetButtonTapped:)
@@ -2492,21 +2500,22 @@ static BOOL launchCydiaForSource = NO;
      * Alert users on iOS 14 and higher that the 'add widget' button allows adding Xen HTML widgets
      */
     
-    if (@available(iOS 14, *) && ![XENHResources hasAlertedForAddWidgets14]) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                           message:[XENHResources localisedStringForKey:@"ADD_WIDGETS_14"]
-                    preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"]
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        [XENHResources setHasAlertedForAddWidgets14];
-    }
+    if (@available(iOS 14, *))
+        if (![XENHResources hasAlertedForAddWidgets14]) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                               message:[XENHResources localisedStringForKey:@"ADD_WIDGETS_14"]
+                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"]
+                                                                    style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+            
+            [XENHResources setHasAlertedForAddWidgets14];
+        }
 }
 
 %end
@@ -2635,8 +2644,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
         // We need the setup UI to always be accessible.
         %init(Setup);
         
@@ -2654,7 +2661,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         }
         
         %init(SpringBoard);
-#pragma clang diagnostic pop
         
         // Do initial settings loading
         [XENHResources reloadSettings];
@@ -2666,3 +2672,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
     }
 }
+
+#pragma clang diagnostic pop
