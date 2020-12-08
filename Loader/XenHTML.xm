@@ -53,7 +53,7 @@ inline BOOL isAtLeastiOSVersion(NSInteger major, NSInteger minor) {
     
     BOOL isRootless = [[NSFileManager defaultManager] fileExistsAtPath:@"/var/containers/Bundle/.installed_rootlessJB3"];
     
-    BOOL hasBatteryManager = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_ZBatteryManager.dylib"];
+    BOOL hasBatteryManager = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib"];
     BOOL hasWebGL = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib"];
     BOOL hasWidgetInfo = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WidgetInfo.dylib"];
     
@@ -86,5 +86,8 @@ inline BOOL isAtLeastiOSVersion(NSInteger major, NSInteger minor) {
     } else {
         NSLog(@"Xen HTML :: Loader :: CANNOT LOAD Xen HTML ON THIS iOS VERSION");
     }
+    
+    // Load dependents
+    dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib", RTLD_NOW);
 }
 

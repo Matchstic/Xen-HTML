@@ -555,29 +555,22 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 #pragma mark Debug alert to prove management is running
 
-static BOOL shownAlert = NO;
-%hook SBHomeScreenWindow
+%hook SpringBoard
 
-- (void)becomeKeyWindow {
-    // Hooking here to do things just after the device is unlocked
-    
+-(void)applicationDidFinishLaunching:(id)arg1 {
     %orig;
     
-    if (!shownAlert) {
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                           message:@"DEBUG -- Battery management is online"
-                    preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction * action) {}];
-        
-        [alert addAction:defaultAction];
-        
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-        
-        shownAlert = YES;
-    }
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                       message:@"DEBUG -- Battery management is online"
+                preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alert addAction:defaultAction];
+    
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
 %end
