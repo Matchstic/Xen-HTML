@@ -21,6 +21,8 @@ This is to help reduce the chance of regressions breaking previous iOS version s
 
 The core of Xen HTML's rendering is handled as a shared (but static) library, linked into each dylib. Any changes here should always be tested on as many versions of iOS as reasonably possible.
 
+You will need to use the Xcode 11 toolchain for development at the time of writing, otherwise arm64e slices that are generated will be backwards incompatible. See: https://github.com/nahtedetihw/Xcode11Toolchain
+
 ### Future plans
 
 As part of a modernisation project, the following are going to be built at some point:
