@@ -85,7 +85,6 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
     version.patchVersion = 0;
     
     if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]) {
-        NSLog(@"Xen HTML :: DenyInjection :: Not loading on iOS 14 or higher");
         return;
     }
     
