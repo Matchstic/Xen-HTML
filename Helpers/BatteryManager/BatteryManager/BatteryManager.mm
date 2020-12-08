@@ -158,7 +158,7 @@ static BOOL isModerateStrategyPossible = YES;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class UIApp; @class SpringBoard; @class XENHWidgetController; 
+@class SpringBoard; @class XENHWidgetController; @class UIApp; @class WKWebView; 
 
 
 #line 139 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -194,6 +194,7 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         
         if (WebPageProxy$activityStateDidChange != NULL) {
             WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        
         } else if (WebPageProxy$activityStateDidChange2 != NULL) {
             WebPageProxy$activityStateDidChange2(page, WebCoreActivityState::Flag::IsVisible, ActivityStateChangeDispatchMode::Immediate, ActivityStateChangeReplyMode::Asynchronous);
         }
@@ -233,6 +234,8 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    XENlog(@"setWKWebViewActivityState %@ %d", webView, isPaused);
+    
     if (!webView)
         return;
     
@@ -614,11 +617,11 @@ static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$
 
 
 static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
-    XENlog(@"DEBUG :: %@ is%@ a valid pointer%@", name, pointer == NULL ? @" NOT" : @"");
+    XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_225a6e64(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_dbbb8821(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];

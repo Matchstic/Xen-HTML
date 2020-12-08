@@ -208,6 +208,8 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
+    XENlog(@"setWKWebViewActivityState %@ %d", webView, isPaused);
+    
     if (!webView)
         return;
     
@@ -589,7 +591,7 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 %end
 
 static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
-    XENlog(@"DEBUG :: %@ is%@ a valid pointer%@", name, pointer == NULL ? @" NOT" : @"");
+    XENlog(@"DEBUG :: %@ is%@ a valid pointer", name, pointer == NULL ? @" NOT" : @"");
     return pointer != NULL;
 }
 
