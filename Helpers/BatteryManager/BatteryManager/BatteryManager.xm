@@ -566,28 +566,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %end
 
-#pragma mark Debug alert to prove management is running
-
-%hook SpringBoard
-
--(void)applicationDidFinishLaunching:(id)arg1 {
-    %orig;
-    
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
-                       message:@"DEBUG -- Battery management is online"
-                preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction * action) {}];
-    
-    [alert addAction:defaultAction];
-    
-    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-}
-
-%end
-
 %end
 
 static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
