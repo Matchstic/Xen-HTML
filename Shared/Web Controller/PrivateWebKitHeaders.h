@@ -123,6 +123,12 @@
 
 - (void)_clearDelayedTouches;
 - (void)_resetGestureRecognizer;
+
+// iOS 14
+-(void)_componentsCancelled:(id)arg1 withEvent:(id)arg2;
+-(void)_componentsBegan:(id)arg1 withEvent:(id)arg2;
+-(void)_componentsEnded:(id)arg1 withEvent:(id)arg2;
+-(void)_componentsChanged:(id)arg1 withEvent:(id)arg2;
 @end
 
 @interface UITouch (Private2)

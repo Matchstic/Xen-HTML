@@ -810,6 +810,23 @@ static UIWindow *sharedOffscreenRenderingWindow;
     if (![view isFirstResponder])
         [view becomeFirstResponder];
     
+    if (type == 0) {
+        CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
+        self._touchForwardedView = [view hitTest:hitPoint withEvent:event];
+        
+        if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
+            self._touchForwardedView = [self._touchForwardedView superview];
+        }
+    }
+    
+    if (@available(iOS 14, *)) {
+        [self handleForwardingNew:view touches:set withEvent:event type:type];
+    } else {
+        [self handleForwardingLegacy:view touches:set withEvent:event type:type];
+    }
+}
+
+- (void)handleForwardingLegacy:(UIView*)view touches:(NSSet*)set withEvent:(UIEvent*)event type:(int)type {
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
         /*if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
             UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
@@ -844,15 +861,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     }
     
     // Now, forward to any scrollView in hierarchy, if necessary
-    
-    if (type == 0) {
-        CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
-        self._touchForwardedView = [view hitTest:hitPoint withEvent:event];
-        
-        if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
-            self._touchForwardedView = [self._touchForwardedView superview];
-        }
-    }
     
     if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
         // Need to forward to the scrollView also!
@@ -920,6 +928,62 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     
                     if ([recog respondsToSelector:@selector(_resetGestureRecognizer)])
                         [recog _resetGestureRecognizer];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        
+        self._touchForwardedView.tag = oldTag;
+    }
+}
+
+- (void)handleForwardingNew:(UIView*)view touches:(NSSet*)set withEvent:(UIEvent*)event type:(int)type {
+    // Forward tap gestures
+    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
+        switch (type) {
+            case 0:
+                [recog _componentsBegan:set withEvent:event];
+                break;
+            case 1:
+                [recog _componentsChanged:set withEvent:event];
+                break;
+            case 2:
+                [recog _componentsEnded:set withEvent:event];
+                break;
+            case 3:
+                [recog _componentsCancelled:set withEvent:event];
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    // Forward scroll gestures
+    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
+        
+        // Used for getting touches for gestureRecognizers.
+        NSInteger oldTag = self._touchForwardedView.tag;
+        self._touchForwardedView.tag = 1337;
+        
+        for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
+            
+            switch (type) {
+                case 0:
+                    [recog _componentsBegan:set withEvent:event];
+                    break;
+                case 1:
+                    [recog _componentsChanged:set withEvent:event];
+                    break;
+                case 2:
+                    [recog _componentsEnded:set withEvent:event];
+                    [recog _resetGestureRecognizer];
+                    break;
+                case 3:
+                    [recog _componentsCancelled:set withEvent:event];
+                    [recog _resetGestureRecognizer];
                     break;
                     
                 default:
