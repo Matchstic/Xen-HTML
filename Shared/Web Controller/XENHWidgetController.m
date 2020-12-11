@@ -812,7 +812,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
     
     if (type == 0) {
         CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
-        self._touchForwardedView = [view hitTest:hitPoint withEvent:event];
+        CGPoint convertedPoint = [self.view convertPoint:hitPoint toView:view];
+        self._touchForwardedView = [view hitTest:convertedPoint withEvent:event];
         
         if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
             self._touchForwardedView = [self._touchForwardedView superview];
@@ -940,38 +941,26 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (void)handleForwardingNew:(UIView*)view touches:(NSSet*)set withEvent:(UIEvent*)event type:(int)type {
-    // Forward tap gestures
-    for (UIGestureRecognizer *recog in view.gestureRecognizers) {
-        switch (type) {
-            case 0:
-                [recog _componentsBegan:set withEvent:event];
-                break;
-            case 1:
-                [recog _componentsChanged:set withEvent:event];
-                break;
-            case 2:
-                [recog _componentsEnded:set withEvent:event];
-                break;
-            case 3:
-                [recog _componentsCancelled:set withEvent:event];
-                break;
-                
-            default:
-                break;
-        }
-    }
     
-    // Forward scroll gestures
-    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
-        
-        // Used for getting touches for gestureRecognizers.
-        NSInteger oldTag = self._touchForwardedView.tag;
-        self._touchForwardedView.tag = 1337;
-        
-        for (UIGestureRecognizer *recog in self._touchForwardedView.gestureRecognizers) {
+    NSArray *blacklist = @[
+        @"_UIContextualMenuGestureRecognizer",
+        @"UIVariableDelayLoupeGesture",
+        @"WKHighlightLongPressGestureRecognizer",
+        @"_UIDragLiftGestureRecognizer",
+        @"_UIDragAddItemsGesture",
+        @"_UIRelationshipGestureRecognizer",
+        @"_UIDragLiftPointerGestureRecognizer"
+    ];
+    
+    void (^forwardEvent)(NSArray *, int, NSSet*, UIEvent*) = ^(NSArray *recognizers, int type, NSSet *set, UIEvent *event) {
+        for (UIGestureRecognizer *recog in recognizers) {
+            if ([blacklist containsObject:NSStringFromClass([recog class])]) {
+                continue;
+            }
             
             switch (type) {
                 case 0:
+                    [recog _setDirty];
                     [recog _componentsBegan:set withEvent:event];
                     break;
                 case 1:
@@ -990,6 +979,17 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     break;
             }
         }
+    };
+    
+    // Forward tap gestures
+    forwardEvent(view.gestureRecognizers, type, set, event);
+    
+    // Forward scroll gestures
+    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
+        NSInteger oldTag = self._touchForwardedView.tag;
+        self._touchForwardedView.tag = 1337;
+        
+        forwardEvent(self._touchForwardedView.gestureRecognizers, type, set, event);
         
         self._touchForwardedView.tag = oldTag;
     }
