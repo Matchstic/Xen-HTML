@@ -1047,8 +1047,6 @@ void cancelIdleTimer() {
     UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
     
     if (mainView && [XENHResources SBAllowTouch]) {
-        XENlog(@"DEBUG :: ADDED TOUCH FORWARDER");
-        
         // Need to whitelist some views on which touch forwarding should never prevent
         // Just here as a stub now
         NSArray *ignoredViews = @[];
@@ -1149,6 +1147,62 @@ void cancelIdleTimer() {
     
     if ([XENHResources SBEnabled] && sbhtmlViewController) {
         sbhtmlViewController.view.hidden = hidden;
+    }
+}
+
+// This hook allows background widgets to have working scroll views. The idea
+// is that will work in tandem with the touch forwarding code in the widget
+// containers. iOS 13 does not require this, since touch forwardng handles
+// all of this.
+-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (@available(iOS 14, *)) {
+        
+        // Early return for disabled state
+        if (![XENHResources SBEnabled] || !sbhtmlViewController) {
+            return %orig;
+        }
+        
+        UIView *originalResult = %orig;
+        
+        NSArray *mustAllow = @[
+            @"SBIconView",
+            @"SBFolderIconView",
+            @"SBRootFolderDockIconListView",
+            @"SBDockIconListView",
+            @"WKContentView",     // WKWebView base
+            @"WKChildScrollView"  // WKWebView scrolling
+        ];
+        
+        // If the originalResult is of type above, it must be used as the return value
+        if ([mustAllow containsObject:NSStringFromClass([originalResult class])]) {
+            return originalResult;
+        }
+        
+        // Otherwise, see if the background widget container would give a scroll view for this
+        // touch. Make sure to allow for safe areas to prevent scroll views stopping page swipes.
+        
+        CGFloat inset = 30;
+        UIEdgeInsets safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + inset, inset, inset, inset);
+        
+        if (point.x < safeAreaInsets.left ||
+            point.x > self.bounds.size.width - safeAreaInsets.right ||
+            point.y < safeAreaInsets.top ||
+            point.y > self.bounds.size.height - safeAreaInsets.bottom) {
+            
+            // Outside of the safe area, giving control to default flow
+            return originalResult;
+        }
+        
+        CGPoint subPoint = [sbhtmlViewController.view convertPoint:point fromView:self];
+        UIView *hittested = [sbhtmlViewController.view hitTest:subPoint withEvent:event];
+        
+        if ([@"WKChildScrollView" isEqualToString:NSStringFromClass([hittested class])]) {
+            return hittested;
+        }
+        
+        return originalResult;
+    } else {
+        return %orig;
     }
 }
 
