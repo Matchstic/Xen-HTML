@@ -960,9 +960,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
             
             switch (type) {
                 case 0:
-                    [recog _setDirty];
                     [recog _componentsBegan:set withEvent:event];
                     break;
+                    
+                /*
+                 On iOS 14 and higher, all the extra methods we need to call for scrolling to work
+                 correctly are blocked behind @objc-direct'd methods. This means a nice way that is
+                 __maintainable__ to call these methods are required before this will work properly.
+                 */
                 case 1:
                     // @objc-direct only
                     if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
