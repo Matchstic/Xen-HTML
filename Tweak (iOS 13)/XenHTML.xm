@@ -44,6 +44,8 @@ void resetIdleTimer();
 void cancelIdleTimer();
 
 static XENHSetupWindow *setupWindow;
+static BOOL _xenhtml_inEditingMode = NO;
+static BOOL _xenhtml_isPreviewGeneration = NO;
 
 #pragma mark Start hooks
 
@@ -1162,6 +1164,11 @@ void cancelIdleTimer() {
             return %orig;
         }
         
+        // Same for icon editing
+        if (_xenhtml_inEditingMode) {
+            return %orig;
+        }
+        
         UIView *originalResult = %orig;
         
         NSArray *mustAllow = @[
@@ -1169,6 +1176,7 @@ void cancelIdleTimer() {
             @"SBFolderIconView",
             @"SBRootFolderDockIconListView",
             @"SBDockIconListView",
+            @"UIStackView",       // Homesceen menus
             @"WKContentView",     // WKWebView base
             @"WKChildScrollView"  // WKWebView scrolling
         ];
@@ -1733,9 +1741,6 @@ void cancelIdleTimer() {
 %end
 
 #pragma mark Display Homescreen foreground add button when editing (iOS 13+)
-
-static BOOL _xenhtml_inEditingMode = NO;
-static BOOL _xenhtml_isPreviewGeneration = NO;
 
 // Don't try to render widgets when generating a snapshot preview image
 %hook SBHomeScreenPreviewView
