@@ -129,7 +129,7 @@
 -(void)_componentsBegan:(id)arg1 withEvent:(id)arg2;
 -(void)_componentsEnded:(id)arg1 withEvent:(id)arg2;
 -(void)_componentsChanged:(id)arg1 withEvent:(id)arg2;
--(void)_setDirty;
+-(void)_willBeginAfterSatisfyingFailureRequirements;
 @end
 
 @interface UITouch (Private2)

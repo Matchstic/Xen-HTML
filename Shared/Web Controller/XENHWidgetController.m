@@ -960,6 +960,7 @@ static UIWindow *sharedOffscreenRenderingWindow;
             
             switch (type) {
                 case 0:
+                    [recog _willBeginAfterSatisfyingFailureRequirements];
                     [recog _componentsBegan:set withEvent:event];
                     break;
                     
@@ -967,6 +968,10 @@ static UIWindow *sharedOffscreenRenderingWindow;
                  On iOS 14 and higher, all the extra methods we need to call for scrolling to work
                  correctly are blocked behind @objc-direct'd methods. This means a nice way that is
                  __maintainable__ to call these methods are required before this will work properly.
+                 
+                 As a result, any UIScrollView in a widget recieving forwarded touches will not be able
+                 to function as expected. Testing shows that taps and swipe gestures on the underlying
+                 WKContentView do indeed work as expected.
                  */
                 case 1:
                     // @objc-direct only
