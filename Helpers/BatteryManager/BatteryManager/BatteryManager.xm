@@ -208,8 +208,6 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
-    XENlog(@"setWKWebViewActivityState %@ %d", webView, isPaused);
-    
     if (!webView)
         return;
     
@@ -225,8 +223,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         if (isModerateStrategyPossible) {
             // Do not attempt this state change if symbols are not found
             doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
-        } else {
-            XENlog(@"DEBUG :: Moderate strategy requested but is not available");
         }
         
         if (!isPaused) {
@@ -255,8 +251,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_setInternalPaused:(BOOL)paused {
-    XENlog(@"_setInternalPaused: %d", paused);
-    
     // If setting to be not paused, then check what the strategy used previously
     // was so that we can effectively undo it
     int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
@@ -307,8 +301,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                         NSURL *url = [NSURL URLWithString:@"about:blank"];
                         NSURLRequest *request = [NSURLRequest requestWithURL:url];
                         [self.webView loadRequest:request];
-                        
-                        XENlog(@"high strategy pointed webview at about:blank");
 
                         // Hide the webview
                         self.webView.hidden = YES;
@@ -326,8 +318,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
                 NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
                 if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
                     [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
-                    
-                    XENlog(@"high strategy pointed webview at widget");
                 }
                 
                 // Add failsafe for clearing the snapshot
@@ -418,8 +408,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         ![[webView.URL absoluteString] isEqualToString:@"about:blank"]) {
         self.pendingHighStrategyLoad = NO;
         
-        XENlog(@"webView:didFinishNavigation: for high strategy");
-        
         // Show the webview
         dispatch_async(dispatch_get_main_queue(), ^{
            self.webView.hidden = NO;
@@ -450,8 +438,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
 
 %new
 - (void)_setInternalHidden:(BOOL)paused {
-    XENlog(@"_setInternalHidden: %d", paused);
-    
     // Remove the views from being updated
     self.legacyWebView.hidden = paused ? YES : NO;
     self.webView.hidden = paused ? YES : NO;
