@@ -1955,12 +1955,18 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
                 [UIAction actionWithTitle:@"Xen HTML" image:nil identifier:nil handler:^(UIAction *action) {
                     [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
                 }],
-                [UIAction actionWithTitle:@"Applications" image:nil identifier:nil handler:^(UIAction *action) {
+                
+                // "Search Widgets"
+                [UIAction actionWithTitle:[XENHResources springBoardHomeLocalise:@"WIDGET_ADD_SHEET_SEARCH_PLACEHOLDER"]
+                                    image:nil
+                               identifier:nil
+                                  handler:^(UIAction *action) {
                     [self widgetButtonTriggered:nil];
                 }],
             ];
             
-            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]
+            // "Add to Home Screen"
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources springBoardHomeLocalise:@"ADD_TO_HOMESCREEN_SHORTCUT_ITEM_TITLE"]
                                         image:nil
                                    identifier:ADD_WIDGETS_MENU
                                       options:0

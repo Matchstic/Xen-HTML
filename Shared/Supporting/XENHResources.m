@@ -59,6 +59,7 @@
 
 static NSDictionary *settings;
 static NSBundle *strings;
+static NSBundle *springBoardHomeStrings;
 static int currentOrientation = 1;
 static BOOL phIsVisible;
 static BOOL xenIsVisible;
@@ -129,6 +130,14 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
     
     return [strings localizedStringForKey:key value:[self _fallbackStringForKey:key withBundle:strings] table:nil];
+}
+
++ (NSString*)springBoardHomeLocalise:(NSString*)key {
+    if (!springBoardHomeStrings) {
+        springBoardHomeStrings = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/SpringBoardHome.framework"];
+    }
+    
+    return [springBoardHomeStrings localizedStringForKey:key value:key table:@"SpringBoardHome"];
 }
 
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width {
