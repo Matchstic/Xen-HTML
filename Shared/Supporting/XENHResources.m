@@ -137,6 +137,8 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
         springBoardHomeStrings = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/SpringBoardHome.framework"];
     }
     
+    if (!springBoardHomeStrings) return key;
+    
     return [springBoardHomeStrings localizedStringForKey:key value:key table:@"SpringBoardHome"];
 }
 
