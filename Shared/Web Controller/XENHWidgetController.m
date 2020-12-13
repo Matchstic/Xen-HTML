@@ -964,14 +964,40 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     [recog _componentsBegan:set withEvent:event];
                     break;
                 case 1:
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_delayTouchesForEventIfNeeded:)])
+                        [recog _delayTouchesForEventIfNeeded:event];
+                    
                     [recog _componentsChanged:set withEvent:event];
                     break;
                 case 2:
                     [recog _componentsEnded:set withEvent:event];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
                     [recog _resetGestureRecognizer];
                     break;
                 case 3:
                     [recog _componentsCancelled:set withEvent:event];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
                     [recog _resetGestureRecognizer];
                     break;
                     
