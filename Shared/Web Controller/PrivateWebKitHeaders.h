@@ -86,6 +86,9 @@
 @interface WKContentView : UIView
 - (void)_webTouchEventsRecognized:(id)gestureRecognizer;
 - (void)_singleTapCommited:(UITapGestureRecognizer *)gestureRecognizer;
+- (void)_singleTapRecognized:(id)arg1;
+- (void)_singleTapIdentified:(id)arg1;
+- (void)_singleTapDidReset:(id)arg1;
 @end
 
 @interface WKWebView (IOS9)
@@ -144,6 +147,13 @@
 -(void)_webView:(id)arg1 requestGeolocationPermissionForFrame:(id)arg2 decisionHandler:(/*^block*/id)arg3;
 -(void)_webView:(id)arg1 didNotHandleTapAsClickAtPoint:(CGPoint)arg2;
 -(void)_webView:(id)arg1 requestGeolocationAuthorizationForURL:(id)arg2 frame:(id)arg3 decisionHandler:(void (^)(BOOL))arg4;
+@end
+
+@interface UIWebTouchEventsGestureRecognizer : UIGestureRecognizer
+@property (getter=isDispatchingTouchEvents, nonatomic, readonly) BOOL dispatchingTouchEvents;
+- (void)performAction;
+- (void)_processTouches:(id)arg1 withEvent:(id)arg2 type:(int)arg3;
+- (BOOL)isDefaultPrevented;
 @end
 
 #endif /* PrivateWebKitHeaders_h */

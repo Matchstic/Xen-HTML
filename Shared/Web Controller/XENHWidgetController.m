@@ -820,10 +820,14 @@ static UIWindow *sharedOffscreenRenderingWindow;
         }
     }
     
-    if (@available(iOS 14, *)) {
-        [self handleForwardingNew:view touches:set withEvent:event type:type];
-    } else {
-        [self handleForwardingLegacy:view touches:set withEvent:event type:type];
+    @try {
+        if (@available(iOS 14, *)) {
+            [self handleForwardingNew:view touches:set withEvent:event type:type];
+        } else {
+            [self handleForwardingLegacy:view touches:set withEvent:event type:type];
+        }
+    } @catch (NSException *e) {
+        // nop
     }
 }
 
@@ -960,18 +964,17 @@ static UIWindow *sharedOffscreenRenderingWindow;
             
             switch (type) {
                 case 0:
-                    [recog _willBeginAfterSatisfyingFailureRequirements];
                     [recog _componentsBegan:set withEvent:event];
                     break;
                     
                 /*
-                 On iOS 14 and higher, all the extra methods we need to call for scrolling to work
-                 correctly are blocked behind @objc-direct'd methods. This means a nice way that is
+                 On iOS 14 and higher, all the extra methods we need to call for touch to work
+                 fully are blocked behind @objc-direct'd methods. This means a nice way that is
                  __maintainable__ to call these methods are required before this will work properly.
                  
                  As a result, any UIScrollView in a widget recieving forwarded touches will not be able
-                 to function as expected. Testing shows that taps and swipe gestures on the underlying
-                 WKContentView do indeed work as expected.
+                 to function as expected. Testing shows that touchstart JS gestures on the underlying
+                 WKContentView do indeed work as expected, but some other touch events don't work well.
                  */
                 case 1:
                     // @objc-direct only
@@ -1020,14 +1023,30 @@ static UIWindow *sharedOffscreenRenderingWindow;
     // Forward tap gestures
     forwardEvent(view.gestureRecognizers, type, set, event);
     
-    // Forward scroll gestures
-    if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
-        NSInteger oldTag = self._touchForwardedView.tag;
-        self._touchForwardedView.tag = 1337;
+    if (type == 2) {
+        /*
+         Due to the issues noted above, the single tap gesture recogniser doesn't fire
+         its action. To work around this, a "fake" tap is fired whenever a touch ends.
+         
+         Honestly, this is such a dirty hack. The solution to this madness is calling the
+         direct methods... oh well, onto the tech debt pile it goes.
+         */
+        id gesture = nil;
+        for (UIGestureRecognizer *recog in view.gestureRecognizers) {
+            if ([@"WKSyntheticTapGestureRecognizer" isEqualToString:NSStringFromClass([recog class])] &&
+                [(UITapGestureRecognizer*)recog numberOfTapsRequired] == 1) {
+                gesture = recog;
+            }
+        }
         
-        forwardEvent(self._touchForwardedView.gestureRecognizers, type, set, event);
-        
-        self._touchForwardedView.tag = oldTag;
+        if (gesture) {
+            [gesture _componentsBegan:set withEvent:event];
+            [gesture _componentsEnded:set withEvent:event];
+            
+            [(WKContentView*)view _singleTapRecognized:gesture];
+            
+            [gesture _resetGestureRecognizer];
+        }
     }
 }
 
