@@ -1707,12 +1707,12 @@ void cancelIdleTimer() {
     if ([XENHResources SBEnabled] && sbhtmlForegroundViewController) {
         
         if ([XENHResources SBPerPageHTMLWidgetMode]) {
-            // Send dock to front for PerPageHTML mode
+            // Send dock to front for PerPageHTML mode (default position on 14+)
             [dockParent bringSubviewToFront:dockView];
             
             XENlog(@"*** Bringing dock to the front");
         } else {
-            // Send to back (default position)
+            // Send to back (default position on 13)
             [dockParent sendSubviewToBack:dockView];
             
             XENlog(@"*** Sending dock to the back");
