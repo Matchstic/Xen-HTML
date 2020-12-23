@@ -81,7 +81,7 @@ static void _logos_method$_ungrouped$SpringBoard$applicationDidFinishLaunching$(
     
     BOOL hasBatteryManager = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib"];
     BOOL hasWebGL = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib"];
-    BOOL hasWidgetInfo = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib"];
+    BOOL hasWidgetInfo = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WidgetInfo.dylib"];
     
     
     if (!isRootless) {
@@ -114,12 +114,6 @@ static __attribute__((constructor)) void _logosLocalCtor_bdbb22fb(int __unused a
     }
     
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib"]) {
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
-    }
-    
-    
-    dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib", RTLD_NOW);
     dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib", RTLD_NOW);
 }
 
