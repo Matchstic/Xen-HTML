@@ -3927,7 +3927,7 @@ static BOOL launchCydiaForSource = NO;
 
 -(id)initWithFolder:(id)arg1 orientation:(long long)arg2 viewMap:(id)arg3 {
     // Set orientation
-    [XENHResources setCurrentOrientation:arg2];
+    [XENHResources setCurrentOrientation:(int)arg2];
     
     SBRootFolderController *orig = %orig;
         

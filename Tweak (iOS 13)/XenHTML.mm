@@ -71,7 +71,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBDashBoardLockScreenEnvironment; @class UITouch; @class CSCoverSheetView; @class SBMainStatusBarStateProvider; @class WKContentView; @class SBHomeScreenOverlayViewController; @class SBIconView; @class SBCoverSheetWindow; @class SBIconScrollView; @class SBScreenWakeAnimationController; @class UITouchesEvent; @class SBBacklightController; @class SBFLockScreenDateView; @class CSMainPageView; @class XENDashBoardWebViewController; @class CSTeachableMomentsContainerView; @class CSMainPageContentViewController; @class SBDockView; @class WKWebView; @class CSCoverSheetViewController; @class _UIPlatterView; @class SBHomeScreenPreviewView; @class _UIContextMenuActionsListView; @class CSQuickActionsViewController; @class SBFolderIconImageView; @class SBUIProudLockIconView; @class CSPageViewController; @class SBIconListView; @class SBFloatingDockPlatterView; @class SBHomeScreenWindow; @class SBHorizontalScrollFailureRecognizer; @class SBRootFolderController; @class CSFixedFooterView; @class CSScrollView; @class SBMainWorkspace; @class SBLockScreenManager; @class SBIconListPageControl; @class SBIdleTimerGlobalStateMonitor; @class SBHomeScreenViewController; @class UIWKTextLoupeInteraction; @class SpringBoard; @class SBFluidSwitcherGestureWorkspaceTransaction; @class CSCombinedListViewController; @class SBHomeScreenView; @class SBRootFolderView; 
+@class SBLockScreenManager; @class SBIconScrollView; @class UITouch; @class SpringBoard; @class CSCoverSheetViewController; @class SBIconListPageControl; @class WKContentView; @class CSMainPageContentViewController; @class SBMainWorkspace; @class CSPageViewController; @class SBHomeScreenOverlayViewController; @class SBHomeScreenWindow; @class _UIPlatterView; @class SBBacklightController; @class UIWKTextLoupeInteraction; @class SBFloatingDockPlatterView; @class SBHomeScreenViewController; @class SBRootFolderView; @class SBMainStatusBarStateProvider; @class _UIContextMenuActionsListView; @class SBHorizontalScrollFailureRecognizer; @class SBIconListView; @class XENDashBoardWebViewController; @class SBFLockScreenDateView; @class CSFixedFooterView; @class SBFolderIconImageView; @class SBDockView; @class SBRootFolderController; @class CSCoverSheetView; @class WKWebView; @class SBCoverSheetWindow; @class CSCombinedListViewController; @class SBScreenWakeAnimationController; @class CSScrollView; @class CSMainPageView; @class UITouchesEvent; @class SBHomeScreenPreviewView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class CSTeachableMomentsContainerView; @class SBIdleTimerGlobalStateMonitor; @class SBHomeScreenView; @class SBUIProudLockIconView; @class SBIconView; @class SBDashBoardLockScreenEnvironment; @class CSQuickActionsViewController; 
 
 
 #line 52 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -1063,10 +1063,10 @@ static void _logos_method$SpringBoard$SBHomeScreenViewController$_prepareForTran
     
     
     if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
-        [XENHResources setCurrentOrientation:orientation];
+        [XENHResources setCurrentOrientation:(int)orientation];
         
-        [sbhtmlViewController rotateToOrientation:orientation];
-        [sbhtmlForegroundViewController rotateToOrientation:orientation];
+        [sbhtmlViewController rotateToOrientation:(int)orientation];
+        [sbhtmlForegroundViewController rotateToOrientation:(int)orientation];
     }
 }
 

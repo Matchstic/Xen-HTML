@@ -334,7 +334,7 @@ static NSString *listFile;
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"Xen HTML" message:[XENHResources localisedStringForKey:@"DONATE_ADDRESS_COPIED"] preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSString *urlPath = [NSString stringWithFormat:@"cydia://url/https://cydia.saurik.com/api/share#?source=%@", _selectedRepo];
+        NSString *urlPath = [NSString stringWithFormat:@"cydia://url/https://cydia.saurik.com/api/share#?source=%@", self->_selectedRepo];
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlPath]];
     }];

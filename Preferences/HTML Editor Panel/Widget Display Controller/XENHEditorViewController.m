@@ -293,7 +293,6 @@
     NSString *filepath = [self.webViewController getCurrentWidgetURL];
     
     NSString *path = [filepath stringByDeletingLastPathComponent];
-    NSString *lastPathComponent = [filepath lastPathComponent];
     
     BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:filepath];
     

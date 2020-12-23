@@ -1286,7 +1286,7 @@
 			isa = PBXProject;
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					C911F1D11C1E051300D4D582 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1316,11 +1316,11 @@
 			};
 			buildConfigurationList = C93C30A51BA72CA90037BA09 /* Build configuration list for PBXProject "Xen HTML" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = C93C30A11BA72CA90037BA09;
 			productRefGroup = C93C30AD1BA72CA90037BA09 /* Products */;

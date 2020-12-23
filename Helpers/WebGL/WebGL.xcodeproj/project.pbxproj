@@ -131,7 +131,7 @@
 		C9B604E42293320E0043581A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					C9B604ED2293320E0043581A = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -144,6 +144,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C9B604E32293320E0043581A;
 			productRefGroup = C9B604EF2293320E0043581A /* Products */;

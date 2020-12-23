@@ -1037,10 +1037,10 @@ void cancelIdleTimer() {
     
     // Rotate if possible
     if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
-        [XENHResources setCurrentOrientation:orientation];
+        [XENHResources setCurrentOrientation:(int)orientation];
         
-        [sbhtmlViewController rotateToOrientation:orientation];
-        [sbhtmlForegroundViewController rotateToOrientation:orientation];
+        [sbhtmlViewController rotateToOrientation:(int)orientation];
+        [sbhtmlForegroundViewController rotateToOrientation:(int)orientation];
     }
 }
 
