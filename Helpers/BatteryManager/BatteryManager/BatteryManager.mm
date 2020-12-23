@@ -158,7 +158,7 @@ static BOOL isModerateStrategyPossible = YES;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class WKWebView; @class XENHWidgetController; @class UIApp; 
+@class WKWebView; @class UIApp; @class XENHWidgetController; 
 
 
 #line 139 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/BatteryManager/BatteryManager/BatteryManager.xm"
@@ -234,8 +234,6 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
-    XENlog(@"setWKWebViewActivityState %@ %d", webView, isPaused);
-    
     if (!webView)
         return;
     
@@ -251,8 +249,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         if (isModerateStrategyPossible) {
             
             doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
-        } else {
-            XENlog(@"DEBUG :: Moderate strategy requested but is not available");
         }
         
         if (!isPaused) {
@@ -281,8 +277,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$setPaused$animated$(_
 
 
 static void _logos_method$SpringBoard$XENHWidgetController$_setInternalPaused$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, BOOL paused) {
-    XENlog(@"_setInternalPaused: %d", paused);
-    
     
     
     int defaultStrategy = [objc_getClass("XENHResources") currentPauseStrategy];
@@ -333,8 +327,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$_setInternalPaused$(_
                         NSURL *url = [NSURL URLWithString:@"about:blank"];
                         NSURLRequest *request = [NSURLRequest requestWithURL:url];
                         [self.webView loadRequest:request];
-                        
-                        XENlog(@"high strategy pointed webview at about:blank");
 
                         
                         self.webView.hidden = YES;
@@ -352,8 +344,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$_setInternalPaused$(_
                 NSURL *url = [NSURL fileURLWithPath:self.widgetIndexFile isDirectory:NO];
                 if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.widgetIndexFile]) {
                     [self.webView loadFileURL:url allowingReadAccessToURL:[NSURL fileURLWithPath:@"/" isDirectory:YES]];
-                    
-                    XENlog(@"high strategy pointed webview at widget");
                 }
                 
                 
@@ -444,8 +434,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$webView$didFinishNavi
         ![[webView.URL absoluteString] isEqualToString:@"about:blank"]) {
         self.pendingHighStrategyLoad = NO;
         
-        XENlog(@"webView:didFinishNavigation: for high strategy");
-        
         
         dispatch_async(dispatch_get_main_queue(), ^{
            self.webView.hidden = NO;
@@ -476,8 +464,6 @@ static void _logos_method$SpringBoard$XENHWidgetController$viewDidLayoutSubviews
 
 
 static void _logos_method$SpringBoard$XENHWidgetController$_setInternalHidden$(_LOGOS_SELF_TYPE_NORMAL XENHWidgetController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, BOOL paused) {
-    XENlog(@"_setInternalHidden: %d", paused);
-    
     
     self.legacyWebView.hidden = paused ? YES : NO;
     self.webView.hidden = paused ? YES : NO;
@@ -599,7 +585,7 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     return pointer != NULL;
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_e2bac904(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_307b44d3(int __unused argc, char __unused **argv, char __unused **envp) {
     {}
     
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
