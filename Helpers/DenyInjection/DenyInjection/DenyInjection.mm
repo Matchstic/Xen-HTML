@@ -64,37 +64,56 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
 
 #line 40 "/Users/matt/iOS/Projects/Xen-HTML/Helpers/DenyInjection/DenyInjection/DenyInjection.xm"
 __unused static void * (*_logos_orig$_ungrouped$dlopen)(const char *path, int mode); __unused static void * _logos_function$_ungrouped$dlopen(const char *path, int mode) {
-    if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
-    
+    @try {
+        if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
         
-        
-        
-        NSString *plistPath = [NSString stringWithUTF8String:path];
-        plistPath = [plistPath stringByReplacingOccurrencesOfString:@".dylib" withString:@".plist"];
-        
-        NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        
-        
-        if (!filterPlist) {
-            return _logos_orig$_ungrouped$dlopen(path, mode);
+            
+            
+            
+            NSString *plistPath = [NSString stringWithUTF8String:path];
+            plistPath = [plistPath stringByReplacingOccurrencesOfString:@".dylib" withString:@".plist"];
+            
+            NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+            
+            
+            if (!filterPlist) {
+                return _logos_orig$_ungrouped$dlopen(path, mode);
+            }
+            
+            NSDictionary *filter = [filterPlist objectForKey:@"Filter"];
+            if (!filter) {
+                return _logos_orig$_ungrouped$dlopen(path, mode);
+            }
+            
+            NSArray *bundles = [filter objectForKey:@"Bundles"];
+            NSArray *executables = [filter objectForKey:@"Executables"];
+            
+            char **args = *_NSGetArgv();
+            NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
+            
+            
+            if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
+                return NULL;
+            }
         }
+    } @catch (NSException *e) {
         
-        NSArray *bundles = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"];
-        NSArray *executables = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Executables"];
-        
-        char **args = *_NSGetArgv();
-        NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
-        
-        
-        if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
-            return NULL;
-        }
     }
         
     return _logos_orig$_ungrouped$dlopen(path, mode);
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_7e2484d5(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_d89c9af8(int __unused argc, char __unused **argv, char __unused **envp) {
+    
+    NSOperatingSystemVersion version;
+    version.majorVersion = 14;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]) {
+        return;
+    }
+    
     char **args = *_NSGetArgv();
     const char *processName = args[0];
     

@@ -38,37 +38,56 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
 }
 
 %hookf(void *, dlopen, const char *path, int mode) {
-    if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
-    
-        // Check the filter plist for this path. If it whitelists the current process, then allow
-        // loading.
+    @try {
+        if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
         
-        NSString *plistPath = [NSString stringWithUTF8String:path];
-        plistPath = [plistPath stringByReplacingOccurrencesOfString:@".dylib" withString:@".plist"];
-        
-        NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
-        
-        // Additionally, if there is no filter plist, then it has been dlopen'd by another tweak
-        if (!filterPlist) {
-            return %orig;
+            // Check the filter plist for this path. If it whitelists the current process, then allow
+            // loading.
+            
+            NSString *plistPath = [NSString stringWithUTF8String:path];
+            plistPath = [plistPath stringByReplacingOccurrencesOfString:@".dylib" withString:@".plist"];
+            
+            NSDictionary *filterPlist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+            
+            // Additionally, if there is no filter plist, then it has been dlopen'd by another tweak
+            if (!filterPlist) {
+                return %orig;
+            }
+            
+            NSDictionary *filter = [filterPlist objectForKey:@"Filter"];
+            if (!filter) {
+                return %orig;
+            }
+            
+            NSArray *bundles = [filter objectForKey:@"Bundles"];
+            NSArray *executables = [filter objectForKey:@"Executables"];
+            
+            char **args = *_NSGetArgv();
+            NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
+            
+            // Block if necessary
+            if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
+                return NULL;
+            }
         }
-        
-        NSArray *bundles = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Bundles"];
-        NSArray *executables = [[filterPlist objectForKey:@"Filter"] objectForKey:@"Executables"];
-        
-        char **args = *_NSGetArgv();
-        NSString *processName = [NSString stringWithUTF8String:basename(args[0])];
-        
-        // Block if necessary
-        if ([bundles containsObject:@"com.apple.UIKit"] && ![executables containsObject:processName]) {
-            return NULL;
-        }
+    } @catch (NSException *e) {
+        // no-op
     }
         
     return %orig;
 }
 
 %ctor {
+    // Check iOS version
+    NSOperatingSystemVersion version;
+    version.majorVersion = 14;
+    version.minorVersion = 0;
+    version.patchVersion = 0;
+    
+    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]) {
+        return;
+    }
+    
     char **args = *_NSGetArgv();
     const char *processName = args[0];
     

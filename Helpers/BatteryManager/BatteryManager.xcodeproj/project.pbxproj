@@ -114,10 +114,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9B60532229346840043581A /* Build configuration list for PBXNativeTarget "BatteryManager" */;
 			buildPhases = (
-				C9B60516229346840043581A /* ShellScript */,
+				C9B60516229346840043581A /* Parse .xm */,
 				C9B60517229346840043581A /* Sources */,
 				C9B60518229346840043581A /* Frameworks */,
 				C9B60519229346840043581A /* Headers */,
+				C9B4150B257BEE3E008ECA7F /* Copy to simject if needed */,
 			);
 			buildRules = (
 			);
@@ -134,7 +135,7 @@
 		C9B60512229346840043581A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					C9B6051B229346840043581A = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -147,6 +148,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C9B60511229346840043581A;
 			productRefGroup = C9B6051D229346840043581A /* Products */;
@@ -159,7 +161,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C9B60516229346840043581A /* ShellScript */ = {
+		C9B4150B257BEE3E008ECA7F /* Copy to simject if needed */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -168,6 +170,25 @@
 			);
 			inputPaths = (
 			);
+			name = "Copy to simject if needed";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ ${SIMJECT} = \"YES\" ]; then\n\necho \"Automating simject...\"\ncp \"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}\" /opt/simject\nfor dylib in /opt/simject/*.dylib; do ldid -S \"$dylib\"; done\nresim\n\nfi\n";
+		};
+		C9B60516229346840043581A /* Parse .xm */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Parse .xm";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -266,8 +287,12 @@
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_ZBatteryManager;
+				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -302,6 +327,9 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_ZBatteryManager;
+				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";

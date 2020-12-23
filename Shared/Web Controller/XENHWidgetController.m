@@ -810,6 +810,28 @@ static UIWindow *sharedOffscreenRenderingWindow;
     if (![view isFirstResponder])
         [view becomeFirstResponder];
     
+    if (type == 0) {
+        CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
+        CGPoint convertedPoint = [self.view convertPoint:hitPoint toView:view];
+        self._touchForwardedView = [view hitTest:convertedPoint withEvent:event];
+        
+        if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
+            self._touchForwardedView = [self._touchForwardedView superview];
+        }
+    }
+    
+    @try {
+        if (@available(iOS 14, *)) {
+            [self handleForwardingNew:view touches:set withEvent:event type:type];
+        } else {
+            [self handleForwardingLegacy:view touches:set withEvent:event type:type];
+        }
+    } @catch (NSException *e) {
+        // nop
+    }
+}
+
+- (void)handleForwardingLegacy:(UIView*)view touches:(NSSet*)set withEvent:(UIEvent*)event type:(int)type {
     for (UIGestureRecognizer *recog in view.gestureRecognizers) {
         /*if ([recog isKindOfClass:[UITapGestureRecognizer class]]) {
             UITapGestureRecognizer *tapRecogniser = (UITapGestureRecognizer*)recog;
@@ -822,16 +844,20 @@ static UIWindow *sharedOffscreenRenderingWindow;
         
         switch (type) {
             case 0:
-                [recog _touchesBegan:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesBegan:withEvent:)])
+                    [recog _touchesBegan:set withEvent:event];
                 break;
             case 1:
-                [recog _touchesMoved:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesMoved:withEvent:)])
+                    [recog _touchesMoved:set withEvent:event];
                 break;
             case 2:
-                [recog _touchesEnded:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesEnded:withEvent:)])
+                    [recog _touchesEnded:set withEvent:event];
                 break;
             case 3:
-                [recog _touchesCancelled:set withEvent:event];
+                if ([recog respondsToSelector:@selector(_touchesCancelled:withEvent:)])
+                    [recog _touchesCancelled:set withEvent:event];
                 break;
                 
             default:
@@ -840,15 +866,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     }
     
     // Now, forward to any scrollView in hierarchy, if necessary
-    
-    if (type == 0) {
-        CGPoint hitPoint = [[set anyObject] _locationInSceneReferenceSpace];
-        self._touchForwardedView = [view hitTest:hitPoint withEvent:event];
-        
-        if ([[self._touchForwardedView class] isEqual:objc_getClass("UIWebOverflowContentView")]) {
-            self._touchForwardedView = [self._touchForwardedView superview];
-        }
-    }
     
     if ([self _touchForwardedViewIsScroll:self._touchForwardedView]) {
         // Need to forward to the scrollView also!
@@ -872,7 +889,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
             
             switch (type) {
                 case 0:
-                    [recog _touchesBegan:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesBegan:withEvent:)])
+                        [recog _touchesBegan:set withEvent:event];
                     break;
                 case 1:
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
@@ -880,30 +898,41 @@ static UIWindow *sharedOffscreenRenderingWindow;
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _delayTouchesForEventIfNeeded:event];
-                    [recog _touchesMoved:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_delayTouchesForEventIfNeeded:)])
+                        [recog _delayTouchesForEventIfNeeded:event];
+                    
+                    if ([recog respondsToSelector:@selector(_touchesMoved:withEvent:)])
+                        [recog _touchesMoved:set withEvent:event];
                     break;
                 case 2:
-                    [recog _touchesEnded:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesEnded:withEvent:)])
+                        [recog _touchesEnded:set withEvent:event];
                     
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
                         [recog _updateGestureWithEvent:event buttonEvent:nil];
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _clearDelayedTouches];
-                    [recog _resetGestureRecognizer];
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    if ([recog respondsToSelector:@selector(_resetGestureRecognizer)])
+                        [recog _resetGestureRecognizer];
                     break;
                 case 3:
-                    [recog _touchesCancelled:set withEvent:event];
+                    if ([recog respondsToSelector:@selector(_touchesCancelled:withEvent:)])
+                        [recog _touchesCancelled:set withEvent:event];
                     
                     if ([recog respondsToSelector:@selector(_updateGestureWithEvent:buttonEvent:)])
                         [recog _updateGestureWithEvent:event buttonEvent:nil];
                     else if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
                         [recog _updateGestureForActiveEvents];
                     
-                    [recog _clearDelayedTouches];
-                    [recog _resetGestureRecognizer];
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    if ([recog respondsToSelector:@selector(_resetGestureRecognizer)])
+                        [recog _resetGestureRecognizer];
                     break;
                     
                 default:
@@ -912,6 +941,112 @@ static UIWindow *sharedOffscreenRenderingWindow;
         }
         
         self._touchForwardedView.tag = oldTag;
+    }
+}
+
+- (void)handleForwardingNew:(UIView*)view touches:(NSSet*)set withEvent:(UIEvent*)event type:(int)type {
+    
+    NSArray *blacklist = @[
+        @"_UIContextualMenuGestureRecognizer",
+        @"UIVariableDelayLoupeGesture",
+        @"WKHighlightLongPressGestureRecognizer",
+        @"_UIDragLiftGestureRecognizer",
+        @"_UIDragAddItemsGesture",
+        @"_UIRelationshipGestureRecognizer",
+        @"_UIDragLiftPointerGestureRecognizer"
+    ];
+    
+    void (^forwardEvent)(NSArray *, int, NSSet*, UIEvent*) = ^(NSArray *recognizers, int type, NSSet *set, UIEvent *event) {
+        for (UIGestureRecognizer *recog in recognizers) {
+            if ([blacklist containsObject:NSStringFromClass([recog class])]) {
+                continue;
+            }
+            
+            switch (type) {
+                case 0:
+                    [recog _componentsBegan:set withEvent:event];
+                    break;
+                    
+                /*
+                 On iOS 14 and higher, all the extra methods we need to call for touch to work
+                 fully are blocked behind @objc-direct'd methods. This means a nice way that is
+                 __maintainable__ to call these methods are required before this will work properly.
+                 
+                 As a result, any UIScrollView in a widget recieving forwarded touches will not be able
+                 to function as expected. Testing shows that touchstart JS gestures on the underlying
+                 WKContentView do indeed work as expected, but some other touch events don't work well.
+                 */
+                case 1:
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_delayTouchesForEventIfNeeded:)])
+                        [recog _delayTouchesForEventIfNeeded:event];
+                    
+                    [recog _componentsChanged:set withEvent:event];
+                    break;
+                case 2:
+                    [recog _componentsEnded:set withEvent:event];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    [recog _resetGestureRecognizer];
+                    break;
+                case 3:
+                    [recog _componentsCancelled:set withEvent:event];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_updateGestureForActiveEvents)])
+                        [recog _updateGestureForActiveEvents];
+                    
+                    // @objc-direct only
+                    if ([recog respondsToSelector:@selector(_clearDelayedTouches)])
+                        [recog _clearDelayedTouches];
+                    
+                    [recog _resetGestureRecognizer];
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+    };
+    
+    // Forward tap gestures
+    forwardEvent(view.gestureRecognizers, type, set, event);
+    
+    if (type == 2) {
+        /*
+         Due to the issues noted above, the single tap gesture recogniser doesn't fire
+         its action. To work around this, a "fake" tap is fired whenever a touch ends.
+         
+         Honestly, this is such a dirty hack. The solution to this madness is calling the
+         direct methods... oh well, onto the tech debt pile it goes.
+         */
+        id gesture = nil;
+        for (UIGestureRecognizer *recog in view.gestureRecognizers) {
+            if ([@"WKSyntheticTapGestureRecognizer" isEqualToString:NSStringFromClass([recog class])] &&
+                [(UITapGestureRecognizer*)recog numberOfTapsRequired] == 1) {
+                gesture = recog;
+            }
+        }
+        
+        if (gesture) {
+            [gesture _componentsBegan:set withEvent:event];
+            [gesture _componentsEnded:set withEvent:event];
+            
+            [(WKContentView*)view _singleTapRecognized:gesture];
+            
+            [gesture _resetGestureRecognizer];
+        }
     }
 }
 

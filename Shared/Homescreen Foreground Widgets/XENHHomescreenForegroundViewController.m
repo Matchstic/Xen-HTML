@@ -120,6 +120,13 @@
         
         CGRect rect = CGRectMake(xOffsetMultipler * SCREEN_WIDTH, yOffsetMultipler * SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
         
+        // Make sure that the rect's origin is safely within bounds
+        if (rect.origin.x <= -SCREEN_WIDTH) {
+            rect.origin.x = 0;
+        } else if (rect.origin.x >= self.view.frame.size.width) {
+            rect.origin.x = self.view.frame.size.width - SCREEN_WIDTH;
+        }
+        
         if (shouldAnimateFrame) {
             [UIView animateWithDuration:0.15 animations:^{
                 widgetController.view.frame = rect;
@@ -286,6 +293,10 @@
         
         [widgetMetadata removeObjectForKey:@"x"];
         [widgetMetadata removeObjectForKey:@"y"];
+        
+        // No default landscape settings -> use portrait by default unless user-set
+        [widgetMetadata removeObjectForKey:@"xLandscape"];
+        [widgetMetadata removeObjectForKey:@"yLandscape"];
         
         // Convert the origin from the _xenhtml_contentView to our view to auto-handle scroll offsets
         // etc

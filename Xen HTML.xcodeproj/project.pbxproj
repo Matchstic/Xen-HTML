@@ -1286,14 +1286,15 @@
 			isa = PBXProject;
 			attributes = {
 				DefaultBuildSystemTypeForWorkspace = Original;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					C911F1D11C1E051300D4D582 = {
 						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Manual;
 					};
 					C94F49D5237DB0B9004A74B0 = {
 						CreatedOnToolsVersion = 11.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					C9715238236F86F10021277B = {
 						CreatedOnToolsVersion = 11.2;
@@ -1301,7 +1302,7 @@
 					};
 					C9715250236F88080021277B = {
 						CreatedOnToolsVersion = 11.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					C97152B3236F8AFB0021277B = {
 						CreatedOnToolsVersion = 11.2;
@@ -1309,16 +1310,17 @@
 					};
 					C9F770481C7A459900C52880 = {
 						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
 			buildConfigurationList = C93C30A51BA72CA90037BA09 /* Build configuration list for PBXProject "Xen HTML" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = C93C30A11BA72CA90037BA09;
 			productRefGroup = C93C30AD1BA72CA90037BA09 /* Products */;
@@ -1477,7 +1479,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_ZBatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/BatteryManager/XenHTML_ZBatteryManager.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_BatteryManager.dylib\"\n\necho \"Copying WidgetInfo helper...\"\ncp \"$builtpath/XenHTML_WidgetInfo.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WidgetInfo/XenHTML_WidgetInfo.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WidgetInfo.dylib\"\n\necho \"Copying WidgetInfo daemon...\"\n\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons\"\n\ncp \"$builtpath/widgetinfod\" \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\ncp \"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/com.matchstic.widgetinfod.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons/\"\n\nldid2 -S\"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/entitlements.plist\" \"${PROJECT_DIR}/Deploy/Package/usr/bin/widgetinfod\"\n\necho \"Copying DenyInjection helper...\"\ncp \"$builtpath/AAA_XenHTML_DenyInjection.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/DenyInjection/AAA_XenHTML_DenyInjection.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/AAA_XenHTML_DenyInjection.dylib\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n\necho \"Copying Loader\"\ncp \"$builtpath/XenHTML_Loader.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nbuiltpath=\"${BUILD_DIR}/${CONFIGURATION}${EFFECTIVE_PLATFORM_NAME}/${CONTENTS_FOLDER_PATH}\"\n\n# TODO: Find ldid2 on user's path\n\necho \"Copying Preferences...\"\ncp \"$builtpath/XenHTMLPrefs.bundle/XenHTMLPrefs\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\ncp \"$builtpath/XenHTMLPrefs.bundle/Info.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs\"\n\necho \"Copying WebGL helper...\"\ncp \"$builtpath/XenHTML_WebGL.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/WebGL/XenHTML_WebGL.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib\"\n\necho \"Copying BatteryManager helper...\"\ncp \"$builtpath/XenHTML_ZBatteryManager.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib\"\n\necho \"Copying WidgetInfo helper...\"\ncp \"$builtpath/XenHTML_WidgetInfo.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib\"\n\necho \"Copying WidgetInfo daemon...\"\n\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\nmkdir -p \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons\"\n\ncp \"$builtpath/widgetinfod\" \"${PROJECT_DIR}/Deploy/Package/usr/bin\"\ncp \"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/com.matchstic.widgetinfod.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/LaunchDaemons/\"\n\nldid2 -S\"${PROJECT_DIR}/Helpers/WidgetInfo/Daemon/entitlements.plist\" \"${PROJECT_DIR}/Deploy/Package/usr/bin/widgetinfod\"\n\necho \"Copying DenyInjection helper...\"\ncp \"$builtpath/AAA_XenHTML_DenyInjection.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\ncp \"${PROJECT_DIR}/Helpers/DenyInjection/AAA_XenHTML_DenyInjection.plist\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/AAA_XenHTML_DenyInjection.dylib\"\n\necho \"Copying Tweak (iOS 9 to 12)\"\ncp \"$builtpath/XenHTML_9to12.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib\"\n\necho \"Copying Tweak (iOS 13)\"\ncp \"$builtpath/XenHTML_13.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib\"\n\necho \"Copying Loader\"\ncp \"$builtpath/XenHTML_Loader.dylib\" \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries\"\nldid2 -S  \"${PROJECT_DIR}/Deploy/Package/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib\"\n";
 		};
 		C97152BF236F8BFA0021277B /* Compile into deb */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1730,6 +1732,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1750,6 +1753,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib";
 				LLVM_LTO = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_9to12;
@@ -1757,6 +1761,8 @@
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -1779,6 +1785,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1802,6 +1809,8 @@
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -1925,7 +1934,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -1941,6 +1950,8 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
 			};
 			name = Debug;
@@ -1956,7 +1967,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -1971,6 +1982,8 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
 			};
 			name = Simulator;
@@ -1986,7 +1999,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -2001,6 +2014,8 @@
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
 			};
 			name = Release;
@@ -2042,6 +2057,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2146,10 +2162,11 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -2163,11 +2180,13 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = YES;
+				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2183,10 +2202,11 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -2201,9 +2221,10 @@
 				LLVM_LTO = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = YES;
+				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2219,10 +2240,11 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				ENABLE_BITCODE = NO;
@@ -2237,9 +2259,10 @@
 				LLVM_LTO = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
-				SIMJECT = YES;
+				SIMJECT = NO;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2259,7 +2282,10 @@
 					armv7s,
 				);
 				CODE_SIGN_STYLE = Automatic;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Debug;
 		};
@@ -2274,6 +2300,8 @@
 				);
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Simulator;
 		};
@@ -2288,6 +2316,8 @@
 				);
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
 			};
 			name = Release;
 		};
@@ -2355,6 +2385,7 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2382,6 +2413,8 @@
 				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = YES;
 				STRIP_STYLE = debugging;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				iOSOpenDevBuildPackageOnAnyBuild = YES;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -2404,6 +2437,7 @@
 					arm64e,
 				);
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/include";
@@ -2428,6 +2462,8 @@
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -2453,6 +2489,7 @@
 					arm64e,
 				);
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/include";
@@ -2471,12 +2508,15 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;
@@ -2502,6 +2542,7 @@
 					arm64e,
 				);
 				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Manual;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/include";
@@ -2522,6 +2563,8 @@
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
 				USE_HEADERMAP = YES;
 				WRAPPER_EXTENSION = bundle;

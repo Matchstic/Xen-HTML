@@ -64,6 +64,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 +(void)reloadSettings;
 
 +(NSString*)localisedStringForKey:(NSString*)key;
++ (NSString*)springBoardHomeLocalise:(NSString*)key;
 
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width;
 +(CGSize)getSizeForText:(NSString *)text maxWidth:(CGFloat)width font:(NSString *)fontName fontSize:(float)fontSize;
@@ -171,6 +172,9 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 + (void)setHasSeenFirstUnlock:(BOOL)state;
 
 + (BOOL)isInstalledFromOfficialRepository;
+
++ (BOOL)hasAlertedForAddWidgets14;
++ (void)setHasAlertedForAddWidgets14;
 
 + (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor;
 + (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor;

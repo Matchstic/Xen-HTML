@@ -16,6 +16,9 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
 #import "XENHResources.h"
@@ -29,15 +32,8 @@
 
 #pragma mark Simulator support
 
+// Comment in/out, cannot use macro due to theos ignoring them
 // %config(generator=internal);
-
-/*
- Other steps to compile for actual device again:
- 1. Make CydiaSubstrate linking required?
- 2. Change build target
- 
- Note: the simulator *really* doesn't like MSHookIvar.
- */
 
 #pragma mark Function definitions
 
@@ -48,6 +44,8 @@ void resetIdleTimer();
 void cancelIdleTimer();
 
 static XENHSetupWindow *setupWindow;
+static BOOL _xenhtml_inEditingMode = NO;
+static BOOL _xenhtml_isPreviewGeneration = NO;
 
 #pragma mark Start hooks
 
@@ -740,13 +738,64 @@ void cancelIdleTimer() {
 - (void)_setUILocked:(_Bool)arg1 {
     %orig;
     
-    // Don't run on first lock
-    if (![XENHResources hasSeenFirstUnlock]) return;
+    if (@available(iOS 14, *)) {
+        // do nothing -- needed to properly guard for availability
+    } else {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
 
-    if (sbhtmlViewController)
-        [sbhtmlViewController setPaused:arg1];
-    if (sbhtmlForegroundViewController)
-        [sbhtmlForegroundViewController setPaused:arg1];
+        XENlog(arg1 ? @"Hiding SBHTML due to device lock" : @"Showing SBHTML due to device unlock");
+
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:arg1];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:arg1];
+    }
+
+}
+
+%end
+
+%hook SBDashBoardLockScreenEnvironment
+
+-(void)prepareForUILock {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
+        
+        XENlog(@"Hiding SBHTML due to device lock");
+
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:YES];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:YES];
+    }
+}
+
+-(void)prepareForUIUnlock {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Don't run on first lock
+        if (![XENHResources hasSeenFirstUnlock]) return;
+        
+        // Check if there's an app open
+        SBApplication *frontmost = [(SpringBoard*)[UIApplication sharedApplication] _accessibilityFrontMostApplication];
+        
+        if (frontmost) {
+            XENlog(@"Not showing SBHTML due to device unlock, because an app is open");
+            return;
+        }
+        
+        XENlog(@"Showing SBHTML due to device unlock");
+
+        if (sbhtmlViewController)
+            [sbhtmlViewController setPaused:NO];
+        if (sbhtmlForegroundViewController)
+            [sbhtmlForegroundViewController setPaused:NO];
+    }
 }
 
 %end
@@ -983,12 +1032,23 @@ void cancelIdleTimer() {
     }
 }
 
+-(void)_prepareForTransitionToSize:(CGSize)arg1 andInterfaceOrientation:(long long)orientation withTransitionCoordinator:(id)arg3 {
+    %orig;
+    
+    // Rotate if possible
+    if ([XENHResources SBEnabled] && [self shouldAutorotate]) {
+        [XENHResources setCurrentOrientation:(int)orientation];
+        
+        [sbhtmlViewController rotateToOrientation:(int)orientation];
+        [sbhtmlForegroundViewController rotateToOrientation:(int)orientation];
+    }
+}
+
 %new
 -(void)_xenhtml_addTouchRecogniser {
     UIView<UIGestureRecognizerDelegate> *mainView = (id)self.view;
     
     if (mainView && [XENHResources SBAllowTouch]) {
-        
         // Need to whitelist some views on which touch forwarding should never prevent
         // Just here as a stub now
         NSArray *ignoredViews = @[];
@@ -1089,6 +1149,68 @@ void cancelIdleTimer() {
     
     if ([XENHResources SBEnabled] && sbhtmlViewController) {
         sbhtmlViewController.view.hidden = hidden;
+    }
+}
+
+// This hook allows background widgets to have working scroll views. The idea
+// is that will work in tandem with the touch forwarding code in the widget
+// containers. iOS 13 does not require this, since touch forwardng handles
+// all of this.
+-(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (@available(iOS 14, *)) {
+        
+        // Early return for disabled state
+        if (![XENHResources SBEnabled] || !sbhtmlViewController) {
+            return %orig;
+        }
+        
+        // Same for icon editing
+        if (_xenhtml_inEditingMode) {
+            return %orig;
+        }
+        
+        UIView *originalResult = %orig;
+        
+        NSArray *mustAllow = @[
+            @"SBIconView",
+            @"SBFolderIconView",
+            @"SBRootFolderDockIconListView",
+            @"SBDockIconListView",
+            @"UIStackView",       // Homesceen menus
+            @"WKContentView",     // WKWebView base
+            @"WKChildScrollView"  // WKWebView scrolling
+        ];
+        
+        // If the originalResult is of type above, it must be used as the return value
+        if ([mustAllow containsObject:NSStringFromClass([originalResult class])]) {
+            return originalResult;
+        }
+        
+        // Otherwise, see if the background widget container would give a scroll view for this
+        // touch. Make sure to allow for safe areas to prevent scroll views stopping page swipes.
+        
+        CGFloat inset = 30;
+        UIEdgeInsets safeAreaInsets = UIEdgeInsetsMake([UIApplication sharedApplication].statusBarFrame.size.height + inset, inset, inset, inset);
+        
+        if (point.x < safeAreaInsets.left ||
+            point.x > self.bounds.size.width - safeAreaInsets.right ||
+            point.y < safeAreaInsets.top ||
+            point.y > self.bounds.size.height - safeAreaInsets.bottom) {
+            
+            // Outside of the safe area, giving control to default flow
+            return originalResult;
+        }
+        
+        CGPoint subPoint = [sbhtmlViewController.view convertPoint:point fromView:self];
+        UIView *hittested = [sbhtmlViewController.view hitTest:subPoint withEvent:event];
+        
+        if ([@"WKChildScrollView" isEqualToString:NSStringFromClass([hittested class])]) {
+            return hittested;
+        }
+        
+        return originalResult;
+    } else {
+        return %orig;
     }
 }
 
@@ -1460,24 +1582,29 @@ void cancelIdleTimer() {
         
         // When today is hidden, the first icon list is at offset 0. Otherwise, SCREEN_WIDTH
         
-        BOOL noTodayPage = NO;
-        
-        // There is no specific today page on iPad now
-        BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
-        if (!isIpad) {
-            for (UIView *view in self.subviews) {
-                // First iconlist subview
-                if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
-                    noTodayPage = view.frame.origin.x == 0;
-                    
-                    break;
-                }
-            }
+        if (@available(iOS 14, *)) {
+            // No magic needed on 14+
+            sbhtmlForegroundViewController.view.frame = CGRectMake(0, 0, self.contentSize.width, SCREEN_HEIGHT);
         } else {
-            noTodayPage = YES;
+            BOOL noTodayPage = NO;
+            
+            // There is no specific today page on iPad now
+            BOOL isIpad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
+            if (!isIpad) {
+                for (UIView *view in self.subviews) {
+                    // First iconlist subview
+                    if ([[view class] isEqual:objc_getClass("SBIconListView")]) {
+                        noTodayPage = view.frame.origin.x == 0;
+                        
+                        break;
+                    }
+                }
+            } else {
+                noTodayPage = YES;
+            }
+            
+            sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width + (noTodayPage ? SCREEN_WIDTH : 0), SCREEN_HEIGHT);
         }
-        
-        sbhtmlForegroundViewController.view.frame = CGRectMake(noTodayPage ? -SCREEN_WIDTH : 0, 0, self.contentSize.width, SCREEN_HEIGHT);
     }
 }
 
@@ -1580,15 +1707,22 @@ void cancelIdleTimer() {
     if ([XENHResources SBEnabled] && sbhtmlForegroundViewController) {
         
         if ([XENHResources SBPerPageHTMLWidgetMode]) {
-            // Send dock to front for PerPageHTML mode
+            // Send dock to front for PerPageHTML mode (default position on 14+)
             [dockParent bringSubviewToFront:dockView];
             
             XENlog(@"*** Bringing dock to the front");
         } else {
-            // Send to back (default position)
+            // Send to back (default position on 13)
             [dockParent sendSubviewToBack:dockView];
             
             XENlog(@"*** Sending dock to the back");
+        }
+    }
+    
+    // Ensure we reset state as needed
+    if (@available(iOS 14.0, *)) {
+        if (![XENHResources SBEnabled]) {
+            [dockParent bringSubviewToFront:dockView];
         }
     }
 }
@@ -1596,14 +1730,17 @@ void cancelIdleTimer() {
 %new
 -(void)_xenhtml_recievedSettingsUpdate {
     [self _xenhtml_setDockPositionIfNeeded];
+    
+    // Update add widget button if needed
+    if (@available(iOS 14.0, *)) {
+        XENlog(@"DEBUG :: Updating add widget button primary mode");
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+    }
 }
 
 %end
 
 #pragma mark Display Homescreen foreground add button when editing (iOS 13+)
-
-static BOOL _xenhtml_inEditingMode = NO;
-static BOOL _xenhtml_isPreviewGeneration = NO;
 
 // Don't try to render widgets when generating a snapshot preview image
 %hook SBHomeScreenPreviewView
@@ -1642,15 +1779,18 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %new
 - (void)_xenhtml_initialise {
-    self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
-    [self._xenhtml_addButton addTarget:self
-            action:@selector(_xenhtml_addWidgetButtonTapped:)
-            forControlEvents:UIControlEventTouchUpInside];
-    
-    // Hide until UI is in editing UI
-    self._xenhtml_addButton.hidden = YES;
-    
-    [self addSubview:self._xenhtml_addButton];
+    if (@available(iOS 14.0, *)) {
+    } else {
+        self._xenhtml_addButton = [[XENHButton alloc] initWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]];
+        [self._xenhtml_addButton addTarget:self
+                action:@selector(_xenhtml_addWidgetButtonTapped:)
+                forControlEvents:UIControlEventTouchUpInside];
+        
+        // Hide until UI is in editing UI
+        self._xenhtml_addButton.hidden = YES;
+        
+        [self addSubview:self._xenhtml_addButton];
+    }
     
     // and the editing platter
     self._xenhtml_editingPlatter = [[XENHTouchPassThroughView alloc] initWithFrame:CGRectZero];
@@ -1683,14 +1823,30 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
     
+    
+    
     static CGFloat animationDuration = 0.15;
     
     // Display the add button, and hide the page dots
     if (arg1) {
-        self._xenhtml_addButton.hidden = NO;
+        if (self._xenhtml_addButton) {
+            self._xenhtml_addButton.hidden = NO;
+        }
+        
         self._xenhtml_editingPlatter.hidden = NO;
         
-        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
+        if (@available(iOS 14, *)) {
+            // Always ensure the page dots are visible, because that's the UI flow to
+            // edit SpringBoard pages
+            
+            if (![self respondsToSelector:@selector(pageControl)]) {
+#if TARGET_IPHONE_SIMULATOR==0
+                [MSHookIvar<UIView*>(self, "_pageControl") setHidden:YES];
+#endif
+            } else {
+                self.pageControl.hidden = NO;
+            }
+        } else if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -1701,16 +1857,20 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             }
         } // Otherwise, already hidden
         
-        self._xenhtml_addButton.alpha = 0.0;
-        self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        
-        [UIView animateWithDuration:animationDuration animations:^{
-            self._xenhtml_addButton.alpha = 1.0;
-            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
-        }];
+        if (self._xenhtml_addButton) {
+            self._xenhtml_addButton.alpha = 0.0;
+            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            
+            [UIView animateWithDuration:animationDuration animations:^{
+                self._xenhtml_addButton.alpha = 1.0;
+                self._xenhtml_addButton.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            }];
+        }
     } else {
         
-        if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
+        if (@available(iOS 14, *)) {
+            
+        } else if (![XENHResources hidePageControlDots] && ![XENHResources isPageBarAvailable]) {
             // Handle differences for iOS 9
             if (![self respondsToSelector:@selector(pageControl)]) {
 #if TARGET_IPHONE_SIMULATOR==0
@@ -1721,15 +1881,19 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
             }
         }
         
-        [UIView animateWithDuration:animationDuration animations:^{
-            self._xenhtml_addButton.alpha = 0.0;
-            self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        } completion:^(BOOL finished) {
-            if (finished) {
-                self._xenhtml_addButton.hidden = YES;
-                self._xenhtml_editingPlatter.hidden = YES;
-            }
-        }];
+        if (self._xenhtml_addButton) {
+            [UIView animateWithDuration:animationDuration animations:^{
+                self._xenhtml_addButton.alpha = 0.0;
+                self._xenhtml_addButton.transform = CGAffineTransformMakeScale(0.1, 0.1);
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    self._xenhtml_addButton.hidden = YES;
+                    self._xenhtml_editingPlatter.hidden = YES;
+                }
+            }];
+        } else {
+            self._xenhtml_editingPlatter.hidden = YES;
+        }
     }
 }
 
@@ -1744,7 +1908,9 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     %orig;
     
     // Bring our views forward again
-    [self bringSubviewToFront:self._xenhtml_addButton];
+    if (self._xenhtml_addButton)
+        [self bringSubviewToFront:self._xenhtml_addButton];
+    
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
     
     // Set dock position if needed
@@ -1755,12 +1921,12 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     %orig;
     
     // Bring our views forward again
-    [self bringSubviewToFront:self._xenhtml_addButton];
+    if (self._xenhtml_addButton)
+        [self bringSubviewToFront:self._xenhtml_addButton];
     [self bringSubviewToFront:self._xenhtml_editingPlatter];
     
     // Set dock position if needed
     [self _xenhtml_setDockPositionIfNeeded];
-    
 }
 
 %new
@@ -1770,6 +1936,8 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %new
 - (void)_xenhtml_layoutAddWidgetButton {
+    if (!self._xenhtml_addButton) return;
+    
     // calculate offset needed to apply
     
     CGFloat lowestOffset = SCREEN_WIDTH;
@@ -1830,6 +1998,164 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 
 %end
 
+#pragma mark Show widget context menu for 'Add Widget' button (iOS 14+)
+
+#define ADD_WIDGETS_MENU @"com.matchstic.xenhtml.addwidgets.menu"
+
+%hook SBRootFolderView
+
+-(void)setWidgetButton:(UIButton *)arg1 {
+    if (@available(iOS 14.0, *)) {
+        if ([XENHResources SBEnabled]) {
+            // Replace button action with a menu
+            arg1.showsMenuAsPrimaryAction = YES;
+            
+            NSArray *menuActions = @[
+                [UIAction actionWithTitle:@"Xen HTML" image:nil identifier:nil handler:^(UIAction *action) {
+                    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+                }],
+                
+                // "Search Widgets"
+                [UIAction actionWithTitle:[XENHResources springBoardHomeLocalise:@"WIDGET_ADD_SHEET_SEARCH_PLACEHOLDER"]
+                                    image:nil
+                               identifier:nil
+                                  handler:^(UIAction *action) {
+                    [self widgetButtonTriggered:nil];
+                }],
+            ];
+            
+            // "Add to Home Screen"
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources springBoardHomeLocalise:@"ADD_TO_HOMESCREEN_SHORTCUT_ITEM_TITLE"]
+                                        image:nil
+                                   identifier:ADD_WIDGETS_MENU
+                                      options:0
+                                     children:menuActions];
+        }
+    }
+
+    %orig;
+}
+
+- (void)setShowsAddWidgetButton:(BOOL)arg1 {
+    if (_xenhtml_inEditingMode && IS_IPAD && [XENHResources SBEnabled])
+        %orig(YES);
+    else
+        %orig;
+}
+
+- (void)setShowsAddWidgetButton:(BOOL)arg1 animated:(BOOL)arg2 {
+    if (_xenhtml_inEditingMode && IS_IPAD && [XENHResources SBEnabled])
+        %orig(YES, arg2);
+    else
+        %orig;
+}
+
+%end
+
+// On iPad, the homescreen overlay controller is the target of the button
+
+%hook SBHomeScreenOverlayViewController
+
+-(void)viewWillAppear:(BOOL)arg1 {
+    %orig;
+    
+    if (@available(iOS 14, *)) {
+        // Ensure correct button state
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+        
+        // Monitor for settings updates
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(recievedSBHTMLUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                                   object:nil];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)arg1 {
+    if (@available(iOS 14, *)) {
+        // Stop watching for settings updates
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
+}
+
+-(void)setWidgetButton:(UIButton *)arg1 {
+    if (@available(iOS 14.0, *)) {
+        if ([XENHResources SBEnabled]) {
+            // Replace button action with a menu
+            arg1.showsMenuAsPrimaryAction = YES;
+            
+            NSArray *menuActions = @[
+                [UIAction actionWithTitle:@"Xen HTML" image:nil identifier:nil handler:^(UIAction *action) {
+                    BOOL isPortrait = [XENHResources getCurrentOrientation] == 1 || [XENHResources getCurrentOrientation] == 2;
+                    
+                    // Dismiss this controller if in portrait mode
+                    if (isPortrait && [self.delegate respondsToSelector:@selector(dismissAnimated:completionHandler:)])
+                        [self.delegate dismissAnimated:YES completionHandler:nil];
+                    
+                    [sbhtmlForegroundViewController noteUserDidPressAddWidgetButton];
+                }],
+                [UIAction actionWithTitle:@"Applications" image:nil identifier:nil handler:^(UIAction *action) {
+                    [self widgetButtonTriggered:nil];
+                }],
+            ];
+            
+            arg1.menu = [UIMenu menuWithTitle:[XENHResources localisedStringForKey:@"WIDGETS_ADD_NEW"]
+                                        image:nil
+                                   identifier:ADD_WIDGETS_MENU
+                                      options:0
+                                     children:menuActions];
+        }
+    }
+
+    %orig;
+}
+
+%new
+-(void)recievedSBHTMLUpdate:(id)sender {
+    // Update button state
+    if (@available(iOS 14, *)) {
+        XENlog(@"DEBUG :: Updating add widget button primary mode");
+        self.widgetButton.showsMenuAsPrimaryAction = [XENHResources SBEnabled];
+    }
+}
+
+%end
+
+%hook _UIContextMenuActionsListView
+
+- (void)setCenter:(CGPoint)point {
+    // If the underlying menu matches ours, tweak the positioning
+    // This is such a hack but whatever
+    // Don't re-use this elsewhere...
+    
+    if ([self respondsToSelector:@selector(displayedMenu)]) {
+        NSString *identifier = self.displayedMenu ? self.displayedMenu.identifier : @"";
+        if ([identifier isEqualToString:ADD_WIDGETS_MENU]) {
+            // Get the source button
+            SBIconController *iconController = [objc_getClass("SBIconController") sharedInstance];
+            SBRootFolderController *rootFolder = [iconController respondsToSelector:@selector(_rootFolderController)] ?
+            [iconController _rootFolderController] : nil;
+            
+            if (rootFolder) {
+                SBRootFolderView *view = [rootFolder contentView];
+                if ([view respondsToSelector:@selector(widgetButton)]) {
+                    UIButton *widgetButton = [view widgetButton];
+                    
+                    CGFloat originY = widgetButton.frame.origin.y;
+                    CGFloat sizeY = widgetButton.bounds.size.height;
+                    CGFloat inset = 16 + widgetButton.frame.origin.y;
+                    
+                    point.y = originY + sizeY - inset + (inset + widgetButton.frame.origin.y);
+                }
+            }
+        }
+    }
+    
+    %orig(point);
+}
+
+%end
+
 #pragma mark Ensure icons always can be tapped through the SBHTML foreground widgets view (iOS 13+)
 
 %hook SBIconScrollView
@@ -1853,8 +2179,9 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
         }
         
         // If in OPW mode, prefer widget touches
-        if ([XENHResources SBOnePageWidgetMode])
+        if ([XENHResources SBOnePageWidgetMode]) {
             return hittested;
+        }
         
         if ([[hittested class] isEqual:objc_getClass("SBIconView")] ||
             [[hittested class] isEqual:objc_getClass("SBFolderIconView")] ||
@@ -1910,6 +2237,15 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
     // Only needed for the mode of widgets above icons
     if (![XENHResources SBEnabled] || [XENHResources SBPerPageHTMLWidgetMode]) {
         return %orig;
+    }
+    
+    if ([XENHResources SBEnabled] && [XENHResources SBOnePageWidgetMode]) {
+        // Don't always allow dock touches, if we originally were gonna be blocking them
+        // due to a widget above
+        
+        id originalResult = %orig;
+        if (![[originalResult class] isEqual:objc_getClass("SBIconListView")])
+            return originalResult;
     }
     
     CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
@@ -2191,6 +2527,7 @@ static BOOL launchCydiaForSource = NO;
         
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
     }
+
     
     /*
      * Notify widgets that they are now free to do their first load
@@ -2223,6 +2560,27 @@ static BOOL launchCydiaForSource = NO;
         NSURL *url = [NSURL URLWithString:@"cydia://url/https://cydia.saurik.com/api/share#?source=http://xenpublic.incendo.ws/"];
         [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
     }
+    
+    /*
+     * Alert users on iOS 14 and higher that the 'add widget' button allows adding Xen HTML widgets
+     */
+    
+    if (@available(iOS 14, *))
+        if (![XENHResources hasAlertedForAddWidgets14]) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Xen HTML"
+                               message:[XENHResources localisedStringForKey:@"ADD_WIDGETS_14"]
+                        preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"]
+                                                                    style:UIAlertActionStyleCancel
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            
+            [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+            
+            [XENHResources setHasAlertedForAddWidgets14];
+        }
 }
 
 %end
@@ -2351,8 +2709,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
     BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
     
     if (sb) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
         // We need the setup UI to always be accessible.
         %init(Setup);
         
@@ -2370,7 +2726,6 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         }
         
         %init(SpringBoard);
-#pragma clang diagnostic pop
         
         // Do initial settings loading
         [XENHResources reloadSettings];
@@ -2382,3 +2737,5 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
         CFNotificationCenterAddObserver(r, NULL, XENHDidModifyConfig, CFSTR("com.matchstic.xenhtml/jsconfigchanged"), NULL, 0);
     }
 }
+
+#pragma clang diagnostic pop

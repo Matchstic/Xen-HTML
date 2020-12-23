@@ -25,7 +25,7 @@ typedef enum : NSUInteger {
     kVariantHomescreenBackground = 2
 } XENHEditorWebViewVariant;
 
-@interface XENHEditorWebViewController : UIViewController <WKNavigationDelegate, WKScriptMessageHandler>
+@interface XENHEditorWebViewController : UIViewController <WKNavigationDelegate>
 
 // Public access for positioning.
 @property (nonatomic, strong) WKWebView *webView;

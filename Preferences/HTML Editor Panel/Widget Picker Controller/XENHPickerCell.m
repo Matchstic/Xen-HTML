@@ -145,12 +145,16 @@
         
         PIPackage *package;
         
+#if TARGET_IPHONE_SIMULATOR==0
         @try {
             package = [PIPackage packageForFile:self.url];
         } @catch (NSException *e) {
             NSLog(@"Error loading package information! %@", e);
             package = nil;
         }
+#else
+        package = nil;
+#endif
         
         weakSelf.package = package;
         

@@ -30,7 +30,11 @@
         
         [self addSubview:self.container];
         
+#if TARGET_IPHONE_SIMULATOR==0
         NSString *imagePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
+#else
+        NSString *imagePath = [NSString stringWithFormat:@"/opt/simject/Library/PreferenceBundles/XenHTMLPrefs.bundle/Background%@", [XENHResources imageSuffix]];
+#endif
         
         if (![[NSFileManager defaultManager] fileExistsAtPath:imagePath]) {
             // Oh for crying out loud CoolStar

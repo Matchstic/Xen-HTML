@@ -185,7 +185,7 @@
 		C9164318227A4A790078338F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Matt Clarke";
 				TargetAttributes = {
 					C916431F227A4A790078338F = {
@@ -199,6 +199,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C9164317227A4A790078338F;
 			productRefGroup = C9164317227A4A790078338F;
@@ -363,6 +364,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"-Wno-shorten-64-to-32",
+					"-Wno-ambiguous-macro",
+				);
 			};
 			name = Debug;
 		};
@@ -388,6 +393,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				WARNING_CFLAGS = (
+					"-Wno-shorten-64-to-32",
+					"-Wno-ambiguous-macro",
+				);
 			};
 			name = Release;
 		};

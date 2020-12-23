@@ -59,6 +59,7 @@
 
 static NSDictionary *settings;
 static NSBundle *strings;
+static NSBundle *springBoardHomeStrings;
 static int currentOrientation = 1;
 static BOOL phIsVisible;
 static BOOL xenIsVisible;
@@ -129,6 +130,16 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     }
     
     return [strings localizedStringForKey:key value:[self _fallbackStringForKey:key withBundle:strings] table:nil];
+}
+
++ (NSString*)springBoardHomeLocalise:(NSString*)key {
+    if (!springBoardHomeStrings) {
+        springBoardHomeStrings = [NSBundle bundleWithPath:@"/System/Library/PrivateFrameworks/SpringBoardHome.framework"];
+    }
+    
+    if (!springBoardHomeStrings) return key;
+    
+    return [springBoardHomeStrings localizedStringForKey:key value:key table:@"SpringBoardHome"];
 }
 
 +(CGRect)boundedRectForFont:(UIFont*)font andText:(NSString*)text width:(CGFloat)width {
@@ -833,7 +844,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
-+(BOOL)SBAllowTouch {
++(BOOL)SBAllowTouch {    
     id value = settings[@"SBAllowTouch"];
     return (value ? [value boolValue] : YES);
 }
@@ -843,12 +854,12 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : YES);
 }
 
-+(BOOL)SBOnePageWidgetMode {
++(BOOL)SBOnePageWidgetMode {    
     id value = settings[@"SBOnePageWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
 
-+(BOOL)SBPerPageHTMLWidgetMode {
++(BOOL)SBPerPageHTMLWidgetMode {    
     id value = settings[@"SBPerPageHTMLWidgetMode"];
     return (value ? [value boolValue] : NO);
 }
@@ -880,6 +891,16 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     return (value ? [value boolValue] : NO);
 }
 
++ (BOOL)hasAlertedForAddWidgets14 {
+    id value = settings[@"hasAlertedForAddWidgets14"];
+    return (value ? [value boolValue] : NO);
+}
+
++ (void)setHasAlertedForAddWidgets14 {
+    [self setPreferenceKey:@"hasAlertedForAddWidgets14" withValue:@YES andPost:NO];
+}
+
+
 + (BOOL)hasSeenFirstUnlock {
     return hasSeenFirstUnlock;
 }
@@ -907,6 +928,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor {
     return ![self isAtLeastiOSVersion:major subversion:minor];
+}
+
++ (BOOL)is14 {
+    return [self isAtLeastiOSVersion:14 subversion:0];
 }
 
 #pragma mark Compatiblity checks

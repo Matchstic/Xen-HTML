@@ -103,6 +103,7 @@ typedef enum : NSUInteger {
 
 // For setting WebPageProxy activity state
 enum class ActivityStateChangeDispatchMode { Deferrable, Immediate };
+enum class ActivityStateChangeReplyMode : bool { Asynchronous, Synchronous };
 struct WebCoreActivityState {
     enum Flag {
         WindowIsActive = 1 << 0,
@@ -121,16 +122,19 @@ struct WebCoreActivityState {
 
 // void WebPageProxy::activityStateDidChange(unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode)
 static void (*WebPageProxy$activityStateDidChange)(void *_this, unsigned int flags, bool wantsSynchronousReply, ActivityStateChangeDispatchMode dispatchMode);
+
+// WebKit::WebPageProxy::activityStateDidChange(unsigned int flags, WebKit::WebPageProxy::ActivityStateChangeDispatchMode, WebKit::WebPageProxy::ActivityStateChangeReplyMode)
+static void (*WebPageProxy$activityStateDidChange2)(void *_this, unsigned int flags, ActivityStateChangeDispatchMode dispatchMode, ActivityStateChangeReplyMode replyMode);
+
 // void WebPageProxy::applicationDidEnterBackground()
 static void (*WebPageProxy$applicationDidEnterBackground)(void *_this);
 // void WebPageProxy::applicationWillEnterForeground()
 static void (*WebPageProxy$applicationWillEnterForeground)(void *_this);
-// void WebPageProxy::applicationWillResignActive()
-static void (*WebPageProxy$applicationWillResignActive)(void *_this);
-// void WebPageProxy::applicationDidBecomeActive()
-static void (*WebPageProxy$applicationDidBecomeActive)(void *_this);
 
 static BOOL isModerateStrategyPossible = YES;
+
+// Comment in/out for simulator support, cannot use macro due to theos ignoring them
+// %config(generator=internal);
 
 %group SpringBoard
 
@@ -139,6 +143,7 @@ static inline bool allowJSExecutionQueue() {
 }
 
 static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused, bool wasPausedPreviously) {
+#if TARGET_IPHONE_SIMULATOR==0
     // Update activity state - this relies on the result of [WKWebView _isBackground] in PageClientImpl::isViewVisible()
     WKContentView *contentView = MSHookIvar<WKContentView*>(webView, "_contentView");
     if (!contentView.browsingContextController) {
@@ -161,7 +166,12 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         WebPageProxy$applicationWillEnterForeground(page); // Un-freezes layers
         
         // Notify that the widget is visible for JS execution
-        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        if (WebPageProxy$activityStateDidChange != NULL) {
+            WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, true, ActivityStateChangeDispatchMode::Immediate);
+        // Use new approach if needed
+        } else if (WebPageProxy$activityStateDidChange2 != NULL) {
+            WebPageProxy$activityStateDidChange2(page, WebCoreActivityState::Flag::IsVisible, ActivityStateChangeDispatchMode::Immediate, ActivityStateChangeReplyMode::Asynchronous);
+        }
         
         // Request UI update
         [webView setNeedsDisplay];
@@ -184,11 +194,17 @@ static inline void doSetWKWebViewActivityState(WKWebView *webView, bool isPaused
         
         WebPageProxy$applicationDidEnterBackground(page); // Freezes layer
         // WebPageProxy$applicationWillResignActive(page); // Notifies document listeners of no longer being active, causes some odd visuals
-            
-        WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
+        
+        if (WebPageProxy$activityStateDidChange != NULL) {
+            WebPageProxy$activityStateDidChange(page, WebCoreActivityState::Flag::IsVisible, false, ActivityStateChangeDispatchMode::Immediate);
+        // Use new approach if needed
+        } else if (WebPageProxy$activityStateDidChange2 != NULL) {
+            WebPageProxy$activityStateDidChange2(page, WebCoreActivityState::Flag::IsVisible, ActivityStateChangeDispatchMode::Immediate, ActivityStateChangeReplyMode::Asynchronous);
+        }
     }
     
     XENlog(@"Did set webview running state to %@, for URL: %@", isPaused ? @"paused" : @"active", webView.URL);
+#endif
 }
 
 static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) {
@@ -207,8 +223,6 @@ static inline void setWKWebViewActivityState(WKWebView *webView, bool isPaused) 
         if (isModerateStrategyPossible) {
             // Do not attempt this state change if symbols are not found
             doSetWKWebViewActivityState(webView, isPaused, wasPausedPreviously);
-        } else {
-            XENlog(@"DEBUG :: Moderate strategy requested but is not available");
         }
         
         if (!isPaused) {
@@ -552,30 +566,35 @@ static inline bool _xenhtml_bm_validate(void *pointer, NSString *name) {
     
     if (sb) {
         
+#if TARGET_IPHONE_SIMULATOR==0
         WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEjbNS0_31ActivityStateChangeDispatchModeE");
         
         if (WebPageProxy$activityStateDidChange == NULL) {
             WebPageProxy$activityStateDidChange = (void (*)(void*, unsigned int, bool, ActivityStateChangeDispatchMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEN3WTF9OptionSetIN7WebCore13ActivityState4FlagEEEbNS0_31ActivityStateChangeDispatchModeE");
         }
         
+        // Third time lucky?
+        if (WebPageProxy$activityStateDidChange == NULL) {
+            // This one uses a different call signature
+            WebPageProxy$activityStateDidChange2 = (void (*)(void*, unsigned int, ActivityStateChangeDispatchMode, ActivityStateChangeReplyMode)) $_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy22activityStateDidChangeEN3WTF9OptionSetIN7WebCore13ActivityState4FlagEEENS0_31ActivityStateChangeDispatchModeENS0_28ActivityStateChangeReplyModeE");
+        }
+        
         // App state stuff
         WebPageProxy$applicationDidEnterBackground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy29applicationDidEnterBackgroundEv");
         WebPageProxy$applicationWillEnterForeground = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy30applicationWillEnterForegroundEv");
-        WebPageProxy$applicationWillResignActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy27applicationWillResignActiveEv");
-        WebPageProxy$applicationDidBecomeActive = (void (*)(void *_this))$_MSFindSymbolCallable(NULL, "__ZN6WebKit12WebPageProxy26applicationDidBecomeActiveEv");
         
         // If any of the required symbols are missing, the moderate strategy needs to degrade
         // gracefully to the low strategy
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange"))
+        if (!_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange, @"WebPageProxy::activityStateDidChange") &&
+            !_xenhtml_bm_validate((void*)WebPageProxy$activityStateDidChange2, @"WebPageProxy::activityStateDidChange2"))
             isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidEnterBackground, @"WebPageProxy::applicationDidEnterBackground"))
             isModerateStrategyPossible = NO;
         if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillEnterForeground, @"WebPageProxy::applicationWillEnterForeground"))
             isModerateStrategyPossible = NO;
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationWillResignActive, @"WebPageProxy::applicationWillResignActive"))
-            isModerateStrategyPossible = NO;
-        if (!_xenhtml_bm_validate((void*)WebPageProxy$applicationDidBecomeActive, @"WebPageProxy::applicationDidBecomeActive"))
-            isModerateStrategyPossible = NO;
+#else
+        isModerateStrategyPossible = NO;
+#endif
 
         XENlog(@"DEBUG :: initialising hooks");
         %init(SpringBoard);

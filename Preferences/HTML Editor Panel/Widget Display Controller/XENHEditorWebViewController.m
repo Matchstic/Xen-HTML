@@ -313,9 +313,7 @@
     }
 }
 
--(NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath ignorePreexistingMetadata:(BOOL)ignorePreexistingMetadata {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    
+-(NSDictionary*)rawMetadataForHTMLFile:(NSString*)filePath ignorePreexistingMetadata:(BOOL)ignorePreexistingMetadata {    
     NSString *key = @"";
     switch (self.webviewVariant) {
         case kVariantLockscreenBackground:

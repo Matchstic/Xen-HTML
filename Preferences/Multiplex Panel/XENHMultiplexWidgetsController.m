@@ -245,7 +245,7 @@
         // Allow editing of this widget
         NSString *widgetURL = [self.dataSource objectAtIndex:indexPath.row];
         
-        XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:widgetURL delegate:self isNewWidget:NO];
+        XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:(XENHEditorVariant)self.variant widgetURL:widgetURL delegate:self isNewWidget:NO];
         [self.navigationController pushViewController:editorController animated:YES];
 
     }
@@ -349,7 +349,7 @@
     }];
     
     // We don't animate to the editor for UX reasons.
-    XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:self.variant widgetURL:filePath delegate:self isNewWidget:YES];
+    XENHEditorViewController *editorController = [[XENHEditorViewController alloc] initWithVariant:(XENHEditorVariant)self.variant widgetURL:filePath delegate:self isNewWidget:YES];
     [self.navigationController pushViewController:editorController animated:NO];
 }
 

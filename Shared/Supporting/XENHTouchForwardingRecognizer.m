@@ -152,7 +152,6 @@
         BOOL preventingGestures = [self.widgetController canPreventGestureRecognizer:nil atLocation:pointInView];
         
         if (preventingGestures) {
-            XENlog(@"Not forwarding touch; outside of the safe area!");
             return NO;
         }
     }
@@ -166,8 +165,6 @@
         ![[arg3.layer name] isEqualToString:@"RootContent"] && // WKWebView
         ![[arg3 class] isEqual:objc_getClass("UIWebBrowserView")]) // UIWebView
     {
-        
-        XENlog(@"Not forwarding touch; touchView is not SBRootIconListView (is %@)", [arg3 class]);
         return NO;
     }
     

@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #import "XENHBaseListController.h"
+#import "XENHPResources.h"
 
 @interface XENHBaseListController ()
 
@@ -32,11 +33,54 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     if (_specifiers == nil) {
         NSMutableArray *testingSpecs = [self loadSpecifiersFromPlistName:[self plistName] target:self];
         
-        _specifiers = testingSpecs;
+        // Iterate over the specifiers. If marked as not working on this version of iOS, remove from specs.
+        for (PSSpecifier *spec in [testingSpecs copy]) {
+            NSNumber *minVer = [spec.properties objectForKey:@"minVer"];
+            NSNumber *maxVer = [spec.properties objectForKey:@"maxVer"];
+            
+            NSNumber *d22 = [spec.properties objectForKey:@"d22"];
+            
+            if (minVer) {
+                if ([UIDevice currentDevice].systemVersion.floatValue < minVer.floatValue) {
+                    [testingSpecs removeObject:spec];
+                }
+            }
+            
+            if (maxVer) {
+                // Only check max if present.
+                if ([UIDevice currentDevice].systemVersion.floatValue > maxVer.floatValue) {
+                    [testingSpecs removeObject:spec];
+                }
+            }
+            
+            if (d22) {
+                // Check if the current device is d22 (i.e., an iPhone X etc)
+                // Remove if *d22 == false && current-device-is-d22
+                // Remove if *d22 == true && !current-device-is-d22
+                
+                BOOL isCurrentDeviceD22 = [XENHResources isCurrentDeviceD22];
+                
+                if (([d22 boolValue] == NO && isCurrentDeviceD22) ||
+                    ([d22 boolValue] == YES && !isCurrentDeviceD22)) {
+                    
+                    [testingSpecs removeObject:spec];
+                }
+            }
+            
+            if ([self _debuggingShouldDisableSpecifier:spec]) {
+                [spec setProperty:[NSNumber numberWithBool:NO] forKey:@"enabled"];
+            }
+        }
+        
+        _specifiers = [self mutateSpecifiers:testingSpecs];
         _specifiers = [self localizedSpecifiersForSpecifiers:_specifiers];
     }
     
     return _specifiers;
+}
+
+- (NSArray*)mutateSpecifiers:(NSArray*)specs {
+    return specs;
 }
 
 - (void)viewWillAppear:(BOOL)arg1 {
@@ -106,6 +150,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
     }
     
     return specifiers;
+}
+
+- (BOOL)_debuggingShouldDisableSpecifier:(PSSpecifier*)specifier {
+    NSNumber *debugDisable = [specifier.properties objectForKey:@"debugDisable"];
+    
+    if (!debugDisable) {
+        return NO;
+    }
+    
+    // If our system version is higher than the specifier's disabling threshold for debugging...
+    return [UIDevice currentDevice].systemVersion.floatValue >= debugDisable.floatValue;
 }
 
 @end

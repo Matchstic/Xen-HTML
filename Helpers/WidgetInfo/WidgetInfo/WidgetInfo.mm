@@ -75,21 +75,36 @@ static void _logos_method$_ungrouped$WKWebView$evaluateJavaScript$completionHand
 static NSMutableDictionary* _logos_method$_ungrouped$XIWidgetManager$_populateWidgetSettings(_LOGOS_SELF_TYPE_NORMAL XIWidgetManager* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
 	NSMutableDictionary *dict = _logos_orig$_ungrouped$XIWidgetManager$_populateWidgetSettings(self, _cmd);
 	
-	
-	[dict setObject:@NO forKey:@"weather"];
-	NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Weather API");
-    
-    
-    [dict setObject:@NO forKey:@"battery"];
-    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
-    
-    
-    [dict setObject:@NO forKey:@"system"];
-    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
-    
-    
-    [dict setObject:@NO forKey:@"music"];
-    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    if (version.majorVersion >= 14) {
+        
+        [dict setObject:@NO forKey:@"weather"];
+        [dict setObject:@NO forKey:@"battery"];
+        [dict setObject:@NO forKey:@"system"];
+        [dict setObject:@NO forKey:@"music"];
+        [dict setObject:@NO forKey:@"alarm"];
+        [dict setObject:@NO forKey:@"events"];
+        [dict setObject:@NO forKey:@"reminders"];
+        [dict setObject:@NO forKey:@"statusbar"];
+        
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo");
+    } else {
+        
+        [dict setObject:@NO forKey:@"weather"];
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Weather API");
+        
+        
+        [dict setObject:@NO forKey:@"battery"];
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
+        
+        
+        [dict setObject:@NO forKey:@"system"];
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
+        
+        
+        [dict setObject:@NO forKey:@"music"];
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
+    }
 	
 	return dict;
 }
@@ -113,7 +128,7 @@ static void _logos_method$SpringBoard$SpringBoard$applicationDidFinishLaunching$
 
 #pragma mark - Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_07b3768c(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_27aa05d5(int __unused argc, char __unused **argv, char __unused **envp) {
 	NSLog(@"Xen HTML (widgetinfo) :: Loading widget info");
 	
     NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
