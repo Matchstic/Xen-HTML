@@ -55,7 +55,7 @@ inline BOOL isAtLeastiOSVersion(NSInteger major, NSInteger minor) {
     
     BOOL hasBatteryManager = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib"];
     BOOL hasWebGL = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WebGL.dylib"];
-    BOOL hasWidgetInfo = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_WidgetInfo.dylib"];
+    BOOL hasWidgetInfo = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib"];
     
     // Only warn the user when not running in Rootless jailbreaks
     if (!isRootless) {
@@ -87,7 +87,13 @@ inline BOOL isAtLeastiOSVersion(NSInteger major, NSInteger minor) {
         NSLog(@"Xen HTML :: Loader :: CANNOT LOAD Xen HTML ON THIS iOS VERSION");
     }
     
+    // Load legacy extensions first for ordering purposes
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib"]) {
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
+    }
+    
     // Load dependents
+    dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib", RTLD_NOW);
     dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib", RTLD_NOW);
 }
 
