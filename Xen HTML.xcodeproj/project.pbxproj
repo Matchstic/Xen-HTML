@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -1194,6 +1194,7 @@
 				C911F1CE1C1E051300D4D582 /* Frameworks */,
 				C911F1CF1C1E051300D4D582 /* Headers */,
 				C9CD07F42252BADD006C94FF /* Copy for simject if needed */,
+				C9CFA23B25AF787300AC678C /* Legacy arm64e */,
 			);
 			buildRules = (
 			);
@@ -1213,6 +1214,7 @@
 				C94F49D0237DB0B9004A74B0 /* Sources */,
 				C94F49D1237DB0B9004A74B0 /* Frameworks */,
 				C94F49D2237DB0B9004A74B0 /* Headers */,
+				C9E4DF8F25AF5F4F002D9A77 /* Legacy arm64e */,
 			);
 			buildRules = (
 			);
@@ -1248,6 +1250,7 @@
 				C971524B236F88080021277B /* Sources */,
 				C971524C236F88080021277B /* Frameworks */,
 				C971524D236F88080021277B /* Headers */,
+				C9CFA23525AF776800AC678C /* Legacy arm64e */,
 				C9715317236F8F830021277B /* Copy to simject if needed */,
 			);
 			buildRules = (
@@ -1264,10 +1267,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9F770681C7A459900C52880 /* Build configuration list for PBXNativeTarget "Preferences" */;
 			buildPhases = (
+				C9CFA23C25AF99D600AC678C /* ShellScript */,
 				C9F770441C7A459900C52880 /* Sources */,
 				C9F770451C7A459900C52880 /* Frameworks */,
 				C9F770461C7A459900C52880 /* Headers */,
-				C9F770471C7A459900C52880 /* ShellScript */,
+				C9CFA23625AF777E00AC678C /* Legacy arm64e */,
 			);
 			buildRules = (
 			);
@@ -1409,7 +1413,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n/opt/iOSOpenDev/bin/iosod --arm64e-legacy-prebuild\n";
 		};
 		C94A9F3D24140CFE0062CDCD /* Auto-generation */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1444,7 +1448,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n/opt/iOSOpenDev/bin/iosod --arm64e-legacy-prebuild\n";
 		};
 		C971524A236F88080021277B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1461,7 +1465,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n/opt/iOSOpenDev/bin/iosod --arm64e-legacy-prebuild\n";
 		};
 		C97152B8236F8B020021277B /* Copy Helpers and Preferences */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1535,18 +1539,100 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ ${SIMJECT} = \"YES\" ]; then\n\necho \"Automating simject...\"\ncp \"${PROJECT_DIR}/LatestBuild/XenHTML_9to12.dylib\" /opt/simject\nfor dylib in /opt/simject/*.dylib; do ldid -S \"$dylib\"; done\nresim\n\nfi\n";
 		};
-		C9F770471C7A459900C52880 /* ShellScript */ = {
+		C9CFA23525AF776800AC678C /* Legacy arm64e */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
+			);
+			name = "Legacy arm64e";
+			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# /opt/iOSOpenDev/bin/iosod --xcbp\n\n";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-postbuild\n";
+			showEnvVarsInLog = 0;
+		};
+		C9CFA23625AF777E00AC678C /* Legacy arm64e */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Legacy arm64e";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-postbuild\n";
+			showEnvVarsInLog = 0;
+		};
+		C9CFA23B25AF787300AC678C /* Legacy arm64e */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Legacy arm64e";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-postbuild\n";
+			showEnvVarsInLog = 0;
+		};
+		C9CFA23C25AF99D600AC678C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-prebuild\n";
+			showEnvVarsInLog = 0;
+		};
+		C9E4DF8F25AF5F4F002D9A77 /* Legacy arm64e */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Legacy arm64e";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-postbuild\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1928,9 +2014,9 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
+					arm64e,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1947,12 +2033,15 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
+				WARNING_CFLAGS = "";
 			};
 			name = Debug;
 		};
@@ -1961,9 +2050,9 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
+					arm64e,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1979,12 +2068,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
+				WARNING_CFLAGS = "";
 			};
 			name = Simulator;
 		};
@@ -1993,9 +2084,9 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
+					arm64e,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2011,12 +2102,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/lib",
 				);
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_Loader;
 				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
