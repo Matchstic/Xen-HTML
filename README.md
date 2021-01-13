@@ -33,8 +33,6 @@ The core of Xen HTML's rendering is handled as a shared (but static) library, li
 
 The `Loader` component also loads most helper components at runtime, such as `WidgetInfo` and `BatteryManager`. This is to workaround load ordering issues when calling `dlopen` inside a constructor on iOS 14.
 
-You will need to use the Xcode 11 toolchain for development at the time of writing, otherwise arm64e slices that are generated will be backwards incompatible on iOS 13 and lower. See: https://github.com/nahtedetihw/Xcode11Toolchain, or download a copy of Xcode 11 from Apple and just use that.
-
 #### Build instructions
 
 As noted above, make sure you have Xcode + iOSOpenDev setup before trying to build.
