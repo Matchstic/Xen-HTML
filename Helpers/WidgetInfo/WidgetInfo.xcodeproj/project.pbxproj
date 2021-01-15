@@ -58,6 +58,27 @@
 			remoteGlobalIDString = C979629B24268D34007849D8;
 			remoteInfo = logger;
 		};
+		C9E4DF8625AF58FC002D9A77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F23241408980062CDCD /* libwidgetdata.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C979629A24268D34007849D8;
+			remoteInfo = logger;
+		};
+		C9E4DF8A25AF5901002D9A77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F23241408980062CDCD /* libwidgetdata.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C9204FC723317EBD00F9F535;
+			remoteInfo = Daemon;
+		};
+		C9E4DF8C25AF5909002D9A77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C94A9F23241408980062CDCD /* libwidgetdata.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C979629A24268D34007849D8;
+			remoteInfo = logger;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -220,10 +241,12 @@
 				C94A9EF1241407C30062CDCD /* Sources */,
 				C94A9EF2241407C30062CDCD /* Frameworks */,
 				C94A9EF3241407C30062CDCD /* Headers */,
+				C9CFA23825AF77A700AC678C /* Legacy arm64e */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C9E4DF8D25AF5909002D9A77 /* PBXTargetDependency */,
 				C94A9F2D241408A70062CDCD /* PBXTargetDependency */,
 			);
 			name = WidgetInfo;
@@ -241,6 +264,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				C9E4DF8B25AF5901002D9A77 /* PBXTargetDependency */,
+				C9E4DF8725AF58FC002D9A77 /* PBXTargetDependency */,
 			);
 			name = Daemon;
 			productName = Daemon;
@@ -328,7 +353,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos";
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos\n/opt/iOSOpenDev/bin/iosod --arm64e-legacy-prebuild\n";
+		};
+		C9CFA23825AF77A700AC678C /* Legacy arm64e */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Legacy arm64e";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --arm64e-legacy-postbuild\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -356,6 +400,21 @@
 			isa = PBXTargetDependency;
 			name = libwidgetinfo;
 			targetProxy = C94A9F2C241408A70062CDCD /* PBXContainerItemProxy */;
+		};
+		C9E4DF8725AF58FC002D9A77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = logger;
+			targetProxy = C9E4DF8625AF58FC002D9A77 /* PBXContainerItemProxy */;
+		};
+		C9E4DF8B25AF5901002D9A77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Daemon;
+			targetProxy = C9E4DF8A25AF5901002D9A77 /* PBXContainerItemProxy */;
+		};
+		C9E4DF8D25AF5909002D9A77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = logger;
+			targetProxy = C9E4DF8C25AF5909002D9A77 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -481,7 +540,6 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
 				);
@@ -522,7 +580,6 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
 				);

@@ -76,24 +76,33 @@ inline BOOL isAtLeastiOSVersion(NSInteger major, NSInteger minor) {
 %end
 
 %ctor {
-    %init;
+    BOOL sb = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.springboard"];
+    BOOL prefs = [[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.Preferences"];
     
-    // Load correct Xen HTML dylib based upon the iOS version
-    if (isAtLeastiOSVersion(13, 0)) {
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib", RTLD_NOW);
-    } else if (isAtLeastiOSVersion(9, 0)) {
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib", RTLD_NOW);
-    } else {
-        NSLog(@"Xen HTML :: Loader :: CANNOT LOAD Xen HTML ON THIS iOS VERSION");
+    if (sb) {
+        %init;
+        
+        // Load correct Xen HTML dylib based upon the iOS version
+        if (isAtLeastiOSVersion(13, 0)) {
+            dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_13.dylib", RTLD_NOW);
+        } else if (isAtLeastiOSVersion(9, 0)) {
+            dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_9to12.dylib", RTLD_NOW);
+        } else {
+            NSLog(@"Xen HTML :: Loader :: CANNOT LOAD Xen HTML ON THIS iOS VERSION");
+        }
+        
+        // Load legacy extensions first for ordering purposes
+        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib"]) {
+            dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
+        }
+       
+        // Load dependents
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib", RTLD_NOW);
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib", RTLD_NOW);
+    } else if (prefs) {
+        
+        // Load widget info into prefs too
+        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib", RTLD_NOW);
     }
-    
-    // Load legacy extensions first for ordering purposes
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib"]) {
-        dlopen("/Library/MobileSubstrate/DynamicLibraries/XenInfo.dylib", RTLD_NOW);
-    }
-    
-    // Load dependents
-    dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_WidgetInfo.dylib", RTLD_NOW);
-    dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML/XenHTML_ZBatteryManager.dylib", RTLD_NOW);
 }
 
