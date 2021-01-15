@@ -540,7 +540,6 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
 				);
@@ -581,7 +580,6 @@
 			buildSettings = {
 				ARCHS = (
 					arm64,
-					arm64e,
 					armv7,
 					armv7s,
 				);
