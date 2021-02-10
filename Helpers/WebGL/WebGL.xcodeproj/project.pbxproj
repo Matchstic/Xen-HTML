@@ -285,6 +285,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_WebGL;
+				SDKROOT = iphoneos14.1;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";
@@ -319,6 +320,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_WebGL;
+				SDKROOT = iphoneos14.1;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevDevice = "";

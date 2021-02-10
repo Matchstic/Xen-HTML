@@ -488,6 +488,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000,-all_load";
 				PRODUCT_NAME = XenHTML_WidgetInfo;
+				SDKROOT = iphoneos14.1;
 				SIMJECT = NO;
 				STRIP_STYLE = all;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -523,6 +524,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000,-all_load";
 				PRODUCT_NAME = XenHTML_WidgetInfo;
+				SDKROOT = iphoneos14.1;
 				SIMJECT = NO;
 				STRIP_STYLE = all;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
@@ -563,7 +565,7 @@
 					"$(INFOPLIST_FILE)",
 				);
 				PRODUCT_NAME = widgetinfod;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos14.1;
 				STRIP_INSTALLED_PRODUCT = NO;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -603,7 +605,7 @@
 					"$(INFOPLIST_FILE)",
 				);
 				PRODUCT_NAME = widgetinfod;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos14.1;
 				STRIP_INSTALLED_PRODUCT = NO;
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
