@@ -96,6 +96,11 @@
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
         [userContentController addScriptMessageHandler:self name:@"xenhtml"];
         
+        NSString *content = @"window.onerror = function() { window.webkit.messageHandlers.xenhtml.postMessage(\"error\"); }";
+        WKUserScript *errorHandler = [[WKUserScript alloc] initWithSource:content injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+        
+        [userContentController addUserScript:errorHandler];
+        
         config.userContentController = userContentController;
         config.requiresUserActionForMediaPlayback = NO;
         
@@ -158,7 +163,7 @@
 
 - (NSString*)_setupUIPath {
 #if TARGET_IPHONE_SIMULATOR
-    return @"/<redacted>/index.html";
+    return @"/opt/simject/Library/Application Support/Xen HTML/Setup UI/index.html";
 #else
     return @"/Library/Application Support/Xen HTML/Setup UI/index.html";
 #endif
