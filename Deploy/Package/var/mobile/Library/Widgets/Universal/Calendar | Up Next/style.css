@@ -1,0 +1,120 @@
+:root {
+    --height: 110px;
+    --title-height: 46px;
+    --bottom-height: 62px;
+    --horizontal-spacing: 12px;
+    --color: #111;
+    --light-color: #333;
+    --border-color: rgba(68, 68, 68, 0.15);
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --light-color: #ccc;
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+    }
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    padding: 0 6px;
+    font-size: 14px;
+    color: var(--color);
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+.backdrop {
+    border-radius: 12.5px;
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+
+    position: absolute;
+    width: calc(100% - var(--horizontal-spacing) * 2);
+    height: var(--height);
+
+    top: 0;
+    left: var(--horizontal-spacing);
+    z-index: -2;
+}
+
+.container {
+    height: var(--height);
+    width: 100%;
+
+    border-radius: 12.5px;
+}
+
+.title-row {
+    width: 100%;
+    height: var(--title-height);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: solid 1px var(--border-color);
+}
+
+.bottom-row {
+    width: 100%;
+    height: var(--bottom-height);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 20px;
+}
+
+h6 {
+    flex: 1 1 auto;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.event {
+    display: flex;
+    flex-direction: column;
+}
+
+#event-name {
+    font-weight: 500;
+}
+
+#day-number {
+    --number-size: 1.9rem;
+    
+    height: var(--number-size);
+    width: var(--number-size);
+    border-radius: var(--number-size);
+    
+    background: rgb(255, 69, 58);
+
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    flex: 0 0 var(--number-size);
+    
+    line-height: var(--number-size);
+    text-align: center;
+    margin-right: calc(var(--horizontal-spacing) / 2);
+}
+
+#calendar-tint {
+    width: 5px;
+    height: 100%;
+    
+    border-radius: 2px;
+    margin-right: var(--horizontal-spacing);
+}

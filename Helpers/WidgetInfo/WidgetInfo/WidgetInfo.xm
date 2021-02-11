@@ -78,6 +78,10 @@ static int springboardLaunchToken;
         // Disable music API
         [dict setObject:@NO forKey:@"music"];
         NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
+        
+        // Calendar
+        [dict setObject:@NO forKey:@"events"];
+        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Events API");
     }
 	
 	return dict;

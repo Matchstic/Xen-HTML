@@ -20,6 +20,8 @@
 		C94A9F52241410180062CDCD /* libwidgetinfodaemon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94A9F2B241408980062CDCD /* libwidgetinfodaemon.a */; };
 		C978A2152438DADD00398FBB /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A2142438DADD00398FBB /* liblogger.a */; };
 		C978A2162438DB2400398FBB /* liblogger.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A2142438DADD00398FBB /* liblogger.a */; };
+		C98B0F7625D4A9E100E28CF8 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C98B0F7525D4A9E000E28CF8 /* EventKit.framework */; };
+		C98B0F7825D4AA1800E28CF8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C98B0F7725D4AA1800E28CF8 /* CoreGraphics.framework */; };
 		C99BBF032467155D00A6F426 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99BBEFF2467155D00A6F426 /* MobileCoreServices.framework */; };
 		C9A371CF241417720086FC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A371CE241417720086FC2A /* Foundation.framework */; };
 		C9A7A5D8248931A400319885 /* librocketbootstrap.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */; };
@@ -96,6 +98,8 @@
 		C94A9F3724140C6E0062CDCD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C94A9F3A24140C840062CDCD /* libsubstrate.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsubstrate.tbd; path = ../../lib/libsubstrate.tbd; sourceTree = "<group>"; };
 		C94A9F4C24140F070062CDCD /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		C98B0F7525D4A9E000E28CF8 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.1.sdk/System/Library/Frameworks/EventKit.framework; sourceTree = DEVELOPER_DIR; };
+		C98B0F7725D4AA1800E28CF8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		C99BBEFF2467155D00A6F426 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C9A371CE241417720086FC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = librocketbootstrap.tbd; path = ../../deps/libwidgetinfo/external/librocketbootstrap.tbd; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C98B0F7825D4AA1800E28CF8 /* CoreGraphics.framework in Frameworks */,
+				C98B0F7625D4A9E100E28CF8 /* EventKit.framework in Frameworks */,
 				C978A2162438DB2400398FBB /* liblogger.a in Frameworks */,
 				C94A9F2E241408B20062CDCD /* libwidgetinfo.a in Frameworks */,
 				C9A7A5D8248931A400319885 /* librocketbootstrap.tbd in Frameworks */,
@@ -163,6 +169,8 @@
 		C94A9EF9241407C30062CDCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C98B0F7725D4AA1800E28CF8 /* CoreGraphics.framework */,
+				C98B0F7525D4A9E000E28CF8 /* EventKit.framework */,
 				C9A7A5E4248978A100319885 /* CoreFoundation.framework */,
 				C9A7A5D7248931A400319885 /* librocketbootstrap.tbd */,
 				C9F0C1182478283E00993517 /* SystemConfiguration.framework */,
