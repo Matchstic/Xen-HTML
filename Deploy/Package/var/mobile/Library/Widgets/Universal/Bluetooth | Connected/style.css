@@ -1,0 +1,120 @@
+:root {
+    --height: 156px;
+    --horizontal-spacing: 12px;
+    --color: #111;
+    --border-color: rgba(68, 68, 68, 0.15);
+    --backdrop-background: rgba(255, 255, 255, 0.47);
+    --backdrop-blur: 30px;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --light-color: #ccc;
+        --backdrop-background: rgba(50, 50, 50, 0.60);
+    }
+}
+
+html, body {
+    height: var(--height);
+    width: 100%;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    padding: 0 6px;
+    font-size: 14px;
+    color: var(--color);
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
+
+h4 {
+    font-weight: 500;
+}
+
+.backdrop {
+    border-radius: 12.5px;
+    background-color: var(--backdrop-background);
+    -webkit-backdrop-filter: blur(var(--backdrop-blur));
+
+    position: absolute;
+    width: calc(100% - var(--horizontal-spacing) * 2);
+    height: var(--height);
+
+    top: 0;
+    left: var(--horizontal-spacing);
+    z-index: -2;
+}
+
+#empty-background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--height);
+    width: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.1;
+}
+
+#empty-background img {
+    height: 75%;
+}
+
+#container {
+    height: var(--height);
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    padding: 6px 12px;
+}
+
+.device-item {
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    margin: 6px 0px;
+}
+
+.device-item img {
+    height: 40px;
+    width: 40px;
+    
+    margin-right: 12.5px;
+}
+
+.device-inner {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.device-name {
+    font-weight: 500;
+}
+
+.device-item-empty {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.empty-text {
+    line-height: calc(var(--height) - 12px);
+    text-align: center;
+}
