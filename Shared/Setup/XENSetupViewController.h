@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-@interface XENSetupViewController : UIViewController <WKScriptMessageHandler>
+@interface XENSetupViewController : UIViewController <WKScriptMessageHandler, WKNavigationDelegate>
 
 @property (nonatomic, strong) WKWebView *webView;
 

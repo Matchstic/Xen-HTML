@@ -71,7 +71,7 @@ static BOOL _xenhtml_isPreviewGeneration = NO;
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBDockView; @class SBDashBoardLockScreenEnvironment; @class CSCoverSheetViewController; @class WKWebView; @class SBIconListView; @class SBLockScreenManager; @class SBFolderIconImageView; @class XENDashBoardWebViewController; @class _UIContextMenuActionsListView; @class SBCoverSheetWindow; @class SBIconScrollView; @class SBHomeScreenWindow; @class SBIconView; @class SBBacklightController; @class CSCoverSheetView; @class CSScrollView; @class SBFLockScreenDateView; @class SBHomeScreenPreviewView; @class SBMainWorkspace; @class SBIconListPageControl; @class UITouch; @class SBMainStatusBarStateProvider; @class SBRootFolderView; @class UIWKTextLoupeInteraction; @class SpringBoard; @class CSCombinedListViewController; @class CSMainPageView; @class SBRootFolderController; @class SBHomeScreenOverlayViewController; @class SBFloatingDockPlatterView; @class SBHomeScreenView; @class CSFixedFooterView; @class CSPageViewController; @class CSTeachableMomentsContainerView; @class WKContentView; @class CSQuickActionsViewController; @class SBHomeScreenViewController; @class SBScreenWakeAnimationController; @class UITouchesEvent; @class CSMainPageContentViewController; @class SBIdleTimerGlobalStateMonitor; @class SBUIProudLockIconView; @class SBHorizontalScrollFailureRecognizer; @class _UIPlatterView; @class SBFluidSwitcherGestureWorkspaceTransaction; 
+@class UIWKTextLoupeInteraction; @class XENDashBoardWebViewController; @class SBIconListPageControl; @class CSTeachableMomentsContainerView; @class SBIdleTimerGlobalStateMonitor; @class SBMainWorkspace; @class SBRootFolderView; @class SBIconView; @class WKWebView; @class SBRootFolderController; @class SBFLockScreenDateView; @class SBDockView; @class UITouch; @class SBUIProudLockIconView; @class CSPageViewController; @class SBIconListView; @class SBHorizontalScrollFailureRecognizer; @class SBLockScreenManager; @class CSMainPageView; @class SBFluidSwitcherGestureWorkspaceTransaction; @class SBCoverSheetWindow; @class CSQuickActionsViewController; @class SBFloatingDockPlatterView; @class SBHomeScreenOverlayViewController; @class SBDashBoardLockScreenEnvironment; @class CSCombinedListViewController; @class SBMainStatusBarStateProvider; @class SBFolderIconImageView; @class SBScreenWakeAnimationController; @class CSScrollView; @class SBHomeScreenView; @class SBHomeScreenViewController; @class CSFixedFooterView; @class _UIPlatterView; @class WKContentView; @class SpringBoard; @class CSCoverSheetViewController; @class UITouchesEvent; @class CSMainPageContentViewController; @class CSCoverSheetView; @class _UIContextMenuActionsListView; @class SBHomeScreenPreviewView; @class SBBacklightController; @class SBIconScrollView; 
 
 
 #line 52 "/Users/matt/iOS/Projects/Xen-HTML/Tweak (iOS 13)/XenHTML.xm"
@@ -767,6 +767,10 @@ static void _logos_method$SpringBoard$SBLockScreenManager$_setUILocked$(_LOGOS_S
     if (@available(iOS 14, *)) {
         
     } else {
+        if (!arg1) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/unlock" object:nil];
+        }
+        
         
         if (![XENHResources hasSeenFirstUnlock]) return;
 
@@ -804,6 +808,8 @@ static void _logos_method$SpringBoard$SBDashBoardLockScreenEnvironment$prepareFo
     _logos_orig$SpringBoard$SBDashBoardLockScreenEnvironment$prepareForUIUnlock(self, _cmd);
     
     if (@available(iOS 14, *)) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/unlock" object:nil];
+        
         
         if (![XENHResources hasSeenFirstUnlock]) return;
         
@@ -2461,7 +2467,7 @@ static id _logos_method$SpringBoard$UITouch$view(_LOGOS_SELF_TYPE_NORMAL UITouch
 
 #pragma mark Setup UI stuff
 
-static void _logos_method$Setup$SpringBoard$_xenhtml_relaunchSpringBoardAfterSetup(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$Setup$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$Setup$SBBacklightController$_lockScreenDimTimerFired)(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); static void _logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$Setup$SBHomeScreenWindow$becomeKeyWindow)(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenWindow* _LOGOS_SELF_CONST, SEL); static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenWindow* _LOGOS_SELF_CONST, SEL); 
+static void _logos_method$Setup$SpringBoard$_xenhtml_relaunchSpringBoardAfterSetup(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$Setup$SpringBoard$applicationDidFinishLaunching$)(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$Setup$SpringBoard$_xenhtml_unlocked$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$Setup$SBBacklightController$_lockScreenDimTimerFired)(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); static void _logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired(_LOGOS_SELF_TYPE_NORMAL SBBacklightController* _LOGOS_SELF_CONST, SEL); 
 
 
 
@@ -2500,27 +2506,6 @@ static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGO
     
     
     [XENHResources reloadSettings];
-    
-    
-    if (![XENHResources hasDisplayedSetupUI]) {
-        setupWindow = [XENHSetupWindow sharedInstance];
-        
-        setupWindow.hidden = NO;
-        [setupWindow makeKeyAndVisible];
-        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
-        
-        @try {
-            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
-            
-            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
-            }
-        } @catch (NSException *e) {
-            
-        }
-    }
     
     
 
@@ -2565,20 +2550,16 @@ static void _logos_method$Setup$SpringBoard$applicationDidFinishLaunching$(_LOGO
     [XENHResources setHasSeenSpringBoardLaunch:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(_xenhtml_unlocked:)
+                                                   name:@"com.matchstic.xenhtml/unlock"
+                                                 object:nil];
 }
 
 
-
-@interface SBHomeScreenWindow : UIWindow
-@end
-
-
-
-static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_TYPE_NORMAL SBHomeScreenWindow* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
-    
-    
-    _logos_orig$Setup$SBHomeScreenWindow$becomeKeyWindow(self, _cmd);
-    
+static void _logos_method$Setup$SpringBoard$_xenhtml_unlocked$(_LOGOS_SELF_TYPE_NORMAL SpringBoard* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id notification) {
     
     if (launchCydiaForSource) {
         launchCydiaForSource = NO;
@@ -2607,6 +2588,15 @@ static void _logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow(_LOGOS_SELF_T
             
             [XENHResources setHasAlertedForAddWidgets14];
         }
+    
+    
+    if (![XENHResources hasDisplayedSetupUI]) {
+        setupWindow = [XENHSetupWindow sharedInstance];
+        
+        setupWindow.hidden = NO;
+        [setupWindow makeKeyAndVisible];
+        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+    }
 }
 
 
@@ -2727,7 +2717,7 @@ static void XENHDidRequestRespring (CFNotificationCenterRef center, void *observ
 
 #pragma mark Constructor
 
-static __attribute__((constructor)) void _logosLocalCtor_86c90381(int __unused argc, char __unused **argv, char __unused **envp) {
+static __attribute__((constructor)) void _logosLocalCtor_9ca481f4(int __unused argc, char __unused **argv, char __unused **envp) {
     XENlog(@"******* Injecting Xen HTML");
     
     { MSHookFunction((void *)MSFindSymbol(NULL, "__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE"), (void *)&_logos_function$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE, (void **)&_logos_orig$_ungrouped$lookup$__ZNK6WebKit45WebDeviceOrientationAndMotionAccessController33cachedDeviceOrientationPermissionERKN7WebCore18SecurityOriginDataE);}
@@ -2736,7 +2726,7 @@ static __attribute__((constructor)) void _logosLocalCtor_86c90381(int __unused a
     
     if (sb) {
         
-        {Class _logos_class$Setup$SpringBoard = objc_getClass("SpringBoard"); { char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$Setup$SpringBoard, @selector(_xenhtml_relaunchSpringBoardAfterSetup), (IMP)&_logos_method$Setup$SpringBoard$_xenhtml_relaunchSpringBoardAfterSetup, _typeEncoding); }MSHookMessageEx(_logos_class$Setup$SpringBoard, @selector(applicationDidFinishLaunching:), (IMP)&_logos_method$Setup$SpringBoard$applicationDidFinishLaunching$, (IMP*)&_logos_orig$Setup$SpringBoard$applicationDidFinishLaunching$);Class _logos_class$Setup$SBBacklightController = objc_getClass("SBBacklightController"); MSHookMessageEx(_logos_class$Setup$SBBacklightController, @selector(_lockScreenDimTimerFired), (IMP)&_logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired, (IMP*)&_logos_orig$Setup$SBBacklightController$_lockScreenDimTimerFired);Class _logos_class$Setup$SBHomeScreenWindow = objc_getClass("SBHomeScreenWindow"); MSHookMessageEx(_logos_class$Setup$SBHomeScreenWindow, @selector(becomeKeyWindow), (IMP)&_logos_method$Setup$SBHomeScreenWindow$becomeKeyWindow, (IMP*)&_logos_orig$Setup$SBHomeScreenWindow$becomeKeyWindow);}
+        {Class _logos_class$Setup$SpringBoard = objc_getClass("SpringBoard"); { char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$Setup$SpringBoard, @selector(_xenhtml_relaunchSpringBoardAfterSetup), (IMP)&_logos_method$Setup$SpringBoard$_xenhtml_relaunchSpringBoardAfterSetup, _typeEncoding); }MSHookMessageEx(_logos_class$Setup$SpringBoard, @selector(applicationDidFinishLaunching:), (IMP)&_logos_method$Setup$SpringBoard$applicationDidFinishLaunching$, (IMP*)&_logos_orig$Setup$SpringBoard$applicationDidFinishLaunching$);{ char _typeEncoding[1024]; unsigned int i = 0; _typeEncoding[i] = 'v'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = ':'; i += 1; _typeEncoding[i] = '@'; i += 1; _typeEncoding[i] = '\0'; class_addMethod(_logos_class$Setup$SpringBoard, @selector(_xenhtml_unlocked:), (IMP)&_logos_method$Setup$SpringBoard$_xenhtml_unlocked$, _typeEncoding); }Class _logos_class$Setup$SBBacklightController = objc_getClass("SBBacklightController"); MSHookMessageEx(_logos_class$Setup$SBBacklightController, @selector(_lockScreenDimTimerFired), (IMP)&_logos_method$Setup$SBBacklightController$_lockScreenDimTimerFired, (IMP*)&_logos_orig$Setup$SBBacklightController$_lockScreenDimTimerFired);}
         
         
         refuseToLoadDueToRehosting = ![XENHResources isInstalledFromOfficialRepository];
