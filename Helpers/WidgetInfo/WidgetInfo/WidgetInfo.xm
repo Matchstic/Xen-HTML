@@ -63,25 +63,14 @@ static int springboardLaunchToken;
         
         NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo");
     } else {
-        // Disable Weather API
+        NSLog(@"Xen HTML (widgetinfo) :: Partly disabling XenInfo");
+
         [dict setObject:@NO forKey:@"weather"];
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Weather API");
-        
-        // Disable battery/memory API
         [dict setObject:@NO forKey:@"battery"];
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Battery/Memory API");
-        
-        // Disable system API
         [dict setObject:@NO forKey:@"system"];
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's System API");
-        
-        // Disable music API
         [dict setObject:@NO forKey:@"music"];
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Music API");
-        
-        // Calendar
         [dict setObject:@NO forKey:@"events"];
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo's Events API");
+        [dict setObject:@NO forKey:@"statusbar"];
     }
 	
 	return dict;

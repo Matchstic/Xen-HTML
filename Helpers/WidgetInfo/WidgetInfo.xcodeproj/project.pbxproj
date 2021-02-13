@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C92C796525D837AF00E73E1A /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C92C796425D837AF00E73E1A /* CoreTelephony.framework */; };
 		C94927872468D58E00B7DF85 /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C94927862468D58E00B7DF85 /* libMobileGestalt.tbd */; };
 		C94A9EFB241407C30062CDCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94A9EFA241407C30062CDCD /* Foundation.framework */; };
 		C94A9F06241407C30062CDCD /* WidgetInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94A9F05241407C30062CDCD /* WidgetInfo.mm */; };
@@ -84,6 +85,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C92C796425D837AF00E73E1A /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.1.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		C949277A2468776900B7DF85 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		C94927842468C0D300B7DF85 /* MobileIcons.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = MobileIcons.tbd; path = ../../deps/libwidgetinfo/daemon/frameworks/MobileIcons.tbd; sourceTree = "<group>"; };
 		C94927862468D58E00B7DF85 /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libMobileGestalt.tbd; sourceTree = DEVELOPER_DIR; };
@@ -115,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C92C796525D837AF00E73E1A /* CoreTelephony.framework in Frameworks */,
 				C98B0F7825D4AA1800E28CF8 /* CoreGraphics.framework in Frameworks */,
 				C98B0F7625D4A9E100E28CF8 /* EventKit.framework in Frameworks */,
 				C978A2162438DB2400398FBB /* liblogger.a in Frameworks */,
@@ -169,6 +172,7 @@
 		C94A9EF9241407C30062CDCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C92C796425D837AF00E73E1A /* CoreTelephony.framework */,
 				C98B0F7725D4AA1800E28CF8 /* CoreGraphics.framework */,
 				C98B0F7525D4A9E000E28CF8 /* EventKit.framework */,
 				C9A7A5E4248978A100319885 /* CoreFoundation.framework */,
