@@ -3,22 +3,7 @@
  */
 function onload() {
     // Register an observer for when communications data changes
-    api.comms.observeData(function(newData) {
-        newData.bluetooth.devices = [
-            {
-                name: 'DEBUG',
-                battery: 100,
-                supportsBattery: true,
-                majorClass: 1024
-            },
-            {
-                name: 'DEBUG',
-                battery: 100,
-                supportsBattery: false,
-                majorClass: 2048
-            }
-        ]
-        
+    api.comms.observeData(function(newData) {        
         updateDevices(newData);
     });
 }
