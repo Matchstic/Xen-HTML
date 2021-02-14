@@ -70,6 +70,7 @@ static int springboardLaunchToken;
         [dict setObject:@NO forKey:@"system"];
         [dict setObject:@NO forKey:@"music"];
         [dict setObject:@NO forKey:@"events"];
+        [dict setObject:@NO forKey:@"reminders"];
         [dict setObject:@NO forKey:@"statusbar"];
     }
 	
