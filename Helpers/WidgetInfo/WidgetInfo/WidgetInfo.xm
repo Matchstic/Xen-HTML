@@ -49,30 +49,17 @@ static int springboardLaunchToken;
 -(NSMutableDictionary*)_populateWidgetSettings {
 	NSMutableDictionary *dict = %orig();
 	
-    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
-    if (version.majorVersion >= 14) {
-        // Disable everything
-        [dict setObject:@NO forKey:@"weather"];
-        [dict setObject:@NO forKey:@"battery"];
-        [dict setObject:@NO forKey:@"system"];
-        [dict setObject:@NO forKey:@"music"];
-        [dict setObject:@NO forKey:@"alarm"];
-        [dict setObject:@NO forKey:@"events"];
-        [dict setObject:@NO forKey:@"reminders"];
-        [dict setObject:@NO forKey:@"statusbar"];
-        
-        NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo");
-    } else {
-        NSLog(@"Xen HTML (widgetinfo) :: Partly disabling XenInfo");
-
-        [dict setObject:@NO forKey:@"weather"];
-        [dict setObject:@NO forKey:@"battery"];
-        [dict setObject:@NO forKey:@"system"];
-        [dict setObject:@NO forKey:@"music"];
-        [dict setObject:@NO forKey:@"events"];
-        [dict setObject:@NO forKey:@"reminders"];
-        [dict setObject:@NO forKey:@"statusbar"];
-    }
+    // Disable everything
+    [dict setObject:@NO forKey:@"weather"];
+    [dict setObject:@NO forKey:@"battery"];
+    [dict setObject:@NO forKey:@"system"];
+    [dict setObject:@NO forKey:@"music"];
+    [dict setObject:@NO forKey:@"alarm"];
+    [dict setObject:@NO forKey:@"events"];
+    [dict setObject:@NO forKey:@"reminders"];
+    [dict setObject:@NO forKey:@"statusbar"];
+    
+    NSLog(@"Xen HTML (widgetinfo) :: Disabled XenInfo");
 	
 	return dict;
 }
