@@ -436,6 +436,7 @@
 }
 
 - (void)onUpdateConfiguration:(NSString*)key value:(id)value {
+    if (!value) return;
     [self.modernConfigWidgetValues setObject:value forKey:key];
 }
 

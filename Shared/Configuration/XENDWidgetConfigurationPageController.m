@@ -22,6 +22,7 @@
 #import "Cells/XENDWidgetConfigurationSwitchTableCell.h"
 #import "Cells/XENDWidgetConfigurationNumberTableCell.h"
 #import "Cells/XENDWidgetConfigurationTextTableCell.h"
+#import "Cells/XENDWidgetConfigurationSliderTableCell.h"
 
 @interface XENDWidgetConfigurationPageController ()
 @property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
@@ -59,6 +60,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationSwitchTableCell class] forCellReuseIdentifier:@"switch"];
     [self.tableView registerClass:[XENDWidgetConfigurationNumberTableCell class] forCellReuseIdentifier:@"number"];
     [self.tableView registerClass:[XENDWidgetConfigurationTextTableCell class] forCellReuseIdentifier:@"text"];
+    [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
 }
 
 #pragma mark - Table view data source

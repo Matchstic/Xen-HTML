@@ -56,7 +56,7 @@
         self.accessoryView = self.textField;
     }
     
-    NSString *currentValue = self.cell.value;
+    NSNumber *currentValue = self.cell.value;
     if (currentValue) {
         self.textField.text = currentValue ? [NSString stringWithFormat:@"%@", currentValue] : @"0";
     }

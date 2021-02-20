@@ -57,6 +57,9 @@
 		C92014AB25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */; };
 		C92014AC25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */; };
 		C92014AD25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */; };
+		C92014B025E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C92014AE25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h */; };
+		C92014B125E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */; };
+		C92014B225E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */; };
 		C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */; };
 		C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */; };
 		C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750120715D150003D039 /* XENHFauxIconsViewController.h */; };
@@ -354,6 +357,8 @@
 		C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationNumberTableCell.m; sourceTree = "<group>"; };
 		C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationTextTableCell.h; sourceTree = "<group>"; };
 		C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationTextTableCell.m; sourceTree = "<group>"; };
+		C92014AE25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationSliderTableCell.h; sourceTree = "<group>"; };
+		C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationSliderTableCell.m; sourceTree = "<group>"; };
 		C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHEditorExistingWidgetsController.h; sourceTree = "<group>"; };
 		C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHEditorExistingWidgetsController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1163,6 +1168,8 @@
 				C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */,
 				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
 				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
+				C92014AE25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h */,
+				C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1228,6 +1235,7 @@
 				C947758A20715D150003D039 /* XENHLSMediaController.h in Headers */,
 				C947758320715D150003D039 /* XENHRootController.h in Headers */,
 				C94775A120715D160003D039 /* XENHPickerController.h in Headers */,
+				C92014B025E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h in Headers */,
 				C947758120715D150003D039 /* XENHEditorToolbarController.h in Headers */,
 				C9B92AF8226CA92100CE6322 /* XENHSBForegroundController.h in Headers */,
 				C947758520715D150003D039 /* XENHMoreReposCell.h in Headers */,
@@ -1748,6 +1756,7 @@
 				C9715302236F8CC40021277B /* XENHConfigJSCell.m in Sources */,
 				C97152D8236F8CBD0021277B /* XENHResources.m in Sources */,
 				C92014AC25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */,
+				C92014B125E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m in Sources */,
 				C9715306236F8CC40021277B /* XENHHomescreenForegroundPickerCell.m in Sources */,
 				C9715304236F8CC40021277B /* XENHConfigJSController.m in Sources */,
 				C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */,
@@ -1798,6 +1807,7 @@
 				C947757420715D150003D039 /* XENHEditorDragDropController.m in Sources */,
 				C94775B020715D160003D039 /* XENHPreviewScaledController.m in Sources */,
 				C947757C20715D150003D039 /* XENHConfigJSCell.m in Sources */,
+				C92014B225E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m in Sources */,
 				C91C3A30209B49E30076182C /* XENHMultiplexWidgetsHeaderView.m in Sources */,
 				C992AB3F24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */,
 				C94775AD20715D160003D039 /* XENHLockscreenPreviewCell.m in Sources */,

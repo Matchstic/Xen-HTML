@@ -18,28 +18,6 @@
 
 #import "XENDWidgetConfigurationBaseTableCell.h"
 
-@implementation XENDWidgetConfigurationBaseTableCell
-
-- (void)configure:(XENDWidgetConfigurationCell*)modelCell {
-    _cell = modelCell;
-    
-    self.textLabel.text = [modelCell.text isEqualToString:@""] ? @"Missing Title" : modelCell.text;
-    
-    // Disclosure - no need for subclasses for this
-    NSArray *needsDisclosure = @[
-        @"page",
-        @"option",
-        @"color",
-        @"location"
-    ];
-    
-    if ([needsDisclosure containsObject:modelCell.type]) {
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    [self setup];
-}
-
-- (void)setup {}
+@interface XENDWidgetConfigurationSliderTableCell : XENDWidgetConfigurationBaseTableCell
 
 @end

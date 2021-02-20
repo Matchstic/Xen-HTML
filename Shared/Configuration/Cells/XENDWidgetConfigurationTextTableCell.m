@@ -56,7 +56,7 @@
     
     NSString *currentValue = self.cell.value;
     NSString *placeholder = [self.cell.properties objectForKey:@"placeholder"];
-    NSString *keyboardMode = [self.cell.properties objectForKey:@"keyboard"];
+    NSString *keyboardMode = [self.cell.properties objectForKey:@"mode"];
     if (currentValue) {
         self.textField.placeholder = placeholder ? placeholder : @"Text input";
         self.textField.text = currentValue ? [NSString stringWithFormat:@"%@", currentValue] : @"";
