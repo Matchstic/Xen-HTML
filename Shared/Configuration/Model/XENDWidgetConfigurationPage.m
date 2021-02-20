@@ -52,7 +52,7 @@
         
         if ([type isEqualToString:@"title"]) {
             
-            if (groups.count > 0) {
+            if (groups.count > 0 && currentGroup.count > 0) {
                 [groups addObject:currentGroup];
                 currentGroup = [NSMutableArray array];
             }
@@ -62,15 +62,17 @@
         } else if ([type isEqualToString:@"comment"]) {
             
             [currentGroup addObject:cell];
-            
             [groups addObject:currentGroup];
+            
             currentGroup = [NSMutableArray array];
             
         } else if ([type isEqualToString:@"gap"]) {
-            
-            [groups addObject:currentGroup];
-            currentGroup = [NSMutableArray array];
-            
+            // Disallow multiple gaps following each other
+            // This also ignores 'gap' after a comment
+            if (currentGroup.count > 0) {
+                [groups addObject:currentGroup];
+                currentGroup = [NSMutableArray array];
+            }
         } else {
             
             [currentGroup addObject:cell];
