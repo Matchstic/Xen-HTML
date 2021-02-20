@@ -54,6 +54,9 @@
 		C92014A625E14900009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */; };
 		C92014A725E14902009B4DBE /* XENDWidgetConfigurationNumberTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */; };
 		C92014A825E14905009B4DBE /* XENDWidgetConfigurationPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C31ECB25E069C000472A89 /* XENDWidgetConfigurationPageController.m */; };
+		C92014AB25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */; };
+		C92014AC25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */; };
+		C92014AD25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */; };
 		C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */; };
 		C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */; };
 		C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750120715D150003D039 /* XENHFauxIconsViewController.h */; };
@@ -349,6 +352,8 @@
 		C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationSwitchTableCell.m; sourceTree = "<group>"; };
 		C920149F25E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationNumberTableCell.h; sourceTree = "<group>"; };
 		C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationNumberTableCell.m; sourceTree = "<group>"; };
+		C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationTextTableCell.h; sourceTree = "<group>"; };
+		C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationTextTableCell.m; sourceTree = "<group>"; };
 		C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHEditorExistingWidgetsController.h; sourceTree = "<group>"; };
 		C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHEditorExistingWidgetsController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1156,6 +1161,8 @@
 				C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */,
 				C920149F25E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.h */,
 				C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */,
+				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
+				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1240,6 +1247,7 @@
 				C94775A820715D160003D039 /* XENHBaseHTMLPreferenceController.h in Headers */,
 				C947756F20715D150003D039 /* XENHPResources.h in Headers */,
 				C94775AC20715D160003D039 /* XENHBasePreviewCell.h in Headers */,
+				C92014AB25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h in Headers */,
 				C947759620715D160003D039 /* XENHLSVisibilityController.h in Headers */,
 				C992AB3D24730FAE00D7F27E /* XENHWidgetConfiguration.h in Headers */,
 				C947759820715D160003D039 /* XENHLSNotificationsController.h in Headers */,
@@ -1739,6 +1747,7 @@
 				C96E50002401F0BC00600A17 /* XENSetupViewController.m in Sources */,
 				C9715302236F8CC40021277B /* XENHConfigJSCell.m in Sources */,
 				C97152D8236F8CBD0021277B /* XENHResources.m in Sources */,
+				C92014AC25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */,
 				C9715306236F8CC40021277B /* XENHHomescreenForegroundPickerCell.m in Sources */,
 				C9715304236F8CC40021277B /* XENHConfigJSController.m in Sources */,
 				C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */,
@@ -1811,6 +1820,7 @@
 				C91C3A2B209B488D0076182C /* XENHMultiplexWidgetsController.m in Sources */,
 				C94775B820715D160003D039 /* XENHLSMediaController.m in Sources */,
 				C947759020715D150003D039 /* XENHPHeaderView.m in Sources */,
+				C92014AD25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m in Sources */,
 				C947756D20715D150003D039 /* XENHLSNotificationsController.m in Sources */,
 				C94775A420715D160003D039 /* XENHDonationController.m in Sources */,
 				C947757520715D150003D039 /* XENHEditorToolbarController.m in Sources */,
@@ -2626,7 +2636,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2648,12 +2657,12 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				SUPPORTS_MACCATALYST = NO;
@@ -2681,7 +2690,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2703,12 +2711,12 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				SUPPORTS_MACCATALYST = NO;
@@ -2736,7 +2744,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2754,12 +2761,12 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				SUPPORTS_MACCATALYST = NO;
