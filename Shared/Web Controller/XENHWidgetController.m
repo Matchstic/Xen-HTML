@@ -283,6 +283,13 @@ static UIWindow *sharedOffscreenRenderingWindow;
         [settingsInjection appendFormat:@"var %@ = %@;", key, valueOut];
     }
     
+    // Modern options is a key/pair dictionary. Convert to JSON and inject
+    NSDictionary *modernOptions = [self.widgetMetadata objectForKey:@"optionsv2"];
+    if (modernOptions) {
+        NSString *jsonOptions = [self _parseToJSON:modernOptions];
+        [settingsInjection appendFormat:@"var config = %@;", jsonOptions];
+    }
+    
     WKUserScript *settingsInjector = [[WKUserScript alloc] initWithSource:settingsInjection injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     [userContentController addUserScript:settingsInjector];
     
@@ -376,6 +383,26 @@ static UIWindow *sharedOffscreenRenderingWindow;
         // A JIT load is needed to avoid UI issues when loading a widget during the paused state
         self.pendingWidgetJITLoad = YES;
     }
+}
+
+-(NSString*)_parseToJSON:(NSDictionary*)dict {
+    @try {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
+                                                           options:0
+                                                             error:&error];
+        
+        if (!jsonData) {
+            NSLog(@"%s: error: %@", __func__, error.localizedDescription);
+            return @"{}";
+        } else {
+            return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"ERROR :: toJSON :: %@", exception);
+        return @"{}";
+    }
+
 }
 
 - (void)_loadLegacyWebView {

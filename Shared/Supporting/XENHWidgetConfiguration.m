@@ -261,6 +261,9 @@
     if ([self loadOptionsPlist])
         return;
     
+    if ([self loadConfigJSONOptions])
+        return;
+    
     [self loadDefaultOptions];
 }
 
@@ -318,6 +321,13 @@
         
         return YES;
     }
+    
+    return NO;
+}
+
+- (BOOL)loadConfigJSONOptions {
+    // TODO: Load default options from config.json
+    // This is just a matter of flattening cells/pages etc, and getting default values
     
     return NO;
 }

@@ -169,6 +169,10 @@
 		C9A379D8248D3738005A00E4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9B92AF8226CA92100CE6322 /* XENHSBForegroundController.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */; };
 		C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */; };
+		C9C31ECC25E069C000472A89 /* XENDWidgetConfigurationPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C31ECB25E069C000472A89 /* XENDWidgetConfigurationPageController.m */; };
+		C9C31ED125E06C3B00472A89 /* XENDWidgetConfigurationPage.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C31ED025E06C3B00472A89 /* XENDWidgetConfigurationPage.m */; };
+		C9C31ED425E06C7D00472A89 /* XENDWidgetConfigurationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C31ED325E06C7D00472A89 /* XENDWidgetConfigurationCell.m */; };
+		C9C31ED725E0707F00472A89 /* XENDWidgetConfigurationGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C31ED625E0707F00472A89 /* XENDWidgetConfigurationGroup.m */; };
 		C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D025252017726C0079DCBE /* libMobileGestalt.tbd */; };
@@ -482,6 +486,14 @@
 		C9B92AF6226CA92100CE6322 /* XENHSBForegroundController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHSBForegroundController.h; sourceTree = "<group>"; };
 		C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHSBForegroundController.m; sourceTree = "<group>"; };
 		C9BDC30C2370EC35000D348E /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = PackageVersion.plist; path = Deploy/PackageVersion.plist; sourceTree = SOURCE_ROOT; };
+		C9C31ECA25E069C000472A89 /* XENDWidgetConfigurationPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationPageController.h; sourceTree = "<group>"; };
+		C9C31ECB25E069C000472A89 /* XENDWidgetConfigurationPageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationPageController.m; sourceTree = "<group>"; };
+		C9C31ECF25E06C3B00472A89 /* XENDWidgetConfigurationPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationPage.h; sourceTree = "<group>"; };
+		C9C31ED025E06C3B00472A89 /* XENDWidgetConfigurationPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationPage.m; sourceTree = "<group>"; };
+		C9C31ED225E06C7D00472A89 /* XENDWidgetConfigurationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationCell.h; sourceTree = "<group>"; };
+		C9C31ED325E06C7D00472A89 /* XENDWidgetConfigurationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationCell.m; sourceTree = "<group>"; };
+		C9C31ED525E0707F00472A89 /* XENDWidgetConfigurationGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationGroup.h; sourceTree = "<group>"; };
+		C9C31ED625E0707F00472A89 /* XENDWidgetConfigurationGroup.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationGroup.m; sourceTree = "<group>"; };
 		C9D025252017726C0079DCBE /* libMobileGestalt.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libMobileGestalt.tbd; path = usr/lib/libMobileGestalt.tbd; sourceTree = SDKROOT; };
 		C9D3260C244371C300E59F79 /* XENHPickerItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHPickerItem.h; sourceTree = "<group>"; };
 		C9D3260D244371C300E59F79 /* XENHPickerItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHPickerItem.m; sourceTree = "<group>"; };
@@ -945,6 +957,7 @@
 			children = (
 				C9BDC30C2370EC35000D348E /* PackageVersion.plist */,
 				C9715318236F902A0021277B /* Prefix.pch */,
+				C9C31EC925E0699F00472A89 /* Configuration */,
 				C97152C0236F8CB30021277B /* Web Controller */,
 				C97152D9236F8CC30021277B /* Homescreen Foreground Widgets */,
 				C97152F1236F8CC30021277B /* Setup */,
@@ -1103,6 +1116,37 @@
 				C9B92AF7226CA92100CE6322 /* XENHSBForegroundController.m */,
 			);
 			path = Foreground;
+			sourceTree = "<group>";
+		};
+		C9C31EC925E0699F00472A89 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C9C31ECE25E06C2000472A89 /* Model */,
+				C9C31ECD25E06A0200472A89 /* Cells */,
+				C9C31ECA25E069C000472A89 /* XENDWidgetConfigurationPageController.h */,
+				C9C31ECB25E069C000472A89 /* XENDWidgetConfigurationPageController.m */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		C9C31ECD25E06A0200472A89 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		C9C31ECE25E06C2000472A89 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C9C31ECF25E06C3B00472A89 /* XENDWidgetConfigurationPage.h */,
+				C9C31ED025E06C3B00472A89 /* XENDWidgetConfigurationPage.m */,
+				C9C31ED225E06C7D00472A89 /* XENDWidgetConfigurationCell.h */,
+				C9C31ED325E06C7D00472A89 /* XENDWidgetConfigurationCell.m */,
+				C9C31ED525E0707F00472A89 /* XENDWidgetConfigurationGroup.h */,
+				C9C31ED625E0707F00472A89 /* XENDWidgetConfigurationGroup.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1660,9 +1704,12 @@
 				C992AB3E24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */,
 				C9715307236F8CC40021277B /* XENHPickerPreviewController.m in Sources */,
 				C9715305236F8CC40021277B /* XENHMetadataOptionsController.m in Sources */,
+				C9C31ED425E06C7D00472A89 /* XENDWidgetConfigurationCell.m in Sources */,
+				C9C31ED725E0707F00472A89 /* XENDWidgetConfigurationGroup.m in Sources */,
 				C9715301236F8CC40021277B /* XENHCloseButton.m in Sources */,
 				C97152CB236F8CB30021277B /* XENHWidgetLayerContainerView.m in Sources */,
 				C9715300236F8CC40021277B /* XENHHomescreenForegroundViewController.m in Sources */,
+				C9C31ED125E06C3B00472A89 /* XENDWidgetConfigurationPage.m in Sources */,
 				C96E50002401F0BC00600A17 /* XENSetupViewController.m in Sources */,
 				C9715302236F8CC40021277B /* XENHConfigJSCell.m in Sources */,
 				C97152D8236F8CBD0021277B /* XENHResources.m in Sources */,
@@ -1673,6 +1720,7 @@
 				C9715309236F8CC40021277B /* XENHButton.m in Sources */,
 				C97152D6236F8CBC0021277B /* XENHWallpaperViewController.m in Sources */,
 				C97152C9236F8CB30021277B /* XENHWidgetController.m in Sources */,
+				C9C31ECC25E069C000472A89 /* XENDWidgetConfigurationPageController.m in Sources */,
 				C9DBDBBD244CECF3009E855E /* XENHPickerItem.m in Sources */,
 				C97152D7236F8CBD0021277B /* XENHTouchPassThroughView.m in Sources */,
 				C97152D5236F8CBC0021277B /* XENHTouchForwardingRecognizer.m in Sources */,
