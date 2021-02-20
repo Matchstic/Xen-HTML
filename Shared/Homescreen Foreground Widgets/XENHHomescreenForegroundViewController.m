@@ -26,6 +26,8 @@
 #import "XENHResources.h"
 #import "XENHWidgetConfiguration.h"
 
+#import "../Configuration/XENDWidgetConfigurationPageController.h"
+
 @interface SBRootFolderView : UIView
 @property (nonatomic, strong) XENHTouchPassThroughView *_xenhtml_editingPlatter;
 
@@ -54,6 +56,9 @@
 
 @property (nonatomic, weak) SBRootFolderController *popoverPresentationController;
 @property (nonatomic, readwrite) BOOL isEditing;
+
+@property (nonatomic, strong) NSString *modernConfigWidgetURL;
+@property (nonatomic, strong) NSMutableDictionary *modernConfigWidgetValues;
 
 @end
 
@@ -181,7 +186,31 @@
         path = [path substringFromIndex:range.location];
     }
     
-    // Check for Options.plist support
+    // Test against modern config first
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configJSONPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        
+        if ([config objectForKey:@"options"]) {
+            // Prep delegate for modern configuration mode
+            NSDictionary *preexistingSettings = [currentMetadata objectForKey:@"options2"];
+            [delegate onBeginModernConfiguration:widgetURL currentValues:preexistingSettings];
+            
+            XENDWidgetConfigurationPageController *controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:delegate title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+            
+            // Add done button.
+            UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:delegate action:@selector(onFinishModernConfiguration:)];
+            [[controller navigationItem] setRightBarButtonItem:done];
+            
+            return controller;
+        }
+    }
+    
+    // Legacy stuff
+    
     BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:widgetURL];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
@@ -241,7 +270,16 @@
 #pragma mark Widget picker delegate
 /////////////////////////////////////////////////////////////////////////////
 
-- (void)didChooseWidget:(NSString*)filePath withMetadata:(NSDictionary*)options fallbackState:(BOOL)state {
+- (void)didChooseWidget:(NSString*)filePath
+           withMetadata:(NSDictionary*)options
+          fallbackState:(BOOL)state {
+    [self didChooseWidget:filePath withMetadata:options fallbackState:state optionsName:@"options"];
+}
+
+- (void)didChooseWidget:(NSString*)filePath
+           withMetadata:(NSDictionary*)options
+          fallbackState:(BOOL)state
+            optionsName:(NSString*)optionsName {
     // User did choose a widget!
     
     BOOL isNewWidget = ![filePath hasPrefix:@":"];
@@ -282,7 +320,7 @@
     if (!widgetMetadata)
         widgetMetadata = [NSMutableDictionary dictionary];
     
-    [widgetMetadata setObject:options forKey:@"options"];
+    [widgetMetadata setObject:options forKey:optionsName];
     [widgetMetadata setObject:[NSNumber numberWithBool:state] forKey:@"useFallback"];
     
     if (!options || options.allKeys.count == 0) // config.js hack
@@ -386,6 +424,23 @@
     [self.popoverPresentationController dismissViewControllerAnimated:YES completion:^{
         // nop.
     }];
+}
+
+- (NSDictionary*)currentValues {
+    return self.modernConfigWidgetValues;
+}
+
+- (void)onUpdateConfiguration:(NSString*)key value:(id)value {
+    [self.modernConfigWidgetValues setObject:value forKey:key];
+}
+
+- (void)onFinishModernConfiguration:(id)sender {
+    [self didChooseWidget:self.modernConfigWidgetURL withMetadata:self.modernConfigWidgetValues fallbackState:NO optionsName:@"options2"];
+}
+
+- (void)onBeginModernConfiguration:(NSString*)widgetPath currentValues:(NSDictionary*)values {
+    self.modernConfigWidgetURL = widgetPath;
+    self.modernConfigWidgetValues = values ? [values mutableCopy] : [NSMutableDictionary dictionary];
 }
 
 /////////////////////////////////////////////////////////////////////////////

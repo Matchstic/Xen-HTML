@@ -17,6 +17,7 @@
 */
 
 #import <Foundation/Foundation.h>
+#import "../XENDWidgetConfigurationDelegate.h"
 
 /**
  Represents a configuration cell in a page
@@ -36,6 +37,11 @@
 @property (nonatomic, strong, readonly) NSString *key;
 
 /**
+ Text for the cell
+ */
+@property (nonatomic, strong, readonly) NSString *text;
+
+/**
  Any properties associated with the cell
  */
 @property (nonatomic, strong, readonly) NSDictionary *properties;
@@ -49,7 +55,8 @@
  Initialises the cell model with a dictionary
  */
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary
-                      currentValue:(id)value;
+                      currentValue:(id)value
+                          delegate:(id<XENDWidgetConfigurationDelegate>)delegate;
 
 /**
  Setter for the current state of the cell

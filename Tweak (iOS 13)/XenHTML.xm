@@ -33,7 +33,7 @@
 #pragma mark Simulator support
 
 // Comment in/out, cannot use macro due to theos ignoring them
-// %config(generator=internal);
+%config(generator=internal);
 
 #pragma mark Function definitions
 

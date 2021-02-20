@@ -19,9 +19,13 @@
 #ifndef XENHHomescreenForegroundPickerDelegate_h
 #define XENHHomescreenForegroundPickerDelegate_h
 
-@protocol XENHHomescreenForegroundPickerDelegate <NSObject>
+#import "../../Configuration/XENDWidgetConfigurationDelegate.h"
+
+@protocol XENHHomescreenForegroundPickerDelegate <XENDWidgetConfigurationDelegate>
 - (void)didChooseWidget:(NSString*)filePath withMetadata:(NSDictionary*)metadata fallbackState:(BOOL)state;
 - (void)cancelShowingPicker;
+- (void)onFinishModernConfiguration:(id)sender;
+- (void)onBeginModernConfiguration:(NSString*)widgetPath currentValues:(NSDictionary*)dictionary;
 @end
 
 #endif /* XENHHomescreenForegroundPickerDelegate_h */

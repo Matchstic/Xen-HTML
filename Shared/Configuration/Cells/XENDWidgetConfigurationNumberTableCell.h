@@ -16,28 +16,8 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import <Foundation/Foundation.h>
-#import "XENDWidgetConfigurationGroup.h"
-#import "../XENDWidgetConfigurationDelegate.h"
+#import "XENDWidgetConfigurationBaseTableCell.h"
 
-/**
- Models a page of widget configuration
- 
- Available cell types:
- - title
- - comment
- - gap
- 
- Expected page layout is an array of objects
- */
-@interface XENDWidgetConfigurationPage : NSObject
-
-@property (nonatomic, strong, readonly) NSArray<XENDWidgetConfigurationGroup*> *groups;
-
-/**
- Initialises with a representation of a configuration page, and the current values set for it
- */
-- (instancetype)initWithOptions:(NSArray*)options
-                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate;
+@interface XENDWidgetConfigurationNumberTableCell : XENDWidgetConfigurationBaseTableCell <UITextFieldDelegate>
 
 @end

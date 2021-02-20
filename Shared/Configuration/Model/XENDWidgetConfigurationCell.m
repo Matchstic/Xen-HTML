@@ -20,6 +20,7 @@
 
 @interface XENDWidgetConfigurationCell()
 @property (nonatomic, strong) id internalValue;
+@property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
 @end
 
 @implementation XENDWidgetConfigurationCell
@@ -39,10 +40,14 @@
 }
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary
-                      currentValue:(id)currentValue {
+                      currentValue:(id)currentValue
+                          delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     if (self) {
+        self.delegate = delegate;
+        
         _type = [dictionary objectForKey:@"type"];
         _key = [dictionary objectForKey:@"key"];
+        _text = [dictionary objectForKey:@"text"];
         _properties = dictionary;
         
         // Figure out the default value, if possible
@@ -58,7 +63,8 @@
 - (void)setValue:(id)value {
     self.internalValue = value;
     
-    // TODO: Notify up the chain for changes
+    // Notify up the chain for changes
+    [self.delegate onUpdateConfiguration:self.key value:self.value];
 }
 
 - (id)value {

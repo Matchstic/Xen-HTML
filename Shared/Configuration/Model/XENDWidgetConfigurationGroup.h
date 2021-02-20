@@ -18,6 +18,7 @@
 
 #import <Foundation/Foundation.h>
 #import "XENDWidgetConfigurationCell.h"
+#import "../XENDWidgetConfigurationDelegate.h"
 
 @interface XENDWidgetConfigurationGroup : NSObject
 
@@ -26,6 +27,6 @@
 @property (nonatomic, strong, readonly) NSString *footer;
 
 - (instancetype)initWithArray:(NSArray<NSDictionary*>*)array
-                currentValues:(NSDictionary*)currentValues;
+                     delegate:(id<XENDWidgetConfigurationDelegate>)delegate;
 
 @end

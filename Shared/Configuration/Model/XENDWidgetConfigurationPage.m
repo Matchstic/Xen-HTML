@@ -21,19 +21,19 @@
 @implementation XENDWidgetConfigurationPage
 
 - (instancetype)initWithOptions:(NSArray*)options
-                  currentValues:(NSDictionary*)currentValues {
+                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     self = [super init];
     
     if (self) {
         // Config
-        _groups = [self parseGroups:options currentValues:currentValues];
+        _groups = [self parseGroups:options delegate:delegate];
     }
     
     return self;
 }
 
 - (NSArray<XENDWidgetConfigurationGroup*>*)parseGroups:(NSArray*)options
-                                         currentValues:(NSDictionary*)currentValues {
+                                              delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     if (!options || options.count == 0) return @[];
     
     // Iterate over items, and split into groups of cells
@@ -85,7 +85,7 @@
     NSMutableArray *modelGroups = [NSMutableArray array];
     for (NSArray *arrayGroup in groups) {
         XENDWidgetConfigurationGroup *modelGroup = [[XENDWidgetConfigurationGroup alloc] initWithArray:arrayGroup
-                                                                                         currentValues:currentValues];
+                                                                                              delegate:delegate];
         
         [modelGroups addObject:modelGroup];
     }

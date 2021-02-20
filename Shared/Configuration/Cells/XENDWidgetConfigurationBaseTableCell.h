@@ -16,28 +16,21 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import <Foundation/Foundation.h>
-#import "XENDWidgetConfigurationGroup.h"
-#import "../XENDWidgetConfigurationDelegate.h"
+#import <UIKit/UIKit.h>
+#import "../Model/XENDWidgetConfigurationCell.h"
+
+@interface XENDWidgetConfigurationBaseTableCell : UITableViewCell
+
+@property (nonatomic, strong, readonly) XENDWidgetConfigurationCell *cell;
 
 /**
- Models a page of widget configuration
- 
- Available cell types:
- - title
- - comment
- - gap
- 
- Expected page layout is an array of objects
+ Configures the table view cell
  */
-@interface XENDWidgetConfigurationPage : NSObject
-
-@property (nonatomic, strong, readonly) NSArray<XENDWidgetConfigurationGroup*> *groups;
+- (void)configure:(XENDWidgetConfigurationCell*)modelCell;
 
 /**
- Initialises with a representation of a configuration page, and the current values set for it
+ Overriden by subclasses to setup their views
  */
-- (instancetype)initWithOptions:(NSArray*)options
-                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate;
+- (void)setup;
 
 @end

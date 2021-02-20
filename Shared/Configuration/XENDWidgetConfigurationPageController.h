@@ -17,22 +17,12 @@
 */
 
 #import <UIKit/UIKit.h>
-
-typedef enum : NSUInteger {
-    XENDWidgetConfigurationNumber,
-    XENDWidgetConfigurationBoolean,
-    XENDWidgetConfigurationString,
-} XENDWidgetConfigurationType;
-
-@protocol XENDWidgetConfigurationPageDelegate <NSObject>
-- (void)onUpdateConfiguration:(NSString*)key value:(id)value type:(XENDWidgetConfigurationType)type;
-- (NSDictionary*)currentValues;
-@end
+#import "XENDWidgetConfigurationDelegate.h"
 
 @interface XENDWidgetConfigurationPageController : UITableViewController
 
 - (instancetype)initWithOptions:(NSArray*)options
-                       delegate:(id<XENDWidgetConfigurationPageDelegate>)delegate
+                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate
                           title:(NSString*)title;
 
 @end

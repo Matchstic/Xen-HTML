@@ -19,15 +19,18 @@
 #import "XENDWidgetConfigurationPageController.h"
 #import "Model/XENDWidgetConfigurationPage.h"
 
+#import "Cells/XENDWidgetConfigurationSwitchTableCell.h"
+#import "Cells/XENDWidgetConfigurationNumberTableCell.h"
+
 @interface XENDWidgetConfigurationPageController ()
-@property (nonatomic, weak) id<XENDWidgetConfigurationPageDelegate> delegate;
+@property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
 @property (nonatomic, strong) XENDWidgetConfigurationPage *model;
 @end
 
 @implementation XENDWidgetConfigurationPageController
 
 - (instancetype)initWithOptions:(NSArray*)options
-                       delegate:(id<XENDWidgetConfigurationPageDelegate>)delegate
+                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate
                           title:(NSString*)title {
     
     self = [super initWithStyle:UITableViewStyleGrouped];
@@ -35,9 +38,8 @@
     if (self) {
         self.delegate = delegate;
         
-        // Setup model for the dictionary and current values
-        NSDictionary *currentValues = [self.delegate currentValues];
-        self.model = [[XENDWidgetConfigurationPage alloc] initWithOptions:options currentValues:currentValues];
+        // Setup model for the dictionary and delegate
+        self.model = [[XENDWidgetConfigurationPage alloc] initWithOptions:options delegate:delegate];
         
         self.title = title;
     }
@@ -51,8 +53,10 @@
     self.navigationItem.title = self.title;
     
     // Register cells
-    // [self.tableView registerClass:[XENHConfigJSCell class] forCellReuseIdentifier:REUSE];
-    // [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:REUSE2];
+    [self.tableView registerClass:[XENDWidgetConfigurationBaseTableCell class] forCellReuseIdentifier:@"unknown"];
+    [self.tableView registerClass:[XENDWidgetConfigurationBaseTableCell class] forCellReuseIdentifier:@"page"];
+    [self.tableView registerClass:[XENDWidgetConfigurationSwitchTableCell class] forCellReuseIdentifier:@"switch"];
+    [self.tableView registerClass:[XENDWidgetConfigurationNumberTableCell class] forCellReuseIdentifier:@"number"];
 }
 
 #pragma mark - Table view data source
@@ -66,18 +70,16 @@
     return group.cells.count;
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XENDWidgetConfigurationGroup *group = [[self.model groups] objectAtIndex:indexPath.section];
-    XENDWidgetConfigurationCell *cell = [group.cells objectAtIndex:indexPath.row];
+    XENDWidgetConfigurationCell *modelCell = [group.cells objectAtIndex:indexPath.row];
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell.type forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:modelCell.type forIndexPath:indexPath];
     
-    // Configure the cell...
+    [(XENDWidgetConfigurationBaseTableCell*)cell configure:modelCell];
     
     return cell;
 }
-*/
 
 // Apply double-height to those cells that need it
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -115,7 +117,28 @@
                             [type isEqualToString:@"option"];
     
     if (isSegueAction) {
-        // TODO: Lookup the page that needs to be pushed, and pass appropriate stuff to it
+        // Lookup the page that needs to be pushed, and pass appropriate stuff to it
+        UIViewController *controller = nil;
+        
+        if ([type isEqualToString:@"page"]) {
+            // New page, create new instance of current class with the right options
+            NSString *title = cell.text;
+            NSArray *options = [cell.properties objectForKey:@"options"];
+            
+            controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:options
+                                                                               delegate:self.delegate
+                                                                                  title:title];
+        } else if ([type isEqualToString:@"location"]) {
+            // TODO: Setup Location controller
+        } else if ([type isEqualToString:@"color"]) {
+            // TODO: Setup Colour controller
+        } else if ([type isEqualToString:@"option"]) {
+            // TODO: Setup Option controller
+        }
+        
+        if (controller) {
+            [self.navigationController pushViewController:controller animated:YES];
+        }
     } else {
         // Do nothing, cell control should handle this
     }

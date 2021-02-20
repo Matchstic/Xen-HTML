@@ -27,6 +27,7 @@
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
 #import "XENHWidgetConfiguration.h"
+#import "../../../Shared/Configuration/XENDWidgetConfigurationPageController.h"
 
 #import <Preferences/PSSplitViewController.h>
 
@@ -50,6 +51,9 @@
 // Widget settings
 @property (nonatomic, strong) XENHMetadataOptionsController *metadataOptions;
 @property (nonatomic, strong) XENHConfigJSController *configOptions;
+
+// Modern widget settings
+@property (nonatomic, strong) NSMutableDictionary *modernConfigWidgetValues;
 
 @end
 
@@ -291,9 +295,43 @@
     // Show a settings configuration UI for this widget.
     
     NSString *filepath = [self.webViewController getCurrentWidgetURL];
-    
     NSString *path = [filepath stringByDeletingLastPathComponent];
     
+    // Test against modern config first
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configJSONPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+        
+        if ([config objectForKey:@"options"]) {
+            // Setup
+            self.modernConfigWidgetValues = [[[self.webViewController getMetadata] objectForKey:@"options2"] mutableCopy];
+            
+            XENDWidgetConfigurationPageController *controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:self title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+            
+            // Navigation controller to allow paging, and for navigation items
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            if (IS_IPAD) {
+                navController.providesPresentationContextTransitionStyle = YES;
+                navController.definesPresentationContext = YES;
+                navController.modalPresentationStyle = UIModalPresentationFormSheet;
+            }
+            
+            // Add done button.
+            UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(closeModernOptionsModal:)];
+            [[controller navigationItem] setRightBarButtonItem:done];
+            
+            // Show controller.
+            [self.navigationController presentViewController:navController animated:YES completion:nil];
+            
+            return;
+        }
+    }
+    
+    
+    // Legacy stuff
+    // It's a total mess from here on in
     BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:filepath];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
@@ -419,6 +457,26 @@
     }];
 }
 
+- (void)closeModernOptionsModal:(id)sender {
+    NSDictionary *changedOptions = self.modernConfigWidgetValues;
+    
+    // Use current metadata (i.e. positioning) and modify that.
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    [mutableMetadata setObject:changedOptions forKey:@"options2"];
+    
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:YES];
+    [self.positioningController updatePositioningView:self.webViewController.webView];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        // Hide the modal and update SBHTML if needed
+        [self _notifyHomescreenOfChangeIfNeeded];
+    }];
+}
+
 -(void)cancelConfigOptionsModal:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal
@@ -496,6 +554,21 @@
     
     [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
     //[self.delegate didAcceptChanges:[self.webViewController getCurrentWidgetURL] withMetadata:mutableMetadata];
+}
+
+#pragma mark Modern widget configuration delegate
+
+- (NSDictionary*)currentValues {
+    return self.modernConfigWidgetValues;
+}
+
+- (void)onUpdateConfiguration:(NSString*)key value:(id)value {
+    if (!value) {
+        NSLog(@"ERROR :: Cannot set nil value to widget configuration");
+        return;
+    }
+    
+    [self.modernConfigWidgetValues setObject:value forKey:key];
 }
 
 @end

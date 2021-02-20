@@ -16,28 +16,26 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import <Foundation/Foundation.h>
-#import "XENDWidgetConfigurationGroup.h"
-#import "../XENDWidgetConfigurationDelegate.h"
+#import "XENDWidgetConfigurationSwitchTableCell.h"
 
-/**
- Models a page of widget configuration
- 
- Available cell types:
- - title
- - comment
- - gap
- 
- Expected page layout is an array of objects
- */
-@interface XENDWidgetConfigurationPage : NSObject
+@implementation XENDWidgetConfigurationSwitchTableCell
 
-@property (nonatomic, strong, readonly) NSArray<XENDWidgetConfigurationGroup*> *groups;
+- (void)setup {
+    if (!self.accessoryView) {
+        UISwitch *switchControl = [[UISwitch alloc] initWithFrame:CGRectZero];
+        [switchControl addTarget:self action:@selector(switchDidChange:) forControlEvents:UIControlEventValueChanged];
+        
+        self.accessoryView = switchControl;
+    }
+    
+    NSNumber *currentValue = self.cell.value;
+    if (currentValue) {
+        [(UISwitch*)self.accessoryView setOn:[currentValue boolValue]];
+    }
+}
 
-/**
- Initialises with a representation of a configuration page, and the current values set for it
- */
-- (instancetype)initWithOptions:(NSArray*)options
-                       delegate:(id<XENDWidgetConfigurationDelegate>)delegate;
+- (void)switchDidChange:(UISwitch*)sender {
+    [self.cell setValue:[NSNumber numberWithBool:sender.isOn]];
+}
 
 @end

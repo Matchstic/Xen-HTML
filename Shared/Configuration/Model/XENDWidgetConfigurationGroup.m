@@ -21,7 +21,7 @@
 @implementation XENDWidgetConfigurationGroup
 
 - (instancetype)initWithArray:(NSArray<NSDictionary*>*)items
-                currentValues:(NSDictionary*)currentValues {
+                     delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     self = [super init];
     
     if (self) {
@@ -30,7 +30,7 @@
         _footer = [self findText:@"comment" inItems:items];
         
         // Configure cells
-        _cells = [self configureCells:items currentValues:currentValues];
+        _cells = [self configureCells:items delegate:delegate];
     }
     
     return self;
@@ -41,7 +41,7 @@
     
     for (NSDictionary *item in items) {
         if ([[item objectForKey:@"type"] isEqualToString:key]) {
-            title = [item objectForKey:@"default"];
+            title = [item objectForKey:@"text"];
             break;
         }
     }
@@ -50,21 +50,25 @@
 }
 
 - (NSArray<XENDWidgetConfigurationCell*>*)configureCells:(NSArray<NSDictionary*>*)items
-                                            currentValues:(NSDictionary*)currentValues {
+                                                delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     NSMutableArray *cells = [NSMutableArray array];
     
     for (NSDictionary *dictionaryCell in items) {
         // Filter out unknown cell types
         NSString *type = [dictionaryCell objectForKey:@"type"];
+        if ([type isEqualToString:@"title"] ||
+            [type isEqualToString:@"comment"])
+            continue;
         
         BOOL unknown = NO;
         if (!type) unknown = YES;
-        if ([[XENDWidgetConfigurationCell types] containsObject:type]) unknown = YES;
+        if (![[XENDWidgetConfigurationCell types] containsObject:type]) unknown = YES;
         
         if (unknown) {
             XENDWidgetConfigurationCell *unknownCell = [[XENDWidgetConfigurationCell alloc] initWithDictionary:@{
-                @"type": @"unknown"
-            } currentValue:nil];
+                @"type": @"unknown",
+                @"text": @"Unknown Cell Type"
+            } currentValue:nil delegate:nil];
             [cells addObject:unknownCell];
             
             continue;
@@ -75,11 +79,13 @@
         id currentValue = nil;
         
         if (key) {
-            currentValue = [currentValue objectForKey:key];
+            NSDictionary *currentValues = [delegate currentValues];
+            currentValue = [currentValues objectForKey:key];
         }
         
         XENDWidgetConfigurationCell *cell = [[XENDWidgetConfigurationCell alloc] initWithDictionary:dictionaryCell
-                                                                                       currentValue:currentValue];
+                                                                                       currentValue:currentValue
+                                                                                           delegate:delegate];
         [cells addObject:cell];
     }
     
