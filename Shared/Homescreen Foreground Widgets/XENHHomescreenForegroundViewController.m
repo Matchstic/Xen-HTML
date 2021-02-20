@@ -205,6 +205,11 @@
             UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:delegate action:@selector(onFinishModernConfiguration:)];
             [[controller navigationItem] setRightBarButtonItem:done];
             
+            if (showCancel) {
+                UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIBarButtonItemStyleDone target:delegate action:@selector(cancelShowingPicker)];
+                [[controller navigationItem] setLeftBarButtonItem:cancel];
+            }
+            
             return controller;
         }
     }
