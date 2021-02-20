@@ -16,74 +16,76 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import "XENDWidgetConfigurationNumberTableCell.h"
+#import "XENDWidgetConfigurationTextTableCell.h"
 #import "XENHResources.h"
 
-@interface XENDWidgetConfigurationNumberTableCell ()
+@interface XENDWidgetConfigurationTextTableCell ()
 @property (nonatomic, strong) UITextField *textField;
 @end
 
-@implementation XENDWidgetConfigurationNumberTableCell
+@implementation XENDWidgetConfigurationTextTableCell
 
 - (void)setup {
     if (!self.textField) {
         self.textField = [[UITextField alloc] initWithFrame:CGRectZero];
         [self.textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         self.textField.delegate = self;
-        self.textField.textAlignment = NSTextAlignmentRight;
+        self.textField.textAlignment = NSTextAlignmentNatural;
         
         if (@available(iOS 13.0, *)) {
-            self.textField.textColor = [UIColor systemGrayColor];
+            self.textField.textColor = [UIColor labelColor];
             self.textField.backgroundColor = [UIColor systemGray5Color];
         } else {
-            self.textField.textColor = [UIColor grayColor];
+            self.textField.textColor = [UIColor darkTextColor];
             self.textField.backgroundColor = [UIColor colorWithWhite:(229.0 / 255.0) alpha:1.0];
         }
         
         self.textField.layer.cornerRadius = 5;
-    
-        if (@available(iOS 13.0, *)) {
-            self.textField.font = [UIFont monospacedSystemFontOfSize:18 weight:UIFontWeightRegular];
-        } else {
-            // Fallback on earlier versions
-        }
+
         self.textField.returnKeyType = UIReturnKeyDone;
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        self.textField.keyboardType = UIKeyboardTypeDecimalPad;
         self.textField.inputAccessoryView = [self keyboardDoneButton];
         
-        self.accessoryView = self.textField;
+        // Left padding
+        self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 6, 44)];
+        self.textField.leftViewMode = UITextFieldViewModeAlways;
+        
+        [self.contentView addSubview:self.textField];
     }
     
     NSString *currentValue = self.cell.value;
+    NSString *placeholder = [self.cell.properties objectForKey:@"placeholder"];
+    NSString *keyboardMode = [self.cell.properties objectForKey:@"keyboard"];
     if (currentValue) {
-        self.textField.text = currentValue ? [NSString stringWithFormat:@"%@", currentValue] : @"0";
+        self.textField.placeholder = placeholder ? placeholder : @"Text input";
+        self.textField.text = currentValue ? [NSString stringWithFormat:@"%@", currentValue] : @"";
+        
+        // Swtup keyboard mode
+        UIKeyboardType keyboardType = UIKeyboardTypeDefault;
+        BOOL secureEntry = NO;
+        if ([keyboardMode isEqualToString:@"email"]) {
+            keyboardType = UIKeyboardTypeEmailAddress;
+        } else if ([keyboardMode isEqualToString:@"password"]) {
+            secureEntry = YES;
+        }
+        
+        self.textField.keyboardType = keyboardType;
+        self.textField.secureTextEntry = secureEntry;
     }
 }
 
 - (void)barButtonHitReturn:(id)sender {
     if (!self.textField.text) {
-        self.textField.text = @"0";
+        self.textField.text = @"";
     }
     
-    [self.cell setValue:[self toNumber]];
+    [self.cell setValue:self.textField.text];
     [self.textField resignFirstResponder];
 }
 
-- (NSNumber*)toNumber {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *number = [formatter numberFromString:self.textField.text];
-    if (!number) {
-        number = @0;
-    }
-    
-    return number;
-}
-
 - (void)textFieldDidChange:(UITextField*)sender {
-    [self.cell setValue:[self toNumber]];
+    [self.cell setValue:sender.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -108,8 +110,12 @@
     [super layoutSubviews];
     
     CGFloat padding = self.textLabel.frame.origin.x;
-    CGFloat width = 51; // Equivalent to UISwitch
-    self.accessoryView.frame = CGRectMake(self.bounds.size.width - width - padding, 6, width, self.bounds.size.height - 12);
+    CGFloat width = self.bounds.size.width - (padding * 2);
+    CGFloat height = 44.0;
+    
+    self.textLabel.frame = CGRectMake(padding, 0, self.bounds.size.width - (padding * 2), height);
+    self.textField.frame = CGRectMake(padding, height, width, height - 12);
 }
 
 @end
+
