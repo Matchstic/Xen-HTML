@@ -33,4 +33,9 @@
  */
 - (void)setup;
 
+/**
+ Call to update the cell when data changes outside it
+ */
+- (void)update;
+
 @end

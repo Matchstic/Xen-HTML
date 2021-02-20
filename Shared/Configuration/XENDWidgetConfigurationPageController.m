@@ -23,6 +23,9 @@
 #import "Cells/XENDWidgetConfigurationNumberTableCell.h"
 #import "Cells/XENDWidgetConfigurationTextTableCell.h"
 #import "Cells/XENDWidgetConfigurationSliderTableCell.h"
+#import "Cells/XENDWidgetConfigurationOptionTableCell.h"
+
+#import "Panels/XENDWidgetConfigurationOptionsController.h"
 
 @interface XENDWidgetConfigurationPageController ()
 @property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
@@ -61,6 +64,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationNumberTableCell class] forCellReuseIdentifier:@"number"];
     [self.tableView registerClass:[XENDWidgetConfigurationTextTableCell class] forCellReuseIdentifier:@"text"];
     [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
+    [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
 }
 
 #pragma mark - Table view data source
@@ -110,6 +114,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
     
     XENDWidgetConfigurationGroup *group = [self.model.groups objectAtIndex:indexPath.section];
     XENDWidgetConfigurationCell *cell = [group.cells objectAtIndex:indexPath.row];
@@ -137,7 +142,17 @@
         } else if ([type isEqualToString:@"color"]) {
             // TODO: Setup Colour controller
         } else if ([type isEqualToString:@"option"]) {
-            // TODO: Setup Option controller
+            // Setup Option controller
+            
+            // Find the tableCell that is rendering this cell
+            XENDWidgetConfigurationBaseTableCell *visibleCell;
+            for (XENDWidgetConfigurationBaseTableCell *tableCell in [self.tableView visibleCells]) {
+                if (tableCell.cell == cell) {
+                    visibleCell = tableCell;
+                    break;
+                }
+            }
+            controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell];
         }
         
         if (controller) {
