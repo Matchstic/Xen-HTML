@@ -53,6 +53,9 @@
                                                 delegate:(id<XENDWidgetConfigurationDelegate>)delegate {
     NSMutableArray *cells = [NSMutableArray array];
     
+    NSArray *allowedKeyless = @[
+        @"page"
+    ];
     for (NSDictionary *dictionaryCell in items) {
         // Filter out unknown cell types
         NSString *type = [dictionaryCell objectForKey:@"type"];
@@ -76,7 +79,18 @@
         
         // Continue creating cell for this known type
         NSString *key = [dictionaryCell objectForKey:@"key"];
+        BOOL hasDefault = [dictionaryCell objectForKey:@"default"] != nil;
         id currentValue = nil;
+        
+        if (![allowedKeyless containsObject:type] && (!key || !hasDefault)) {
+            XENDWidgetConfigurationCell *unknownCell = [[XENDWidgetConfigurationCell alloc] initWithDictionary:@{
+                @"type": @"unknown",
+                @"text": @"Missing key or default"
+            } currentValue:nil delegate:nil];
+            [cells addObject:unknownCell];
+            
+            continue;
+        }
         
         if (key) {
             NSDictionary *currentValues = [delegate currentValues];
