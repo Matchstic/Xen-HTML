@@ -23,13 +23,6 @@
     return YES;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    // Do any additional setup after loading the view.
-    [self _loadSetupUI];
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return IS_IPAD ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskPortrait;
 }
@@ -66,9 +59,10 @@
         height = SCREEN_HEIGHT - topInset;
         width = SCREEN_WIDTH;
     }
-        
+    
     self.webView.frame = CGRectMake((SCREEN_WIDTH/2) - (width/2), SCREEN_HEIGHT - height - bottomInset, width, height);
         
+    // Fallback/error UI
     if (self.fallbackContainerView) {
         CGRect labelRect = [XENHResources boundedRectForFont:self.fallbackLabelView.font andText:self.fallbackLabelView.text width:width * 0.8];
         
@@ -83,18 +77,59 @@
         self.fallbackContainerView.frame = CGRectMake((SCREEN_WIDTH/2) - (width/2), SCREEN_HEIGHT - height - bottomInset, width, height);
     }
     
-    self.webView.scrollView.contentSize = self.webView.bounds.size;
+    self.webView.scrollView.contentSize = self.webView.frame.size;
+}
+
+- (void)loadFailureUI {
+    self.fallbackContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.fallbackContainerView.layer.cornerRadius = 12.5;
+    self.fallbackContainerView.clipsToBounds = YES;
+    
+    if (@available(iOS 13.0, *)) {
+        self.fallbackContainerView.backgroundColor = [UIColor systemGroupedBackgroundColor];
+    } else {
+        self.fallbackContainerView.backgroundColor = [UIColor whiteColor];
+    }
+    
+    [self.view addSubview:self.fallbackContainerView];
+    
+    self.fallbackLabelView = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.fallbackLabelView.text = @"Failed to load Setup UI for Xen HTML";
+    if (@available(iOS 13.0, *)) {
+        self.fallbackLabelView.textColor = [UIColor labelColor];
+    } else {
+        self.fallbackLabelView.textColor = [UIColor darkTextColor];
+    }
+    
+    self.fallbackLabelView.textAlignment = NSTextAlignmentCenter;
+    
+    [self.fallbackContainerView addSubview:self.fallbackLabelView];
+    
+    self.fallbackButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.fallbackButton.titleLabel.textColor = self.view.tintColor;
+    [self.fallbackButton setTitle:@"Dismiss" forState:UIControlStateNormal];
+    [self.fallbackButton addTarget:self action:@selector(_fallbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.fallbackContainerView addSubview:self.fallbackButton];
 }
 
 - (void)loadView {
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
     self.view.backgroundColor = [UIColor clearColor];
     
+    // Failsafe if the webview didn't load
+    [self loadFailureUI];
+    
     // Create webview if possible
     if ([self _setupUIPresent]) {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         WKUserContentController *userContentController = [[WKUserContentController alloc] init];
         [userContentController addScriptMessageHandler:self name:@"xenhtml"];
+        
+        NSString *content = @"window.onerror = function() { window.webkit.messageHandlers.xenhtml.postMessage(\"error\"); }";
+        WKUserScript *errorHandler = [[WKUserScript alloc] initWithSource:content injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+        
+        [userContentController addUserScript:errorHandler];
         
         config.userContentController = userContentController;
         config.requiresUserActionForMediaPlayback = NO;
@@ -116,38 +151,12 @@
         self.webView.scrollView.maximumZoomScale = 1.0;
         self.webView.scrollView.multipleTouchEnabled = YES;
         
+        self.webView.navigationDelegate = self;
+        
         [self.view addSubview:self.webView];
-    } else {
-        self.fallbackContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.fallbackContainerView.layer.cornerRadius = 12.5;
-        self.fallbackContainerView.clipsToBounds = YES;
         
-        if (@available(iOS 13.0, *)) {
-            self.fallbackContainerView.backgroundColor = [UIColor systemGroupedBackgroundColor];
-        } else {
-            self.fallbackContainerView.backgroundColor = [UIColor whiteColor];
-        }
-        
-        [self.view addSubview:self.fallbackContainerView];
-        
-        self.fallbackLabelView = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.fallbackLabelView.text = @"Failed to load Setup UI for Xen HTML";
-        if (@available(iOS 13.0, *)) {
-            self.fallbackLabelView.textColor = [UIColor labelColor];
-        } else {
-            self.fallbackLabelView.textColor = [UIColor darkTextColor];
-        }
-        
-        self.fallbackLabelView.textAlignment = NSTextAlignmentCenter;
-        
-        [self.fallbackContainerView addSubview:self.fallbackLabelView];
-        
-        self.fallbackButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        self.fallbackButton.titleLabel.textColor = self.view.tintColor;
-        [self.fallbackButton setTitle:@"Dismiss" forState:UIControlStateNormal];
-        [self.fallbackButton addTarget:self action:@selector(_fallbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.fallbackContainerView addSubview:self.fallbackButton];
+        // Do any additional setup after loading the view.
+        [self _loadSetupUI];
     }
 }
 
@@ -158,7 +167,7 @@
 
 - (NSString*)_setupUIPath {
 #if TARGET_IPHONE_SIMULATOR
-    return @"/<redacted>/index.html";
+    return @"/opt/simject/Library/Application Support/Xen HTML/Setup UI/index.html";
 #else
     return @"/Library/Application Support/Xen HTML/Setup UI/index.html";
 #endif
@@ -168,7 +177,6 @@
     if (![self _setupUIPresent]) return;
     
     NSString *path = [self _setupUIPath];
-    
     NSURL *url = [NSURL fileURLWithPath:path isDirectory:NO];
     
     if (url) {
@@ -186,6 +194,19 @@
     } else if ([message.name isEqualToString:@"xenhtml"] && [message.body isEqualToString:@"error"]) {
         [XENHSetupWindow finishSetupMode];
     }
+}
+
+#pragma mark WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    webView.userInteractionEnabled = NO;
+    webView.hidden = YES;
+}
+
+- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
+    // Disable the webview since it failed to load
+    webView.userInteractionEnabled = NO;
+    webView.hidden = YES;
 }
 
 @end

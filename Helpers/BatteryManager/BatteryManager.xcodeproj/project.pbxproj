@@ -310,6 +310,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_ZBatteryManager;
+				SDKROOT = iphoneos14.1;
 				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -347,6 +348,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../../lib";
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_ZBatteryManager;
+				SDKROOT = iphoneos14.1;
 				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";

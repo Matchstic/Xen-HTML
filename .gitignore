@@ -16,3 +16,5 @@ Deploy/Package/Library/Application Support/Xen HTML/Setup UI/*
 Deploy/Package/Library/LaunchDaemons/com.matchstic.widgetinfod.plist
 Deploy/Package/Library/Application Support/Widgets/libwidgetinfo.js
 Deploy/Package/usr/bin/widgetinfod
+Deploy/Package/Library/PreferenceBundles/XenHTMLPrefs.bundle/XenHTMLPrefs
+Helpers/WidgetInfo/WidgetInfo/WidgetInfo.mm

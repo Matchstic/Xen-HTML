@@ -741,6 +741,10 @@ void cancelIdleTimer() {
     if (@available(iOS 14, *)) {
         // do nothing -- needed to properly guard for availability
     } else {
+        if (!arg1) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/unlock" object:nil];
+        }
+        
         // Don't run on first lock
         if (![XENHResources hasSeenFirstUnlock]) return;
 
@@ -778,6 +782,8 @@ void cancelIdleTimer() {
     %orig;
     
     if (@available(iOS 14, *)) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/unlock" object:nil];
+        
         // Don't run on first lock
         if (![XENHResources hasSeenFirstUnlock]) return;
         
@@ -2475,27 +2481,6 @@ static BOOL launchCydiaForSource = NO;
     // Do initial settings loading
     [XENHResources reloadSettings];
     
-    // Show setup UI if needed
-    if (![XENHResources hasDisplayedSetupUI]) {
-        setupWindow = [XENHSetupWindow sharedInstance];
-        
-        setupWindow.hidden = NO;
-        [setupWindow makeKeyAndVisible];
-        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
-        
-        @try {
-            SBLockScreenManager *man = [objc_getClass("SBLockScreenManager") sharedInstance];
-            
-            if ([man respondsToSelector:@selector(setBioUnlockingDisabled:forRequester:)]) {
-                [man setBioUnlockingDisabled:YES forRequester:@"com.matchstic.xenhtml.setup"];
-            } else if ([man respondsToSelector:@selector(setBiometricAutoUnlockingDisabled:forReason:)]) {
-                [man setBiometricAutoUnlockingDisabled:YES forReason:@"com.matchstic.xenhtml.setup"];
-            }
-        } @catch (NSException *e) {
-            // wut.
-        }
-    }
-    
     /*
      * I can't believe I have to do this. There exists outdated versions of Xen HTML on pirate repos,
      * that cause serious issues for users on installation.
@@ -2539,20 +2524,16 @@ static BOOL launchCydiaForSource = NO;
     [XENHResources setHasSeenSpringBoardLaunch:YES];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"com.matchstic.xenhtml/seenSpringBoardLaunch" object:nil];
+    
+    // Observe unlock notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(_xenhtml_unlocked:)
+                                                   name:@"com.matchstic.xenhtml/unlock"
+                                                 object:nil];
 }
 
-%end
-
-@interface SBHomeScreenWindow : UIWindow
-@end
-
-%hook SBHomeScreenWindow
-
-- (void)becomeKeyWindow {
-    // Hooking here to do things just after the device is unlocked
-    
-    %orig;
-    
+%new
+- (void)_xenhtml_unlocked:(id)notification {
     // Launch Cydia to install from the official source
     if (launchCydiaForSource) {
         launchCydiaForSource = NO;
@@ -2581,6 +2562,15 @@ static BOOL launchCydiaForSource = NO;
             
             [XENHResources setHasAlertedForAddWidgets14];
         }
+    
+    // Show setup UI if needed
+    if (![XENHResources hasDisplayedSetupUI]) {
+        setupWindow = [XENHSetupWindow sharedInstance];
+        
+        setupWindow.hidden = NO;
+        [setupWindow makeKeyAndVisible];
+        setupWindow.frame = CGRectMake(0, 0, SCREEN_MIN_LENGTH, SCREEN_MAX_LENGTH);
+    }
 }
 
 %end
