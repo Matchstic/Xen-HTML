@@ -34,7 +34,7 @@
         
         if (@available(iOS 13.0, *)) {
             self.textField.textColor = [UIColor labelColor];
-            self.textField.backgroundColor = [UIColor systemGray5Color];
+            self.textField.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
         } else {
             self.textField.textColor = [UIColor darkTextColor];
             self.textField.backgroundColor = [UIColor colorWithWhite:(229.0 / 255.0) alpha:1.0];

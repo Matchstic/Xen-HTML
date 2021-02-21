@@ -174,7 +174,9 @@
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
     }
     
-    [self.popoverPresentationController presentViewController:navController animated:YES completion:nil];
+    [self.popoverPresentationController presentViewController:navController animated:YES completion:^{
+        navController.presentationController.presentedView.gestureRecognizers[0].enabled = NO;
+    }];
 }
 
 + (UIViewController*)_widgetSettingsControllerWithURL:(NSString*)widgetURL currentMetadata:(NSDictionary*)currentMetadata showCancel:(BOOL)showCancel andDelegate:(id<XENHHomescreenForegroundPickerDelegate>)delegate {

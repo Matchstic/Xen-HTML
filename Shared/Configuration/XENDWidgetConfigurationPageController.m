@@ -26,6 +26,7 @@
 #import "Cells/XENDWidgetConfigurationOptionTableCell.h"
 
 #import "Panels/XENDWidgetConfigurationOptionsController.h"
+#import "Panels/XENDWidgetConfigurationColorController.h"
 
 @interface XENDWidgetConfigurationPageController ()
 @property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
@@ -65,6 +66,9 @@
     [self.tableView registerClass:[XENDWidgetConfigurationTextTableCell class] forCellReuseIdentifier:@"text"];
     [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
     [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
+    
+    // DEBUG ONLY
+    [self.tableView registerClass:[XENDWidgetConfigurationBaseTableCell class] forCellReuseIdentifier:@"color"];
 }
 
 #pragma mark - Table view data source
@@ -140,7 +144,9 @@
         } else if ([type isEqualToString:@"location"]) {
             // TODO: Setup Location controller
         } else if ([type isEqualToString:@"color"]) {
-            // TODO: Setup Colour controller
+            
+            controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell];
+            
         } else if ([type isEqualToString:@"option"]) {
             // Setup Option controller
             

@@ -17,13 +17,13 @@
 */
 
 #import <UIKit/UIKit.h>
-#import "../XENDWidgetConfigurationDelegate.h"
-#import "../Cells/XENDWidgetConfigurationBaseTableCell.h"
+
+#import "MSColorPicker/MSColorView.h"
 #import "../Model/XENDWidgetConfigurationCell.h"
 
-@interface XENDWidgetConfigurationOptionsController : UITableViewController
+@interface XENDWidgetConfigurationColorController : UIViewController <MSColorViewDelegate>
 
-- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
-                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator;
+
+- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell;
 
 @end
