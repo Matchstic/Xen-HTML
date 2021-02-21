@@ -30,17 +30,19 @@
 @property (nonatomic, strong) UIView *splitter;
 @property (nonatomic, strong) UIColor *internalColour;
 @property (nonatomic, strong) XENDWidgetConfigurationCell *cell;
+@property (nonatomic, weak) XENDWidgetConfigurationBaseTableCell *initiator;
 
 @property (nonatomic, strong) UITextField *editingTextField;
 @end
 
 @implementation XENDWidgetConfigurationColorController
 
-- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell {
+- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell initiator:(XENDWidgetConfigurationBaseTableCell *)initiator {
     self = [super init];
     
     if (self) {
         self.cell = cell;
+        self.initiator = initiator;
         
         NSString *hexColour = cell.value;
         self.internalColour = MSColorFromHexString(hexColour);
@@ -146,6 +148,7 @@
     [self.cell setValue:hex];
     
     self.displayView.backgroundColor = color;
+    [self.initiator update];
 }
 
 #pragma mark - Keyboard handling
@@ -171,7 +174,7 @@
     UIScrollView *scrollView = (UIScrollView*)self.view;
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0,
                                                   0.0,
-                                                  kbSize.height + self.navigationController.navigationBar.bounds.size.height,
+                                                  kbSize.height,
                                                   0.0);
     
     scrollView.contentInset = contentInsets;

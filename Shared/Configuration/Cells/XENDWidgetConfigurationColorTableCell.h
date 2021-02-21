@@ -15,17 +15,8 @@
  with this program; if not, write to the Free Software Foundation, Inc.,
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+#import "XENDWidgetConfigurationBaseTableCell.h"
 
-#import <UIKit/UIKit.h>
-
-#import "MSColorPicker/MSColorView.h"
-#import "../Cells/XENDWidgetConfigurationBaseTableCell.h"
-#import "../Model/XENDWidgetConfigurationCell.h"
-
-@interface XENDWidgetConfigurationColorController : UIViewController <MSColorViewDelegate>
-
-
-- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
-                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator;
+@interface XENDWidgetConfigurationColorTableCell : XENDWidgetConfigurationBaseTableCell
 
 @end

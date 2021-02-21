@@ -24,6 +24,7 @@
 #import "Cells/XENDWidgetConfigurationTextTableCell.h"
 #import "Cells/XENDWidgetConfigurationSliderTableCell.h"
 #import "Cells/XENDWidgetConfigurationOptionTableCell.h"
+#import "Cells/XENDWidgetConfigurationColorTableCell.h"
 
 #import "Panels/XENDWidgetConfigurationOptionsController.h"
 #import "Panels/XENDWidgetConfigurationColorController.h"
@@ -66,9 +67,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationTextTableCell class] forCellReuseIdentifier:@"text"];
     [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
     [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
-    
-    // DEBUG ONLY
-    [self.tableView registerClass:[XENDWidgetConfigurationBaseTableCell class] forCellReuseIdentifier:@"color"];
+    [self.tableView registerClass:[XENDWidgetConfigurationColorTableCell class] forCellReuseIdentifier:@"color"];
 }
 
 #pragma mark - Table view data source
@@ -133,6 +132,15 @@
         // Lookup the page that needs to be pushed, and pass appropriate stuff to it
         UIViewController *controller = nil;
         
+        // Find the tableCell that is rendering this cell
+        XENDWidgetConfigurationBaseTableCell *visibleCell;
+        for (XENDWidgetConfigurationBaseTableCell *tableCell in [self.tableView visibleCells]) {
+            if (tableCell.cell == cell) {
+                visibleCell = tableCell;
+                break;
+            }
+        }
+        
         if ([type isEqualToString:@"page"]) {
             // New page, create new instance of current class with the right options
             NSString *title = cell.text;
@@ -144,20 +152,11 @@
         } else if ([type isEqualToString:@"location"]) {
             // TODO: Setup Location controller
         } else if ([type isEqualToString:@"color"]) {
-            
-            controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell];
+            // Setup colour controller
+            controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell initiator:visibleCell];
             
         } else if ([type isEqualToString:@"option"]) {
             // Setup Option controller
-            
-            // Find the tableCell that is rendering this cell
-            XENDWidgetConfigurationBaseTableCell *visibleCell;
-            for (XENDWidgetConfigurationBaseTableCell *tableCell in [self.tableView visibleCells]) {
-                if (tableCell.cell == cell) {
-                    visibleCell = tableCell;
-                    break;
-                }
-            }
             controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell];
         }
         

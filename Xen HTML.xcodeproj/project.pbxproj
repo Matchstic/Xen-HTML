@@ -95,6 +95,9 @@
 		C92015BA25E1B497009B4DBE /* XENDWidgetConfigurationColorController.h in Headers */ = {isa = PBXBuildFile; fileRef = C92015B825E1B497009B4DBE /* XENDWidgetConfigurationColorController.h */; };
 		C92015BB25E1B497009B4DBE /* XENDWidgetConfigurationColorController.m in Sources */ = {isa = PBXBuildFile; fileRef = C92015B925E1B497009B4DBE /* XENDWidgetConfigurationColorController.m */; };
 		C92015BC25E1B497009B4DBE /* XENDWidgetConfigurationColorController.m in Sources */ = {isa = PBXBuildFile; fileRef = C92015B925E1B497009B4DBE /* XENDWidgetConfigurationColorController.m */; };
+		C92015C425E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C92015C225E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h */; };
+		C92015C525E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92015C325E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m */; };
+		C92015C625E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C92015C325E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m */; };
 		C93A055220C48A72008D83CE /* XENHEditorExistingWidgetsController.h in Headers */ = {isa = PBXBuildFile; fileRef = C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */; };
 		C93A055320C48A72008D83CE /* XENHEditorExistingWidgetsController.m in Sources */ = {isa = PBXBuildFile; fileRef = C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */; };
 		C947756720715D150003D039 /* XENHFauxIconsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C947750120715D150003D039 /* XENHFauxIconsViewController.h */; };
@@ -418,6 +421,8 @@
 		C920159625E1B207009B4DBE /* MSThumbView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSThumbView.h; sourceTree = "<group>"; };
 		C92015B825E1B497009B4DBE /* XENDWidgetConfigurationColorController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationColorController.h; sourceTree = "<group>"; };
 		C92015B925E1B497009B4DBE /* XENDWidgetConfigurationColorController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationColorController.m; sourceTree = "<group>"; };
+		C92015C225E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationColorTableCell.h; sourceTree = "<group>"; };
+		C92015C325E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationColorTableCell.m; sourceTree = "<group>"; };
 		C93A055020C48A72008D83CE /* XENHEditorExistingWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHEditorExistingWidgetsController.h; sourceTree = "<group>"; };
 		C93A055120C48A72008D83CE /* XENHEditorExistingWidgetsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHEditorExistingWidgetsController.m; sourceTree = "<group>"; };
 		C93C30AF1BA72CA90037BA09 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1259,16 +1264,18 @@
 			children = (
 				C920149925E13E5A009B4DBE /* XENDWidgetConfigurationBaseTableCell.h */,
 				C920149A25E13E5A009B4DBE /* XENDWidgetConfigurationBaseTableCell.m */,
-				C920149C25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.h */,
-				C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */,
+				C92015C225E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h */,
+				C92015C325E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m */,
 				C920149F25E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.h */,
 				C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */,
-				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
-				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
-				C92014AE25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h */,
-				C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */,
 				C92014B325E18AF9009B4DBE /* XENDWidgetConfigurationOptionTableCell.h */,
 				C92014B425E18AF9009B4DBE /* XENDWidgetConfigurationOptionTableCell.m */,
+				C92014AE25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h */,
+				C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */,
+				C920149C25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.h */,
+				C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */,
+				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
+				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1333,6 +1340,7 @@
 				C92015B225E1B207009B4DBE /* MSColorWheelView.h in Headers */,
 				C94775B320715D160003D039 /* XENHLockscreenPreviewCell.h in Headers */,
 				C94775A920715D160003D039 /* XENHLockscreenPreferenceController.h in Headers */,
+				C92015C425E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h in Headers */,
 				C947759A20715D160003D039 /* XENHFauxLockViewController.h in Headers */,
 				C94775B120715D160003D039 /* XENHPreviewSliderCell.h in Headers */,
 				C947759E20715D160003D039 /* AYVibrantButton.h in Headers */,
@@ -1875,6 +1883,7 @@
 				C9715306236F8CC40021277B /* XENHHomescreenForegroundPickerCell.m in Sources */,
 				C92015BB25E1B497009B4DBE /* XENDWidgetConfigurationColorController.m in Sources */,
 				C9715304236F8CC40021277B /* XENHConfigJSController.m in Sources */,
+				C92015C525E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m in Sources */,
 				C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */,
 				C920159C25E1B207009B4DBE /* MSHSBView.m in Sources */,
 				C97152CA236F8CB30021277B /* XENHWidgetLayerController.m in Sources */,
@@ -1955,6 +1964,7 @@
 				C9479C4D248A979900D95773 /* XENHAdvancedController.m in Sources */,
 				C9B92AF9226CA92100CE6322 /* XENHSBForegroundController.m in Sources */,
 				C947759420715D160003D039 /* XENHResources.m in Sources */,
+				C92015C625E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m in Sources */,
 				C92014BD25E19B9D009B4DBE /* XENDWidgetConfigurationOptionsController.m in Sources */,
 				C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */,
 				C947759D20715D160003D039 /* AYVibrantButton.m in Sources */,
