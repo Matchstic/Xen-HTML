@@ -4,7 +4,7 @@
     --bottom-height: 62px;
     --horizontal-spacing: 12px;
     --color: #111;
-    --blue-color: rgb(10, 32, 255);
+    --button-color: rgb(10, 132, 255);
     --gray-color: rgb(99, 99, 102);
     --red-color: rgb(189, 0, 0);
     --border-color: rgba(68, 68, 68, 0.15);
@@ -14,10 +14,11 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --color: #eee;
-        --light-color: #ccc;
         --border-color: rgba(68, 68, 68, 0.55);
+        --button-color: rgb(255, 159, 10);
         --backdrop-background: rgba(50, 50, 50, 0.60);
         --red-color: rgb(255, 69, 58);
+        --gray-color: #ccc;
     }
 }
 
@@ -101,6 +102,7 @@ h6 {
 
 .reminder-item-overflow-label {
     font-weight: 500;
+    color: var(--button-color);
 }
 
 .reminder-item-toggle {
