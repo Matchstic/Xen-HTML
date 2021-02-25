@@ -307,15 +307,15 @@
         UIViewController *controller;
         
         if ([config objectForKey:@"options"]) {
-            // Setup
-            self.modernConfigWidgetValues = [[[self.webViewController getMetadata] objectForKey:@"options2"] mutableCopy];
-            
             controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:self title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
         } else if (error) {
             controller = [[XENDWidgetConfigurationPageController alloc] initWithBadConfigError:error delegate:self title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
         }
         
         if (controller) {
+            // Setup
+            self.modernConfigWidgetValues = [[[self.webViewController getMetadata] objectForKey:@"options2"] mutableCopy];
+            
             // Navigation controller to allow paging, and for navigation items
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
             if (IS_IPAD) {
