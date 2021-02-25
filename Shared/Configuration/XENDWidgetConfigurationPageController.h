@@ -25,4 +25,8 @@
                        delegate:(id<XENDWidgetConfigurationDelegate>)delegate
                           title:(NSString*)title;
 
+- (instancetype)initWithBadConfigError:(NSError*)error
+                              delegate:(id<XENDWidgetConfigurationDelegate>)delegate
+                                 title:(NSString*)title;
+
 @end

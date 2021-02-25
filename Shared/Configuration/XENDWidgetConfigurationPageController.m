@@ -54,6 +54,38 @@
     return self;
 }
 
+- (instancetype)initWithBadConfigError:(NSError*)error
+                              delegate:(id<XENDWidgetConfigurationDelegate>)delegate
+                                 title:(NSString*)title {
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    
+    if (self) {
+        self.delegate = delegate;
+        
+        NSString *reason = [error.userInfo objectForKey:NSDebugDescriptionErrorKey] ? [error.userInfo objectForKey:NSDebugDescriptionErrorKey] : error.localizedDescription;
+        NSString *message = [NSString stringWithFormat:@"There was an error parsing config.json. Make sure your JSON syntax is correct.\n\nTry running it through an online service that validates JSON.\n\nError: %@", reason];
+        
+        // Default empty model
+        NSArray *options = @[
+            @{
+                @"type": @"title",
+                @"text": @"JSON parse error"
+            },
+            @{
+                @"type": @"comment",
+                @"text": message
+            }
+        ];
+        
+        self.model = [[XENDWidgetConfigurationPage alloc] initWithOptions:options delegate:delegate];
+        
+        self.title = title;
+    }
+    
+    return self;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
         

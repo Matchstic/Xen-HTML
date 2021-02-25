@@ -196,13 +196,19 @@
         NSError *error;
         NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
         
+        UIViewController *controller;
+        
         if ([config objectForKey:@"options"]) {
             // Prep delegate for modern configuration mode
             NSDictionary *preexistingSettings = [currentMetadata objectForKey:@"options2"];
             [delegate onBeginModernConfiguration:widgetURL currentValues:preexistingSettings];
             
-            XENDWidgetConfigurationPageController *controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:delegate title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
-            
+            controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:delegate title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+        } else if (error) {
+            controller = [[XENDWidgetConfigurationPageController alloc] initWithBadConfigError:error delegate:delegate title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+        }
+        
+        if (controller) {
             // Add done button.
             UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:delegate action:@selector(onFinishModernConfiguration:)];
             [[controller navigationItem] setRightBarButtonItem:done];
