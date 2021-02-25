@@ -51,8 +51,7 @@
         if (!type) continue;
         
         if ([type isEqualToString:@"title"]) {
-            
-            if (groups.count > 0 && currentGroup.count > 0) {
+            if (currentGroup.count > 0) {
                 [groups addObject:currentGroup];
                 currentGroup = [NSMutableArray array];
             }
@@ -87,7 +86,7 @@
     NSMutableArray *modelGroups = [NSMutableArray array];
     for (NSArray *arrayGroup in groups) {
         XENDWidgetConfigurationGroup *modelGroup = [[XENDWidgetConfigurationGroup alloc] initWithArray:arrayGroup
-                                                                                              delegate:delegate];
+                 delegate:delegate];
         
         [modelGroups addObject:modelGroup];
     }
