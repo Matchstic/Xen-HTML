@@ -33,6 +33,8 @@
     id selectedItem = self.cell.value;
     NSArray *options = [self.cell.properties objectForKey:@"options"];
     
+    if (!options) options = @[];
+    
     // Find the currently selected item's title
     NSString *detail = @"";
     for (NSDictionary *item in options) {
