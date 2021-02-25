@@ -11,8 +11,7 @@ function onload() {
         const oneHour = 60 * 60 * 1000;
         api.reminders.fetch(Date.now() - oneHour, Date.now(), true).then((completed) => {
             try {
-                updateReminders([], []);
-                // updateReminders(newData.pending, completed);
+                updateReminders(newData.pending, completed);
             } catch (e) {
                 console.log(e)
             }
