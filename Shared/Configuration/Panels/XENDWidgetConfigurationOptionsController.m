@@ -26,10 +26,12 @@
 @implementation XENDWidgetConfigurationOptionsController
 
 - (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
-                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator {
+                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator
+                       title:(NSString*)title {
     self = [super initWithStyle:UITableViewStyleGrouped];
     
     if (self) {
+        self.title = title;
         self.cell = cell;
         self.initiator = initiator;
     }
@@ -41,6 +43,8 @@
     [super viewDidLoad];
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    
+    self.navigationItem.title = self.title;
 }
 
 #pragma mark - Table view data source

@@ -37,10 +37,13 @@
 
 @implementation XENDWidgetConfigurationColorController
 
-- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell initiator:(XENDWidgetConfigurationBaseTableCell *)initiator {
+- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
+                   initiator:(XENDWidgetConfigurationBaseTableCell *)initiator
+                       title:(NSString*)title {
     self = [super init];
     
     if (self) {
+        self.title = title;
         self.cell = cell;
         self.initiator = initiator;
         
@@ -60,6 +63,7 @@
     
     [self registerForKeyboardNotifications];
     
+    self.navigationItem.title = self.title;
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 

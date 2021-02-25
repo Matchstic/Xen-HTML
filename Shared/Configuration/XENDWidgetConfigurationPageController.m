@@ -68,6 +68,12 @@
     [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
     [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
     [self.tableView registerClass:[XENDWidgetConfigurationColorTableCell class] forCellReuseIdentifier:@"color"];
+    
+    // Workaround weird inset bugs in Homescreen
+    if ([[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
+    }
 }
 
 #pragma mark - Table view data source
@@ -141,9 +147,10 @@
             }
         }
         
+        NSString *title = cell.text;
+        
         if ([type isEqualToString:@"page"]) {
             // New page, create new instance of current class with the right options
-            NSString *title = cell.text;
             NSArray *options = [cell.properties objectForKey:@"options"];
             
             controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:options
@@ -153,11 +160,11 @@
             // TODO: Setup Location controller
         } else if ([type isEqualToString:@"color"]) {
             // Setup colour controller
-            controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell initiator:visibleCell];
+            controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell initiator:visibleCell title:title];
             
         } else if ([type isEqualToString:@"option"]) {
             // Setup Option controller
-            controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell];
+            controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell title:title];
         }
         
         if (controller) {

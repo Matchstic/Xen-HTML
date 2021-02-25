@@ -24,6 +24,7 @@
 @interface XENDWidgetConfigurationOptionsController : UITableViewController
 
 - (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
-                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator;
+                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator
+                       title:(NSString*)title;
 
 @end

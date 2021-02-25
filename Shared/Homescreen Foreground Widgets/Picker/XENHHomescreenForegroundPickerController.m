@@ -199,6 +199,12 @@
     
     // Configure table view's cell class.
     [self.tableView registerClass:[XENHHomescreenForegroundPickerCell class] forCellReuseIdentifier:REUSE];
+    
+    // Workaround weird inset bugs in Homescreen
+    if ([[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.tableView.contentInset = UIEdgeInsetsMake(self.navigationController.navigationBar.frame.size.height, 0, 0, 0);
+    }
 }
 
 - (NSArray*)_orderAlphabetically:(NSMutableArray*)array {

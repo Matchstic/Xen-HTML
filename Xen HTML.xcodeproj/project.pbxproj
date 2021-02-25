@@ -2794,7 +2794,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2816,7 +2815,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
@@ -2849,7 +2848,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2871,7 +2869,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
@@ -2904,7 +2902,6 @@
 					armv7s,
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2922,7 +2919,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
