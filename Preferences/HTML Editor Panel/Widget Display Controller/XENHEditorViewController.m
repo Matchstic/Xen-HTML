@@ -323,7 +323,9 @@
             [[controller navigationItem] setRightBarButtonItem:done];
             
             // Show controller.
-            [self.navigationController presentViewController:navController animated:YES completion:nil];
+            [self.navigationController presentViewController:navController animated:YES completion:^{
+                navController.presentationController.presentedView.gestureRecognizers[0].enabled = NO;
+            }];
             
             return;
         }

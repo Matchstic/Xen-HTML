@@ -67,6 +67,7 @@
     // UI comprises of a segmented control, and the selection views
     self.view = [[UIScrollView alloc] initWithFrame:CGRectZero];
     [(UIScrollView*)self.view setContentInset:UIEdgeInsetsZero];
+    [(UIScrollView*)self.view setDelegate:self];
     
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -169,10 +170,12 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    NSLog(@"%@", info);
     
     UIScrollView *scrollView = (UIScrollView*)self.view;
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0,
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(scrollView.contentInset.top,
                                                   0.0,
                                                   kbSize.height,
                                                   0.0);
@@ -202,6 +205,12 @@
 
 - (void)textFieldDidStartEditing:(NSNotification*)notification {
     self.editingTextField = [notification.userInfo objectForKey:@"field"];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.editingTextField && self.editingTextField.isFirstResponder) {
+        [self.editingTextField resignFirstResponder];
+    }
 }
 
 @end

@@ -176,6 +176,7 @@
 		C94F49D7237DB0B9004A74B0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C94F49E2237DB0B9004A74B0 /* XenHTML.mm in Sources */ = {isa = PBXBuildFile; fileRef = C94F49E1237DB0B9004A74B0 /* XenHTML.mm */; };
 		C94F49ED237DB10D004A74B0 /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; };
+		C95521E725E84FE600C28BCB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95521E625E84FE600C28BCB /* CoreImage.framework */; };
 		C9606EEB1C20E204006C8917 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9606EEA1C20E204006C8917 /* WebKit.framework */; };
 		C9672E941C1E6BFC009B9CF9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30CE1BA735490037BA09 /* UIKit.framework */; };
 		C9672E951C1E6C06009B9CF9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */; };
@@ -506,6 +507,7 @@
 		C94F49D6237DB0B9004A74B0 /* XenHTML_Loader.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_Loader.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C94F49E0237DB0B9004A74B0 /* XenHTML.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		C94F49E1237DB0B9004A74B0 /* XenHTML.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = XenHTML.mm; sourceTree = "<group>"; };
+		C95521E625E84FE600C28BCB /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.1.sdk/System/Library/Frameworks/CoreImage.framework; sourceTree = DEVELOPER_DIR; };
 		C9606EEA1C20E204006C8917 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		C96E4FFE2401F0BC00600A17 /* XENSetupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENSetupViewController.h; sourceTree = "<group>"; };
 		C96E4FFF2401F0BC00600A17 /* XENSetupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENSetupViewController.m; sourceTree = "<group>"; };
@@ -652,6 +654,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C95521E725E84FE600C28BCB /* CoreImage.framework in Frameworks */,
 				C9A17FCD207179CB0099FF1E /* libuaunbox.tbd in Frameworks */,
 				C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */,
 				C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */,
@@ -772,6 +775,7 @@
 		C93C30AE1BA72CA90037BA09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C95521E625E84FE600C28BCB /* CoreImage.framework */,
 				C97152B0236F8AB50021277B /* CoreGraphics.framework */,
 				C97152AE236F8AB00021277B /* WebKit.framework */,
 				C97152AC236F8AA80021277B /* libMobileGestalt.tbd */,
@@ -2790,6 +2794,7 @@
 					armv7s,
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2811,7 +2816,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
@@ -2844,6 +2849,7 @@
 					armv7s,
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2865,7 +2871,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;
@@ -2898,6 +2904,7 @@
 					armv7s,
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
@@ -2915,7 +2922,7 @@
 					/opt/iOSOpenDev/lib,
 					"$(PROJECT_DIR)/deps",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.matchstic.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = XenHTMLPrefs;

@@ -28,6 +28,8 @@
 #import "MSSliderView.h"
 #import "MSColorPicker.h"
 
+#import "XENHResources.h"
+
 extern CGFloat const MSRGBColorComponentMaxValue;
 
 @interface MSColorComponentView () <UITextFieldDelegate>
@@ -153,6 +155,22 @@ extern CGFloat const MSRGBColorComponentMaxValue;
     return [newString floatValue] <= _slider.maximumValue;
 }
 
+- (UIView*)keyboardDoneButton
+{
+    UIToolbar *keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"]
+                                                                   style:UIBarButtonItemStyleDone target:self
+                                                                  action:@selector(barButtonHitDone:)];
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flex, doneButton, nil]];
+    return keyboardDoneButtonView;
+}
+
+- (void)barButtonHitDone:(id)sender {
+    [_textField resignFirstResponder];
+}
+
 #pragma mark - Private methods
 
 - (void)ms_baseInit
@@ -181,6 +199,7 @@ extern CGFloat const MSRGBColorComponentMaxValue;
     [_textField setKeyboardType:UIKeyboardTypeDecimalPad];
     _textField.textAlignment = NSTextAlignmentCenter;
     _textField.layer.cornerRadius = 5;
+    _textField.inputAccessoryView = [self keyboardDoneButton];
     if (@available(iOS 13.0, *)) {
         _textField.font = [UIFont monospacedSystemFontOfSize:14 weight:UIFontWeightRegular];
         _textField.backgroundColor = [UIColor secondarySystemGroupedBackgroundColor];

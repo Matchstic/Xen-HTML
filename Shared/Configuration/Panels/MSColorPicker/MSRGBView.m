@@ -30,6 +30,8 @@
 #import "MSColorUtils.h"
 #import "MSColorPicker.h"
 
+#import "XENHResources.h"
+
 extern CGFloat const MSRGBColorComponentMaxValue;
 
 static NSUInteger const MSRGBColorComponentsSize = 3;
@@ -118,7 +120,9 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     _hexInputField.textAlignment = NSTextAlignmentCenter;
     _hexInputField.layer.cornerRadius = 5;
     _hexInputField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
+    _hexInputField.autocorrectionType = UITextAutocorrectionTypeNo;
     _hexInputField.placeholder = @"Hex";
+    _hexInputField.inputAccessoryView = [self keyboardDoneButton];
     
     if (@available(iOS 13.0, *)) {
         _hexInputField.font = [UIFont monospacedSystemFontOfSize:14 weight:UIFontWeightRegular];
@@ -277,6 +281,22 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     NSUInteger newLength = oldLength - rangeLength + replacementLength;
 
     return newLength <= 6;
+}
+
+- (UIView*)keyboardDoneButton
+{
+    UIToolbar *keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"]
+                                                                   style:UIBarButtonItemStyleDone target:self
+                                                                  action:@selector(barButtonHitDone:)];
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flex, doneButton, nil]];
+    return keyboardDoneButtonView;
+}
+
+- (void)barButtonHitDone:(id)sender {
+    [_hexInputField resignFirstResponder];
 }
 
 @end

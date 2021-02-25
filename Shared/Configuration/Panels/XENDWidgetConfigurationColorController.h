@@ -22,7 +22,7 @@
 #import "../Cells/XENDWidgetConfigurationBaseTableCell.h"
 #import "../Model/XENDWidgetConfigurationCell.h"
 
-@interface XENDWidgetConfigurationColorController : UIViewController <MSColorViewDelegate>
+@interface XENDWidgetConfigurationColorController : UIViewController <MSColorViewDelegate, UIScrollViewDelegate>
 
 
 - (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
