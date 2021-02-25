@@ -2513,7 +2513,6 @@
 				ARCHS = (
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2531,15 +2530,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e x86_64";
+				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2555,7 +2554,6 @@
 				ARCHS = (
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2572,15 +2570,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e x86_64";
+				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2596,7 +2594,6 @@
 				ARCHS = (
 					arm64,
 					arm64e,
-					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2613,15 +2610,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = YES;
+				SIMJECT = NO;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e x86_64";
+				VALID_ARCHS = "arm64 arm64e";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
