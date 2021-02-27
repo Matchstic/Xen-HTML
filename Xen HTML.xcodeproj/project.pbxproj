@@ -211,6 +211,9 @@
 		C971530C236F8CC40021277B /* XENSetupWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = C97152F5236F8CC30021277B /* XENSetupWindow.m */; };
 		C977C2DF245EEB8F001040FC /* XENHBaseListController.h in Headers */ = {isa = PBXBuildFile; fileRef = C977C2DD245EEB8F001040FC /* XENHBaseListController.h */; };
 		C977C2E0245EEB8F001040FC /* XENHBaseListController.m in Sources */ = {isa = PBXBuildFile; fileRef = C977C2DE245EEB8F001040FC /* XENHBaseListController.m */; };
+		C98E63CC25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C98E63CA25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h */; };
+		C98E63CD25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C98E63CB25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m */; };
+		C98E63CE25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C98E63CB25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m */; };
 		C992AB3D24730FAE00D7F27E /* XENHWidgetConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = C992AB3B24730FAE00D7F27E /* XENHWidgetConfiguration.h */; };
 		C992AB3E24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */; };
 		C992AB3F24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */; };
@@ -548,6 +551,8 @@
 		C977F14524795ACC00C963CD /* DenyInjection.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DenyInjection.xcodeproj; path = DenyInjection/DenyInjection.xcodeproj; sourceTree = "<group>"; };
 		C97FBD0A1BA8C86E00173993 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C97FBD0C1BA8C88000173993 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C98E63CA25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationTextShortCell.h; sourceTree = "<group>"; };
+		C98E63CB25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationTextShortCell.m; sourceTree = "<group>"; };
 		C992AB3B24730FAE00D7F27E /* XENHWidgetConfiguration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHWidgetConfiguration.h; sourceTree = "<group>"; };
 		C992AB3C24730FAE00D7F27E /* XENHWidgetConfiguration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHWidgetConfiguration.m; sourceTree = "<group>"; };
 		C99CDD721C0AC36D00761684 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -1242,6 +1247,8 @@
 				C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */,
 				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
 				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
+				C98E63CA25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h */,
+				C98E63CB25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1321,6 +1328,7 @@
 				C947758120715D150003D039 /* XENHEditorToolbarController.h in Headers */,
 				C9B92AF8226CA92100CE6322 /* XENHSBForegroundController.h in Headers */,
 				C947758520715D150003D039 /* XENHMoreReposCell.h in Headers */,
+				C98E63CC25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h in Headers */,
 				C947757E20715D150003D039 /* XENHConfigJSCell.h in Headers */,
 				C947757A20715D150003D039 /* XENHConfigJSController.h in Headers */,
 				C947757B20715D150003D039 /* XENHMetadataOptionsController.h in Headers */,
@@ -1816,6 +1824,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C92015B025E1B207009B4DBE /* MSRGBView.m in Sources */,
+				C98E63CD25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m in Sources */,
 				C92014BC25E19B9D009B4DBE /* XENDWidgetConfigurationOptionsController.m in Sources */,
 				C992AB3E24730FAE00D7F27E /* XENHWidgetConfiguration.m in Sources */,
 				C9715307236F8CC40021277B /* XENHPickerPreviewController.m in Sources */,
@@ -1880,6 +1889,7 @@
 				C92014A325E148F9009B4DBE /* XENDWidgetConfigurationCell.m in Sources */,
 				C92014A225E148F7009B4DBE /* XENDWidgetConfigurationPage.m in Sources */,
 				C947757D20715D150003D039 /* XENHConfigJSController.m in Sources */,
+				C98E63CE25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m in Sources */,
 				C947756A20715D150003D039 /* XENHFauxLockNotificationsController.m in Sources */,
 				C947758B20715D150003D039 /* XENHWallpaperViewController.m in Sources */,
 				C947759520715D160003D039 /* XENHRootController.m in Sources */,
