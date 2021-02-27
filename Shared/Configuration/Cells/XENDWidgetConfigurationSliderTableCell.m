@@ -125,6 +125,8 @@
     CGFloat width = self.bounds.size.width - (padding * 2);
     CGFloat height = 44.0;
     
+    self.contentView.frame = self.bounds;
+    
     // Figure out the accessoryWidth
     [(UILabel*)self.accessoryView sizeToFit];
     CGFloat accessoryWidth = MAX(self.accessoryView.frame.size.width, self.contentView.frame.size.width * 0.5);

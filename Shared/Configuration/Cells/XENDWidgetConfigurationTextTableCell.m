@@ -63,12 +63,17 @@
         
         // Swtup keyboard mode
         UIKeyboardType keyboardType = UIKeyboardTypeDefault;
+        UITextAutocapitalizationType autocapitalizationType = UITextAutocapitalizationTypeSentences;
         BOOL secureEntry = NO;
         if ([keyboardMode isEqualToString:@"email"]) {
             keyboardType = UIKeyboardTypeEmailAddress;
+            autocapitalizationType = UITextAutocapitalizationTypeNone;
         } else if ([keyboardMode isEqualToString:@"password"]) {
             secureEntry = YES;
+            autocapitalizationType = UITextAutocapitalizationTypeNone;
         }
+        
+        self.textField.autocapitalizationType = autocapitalizationType;
         
         self.textField.keyboardType = keyboardType;
         self.textField.secureTextEntry = secureEntry;
