@@ -33,6 +33,7 @@
         self.currentValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.currentValueLabel.text = @"";
         self.currentValueLabel.textAlignment = NSTextAlignmentRight;
+        self.currentValueLabel.userInteractionEnabled = NO;
         
         if (@available(iOS 13.0, *)) {
             self.currentValueLabel.font = [UIFont monospacedSystemFontOfSize:18 weight:UIFontWeightRegular];
@@ -56,6 +57,7 @@
         self.minLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.minLabel.font = [UIFont systemFontOfSize:12];
         self.minLabel.textAlignment = NSTextAlignmentLeft;
+        self.minLabel.userInteractionEnabled = NO;
         
         if (@available(iOS 13.0, *)) {
             self.minLabel.font = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
@@ -71,6 +73,7 @@
     if (!self.maxLabel) {
         self.maxLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.maxLabel.textAlignment = NSTextAlignmentRight;
+        self.maxLabel.userInteractionEnabled = NO;
         
         if (@available(iOS 13.0, *)) {
             self.maxLabel.textColor = [UIColor tertiaryLabelColor];
@@ -120,8 +123,11 @@
     
     CGFloat padding = self.textLabel.frame.origin.x;
     CGFloat width = self.bounds.size.width - (padding * 2);
-    CGFloat accessoryWidth = 51; // Equivalent to UISwitch
     CGFloat height = 44.0;
+    
+    // Figure out the accessoryWidth
+    [(UILabel*)self.accessoryView sizeToFit];
+    CGFloat accessoryWidth = MAX(self.accessoryView.frame.size.width, self.contentView.frame.size.width * 0.5);
     
     // Get min/max label width
     CGRect sliderLabelFrame = [XENHResources boundedRectForFont:self.maxLabel.font andText:self.maxLabel.text width:60];
