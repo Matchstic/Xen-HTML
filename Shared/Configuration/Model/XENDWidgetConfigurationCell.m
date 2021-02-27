@@ -34,7 +34,6 @@
         @"option",
         @"page",
         @"color",
-        @"location",
         @"unknown"
     ];
 }
