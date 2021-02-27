@@ -16,14 +16,14 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import "XENDWidgetConfigurationNumberTableCell.h"
+#import "XENDWidgetConfigurationTextShortCell.h"
 #import "XENHResources.h"
 
-@interface XENDWidgetConfigurationNumberTableCell ()
+@interface XENDWidgetConfigurationTextShortCell ()
 @property (nonatomic, strong) UITextField *textField;
 @end
 
-@implementation XENDWidgetConfigurationNumberTableCell
+@implementation XENDWidgetConfigurationTextShortCell
 
 - (void)setup {
     if (!self.textField) {
@@ -42,48 +42,33 @@
         
         self.textField.layer.cornerRadius = 5;
     
-        if (@available(iOS 13.0, *)) {
-            self.textField.font = [UIFont monospacedSystemFontOfSize:18 weight:UIFontWeightRegular];
-        } else {
-            // Fallback on earlier versions
-        }
         self.textField.returnKeyType = UIReturnKeyDone;
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        self.textField.keyboardType = UIKeyboardTypeDecimalPad;
+        self.textField.keyboardType = UIKeyboardTypeDefault;
         self.textField.inputAccessoryView = [self keyboardDoneButton];
         
         self.accessoryView = self.textField;
     }
     
-    NSNumber *currentValue = self.cell.value;
-    if (currentValue) {
-        self.textField.text = currentValue ? [NSString stringWithFormat:@"%@", currentValue] : @"0";
-    }
+    NSString *currentValue = self.cell.value;
+    self.textField.text = currentValue ? currentValue : @"";
+    
+    NSString *placeholder = [self.cell.properties objectForKey:@"placeholder"];
+    self.textField.placeholder = placeholder ? placeholder : @"Text";
 }
 
 - (void)barButtonHitReturn:(id)sender {
     if (!self.textField.text) {
-        self.textField.text = @"0";
+        self.textField.text = @"";
     }
     
-    [self.cell setValue:[self toNumber]];
+    [self.cell setValue:self.textField.text];
     [self.textField resignFirstResponder];
 }
 
-- (NSNumber*)toNumber {
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterDecimalStyle;
-    NSNumber *number = [formatter numberFromString:self.textField.text];
-    if (!number) {
-        number = @0;
-    }
-    
-    return number;
-}
-
 - (void)textFieldDidChange:(UITextField*)sender {
-    [self.cell setValue:[self toNumber]];
+    [self.cell setValue:self.textField.text];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -111,5 +96,6 @@
     CGFloat width = 51; // Equivalent to UISwitch
     self.accessoryView.frame = CGRectMake(self.bounds.size.width - width - padding, 6, width, self.bounds.size.height - 12);
 }
+
 
 @end

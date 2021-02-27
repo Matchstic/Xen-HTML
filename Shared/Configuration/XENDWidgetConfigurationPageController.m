@@ -22,6 +22,7 @@
 #import "Cells/XENDWidgetConfigurationSwitchTableCell.h"
 #import "Cells/XENDWidgetConfigurationNumberTableCell.h"
 #import "Cells/XENDWidgetConfigurationTextTableCell.h"
+#import "Cells/XENDWidgetConfigurationTextShortCell.h"
 #import "Cells/XENDWidgetConfigurationSliderTableCell.h"
 #import "Cells/XENDWidgetConfigurationOptionTableCell.h"
 #import "Cells/XENDWidgetConfigurationColorTableCell.h"
@@ -100,6 +101,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationSliderTableCell class] forCellReuseIdentifier:@"slider"];
     [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
     [self.tableView registerClass:[XENDWidgetConfigurationColorTableCell class] forCellReuseIdentifier:@"color"];
+    [self.tableView registerClass:[XENDWidgetConfigurationTextShortCell class] forCellReuseIdentifier:@"textShort"];
     
     // Workaround weird inset bugs in Homescreen
     if ([[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
@@ -122,8 +124,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     XENDWidgetConfigurationGroup *group = [[self.model groups] objectAtIndex:indexPath.section];
     XENDWidgetConfigurationCell *modelCell = [group.cells objectAtIndex:indexPath.row];
+    
+    NSString *type = modelCell.type;
+    if ([type isEqualToString:@"text"]) {
+        // Check the mode parameter if its a short mode cell
+        NSString *mode = [modelCell.properties objectForKey:@"mode"];
+        type = mode && [mode isEqualToString:@"short"] ? @"textShort" : @"text";
+    }
 
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:modelCell.type forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:type forIndexPath:indexPath];
     
     [(XENDWidgetConfigurationBaseTableCell*)cell configure:modelCell];
     
@@ -136,7 +145,15 @@
     XENDWidgetConfigurationGroup *group = [[self.model groups] objectAtIndex:indexPath.section];
     XENDWidgetConfigurationCell *cell = [group.cells objectAtIndex:indexPath.row];
     
-    BOOL isDoubleHeight = [cell.type isEqualToString:@"text"] || [cell.type isEqualToString:@"slider"];
+    BOOL isDoubleHeight = NO;
+    
+    if ([cell.type isEqualToString:@"text"]) {
+        // Check the mode parameter if its a short mode cell
+        NSString *mode = [cell.properties objectForKey:@"mode"];
+        isDoubleHeight = mode ? ![mode isEqualToString:@"short"] : YES;
+    } else if ([cell.type isEqualToString:@"slider"]) {
+        isDoubleHeight = YES;
+    }
     
     return 44.0 * (isDoubleHeight ? 2 : 1);
 }
