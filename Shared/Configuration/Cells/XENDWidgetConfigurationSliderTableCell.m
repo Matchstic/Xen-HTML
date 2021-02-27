@@ -61,9 +61,9 @@
         
         if (@available(iOS 13.0, *)) {
             self.minLabel.font = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
-            self.minLabel.textColor = [UIColor tertiaryLabelColor];
+            self.minLabel.textColor = [UIColor secondaryLabelColor];
         } else {
-            self.minLabel.textColor = [UIColor lightGrayColor];
+            self.minLabel.textColor = [UIColor grayColor];
             self.minLabel.font = [UIFont systemFontOfSize:12];
         }
         
@@ -76,10 +76,10 @@
         self.maxLabel.userInteractionEnabled = NO;
         
         if (@available(iOS 13.0, *)) {
-            self.maxLabel.textColor = [UIColor tertiaryLabelColor];
+            self.maxLabel.textColor = [UIColor secondaryLabelColor];
             self.maxLabel.font = [UIFont monospacedSystemFontOfSize:12 weight:UIFontWeightRegular];
         } else {
-            self.maxLabel.textColor = [UIColor lightGrayColor];
+            self.maxLabel.textColor = [UIColor grayColor];
             self.maxLabel.font = [UIFont systemFontOfSize:12];
         }
         
