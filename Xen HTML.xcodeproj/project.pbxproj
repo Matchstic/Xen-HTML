@@ -34,8 +34,6 @@
 /* Begin PBXBuildFile section */
 		C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99CDD721C0AC36D00761684 /* MessageUI.framework */; };
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
-		C9164376227A4F2D0078338F /* libpackageinfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9164331227A4ABF0078338F /* libpackageinfo.a */; };
-		C9164377227A4F350078338F /* libpackageinfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9164331227A4ABF0078338F /* libpackageinfo.a */; };
 		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
 		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
 		C9196E682256A4EE009C59CB /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
@@ -189,7 +187,6 @@
 		C97152A7236F8A7D0021277B /* AppSupport.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C91E103120A0726B00425BBC /* AppSupport.tbd */; };
 		C97152A8236F8A7D0021277B /* libsubstrate.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FC8207177680099FF1E /* libsubstrate.tbd */; };
 		C97152AA236F8A7D0021277B /* Preferences.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A17FCA207178680099FF1E /* Preferences.tbd */; };
-		C97152AB236F8A890021277B /* libpackageinfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9164331227A4ABF0078338F /* libpackageinfo.a */; };
 		C97152AD236F8AA80021277B /* libMobileGestalt.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C97152AC236F8AA80021277B /* libMobileGestalt.tbd */; };
 		C97152AF236F8AB00021277B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97152AE236F8AB00021277B /* WebKit.framework */; };
 		C97152B1236F8AB60021277B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C97152B0236F8AB50021277B /* CoreGraphics.framework */; };
@@ -243,20 +240,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C9164330227A4ABF0078338F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C9164320227A4A790078338F;
-			remoteInfo = libpackageinfo;
-		};
-		C9164374227A4F270078338F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C916431F227A4A790078338F;
-			remoteInfo = libpackageinfo;
-		};
 		C9400C0C2383003100EE5164 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C9B60546229347D10043581A /* BatteryManager.xcodeproj */;
@@ -379,7 +362,6 @@
 /* Begin PBXFileReference section */
 		C911F1D21C1E051300D4D582 /* XenHTML_9to12.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_9to12.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9164315227A49DD0078338F /* libGitHubIssues.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGitHubIssues.a; path = deps/libGitHubIssues.a; sourceTree = "<group>"; };
-		C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libpackageinfo.xcodeproj; path = deps/libpackageinfo/libpackageinfo.xcodeproj; sourceTree = SOURCE_ROOT; };
 		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
 		C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENHLSAdvancedController.m; sourceTree = "<group>"; };
 		C91C3A28209B488D0076182C /* XENHMultiplexWidgetsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHMultiplexWidgetsController.h; sourceTree = "<group>"; };
@@ -604,7 +586,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9715249236F87E60021277B /* libTweak (Shared).a in Frameworks */,
-				C9164377227A4F350078338F /* libpackageinfo.a in Frameworks */,
 				C9A17FC9207177680099FF1E /* libsubstrate.tbd in Frameworks */,
 				C9A17FC7207176E20099FF1E /* libMobileGestalt.tbd in Frameworks */,
 				C9CE628122624BC70019725D /* AppSupport.tbd in Frameworks */,
@@ -637,7 +618,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C97152AB236F8A890021277B /* libpackageinfo.a in Frameworks */,
 				C97152A6236F8A6D0021277B /* libTweak (Shared).a in Frameworks */,
 				C97152A7236F8A7D0021277B /* AppSupport.tbd in Frameworks */,
 				C97152A8236F8A7D0021277B /* libsubstrate.tbd in Frameworks */,
@@ -659,7 +639,6 @@
 				C9D025262017726C0079DCBE /* libMobileGestalt.tbd in Frameworks */,
 				C91E103220A0726C00425BBC /* AppSupport.tbd in Frameworks */,
 				C9A17FCB207178680099FF1E /* Preferences.tbd in Frameworks */,
-				C9164376227A4F2D0078338F /* libpackageinfo.a in Frameworks */,
 				C9D0252420176FE00079DCBE /* UIKit.framework in Frameworks */,
 				C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */,
 				C9F90F631C80B001008AB1D0 /* WebKit.framework in Frameworks */,
@@ -672,22 +651,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9164313227A48910078338F /* Dependencies */ = {
-			isa = PBXGroup;
-			children = (
-				C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */,
-			);
-			path = Dependencies;
-			sourceTree = "<group>";
-		};
-		C916432D227A4ABF0078338F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C9164331227A4ABF0078338F /* libpackageinfo.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C916A9A4209756F800CC9521 /* Advanced */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,7 +717,6 @@
 				C971523A236F86F10021277B /* Shared */,
 				C94774FF20715D150003D039 /* Preferences */,
 				C9B604E2229331AE0043581A /* Helpers */,
-				C9164313227A48910078338F /* Dependencies */,
 				C93C30AE1BA72CA90037BA09 /* Frameworks */,
 				C93C30AD1BA72CA90037BA09 /* Products */,
 			);
@@ -1484,7 +1446,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C9164375227A4F270078338F /* PBXTargetDependency */,
 			);
 			name = Preferences;
 			productName = XenHTMLPrefs;
@@ -1547,10 +1508,6 @@
 					ProjectRef = C977F14524795ACC00C963CD /* DenyInjection.xcodeproj */;
 				},
 				{
-					ProductGroup = C916432D227A4ABF0078338F /* Products */;
-					ProjectRef = C916432C227A4ABF0078338F /* libpackageinfo.xcodeproj */;
-				},
-				{
 					ProductGroup = C9B6050A229336600043581A /* Products */;
 					ProjectRef = C9B60509229336600043581A /* WebGL.xcodeproj */;
 				},
@@ -1572,13 +1529,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C9164331227A4ABF0078338F /* libpackageinfo.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libpackageinfo.a;
-			remoteRef = C9164330227A4ABF0078338F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C94A9F15241407CE0062CDCD /* XenHTML_WidgetInfo.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
@@ -1994,11 +1944,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C9164375227A4F270078338F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = libpackageinfo;
-			targetProxy = C9164374227A4F270078338F /* PBXContainerItemProxy */;
-		};
 		C9400C0D2383003100EE5164 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BatteryManager;

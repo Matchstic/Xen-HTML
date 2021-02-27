@@ -19,31 +19,9 @@
 #import <UIKit/UIKit.h>
 #import "XENHPickerItem.h"
 
-@interface PIPackage : NSObject
-@property(nonatomic, readonly) NSString *identifier;
-@property(nonatomic, readonly) NSString *name;
-@property(nonatomic, readonly) NSString *author;
-@property(nonatomic, readonly) NSString *version;
-@property(nonatomic, readonly) NSDate *installDate;
-@property(nonatomic, readonly) NSString *bundlePath;
-@property(nonatomic, readonly) NSString *libraryPath;
-+ (instancetype)packageForFile:(NSString *)filepath;
-@end
-
-@interface PIPackageCache : NSObject
-+ (instancetype)sharedCache;
-- (PIPackage *)packageForFile:(NSString *)filepath;
-@end
-
-@protocol XENHPickerCellDelegate2 <NSObject>
--(void)didClickScreenshotButton:(PIPackage*)package;
-@end
-
 @interface XENHPickerCell : UITableViewCell
-@property(nonatomic, strong) PIPackage *package;
 @property(nonatomic, strong) UILabel *filesystemName;
 @property(nonatomic, strong) UILabel *author;
-@property(nonatomic, strong) UILabel *packageName;
 @property(nonatomic, strong) UIImageView *screenshot;
 @property(nonatomic, strong) NSString *url;
 

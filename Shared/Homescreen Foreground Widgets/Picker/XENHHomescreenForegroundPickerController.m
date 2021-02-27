@@ -242,7 +242,7 @@
         thing = nil;
     }
     
-    return thing != nil ? 100.0 : 80.0;
+    return thing != nil ? 100.0 : 62.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
