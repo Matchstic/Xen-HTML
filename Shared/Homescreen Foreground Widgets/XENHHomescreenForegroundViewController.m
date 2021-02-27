@@ -202,13 +202,9 @@
             // Prep delegate for modern configuration mode
             NSDictionary *preexistingSettings = [currentMetadata objectForKey:@"options2"];
             
-            preexistingSettings = nil;
-            
             if (!preexistingSettings) {
                 NSString *configIndexPath = [path stringByAppendingFormat:@"/index.html"];
                 preexistingSettings = [XENHWidgetConfiguration defaultConfigurationForPath:configIndexPath].optionsModern;
-                
-                NSLog(@"%@", preexistingSettings);
             }
             
             [delegate onBeginModernConfiguration:widgetURL currentValues:preexistingSettings];
