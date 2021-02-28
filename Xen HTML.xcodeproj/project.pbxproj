@@ -33,6 +33,9 @@
 
 /* Begin PBXBuildFile section */
 		C90013CB1CB0ADE200BDDA06 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C99CDD721C0AC36D00761684 /* MessageUI.framework */; };
+		C9085BED25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.h in Headers */ = {isa = PBXBuildFile; fileRef = C9085BEB25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.h */; };
+		C9085BEE25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9085BEC25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m */; };
+		C9085BEF25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9085BEC25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m */; };
 		C911F1D31C1E051300D4D582 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C93C30AF1BA72CA90037BA09 /* Foundation.framework */; };
 		C916A9A72097571C00CC9521 /* XENHLSAdvancedController.h in Headers */ = {isa = PBXBuildFile; fileRef = C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */; };
 		C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */ = {isa = PBXBuildFile; fileRef = C916A9A62097571C00CC9521 /* XENHLSAdvancedController.m */; };
@@ -363,6 +366,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C9085BEB25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENDWidgetConfigurationLinkTableCell.h; sourceTree = "<group>"; };
+		C9085BEC25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XENDWidgetConfigurationLinkTableCell.m; sourceTree = "<group>"; };
 		C911F1D21C1E051300D4D582 /* XenHTML_9to12.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = XenHTML_9to12.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9164315227A49DD0078338F /* libGitHubIssues.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGitHubIssues.a; path = deps/libGitHubIssues.a; sourceTree = "<group>"; };
 		C916A9A52097571C00CC9521 /* XENHLSAdvancedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XENHLSAdvancedController.h; sourceTree = "<group>"; };
@@ -1237,6 +1242,8 @@
 				C920149A25E13E5A009B4DBE /* XENDWidgetConfigurationBaseTableCell.m */,
 				C92015C225E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.h */,
 				C92015C325E1EBD1009B4DBE /* XENDWidgetConfigurationColorTableCell.m */,
+				C9085BEB25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.h */,
+				C9085BEC25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m */,
 				C920149F25E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.h */,
 				C92014A025E14050009B4DBE /* XENDWidgetConfigurationNumberTableCell.m */,
 				C92014B325E18AF9009B4DBE /* XENDWidgetConfigurationOptionTableCell.h */,
@@ -1245,10 +1252,10 @@
 				C92014AF25E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.m */,
 				C920149C25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.h */,
 				C920149D25E13EE7009B4DBE /* XENDWidgetConfigurationSwitchTableCell.m */,
-				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
-				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
 				C98E63CA25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.h */,
 				C98E63CB25EA83CA007388D7 /* XENDWidgetConfigurationTextShortCell.m */,
+				C92014A925E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.h */,
+				C92014AA25E1624B009B4DBE /* XENDWidgetConfigurationTextTableCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1323,6 +1330,7 @@
 				C947758320715D150003D039 /* XENHRootController.h in Headers */,
 				C94775A120715D160003D039 /* XENHPickerController.h in Headers */,
 				C92014B025E17449009B4DBE /* XENDWidgetConfigurationSliderTableCell.h in Headers */,
+				C9085BED25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.h in Headers */,
 				C92015BA25E1B497009B4DBE /* XENDWidgetConfigurationColorController.h in Headers */,
 				C92014BB25E19B9D009B4DBE /* XENDWidgetConfigurationOptionsController.h in Headers */,
 				C947758120715D150003D039 /* XENHEditorToolbarController.h in Headers */,
@@ -1861,6 +1869,7 @@
 				C92015A325E1B207009B4DBE /* MSColorWheelView.m in Sources */,
 				C92014B625E18AF9009B4DBE /* XENDWidgetConfigurationOptionTableCell.m in Sources */,
 				C9DBDBBD244CECF3009E855E /* XENHPickerItem.m in Sources */,
+				C9085BEE25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m in Sources */,
 				C97152D7236F8CBD0021277B /* XENHTouchPassThroughView.m in Sources */,
 				C97152D5236F8CBC0021277B /* XENHTouchForwardingRecognizer.m in Sources */,
 				C9715308236F8CC40021277B /* XENHHomescreenForegroundPickerController.m in Sources */,
@@ -1943,6 +1952,7 @@
 				C94775AF20715D160003D039 /* XENHBasePreviewCell.m in Sources */,
 				C94775AE20715D160003D039 /* XENHHomescreenPreviewCell.m in Sources */,
 				C92015B125E1B207009B4DBE /* MSRGBView.m in Sources */,
+				C9085BEF25EBD3470042723F /* XENDWidgetConfigurationLinkTableCell.m in Sources */,
 				C947759720715D160003D039 /* XENHSupportController.m in Sources */,
 				C916A9A82097571C00CC9521 /* XENHLSAdvancedController.m in Sources */,
 				C94775B420715D160003D039 /* XENHHomescreenPreferenceController.m in Sources */,
@@ -2468,6 +2478,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2485,15 +2496,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2509,6 +2520,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2525,15 +2537,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;
@@ -2549,6 +2561,7 @@
 				ARCHS = (
 					arm64,
 					arm64e,
+					x86_64,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -2565,15 +2578,15 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/lib/**";
 				LLVM_LTO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-Wl,-segalign,4000";
 				PRODUCT_NAME = XenHTML_13;
 				SDKROOT = iphoneos14.1;
-				SIMJECT = NO;
+				SIMJECT = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				THEOS = /opt/theos;
-				VALID_ARCHS = "arm64 arm64e";
+				VALID_ARCHS = "arm64 arm64e x86_64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
 				iOSOpenDevInstallOnAnyBuild = NO;

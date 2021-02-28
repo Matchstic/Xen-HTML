@@ -93,7 +93,7 @@
     [super layoutSubviews];
     
     CGFloat padding = self.textLabel.frame.origin.x;
-    CGFloat width = 51; // Equivalent to UISwitch
+    CGFloat width = 102;
     self.accessoryView.frame = CGRectMake(self.bounds.size.width - width - padding, 6, width, self.bounds.size.height - 12);
 }
 

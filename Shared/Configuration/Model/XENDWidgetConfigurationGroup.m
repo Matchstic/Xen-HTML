@@ -54,7 +54,8 @@
     NSMutableArray *cells = [NSMutableArray array];
     
     NSArray *allowedKeyless = @[
-        @"page"
+        @"page",
+        @"link"
     ];
     for (NSDictionary *dictionaryCell in items) {
         // Filter out unknown cell types

@@ -34,22 +34,16 @@
         
         if (@available(iOS 13.0, *)) {
             self.textField.textColor = [UIColor labelColor];
-            self.textField.backgroundColor = [UIColor tertiarySystemGroupedBackgroundColor];
         } else {
             self.textField.textColor = [UIColor darkTextColor];
-            self.textField.backgroundColor = [UIColor colorWithWhite:(229.0 / 255.0) alpha:1.0];
         }
         
-        self.textField.layer.cornerRadius = 5;
+        self.textField.backgroundColor = [UIColor clearColor];
 
         self.textField.returnKeyType = UIReturnKeyDone;
         self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.textField.inputAccessoryView = [self keyboardDoneButton];
-        
-        // Left padding
-        self.textField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 6, 44)];
-        self.textField.leftViewMode = UITextFieldViewModeAlways;
         
         [self.contentView addSubview:self.textField];
     }
@@ -115,11 +109,10 @@
     [super layoutSubviews];
     
     CGFloat padding = self.textLabel.frame.origin.x;
-    CGFloat width = self.bounds.size.width - (padding * 2);
     CGFloat height = 44.0;
     
     self.textLabel.frame = CGRectMake(padding, 0, self.bounds.size.width - (padding * 2), height);
-    self.textField.frame = CGRectMake(padding, height, width, height - 12);
+    self.textField.frame = CGRectMake(padding, height, self.bounds.size.width - padding, 32.0);
 }
 
 @end

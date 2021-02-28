@@ -26,6 +26,7 @@
 #import "Cells/XENDWidgetConfigurationSliderTableCell.h"
 #import "Cells/XENDWidgetConfigurationOptionTableCell.h"
 #import "Cells/XENDWidgetConfigurationColorTableCell.h"
+#import "Cells/XENDWidgetConfigurationLinkTableCell.h"
 
 #import "Panels/XENDWidgetConfigurationOptionsController.h"
 #import "Panels/XENDWidgetConfigurationColorController.h"
@@ -102,6 +103,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationOptionTableCell class] forCellReuseIdentifier:@"option"];
     [self.tableView registerClass:[XENDWidgetConfigurationColorTableCell class] forCellReuseIdentifier:@"color"];
     [self.tableView registerClass:[XENDWidgetConfigurationTextShortCell class] forCellReuseIdentifier:@"textShort"];
+    [self.tableView registerClass:[XENDWidgetConfigurationLinkTableCell class] forCellReuseIdentifier:@"link"];
     
     // Workaround weird inset bugs in Homescreen
     if ([[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
@@ -145,17 +147,21 @@
     XENDWidgetConfigurationGroup *group = [[self.model groups] objectAtIndex:indexPath.section];
     XENDWidgetConfigurationCell *cell = [group.cells objectAtIndex:indexPath.row];
     
-    BOOL isDoubleHeight = NO;
+    CGFloat extra = 0.0;
     
     if ([cell.type isEqualToString:@"text"]) {
         // Check the mode parameter if its a short mode cell
         NSString *mode = [cell.properties objectForKey:@"mode"];
-        isDoubleHeight = mode ? ![mode isEqualToString:@"short"] : YES;
+        BOOL isBig = mode ? ![mode isEqualToString:@"short"] : YES;
+        
+        extra = isBig ? 40.0 : 0.0;
     } else if ([cell.type isEqualToString:@"slider"]) {
-        isDoubleHeight = YES;
+        extra = 44.0;
+    } else if ([cell.type isEqualToString:@"link"]) {
+        extra = 22.0;
     }
     
-    return 44.0 * (isDoubleHeight ? 2 : 1);
+    return 44.0 + extra;
 }
 
 // Footer for group - a 'comment' type cell in the underlying JSON structure
@@ -181,7 +187,8 @@
     BOOL isSegueAction = [type isEqualToString:@"page"] ||
                             [type isEqualToString:@"location"] ||
                             [type isEqualToString:@"color"] ||
-                            [type isEqualToString:@"option"];
+                            [type isEqualToString:@"option"] ||
+                            [type isEqualToString:@"link"];
     
     if (isSegueAction) {
         // Lookup the page that needs to be pushed, and pass appropriate stuff to it
@@ -214,6 +221,14 @@
         } else if ([type isEqualToString:@"option"]) {
             // Setup Option controller
             controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell title:title];
+        } else if ([type isEqualToString:@"link"]) {
+            // Open link, don't create a controller
+            
+            NSString *urlString = [cell.properties objectForKey:@"url"];
+            if (urlString) {
+                NSURL *url = [NSURL URLWithString:urlString];
+                [[UIApplication sharedApplication] openURL:url];
+            }
         }
         
         if (controller) {
