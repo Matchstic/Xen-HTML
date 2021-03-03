@@ -87,4 +87,7 @@ typedef enum : NSUInteger {
 
 + (BOOL)isCurrentDeviceD22;
 
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath;
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath;
+
 @end

@@ -12,6 +12,9 @@
 "BACK" = "Indietro";
 "ERROR" = "Errore";
 
+"YES" = "Sì";
+"NO" = "No";
+
 "ROOT_SHARE_TEXT" = "Sto usando Xen HTML per eseguire widget HTML sulla mia dchermata di blocco e sulla schermata home! Dai un'occhiata in Cydia:";
 
 "MORE_REPOS_TITLE" = "Repositories addizionali";

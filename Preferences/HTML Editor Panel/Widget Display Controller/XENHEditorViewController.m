@@ -77,6 +77,9 @@
         // Hide master of the master-detail panes
         [self setRootSplitViewMasterHidden:YES];
     }
+    
+    // Prompt restoration if possible
+    [self promptRestorableIfNecessary];
 }
 
 // Hide navigation bar
@@ -250,6 +253,7 @@
     // Save changes, then pop controller off stack
     
     [self _saveData];
+    [self saveRestorableIfPossible];
     [self _popSelfOffNavigationalStack];
 }
 
@@ -285,6 +289,13 @@
     }
     
     [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata isNewWidget:self.isNewWidget];
+}
+
+- (void)saveRestorableIfPossible {
+    if ([[self.webViewController getMetadata] objectForKey:@"options2"]) {
+        NSDictionary *restorableOptions = [[self.webViewController getMetadata] objectForKey:@"options2"];
+        [XENHResources saveRestorableOptions:restorableOptions forPath:[self.webViewController getCurrentWidgetURL]];
+    }
 }
 
 - (void)_popSelfOffNavigationalStack {
@@ -701,6 +712,44 @@
     
     UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
     [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+
+#pragma mark Restorable options
+
+- (void)promptRestorableIfNecessary {
+    NSDictionary *restorableOptions = [XENHResources restorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
+    if (restorableOptions) {
+        NSString *title = [XENHResources localisedStringForKey:@"RESTORABLE_TITLE"];
+        NSString *message = [XENHResources localisedStringForKey:@"RESTORABLE_MESSAGE"];
+        
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                            message:message
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"YES"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            // Update existing options with the restorable state
+            NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+            if (!mutableMetadata) {
+                mutableMetadata = [NSMutableDictionary dictionary];
+            }
+            
+            [mutableMetadata setObject:restorableOptions forKey:@"options2"];
+            
+            [self.webViewController setMetadata:mutableMetadata reloadingWebView:YES];
+            [self.positioningController updatePositioningView:self.webViewController.webView];
+            
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [controller addAction:cancelAction];
+        [controller addAction:okAction];
+        
+        UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+        [rootController presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 @end

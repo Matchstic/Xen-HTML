@@ -4,6 +4,8 @@
     "DONATE_ADDRESS_COPIED" = "地址已經被複製到黏貼版上！";
     "DONE" = "完成";
     "ERROR" = "錯誤";
+    "YES" = "是的";
+    "NO" = "不";
     "MORE_REPOS_ADD_TO_CYDIA" = "要在Cydia中新增此軟體源嗎？";
     "MORE_REPOS_CONTACTING_SERVER" = "聯絡伺服器中...";
     "MORE_REPOS_OPEN_IN_CYDIA" = "要在Cydia中開啟此軟體源嗎？";

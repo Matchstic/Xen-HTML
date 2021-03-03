@@ -4,6 +4,8 @@
     "DONATE_ADDRESS_COPIED" = "تم نسخ العنوان الى الحافظة";
     "DONE" = "تم";
     "ERROR" = "خطأ";
+    "YES" = "نعم";
+    "NO" = "لا";
     "MORE_REPOS_ADD_TO_CYDIA" = "اضافة هذا السورس؟";
     "MORE_REPOS_CONTACTING_SERVER" = "الاتصال بالخادم...";
     "MORE_REPOS_OPEN_IN_CYDIA" = "فتح هذا السورس في السيديا؟";

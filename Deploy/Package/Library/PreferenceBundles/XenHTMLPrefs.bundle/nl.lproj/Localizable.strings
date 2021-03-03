@@ -12,6 +12,9 @@
 "BACK" = "Terug";
 "ERROR" = "Error";
 
+"YES" = "Ja";
+"NO" = "Nee";
+
 "ROOT_SHARE_TEXT" = "Ik gebruik Xen HTML om HTML widgets op mijn vergrendelscherm en/of mijn thuisscherm te gebruiken! Kijk maar eens op Cydia:";
 
 "MORE_REPOS_TITLE" = "Andere repo's";

@@ -4,6 +4,8 @@
     "DONATE_ADDRESS_COPIED" = "O endereço foi copiado para a área de transferência!";
     "DONE" = "Feito";
     "ERROR" = "Erro";
+    "YES" = "Sim";
+    "NO" = "Não";
     "MORE_REPOS_ADD_TO_CYDIA" = "Adicionar esta repo ao Cydia?";
     "MORE_REPOS_CONTACTING_SERVER" = "Entrando em contato com o servidor...";
     "MORE_REPOS_OPEN_IN_CYDIA" = "Abrir esta repo no Cydia?";

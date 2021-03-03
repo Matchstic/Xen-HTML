@@ -4,6 +4,8 @@
     "DONATE_ADDRESS_COPIED" = "Адрес был скопирован в буфер обмена!";
     "DONE" = "Готово";
     "ERROR" = "Ошибка";
+    "YES" = "да";
+    "NO" = "Нет";
     "MORE_REPOS_ADD_TO_CYDIA" = "Добавить репозиторий в Cydia?";
     "MORE_REPOS_CONTACTING_SERVER" = "Подключение к серверу...";
     "MORE_REPOS_OPEN_IN_CYDIA" = "Открыть репозиторий в Cydia?";

@@ -325,4 +325,22 @@ static int mainVariant = 0;
     ];
 }
 
+#pragma mark Preferences restoration
+
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath {
+    NSDictionary *restorable = [self getPreferenceKey:@"restorable"];
+    if (!restorable) return nil;
+    
+    return [restorable objectForKey:widgetPath];
+}
+
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
+    if (!restorable) restorable = [NSMutableDictionary dictionary];
+    
+    [restorable setObject:options forKey:widgetPath];
+    
+    [self setPreferenceKey:@"restorable" withValue:restorable];
+}
+
 @end

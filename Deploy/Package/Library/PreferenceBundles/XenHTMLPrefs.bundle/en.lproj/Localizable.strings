@@ -12,6 +12,9 @@
 "BACK" = "Back";
 "ERROR" = "Error";
 
+"YES" = "Yes";
+"NO" = "No";
+
 "ROOT_SHARE_TEXT" = "I'm using Xen HTML to run HTML widgets on my Lockscreen and Homescreen! Check it out on Cydia:";
 
 "MORE_REPOS_TITLE" = "Additional Repositories";
@@ -72,6 +75,9 @@
 "OVERWRITE_MODE_WARNING" = "This will overwrite the default configuration of this widget with your changes.\n\nYou only need to do this if you want to re-export this widget with your own configuration.\n\nAre you sure you want to continue?";
 "OVERWRITE_MODE_FAILED" = "Failed to overwrite default configuration.\n\nThis likely is caused by incorrect permissions on this widget.\n\nXen HTML will automatically fix this if you reinstall the tweak.";
 "OVERWRITE_MODE_SUCCESS" = "The default configuration has been overwritten.";
+
+"RESTORABLE_TITLE" = "Restore Settings";
+"RESTORABLE_MESSAGE" = "Would you like to restore the configuration from when you last used this widget?";
 
 /* TWEAK */
 

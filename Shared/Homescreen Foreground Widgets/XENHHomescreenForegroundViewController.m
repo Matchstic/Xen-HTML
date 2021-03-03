@@ -456,6 +456,7 @@
 
 - (void)onFinishModernConfiguration:(id)sender {
     [self didChooseWidget:self.modernConfigWidgetURL withMetadata:self.modernConfigWidgetValues fallbackState:NO optionsName:@"options2"];
+    [XENHResources saveRestorableOptions:self.modernConfigWidgetValues forPath:self.modernConfigWidgetURL];
 }
 
 - (void)onBeginModernConfiguration:(NSString*)widgetPath currentValues:(NSDictionary*)values {

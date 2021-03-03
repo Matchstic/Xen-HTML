@@ -315,21 +315,59 @@
         // Set widgetURL, and delegate on whatever settings controller is used, since that
         // is used to end the picker flow
         
-        // Fetch default metadata for this widget
-        NSDictionary *defaultMetadata = [[XENHWidgetConfiguration defaultConfigurationForPath:url] serialise];
-        
-        UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:url currentMetadata:defaultMetadata showCancel:NO  andDelegate:self.delegate];
-        [self.navigationController pushViewController:settings animated:YES];
-        
-        UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"BACK"]
-                                                                          style:UIBarButtonItemStylePlain
-                                                                         target:nil
-                                                                         action:nil];
-        [[self navigationItem] setBackBarButtonItem:newBackButton];
+        [self promptRestorableIfNecessary:url :^(NSDictionary *metadata) {
+            UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:url currentMetadata:metadata showCancel:NO  andDelegate:self.delegate];
+            [self.navigationController pushViewController:settings animated:YES];
+            
+            UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"BACK"]
+                                                                              style:UIBarButtonItemStylePlain
+                                                                             target:nil
+                                                                             action:nil];
+            [[self navigationItem] setBackBarButtonItem:newBackButton];
+        }];
         
         // Later on for editing an existing widget, make sure to strip off the :N as needed
         // before passing to the appropriate settings controller.
         // See XENHWidgetController's configureWithWidgetIndexFile:andMetadata:
+    }
+}
+
+- (void)promptRestorableIfNecessary:(NSString*)url :(void(^)(NSDictionary *metadata))completion {
+    NSDictionary *defaultMetadata = [[XENHWidgetConfiguration defaultConfigurationForPath:url] serialise];
+    
+    NSDictionary *restorableOptions = [XENHResources restorableOptionsForPath:url];
+    if (restorableOptions) {
+        NSString *title = [XENHResources localisedStringForKey:@"RESTORABLE_TITLE"];
+        NSString *message = [XENHResources localisedStringForKey:@"RESTORABLE_MESSAGE"];
+        
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                            message:message
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"YES"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            // Update existing options with the restorable state
+            
+            NSMutableDictionary *mutableMetadata = [defaultMetadata mutableCopy];
+            if (!mutableMetadata) {
+                mutableMetadata = [NSMutableDictionary dictionary];
+            }
+            
+            [mutableMetadata setObject:restorableOptions forKey:@"options2"];
+            
+            completion(mutableMetadata);
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            completion(defaultMetadata);
+        }];
+        
+        [controller addAction:cancelAction];
+        [controller addAction:okAction];
+        
+        [self presentViewController:controller animated:YES completion:nil];
+    } else {
+        completion(defaultMetadata);
     }
 }
 

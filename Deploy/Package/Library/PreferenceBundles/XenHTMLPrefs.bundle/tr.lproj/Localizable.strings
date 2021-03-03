@@ -4,6 +4,8 @@
     "DONATE_ADDRESS_COPIED" = "Adres panoya kopyalandı!";
     "DONE" = "Tamam";
     "ERROR" = "Hata";
+    "YES" = "Evet";
+    "NO" = "Hayır";
     "MORE_REPOS_ADD_TO_CYDIA" = "Cydia da Bu Repo Eklensinmi?";
     "MORE_REPOS_CONTACTING_SERVER" = "Server’a Bağlanıyor...";
     "MORE_REPOS_OPEN_IN_CYDIA" = "Cydia’da Bu Repo Açılsınmı?";

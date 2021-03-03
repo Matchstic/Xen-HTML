@@ -3,13 +3,15 @@
 "DONATE_ADDRESS_COPIED" = "Alamat telah disalin ke papan klip!";
 "DONE" = "Selesai";
 "ERROR" = "Ralat";
+"YES" = "Ya";
+"NO" = "Tidak";
 "MORE_REPOS_ADD_TO_CYDIA" = "Tambah repo ini ke Cydia?";
 "MORE_REPOS_CONTACTING_SERVER" = "Menghubungi pelayan ...";
 "MORE_REPOS_OPEN_IN_CYDIA" = "Buka repo ini di Cydia?";
 "MORE_REPOS_REFRESH" = "Muat semula";
 "MORE_REPOS_TITLE" = "Repositori tambahan";
 "MORE_REPOS_WIDGETS" = "Widget lebih banyak";
-"NEXT = Seterusnya;
+"NEXT" = "Seterusnya";
 "OK" = "Ok";
 "ROOT_SHARE_TEXT" = "Saya menggunakan Xen HTML untuk menjalankan widget HTML pada Skrin kunci dan Skrin utama saya! Semak ia di Cydia:";
 "SETUP_FINAL_APPLYING_SETTINGS" = "Memohon tetapan anda";

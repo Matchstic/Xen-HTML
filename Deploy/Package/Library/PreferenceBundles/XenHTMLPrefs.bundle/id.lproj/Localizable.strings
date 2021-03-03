@@ -12,6 +12,9 @@
 "BACK" = "Kembali";
 "ERROR" = "Kesalahan";
 
+"YES" = "Iya";
+"NO" = "Tidak";
+
 "ROOT_SHARE_TEXT" = "Saya menggunakan Xen HTML untuk menjalankan widget di Layar Kunci dan Layar Utama saya! Cek di Cydia:";
 
 "MORE_REPOS_TITLE" = "Repositori Tambahan";
