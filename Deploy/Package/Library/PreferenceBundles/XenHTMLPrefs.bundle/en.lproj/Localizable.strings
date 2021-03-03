@@ -67,6 +67,12 @@
 "WIDGET_SETTINGS_LEGACY_MODE" = "Legacy Mode";
 "WIDGET_SETTINGS_NONE" = "No settings available";
 
+"OVERWRITE_MODE_BUTTON_TITLE" = "Export";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "No config.json file was found for this widget.\n\nExporting your settings is not possible.";
+"OVERWRITE_MODE_WARNING" = "This will overwrite the default configuration of this widget with your changes.\n\nYou only need to do this if you want to re-export this widget with your own configuration.\n\nAre you sure you want to continue?";
+"OVERWRITE_MODE_FAILED" = "Failed to overwrite default configuration.\n\nThis likely is caused by incorrect permissions on this widget.\n\nXen HTML will automatically fix this if you reinstall the tweak.";
+"OVERWRITE_MODE_SUCCESS" = "The default configuration has been overwritten.";
+
 /* TWEAK */
 
 "NEXT" = "Next";

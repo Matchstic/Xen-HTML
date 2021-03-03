@@ -19,6 +19,9 @@
 "WIDGET_LOGGING" = "Widget Logging";
 "WIDGET_LOGGING_FOOTER" = "This option redirects console.* JavaScript calls in widgets to the filesystem.\n\nLogs can be found in /var/mobile/Library/Logs/Xen-HTML";
 
+"OVERWRITE_MODE" = "Overwrite Mode";
+"OVERWRITE_MODE_FOOTER" = "This option adds a button when configuring a widget to overwrite its default values with your chosen settings.\n\nThis is only useful if you want to make changes to the settings of a widget, then \"bake\" those settings into the widget for re-exporting it.\n\nYou do not need this setting enabled for general usage.";
+
 "WEBKIT_DEV_OPTIONS" = "WebKit Development Options";
 "RESOURCE_USAGE_OVERLAY" = "Resource Usage Overlay";
 "COMPOSITING_BORDERS" = "Show Compositing Borders";

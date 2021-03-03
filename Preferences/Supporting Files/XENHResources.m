@@ -95,6 +95,11 @@ static int mainVariant = 0;
     return (value ? [value floatValue] : 3.0);
 }
 
++ (BOOL)editorOverwriteMode {
+    id value = [XENHResources getPreferenceKey:@"settings_overwriteMode"];
+    return (value ? [value boolValue] : NO);
+}
+
 // From: https://stackoverflow.com/a/47297734
 + (NSString*)_fallbackStringForKey:(NSString*)key {
     NSString *fallbackBundlePath = [strings pathForResource:@"en" ofType:@"lproj"];

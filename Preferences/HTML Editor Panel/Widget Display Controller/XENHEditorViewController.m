@@ -225,6 +225,9 @@
         case kButtonSettings:
             [self _handleSettingsButtonPressed];
             break;
+        case kButtonOverwrite:
+            [self _handleOverwriteButtonPressed];
+            break;;
             
         default:
             break;
@@ -544,6 +547,8 @@
                                                        self.toolbarController.view.frame.size.width,
                                                        self.toolbarController.view.frame.size.height);
     }];
+    
+    [self.toolbarController notifyHiddenState:YES];
 }
 
 - (void)didEndPositioning {
@@ -554,6 +559,8 @@
                                                        self.toolbarController.view.frame.size.width,
                                                        self.toolbarController.view.frame.size.height);
     }];
+    
+    [self.toolbarController notifyHiddenState:NO];
 }
 
 #pragma mark Fallback delegate
@@ -583,6 +590,117 @@
     }
     
     [self.modernConfigWidgetValues setObject:value forKey:key];
+}
+
+#pragma mark Overwrite mode
+
+- (void)_handleOverwriteButtonPressed {
+    // Check if this is a config.json widget
+    BOOL valid = NO;
+    
+    NSString *filepath = [self.webViewController getCurrentWidgetURL];
+    NSString *path = [filepath stringByDeletingLastPathComponent];
+    
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configJSONPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+        
+        valid = config && [config objectForKey:@"options"];
+    }
+    
+    NSString *title   = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"];
+    NSString *warning = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_WARNING"];
+    NSString *unavailable = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_NOT_AVAILABLE"];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                        message:valid ? warning : unavailable
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        BOOL success = [self applyOverwrites];
+        [self handleOverwriteFinishState:success];
+    }];
+    
+    if (valid) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [controller addAction:cancelAction];
+    }
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+- (BOOL)applyOverwrites {
+    NSDictionary *keypairs = self.modernConfigWidgetValues;
+    
+    // Load from filesystem
+    NSString *filepath = [self.webViewController getCurrentWidgetURL];
+    NSString *path = [filepath stringByDeletingLastPathComponent];
+    
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+
+    NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+    NSError *error;
+    NSMutableDictionary *config = [[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error] mutableCopy];
+    
+    if (error || !config) return NO;
+    
+    // Mutate options
+    NSMutableArray *mutableOptions = [[config objectForKey:@"options"] mutableCopy];
+    
+    for (NSDictionary *optionRow in [mutableOptions copy]) {
+        NSInteger index = [mutableOptions indexOfObject:optionRow];
+        
+        if (![optionRow objectForKey:@"default"]) continue;
+        
+        NSString *key = [optionRow objectForKey:@"key"];
+        if (!key) continue;
+        
+        id newValue = [keypairs objectForKey:key];
+        
+        if (!newValue) continue;
+        
+        NSMutableDictionary *mutableOptionRow = [optionRow mutableCopy];
+        [mutableOptionRow setObject:newValue forKey:@"default"];
+        
+        [mutableOptions replaceObjectAtIndex:index withObject:mutableOptionRow];
+    }
+    
+    [config setObject:mutableOptions forKey:@"options"];
+    
+    // Save to disk
+    NSError *errorJSONGeneration;
+    NSData *generatedJSON = [NSJSONSerialization dataWithJSONObject:config
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&errorJSONGeneration];
+    
+    if (errorJSONGeneration || !generatedJSON) return NO;
+    if (![generatedJSON writeToFile:configJSONPath atomically:NO]) return NO;
+    
+    return YES;
+}
+
+- (void)handleOverwriteFinishState:(BOOL)state {
+    NSString *title   = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"];
+    NSString *success = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_SUCCESS"];
+    NSString *failed  = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_FAILED"];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                        message:state ? success : failed
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
 }
 
 @end

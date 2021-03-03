@@ -68,6 +68,7 @@ typedef enum : NSUInteger {
 +(NSDictionary*)widgetPrefs;
 
 +(CGFloat)editorGetWidgetSize;
++(BOOL)editorOverwriteMode;
 
 +(NSString*)localisedStringForKey:(NSString*)key;
 +(NSString*)imageSuffix;

@@ -97,6 +97,26 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>OVERWRITE_MODE_FOOTER</string>
+		</dict>
+		<dict>
+			<key>PostNotification</key>
+			<string>com.matchstic.xenhtml/settingschanged</string>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.matchstic.xenhtml</string>
+			<key>key</key>
+			<string>settings_overwriteMode</string>
+			<key>label</key>
+			<string>OVERWRITE_MODE</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
             <key>label</key>
             <string>WEBKIT_DEV_OPTIONS</string>
 		</dict>
