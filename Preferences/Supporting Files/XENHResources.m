@@ -16,12 +16,14 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHPResources.h"
 #include <notify.h>
 #import <UIKit/UIKit.h>
+#import <sys/utsname.h>
+
+#import "XENHPResources.h"
 #import "XENHFauxIconsViewController.h"
 #import "XENHFauxLockViewController.h"
-#import <sys/utsname.h>
+#import "XENHWidgetConfiguration.h"
 
 static NSBundle *strings;
 static NSDictionary *settings;
@@ -339,8 +341,25 @@ static int mainVariant = 0;
     if (!restorable) restorable = [NSMutableDictionary dictionary];
     
     [restorable setObject:options forKey:widgetPath];
-    
     [self setPreferenceKey:@"restorable" withValue:restorable];
+}
+
++ (BOOL)optionsAreRestorable:(NSDictionary*)options forPath:(NSString*)path {
+    // Check the user's config is different to defaults
+    
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:path].optionsModern;
+    if (!defaultOptions) return NO;
+    
+    // Compare keys and values
+    BOOL anyDifferences = NO;
+    
+    for (NSString *key in options.allKeys) {
+        if (![[defaultOptions objectForKey:key] isEqual:[options objectForKey:key]]) {
+            anyDifferences = YES;
+        }
+    }
+    
+    return anyDifferences;
 }
 
 @end

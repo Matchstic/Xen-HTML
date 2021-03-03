@@ -19,6 +19,8 @@
 #import "XENHResources.h"
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
+#import "XENHWidgetConfiguration.h"
+
 #import <objc/runtime.h>
 
 @interface XENResources : NSObject
@@ -1003,12 +1005,31 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    
     NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
     if (!restorable) restorable = [NSMutableDictionary dictionary];
     
     [restorable setObject:options forKey:widgetPath];
-    
     [self setPreferenceKey:@"restorable" withValue:restorable andPost:YES];
+}
+
++ (BOOL)optionsAreRestorable:(NSDictionary*)options forPath:(NSString*)path {
+    // Check the user's config is different to defaults
+    
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:path].optionsModern;
+    if (!defaultOptions) return NO;
+    
+    // Compare keys and values
+    BOOL anyDifferences = NO;
+    
+    for (NSString *key in options.allKeys) {
+        if (![[defaultOptions objectForKey:key] isEqual:[options objectForKey:key]]) {
+            anyDifferences = YES;
+        }
+    }
+    
+    return anyDifferences;
 }
 
 @end

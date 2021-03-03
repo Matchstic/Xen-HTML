@@ -316,7 +316,7 @@
         // is used to end the picker flow
         
         [self promptRestorableIfNecessary:url :^(NSDictionary *metadata) {
-            UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:url currentMetadata:metadata showCancel:NO  andDelegate:self.delegate];
+            UIViewController *settings = [XENHHomescreenForegroundViewController _widgetSettingsControllerWithURL:url currentMetadata:metadata showCancel:NO andDelegate:self.delegate];
             [self.navigationController pushViewController:settings animated:YES];
             
             UIBarButtonItem *newBackButton = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"BACK"]
