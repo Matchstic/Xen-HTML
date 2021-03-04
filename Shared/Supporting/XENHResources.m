@@ -1015,10 +1015,11 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (BOOL)optionsAreRestorable:(NSDictionary*)options forPath:(NSString*)path {
-    // Check the user's config is different to defaults
+    if (!options || [options isEqual:@{}]) return NO;
     
+    // Check the user's config is different to defaults
     NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:path].optionsModern;
-    if (!defaultOptions) return NO;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return NO;
     
     // Compare keys and values
     BOOL anyDifferences = NO;

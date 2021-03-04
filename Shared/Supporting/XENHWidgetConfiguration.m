@@ -260,6 +260,9 @@
     self.useFallback = NO;
     self.widgetCanScroll = NO;
     
+    self.optionsModern = nil;
+    self.options = nil;
+    
     if ([self loadOptionsPlist])
         return;
     

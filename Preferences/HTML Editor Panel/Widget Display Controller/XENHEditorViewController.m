@@ -717,7 +717,7 @@
 
 #pragma mark Restorable options
 
-- (void)promptRestorableIfNecessary {
+- (void)promptRestorableIfNecessary {    
     NSDictionary *restorableOptions = [XENHResources restorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
     if (restorableOptions) {
         NSString *title = [XENHResources localisedStringForKey:@"RESTORABLE_TITLE"];
