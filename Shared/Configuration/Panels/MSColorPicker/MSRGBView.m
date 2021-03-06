@@ -102,7 +102,11 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     self.accessibilityLabel = @"rgb_view";
 
     NSMutableArray *tmp = [NSMutableArray array];
-    NSArray *titles = @[NSLocalizedString(@"Red", ), NSLocalizedString(@"Green", ), NSLocalizedString(@"Blue", )];
+    NSArray *titles = @[
+        [XENHResources localisedStringForKey:@"RED"],
+        [XENHResources localisedStringForKey:@"GREEN"],
+        [XENHResources localisedStringForKey:@"BLUE"]
+    ];
     NSArray *maxValues = @[@(MSRGBColorComponentMaxValue), @(MSRGBColorComponentMaxValue), @(MSRGBColorComponentMaxValue)];
 
     for (NSUInteger i = 0; i < MSRGBColorComponentsSize; ++i) {
@@ -121,7 +125,7 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     _hexInputField.layer.cornerRadius = 5;
     _hexInputField.autocapitalizationType = UITextAutocapitalizationTypeAllCharacters;
     _hexInputField.autocorrectionType = UITextAutocorrectionTypeNo;
-    _hexInputField.placeholder = @"Hex";
+    _hexInputField.placeholder = [XENHResources localisedStringForKey:@"HEX"];
     _hexInputField.inputAccessoryView = [self keyboardDoneButton];
     
     if (@available(iOS 13.0, *)) {
@@ -136,7 +140,7 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
     
     _hexInputLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _hexInputLabel.textAlignment = NSTextAlignmentRight;
-    _hexInputLabel.text = @"Hex code";
+    _hexInputLabel.text = [XENHResources localisedStringForKey:@"HEXCODE"];
     _hexInputLabel.font = [UIFont systemFontOfSize:16];
     
     [self addSubview:_hexInputLabel];

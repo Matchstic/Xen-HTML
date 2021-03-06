@@ -22,11 +22,13 @@
 #import "XENHResources.h"
 #import "MSColorUtils.h"
 #import "MSColorPicker.h"
+#import "MSOpacityGrid.h"
 
 @interface XENDWidgetConfigurationColorController ()
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 @property (nonatomic, strong) MSColorSelectionView *colorSelectionView;
 @property (nonatomic, strong) UIView *displayView;
+@property (nonatomic, strong) MSOpacityGrid *opacityView;
 @property (nonatomic, strong) UIView *splitter;
 @property (nonatomic, strong) UIColor *internalColour;
 @property (nonatomic, strong) XENDWidgetConfigurationCell *cell;
@@ -95,6 +97,11 @@
     
     [self.view addSubview:self.colorSelectionView];
     
+    self.opacityView = [[MSOpacityGrid alloc] initWithFrame:CGRectZero];
+    self.opacityView.layer.cornerRadius = 7;
+    self.opacityView.layer.masksToBounds = YES;
+    [self.view addSubview:self.opacityView];
+    
     self.displayView = [[UIView alloc] initWithFrame:CGRectZero];
     self.displayView.layer.cornerRadius = 7;
     self.displayView.backgroundColor = self.internalColour;
@@ -134,6 +141,7 @@
     y += 32 + padding;
     
     self.displayView.frame = CGRectMake(padding, y, width, 48);
+    self.opacityView.frame = self.displayView.frame;
     y += 48 + (padding * 2);
     
     self.splitter.frame = CGRectMake(padding, y, width, 1);
@@ -175,8 +183,6 @@
 - (void)keyboardWasShown:(NSNotification*)aNotification {
     NSDictionary* info = [aNotification userInfo];
     CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
-    
-    NSLog(@"%@", info);
     
     UIScrollView *scrollView = (UIScrollView*)self.view;
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(scrollView.contentInset.top,

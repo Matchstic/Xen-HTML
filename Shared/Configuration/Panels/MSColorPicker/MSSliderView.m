@@ -26,11 +26,13 @@
 
 #import "MSSliderView.h"
 #import "MSThumbView.h"
+#import "MSOpacityGrid.h"
 
 @interface MSSliderView () {
     @private
 
     MSThumbView *_thumbView;
+    MSOpacityGrid *_opacityGrid;
     CAGradientLayer *_trackLayer;
 }
 
@@ -55,6 +57,11 @@
         _value = 0.0f;
 
         self.layer.delegate = self;
+        
+        _opacityGrid = [[MSOpacityGrid alloc] initWithFrame:CGRectZero];
+        _opacityGrid.layer.cornerRadius = MSSliderViewTrackHeight / 2.0f;
+        _opacityGrid.layer.masksToBounds = YES;
+        [self addSubview:_opacityGrid];
 
         _trackLayer = [CAGradientLayer layer];
         _trackLayer.cornerRadius = MSSliderViewTrackHeight / 2.0f;
@@ -134,6 +141,8 @@
     _trackLayer.bounds = CGRectMake(-4, 0, width + 8, MSSliderViewTrackHeight);
     _trackLayer.position = CGPointMake(CGRectGetWidth(self.bounds) / 2, height / 2);
     [CATransaction commit];
+    
+    _opacityGrid.frame = _trackLayer.bounds;
 }
 
 #pragma mark - Private methods

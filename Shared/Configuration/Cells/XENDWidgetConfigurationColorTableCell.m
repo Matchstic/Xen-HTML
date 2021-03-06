@@ -19,13 +19,22 @@
 #import "XENDWidgetConfigurationColorTableCell.h"
 #import "../Panels/MSColorPicker/MSColorUtils.h"
 
+#import "MSOpacityGrid.h"
+
 @interface XENDWidgetConfigurationColorTableCell ()
 @property (nonatomic, strong) UIView *colourWell;
+@property (nonatomic, strong) MSOpacityGrid *opacitygrid;
 @end
 
 @implementation XENDWidgetConfigurationColorTableCell
 
 - (void)setup {
+    if (!self.opacitygrid) {
+        self.opacitygrid = [[MSOpacityGrid alloc] initWithFrame:CGRectZero];
+        self.opacitygrid.layer.masksToBounds = YES;
+        [self.contentView addSubview:self.opacitygrid];
+    }
+    
     if (!self.colourWell) {
         self.colourWell = [[UIView alloc] initWithFrame:CGRectZero];
         
@@ -55,8 +64,12 @@
     CGFloat padding = self.textLabel.frame.origin.x;
     CGFloat entireWidth = 51;
     CGFloat roundWidth = 32;
+    
     self.colourWell.frame = CGRectMake(self.bounds.size.width - entireWidth - padding, (self.bounds.size.height - roundWidth) / 2, roundWidth, roundWidth);
     self.colourWell.layer.cornerRadius = roundWidth / 2;
+    
+    self.opacitygrid.frame = self.colourWell.frame;
+    self.opacitygrid.layer.cornerRadius = self.colourWell.layer.cornerRadius;
 }
 
 @end

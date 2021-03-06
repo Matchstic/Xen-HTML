@@ -28,7 +28,7 @@
 
 #import "MSColorView.h"
 
-static const CGFloat MSColorSelectionViewHeight = 352;
+static const CGFloat MSColorSelectionViewHeight = 428;
 
 /**
  *  The enum to define the MSColorView's types.

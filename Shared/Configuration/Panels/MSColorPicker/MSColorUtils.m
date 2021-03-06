@@ -130,20 +130,22 @@ extern NSString * MSHexStringFromColor(UIColor *color)
     }
 
     const CGFloat *components = CGColorGetComponents(color.CGColor);
-    CGFloat red, green, blue;
+    CGFloat red, green, blue, alpha;
 
     if (colorSpaceModel == kCGColorSpaceModelMonochrome) {
-        red = green = blue = components[0];
+        red = green = blue = alpha = components[0];
     } else {
         red = components[0];
         green = components[1];
         blue = components[2];
+        alpha = components[3];
     }
 
-    NSString *hexColorString = [NSString stringWithFormat:@"#%02lX%02lX%02lX",
+    NSString *hexColorString = [NSString stringWithFormat:@"#%02lX%02lX%02lX%02lX",
                                 (unsigned long)(red * MSRGBColorComponentMaxValue),
                                 (unsigned long)(green * MSRGBColorComponentMaxValue),
-                                (unsigned long)(blue * MSRGBColorComponentMaxValue)];
+                                (unsigned long)(blue * MSRGBColorComponentMaxValue),
+                                (unsigned long)(alpha * MSAlphaComponentMaxValue)];
     return hexColorString;
 }
 
@@ -158,14 +160,30 @@ extern UIColor * MSColorFromHexString(NSString *hexColor)
 
     unsigned hexNum;
 
-    if (![scanner scanHexInt:&hexNum]) return nil;
+    if ([hexColor length] == 7) {
+        if (![scanner scanHexInt:&hexNum]) return nil;
 
-    int r = (hexNum >> 16) & 0xFF;
-    int g = (hexNum >> 8) & 0xFF;
-    int b = (hexNum >> 0) & 0xFF;
+        int r = (hexNum >> 16) & 0xFF;
+        int g = (hexNum >> 8) & 0xFF;
+        int b = (hexNum >> 0) & 0xFF;
 
-    return [UIColor colorWithRed:r / MSRGBColorComponentMaxValue
-                           green:g / MSRGBColorComponentMaxValue
-                            blue:b / MSRGBColorComponentMaxValue
-                           alpha:1.0];
+        return [UIColor colorWithRed:r / MSRGBColorComponentMaxValue
+                               green:g / MSRGBColorComponentMaxValue
+                                blue:b / MSRGBColorComponentMaxValue
+                               alpha:1.0];
+    } else if ([hexColor length] == 9) {
+        if (![scanner scanHexInt:&hexNum]) return nil;
+
+        int r = (hexNum >> 24) & 0xFF;
+        int g = (hexNum >> 16) & 0xFF;
+        int b = (hexNum >> 8) & 0xFF;
+        int a = (hexNum >> 0) & 0xFF;
+
+        return [UIColor colorWithRed:r / MSRGBColorComponentMaxValue
+                               green:g / MSRGBColorComponentMaxValue
+                                blue:b / MSRGBColorComponentMaxValue
+                               alpha:a / MSAlphaComponentMaxValue];
+    } else {
+        return [UIColor whiteColor];
+    }
 }

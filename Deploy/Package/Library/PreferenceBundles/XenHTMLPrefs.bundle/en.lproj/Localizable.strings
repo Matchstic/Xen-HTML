@@ -79,6 +79,14 @@
 "RESTORABLE_TITLE" = "Restore Settings";
 "RESTORABLE_MESSAGE" = "Would you like to restore the configuration from when you last used this widget?";
 
+"RED" = "Red";
+"GREEN" = "GREEN";
+"BLUE" = "Blue";
+"HEX" = "Hex";
+"HEXCODE" = "Hex code";
+"OPACITY" = "Opacity";
+"BRIGHTNESS" = "Brightness";
+
 /* TWEAK */
 
 "NEXT" = "Next";
