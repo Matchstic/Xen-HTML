@@ -592,8 +592,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
     topInset - self.view.frame.origin.y + 16 :
         0;
     
-    XENlog(@"%f %f", xInset, yInset);
-    
     // Editing buttons
     self.editingRemoveButton.frame = CGRectMake(-12 + xInset, -12 + yInset, self.editingRemoveButton.frame.size.width, self.editingRemoveButton.frame.size.height);
     
