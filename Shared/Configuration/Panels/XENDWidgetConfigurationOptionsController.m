@@ -21,6 +21,7 @@
 @interface XENDWidgetConfigurationOptionsController ()
 @property (nonatomic, strong) XENDWidgetConfigurationCell *cell;
 @property (nonatomic, weak) XENDWidgetConfigurationBaseTableCell *initiator;
+@property (nonatomic, strong) NSString *comment;
 @end
 
 @implementation XENDWidgetConfigurationOptionsController
@@ -34,6 +35,7 @@
         self.title = title;
         self.cell = cell;
         self.initiator = initiator;
+        self.comment = [cell.properties objectForKey:@"comment"];
     }
     
     return self;
@@ -73,6 +75,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    return self.comment;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
