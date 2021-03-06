@@ -11,6 +11,8 @@
 "DONE" = "Terminé";
 "BACK" = "Retour";
 "ERROR" = "Erreur";
+"YES" = "Oui";
+"NO" = "Non";
 
 "ROOT_SHARE_TEXT" = "J'utilise Xen HTML pour afficher des widgets HTML sur mon écran verrouillé et sur mon écran d'accueil! Découvrez-le sur Cydia:";
 

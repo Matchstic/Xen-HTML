@@ -68,6 +68,8 @@
 @property (nonatomic, strong) AYVibrantButton *acceptButton;
 @property (nonatomic, strong) AYVibrantButton *configureButton;
 
+@property (nonatomic, strong) UIVisualEffectView *overwriteButtonBackdropView;
+@property (nonatomic, strong) AYVibrantButton *overwriteButton;
 @end
 
 static CGFloat toolbarHeight = 50.0;
@@ -174,6 +176,26 @@ static CGFloat toolbarHeight = 50.0;
     [self.configureButton addTarget:self action:@selector(configureButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.editorBarVisualEffectView.contentView addSubview:self.configureButton];
+    
+    // Overwrite mode
+    if ([XENHResources editorOverwriteMode]) {
+        self.overwriteButtonBackdropView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        self.overwriteButtonBackdropView.clipsToBounds = YES;
+        [self.view addSubview:self.overwriteButtonBackdropView];
+        
+        self.overwriteButton = [[AYVibrantButton alloc] initWithFrame:CGRectZero style:AYVibrantButtonStyleTranslucent];
+        self.overwriteButton.vibrancyEffect = vibrancyEffect;
+        self.overwriteButton.cornerRadius = 0.0;
+        self.overwriteButton.text = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"];
+        self.overwriteButton.borderWidth = 0.0;
+        [self.overwriteButton addTarget:self action:@selector(overwriteButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.overwriteButtonBackdropView.contentView addSubview:self.overwriteButton];
+    }
+}
+
+- (void)notifyHiddenState:(BOOL)state {
+    if (self.overwriteButtonBackdropView) self.overwriteButtonBackdropView.hidden = state;
 }
 
 - (void)viewDidLayoutSubviews {
@@ -204,6 +226,25 @@ static CGFloat toolbarHeight = 50.0;
     self.cancelButton.frame = CGRectMake(-1.0, -1, self.editorBarBackdropView.bounds.size.width/3 + 0.5, toolbarHeight+1.5);
     self.configureButton.frame = CGRectMake(self.editorBarBackdropView.bounds.size.width/3 - 1.5, -1, self.editorBarBackdropView.bounds.size.width/3 + 3, toolbarHeight+1.5);
     self.acceptButton.frame = CGRectMake((self.editorBarBackdropView.bounds.size.width/3)*2 + 0.0, -1, self.editorBarBackdropView.bounds.size.width/3 + 1.0, toolbarHeight+1.5);
+    
+    if (self.overwriteButton) {
+        CGRect rect = [XENHResources boundedRectForFont:[UIFont systemFontOfSize:14]
+                                                andText:[XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"]
+                                                  width:self.view.bounds.size.width / 2];
+        
+        self.overwriteButtonBackdropView.frame = CGRectMake(
+                                                            self.view.bounds.size.width - rect.size.width - 38,
+                                                            self.view.safeAreaInsets.top,
+                                                            rect.size.width + 28,
+                                                            rect.size.height + 10);
+        
+        NSLog(@"%@ %f", NSStringFromCGRect(rect), self.view.safeAreaInsets.top);
+        NSLog(@"%@ %@", self.overwriteButton.font, self.overwriteButton.text);
+        
+        self.overwriteButtonBackdropView.layer.cornerRadius = (rect.size.height + 10) / 2;
+        
+        self.overwriteButton.frame = self.overwriteButtonBackdropView.bounds;
+    }
 }
 
 // Button callbacks.
@@ -218,6 +259,10 @@ static CGFloat toolbarHeight = 50.0;
 
 -(void)configureButtonClicked:(id)sender {
     [self.delegate toolbarDidPressButton:kButtonSettings];
+}
+
+-(void)overwriteButtonClicked:(id)sender {
+    [self.delegate toolbarDidPressButton:kButtonOverwrite];
 }
 
 @end

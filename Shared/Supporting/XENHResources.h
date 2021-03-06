@@ -179,4 +179,7 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 + (BOOL)isAtLeastiOSVersion:(long long)major subversion:(long long)minor;
 + (BOOL)isBelowiOSVersion:(long long)major subversion:(long long)minor;
 
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath;
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath;
+
 @end

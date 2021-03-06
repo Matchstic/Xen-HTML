@@ -42,6 +42,7 @@
     [result setObject:@(self.xLandscape) forKey:@"xLandscape"];
     [result setObject:@(self.yLandscape) forKey:@"yLandscape"];
     [result setObject:self.options ? self.options : @{} forKey:@"options"];
+    [result setObject:self.optionsModern ? self.optionsModern : @{} forKey:@"options2"];
     [result setObject:@(self.isFullscreen) forKey:@"isFullscreen"];
     [result setObject:@(self.widgetCanScroll) forKey:@"widgetCanScroll"];
     [result setObject:@(self.useFallback) forKey:@"useFallback"];
@@ -78,6 +79,7 @@
         self.widgetCanScroll = [[dictionary objectForKey:@"widgetCanScroll"] boolValue];
         self.useFallback = [[dictionary objectForKey:@"useFallback"] boolValue];
         self.options = [dictionary objectForKey:@"options"];
+        self.optionsModern = [dictionary objectForKey:@"options2"];
     }
     
     return self;
@@ -258,7 +260,13 @@
     self.useFallback = NO;
     self.widgetCanScroll = NO;
     
+    self.optionsModern = nil;
+    self.options = nil;
+    
     if ([self loadOptionsPlist])
+        return;
+    
+    if ([self loadConfigJSONOptions])
         return;
     
     [self loadDefaultOptions];
@@ -286,8 +294,6 @@
     NSString *optionsPath = [self.path stringByAppendingString:@"/Options.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:optionsPath]) {
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
-        
-        
         NSArray *optionsPlist = [NSArray arrayWithContentsOfFile:optionsPath];
         
         for (NSDictionary *option in optionsPlist) {
@@ -320,6 +326,49 @@
     }
     
     return NO;
+}
+
+- (BOOL)loadConfigJSONOptions {
+    // Load default options from config.json
+    // This is just a matter of flattening cells/pages etc, and getting default values
+    
+    NSString *configPath = [self.path stringByAppendingString:@"/config.json"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        
+        if ([config objectForKey:@"options"]) {
+            
+            NSArray *options = [config objectForKey:@"options"];
+            self.optionsModern = [self defaultValuesForPage:options];
+            
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (NSDictionary*)defaultValuesForPage:(NSArray*)optionsPage {
+    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+    
+    for (NSDictionary *item in optionsPage) {
+        // Check on type
+        NSString *type = [item objectForKey:@"type"];
+        NSString *key = [item objectForKey:@"key"];
+        id defaultValue = [item objectForKey:@"default"];
+        
+        if ([type isEqualToString:@"page"]) {
+            // Get defaults from sub-page
+            NSDictionary *subpage = [self defaultValuesForPage:[item objectForKey:@"options"]];
+            [defaults addEntriesFromDictionary:subpage];
+        } else if (key && defaultValue) {
+            [defaults setObject:defaultValue forKey:key];
+        }
+    }
+    
+    return defaults;
 }
 
 - (void)loadDefaultOptions {

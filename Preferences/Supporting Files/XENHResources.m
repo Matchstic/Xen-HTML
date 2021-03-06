@@ -16,12 +16,14 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#import "XENHPResources.h"
 #include <notify.h>
 #import <UIKit/UIKit.h>
+#import <sys/utsname.h>
+
+#import "XENHPResources.h"
 #import "XENHFauxIconsViewController.h"
 #import "XENHFauxLockViewController.h"
-#import <sys/utsname.h>
+#import "XENHWidgetConfiguration.h"
 
 static NSBundle *strings;
 static NSDictionary *settings;
@@ -93,6 +95,11 @@ static int mainVariant = 0;
 +(CGFloat)editorGetWidgetSize {
     id value = [XENHResources getPreferenceKey:(mainVariant ? @"SBEditorWidgetSize" : @"LSEditorWidgetSize")];
     return (value ? [value floatValue] : 3.0);
+}
+
++ (BOOL)editorOverwriteMode {
+    id value = [XENHResources getPreferenceKey:@"settings_overwriteMode"];
+    return (value ? [value boolValue] : NO);
 }
 
 // From: https://stackoverflow.com/a/47297734
@@ -318,6 +325,48 @@ static int mainVariant = 0;
       @"iPod5,1",
       @"iPod7,1",
     ];
+}
+
+#pragma mark Preferences restoration
+
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath {
+    // Check config.json still exists
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:widgetPath].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return nil;
+    
+    NSDictionary *restorable = [self getPreferenceKey:@"restorable"];
+    if (!restorable) return nil;
+    
+    return [restorable objectForKey:widgetPath];
+}
+
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    
+    NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
+    if (!restorable) restorable = [NSMutableDictionary dictionary];
+    
+    [restorable setObject:options forKey:widgetPath];
+    [self setPreferenceKey:@"restorable" withValue:restorable];
+}
+
++ (BOOL)optionsAreRestorable:(NSDictionary*)options forPath:(NSString*)path {
+    if (!options || [options isEqual:@{}]) return NO;
+    
+    // Check the user's config is different to defaults
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:path].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return NO;
+    
+    // Compare keys and values
+    BOOL anyDifferences = NO;
+    
+    for (NSString *key in options.allKeys) {
+        if (![[defaultOptions objectForKey:key] isEqual:[options objectForKey:key]]) {
+            anyDifferences = YES;
+        }
+    }
+    
+    return anyDifferences;
 }
 
 @end

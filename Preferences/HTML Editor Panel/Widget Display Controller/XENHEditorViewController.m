@@ -27,6 +27,7 @@
 #import "XENHMetadataOptionsController.h"
 #import "XENHConfigJSController.h"
 #import "XENHWidgetConfiguration.h"
+#import "../../../Shared/Configuration/XENDWidgetConfigurationPageController.h"
 
 #import <Preferences/PSSplitViewController.h>
 
@@ -51,6 +52,9 @@
 @property (nonatomic, strong) XENHMetadataOptionsController *metadataOptions;
 @property (nonatomic, strong) XENHConfigJSController *configOptions;
 
+// Modern widget settings
+@property (nonatomic, strong) NSMutableDictionary *modernConfigWidgetValues;
+
 @end
 
 @implementation XENHEditorViewController
@@ -73,6 +77,9 @@
         // Hide master of the master-detail panes
         [self setRootSplitViewMasterHidden:YES];
     }
+    
+    // Prompt restoration if possible
+    [self promptRestorableIfNecessary];
 }
 
 // Hide navigation bar
@@ -221,6 +228,9 @@
         case kButtonSettings:
             [self _handleSettingsButtonPressed];
             break;
+        case kButtonOverwrite:
+            [self _handleOverwriteButtonPressed];
+            break;;
             
         default:
             break;
@@ -243,6 +253,7 @@
     // Save changes, then pop controller off stack
     
     [self _saveData];
+    [self saveRestorableIfPossible];
     [self _popSelfOffNavigationalStack];
 }
 
@@ -280,6 +291,13 @@
     [self.delegate didAcceptChanges:currentURL withMetadata:mutableMetadata isNewWidget:self.isNewWidget];
 }
 
+- (void)saveRestorableIfPossible {
+    if ([[self.webViewController getMetadata] objectForKey:@"options2"]) {
+        NSDictionary *restorableOptions = [[self.webViewController getMetadata] objectForKey:@"options2"];
+        [XENHResources saveRestorableOptions:restorableOptions forPath:[self.webViewController getCurrentWidgetURL]];
+    }
+}
+
 - (void)_popSelfOffNavigationalStack {
     // Pop self off the navigational stack
     [self.navigationController popViewControllerAnimated:YES];
@@ -291,9 +309,57 @@
     // Show a settings configuration UI for this widget.
     
     NSString *filepath = [self.webViewController getCurrentWidgetURL];
-    
     NSString *path = [filepath stringByDeletingLastPathComponent];
     
+    // Test against modern config first
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configJSONPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+        
+        UIViewController *controller;
+        
+        if ([config objectForKey:@"options"]) {
+            // Setup
+            NSMutableDictionary *values = [[[self.webViewController getMetadata] objectForKey:@"options2"] mutableCopy];
+            
+            if (!values) {
+                values = [[XENHWidgetConfiguration defaultConfigurationForPath:filepath].optionsModern mutableCopy];
+            }
+            
+            self.modernConfigWidgetValues = values;
+            
+            controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:[config objectForKey:@"options"] delegate:self title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+        } else if (error) {
+            controller = [[XENDWidgetConfigurationPageController alloc] initWithBadConfigError:error delegate:self title:[XENHResources localisedStringForKey:@"WIDGET_SETTINGS_TITLE"]];
+        }
+        
+        if (controller) {
+            // Navigation controller to allow paging, and for navigation items
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+            if (IS_IPAD) {
+                navController.providesPresentationContextTransitionStyle = YES;
+                navController.definesPresentationContext = YES;
+                navController.modalPresentationStyle = UIModalPresentationFormSheet;
+            }
+            
+            // Add done button.
+            UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithTitle:[XENHResources localisedStringForKey:@"DONE"] style:UIBarButtonItemStyleDone target:self action:@selector(closeModernOptionsModal:)];
+            [[controller navigationItem] setRightBarButtonItem:done];
+            
+            // Show controller.
+            [self.navigationController presentViewController:navController animated:YES completion:^{
+                navController.presentationController.presentedView.gestureRecognizers[0].enabled = NO;
+            }];
+            
+            return;
+        }
+    }
+    
+    
+    // Legacy stuff
+    // It's a total mess from here on in
     BOOL canActuallyUtiliseOptionsPlist = [XENHWidgetConfiguration shouldAllowOptionsPlist:filepath];
     
     NSString *optionsPath = [path stringByAppendingString:@"/Options.plist"];
@@ -419,6 +485,26 @@
     }];
 }
 
+- (void)closeModernOptionsModal:(id)sender {
+    NSDictionary *changedOptions = self.modernConfigWidgetValues;
+    
+    // Use current metadata (i.e. positioning) and modify that.
+    NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+    if (!mutableMetadata) {
+        mutableMetadata = [NSMutableDictionary dictionary];
+    }
+    
+    [mutableMetadata setObject:changedOptions forKey:@"options2"];
+    
+    [self.webViewController setMetadata:mutableMetadata reloadingWebView:YES];
+    [self.positioningController updatePositioningView:self.webViewController.webView];
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        // Hide the modal and update SBHTML if needed
+        [self _notifyHomescreenOfChangeIfNeeded];
+    }];
+}
+
 -(void)cancelConfigOptionsModal:(id)sender {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         // Hide the modal
@@ -472,6 +558,8 @@
                                                        self.toolbarController.view.frame.size.width,
                                                        self.toolbarController.view.frame.size.height);
     }];
+    
+    [self.toolbarController notifyHiddenState:YES];
 }
 
 - (void)didEndPositioning {
@@ -482,6 +570,8 @@
                                                        self.toolbarController.view.frame.size.width,
                                                        self.toolbarController.view.frame.size.height);
     }];
+    
+    [self.toolbarController notifyHiddenState:NO];
 }
 
 #pragma mark Fallback delegate
@@ -496,6 +586,170 @@
     
     [self.webViewController setMetadata:mutableMetadata reloadingWebView:NO];
     //[self.delegate didAcceptChanges:[self.webViewController getCurrentWidgetURL] withMetadata:mutableMetadata];
+}
+
+#pragma mark Modern widget configuration delegate
+
+- (NSDictionary*)currentValues {
+    return self.modernConfigWidgetValues;
+}
+
+- (void)onUpdateConfiguration:(NSString*)key value:(id)value {
+    if (!value) {
+        NSLog(@"ERROR :: Cannot set nil value to widget configuration");
+        return;
+    }
+    
+    [self.modernConfigWidgetValues setObject:value forKey:key];
+}
+
+#pragma mark Overwrite mode
+
+- (void)_handleOverwriteButtonPressed {
+    // Check if this is a config.json widget
+    BOOL valid = NO;
+    
+    NSString *filepath = [self.webViewController getCurrentWidgetURL];
+    NSString *path = [filepath stringByDeletingLastPathComponent];
+    
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:configJSONPath]) {
+        NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+        NSError *error;
+        NSDictionary *config = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+        
+        valid = config && [config objectForKey:@"options"];
+    }
+    
+    NSString *title   = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"];
+    NSString *warning = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_WARNING"];
+    NSString *unavailable = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_NOT_AVAILABLE"];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                        message:valid ? warning : unavailable
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        BOOL success = [self applyOverwrites];
+        [self handleOverwriteFinishState:success];
+    }];
+    
+    if (valid) {
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"CANCEL"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [controller addAction:cancelAction];
+    }
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+- (BOOL)applyOverwrites {
+    NSDictionary *keypairs = self.modernConfigWidgetValues;
+    
+    // Load from filesystem
+    NSString *filepath = [self.webViewController getCurrentWidgetURL];
+    NSString *path = [filepath stringByDeletingLastPathComponent];
+    
+    NSString *configJSONPath = [path stringByAppendingString:@"/config.json"];
+
+    NSData *jsonData = [NSData dataWithContentsOfFile:configJSONPath];
+    NSError *error;
+    NSMutableDictionary *config = [[NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error] mutableCopy];
+    
+    if (error || !config) return NO;
+    
+    // Mutate options
+    NSMutableArray *mutableOptions = [[config objectForKey:@"options"] mutableCopy];
+    
+    for (NSDictionary *optionRow in [mutableOptions copy]) {
+        NSInteger index = [mutableOptions indexOfObject:optionRow];
+        
+        if (![optionRow objectForKey:@"default"]) continue;
+        
+        NSString *key = [optionRow objectForKey:@"key"];
+        if (!key) continue;
+        
+        id newValue = [keypairs objectForKey:key];
+        
+        if (!newValue) continue;
+        
+        NSMutableDictionary *mutableOptionRow = [optionRow mutableCopy];
+        [mutableOptionRow setObject:newValue forKey:@"default"];
+        
+        [mutableOptions replaceObjectAtIndex:index withObject:mutableOptionRow];
+    }
+    
+    [config setObject:mutableOptions forKey:@"options"];
+    
+    // Save to disk
+    NSError *errorJSONGeneration;
+    NSData *generatedJSON = [NSJSONSerialization dataWithJSONObject:config
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&errorJSONGeneration];
+    
+    if (errorJSONGeneration || !generatedJSON) return NO;
+    if (![generatedJSON writeToFile:configJSONPath atomically:NO]) return NO;
+    
+    return YES;
+}
+
+- (void)handleOverwriteFinishState:(BOOL)state {
+    NSString *title   = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_BUTTON_TITLE"];
+    NSString *success = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_SUCCESS"];
+    NSString *failed  = [XENHResources localisedStringForKey:@"OVERWRITE_MODE_FAILED"];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                        message:state ? success : failed
+                                                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"OK"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    
+    [controller addAction:okAction];
+    
+    UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+    [rootController presentViewController:controller animated:YES completion:nil];
+}
+
+
+#pragma mark Restorable options
+
+- (void)promptRestorableIfNecessary {    
+    NSDictionary *restorableOptions = [XENHResources restorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
+    if (restorableOptions) {
+        NSString *title = [XENHResources localisedStringForKey:@"RESTORABLE_TITLE"];
+        NSString *message = [XENHResources localisedStringForKey:@"RESTORABLE_MESSAGE"];
+        
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:title
+                                                                            message:message
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"YES"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            // Update existing options with the restorable state
+            NSMutableDictionary *mutableMetadata = [[self.webViewController getMetadata] mutableCopy];
+            if (!mutableMetadata) {
+                mutableMetadata = [NSMutableDictionary dictionary];
+            }
+            
+            [mutableMetadata setObject:restorableOptions forKey:@"options2"];
+            
+            [self.webViewController setMetadata:mutableMetadata reloadingWebView:YES];
+            [self.positioningController updatePositioningView:self.webViewController.webView];
+            
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [controller addAction:cancelAction];
+        [controller addAction:okAction];
+        
+        UIViewController *rootController = [[UIApplication sharedApplication] keyWindow].rootViewController;
+        [rootController presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 @end

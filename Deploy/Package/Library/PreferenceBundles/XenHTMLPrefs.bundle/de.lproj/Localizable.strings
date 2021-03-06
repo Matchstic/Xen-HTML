@@ -12,6 +12,9 @@
 "BACK" = "zurück";
 "ERROR" = "Fehler";
 
+"YES" = "Ja";
+"NO" = "Nein";
+
 "ROOT_SHARE_TEXT" = "Ich Vewende Xen HTML um HTML widgets auf meinem Speerbildschirm und Homeblidschirm darzustellen! Schau es dir auf Cydia an.";
 
 "MORE_REPOS_TITLE" = "zusätzliche Repos";

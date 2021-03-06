@@ -22,7 +22,8 @@ typedef enum : NSUInteger {
     kButtonCancel,
     kButtonModify,
     kButtonAccept,
-    kButtonSettings
+    kButtonSettings,
+    kButtonOverwrite
 } XENHEditorToolbarButton;
 
 @protocol XENHEditorToolbarDelegate <NSObject>
@@ -33,5 +34,6 @@ typedef enum : NSUInteger {
 
 - (instancetype)initWithDelegate:(id<XENHEditorToolbarDelegate>)delegate;
 - (CGFloat)effectiveToolbarHeight;
+- (void)notifyHiddenState:(BOOL)state;
 
 @end

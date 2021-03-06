@@ -24,6 +24,7 @@
 @property (nonatomic, readwrite) BOOL widgetCanScroll;
 @property (nonatomic, readwrite) BOOL useFallback;
 @property (nonatomic, strong) NSDictionary *options;
+@property (nonatomic, strong) NSDictionary *optionsModern;
 
 /**
  Generates default configuration for the widget at the specified path

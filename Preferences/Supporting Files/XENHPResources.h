@@ -68,6 +68,7 @@ typedef enum : NSUInteger {
 +(NSDictionary*)widgetPrefs;
 
 +(CGFloat)editorGetWidgetSize;
++(BOOL)editorOverwriteMode;
 
 +(NSString*)localisedStringForKey:(NSString*)key;
 +(NSString*)imageSuffix;
@@ -85,5 +86,8 @@ typedef enum : NSUInteger {
 + (void)updatePreviewSkewPercentage:(CGFloat)skewPercentage forVariant:(int)variant;
 
 + (BOOL)isCurrentDeviceD22;
+
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath;
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath;
 
 @end

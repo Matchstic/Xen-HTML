@@ -19,6 +19,8 @@
 #import "XENHResources.h"
 #import "XENHWidgetLayerController.h"
 #import "XENHHomescreenForegroundViewController.h"
+#import "XENHWidgetConfiguration.h"
+
 #import <objc/runtime.h>
 
 @interface XENResources : NSObject
@@ -991,6 +993,48 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
     presentInStatusFile = [statusFile containsString:@"com.matchstic.xenhtml"];*/
     
     return listExists || isRootless/* && presentInStatusFile*/;
+}
+
+#pragma mark Preferences restoration
+
++ (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath {
+    // Check config.json still exists
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:widgetPath].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return nil;
+    
+    NSDictionary *restorable = [self getPreferenceKey:@"restorable"];
+    if (!restorable) return nil;
+    
+    return [restorable objectForKey:widgetPath];
+}
+
++ (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    
+    NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
+    if (!restorable) restorable = [NSMutableDictionary dictionary];
+    
+    [restorable setObject:options forKey:widgetPath];
+    [self setPreferenceKey:@"restorable" withValue:restorable andPost:YES];
+}
+
++ (BOOL)optionsAreRestorable:(NSDictionary*)options forPath:(NSString*)path {
+    if (!options || [options isEqual:@{}]) return NO;
+    
+    // Check the user's config is different to defaults
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:path].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return NO;
+    
+    // Compare keys and values
+    BOOL anyDifferences = NO;
+    
+    for (NSString *key in options.allKeys) {
+        if (![[defaultOptions objectForKey:key] isEqual:[options objectForKey:key]]) {
+            anyDifferences = YES;
+        }
+    }
+    
+    return anyDifferences;
 }
 
 @end

@@ -3,6 +3,8 @@
 "DONATE_ADDRESS_COPIED" = "La dirección fue copiada!";
 "DONE" = "Terminar";
 "ERROR" = "Error";
+"YES" = "Sí";
+"NO" = "No";
 "MORE_REPOS_ADD_TO_CYDIA" = "Añadir este repositorio a Cydia?";
 "MORE_REPOS_CONTACTING_SERVER" = "Contactando al servidor...";
 "MORE_REPOS_OPEN_IN_CYDIA" = "Abrir este repositorio en Cydia?";

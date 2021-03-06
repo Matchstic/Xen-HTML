@@ -251,6 +251,13 @@
         [settingsInjection appendFormat:@"var %@ = %@;", key, valueOut];
     }
     
+    // Modern options is a key/pair dictionary. Convert to JSON and inject
+    NSDictionary *modernOptions = [self.metadata objectForKey:@"options2"];
+    if (modernOptions) {
+        NSString *jsonOptions = [self _parseToJSON:modernOptions];
+        [settingsInjection appendFormat:@"var config = %@;", jsonOptions];
+    }
+    
     WKUserScript *settingsInjector = [[WKUserScript alloc] initWithSource:settingsInjection injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
     [userContentController addUserScript:settingsInjector];
     
@@ -296,6 +303,26 @@
     }
     
     return webView;
+}
+
+-(NSString*)_parseToJSON:(NSDictionary*)dict {
+    @try {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
+                                                           options:0
+                                                             error:&error];
+        
+        if (!jsonData) {
+            NSLog(@"%s: error: %@", __func__, error.localizedDescription);
+            return @"{}";
+        } else {
+            return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"ERROR :: toJSON :: %@", exception);
+        return @"{}";
+    }
+
 }
 
 -(void)unloadWebview {
@@ -368,30 +395,5 @@
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     NSLog(@"XenHTMLPrefs :: Failed navigation: %@", error);
 }
-
-/*- (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView {
-    // Well, crap. WebView process has terminated. :( Better reload!
-    NSLog(@"********* CONTENT PROCESS TERMINATED. RELOADING.");
-    
-    NSURL *url = [NSURL fileURLWithPath:self.currentURL isDirectory:NO];
-    
-    if (url && [[NSFileManager defaultManager] fileExistsAtPath:self.currentURL]) {
-        NSLog(@"XenHTMLPrefs :: Loading from URL: %@", url);
-        self.metadata = [self rawMetadataForHTMLFile:self._unmodifiedCurrentURL ignorePreexistingMetadata:NO];
-        
-        [self unloadWebview];
-        
-        self.webView = [self loadWKWebView:self.currentURL];
-        self.webView.frame = CGRectMake(
-                                        [[self.metadata objectForKey:@"x"] floatValue]*SCREEN_WIDTH,
-                                        [[self.metadata objectForKey:@"y"] floatValue]*SCREEN_HEIGHT,
-                                        self.isFullscreen ? SCREEN_WIDTH : [[self.metadata objectForKey:@"width"] floatValue],
-                                        self.isFullscreen ? SCREEN_HEIGHT : [[self.metadata objectForKey:@"height"] floatValue]);
-        
-        [self.view addSubview:self.webView];
-    } else {
-        [self.webView loadHTMLString:@"" baseURL:nil];
-    }
-}*/
 
 @end
