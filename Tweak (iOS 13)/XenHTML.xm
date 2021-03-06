@@ -898,6 +898,26 @@ void cancelIdleTimer() {
     return %orig;
 }
 
+- (BOOL)_preflightTransitionRequest:(SBMainWorkspaceTransitionRequest*)arg1 forExecution:(BOOL)arg2 {
+    // We don't want to do anything when locked.
+    if ([[objc_getClass("SBLockScreenManager") sharedInstance] isUILocked]) {
+        return %orig;
+    }
+    
+    if ([arg1.eventLabel isEqualToString:@"ActivateSpringBoard"] ||
+        [arg1.eventLabel hasPrefix:@"ToggleSwitcher"] ) {
+        
+        XENlog(@"Showing SBHTML due to transition (SBMainWorkspace)");
+        [sbhtmlViewController setPaused:NO];
+        [sbhtmlForegroundViewController setPaused:NO];
+        
+        [sbhtmlViewController doJITWidgetLoadIfNecessary];
+        [sbhtmlForegroundViewController doJITWidgetLoadIfNecessary];
+    }
+    
+    return %orig;
+}
+
 %end
 
 // Handle the home bar of d22 and friends
