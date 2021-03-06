@@ -8,7 +8,10 @@
                 <h2>Widgets can be placed on any page with app icons</h2>
             </div>
 
-            <div class="page-detail">
+            <div class="page-detail" v-if="isNewAddApproach">
+                <p>These widgets move when you swipe between pages. They can be configured by editing the Homescreen layout, and pressing <code>+</code> along the status bar.</p>
+            </div>
+            <div class="page-detail" v-else>
                 <p>These widgets move when you swipe between pages. They can be configured by editing the Homescreen layout, then pressing <code>Add Widget</code>.</p>
             </div>
 
@@ -55,6 +58,10 @@ export default class HomescreenPage extends Vue {
 
     get deviceIsIpad() {
         return navigator.userAgent.indexOf("iPhone;") === -1;
+    }
+
+    get isNewAddApproach() {
+        return (window as any).version >= 14;
     }
 }
 </script>

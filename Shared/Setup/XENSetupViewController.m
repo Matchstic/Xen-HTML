@@ -131,6 +131,11 @@
         
         [userContentController addUserScript:errorHandler];
         
+        NSString *version = [NSString stringWithFormat:@"window.version = %f", [UIDevice currentDevice].systemVersion.floatValue];
+        WKUserScript *versionHandler = [[WKUserScript alloc] initWithSource:version injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:YES];
+        
+        [userContentController addUserScript:versionHandler];
+        
         config.userContentController = userContentController;
         config.requiresUserActionForMediaPlayback = NO;
         
