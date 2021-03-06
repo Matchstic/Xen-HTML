@@ -2277,10 +2277,17 @@ void cancelIdleTimer() {
     CGPoint dockSubPoint = [[self dockView] convertPoint:point fromView:self];
     UIView *dockResult = [[self dockView] hitTest:dockSubPoint withEvent:event];
     
+    if (@available(iOS 14, *)) {
+        // If editing, allow drops on dock if its hittested
+        if (_xenhtml_inEditingMode && dockResult)
+            return dockResult;
+    }
+    
     // Favouring dock icons over anything else
     if (dockResult &&
         ![[dockResult class] isEqual:objc_getClass("SBRootFolderDockIconListView")] &&
         ![[dockResult class] isEqual:objc_getClass("SBDockIconListView")]) {
+        
         return dockResult;
     } else {
         return %orig;
