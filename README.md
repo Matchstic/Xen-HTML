@@ -12,6 +12,7 @@ Xen HTML is in a weird sort-of-modular setup. Since 2019, all additions are desi
 - `Tweak (iOS 13)` → tweak core for iOS 13 and 14, applying hooks where necessary
 - `Shared` → a statically linked library for code shared between all iOS versions of the tweak core
 - `Shared/Configuration` → a sort-of-modular library that handles rendering widget settings
+- `Shared/Setup/ui` → a Vue.js project that is displayed when the user has installed the tweak for the first time
 - `Loader` → handles loading the correct version of the tweak core based on iOS version, and also other libraries that depend on load order
 - `Helpers/BatteryManager` → a separate tweak that hooks into the core tweak, and handles applying battery management to widgets
 - `Helpers/DenyInjection` → a separate tweak that handles preventing other tweaks accidentally injecting into WebKit processes (this was causing freezes for some users)
