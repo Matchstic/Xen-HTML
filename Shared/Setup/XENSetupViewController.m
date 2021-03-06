@@ -31,6 +31,15 @@
     return IS_IPAD;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    // Animate in fallback view a little later
+    [UIView animateWithDuration:0.2 delay:2.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.fallbackContainerView.alpha = 1.0;
+    } completion:^(BOOL finished) {}];
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -111,6 +120,8 @@
     [self.fallbackButton addTarget:self action:@selector(_fallbackButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.fallbackContainerView addSubview:self.fallbackButton];
+    
+    self.fallbackContainerView.alpha = [self _setupUIPresent] ? 0.0 : 1.0;
 }
 
 - (void)loadView {
@@ -144,6 +155,7 @@
         self.webView.translatesAutoresizingMaskIntoConstraints = NO;
         self.webView.backgroundColor = [UIColor clearColor];
         self.webView.opaque = NO;
+        self.webView.alpha = 0.0;
         
         self.webView.layer.cornerRadius = 12.5;
         self.webView.clipsToBounds = YES;
@@ -202,6 +214,12 @@
 }
 
 #pragma mark WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    [UIView animateWithDuration:0.25 animations:^{
+        webView.alpha = 1.0;
+    }];
+}
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     webView.userInteractionEnabled = NO;
