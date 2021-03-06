@@ -330,6 +330,10 @@ static int mainVariant = 0;
 #pragma mark Preferences restoration
 
 + (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath {
+    // Check config.json still exists
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:widgetPath].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return nil;
+    
     NSDictionary *restorable = [self getPreferenceKey:@"restorable"];
     if (!restorable) return nil;
     
@@ -337,6 +341,8 @@ static int mainVariant = 0;
 }
 
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    
     NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
     if (!restorable) restorable = [NSMutableDictionary dictionary];
     

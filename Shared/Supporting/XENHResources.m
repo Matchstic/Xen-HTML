@@ -998,6 +998,10 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 #pragma mark Preferences restoration
 
 + (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath {
+    // Check config.json still exists
+    NSDictionary *defaultOptions = [XENHWidgetConfiguration defaultConfigurationForPath:widgetPath].optionsModern;
+    if (!defaultOptions || [defaultOptions isEqual:@{}]) return nil;
+    
     NSDictionary *restorable = [self getPreferenceKey:@"restorable"];
     if (!restorable) return nil;
     
