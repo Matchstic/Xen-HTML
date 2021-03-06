@@ -92,7 +92,12 @@ static NSUInteger const MSRGBColorComponentsSize = 3;
 }
 
 - (NSString*)textContentFromColor:(UIColor*)color {
-    return [MSHexStringFromColor(color) stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    NSString *hex = [MSHexStringFromColor(color) stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    
+    // Reduce to 6 characters
+    hex = [hex substringToIndex:6];
+    
+    return hex;
 }
 
 #pragma mark - Private methods
