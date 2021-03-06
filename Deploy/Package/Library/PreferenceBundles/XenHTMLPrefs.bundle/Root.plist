@@ -58,7 +58,7 @@
         
 		<dict>
 			<key>footerText</key>
-			<string>Xen HTML © 2016-20 Matt Clarke (Matchstic)</string>
+			<string>Xen HTML © 2016-21 Matt Clarke (Matchstic)</string>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>isStaticText</key>
