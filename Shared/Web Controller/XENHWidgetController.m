@@ -569,11 +569,36 @@ static UIWindow *sharedOffscreenRenderingWindow;
         self.webView.scrollView.scrollEnabled = NO;
     }
     
+    [self updateEditingButtonsPosition];
+}
+
+- (void)updateEditingButtonsPosition {
+    CGRect rect = [self widgetFrame];
+    
+    // Figure out insets for the buttons if the widget is right at the screen edge
+    CGFloat topInset = 0;
+    
+    if (@available(iOS 11, *)) {
+        topInset = [UIApplication sharedApplication].keyWindow.safeAreaInsets.top;
+    } else {
+        topInset = [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+    
+    // Normalise the x origin to be in screen space
+    int normalisedX = (int)self.view.frame.origin.x % (int)SCREEN_WIDTH;
+    
+    CGFloat xInset = normalisedX < 20 ? 20 - normalisedX : 0;
+    CGFloat yInset = self.view.frame.origin.y < topInset + 16 ?
+    topInset - self.view.frame.origin.y + 16 :
+        0;
+    
+    XENlog(@"%f %f", xInset, yInset);
+    
     // Editing buttons
-    self.editingRemoveButton.frame = CGRectMake(-12, -12, self.editingRemoveButton.frame.size.width, self.editingRemoveButton.frame.size.height);
+    self.editingRemoveButton.frame = CGRectMake(-12 + xInset, -12 + yInset, self.editingRemoveButton.frame.size.width, self.editingRemoveButton.frame.size.height);
     
     CGFloat settingsX = self.editingRemoveButton.frame.origin.x + self.editingRemoveButton.frame.size.width + 8;
-    self.editingSettingsButton.frame = CGRectMake(settingsX, -12, self.editingSettingsButton.frame.size.width, self.editingSettingsButton.frame.size.height);
+    self.editingSettingsButton.frame = CGRectMake(settingsX, -12 + yInset, self.editingSettingsButton.frame.size.width, self.editingSettingsButton.frame.size.height);
     
     self.editingBackground.frame = rect;
     self.editingPositioningBackground.frame = rect;
@@ -1162,8 +1187,6 @@ static UIWindow *sharedOffscreenRenderingWindow;
 }
 
 - (void)setEditing:(BOOL)editing {
-    // TODO: Animate in the editing buttons
-    
     self.isEditing = editing;
     self.editingSettingsButton.hidden = !editing;
     self.editingRemoveButton.hidden = !editing;
@@ -1301,6 +1324,8 @@ static UIWindow *sharedOffscreenRenderingWindow;
         // Notify delegate of positioning end
         [self.editingDelegate notifyWidgetPositioningDidEnd:self];
     }
+    
+    [self updateEditingButtonsPosition];
 }
 
 - (void)_addEditingPositioningBackdrop {
