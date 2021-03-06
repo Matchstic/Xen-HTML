@@ -27,9 +27,11 @@
 #import "Cells/XENDWidgetConfigurationOptionTableCell.h"
 #import "Cells/XENDWidgetConfigurationColorTableCell.h"
 #import "Cells/XENDWidgetConfigurationLinkTableCell.h"
+#import "Cells/XENDWidgetConfigurationMultiTableCell.h"
 
 #import "Panels/XENDWidgetConfigurationOptionsController.h"
 #import "Panels/XENDWidgetConfigurationColorController.h"
+#import "Panels/XENDWidgetConfigurationMultiController.h"
 
 @interface XENDWidgetConfigurationPageController ()
 @property (nonatomic, weak) id<XENDWidgetConfigurationDelegate> delegate;
@@ -104,6 +106,7 @@
     [self.tableView registerClass:[XENDWidgetConfigurationColorTableCell class] forCellReuseIdentifier:@"color"];
     [self.tableView registerClass:[XENDWidgetConfigurationTextShortCell class] forCellReuseIdentifier:@"textShort"];
     [self.tableView registerClass:[XENDWidgetConfigurationLinkTableCell class] forCellReuseIdentifier:@"link"];
+    [self.tableView registerClass:[XENDWidgetConfigurationMultiTableCell class] forCellReuseIdentifier:@"multi"];
     
     // Workaround weird inset bugs in Homescreen
     if ([[NSBundle mainBundle].bundleIdentifier isEqualToString:@"com.apple.springboard"]) {
@@ -185,10 +188,10 @@
     NSString *type = cell.type;
     
     BOOL isSegueAction = [type isEqualToString:@"page"] ||
-                            [type isEqualToString:@"location"] ||
                             [type isEqualToString:@"color"] ||
                             [type isEqualToString:@"option"] ||
-                            [type isEqualToString:@"link"];
+                            [type isEqualToString:@"link"] ||
+                            [type isEqualToString:@"multi"];
     
     if (isSegueAction) {
         // Lookup the page that needs to be pushed, and pass appropriate stuff to it
@@ -212,15 +215,15 @@
             controller = [[XENDWidgetConfigurationPageController alloc] initWithOptions:options
                                                                                delegate:self.delegate
                                                                                   title:title];
-        } else if ([type isEqualToString:@"location"]) {
-            // TODO: Setup Location controller
         } else if ([type isEqualToString:@"color"]) {
             // Setup colour controller
             controller = [[XENDWidgetConfigurationColorController alloc] initWithCell:cell initiator:visibleCell title:title];
-            
         } else if ([type isEqualToString:@"option"]) {
             // Setup Option controller
             controller = [[XENDWidgetConfigurationOptionsController alloc] initWithCell:cell initiator:visibleCell title:title];
+        } else if ([type isEqualToString:@"multi"]) {
+            // Setup multi controller
+            controller = [[XENDWidgetConfigurationMultiController alloc] initWithCell:cell initiator:visibleCell title:title];
         } else if ([type isEqualToString:@"link"]) {
             // Open link, don't create a controller
             

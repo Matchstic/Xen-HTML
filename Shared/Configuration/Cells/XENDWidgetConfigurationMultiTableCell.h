@@ -16,21 +16,12 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import "XENDWidgetConfigurationLinkTableCell.h"
+#import "XENDWidgetConfigurationBaseTableCell.h"
 
-@implementation XENDWidgetConfigurationLinkTableCell
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    return [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-}
-
-- (void)setup {
-    NSString *title = self.cell.text;
-    NSString *link = [self.cell.properties objectForKey:@"url"];
-    
-    self.textLabel.text = title;
-    self.detailTextLabel.text = link ? link : @"Missing URL";
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
+@interface XENDWidgetConfigurationMultiTableCell : XENDWidgetConfigurationBaseTableCell
 
 @end
+
+NS_ASSUME_NONNULL_END

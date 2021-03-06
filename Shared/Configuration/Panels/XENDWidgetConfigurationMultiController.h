@@ -16,21 +16,15 @@
  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#import "XENDWidgetConfigurationLinkTableCell.h"
+#import <UIKit/UIKit.h>
+#import "../XENDWidgetConfigurationDelegate.h"
+#import "../Cells/XENDWidgetConfigurationBaseTableCell.h"
+#import "../Model/XENDWidgetConfigurationCell.h"
 
-@implementation XENDWidgetConfigurationLinkTableCell
+@interface XENDWidgetConfigurationMultiController : UITableViewController
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    return [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
-}
-
-- (void)setup {
-    NSString *title = self.cell.text;
-    NSString *link = [self.cell.properties objectForKey:@"url"];
-    
-    self.textLabel.text = title;
-    self.detailTextLabel.text = link ? link : @"Missing URL";
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-}
+- (instancetype)initWithCell:(XENDWidgetConfigurationCell*)cell
+                   initiator:(XENDWidgetConfigurationBaseTableCell*)initiator
+                       title:(NSString*)title;
 
 @end
