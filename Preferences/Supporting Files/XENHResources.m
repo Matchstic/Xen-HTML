@@ -350,12 +350,12 @@ static int mainVariant = 0;
     }
     
     
-    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    if (![self optionsAreRestorable:options forPath:path]) return;
     
     NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
     if (!restorable) restorable = [NSMutableDictionary dictionary];
     
-    [restorable setObject:options forKey:widgetPath];
+    [restorable setObject:options forKey:path];
     [self setPreferenceKey:@"restorable" withValue:restorable];
 }
 
