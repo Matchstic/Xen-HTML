@@ -1,5 +1,7 @@
-"DONATE" = "Donación";
-"HOMESCREEN" = "Pantalla de Inicio";
+
 "LOCKSCREEN" = "Pantalla de Bloqueo";
+"HOMESCREEN" = "Pantalla de Inicio";
 "MORE_WIDGETS" = "Más Widgets";
 "SUPPORT" = "Apoyo";
+"DONATE" = "Donación";
+"ADVANCED" = "Avanzado";

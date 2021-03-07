@@ -1,13 +1,8 @@
-/* 
-  SBForeground.strings
-  Xen HTML
-*/
 
 "TITLE" = "Vordergrund";
-
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Widget verhalten";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Schalter aus:\n• Sollte ein widget die application icons verdecken, können diese AKTIVIERT werden.\n Schalter an:\n• Sollte ein widget die application icons verdecken, können diese nicht mehr AKTIVIERT werden.";
-"FOREGROUND_SB_USAGE" = "So fügst du widgets (iWidgets) hinzu:\n• Tippe solange auf ein icon bis du in den\n 'Widget hinzufügen' modus gelangst\n• Drücke 'widget hinzufügen' oberhalb vom Dock";
-
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets unterhalb der Anwendungssymbole anzeigen. Somit könnt ihr das Aussehen von benutzerdefinierten Hintergrundbildern (HTML basierend), widgets pro Seite festlegen.";
-"FOREGROUND_SB_BELOW_ICONS" = "Widgets unterhalb der Icons anzeigen";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Widgetverhalten";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Schalter aus:\n• Sollte ein Widget die Anwendungssymbole verdecken, können diese immernoch AKTIVIERT werden.\n Schalter an:\n• Sollte ein Widget die Anwendungssymbole verdecken, können diese nicht mehr AKTIVIERT werden.";
+"FOREGROUND_SB_USAGE" = "So fügen Sie das Widget (iWidget) hinzu:\n• Tippe solange auf ein IKon bis Sie in den\n 'Widget hinzufügen' Modus gelangen\n• Drücke 'widget hinzufügen' oberhalb vom Dock";
+"FOREGROUND_SB_USAGE_14" = "So fügen Sie Widgets neben Symbolen hinzu:\n• Halten Sie ein beliebiges Symbol gedrückt, um den Bearbeitungsmodus aufzurufen\n• Tippen Sie in der Statusleiste auf '+'\n• Tippen Sie auf 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets unter den Anwendungssymbole anzeigen. Somit könnt Ihr das Aussehen von benutzerdefinierten Hintergrundbildern (HTML basierend) erreichen, Widgets pro Seite festlegen.";
+"FOREGROUND_SB_BELOW_ICONS" = "Widgets unter den Ikons anzeigen";

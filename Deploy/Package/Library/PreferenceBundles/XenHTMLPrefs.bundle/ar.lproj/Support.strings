@@ -1,10 +1,21 @@
-{
-    "BUGS_FEATURES" = "الابلاغ عن الاخطاء وطلب المميزات";
-    "MESSAGE_FOOTER" = "قد يستغرق الامر بضعة ايام قبل ان تتلقى ردا";
-    "MESSAGE_HEADER" = "ارسال رسالة";
-    "MESSAGE_MAIL" = "عبر البريد";
-    "MESSAGE_TWITTER" = "عبر تويتر";
-    "RESET_FOOTER" = "سيؤدي هذا الى مسح جميع اعدادات Xen HTML";
-    "RESET_SETTINGS" = "اعادة تعيين الاعدادات";
-    "TITLE" = "الدعم الفني";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "الدعم الفني";
+"MESSAGE_FOOTER" = "قد يستغرق الامر بضعة ايام قبل ان تتلقى ردا";
+"MESSAGE_HEADER" = "ارسال رسالة";
+"MESSAGE_TWITTER" = "عبر تويتر";
+"MESSAGE_MAIL" = "عبر البريد";
+"BUGS_FEATURES" = "الابلاغ عن الاخطاء وطلب المميزات";
+"RESET_FOOTER" = "سيؤدي هذا الى مسح جميع اعدادات Xen HTML";
+"RESET_SETTINGS" = "اعادة تعيين الاعدادات";

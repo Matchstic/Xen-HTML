@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "מתקדם";
+"TITLE_DEV_OPTIONS" = "אפשרויות מפתח";
+"BATTERY_MANAGEMENT" = "ניהול סוללה";
+"BATTERY_MANAGEMENT_MODE" = "מצב";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "נמוך";
+"BATTERY_MANAGEMENT_OPTION_MED" = "בינוני";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "גבוה";
+"BATTERY_MANAGEMENT_FOOTER" = "ניהול סוללה עוזר להפחית את פריקתה כאשר הווידג'טים אינם גלויים.\n\n מצבים זמינים:\n\n• נמוך: מונע עדכוני ממשק משתמש בווידג'טים, אך מאפשר להם להמשיך ולהריץ קוד ברקע\n• בינוני: משהה ביצוע קוד בווידג'טים (כלומר, 'מקפיא' אותם)\n• גבוה: מוריד ווידג'טים לחלוטין\n\nמצב גבוה יותר מוביל לפחות פריקה, אך עלול לגרום לבעיות חזותיות כאשר הווידג'טים יועלו שוב.";
+"WW_OVERRIDE" = "Widget Weather עוקף";
+"WW_OVERRIDE_FOOTER" = "אם מותקן  Widget Weather,  ידחה אותו Xen HTML כאשר הוא מספק תאימות לאחור לנתוני הווידג'טים.\n\nאפשרות זו מאלצת את Xen HTML לעקוף תמיד את פלט ה- Widget Weather.";
+"WIDGET_LOGGING" = "רישום ווידג'טים";
+"WIDGET_LOGGING_FOOTER" = "אפשרות זו מפנה אל המסוף. * JavaScript קורא בווידג'טים למערכת הקבצים. \n\n ניתן למצוא יומנים ב- /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "מצב עקיפה";
+"OVERWRITE_MODE_FOOTER" = "אפשרות זו מוסיפה לחצן בעת ​​קביעת התצורה של הווידג'ט כדי להחליף את ערכי ברירת המחדל שלו עם ההגדרות שבחרת.\n\n זה שימושי רק אם ברצונך לבצע שינויים בהגדרות של יישומון ואז \"לקבע\" את ההגדרות האלה בווידג'ט לייצואו מחדש.\n\n הגדרה זו אינה נחוצה לשימוש כללי.";
+"WEBKIT_DEV_OPTIONS" = "WebKit אפשרויות פיתוח";
+"RESOURCE_USAGE_OVERLAY" = "כיסוי לשימוש במשאבים";
+"COMPOSITING_BORDERS" = "הצג גבולות קומפוזיטינג";
+"RESPRING" = "הפעל מחדש";
+"RESPRING_FOOTER" = "אפשרויות מפתח דורשות הפעלה מחדש";

@@ -1,10 +1,21 @@
-{
-    "BTC" = "عبر بيتكوين (BTC)";
-    "BTC_FOOTER" = "انقر لنسخ عنواني في بيتكوين";
-    "ETH" = "عبر ايثريوم (ETH)";
-    "ETH_FOOTER" = "انقر لنسخ عنواني في ايثريوم";
-    "INFO_FOOTER" = "اذا كنت تستمتع باستخدام Xen HTML، فأتمنى تقديري ودعمي عبر PayPal";
-    "PAYPAL" = "عبر PayPal";
-    "PAYPAL_FOOTER" = "انقر لنسخ عنوان PayPal الخاص بي";
-    "TITLE" = "تبرع ودعم";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "تبرع ودعم";
+"INFO_FOOTER" = "اذا كنت تستمتع باستخدام Xen HTML، فأتمنى تقديري ودعمي عبر PayPal";
+"PAYPAL" = "عبر PayPal";
+"PAYPAL_FOOTER" = "انقر لنسخ عنوان PayPal الخاص بي";
+"BTC" = "عبر بيتكوين (BTC)";
+"BTC_FOOTER" = "انقر لنسخ عنواني في بيتكوين";
+"ETH" = "عبر ايثريوم (ETH)";
+"ETH_FOOTER" = "انقر لنسخ عنواني في ايثريوم";

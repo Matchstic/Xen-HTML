@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "متقدم";
+"TITLE_DEV_OPTIONS" = "خيارات للمطور";
+"BATTERY_MANAGEMENT" = "إدارة البطارية";
+"BATTERY_MANAGEMENT_MODE" = "الوضع";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "منخفض";
+"BATTERY_MANAGEMENT_OPTION_MED" = "معتدل";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "مرتفع";
+"BATTERY_MANAGEMENT_FOOTER" = "تساعد إدارة البطارية في تقليل استنزاف الأدوات عندما لا تكون مرئية. \n\n الأوضاع المتاحة:\n\n• منخفض: يمنع تحديثات واجهة المستخدم في الأدوات ، ولكنه يسمح لها بمواصلة تشغيل التعليمات البرمجية في الخلفية \n• معتدل: إيقاف الرمز مؤقتًا التنفيذ في الأدوات (على سبيل المثال ، \"يجمدها\") \n• مرتفع: يؤدي إلى إلغاء تحميل الأدوات تمامًا \n\n يؤدي الوضع الأعلى إلى تقليل الصرف ، ولكنه قد يتسبب في حدوث مشكلات بصرية عندما تصبح الأدوات مرئية مرة أخرى.";
+"WW_OVERRIDE" = "تجاوز ويدجت الطقس";
+"WW_OVERRIDE_FOOTER" = "إذا تم تثبيت الويدجت الطقس ، فإن Xen HTML سيحترمه عند توفير التوافق العكسي لبيانات عنصر واجهة المستخدم. \n\n يفرض هذا الخيار على Xen HTML تجاوز إخراج ويدجت الطقس دائمًا.";
+"WIDGET_LOGGING" = "ويدجت تسجيل";
+"WIDGET_LOGGING_FOOTER" = "يقوم هذا الخيار بإعادة توجيه وحدة التحكم. * يستدعي JavaScript في عناصر واجهة المستخدم نظام الملفات.\n\n يمكن العثور على السجلات في /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "وضع الكتابة";
+"OVERWRITE_MODE_FOOTER" = "يضيف هذا الخيار زرًا ، عند تكوين عنصر واجهة مستخدم ، للكتابة فوق قيمه الافتراضية بالإعدادات التي اخترتها.\n\n هذا مفيد فقط إذا كنت تريد إجراء تغييرات على إعدادات عنصر واجهة المستخدم ، ثم \"تراجع \" هذه الإعدادات في عنصر واجهة المستخدم لإعادة تصديره. \n\n لا تحتاج إلى تمكين هذا الإعداد للاستخدام العام.";
+"WEBKIT_DEV_OPTIONS" = "خيارات تطوير WebKit";
+"RESOURCE_USAGE_OVERLAY" = "تراكب استخدام الموارد";
+"COMPOSITING_BORDERS" = "إظهار حدود التركيب";
+"RESPRING" = "إعادة تشغيل سريع";
+"RESPRING_FOOTER" = "تتطلب خيارات المطور إعادة تشغيل سريع لتطبيقها.";

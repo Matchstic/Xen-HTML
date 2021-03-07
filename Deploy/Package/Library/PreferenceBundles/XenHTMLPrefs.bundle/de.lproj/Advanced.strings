@@ -1,0 +1,20 @@
+
+"TITLE" = "Erweiterte Einstellungen";
+"TITLE_DEV_OPTIONS" = "Entwickleroptionen";
+"BATTERY_MANAGEMENT" = "Batteriemanagement";
+"BATTERY_MANAGEMENT_MODE" = "Modus";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Niedrig";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Moderat";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Hoch";
+"BATTERY_MANAGEMENT_FOOTER" = "Das Batteriemanagement hilft dabei, die Belastung von Widgets zu verringern, wenn diese nicht sichtbar sind.\n\nVerfügbare Modi:\n\n• Niedrig: Verhindert Aktualisierungen der Benutzeroberfläche in Widgets, ermöglicht jedoch die weitere Ausführung von Code im Hintergrund\n• Moderat: Unterbricht die Code Ausführung in Widgets (dh 'friert' sie ein)\n• Hoch: Entlädt Widgets vollständig \n\nEin höherer Modus führt zu weniger Batterieverbrauch, kann jedoch visuelle Probleme verursachen, wenn Widgets wieder sichtbar werden.";
+"WW_OVERRIDE" = "Ignoriere WidgetWeather";
+"WW_OVERRIDE_FOOTER" = "Wenn WidgetWeather installiert ist, wird Xen HTML bei der Bereitstellung der Abwärtskompatibilität für Widget-Daten darauf zurückgreifen.\n\nDiese Option zwingt Xen HTML, die Daten von WidgetWeather immer zu ignorieren.";
+"WIDGET_LOGGING" = "Widget Protokollierung";
+"WIDGET_LOGGING_FOOTER" = "Diese Option leitet die console.* JavaScript ruft Widgets in dem Dateisystem auf.\n\nLogs finden Sie in /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Export Modus";
+"OVERWRITE_MODE_FOOTER" = "Diese Option fügt beim Konfigurieren eines Widgets eine neue \"Export\" Funktion hinzu, mit der die Standardwerte mit den von Ihnen gewählten Einstellungen überschrieben werden können.\n\nDies ist nur nützlich, wenn Sie Änderungen an den Einstellungen eines Widgets vornehmen und diese Einstellungen dann als neue \"Default\" Einstellung für das Widget speichern möchten.\n\nDie originale config.json wird überschrieben werden.\n\nDiese Einstellung muss für die allgemeine Verwendung nicht aktiviert sein.";
+"WEBKIT_DEV_OPTIONS" = "WebKit Entwicklungsoptionen";
+"RESOURCE_USAGE_OVERLAY" = "Überlagerung der Ressourcennutzung";
+"COMPOSITING_BORDERS" = "Compositing Borders anzeigen";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Für Entwickleroptionen ist ein Respring erforderlich, um angewendet werden zu können.";

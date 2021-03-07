@@ -1,0 +1,20 @@
+
+"TITLE" = "Avanzado";
+"TITLE_DEV_OPTIONS" = "Opciones de Desarrollador";
+"BATTERY_MANAGEMENT" = "Manejo de Batería";
+"BATTERY_MANAGEMENT_MODE" = "Modo";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Bajo";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Moderado";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Alto";
+"BATTERY_MANAGEMENT_FOOTER" = "Manejo de batería ayuda a reducir el drenaje de widgets cuando no son visibles.\n\nModos disponibles:\n\n• Bajo: previene actualizaciones de IU en widgets, pero permite que continúen ejecutando código en el trasfondo\n• Moderado: pausa la ejecución de código en widgets (es decir, los 'detiene')\n• Alto: descarga completamente los widgets\n\nUn modo más alto conlleva a menos drenaje, pero puede causar problemas visuales cuando el widget es visible de nuevo.";
+"WW_OVERRIDE" = "Anular 'Widget Weather'";
+"WW_OVERRIDE_FOOTER" = "Si 'Widget Weather' está instalado, Xen HTML deferirá a éste para proveer compatibilidad hacia atrás para data de widget.\n\nEsta opción obliga a Xen HTML a siempre anular la salida de 'Widget Weather'.";
+"WIDGET_LOGGING" = "Registro de Widget";
+"WIDGET_LOGGING_FOOTER" = "Esta opción redirecciona la console.* Llamadas de JavaScript en los widgets al sistema de registros.\n\nRegistros se encuantran en /var/móvil/Biblioteca/Registros/Xen-HTML";
+"OVERWRITE_MODE" = "Modo de Sobrescribir";
+"OVERWRITE_MODE_FOOTER" = "Esta opción añade un botón, cuando se configura un widget, para sobrescribir los valores normales con los ajustes hechos.\n\nEsto es solo útil si quiere hacer cambios a los ajustes de un widget, entonces \"quemar\" esa configuración en el widget apra re-exportarlo.\n\nNo necesita esta opción activada para uso general";
+"WEBKIT_DEV_OPTIONS" = "Opciones de Desarrollo de WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Recursos de Uso de Capa Sobrepuesta";
+"COMPOSITING_BORDERS" = "Mostrar Bordes de Composición";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Las opciones de desarrollador requieren un respring para aplicar.";

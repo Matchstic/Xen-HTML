@@ -1,10 +1,7 @@
-/* 
-  Root.strings
-  Xen HTML
-*/
 
 "LOCKSCREEN" = "מסך הנעילה";
 "HOMESCREEN" = "מסך הבית";
 "MORE_WIDGETS" = "עוד ווידג'טס";
 "SUPPORT" = "תמיכה";
 "DONATE" = "תרום";
+"ADVANCED" = "מתקדם";

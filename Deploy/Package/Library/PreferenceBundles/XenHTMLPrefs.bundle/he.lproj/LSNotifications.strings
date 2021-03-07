@@ -1,14 +1,8 @@
-/* 
-  LSNotifications.strings
-  Xen HTML
-*/
 
 "TITLE" = "הודעות";
-
 "HIDE_FOREGROUND_NOTIF_HEADER" = "הסתר ווידג'טס חזית עבור‫:‬";
 "HIDE_FOREGROUND_NOTIF_FOOTER" = "הגדר התנהגות לצד ההודעות";
 "HIDE_FOREGROUND_NOTIF" = "הודעות";
-
 "OTHER_HEADER" = "הגדרות נוספות";
 "OTHER_FOOTER" = "ניתן להציג הודעות על מסך מלא‬";
 "FULLSCREEN_NOTIFICATIONS" = "הודעות על מסך מלא";

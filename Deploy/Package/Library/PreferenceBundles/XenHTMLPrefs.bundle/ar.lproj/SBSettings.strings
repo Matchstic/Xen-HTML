@@ -1,14 +1,25 @@
-{
-    "ELEMENT_SB_DOCK_BLUR" = "اخفاء ضبابية الدوك السفلي";
-    "ELEMENT_SB_FOLDER_BLUR" = "اخفاء ضبابية ايقونات المجلدات";
-    "ELEMENT_SB_ICON_LABELS" = "اخفاء اسماء التطبيقات";
-    "ELEMENT_SB_PAGE_DOTS" = "اخفاء نقاط الصفحات";
-    "ELEMENT_VISIBILITY_HS_FOOTER" = "اخفاء عناصر الشاشة الرئيسية عند استخدام Xen HTML";
-    "ELEMENT_VISIBILITY_HS_HEADER" = "العناصر المرئية";
-    "MISC_HEADER" = "متنوع";
-    "MISC_SB_TOUCH" = "السماح باللمس على الويدجت";
-    "MISC_SB_TOUCH2" = "Allow Touch on Background";
-    "WIDGET_EDITOR_HEADER" = "تعديل الويدجت";
-    "WIDGET_EDITOR_HS_FOOTER" = "قم بتخصيص لوحة الاعدادات المستخدمة في اختيار الويدجات التي يتم عرضها على الشاشة الرئيسية.";
-    "WIDGET_EDITOR_SNAP" = "انجذاب الويدجات الى المحور Y";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"ELEMENT_VISIBILITY_HS_HEADER" = "العناصر المرئية";
+"ELEMENT_VISIBILITY_HS_FOOTER" = "اخفاء عناصر الشاشة الرئيسية عند استخدام Xen HTML";
+"ELEMENT_SB_DOCK_BLUR" = "اخفاء ضبابية الدوك السفلي";
+"ELEMENT_SB_FOLDER_BLUR" = "اخفاء ضبابية ايقونات المجلدات";
+"ELEMENT_SB_ICON_LABELS" = "اخفاء اسماء التطبيقات";
+"ELEMENT_SB_PAGE_DOTS" = "اخفاء نقاط الصفحات";
+"MISC_HEADER" = "متنوع";
+"MISC_SB_TOUCH" = "السماح باللمس على الويدجت";
+"MISC_SB_TOUCH2" = "السماح باللمس على الخلفية";
+"WIDGET_EDITOR_HEADER" = "تعديل الويدجت";
+"WIDGET_EDITOR_HS_FOOTER" = "قم بتخصيص لوحة الاعدادات المستخدمة في اختيار الويدجات التي يتم عرضها على الشاشة الرئيسية.";
+"WIDGET_EDITOR_SNAP" = "انجذاب الويدجت الى المحور Y";

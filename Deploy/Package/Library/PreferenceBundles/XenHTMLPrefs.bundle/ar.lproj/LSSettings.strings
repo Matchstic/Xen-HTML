@@ -1,30 +1,42 @@
-{
-    "ADVANCED" = "متقدم";
-    "ELEMENT_HIDE_OTHERS" = "اخفاء عناصر اخرى";
-    "ELEMENT_HOME_TO_UNLOCK" = "اخفاء نص 'اضغط زر الشاشة الرئيسية لفتح القفل'";
-    "ELEMENT_LS_CLOCK" = "اخفاء الساعة في شاشة القفل";
-    "ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "على كل الصفحات";
-    "ELEMENT_LS_CLOCK_IOS10_FOOTER" = "يمكن اخفاء الساعة في شاشة القفل على الشاشة الرئيسية فقط او اخفاؤها في كل الصفحات.";
-    "ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "على الصفحة الرئيسية";
-    "ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "مرئي";
-    "ELEMENT_SLIDE_TO_UNLOCK" = "اخفاء نص 'تمرير لفتح القفل'";
-    "ELEMENT_SWIPE_TO_UNLOCK" = "اخفاء نص 'اسحب لاعلى لفتح القفل'";
-    "ELEMENT_VISIBILITY_FOOTER" = "اخفاء عناصر شاشة القفل عند استخدام Xen HTML";
-    "ELEMENT_VISIBILITY_HEADER" = "العناصر المرئية";
-    "MISC_LS_IDLE_TIME" = "قفل الشاشة عند مدة خمول";
-    "MISC_LS_IDLE_TIME_10S" = "10 ثواني";
-    "MISC_LS_IDLE_TIME_120S" = "دقيقتان";
-    "MISC_LS_IDLE_TIME_15S" = "15 ثانية";
-    "MISC_LS_IDLE_TIME_20S" = "20 ثانية";
-    "MISC_LS_IDLE_TIME_30S" = "30 ثانية";
-    "MISC_LS_IDLE_TIME_60S" = "دقيقة";
-    "MISC_LS_STATUS_BAR_SIZE" = "بار علوي اصغر في شاشة القفل";
-    "MSIC_HEADER" = "متنوع";
-    "VISIBILITY_HEADER" = "الويدجت المرئي";
-    "VISIBILITY_MEDIA" = "سلوك التحكم في الوسائط";
-    "VISIBILITY_NOTIFICATIONS" = "سلوك الاشعارات";
-    "VISIBILITY_OPACITY" = "تعتيم الويدجت عند اخفاء:";
-    "WIDGET_EDITOR_FOOTER" = "قم بتخصيص لوحة الاعدادات المستخدمة في اختيار الويدجات التي يتم عرضها على شاشة القفل.";
-    "WIDGET_EDITOR_HEADER" = "تعديل الويدجت";
-    "WIDGET_EDITOR_SNAP" = "انجذاب الويدجات الى المحور Y";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "العناصر المرئية";
+"ELEMENT_VISIBILITY_FOOTER" = "اخفاء عناصر شاشة القفل عند استخدام Xen HTML";
+"ELEMENT_LS_CLOCK" = "اخفاء الساعة في شاشة القفل";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "مرئي";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "على الصفحة الرئيسية";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "على كل الصفحات";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "يمكن اخفاء الساعة في شاشة القفل على الشاشة الرئيسية فقط او اخفاؤها في كل الصفحات.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "اخفاء نص 'تمرير لفتح القفل'";
+"ELEMENT_HOME_TO_UNLOCK" = "اخفاء نص 'اضغط زر الشاشة الرئيسية لفتح القفل'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "اخفاء نص 'اسحب لاعلى لفتح القفل'";
+"ELEMENT_HIDE_OTHERS" = "اخفاء عناصر اخرى";
+"VISIBILITY_HEADER" = "الويدجت المرئي";
+"VISIBILITY_MEDIA" = "سلوك التحكم في الوسائط";
+"VISIBILITY_NOTIFICATIONS" = "سلوك الاشعارات";
+"VISIBILITY_OPACITY" = "تعتيم الويدجت عند اخفاء:";
+"MSIC_HEADER" = "متنوع";
+"MISC_LS_STATUS_BAR_SIZE" = "بار علوي اصغر في شاشة القفل";
+"MISC_LS_IDLE_TIME" = "قفل الشاشة عند مدة خمول";
+"MISC_LS_IDLE_TIME_7S" = "إفتراضي";
+"MISC_LS_IDLE_TIME_10S" = "10 ثواني";
+"MISC_LS_IDLE_TIME_15S" = "15 ثانية";
+"MISC_LS_IDLE_TIME_20S" = "20 ثانية";
+"MISC_LS_IDLE_TIME_30S" = "30 ثانية";
+"MISC_LS_IDLE_TIME_60S" = "دقيقة";
+"MISC_LS_IDLE_TIME_120S" = "دقيقتان";
+"ADVANCED" = "متقدم";
+"WIDGET_EDITOR_HEADER" = "تعديل الويدجت";
+"WIDGET_EDITOR_FOOTER" = "قم بتخصيص لوحة الاعدادات المستخدمة في اختيار الويدجات التي يتم عرضها على شاشة القفل.";
+"WIDGET_EDITOR_SNAP" = "انجذاب الويدجت الى المحور Y";

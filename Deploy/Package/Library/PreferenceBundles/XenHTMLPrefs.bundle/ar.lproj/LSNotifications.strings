@@ -1,9 +1,20 @@
-{
-    "FULLSCREEN_NOTIFICATIONS" = "شاشة كاملة للاشعارات";
-    "HIDE_FOREGROUND_NOTIF" = "الاشعارات";
-    "HIDE_FOREGROUND_NOTIF_FOOTER" = "قم بتكوين السلوك بجانب الاشعارات";
-    "HIDE_FOREGROUND_NOTIF_HEADER" = "اخفاء ويدجت المقدمة لـ:";
-    "OTHER_FOOTER" = "يمكن تقديم الاشعارات على الارتفاع الكامل للشاشة";
-    "OTHER_HEADER" = "اعدادات اخرى";
-    "TITLE" = "الاشعارات";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "الاشعارات";
+"HIDE_FOREGROUND_NOTIF_HEADER" = "اخفاء ويدجت المقدمة لـ:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "قم بتكوين السلوك بجانب الاشعارات";
+"HIDE_FOREGROUND_NOTIF" = "الاشعارات";
+"OTHER_HEADER" = "اعدادات اخرى";
+"OTHER_FOOTER" = "يمكن تقديم الاشعارات على الارتفاع الكامل للشاشة";
+"FULLSCREEN_NOTIFICATIONS" = "شاشة كاملة للاشعارات";

@@ -1,13 +1,8 @@
-/* 
-  SBForeground.strings
-  Xen HTML
-*/
 
-"TITLE" = "Foreground";
-
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
-"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
-
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
-"FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";
+"TITLE" = "חזית";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "מנע מגע מאחורי ווידג'טס";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "אם יישומון מכסה סמלי יישומים, בדרך כלל עדיין ניתן לגעת בסמלים אלה.";
+"FOREGROUND_SB_USAGE" = "כדי להוסיף ווידג'טס לצד אייקונים: \n• החזק כל סמל כדי להיכנס למצב עריכה \n• הקש על 'הוסף ווידג'טס' מעל הדוק";
+"FOREGROUND_SB_USAGE_14" = "כדי להוסיף ווידג'טים לצד אייקונים: \n• החזק כל סמל כדי להיכנס למצב עריכה \n• הקש על '+' לאורך שורת המצב \n• הקש על 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "ווידג'טס מתחת לסמלי היישום נותנים מראה של טפטים מותאמים אישית, בעמוד הסמלים.";
+"FOREGROUND_SB_BELOW_ICONS" = "הצג ווידג'טס מתחת לסמלים";

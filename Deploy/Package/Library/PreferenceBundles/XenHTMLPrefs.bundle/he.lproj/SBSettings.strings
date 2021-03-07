@@ -1,7 +1,3 @@
-/* 
-  SBSettings.strings
-  Xen HTML
-*/
 
 "ELEMENT_VISIBILITY_HS_HEADER" = "תצוגת רכיבים";
 "ELEMENT_VISIBILITY_HS_FOOTER" = "Xen HTML -הסתר רכיבים של מסך הבית בעת שימוש ב";
@@ -9,11 +5,9 @@
 "ELEMENT_SB_FOLDER_BLUR" = "הסתר טשטוש סמל התיקייה";
 "ELEMENT_SB_ICON_LABELS" = "הסתר תוויות הסמל";
 "ELEMENT_SB_PAGE_DOTS" = "הסתר נקודות עמוד";
-
 "MISC_HEADER" = "שונות";
 "MISC_SB_TOUCH" = "אפשר מגע על הווידג'ט";
-"MISC_SB_TOUCH2" = "Allow Touch on Background";
-
+"MISC_SB_TOUCH2" = "אפשר מגע ברקע";
 "WIDGET_EDITOR_HEADER" = "עריכת ווידג'ט";
 "WIDGET_EDITOR_HS_FOOTER" = "התאם את לוח ההגדרות המשמש לבחירת ווידג'טס להצגה במסך הבית‬";
 "WIDGET_EDITOR_SNAP" = "Y -הצמד ווידג'טס לציר ה";
