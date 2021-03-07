@@ -60,8 +60,8 @@
         
         // Sort enabled options to match user's ordering
         [enabledOptions sortUsingComparator:^NSComparisonResult(NSDictionary* _Nonnull obj1, NSDictionary* _Nonnull obj2) {
-            NSInteger indexA = [options indexOfObject:[obj1 objectForKey:@"value"]];
-            NSInteger indexB = [options indexOfObject:[obj1 objectForKey:@"value"]];
+            NSInteger indexA = [enabled indexOfObject:[obj1 objectForKey:@"value"]];
+            NSInteger indexB = [enabled indexOfObject:[obj2 objectForKey:@"value"]];
             
             return indexA < indexB ? NSOrderedAscending : NSOrderedDescending;
         }];
