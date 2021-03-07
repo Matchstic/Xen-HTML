@@ -75,7 +75,7 @@
 "WIDGET_SETTINGS_DISABLED" = "Disabled";
 "WIDGET_SETTINGS_REMOVE" = "Remove";
 "NO_ENABLED_ITEMS" = "No enabled items";
-"NO_DISABLED_ITEMS" = "No enabled items";
+"NO_DISABLED_ITEMS" = "No disabled items";
 
 "OVERWRITE_MODE_BUTTON_TITLE" = "Export";
 "OVERWRITE_MODE_NOT_AVAILABLE" = "No config.json file was found for this widget.\n\nExporting your settings is not possible.";
