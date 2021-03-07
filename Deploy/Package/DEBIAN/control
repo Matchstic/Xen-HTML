@@ -1,11 +1,10 @@
 Package: com.matchstic.xenhtml
 Name: Xen HTML
-Version: 2.0~beta8
+Version: 2.0~beta7.2
 Description: Run HTML widgets on the Lockscreen and Homescreen
 Section: System
 Depends: firmware (>= 9.0), mobilesubstrate, preferenceloader, firmware (>= 11.0) | com.unlimapps.uaunbox, com.rpetrich.rocketbootstrap
 Provides: com.groovycarrot.groovylock, com.bushe.lockhtml4, com.bushe.lockhtml3, com.bushe.lockhtml2, cydget, com.groovycarrot.sbhtml, com.junesiphone.xeninfo, com.modmyi.widgetweather3, com.matchstic.infostats2, com.matchstic.infostats
-Conflicts: xyz.itznebbs.genesis2
 Priority: optional
 Architecture: iphoneos-arm
 Author: Matt Clarke <matt@incendo.ws>
