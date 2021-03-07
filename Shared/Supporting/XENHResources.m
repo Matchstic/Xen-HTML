@@ -1009,12 +1009,20 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 }
 
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
-    if (![self optionsAreRestorable:options forPath:widgetPath]) return;
+    // Amend path to strip prefix if necessary
+    NSString *path = widgetPath;
+    if ([path hasPrefix:@":"]) {
+        // Read the string up to the first /, then strip off the : prefix.
+        NSRange range = [path rangeOfString:@"/"];
+        path = [path substringFromIndex:range.location];
+    }
+    
+    if (![self optionsAreRestorable:options forPath:path]) return;
     
     NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
     if (!restorable) restorable = [NSMutableDictionary dictionary];
     
-    [restorable setObject:options forKey:widgetPath];
+    [restorable setObject:options forKey:path];
     [self setPreferenceKey:@"restorable" withValue:restorable andPost:YES];
 }
 

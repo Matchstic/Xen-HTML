@@ -341,6 +341,15 @@ static int mainVariant = 0;
 }
 
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath {
+    // Amend path to strip prefix if necessary
+    NSString *path = widgetPath;
+    if ([path hasPrefix:@":"]) {
+        // Read the string up to the first /, then strip off the : prefix.
+        NSRange range = [path rangeOfString:@"/"];
+        path = [path substringFromIndex:range.location];
+    }
+    
+    
     if (![self optionsAreRestorable:options forPath:widgetPath]) return;
     
     NSMutableDictionary *restorable = [[self getPreferenceKey:@"restorable"] mutableCopy];
