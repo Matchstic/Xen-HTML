@@ -145,7 +145,7 @@ extern NSString * MSHexStringFromColor(UIColor *color)
                                 (unsigned long)(red * MSRGBColorComponentMaxValue),
                                 (unsigned long)(green * MSRGBColorComponentMaxValue),
                                 (unsigned long)(blue * MSRGBColorComponentMaxValue),
-                                (unsigned long)(alpha * MSAlphaComponentMaxValue)];
+                                (unsigned long)(alpha * MSRGBColorComponentMaxValue)];
     return hexColorString;
 }
 
@@ -182,7 +182,7 @@ extern UIColor * MSColorFromHexString(NSString *hexColor)
         return [UIColor colorWithRed:r / MSRGBColorComponentMaxValue
                                green:g / MSRGBColorComponentMaxValue
                                 blue:b / MSRGBColorComponentMaxValue
-                               alpha:a / MSAlphaComponentMaxValue];
+                               alpha:a / MSRGBColorComponentMaxValue];
     } else {
         return [UIColor whiteColor];
     }
