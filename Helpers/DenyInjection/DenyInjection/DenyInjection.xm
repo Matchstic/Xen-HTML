@@ -33,11 +33,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <libgen.h>
 #include <crt_externs.h>
 
+#include <dlfcn.h>
+#include <substrate.h>
+
 static BOOL hasPrefix(const char *string, const char *prefix) {
     return strncmp(prefix, string, strlen(prefix)) == 0;
 }
 
-%hookf(void *, dlopen, const char *path, int mode) {
+MSHook(void *, dlopen, const char *path, int mode, void *lr) {
     @try {
         if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
         
@@ -51,12 +54,12 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
             
             // Additionally, if there is no filter plist, then it has been dlopen'd by another tweak
             if (!filterPlist) {
-                return %orig;
+                return _dlopen(path, mode, lr);
             }
             
             NSDictionary *filter = [filterPlist objectForKey:@"Filter"];
             if (!filter) {
-                return %orig;
+                return _dlopen(path, mode, lr);
             }
             
             NSArray *bundles = [filter objectForKey:@"Bundles"];
@@ -74,31 +77,27 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
         // no-op
     }
         
-    return %orig;
+    return _dlopen(path, mode, lr);
 }
 
-%ctor {
-    // Check iOS version
-    NSOperatingSystemVersion version;
-    version.majorVersion = 14;
-    version.minorVersion = 0;
-    version.patchVersion = 0;
-    
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:version]) {
-        return;
-    }
-    
+%ctor {    
     char **args = *_NSGetArgv();
     const char *processName = args[0];
     
     if ((hasPrefix(processName, "/usr") ||
          hasPrefix(processName, "/System") ||
          strstr(".framework/", processName) != NULL)
-        && strstr(processName, "SpringBoard") == NULL // Allow SpringBoard
-        && strstr(processName, ".appex") == NULL // Allow app extensions
-        && !hasPrefix(processName, "/System/Library/CoreServices") // Allow any core service
-        && !hasPrefix(processName, "/System/Library/SpringBoardPlugins")) // Allow plugins
-    {
+         && strstr(processName, "SpringBoard") == NULL // Allow SpringBoard
+         && strstr(processName, ".appex") == NULL // Allow app extensions
+         && !hasPrefix(processName, "/System/Library/CoreServices") // Allow any core service
+         && !hasPrefix(processName, "/System/Library/SpringBoardPlugins") // Allow plugins
+    ) {
+        decltype(_dlopen) dlopen$(nullptr);
+        if (MSImageRef libdyld = MSGetImageByName("/usr/lib/system/libdyld.dylib")) {
+            MSHookSymbol(dlopen$, "__ZL15dlopen_internalPKciPv", libdyld);
+        }
+        MSHookFunction(dlopen$ ?: reinterpret_cast<decltype(dlopen$)>(&dlopen), MSHake(dlopen));
+        
         %init();
     }
 }
