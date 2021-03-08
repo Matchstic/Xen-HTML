@@ -21,7 +21,7 @@
 "NO" = "لا";
 "ROOT_SHARE_TEXT" = "انا استخدم Xen HTML لتشغيل ويدجات من نوع HTML على شاشة القفل والشاشة الرئيسية الخاصتان بي! تحقق من ذلك على سيديا:";
 "MORE_REPOS_TITLE" = "سورسات اضافية";
-"MORE_REPOS_WIDGETS" = "المزيد من سورسات الويدجات";
+"MORE_REPOS_WIDGETS" = "المزيد من سورسات الويدجدات";
 "MORE_REPOS_REFRESH" = "تحديث";
 "MORE_REPOS_CONTACTING_SERVER" = "الاتصال بالخادم...";
 "MORE_REPOS_ADD_TO_CYDIA" = "اضافة هذا السورس؟";
@@ -30,7 +30,7 @@
 "SUPPORT_RESPRING_NOTIFY" = "سيقوم جهازك الان بعمل ريسبرنج لتطبيق التغييرات";
 "SUPPORT_CONFIRM_RESET" = "سيؤدي هذا الى استعادة جميع اعدادات Xen HTML الاصلية.\n\nهل تريد المتابعة؟";
 "SUPPORT_CONFIRM_OPTION" = "نعم";
-"WIDGETS_TITLE" = "الويدجات";
+"WIDGETS_TITLE" = "الويدجدات";
 "WIDGETS_PREVIEW_HEADER" = "مراجعة";
 "WIDGETS_PREVIEW_FOOTER" = "حرك لضبط زاوية المعاينة";
 "WIDGETS_BACKGROUND" = "ويدجات الخلفية";
@@ -63,7 +63,7 @@
 "WIDGET_PICKER_UNKNOWN_PACKAGE" = "غير معروف / محلي";
 "WIDGET_SETTINGS_TITLE" = "اعدادات الويدجت";
 "WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "فشل في تطبيق اعدادات الويدجت؛ تحقق من اذونات الملف لهذا الويدجت";
-"WIDGET_SETTINGS_LEGACY_FOOTER" = "بعض الويدجات تتطلب تفعيل وضع Legacy لتعمل بشكل صحيح، مثل تلك التي تستخدم GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "بعض الويدجدات تتطلب تفعيل وضع Legacy لتعمل بشكل صحيح، مثل تلك التي تستخدم GroovyAPI.";
 "WIDGET_SETTINGS_LEGACY_MODE" = "وضع Legacy";
 "WIDGET_SETTINGS_NONE" = "لا توجد اعدادات متاحة";
 "WIDGET_SETTINGS_ENABLED_COUNT" = "تم تمكين٪d";
@@ -95,7 +95,7 @@
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "يتيح لك الاستيراد نقل الاعدادات الحالية لشاشة القفل الى Xen HTML";
 "SETUP_LOCKSCREEN_IMPORT_NONE" = "اعداد بدون استيراد شيء";
 "SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "استيراد من Lock HTML";
-"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "استيراد من GROOVYLOCK";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "استيراد من GroovyLock";
 "SETUP_HOMESCREEN_IMPORT_TITLE" = "اعداد الشاشة الرئيسية";
 "SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "ماذا تريد ان تستورد؟";
 "SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "يتيح لك الاستيراد نقل الاعدادات الحالية للشاشة الرئيسية الى Xen HTML";
@@ -108,4 +108,4 @@
 "SETUP_FINAL_APPLYING_SETTINGS" = "تطبيق الاعدادات التي اجريتها";
 "SETUP_FINAL_COFFEE" = "خذ استراحة";
 "SETUP_FINAL_CLEANUP" = "تنظيف";
-"ADD_WIDGETS_14" = "يمكنك الآن تعيين عناصر واجهة مستخدم Xen HTML من الزر '+' عند تحرير تخطيط الرمز الخاص بك ، أو من خلال تطبيق الإعدادات";
+"ADD_WIDGETS_14" = "يمكنك الآن تعيين عناصر واجهة مستخدم Xen HTML من الزر \"+\" عند تحرير تخطيط الرمز الخاص بك ، أو من خلال تطبيق الإعدادات";

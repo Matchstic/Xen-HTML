@@ -1,10 +1,21 @@
-{
-    "BUGS_FEATURES" = "Hataları ve Özellik İsteklerini Bildir";
-    "MESSAGE_FOOTER" = "Bir cevap almanız birkaç gün sürebilir.";
-    "MESSAGE_HEADER" = "Mesaj Gönder:";
-    "MESSAGE_MAIL" = "Mail Gönder";
-    "MESSAGE_TWITTER" = "Twitter ile Ulaş";
-    "RESET_FOOTER" = "Bu Tüm Xen HTML Ayarlarını Siler.";
-    "RESET_SETTINGS" = "Tüm Ayarları Sıfırla";
-    "TITLE" = "Yardım";
-}
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Yardım";
+"MESSAGE_FOOTER" = "Bir cevap almanız birkaç gün sürebilir.";
+"MESSAGE_HEADER" = "Mesaj Gönder:";
+"MESSAGE_TWITTER" = "Twitter ile Ulaş";
+"MESSAGE_MAIL" = "Mail Gönder";
+"BUGS_FEATURES" = "Hataları ve Özellik İsteklerini Bildir";
+"RESET_FOOTER" = "Bu Tüm Xen HTML Ayarlarını Siler.";
+"RESET_SETTINGS" = "Tüm Ayarları Sıfırla";

@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Gelişmiş";
+"TITLE_DEV_OPTIONS" = "Yazılımcı Seçenekleri";
+"BATTERY_MANAGEMENT" = "Batarya Yönetimi";
+"BATTERY_MANAGEMENT_MODE" = "Mod";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Düşük";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Orta";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Yüksek";
+"BATTERY_MANAGEMENT_FOOTER" = "Batarya yönetimi, görünür olmadıklarında Widget'lardan drenajı azaltmaya yardımcı olur.\n\nKullanılabilir Modlar:\n\n• Düşük: Widget'larda UI güncellemelerini engeller, Ancak arka planda kod çalıştırmaya devam etmelerine izin verir\n• Orta: Widget'larda kod yürütmeyi duraklatır (yani, onları 'dondurur')\n• Yüksek: Widget'ları tamamen kaldırır\n\nDaha Yüksek Mod, Daha az drenaj sağlar, Ancak Widget'lar tekrar görünür hale geldiğinde görsel sorunlara neden olabilir";
+"WW_OVERRIDE" = "Widget Hava Durumunu Geçersiz Kıl";
+"WW_OVERRIDE_FOOTER" = "Widget Weather kuruluysa, Xen HTML, widget verileri için geriye dönük uyumluluk sağlarken bunu erteleyecektir\n\nBu seçenek, Xen HTML'yi her zaman Widget Weather çıktısını geçersiz kılmaya zorlar.";
+"WIDGET_LOGGING" = "Widget Günlüğü";
+"WIDGET_LOGGING_FOOTER" = "Bu seçenek konsolu yeniden yönlendirir.* JavaScript widget'larda dosya sistemine çağırır.\n\nKayıtların Konumu /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Üzerine Yazma Modu";
+"OVERWRITE_MODE_FOOTER" = "Bu seçenek, bir widget'ı yapılandırırken, seçtiğiniz ayarlarla varsayılan değerlerinin üzerine yazmak için bir düğme ekler.\n\nBu, yalnızca bir widget'ın ayarlarında değişiklik yapmak istiyorsanız kullanışlıdır, ardından \"Aktar\" bu ayarları yeniden dışa aktarmak için widget'a ekleyin.\n\nGenel kullanım için bu ayarın etkinleştirilmesine gerek yoktur.";
+"WEBKIT_DEV_OPTIONS" = "WebKit Yazılımcı Seçenekleri";
+"RESOURCE_USAGE_OVERLAY" = "Kaynak Kullanımı Yerleşimi";
+"COMPOSITING_BORDERS" = "Birleştirme Kenarlıklarını Göster";
+"RESPRING" = "Yeniden Başlat";
+"RESPRING_FOOTER" = "Yazılımcı Seçeneklerinin Uygulanması için Yeniden Başlatma Gerekir.";
