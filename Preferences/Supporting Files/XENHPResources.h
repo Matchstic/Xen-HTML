@@ -89,5 +89,6 @@ typedef enum : NSUInteger {
 
 + (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath;
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath;
++ (void)clearRestorableOptionsForPath:(NSString*)widgetPath;
 
 @end

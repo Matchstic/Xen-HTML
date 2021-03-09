@@ -236,6 +236,9 @@
         }];
         
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            // Clear due to user dismiss
+            [XENHResources clearRestorableOptionsForPath:_url];
+            
             completion(defaultMetadata);
         }];
         

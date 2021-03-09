@@ -717,7 +717,9 @@
 
 #pragma mark Restorable options
 
-- (void)promptRestorableIfNecessary {    
+- (void)promptRestorableIfNecessary {
+    if (!self.isNewWidget) return;
+    
     NSDictionary *restorableOptions = [XENHResources restorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
     if (restorableOptions) {
         NSString *title = [XENHResources localisedStringForKey:@"RESTORABLE_TITLE"];
@@ -742,7 +744,10 @@
             
         }];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            // Clear options due to user dismiss
+            [XENHResources clearRestorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
+        }];
         
         [controller addAction:cancelAction];
         [controller addAction:okAction];
