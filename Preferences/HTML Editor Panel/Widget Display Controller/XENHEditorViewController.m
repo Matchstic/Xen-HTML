@@ -648,7 +648,8 @@
 }
 
 - (BOOL)applyOverwrites {
-    NSDictionary *keypairs = self.modernConfigWidgetValues;
+    NSDictionary *keypairs = [[self.webViewController getMetadata] objectForKey:@"options2"];
+    if (!keypairs) return NO;
     
     // Load from filesystem
     NSString *filepath = [self.webViewController getCurrentWidgetURL];
