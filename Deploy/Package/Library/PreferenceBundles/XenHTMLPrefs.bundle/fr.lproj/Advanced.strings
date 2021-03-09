@@ -26,7 +26,7 @@
 "OVERWRITE_MODE" = "Mode Écrasement";
 "OVERWRITE_MODE_FOOTER" = "Cette option ajoute un bouton, lors de la configuration d’un widget, pour remplacer ses valeurs par défaut avec les paramètres choisis.\n\nCeci n’est utile que si vous souhaitez modifier les paramètres d’un widget, puis les integrer dans le widget pour les réexporter.\n\nVous n’avez pas besoin d'activer ce paramètre en utilisation normale.";
 "WEBKIT_DEV_OPTIONS" = "Options de Développement WebKit";
-"RESOURCE_USAGE_OVERLAY" = "Superposition de l’utilisation des ressources";
+"RESOURCE_USAGE_OVERLAY" = "Superposition des ressources";
 "COMPOSITING_BORDERS" = "Afficher les bordures de composition";
 "RESPRING" = "Redémarrer";
 "RESPRING_FOOTER" = "Les options développeur nécessitent un redémarrage.";

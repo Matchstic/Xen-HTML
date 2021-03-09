@@ -14,7 +14,7 @@
 "ELEMENT_VISIBILITY_HS_HEADER" = "Visibilité des éléments";
 "ELEMENT_VISIBILITY_HS_FOOTER" = "Cacher les éléments de l'écran verrouillé avec Xen HTML.";
 "ELEMENT_SB_DOCK_BLUR" = "Cacher le flou du Dock";
-"ELEMENT_SB_FOLDER_BLUR" = "Cacher le flou des icônes des dossiers";
+"ELEMENT_SB_FOLDER_BLUR" = "Cacher le flou des icônes dossiers";
 "ELEMENT_SB_ICON_LABELS" = "Cacher le libellé des icônes";
 "ELEMENT_SB_PAGE_DOTS" = "Cacher les indicateurs de pages";
 "MISC_HEADER" = "Divers";

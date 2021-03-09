@@ -15,6 +15,6 @@
 "FOREGROUND_SB_PRIORITISE_TOUCH" = "Empêcher le toucher derrière les widgets";
 "FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Si un widget couvre les icônes d’application, ces icônes peuvent normalement encore être touchées.";
 "FOREGROUND_SB_USAGE" = "Pour ajouter des widgets à côté des icônes:\n• Maintenez n'importe quelle icône pour passer en mode d'édition\n• Appuyez sur \"Ajouter un widget\" au-dessus du dock";
-"FOREGROUND_SB_USAGE_14" = "Pour ajouter des widgets à côté des icônes:\n• Maintenez n'importe quelle icône pour passer en mode d'édition\n• Appuyez sur «+» le long de la barre d'état\n• Appuyez sur 'Xen HTML'";
+"FOREGROUND_SB_USAGE_14" = "Pour ajouter des widgets à côté des icônes:\n• Maintenez n'importe quelle icône pour passer en mode d'édition \n• Appuyez sur «+» le long de la barre d'état\n• Appuyez sur 'Xen HTML'";
 "FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Les Widgets en-dessous des icônes d’application donnent l’apparence de fonds d’écran personnalisés sur la page d’icônes.";
 "FOREGROUND_SB_BELOW_ICONS" = "Afficher les widgets sous les icônes";

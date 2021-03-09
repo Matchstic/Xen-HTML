@@ -91,7 +91,7 @@
 "SETUP_INITIAL_FOOTER" = "Xen HTML a été installé avec succès.\nIl reste juste quelques étapes supplémentaires pour finir!";
 "SETUP_INITIAL_BUTTON" = "Continuer";
 "SETUP_LOCKSCREEN_IMPORT_TITLE" = "Configuration de l'écran verrouillé";
-"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Que fait l'importation??";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Que fait l'importation?";
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "L'importation vous permet de transférer des paramètres existants de votre écran verrouillé dans Xen HTML.";
 "SETUP_LOCKSCREEN_IMPORT_NONE" = "Configurer sans Importer";
 "SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importer de Lock HTML";
