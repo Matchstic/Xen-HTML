@@ -97,6 +97,7 @@ static BOOL refuseToLoadDueToRehosting = NO;
         backgroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         foregroundViewController.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         
+        // This is not a great idea to do inside layoutSubviews. Should really be moved outside...
         if (self.wallpaperEffectView) {
             // Check if we *really* need to insert the subview.
             int wallpaperIndex = (int)[self.slideableContentView.subviews indexOfObject:self.wallpaperEffectView];
@@ -1513,32 +1514,35 @@ void cancelIdleTimer() {
     
     XENlog(@"SBRootFolderController loadView");
     
-    // Set first to allow proper layout of views
-    self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
-    
-    if ([XENHResources SBEnabled]) {
-        // Add view to root scroll view, and set that scrollview to be the hoster
-        sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
-        [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+    if (!_xenhtml_isPreviewGeneration) {
+        // Set first to allow proper layout of views
+        self.contentView.scrollView._xenhtml_isForegroundWidgetHoster = YES;
         
-        [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+        if ([XENHResources SBEnabled] && !sbhtmlForegroundViewController) {
+            
+            // Add view to root scroll view, and set that scrollview to be the hoster
+            sbhtmlForegroundViewController = (XENHHomescreenForegroundViewController*)[XENHResources widgetLayerControllerForLocation:kLocationSBForeground];
+            [sbhtmlForegroundViewController updatePopoverPresentationController:self];
+            
+            [self.contentView.scrollView addSubview:sbhtmlForegroundViewController.view];
+            
+            XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
+        }
         
-        XENlog(@"Added foreground SBHTML widgets view to %@", self.contentView.scrollView);
+        // Register for settings updates
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(recievedSBHTMLUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlUpdate"
+                                                   object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(recievedSBHTMLPerPageUpdate:)
+                                                     name:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate"
+                                                   object:nil];
+        
+        // Update dock position if necessary
+        [self.contentView _xenhtml_setDockPositionIfNeeded];
     }
-    
-    // Register for settings updates
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlUpdate"
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(recievedSBHTMLPerPageUpdate:)
-                                                 name:@"com.matchstic.xenhtml/sbhtmlPerPageUpdate"
-                                               object:nil];
-    
-    // Update dock position if necessary
-    [self.contentView _xenhtml_setDockPositionIfNeeded];
 }
 
 // Will need to reload SBHTML if settings change.
@@ -1781,6 +1785,16 @@ void cancelIdleTimer() {
     return orig;
 }
 
+-(id)initWithFrame:(CGRect)arg1 iconController:(id)arg2 wallpaperController:(id)arg3 options:(unsigned long long)arg4 wallpaperImage:(id)arg5 {
+    _xenhtml_isPreviewGeneration = YES;
+    
+    id orig = %orig;
+    
+    _xenhtml_isPreviewGeneration = NO;
+    
+    return orig;
+}
+
 %end
 
 %hook SBRootFolderView
@@ -1848,8 +1862,6 @@ void cancelIdleTimer() {
         return;
 
     [sbhtmlForegroundViewController updateEditingModeState:arg1];
-    
-    
     
     static CGFloat animationDuration = 0.15;
     
