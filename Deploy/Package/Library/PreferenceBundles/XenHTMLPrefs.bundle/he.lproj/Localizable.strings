@@ -1,3 +1,15 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
 
 "CANCEL" = "בטל";
 "OK" = "אישור";
@@ -36,7 +48,7 @@
 "WIDGETS_BACKGROUND_PICKER" = "רקע";
 "WIDGETS_SETTINGS" = "הגדרות";
 "WIDGET_EDITOR_NONE_SELECTED" = "לא נבחר ווידג'ט";
-"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "אירעה שגיאה בעת ניתוח קובץ ההגדרות ייתכן וחלק מהאפשרויות יהיו חסרות"";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "אירעה שגיאה בעת ניתוח קובץ ההגדרות ייתכן וחלק מהאפשרויות יהיו חסרות";
 "WIDGET_EDITOR_SAVE" = "שמור";
 "WIDGET_EDITOR_DRAGDROP" = "גרור ושחרר בכדי לשנות את המיקום";
 "WIDGET_EDITOR_DRAGDROP_IPAD" = "גרור ושחרר בכדי לשנות את המיקום \n\n סובב את המכשיר כדי להציג בכיוון שונה";
@@ -50,7 +62,7 @@
 "WIDGET_PICKER_UNKNOWN_AUTHOR" = "מחבר לא ידוע";
 "WIDGET_PICKER_UNKNOWN_PACKAGE" = "לא ידוע / מקומי";
 "WIDGET_SETTINGS_TITLE" = "הגדרות ווידג'ט";
-"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "כתיבת הגדרות הווידג'ט נכשלה בדוק הרשאות קובץ עבור ווידג'ט זה"";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "כתיבת הגדרות הווידג'ט נכשלה בדוק הרשאות קובץ עבור ווידג'ט זה";
 "WIDGET_SETTINGS_LEGACY_FOOTER" = "GroovyAPI –כדי לתפקד כראוי‫,‬ כגון אלה המשתמשים ב 'Legacy' כמה ווידג'טס דורשים מצב";
 "WIDGET_SETTINGS_LEGACY_MODE" = "Legacy מצב";
 "WIDGET_SETTINGS_NONE" = "אין הגדרות זמינות";
@@ -61,9 +73,9 @@
 "NO_ENABLED_ITEMS" = "אין פריטים מופעלים";
 "NO_DISABLED_ITEMS" = "אין פריטים מושבתים";
 "OVERWRITE_MODE_BUTTON_TITLE" = "ייצא";
-"OVERWRITE_MODE_NOT_AVAILABLE" = "לא נמצא קובץ config.json עבור ווידג'ט זה. \n\n לא ניתן לייצא את ההגדרות שלך.";
-"OVERWRITE_MODE_WARNING" = "פעולה זו תחליף את תצורת ברירת המחדל של ווידג'ט זה עם השינויים שלך. \n\n אתה צריך לעשות זאת רק אם ברצונך לייצא מחדש את ווידג'ט הזה בתצורה שלך. \n\n האם אתה בטוח שברצונך להמשיך?";
-"OVERWRITE_MODE_FAILED" = "החלפת תצורת ברירת המחדל נכשלה. \n\n זה ככל הנראה נגרם על ידי הרשאות שגויות בווידג'ט זה. \n\nXen HTML יתקן זאת באופן אוטומטי אם תתקין מחדש את היישום.";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "לא נמצא קובץ config.json עבור ווידג'ט זה.\n\nלא ניתן לייצא את ההגדרות שלך.";
+"OVERWRITE_MODE_WARNING" = "פעולה זו תחליף את תצורת ברירת המחדל של ווידג'ט זה עם השינויים שלך.\n\nאתה צריך לעשות זאת רק אם ברצונך לייצא מחדש את ווידג'ט הזה בתצורה שלך.\n\nהאם אתה בטוח שברצונך להמשיך?";
+"OVERWRITE_MODE_FAILED" = "החלפת תצורת ברירת המחדל נכשלה.\n\nזה ככל הנראה נגרם על ידי הרשאות שגויות בווידג'ט זה.\n\nXen HTML יתקן זאת באופן אוטומטי אם תתקין מחדש את היישום.";
 "OVERWRITE_MODE_SUCCESS" = "תצורת ברירת המחדל הוחלפה.";
 "RESTORABLE_TITLE" = "שחזר את ההגדרות";
 "RESTORABLE_MESSAGE" = "האם ברצונך לשחזר את התצורה ממועד השימוש האחרון בווידג'ט זה?";
@@ -76,7 +88,7 @@
 "BRIGHTNESS" = "בהירות";
 "NEXT" = "הבא";
 "SETUP_INITIAL_TITLE" = "התקנה הושלמה";
-"SETUP_INITIAL_FOOTER" = "נשארו רק עוד כמה צעדים לסיום \n.הותקן בהצלחה Xen HTML";
+"SETUP_INITIAL_FOOTER" = "נשארו רק עוד כמה צעדים לסיום\n.הותקן בהצלחה Xen HTML";
 "SETUP_INITIAL_BUTTON" = "המשך";
 "SETUP_LOCKSCREEN_IMPORT_TITLE" = "הגדרות מסך הנעילה";
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "מה עושה ייבוא‫?‬";

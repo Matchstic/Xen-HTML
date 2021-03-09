@@ -1,8 +1,20 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
 
 "TITLE" = "חזית";
 "FOREGROUND_SB_PRIORITISE_TOUCH" = "מנע מגע מאחורי ווידג'טס";
 "FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "אם יישומון מכסה סמלי יישומים, בדרך כלל עדיין ניתן לגעת בסמלים אלה.";
-"FOREGROUND_SB_USAGE" = "כדי להוסיף ווידג'טס לצד אייקונים: \n• החזק כל סמל כדי להיכנס למצב עריכה \n• הקש על 'הוסף ווידג'טס' מעל הדוק";
-"FOREGROUND_SB_USAGE_14" = "כדי להוסיף ווידג'טים לצד אייקונים: \n• החזק כל סמל כדי להיכנס למצב עריכה \n• הקש על '+' לאורך שורת המצב \n• הקש על 'Xen HTML'";
+"FOREGROUND_SB_USAGE" = "כדי להוסיף ווידג'טס לצד אייקונים:\n• החזק כל סמל כדי להיכנס למצב עריכה\n• הקש על 'הוסף ווידג'טס' מעל הדוק";
+"FOREGROUND_SB_USAGE_14" = "כדי להוסיף ווידג'טים לצד אייקונים:\n• החזק כל סמל כדי להיכנס למצב עריכה\n• הקש על '+' לאורך שורת המצב\n• הקש על 'Xen HTML'";
 "FOREGROUND_SB_BELOW_ICONS_FOOTER" = "ווידג'טס מתחת לסמלי היישום נותנים מראה של טפטים מותאמים אישית, בעמוד הסמלים.";
 "FOREGROUND_SB_BELOW_ICONS" = "הצג ווידג'טס מתחת לסמלים";
