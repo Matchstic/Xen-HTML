@@ -41,6 +41,8 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
 }
 
 MSHook(void *, dlopen, const char *path, int mode, void *lr) {
+    if (path == NULL || (mode & RTLD_NOLOAD) == RTLD_NOLOAD) return _dlopen(path, mode, lr);
+    
     @try {
         if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
         
@@ -97,7 +99,5 @@ MSHook(void *, dlopen, const char *path, int mode, void *lr) {
             MSHookSymbol(dlopen$, "__ZL15dlopen_internalPKciPv", libdyld);
         }
         MSHookFunction(dlopen$ ?: reinterpret_cast<decltype(dlopen$)>(&dlopen), MSHake(dlopen));
-        
-        %init();
     }
 }

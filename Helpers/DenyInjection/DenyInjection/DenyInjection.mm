@@ -42,6 +42,8 @@ static BOOL hasPrefix(const char *string, const char *prefix) {
 }
 
 MSHook(void *, dlopen, const char *path, int mode, void *lr) {
+    if (path == NULL || (mode & RTLD_NOLOAD) == RTLD_NOLOAD) return _dlopen(path, mode, lr);
+    
     @try {
         if (hasPrefix(path, "/Library/MobileSubstrate/DynamicLibraries") || hasPrefix(path, "/usr/lib/TweakInject")) {
         
@@ -81,13 +83,7 @@ MSHook(void *, dlopen, const char *path, int mode, void *lr) {
     return _dlopen(path, mode, lr);
 }
 
-static __attribute__((constructor)) void _logosLocalCtor_23c07a2c(int __unused argc, char __unused **argv, char __unused **envp) {
-    
-    NSOperatingSystemVersion version;
-    version.majorVersion = 14;
-    version.minorVersion = 0;
-    version.patchVersion = 0;
-    
+static __attribute__((constructor)) void _logosLocalCtor_8ad2e004(int __unused argc, char __unused **argv, char __unused **envp) {    
     char **args = *_NSGetArgv();
     const char *processName = args[0];
     
@@ -104,7 +100,5 @@ static __attribute__((constructor)) void _logosLocalCtor_23c07a2c(int __unused a
             MSHookSymbol(dlopen$, "__ZL15dlopen_internalPKciPv", libdyld);
         }
         MSHookFunction(dlopen$ ?: reinterpret_cast<decltype(dlopen$)>(&dlopen), MSHake(dlopen));
-        
-        {}
     }
 }
