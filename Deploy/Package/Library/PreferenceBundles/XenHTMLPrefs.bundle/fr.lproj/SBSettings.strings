@@ -1,6 +1,14 @@
-/* 
-  SBSettings.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "ELEMENT_VISIBILITY_HS_HEADER" = "Visibilité des éléments";
@@ -9,11 +17,9 @@
 "ELEMENT_SB_FOLDER_BLUR" = "Cacher le flou des icônes des dossiers";
 "ELEMENT_SB_ICON_LABELS" = "Cacher le libellé des icônes";
 "ELEMENT_SB_PAGE_DOTS" = "Cacher les indicateurs de pages";
-
 "MISC_HEADER" = "Divers";
-"MISC_SB_TOUCH" = "Autoriser le Touch sur le Widget";
-"MISC_SB_TOUCH2" = "Allow Touch on Background";
-
+"MISC_SB_TOUCH" = "Autoriser le toucher sur le Widget";
+"MISC_SB_TOUCH2" = "Autoriser le toucher sur l’arrière-plan";
 "WIDGET_EDITOR_HEADER" = "Éditeur de Widget";
 "WIDGET_EDITOR_HS_FOOTER" = "Personnaliser le panneau de configuration utilisé pour choisir les widgets à présenter sur l'écran d'accueil.";
-"WIDGET_EDITOR_SNAP" = "Prendre un instantané des widgets pour Y-axis";
+"WIDGET_EDITOR_SNAP" = "Aligner les widgets sur l'axe Y";

@@ -1,6 +1,14 @@
-/* 
-  LSSettings.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "ELEMENT_VISIBILITY_HEADER" = "Visibilité de l'élément";
@@ -14,24 +22,21 @@
 "ELEMENT_HOME_TO_UNLOCK" = "Cacher le texte 'Appuyer le bouton home pour déverrouiller'";
 "ELEMENT_SWIPE_TO_UNLOCK" = "Cacher le texte 'Glisser vers le haut pour déverrouiller'";
 "ELEMENT_HIDE_OTHERS" = "Cacher d'autres éléments";
-
 "VISIBILITY_HEADER" = "Visibilité du Widget";
 "VISIBILITY_MEDIA" = "Comportement des contrôles médias";
 "VISIBILITY_NOTIFICATIONS" = "Comportement des Notifications";
 "VISIBILITY_OPACITY" = "Opacité du Widget quand il est caché:";
-
 "MSIC_HEADER" = "Divers";
 "MISC_LS_STATUS_BAR_SIZE" = "Plus petite Barre d'états de l'écran verrouillé";
 "MISC_LS_IDLE_TIME" = "Temps d'inactivité de l'écran verrouillé";
+"MISC_LS_IDLE_TIME_7S" = "Default";
 "MISC_LS_IDLE_TIME_10S" = "10 Secondes";
 "MISC_LS_IDLE_TIME_15S" = "15 Secondes";
 "MISC_LS_IDLE_TIME_20S" = "20 Secondes";
 "MISC_LS_IDLE_TIME_30S" = "30 Secondes";
 "MISC_LS_IDLE_TIME_60S" = "1 Minute";
 "MISC_LS_IDLE_TIME_120S" = "2 Minutes";
-
 "ADVANCED" = "Avancé";
-
 "WIDGET_EDITOR_HEADER" = "Éditeur du Widget";
 "WIDGET_EDITOR_FOOTER" = "Personnaliser le panneau de configuration utilisé pour choisir les widgets à présenter sur l'écran verrouillé.";
-"WIDGET_EDITOR_SNAP" = "Prendre un instantané des widgets pour Y-axis";
+"WIDGET_EDITOR_SNAP" = "Aligner les widgets sur l'axe Y";

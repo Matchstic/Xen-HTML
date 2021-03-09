@@ -1,17 +1,22 @@
-/* 
-  LSAdvanced.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Avancé";
-
 "SCROLL_PRIORITY_IOS10_FOOTER" = "Pour les widgets qui ont l'option défilement pour les régions, prioriser le touch résoudra l'erreur qui empêche l'usage de ces régions.";
 "SCROLL_PRIORITY_IOS11_FOOTER" = "Pour les widgets qui ont l'option touch pour les régions en bas de l’écran, l’activer va permettre leur usage.\n\nPar contre, vous ne pourrez pas glisser pour voir les anciennes notifications.";
 "SCROLL_PRIORITY_IOS10" = "Prioriser le défilement sur le Widget";
 "SCROLL_PRIORITY_IOS11" = "Prioriser le touch sur le Widget";
-
 "BATTERY_MANAGEMENT_FOOTER" = "Désactiver la gestion de la batterie utilisera plus de batterie, mais pourrait prévenir quelques problèmes visuels.";
 "BATTERY_MANAGEMENT" = "Utiliser la gestion de la batterie";
-
-"PERSISTENT_MODE_FOOTER" = "Le mode persistant garde vos widgets d écran verrouillé en mémoire, à tout moment pour qu’ ils n aient pas besoin de charger après le verrouillage de votre appareil.\n\nL'utilisation de ce mode pourrait entraîner un meilleur drainage de la batterie.";
+"PERSISTENT_MODE_FOOTER" = "Le mode persistant garde vos widgets d'écran verrouillé en mémoire à tout moment pour qu’ ils n'aient pas besoin de charger après le verrouillage de votre appareil.\n\nL'utilisation de ce mode pourrait entraîner un plus grand drainage de la batterie.";
 "PERSISTENT_MODE" = "Mode Persistant";

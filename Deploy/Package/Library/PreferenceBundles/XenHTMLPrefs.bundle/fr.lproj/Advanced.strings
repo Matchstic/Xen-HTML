@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Réglages avancés";
+"TITLE_DEV_OPTIONS" = "Options développeur";
+"BATTERY_MANAGEMENT" = "Gestion de la batterie";
+"BATTERY_MANAGEMENT_MODE" = "Mode";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Faible";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Modéré";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Élevé";
+"BATTERY_MANAGEMENT_FOOTER" = "La gestion de la batterie permet de réduire son drainage lorsque les widgets ne sont pas visibles.\n\nModes disponibles:\n\n• Faible: empêche les mises à jour de l'interface utilisateur dans les widgets tout en leur permettant de continuer à exécuter le code en arrière-plan\n• Modéré: met le code d'exécution des widgets en pause (c'est-à-dire les «gèle»)\n• Élevé: décharge complètement les widgets\n\nUn mode plus élevé entraîne moins de drainage, mais peut entraîner des problèmes de visualisation lorsque les widgets redeviennent visibles.";
+"WW_OVERRIDE" = "Remplacer Widget Weather";
+"WW_OVERRIDE_FOOTER" = "Si Widget Weather est installé, Xen HTML s’en remettra pour fournir une rétrocompatibilité pour les données du widget.\n\nCette option force Xen HTML à toujours remplacer les valeurs de Widget Weather.";
+"WIDGET_LOGGING" = "Journal du Widget";
+"WIDGET_LOGGING_FOOTER" = "Cette option redirige les données console.* JavaScript dans les widgets vers le système de fichiers.\n\nLe journal se trouve dans /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Mode Écrasement";
+"OVERWRITE_MODE_FOOTER" = "Cette option ajoute un bouton, lors de la configuration d’un widget, pour remplacer ses valeurs par défaut avec les paramètres choisis.\n\nCeci n’est utile que si vous souhaitez modifier les paramètres d’un widget, puis les integrer dans le widget pour les réexporter.\n\nVous n’avez pas besoin d'activer ce paramètre en utilisation normale.";
+"WEBKIT_DEV_OPTIONS" = "Options de Développement WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Superposition de l’utilisation des ressources";
+"COMPOSITING_BORDERS" = "Afficher les bordures de composition";
+"RESPRING" = "Redémarrer";
+"RESPRING_FOOTER" = "Les options développeur nécessitent un redémarrage.";

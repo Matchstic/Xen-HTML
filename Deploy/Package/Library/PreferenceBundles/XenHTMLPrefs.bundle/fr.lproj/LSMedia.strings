@@ -1,14 +1,20 @@
-/* 
-  LSMedia.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Contrôle des Médias ";
-
 "HIDE_FOREGROUND_HEADER" = "Cacher le widget de premier-plan pour:";
 "HIDE_FOREGROUND_FOOTER" = "Configurer le comportement par rapport aux contrôles des Médias natifs.";
 "HIDE_FOREGROUND_CONTROLS" = "Contrôle l'interface de l'utilisateur";
-"HIDE_FOREGROUND_ARTWORK" = "Artwork";
-
+"HIDE_FOREGROUND_ARTWORK" = "Pochette";
 "MISC_HEADER" = "Divers";
-"HIDE_ARTWORK" = "Cache l'Artwork du Media";
+"HIDE_ARTWORK" = "Cacher la pochette du Media";
