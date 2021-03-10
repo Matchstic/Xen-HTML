@@ -745,10 +745,7 @@
             
         }];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            // Clear options due to user dismiss
-            [XENHResources clearRestorableOptionsForPath:[self.webViewController getCurrentWidgetURL]];
-        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:[XENHResources localisedStringForKey:@"NO"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {}];
         
         [controller addAction:cancelAction];
         [controller addAction:okAction];

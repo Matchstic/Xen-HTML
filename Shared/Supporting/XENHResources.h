@@ -181,6 +181,5 @@ void XenHTMLLog(const char *file, int lineNumber, const char *functionName, NSSt
 
 + (NSDictionary*)restorableOptionsForPath:(NSString*)widgetPath;
 + (void)saveRestorableOptions:(NSDictionary*)options forPath:(NSString*)widgetPath;
-+ (void)clearRestorableOptionsForPath:(NSString*)widgetPath;
 
 @end
