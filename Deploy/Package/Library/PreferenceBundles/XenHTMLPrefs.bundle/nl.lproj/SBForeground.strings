@@ -1,13 +1,20 @@
-/* 
-  SBForeground.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Foreground";
-
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
-"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
-
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
-"FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Voorkom aanraking achter de widget";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Als een widget applicatiepictogrammen bedekt, kunnen die pictogrammen normaal nog steeds worden aangeraakt.";
+"FOREGROUND_SB_USAGE" = "Widgets toevoegen naast pictogrammen:\n• Houd een pictogram ingedrukt om de bewerkingsmodus te openen\n• Tik op 'Widget toevoegen' boven het dock";
+"FOREGROUND_SB_USAGE_14" = "Widgets toevoegen naast pictogrammen:\n• Houd een pictogram ingedrukt om de bewerkingsmodus te openen\n• Tik op '+' in de statusbalk\n• Tik op 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets onder applicatiepictogrammen geven het uiterlijk van aangepaste achtergronden, per pagina met pictogrammen.";
+"FOREGROUND_SB_BELOW_ICONS" = "Widgets weergeven onder pictogrammen";

@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Geavanceerd";
+"TITLE_DEV_OPTIONS" = "Ontwikkelaar Opties";
+"BATTERY_MANAGEMENT" = "Batterij Beheer";
+"BATTERY_MANAGEMENT_MODE" = "Modus";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Laag";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Gemiddeld";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Hoog";
+"BATTERY_MANAGEMENT_FOOTER" = "Batterij management helpt om de drainage te verminderen van widgets als ze niet zichtbaar zijn.\n\nBeschikbaar modi:\n\n• Low: voorkomt UI updates in de widgets, maar stelt de widgets in staat om te blijven draaien op de achtergrond.\n• Matig: pauzeert code uitvoering in widgets (dwz, 'bevriest' ze)\n• Hoog: verwijdert de activiteit van de widgets volledig\n\nEen hogere modus leidt tot minder drainage, maar kan visuele problemen veroorzaken wanneer widgets weer zichtbaar worden.";
+"WW_OVERRIDE" = "Widget weer overschrijven";
+"WW_OVERRIDE_FOOTER" = "Als Widget Weather is geïnstalleerd, zal Xen HTML dit uitstellen bij het bieden van achterwaartse compatibiliteit voor widgetgegevens.\n\nDeze optie dwingt Xen HTML om altijd de uitvoer van Widget Weather te overschrijven.";
+"WIDGET_LOGGING" = "Loggen van Widget's";
+"WIDGET_LOGGING_FOOTER" = "Deze optie leidt de console.* JavaScript roept widgets aan naar het bestandssysteem.\n\nLogs zijn te vinden in /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Overschrijfmodus";
+"OVERWRITE_MODE_FOOTER" = "Deze optie voegt een knop toe, bij het configureren van een widget, om de standaardwaarden te overschrijven met de door jou gekozen instellingen.\n\nDit is alleen handig als je wijzigingen wilt aanbrengen in de instellingen van een widget, en dan \"bak\" die instellingen in de widget om deze opnieuw te exporteren.\n\nU hoeft deze instelling niet ingeschakeld te hebben voor algemeen gebruik.";
+"WEBKIT_DEV_OPTIONS" = "WebKit-ontwikkelingsopties";
+"RESOURCE_USAGE_OVERLAY" = "Overlay voor resourcegebruik";
+"COMPOSITING_BORDERS" = "Toon samenstellingsranden";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Ontwikkelaarsopties vereisen een respring om toe te passen.";

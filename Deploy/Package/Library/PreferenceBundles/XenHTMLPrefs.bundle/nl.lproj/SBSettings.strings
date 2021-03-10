@@ -1,6 +1,14 @@
-/* 
-  SBSettings.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "ELEMENT_VISIBILITY_HS_HEADER" = "Visuele Opties";
@@ -9,11 +17,9 @@
 "ELEMENT_SB_FOLDER_BLUR" = "Verberg Folder Icoon vervagen";
 "ELEMENT_SB_ICON_LABELS" = "Verberg Icoon Labels";
 "ELEMENT_SB_PAGE_DOTS" = "Verberg Pagina Indicators";
-
 "MISC_HEADER" = "Overige";
 "MISC_SB_TOUCH" = "Akkoord om op je Widget te klikken";
-"MISC_SB_TOUCH2" = "Allow Touch on Background";
-
+"MISC_SB_TOUCH2" = "Sta aanraking op de achtergond toe";
 "WIDGET_EDITOR_HEADER" = "Widget Aanpassen";
 "WIDGET_EDITOR_HS_FOOTER" = "Pas de instellingen aan van de widgets die je op thuisscherm wilt plaatsen.";
 "WIDGET_EDITOR_SNAP" = "Trek Widgets naar de Y-as";

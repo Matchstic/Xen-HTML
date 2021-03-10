@@ -1,16 +1,21 @@
-/* 
-  Support.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Steun";
-
 "MESSAGE_FOOTER" = "Binnen een paar dagen reageer ik zeker.";
 "MESSAGE_HEADER" = "Stuur een bericht:";
 "MESSAGE_TWITTER" = "Via Twitter";
 "MESSAGE_MAIL" = "Via Mail";
-
 "BUGS_FEATURES" = "Meldt Storingen en/of Vraag naar Toevoegingen";
-
 "RESET_FOOTER" = "Deze optie ruimt al je Xen HTML instellingen op.";
 "RESET_SETTINGS" = "Begin helemaal opnieuw";

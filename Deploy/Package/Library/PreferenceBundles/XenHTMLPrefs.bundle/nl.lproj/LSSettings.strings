@@ -1,6 +1,14 @@
-/* 
-  LSSettings.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "ELEMENT_VISIBILITY_HEADER" = "Opties Zichtbaarheid";
@@ -14,24 +22,21 @@
 "ELEMENT_HOME_TO_UNLOCK" = "Verberg 'Druk op thuisknop om te openen' Tekst";
 "ELEMENT_SWIPE_TO_UNLOCK" = "Verberg 'Veeg omhoog om te openen' Tekst";
 "ELEMENT_HIDE_OTHERS" = "Verberg andere opties";
-
 "VISIBILITY_HEADER" = "Widget Zichtbaarheid";
 "VISIBILITY_MEDIA" = "Media Bediening Interactie";
 "VISIBILITY_NOTIFICATIONS" = "Notificaties Interactie";
 "VISIBILITY_OPACITY" = "Widget Ondoorzichtig wanneer deze is verborgen:";
-
 "MSIC_HEADER" = "Overige";
 "MISC_LS_STATUS_BAR_SIZE" = "Kleiner Vergrendelscherm Status Balk";
 "MISC_LS_IDLE_TIME" = "Vergrendelscherm blijft actief";
+"MISC_LS_IDLE_TIME_7S" = "Default";
 "MISC_LS_IDLE_TIME_10S" = "10 Seconden";
 "MISC_LS_IDLE_TIME_15S" = "15 Seconden";
 "MISC_LS_IDLE_TIME_20S" = "20 Seconden";
 "MISC_LS_IDLE_TIME_30S" = "30 Seconden";
 "MISC_LS_IDLE_TIME_60S" = "1 Minuut";
 "MISC_LS_IDLE_TIME_120S" = "2 Minuten";
-
 "ADVANCED" = "Gevorderd";
-
 "WIDGET_EDITOR_HEADER" = "Widget Aanpassen";
 "WIDGET_EDITOR_FOOTER" = "Pas het bedieningspaneel aan bij het kiezen van widgets op je vergrendescherm.";
 "WIDGET_EDITOR_SNAP" = "Trekt Widgets naar de Y-as";
