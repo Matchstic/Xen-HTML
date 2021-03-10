@@ -29,7 +29,7 @@
 "MSIC_HEADER" = "Overige";
 "MISC_LS_STATUS_BAR_SIZE" = "Kleiner Vergrendelscherm Status Balk";
 "MISC_LS_IDLE_TIME" = "Vergrendelscherm blijft actief";
-"MISC_LS_IDLE_TIME_7S" = "Default";
+"MISC_LS_IDLE_TIME_7S" = "Standaard";
 "MISC_LS_IDLE_TIME_10S" = "10 Seconden";
 "MISC_LS_IDLE_TIME_15S" = "15 Seconden";
 "MISC_LS_IDLE_TIME_20S" = "20 Seconden";
