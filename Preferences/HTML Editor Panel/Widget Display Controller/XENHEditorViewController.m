@@ -647,6 +647,39 @@
     [rootController presentViewController:controller animated:YES completion:nil];
 }
 
+- (NSMutableArray*)mutatedOptions:(NSDictionary*)parent forKeypairs:(NSDictionary*)keypairs {
+    // Mutate options
+    NSMutableArray *mutableOptions = [[parent objectForKey:@"options"] mutableCopy];
+    
+    for (NSDictionary *optionRow in [mutableOptions copy]) {
+        NSInteger index = [mutableOptions indexOfObject:optionRow];
+        NSMutableDictionary *mutableOptionRow = [optionRow mutableCopy];
+        
+        if (![optionRow objectForKey:@"default"]) {
+            // Might be a page - recurse into it if so
+            if ([[optionRow objectForKey:@"type"] isEqualToString:@"page"]) {
+                NSArray *newOptions = [self mutatedOptions:optionRow forKeypairs:keypairs];
+                [mutableOptionRow setObject:newOptions forKey:@"options"];
+            } else {
+                continue;
+            }
+        } else {
+            NSString *key = [optionRow objectForKey:@"key"];
+            if (!key) continue;
+            
+            id newValue = [keypairs objectForKey:key];
+            
+            if (!newValue) continue;
+            
+            [mutableOptionRow setObject:newValue forKey:@"default"];
+        }
+        
+        [mutableOptions replaceObjectAtIndex:index withObject:mutableOptionRow];
+    }
+    
+    return mutableOptions;
+}
+
 - (BOOL)applyOverwrites {
     NSDictionary *keypairs = [[self.webViewController getMetadata] objectForKey:@"options2"];
     if (!keypairs) return NO;
@@ -664,27 +697,8 @@
     if (error || !config) return NO;
     
     // Mutate options
-    NSMutableArray *mutableOptions = [[config objectForKey:@"options"] mutableCopy];
-    
-    for (NSDictionary *optionRow in [mutableOptions copy]) {
-        NSInteger index = [mutableOptions indexOfObject:optionRow];
-        
-        if (![optionRow objectForKey:@"default"]) continue;
-        
-        NSString *key = [optionRow objectForKey:@"key"];
-        if (!key) continue;
-        
-        id newValue = [keypairs objectForKey:key];
-        
-        if (!newValue) continue;
-        
-        NSMutableDictionary *mutableOptionRow = [optionRow mutableCopy];
-        [mutableOptionRow setObject:newValue forKey:@"default"];
-        
-        [mutableOptions replaceObjectAtIndex:index withObject:mutableOptionRow];
-    }
-    
-    [config setObject:mutableOptions forKey:@"options"];
+    NSArray *mutatedOptions = [self mutatedOptions:config forKeypairs:keypairs];
+    [config setObject:mutatedOptions forKey:@"options"];
     
     // Save to disk
     NSError *errorJSONGeneration;
