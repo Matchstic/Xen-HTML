@@ -46,7 +46,7 @@
 "WIDGETS_HOMESCREEN" = "Ana Menü";
 "WIDGETS_UNIVERSAL" = "Evrensel";
 "WIDGETS_BACKGROUND_PICKER" = "Arka Plan";
-"WIDGETS_SETTINGS" = "Ajustes";
+"WIDGETS_SETTINGS" = "Ayarlar";
 "WIDGET_EDITOR_NONE_SELECTED" = "Seçilen Widget Yok";
 "WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Ayarlar dosyasını ayrıştırırken bir hata oluştu bazı seçenekler eksik olabilir";
 "WIDGET_EDITOR_SAVE" = "Kaydet";
@@ -66,7 +66,7 @@
 "WIDGET_SETTINGS_LEGACY_FOOTER" = "Bazı widget'lar, GroovyAPI kullananlar gibi eski işlevlerin doğru çalışmasını gerektirir.";
 "WIDGET_SETTINGS_LEGACY_MODE" = "Eski Mod";
 "WIDGET_SETTINGS_NONE" = "Ayar yok";
-"WIDGET_SETTINGS_ENABLED_COUNT" = "%d enabled";
+"WIDGET_SETTINGS_ENABLED_COUNT" = "%d etkin";
 "WIDGET_SETTINGS_ENABLED" = "Etkin";
 "WIDGET_SETTINGS_DISABLED" = "Devre Dışı";
 "WIDGET_SETTINGS_REMOVE" = "Kaldır";
