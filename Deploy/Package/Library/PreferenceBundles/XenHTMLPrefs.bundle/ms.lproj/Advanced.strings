@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Lanjutan";
+"TITLE_DEV_OPTIONS" = "Pilihan Pemaju";
+"BATTERY_MANAGEMENT" = "Pengurusan Bateri";
+"BATTERY_MANAGEMENT_MODE" = "Mod";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Rendah";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Sederhana";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Tinggi";
+"BATTERY_MANAGEMENT_FOOTER" = "Pengurusan bateri membantu mengurangkan penyaliran dari widget apabila tidak kelihatan.\n\nModel yang tersedia:\n\n• Rendah: menghalang kemas kini UI dalam widget, tetapi membolehkannya terus menjalankan kod di latar belakang\n• Sederhana: menghentikan kod pelaksanaan dalam widget (iaitu, 'membekukannya')\n• Tinggi: memuatkan widget sepenuhnya\n\nSatu mod yang lebih tinggi menyebabkan penyaliran yang lebih sedikit, tetapi boleh menyebabkan masalah visual apabila widget menjadi kelihatan lagi.";
+"WW_OVERRIDE" = "Mengatasi Cuaca Widget";
+"WW_OVERRIDE_FOOTER" = "Sekiranya Widget Weather dipasang, Xen HTML akan menangguhkannya ketika memberikan keserasian ke belakang untuk data widget.\n\nPilihan ini memaksa Xen HTML untuk selalu mengatasi output Widget Weather.";
+"WIDGET_LOGGING" = "Log Masuk Widget";
+"WIDGET_LOGGING_FOOTER" = "Pilihan ini mengarahkan konsol. * Panggilan JavaScript dalam widget ke sistem fail.\n\nLog boleh didapati di /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Mod Ganti";
+"OVERWRITE_MODE_FOOTER" = "Pilihan ini menambahkan butang, ketika mengkonfigurasi widget, untuk menimpa nilai lalai dengan tetapan yang anda pilih.\n\nIni hanya berguna jika anda ingin membuat perubahan pada tetapan widget, kemudian \"bakar \" tetapan tersebut menjadi widget untuk mengeksportnya semula.\n\nAnda tidak memerlukan tetapan ini diaktifkan untuk penggunaan umum.";
+"WEBKIT_DEV_OPTIONS" = "Pilihan Pembangunan WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Penggunaan Sumber Lapisan";
+"COMPOSITING_BORDERS" = "Tunjukkan Menggubah Sempadan";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Pilihan pembangun memerlukan respring untuk digunakan.";

@@ -1,13 +1,20 @@
-/* 
-  SBForeground.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
-"TITLE" = "Foreground";
-
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
-"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
-
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
-"FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";
+"TITLE" = "Latar Depan";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Cegah Sentuhan Di Sebalik Widget";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Sekiranya widget merangkumi ikon aplikasi, ikon tersebut biasanya masih dapat disentuh.";
+"FOREGROUND_SB_USAGE" = "Untuk menambahkan widget di samping ikon:\n• Tahan sebarang ikon untuk memasuki mod penyuntingan\n• Ketik 'Tambah widget' di atas dock";
+"FOREGROUND_SB_USAGE_14" = "Untuk menambahkan widget di samping ikon:\n• Tahan sebarang ikon untuk memasuki mod penyuntingan\n• Ketik '+' di sepanjang bar status\n• Ketik 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widget di bawah ikon aplikasi memberikan penampilan wallpaper khusus, setiap halaman ikon.";
+"FOREGROUND_SB_BELOW_ICONS" = "Paparkan Widget di bawah Ikon";

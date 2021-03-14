@@ -1,9 +1,22 @@
-"BATTERY_MANAGEMENT" = "Menggunakan pengurusan bateri";
-"BATTERY_MANAGEMENT_FOOTER" = "Melumpuhkan pengurusan bateri akan menggunakan lebih banyak bateri, tetapi ia juga mungkin akan menghalang beberapa masalah visual.";
-"PERSISTENT_MODE" = "Mod berterusan";
-"PERSISTENT_MODE_FOOTER" = "Mod berterusan menyimpan widget Skrin kunci anda dalam ingatan setiap saat, jadi ia tidak perlu dimuatkan selepas anda mengunci peranti.\nMenggunakan mod ini boleh menyebabkan pengaliran bateri yang lebih besar.";
-"SCROLL_PRIORITY_IOS10" = "Mengutamakan menatal di Widget";
-"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang mempunyai wilayah bergulir, keutamaan sentuhan akan menyelesaikan isu-isu yang menghalang penggunaan dikawasan ini.";
-"SCROLL_PRIORITY_IOS11" = "Mengutamakan sentuhan didalam Widget";
-"SCROLL_PRIORITY_IOS11_FOOTER" = "Untuk widget dengan kawasan yang boleh disentuh di bahagian bawah paparan, toggling ini akan membolehkan penggunaannya.\nWalau bagaimanapun, anda tidak akan dapat menggeser keatas untuk melihat notis terdahulu.";
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
 "TITLE" = "Lanjutan";
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang mempunyai wilayah bergulir, keutamaan sentuhan akan menyelesaikan isu-isu yang menghalang penggunaan dikawasan ini.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "Untuk widget dengan kawasan yang boleh disentuh di bahagian bawah paparan, toggling ini akan membolehkan penggunaannya.\nWalau bagaimanapun, anda tidak akan dapat menggeser keatas untuk melihat notis terdahulu.";
+"SCROLL_PRIORITY_IOS10" = "Mengutamakan menatal di Widget";
+"SCROLL_PRIORITY_IOS11" = "Mengutamakan sentuhan didalam Widget";
+"BATTERY_MANAGEMENT_FOOTER" = "Melumpuhkan pengurusan bateri akan menggunakan lebih banyak bateri, tetapi ia juga mungkin akan menghalang beberapa masalah visual.";
+"BATTERY_MANAGEMENT" = "Menggunakan pengurusan bateri";
+"PERSISTENT_MODE_FOOTER" = "Mod berterusan menyimpan widget Skrin Kunci anda dalam ingatan setiap saat, jadi ia tidak perlu dimuatkan selepas anda mengunci peranti.\nMenggunakan mod ini boleh menyebabkan pengaliran bateri yang lebih besar.";
+"PERSISTENT_MODE" = "Mod berterusan";

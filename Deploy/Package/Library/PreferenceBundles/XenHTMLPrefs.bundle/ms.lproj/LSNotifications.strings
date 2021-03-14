@@ -1,7 +1,20 @@
-"FULLSCREEN_NOTIFICATIONS" = "Pemberitahuan skrin penuh";
-"HIDE_FOREGROUND_NOTIF" = "Pemberitahuan";
-"HIDE_FOREGROUND_NOTIF_FOOTER" = "Konfigurasikan tingkah laku bersama pemberitahuan";
-"HIDE_FOREGROUND_NOTIF_HEADER" = "Sembunyikan latar hadapan Widget untuk:";
-"OTHER_FOOTER" = "Pemberitahuan boleh dibentangkan kepada  ketinggian paparan penuh.";
-"OTHER_HEADER" = "Tetapan Lain";
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
 "TITLE" = "Pemberitahuan";
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Sembunyikan latar hadapan Widget untuk:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Konfigurasikan tingkah laku bersama pemberitahuan";
+"HIDE_FOREGROUND_NOTIF" = "Pemberitahuan";
+"OTHER_HEADER" = "Tetapan Lain";
+"OTHER_FOOTER" = "Pemberitahuan boleh dibentangkan kepada ketinggian paparan penuh.";
+"FULLSCREEN_NOTIFICATIONS" = "Pemberitahuan skrin penuh";

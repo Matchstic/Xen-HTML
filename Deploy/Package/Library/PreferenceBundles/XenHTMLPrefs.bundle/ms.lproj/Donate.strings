@@ -1,8 +1,21 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Derma (Sumbangan)";
+"INFO_FOOTER" = "Jika anda berpuashati menggunakan Xen HTML, sila pertimbangkan untuk menderma (menyumbang)!";
+"PAYPAL" = "Melalui PayPal";
+"PAYPAL_FOOTER" = "Klik untuk menyalin alamat PayPal";
 "BTC" = "Melalui Bitcoin (BTC)";
 "BTC_FOOTER" = "Klik untuk menyalin alamat awam Bitcoin (SegWit-menbolehkannya)";
 "ETH" = "Melalui Ethereum (ETH)";
 "ETH_FOOTER" = "Klik untuk menyalin alamat awam Ethereum";
-"INFO_FOOTER" = "Jika anda berpuashati menggunakan Xen HTML, sila pertimbangkan untuk menderma (menyumbang)!";
-"PAYPAL" = "Melalui PayPal";
-"PAYPAL_FOOTER" = "Klik untuk menyalin alamat PayPal";
-"TITLE" = "Derma (Sumbangan)";

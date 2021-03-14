@@ -1,17 +1,29 @@
-"D22_CONTROL_CENTRE" = "Sembunyikan pusat petunjuk kawalan";
-"D22_FACEID_PADLOCK" = "Sembunyikan ID muka padlock ";
-"D22_HEADER" = "iPhone X Spesifikasi";
-"D22_HOMEBAR" = "Sembunyikan rumah bar ";
-"D22_TORCH_CAMERA" = "Sembunyikan torch (lampu suluh) dan butang kamera";
-"GRABBERS_CAMERA" = "Sembunyikan pintasan kamera ";
-"GRABBERS_CAMERA_DISABLE" = "Lumpuhkan pintasan kamera";
-"GRABBERS_CONTROL_CENTRE" = "Sembunyikan pintasan pusat kawalan";
-"GRABBERS_HANDOFF" = "Sembunyikan pintasan penyerahan";
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Penglihatan";
 "GRABBERS_HEADER" = "Pintasan";
 "GRABBERS_NOTIFICATION_CENTRE" = "Sembunyikan pintasan dari pusat pemberitahuan";
-"MISC_CLOCK_STATUS_BAR" = "Tunjukkan jam di status bar";
+"GRABBERS_CONTROL_CENTRE" = "Sembunyikan pintasan pusat kawalan";
+"GRABBERS_CAMERA" = "Sembunyikan pintasan kamera ";
+"GRABBERS_CAMERA_DISABLE" = "Lumpuhkan pintasan kamera";
+"GRABBERS_HANDOFF" = "Sembunyikan pintasan penyerahan";
+"D22_HEADER" = "iPhone X Spesifikasi";
+"D22_FACEID_PADLOCK" = "Sembunyikan ID muka padlock ";
+"D22_TORCH_CAMERA" = "Sembunyikan butang lampu suluh dan butang kamera";
+"D22_HOMEBAR" = "Sembunyikan rumah bar ";
+"D22_CONTROL_CENTRE" = "Sembunyikan pusat petunjuk kawalan";
 "MISC_HEADER" = "Pelbagai";
-"MISC_LS_STATUS_BAR" = "Sembunyikan status bar di Skrin kunci";
+"MISC_LS_STATUS_BAR" = "Sembunyikan status bar di Skrin Kunci";
+"MISC_CLOCK_STATUS_BAR" = "Tunjukkan jam di status bar";
 "MISC_PAGE_DOTS" = "Sembunyikan titik penunjuk halaman";
-"TITLE" = "Penglihatan";
-

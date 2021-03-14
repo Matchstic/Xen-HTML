@@ -1,9 +1,21 @@
-"BUGS_FEATURES" = "Laporkan bugs dan ciri permintaan";
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Bantuan";
 "MESSAGE_FOOTER" = "Ia mungkin mengambil masa beberapa hari sebelum anda menerima balasan.";
 "MESSAGE_HEADER" = "Menghantar mesej:";
-"MESSAGE_MAIL" = "Melalui Mel";
 "MESSAGE_TWITTER" = "Melalui Twitter";
+"MESSAGE_MAIL" = "Melalui Mel";
+"BUGS_FEATURES" = "Laporkan pepijat (permasaalahan) dan ciri permintaan";
 "RESET_FOOTER" = "Ini akan membersihkan semua tetapan Xen HTML ";
 "RESET_SETTINGS" = "Tetapkan semula semua tetapan";
-"TITLE" = "Bantuan";
-
