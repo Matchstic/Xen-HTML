@@ -5,5 +5,31 @@
         "max-width": "500px",
         "width": "100%",
         "height": "76px"
-    }
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        },
+        {
+            "type": "title",
+            "text": "Elements"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "showUnits",
+            "text": "Display Temperature Units"
+        },
+        {
+            "type": "comment",
+            "text": "Control whether °C or °F (as necessary) is shown next to the current temperature value."
+        }
+    ]
 }

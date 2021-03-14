@@ -2,6 +2,8 @@
  * Called when the document has loaded
  */
 function onload() {
+    applyConfiguration();
+
     // Register an observer for when system data changes
     api.resources.observeData(function(newData) {
         // Update icon
@@ -43,6 +45,14 @@ function onload() {
 
         document.getElementById('info').innerHTML = underneathText;
     });
+}
+
+function applyConfiguration() {
+    // Blur effect
+    if (!config.background) {
+        const background = document.getElementsByClassName('backdrop')[0];
+        background.style.display = 'none';
+    }
 }
 
 function minutesToHumanReadable(mins) {

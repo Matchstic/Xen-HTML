@@ -5,5 +5,31 @@
         "max-width": "500px",
         "width": "100%",
         "height": "220px"
-    }
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        },
+        {
+            "type": "title",
+            "text": "Functionality"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "showPrecipAlways",
+            "text": "Always Display Precipitation"
+        },
+        {
+            "type": "comment",
+            "text": "Choose whether the chance of precipitation is always displayed if it is non-zero, or only if its greater than 30%."
+        }
+    ]
 }

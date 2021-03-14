@@ -12,12 +12,25 @@
         <div class="details">
             <p class="temperature-row">
                 { weather.now.temperature.current }
-                <span class="unit">&deg;{ weather.units.temperature }</span>
+                <span class="unit" id="unit">&deg;{ weather.units.temperature }</span>
                 <span class="location">&bull; { weather.now.condition.description }</span>
             </p>
             <p class="condition-detail">{ weather.metadata.address.city }</p>
         </div>
     </div>
+
+    <script>
+        // Blur effect
+        if (!config.background) {
+            const background = document.getElementsByClassName('backdrop')[0];
+            background.style.display = 'none';
+        }
+
+        // Degree units
+        if (!config.showUnits) {
+            document.getElementById('unit').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>

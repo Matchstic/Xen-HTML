@@ -5,5 +5,41 @@
         "max-width": "500px",
         "width": "100%",
         "height": "216px"
-    }
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        },
+        {
+            "type": "title",
+            "text": "Functionality"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "recentlyCompleted",
+            "text": "Include Recently Completed"
+        },
+        {
+            "type": "comment",
+            "text": "Include any reminders that were marked as completed within the last hour."
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "highlightOverdue",
+            "text": "Highlight Overdue Reminders"
+        },
+        {
+            "type": "comment",
+            "text": "Overdue reminders are highlighted in red."
+        }
+    ]
 }

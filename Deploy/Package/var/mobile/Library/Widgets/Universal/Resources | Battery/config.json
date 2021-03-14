@@ -5,5 +5,17 @@
         "max-width": "500px",
         "width": "100%",
         "height": "76px"
-    }
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        }
+    ]
 }

@@ -2,6 +2,8 @@
  * Called when the document has loaded
  */
 function onload() {
+    applyConfiguration();
+
     // Register an observer for when weather data changes
     api.weather.observeData(function(newData) {
         document.getElementById('city').innerText = newData.metadata.address.city;
@@ -18,6 +20,14 @@ function onload() {
         // Refresh forecasts in case 24-hour time state has changed
         updateForecasts(api.weather);
     });
+}
+
+function applyConfiguration() {
+    // Blur effect
+    if (!config.background) {
+        const background = document.getElementsByClassName('backdrop')[0];
+        background.style.display = 'none';
+    }
 }
 
 /**
@@ -60,12 +70,12 @@ function updateForecasts(data) {
         element.className = 'forecast-item';
 
         let header = document.createElement('p');
-        header.innerText = hour.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        header.innerText = toTime(hour.timestamp);
         header.className = 'forecast-item-header';
         element.appendChild(header);
 
         let precip = document.createElement('p');
-        precip.innerText = hour.precipitation.probability > 0 ? hour.precipitation.probability + '%' : '';
+        precip.innerText = hour.precipitation.probability > (config.showPrecipAlways ? 0 : 30) ? hour.precipitation.probability + '%' : '';
         precip.className = 'forecast-item-precip';
         element.appendChild(precip);
 
@@ -93,4 +103,20 @@ function updateForecasts(data) {
     hourlyForecasts.forEach(function(element) {
         container.appendChild(element);
     });
+}
+
+/**
+ * Time format wants just the hour component
+ * @param {Date} timestamp
+ */
+function toTime(timestamp) {
+    let hours = timestamp.getHours();
+
+    if (!api.system.isTwentyFourHourTimeEnabled && hours >= 12) {
+        hours -= 12;
+    }
+
+    if (hours === 0) hours = 12;
+
+    return (hours < 10 ? '0' : '') + hours;
 }
