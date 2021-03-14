@@ -28,9 +28,24 @@
             <img src="xui://resource/default/media/play.svg" xui-hide="media.isPlaying" onclick="api.media.togglePlayPause()" class="control" />
             <img src="xui://resource/default/media/pause.svg" xui-show="media.isPlaying" onclick="api.media.togglePlayPause()" class="control" />
 
-            <img src="xui://resource/default/media/next.svg" onclick="api.media.nextTrack()" class="control auxillary-control" />
+            <img src="xui://resource/default/media/next.svg" onclick="api.media.nextTrack()" class="control auxillary-control" id="next-button" />
         </div>
     </div>
+
+    <script>
+        // Apply configuration
+
+        // Blur effect
+        if (!config.background) {
+            const background = document.getElementsByClassName('backdrop')[0];
+            background.style.display = 'none';
+        }
+
+        // Next button
+        if (!config.next) {
+            document.getElementsById('next-button').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>

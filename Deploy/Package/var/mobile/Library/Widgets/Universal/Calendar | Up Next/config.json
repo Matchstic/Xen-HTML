@@ -5,5 +5,31 @@
         "max-width": "500px",
         "width": "100%",
         "height": "110px"
-    }
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        },
+        {
+            "type": "title",
+            "text": "Style"
+        },
+        {
+            "type": "color",
+            "default": "#ff453a",
+            "key": "numberColor",
+            "text": "Day Number Color"
+        },
+        {
+            "type": "comment",
+            "text": "The number representing the current day is placed inside a coloured circle for easier visibility."
+        }
+    ]
 }

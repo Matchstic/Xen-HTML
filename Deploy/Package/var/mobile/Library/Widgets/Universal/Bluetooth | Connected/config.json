@@ -4,6 +4,18 @@
     "size": {
         "max-width": "500px",
         "width": "100%",
-        "height": "220px"
-    }
+        "height": "156px"
+    },
+    "options": [
+        {
+            "type": "title",
+            "text": "Background"
+        },
+        {
+            "type": "switch",
+            "default": true,
+            "key": "background",
+            "text": "Show Background"
+        }
+    ]
 }

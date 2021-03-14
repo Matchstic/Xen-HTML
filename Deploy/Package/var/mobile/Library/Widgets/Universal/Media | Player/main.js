@@ -4,6 +4,8 @@ let scrobbleIsDragging = false;
  * This function is called when the widget finishes loading.
  */
 function onload() {
+    applyConfiguration();
+
     // Register for media data changes
     api.media.observeData(function (newData) {
         // `newData` is equivalent to `api.media`
@@ -27,11 +29,11 @@ function onload() {
         document.getElementById('artwork').className = newData.nowPlaying.artwork.length > 0 ? 'content' : '';
 
         // Background artwork
-        if (newData.nowPlaying.artwork.length > 0) {
+        if (newData.nowPlaying.artwork.length > 0 && config.artworkOverlay) {
             document.getElementById('background-artwork').src = newData.nowPlaying.artwork;
-            document.getElementById('background-artwork').style = 'display: initial;';
+            document.getElementById('background-artwork').style.display = 'initial';
         } else {
-            document.getElementById('background-artwork').style = 'display: none;';
+            document.getElementById('background-artwork').style.display = 'none';
         }
 
         // Update pause button state
@@ -62,6 +64,18 @@ function onload() {
 
     // Set initial volume slider position
     handleVolume(api.media.volume);
+}
+
+function applyConfiguration() {
+    // Apply configuration
+
+    // Blur effect
+    if (!config.background) {
+        const background = document.getElementsByClassName('backdrop')[0];
+        background.style.display = 'none';
+    }
+
+    // Background artwork overlay handled in api callbacks
 }
 
 /**

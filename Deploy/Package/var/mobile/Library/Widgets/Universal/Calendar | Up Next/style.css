@@ -94,18 +94,18 @@ h6 {
 
 #day-number {
     --number-size: 1.9rem;
-    
+
     height: var(--number-size);
     width: var(--number-size);
     border-radius: var(--number-size);
-    
-    background: rgb(255, 69, 58);
+
+    background: #ff453a;
 
     color: #fff;
     font-size: 1.1rem;
     font-weight: 500;
     flex: 0 0 var(--number-size);
-    
+
     line-height: var(--number-size);
     text-align: center;
     margin-right: calc(var(--horizontal-spacing) / 2);
@@ -114,7 +114,7 @@ h6 {
 #calendar-tint {
     width: 5px;
     height: 100%;
-    
+
     border-radius: 2px;
     margin-right: var(--horizontal-spacing);
 }

@@ -5,6 +5,7 @@
     --color: #111;
     --backdrop-background: rgba(255, 255, 255, 0.47);
     --backdrop-blur: 30px;
+    --artwork-blur: 10px;
     --slider-thumb-color: #fff;
     --slider-thumb-shadow-color: rgba(0, 0, 0, 0.1);
     --music-progress-color: #fff;
@@ -58,6 +59,8 @@ p {
     height: var(--card-height);
     padding: 0 18px;
     position: relative;
+
+    overflow: hidden;
 }
 
 #background-artwork {
@@ -66,12 +69,13 @@ p {
     position: absolute;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 
-    filter: blur(var(--backdrop-blur));
+    filter: blur(var(--artwork-blur));
     top: 0;
     left: 0;
-    z-index: -1;
-    opacity: 0.25;
+    z-index: 0;
+    opacity: 0.3;
 }
 
 .top-section {
