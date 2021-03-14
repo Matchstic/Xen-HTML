@@ -1,4 +1,40 @@
 {
     "name": "Background | Particles",
-    "author": "Matt Clarke"
+    "author": "Matt Clarke",
+    "options": [
+        {
+            "type": "title",
+            "text": "Elements"
+        },
+        {
+            "type": "color",
+            "default": "#FFFFFF",
+            "key": "color",
+            "text": "Particle Color"
+        },
+        {
+            "text": "Density",
+            "type": "option",
+            "default": 80,
+            "key": "density",
+            "options": [
+                {
+                    "text": "High",
+                    "value": 140
+                },
+                {
+                    "text": "Medium",
+                    "value": 80
+                },
+                {
+                    "text": "Low",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "type": "comment",
+            "text": "Control how many particles are displayed at a given time."
+        }
+    ]
 }

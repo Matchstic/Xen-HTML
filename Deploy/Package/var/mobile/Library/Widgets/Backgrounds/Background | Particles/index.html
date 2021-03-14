@@ -7,25 +7,27 @@
   <link rel="stylesheet" media="screen" href="css/style.css">
 </head>
 <body>
-    
     <!-- particles.js container -->
     <div id="background-container"></div>
 
     <!-- scripts -->
     <script src="js/particles.min.js"></script>
-    
+
     <script>
-        var config = {
+        var color = config.color.length > 7 ? config.color.substring(0, 7) : config.color;
+        var density = config.density;
+
+        var particlesConfig = {
               "particles": {
                 "number": {
-                  "value": particleDensity,
+                  "value": density,
                   "density": {
                     "enable": true,
                     "value_area": 800
                   }
                 },
                 "color": {
-                  "value": particleColour
+                  "value": color
                 },
                 "shape": {
                   "type": "circle",
@@ -65,7 +67,7 @@
                 "line_linked": {
                   "enable": true,
                   "distance": 150,
-                  "color": particleColour,
+                  "color": color,
                   "opacity": 0.4,
                   "width": 1
                 },
@@ -125,9 +127,9 @@
               },
               "retina_detect": true
         };
-        
-        var jsonUri = "data:text/plain;base64,"+window.btoa(JSON.stringify(config));
-        
+
+        var jsonUri = "data:text/plain;base64,"+window.btoa(JSON.stringify(particlesConfig));
+
         /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
         particlesJS.load('background-container', jsonUri, function() {
           console.log('callback - particles.js config loaded');
