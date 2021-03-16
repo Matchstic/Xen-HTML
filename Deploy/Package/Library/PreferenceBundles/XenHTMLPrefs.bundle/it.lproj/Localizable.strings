@@ -1,9 +1,15 @@
 /*
-  Localizable.strings
-  Xen HTML
-*/
+  Make sure to:
 
-/* PREFERENCES */
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
 
 "CANCEL" = "Annulla";
 "OK" = "OK";
@@ -11,26 +17,20 @@
 "DONE" = "Fatto";
 "BACK" = "Indietro";
 "ERROR" = "Errore";
-
 "YES" = "Sì";
 "NO" = "No";
-
-"ROOT_SHARE_TEXT" = "Sto usando Xen HTML per eseguire widget HTML sulla mia dchermata di blocco e sulla schermata home! Dai un'occhiata in Cydia:";
-
+"ROOT_SHARE_TEXT" = "Sto usando Xen HTML per eseguire widget HTML sulla mia schermata di blocco e sulla schermata home! Dai un'occhiata in Cydia:";
 "MORE_REPOS_TITLE" = "Repositories addizionali";
-"MORE_REPOS_WIDGETS" = "Più widgets";
+"MORE_REPOS_WIDGETS" = "Più widget";
 "MORE_REPOS_REFRESH" = "Ricarica";
 "MORE_REPOS_CONTACTING_SERVER" = "Contattando il server...";
 "MORE_REPOS_ADD_TO_CYDIA" = "Aggiungi questa repo a Cydia?";
 "MORE_REPOS_OPEN_IN_CYDIA" = "Apri questa repo in Cydia?";
-
 "DONATE_ADDRESS_COPIED" = "L'indirizzo è stato copiato negli appunti!";
-
 "SUPPORT_RESPRING_NOTIFY" = "Il tuo dispositivo farà ora un respring per applicare le modifiche";
 "SUPPORT_CONFIRM_RESET" = "Questo cancellerà tutte le impostazioni Xen HTML.\n\nVuoi continuare?";
 "SUPPORT_CONFIRM_OPTION" = "Vai";
-
-"WIDGETS_TITLE" = "Widgets";
+"WIDGETS_TITLE" = "Widget";
 "WIDGETS_PREVIEW_HEADER" = "Antprima";
 "WIDGETS_PREVIEW_FOOTER" = "Scorri per regolare l'angolo dell'anteprima.";
 "WIDGETS_BACKGROUND" = "Widget di sfondo";
@@ -38,57 +38,69 @@
 "WIDGETS_LSBACKGROUND_DETAIL" = "I widget di sfondo diventano parte dello sfondo";
 "WIDGETS_LSFOREGROUND_DETAIL" = "I widget in primo piano sono aggiunte completamente interattive alla tua schermata di blocco";
 "WIDGETS_SBBACKGROUND_DETAIL" = "I widget di sfondo diventano aggiunte interattive al tuo sfondo";
-"WIDGETS_SBFOREGROUND_DETAIL" = "Foreground widgets move with your application icons";
-"WIDGETS_NONE_SELECTED" = "Nessun widgets selezioanto";
+"WIDGETS_SBFOREGROUND_DETAIL" = "I widget in primo piano si muovo con le icone applicazione";
+"WIDGETS_NONE_SELECTED" = "Nessun widget selezioanto";
 "WIDGETS_ADD_NEW" = "Aggiungi widget";
 "WIDGETS_CONFIGURE" = "Configura:";
 "WIDGETS_LOCKSCREEN" = "Schermata di blocco";
 "WIDGETS_HOMESCREEN" = "Scshermata Home";
+"WIDGETS_UNIVERSAL" = "Universale";
+"WIDGETS_BACKGROUND_PICKER" = "Sfondo";
 "WIDGETS_SETTINGS" = "Impostazioni";
-
 "WIDGET_EDITOR_NONE_SELECTED" = "Nessun widget selezionato";
-"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Si è verificato un errore durante l'analisi del file delle impostazioni; alcune opzioni potrebbero mancare";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Si è verificato un errore durante l'analisi del file delle impostazioni, alcune opzioni potrebbero mancare";
 "WIDGET_EDITOR_SAVE" = "Salva";
 "WIDGET_EDITOR_DRAGDROP" = "Trascina e rilascia per regolare la posizione";
 "WIDGET_EDITOR_DRAGDROP_IPAD" = "Trascina e rilascia per regolare la posizione\n\nRuota il tuo dispositivo per visualizzarlo in diversi orientamenti";
-
 "WIDGET_PICKER_AVAILABLE_WIDGETS" = "Widget disponibili";
 "WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Primo piano)";
 "WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Sfondo)";
-"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Nessun widgets disponibile";
-"WIDGET_PICKER_NONE" = "Nosssuno";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Nessun widget disponibile";
+"WIDGET_PICKER_NONE" = "Nessuno";
 "WIDGET_PICKER_LOADING" = "Caricando";
 "WIDGET_PICKER_PACKAGE_PREFIX" = "Pacchetto:";
 "WIDGET_PICKER_UNKNOWN_AUTHOR" = "Autore scosnosciuto";
 "WIDGET_PICKER_UNKNOWN_PACKAGE" = "Sconosciuto / Locale";
-
 "WIDGET_SETTINGS_TITLE" = "Impostazioni widget";
-"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Impossibile scrivere le impostazioni del widget; controlla i permessi dei file per questo widget";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Impossibile scrivere le impostazioni del widget, controlla i permessi dei file per questo widget";
 "WIDGET_SETTINGS_LEGACY_FOOTER" = "Alcuni widget richiedono che la Modalità Legacy funzioni correttamente, come quelli che utilizzano GroovyAPI.";
-"WIDGET_SETTINGS_LEGACY_MODE" = "Modalità Leegacy";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Modalità Legacy";
 "WIDGET_SETTINGS_NONE" = "Nessuna impostazione disponibile";
-
-/* TWEAK */
-
-"NEXT" = "Next";
-
+"WIDGET_SETTINGS_ENABLED_COUNT" = "%d abilitato";
+"WIDGET_SETTINGS_ENABLED" = "Abilitato";
+"WIDGET_SETTINGS_DISABLED" = "Disabilitato";
+"WIDGET_SETTINGS_REMOVE" = "Rimuovi";
+"NO_ENABLED_ITEMS" = "Nessun elemento abilitato";
+"NO_DISABLED_ITEMS" = "Nessun elemento disabilitato";
+"OVERWRITE_MODE_BUTTON_TITLE" = "Esporta";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "No config.json file was found for this widget.\n\nExporting your settings is not possible.";
+"OVERWRITE_MODE_WARNING" = "Questo sovrascriverà la configurazione di default del widget con le tue modifiche.\n\nDEvo fare questo solo se vuoi re-esportare questo widget con le tue impostazioni.\n\nSei sicuro di voler continuare?";
+"OVERWRITE_MODE_FAILED" = "Fallita la sovrascrittura della configurazione di default.\n\nQuesto è probabilmente causato da un permesso errato su questo widget.\n\nXen HTML sistemaerà automaticamente il problema se reinstalli il tweak.";
+"OVERWRITE_MODE_SUCCESS" = "La configurazione di default è stata sovrascritta.";
+"RESTORABLE_TITLE" = "Ripristina Impostazioni";
+"RESTORABLE_MESSAGE" = "Vuoi ripristare l'ultima configurazione di questo widget?";
+"RED" = "Rosso";
+"GREEN" = "Verde";
+"BLUE" = "Blu";
+"HEX" = "Hex";
+"HEXCODE" = "Codice Hex";
+"OPACITY" = "Opacità";
+"BRIGHTNESS" = "Luminosità";
+"NEXT" = "Avanti";
 "SETUP_INITIAL_TITLE" = "Installazione completata";
 "SETUP_INITIAL_FOOTER" = "Xen HTML è stato installato con successo.\nCi sono solo pochi passi da seguire, e poi hai finito!";
 "SETUP_INITIAL_BUTTON" = "Continua";
-
 "SETUP_LOCKSCREEN_IMPORT_TITLE" = "Setup schermata di blocco";
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Cosa fa l'importazione?";
 "SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "L'importazione consente di spostare le impostazioni della schermata di blocco esistenti su Xen HTML.";
 "SETUP_LOCKSCREEN_IMPORT_NONE" = "Setup senza importazione";
 "SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importa da Lock HTML";
 "SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Importa da GroovyLock";
-
 "SETUP_HOMESCREEN_IMPORT_TITLE" = "Setup schermata home";
 "SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Cosa fa l'importazione?";
 "SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "L'importazione consente di spostare le impostazioni della schermata home esistenti su Xen HTML.";
 "SETUP_HOMESCREEN_IMPORT_NONE" = "Setup senza importazione";
 "SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importa da SBHTML";
-
 "SETUP_FINAL_TITLE" = "Ultimi tocchi";
 "SETUP_FINAL_TITLE_POST_WORK" = "Benvenuto in Xen HTML";
 "SETUP_FINAL_RESTART_BUTTON" = "Inizia";
@@ -96,4 +108,4 @@
 "SETUP_FINAL_APPLYING_SETTINGS" = "Applicando le tue impostazioni";
 "SETUP_FINAL_COFFEE" = "Prendendo una pausa caffè";
 "SETUP_FINAL_CLEANUP" = "Facendo pulizia";
-
+"ADD_WIDGETS_14" = "Ora puoi impostare i widget di Xen HTML dal pulsante '+' quando modifiche la disposizione delle icone, o attraverlo l'applicaizone Impostazioni";

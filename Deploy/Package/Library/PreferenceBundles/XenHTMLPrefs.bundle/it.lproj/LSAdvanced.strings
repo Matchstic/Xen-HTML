@@ -1,17 +1,22 @@
-/* 
-  LSAdvanced.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Avanzate";
-
 "SCROLL_PRIORITY_IOS10_FOOTER" = "Per i widget che dispongono di aree scorrevoli, la priorità dei tocchi risolverà i problemi che impediscono l'utilizzo di queste regioni.";
 "SCROLL_PRIORITY_IOS11_FOOTER" = "Per i widget con regioni toccabili nella parte inferiore del display, attivare questo consentirà il loro utilizzo.\n\nTuttavia, non sarai in grado di scorrere verso l'alto per vedere le notifiche passate.";
 "SCROLL_PRIORITY_IOS10" = "Priorità per lo scorrimento nel widget";
 "SCROLL_PRIORITY_IOS11" = "Priorità per il tocco nel widget";
-
 "BATTERY_MANAGEMENT_FOOTER" = "Disabilitare la gestione della batteria utilizzerà più batteria, ma potrebbe impedire alcuni problemi visivi.";
 "BATTERY_MANAGEMENT" = "Utilizzare gestione della batteria";
-
 "PERSISTENT_MODE_FOOTER" = "La modalità persistente mantiene i tuoi widget della schermata di blocco sempre in memoria, quindi non è necessario caricarli dopo aver bloccato il tuo dispositivo.\n\nL'utilizzo di questa modalità può comportare un maggiore utilizzo della batteria.";
 "PERSISTENT_MODE" = "Modalità persistente";

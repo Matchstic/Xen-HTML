@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Avanzate";
+"TITLE_DEV_OPTIONS" = "Opzioni Sviluppatore";
+"BATTERY_MANAGEMENT" = "Controllo Batteria";
+"BATTERY_MANAGEMENT_MODE" = "Modalità";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Bassa";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Moderata";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Alta";
+"BATTERY_MANAGEMENT_FOOTER" = "Il controllo batteria aiuta a ridurre il consumo da parte dei widget quando non sono visibili.\n\nModalità disponibili:\n\n• Bassa: impedisce aggiornametni della UI dei widget, ma permette loro di continuare a leggere il codice in background.\n• Moderata: mette in pausa l'esecuzione codice dei widget. (es. li 'congela')\n• Alta: rimuove completamente il caricamento dei widget\n\nUna modalità più alta porta a meno impatto sulla batteria, ma può causare dei problemi grafici quando i widget sono nuovamente visibili.";
+"WW_OVERRIDE" = "Sovrascrivi Widget Meteo";
+"WW_OVERRIDE_FOOTER" = "Se il widget meteo è installato, Xen HTML si riferià ad esso quando dovrà riportare i dati del widget.\n\nQuesta opzione forza Xen HTML a sovrascrivere sempre i dati del widget meteo.";
+"WIDGET_LOGGING" = "Widget Logs";
+"WIDGET_LOGGING_FOOTER" = "Questa opzione reindirizza la console.* JavaScript chiama i widget al filesystem.\n\nI logs possono essere trovati in /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Modalità di sovrascrittura";
+"OVERWRITE_MODE_FOOTER" = "Questa opzione aggiunge un pulsante, quando si configura un widget, per sovrascrivere i suoi valori di default con quelli scelti nelle impostazioni.\n\nQuesto è utile solo se si modificano le impostazioni del widget, allora \"bake\" queste impostazioni nel widget per esportarle.\n\nNon serve abilitarla per l'ultilizzo normale.";
+"WEBKIT_DEV_OPTIONS" = "Opzioni Sviluppo WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Sovrapposizione utilizzo risorse";
+"COMPOSITING_BORDERS" = "Mostra bordi composizione";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Le opzioni sviluppatore richiedono un respirng per essere attivate.";

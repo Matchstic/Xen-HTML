@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Pokročilý";
+"TITLE_DEV_OPTIONS" = "Vývojářské možnosti";
+"BATTERY_MANAGEMENT" = "Správa baterie";
+"BATTERY_MANAGEMENT_MODE" = "Režim";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Nízký";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Mírný";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Vysoký";
+"BATTERY_MANAGEMENT_FOOTER" = "Správa baterie pomáhá omezit vybíjení widgetů, pokud nejsou viditelné.\n\nDostupné režimy:\n\n• Nízká: brání aktualizacím uživatelského rozhraní v widgetech, ale umožňuje jim pokračovat v spouštění kódu na pozadí\n• Střední: pozastaví provádění kódu v widgetech (tj. „Zamrzne“)\n• Vysoká: zcela uvolní widgety\n\nVyšší režim vede k menšímu odtoku, ale může způsobit vizuální problémy, když se widgety opět stanou viditelnými.";
+"WW_OVERRIDE" = "Přepsat počasí widgetu";
+"WW_OVERRIDE_FOOTER" = "Pokud je nainstalováno Widget Weather, Xen HTML se odloží, když bude poskytovat zpětnou kompatibilitu pro data widgetu.\n\nTato možnost vynutí Xen HTML, aby vždy přepsal výstup Widget Weather.";
+"WIDGET_LOGGING" = "Protokolování widgetů";
+"WIDGET_LOGGING_FOOTER" = "Tato možnost přesměruje konzolu.* JavaScript volá widgety do souborového systému.\n\nProtokoly najdete v /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Přepsat režim";
+"OVERWRITE_MODE_FOOTER" = "Tato možnost přidá při konfiguraci widgetu tlačítko, které přepíše jeho výchozí hodnoty zvoleným nastavením.\n\nTo je užitečné pouze v případě, že chcete provést změny v nastavení widgetu, pak \"Změna\" tato nastavení do widgetu pro jeho opětovný export.\n\nToto nastavení není nutné pro obecné použití povoleno.";
+"WEBKIT_DEV_OPTIONS" = "Možnosti vývoje WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Překrytí využití zdrojů";
+"COMPOSITING_BORDERS" = "Zobrazit složené hranice";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Možnosti vývojáře vyžadují použití respring.";

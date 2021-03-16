@@ -1,24 +1,29 @@
-/* 
-  LSOtherVisibility.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
 "TITLE" = "Visibilitas";
-
 "GRABBERS_HEADER" = "Ikon Pembuka/Ekspansi";
-"GRABBERS_NOTIFICATION_CENTRE" = "Sembunyikan ikon ekspansi Panel Notifikasi";
-"GRABBERS_CONTROL_CENTRE" = "Sembunyikan ikon ekspansi Pusat Kontrol";
-"GRABBERS_CAMERA" = "Sembunyikan ikon kamera";
-"GRABBERS_CAMERA_DISABLE" = "Matikan ikon kamera";
-"GRABBERS_HANDOFF" = "Sembunyikan ikon Handoff";
-
+"GRABBERS_NOTIFICATION_CENTRE" = "Sembunyikan Ikon Ekspansi Panel Notifikasi";
+"GRABBERS_CONTROL_CENTRE" = "Sembunyikan Ikon Ekspansi Pusat Kontrol";
+"GRABBERS_CAMERA" = "Sembunyikan Ikon Kamera";
+"GRABBERS_CAMERA_DISABLE" = "Matikan Ikon Kamera";
+"GRABBERS_HANDOFF" = "Sembunyikan Ikon Handoff";
 "D22_HEADER" = "Khusus iPhone X";
-"D22_FACEID_PADLOCK" = "Sembunyikan gembok Pendeteksi Wajah";
-"D22_TORCH_CAMERA" = "Sembunyikan tombol Senter dan Kamera";
+"D22_FACEID_PADLOCK" = "Sembunyikan Gembok Pendeteksi Wajah";
+"D22_TORCH_CAMERA" = "Sembunyikan Tombol Senter dan Kamera";
 "D22_HOMEBAR" = "Sembunyikan Garis Beranda";
-"D22_CONTROL_CENTRE" = "Sembunyikan indikator Pusat Kontrol";
-
+"D22_CONTROL_CENTRE" = "Sembunyikan Indikator Pusat Kontrol";
 "MISC_HEADER" = "Lain-lain";
-"MISC_LS_STATUS_BAR" = "Sembunyikan status bar pada Layar Kunci";
-"MISC_CLOCK_STATUS_BAR" = "Tampilkan jam di status bar";
-"MISC_PAGE_DOTS" = "Sembunyikan titik penanda halaman";
+"MISC_LS_STATUS_BAR" = "Sembunyikan Bar Status pada Layar Kunci";
+"MISC_CLOCK_STATUS_BAR" = "Tampilkan Jam di bar status";
+"MISC_PAGE_DOTS" = "Sembunyikan Titik Penanda Halaman";

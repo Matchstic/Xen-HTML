@@ -1,17 +1,22 @@
-/* 
-  LSAdvanced.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
-"TITLE" = "Pengaturan Lanjutan";
-
-"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang memiliki area yang dapat digulir, memprioritaskan sentuhan akan menyelesaikan masalah yang mencegah penggunaan area ini.";
+"TITLE" = "Lanjutan";
+"SCROLL_PRIORITY_IOS10_FOOTER" = "Untuk widget yang memiliki area yang dapat digulir, memprioritaskan sentuhan akan menyelesaikan masalah yang mencegah penggunaan di area ini.";
 "SCROLL_PRIORITY_IOS11_FOOTER" = "Untuk widget dengan area yang dapat disentuh di bagian bawah layar, mengaktifkan ini akan memungkinkan penggunaannya.\n\nNamun, Anda tidak akan dapat menggeser ke atas untuk melihat pemberitahuan lama.";
-"SCROLL_PRIORITY_IOS10" = "Prioritas Gulir pada Widget";
-"SCROLL_PRIORITY_IOS11" = "Prioritas Sentuh pada Widget";
-
+"SCROLL_PRIORITY_IOS10" = "Prioritaskan Gulir pada Widget";
+"SCROLL_PRIORITY_IOS11" = "Prioritaskan Sentuh pada Widget";
 "BATTERY_MANAGEMENT_FOOTER" = "Menonaktifkan manajemen baterai akan mengkonsumsi lebih banyak baterai, tetapi dapat mencegah beberapa masalah visual.";
 "BATTERY_MANAGEMENT" = "Gunakan Manajemen Baterai";
-
-"PERSISTENT_MODE_FOOTER" = "Mode tetap menjaga widget Layar Kunci anda di memori setiap saat, sehingga widget tidak perlu dimuat ulang setelah mengunci perangkat anda.\n\nMenggunakan mode ini dapat menyebabkan pemakaian baterai yang lebih besar.";
-"PERSISTENT_MODE" = "Mode Tetap";
+"PERSISTENT_MODE_FOOTER" = "Mode Persisten menjaga widget Layar Kunci anda tetap dimuat di dalam memori pada setiap saat, sehingga widget tidak perlu dimuat ulang setelah mengunci perangkat anda.\n\nMenggunakan mode ini dapat menyebabkan pemakaian baterai yang lebih besar.";
+"PERSISTENT_MODE" = "Mode Persisten";

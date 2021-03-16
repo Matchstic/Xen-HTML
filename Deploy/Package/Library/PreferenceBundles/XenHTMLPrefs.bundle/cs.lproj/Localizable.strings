@@ -1,0 +1,111 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"CANCEL" = "zrušení";
+"OK" = "OK";
+"WARNING" = "Varování";
+"DONE" = "Hotovo";
+"BACK" = "Zpět";
+"ERROR" = "Chyba";
+"YES" = "Ano";
+"NO" = "Ne";
+"ROOT_SHARE_TEXT" = "Používám Xen HTML ke spouštění widgetů HTML na mé Lockscreen a Homescreen! Podívejte se na Cydii:";
+"MORE_REPOS_TITLE" = "Další úložiště";
+"MORE_REPOS_WIDGETS" = "Více widgetů";
+"MORE_REPOS_REFRESH" = "Obnovit";
+"MORE_REPOS_CONTACTING_SERVER" = "Kontaktování serveru ...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Přidat toto repo na Cydii?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Otevřít toto repo v Cydii?";
+"DONATE_ADDRESS_COPIED" = "Adresa byla zkopírována do schránky!";
+"SUPPORT_RESPRING_NOTIFY" = "Vaše zařízení se nyní znovu pokusí použít změny";
+"SUPPORT_CONFIRM_RESET" = "Tím vymažete všechna nastavení Xen HTML.\n\nChcete pokračovat?";
+"SUPPORT_CONFIRM_OPTION" = "Go Nuclear";
+"WIDGETS_TITLE" = "Widgety";
+"WIDGETS_PREVIEW_HEADER" = "Náhled";
+"WIDGETS_PREVIEW_FOOTER" = "Posunutím upravíte úhel náhledu.";
+"WIDGETS_BACKGROUND" = "Widgety na pozadí";
+"WIDGETS_FOREGROUND" = "Widgety v popředí";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Widgety na pozadí se stávají součástí vaší tapety";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Widgety v popředí jsou plně interaktivním doplňkem vaší Lockscreen";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Widgety na pozadí se stávají interaktivním doplňkem vaší tapety";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Widgety v popředí se pohybují s ikonami aplikací";
+"WIDGETS_NONE_SELECTED" = "Nejsou vybrány žádné widgety";
+"WIDGETS_ADD_NEW" = "Přidat widget";
+"WIDGETS_CONFIGURE" = "Konfigurovat:";
+"WIDGETS_LOCKSCREEN" = "Uzamknutá obrazovka";
+"WIDGETS_HOMESCREEN" = "Domovská obrazovka";
+"WIDGETS_UNIVERSAL" = "Univerzální";
+"WIDGETS_BACKGROUND_PICKER" = "Pozadí";
+"WIDGETS_SETTINGS" = "Nastavení";
+"WIDGET_EDITOR_NONE_SELECTED" = "Není vybrán žádný widget";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Při analýze souboru nastavení došlo k chybě, některé možnosti možná chybí";
+"WIDGET_EDITOR_SAVE" = "Uložit";
+"WIDGET_EDITOR_DRAGDROP" = "Pozici upravíte přetažením";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Pozici upravíte přetažením\n\nOtočením zařízení zobrazíte různé orientace";
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Dostupné widgety";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (v popředí)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (pozadí)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "K dispozici nejsou žádné widgety";
+"WIDGET_PICKER_NONE" = "Žádný";
+"WIDGET_PICKER_LOADING" = "načítání";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Balík:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Neznámý autor";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Neznámý / místní";
+"WIDGET_SETTINGS_TITLE" = "Nastavení widgetu";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Nastavení widgetu se nepodařilo zkontrolovat oprávnění souboru pro tento widget";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Některé widgety vyžadují, aby Starší Režimy správně fungovaly, například ty, které využívají GroovyAPI.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Starší režim";
+"WIDGET_SETTINGS_NONE" = "Nejsou k dispozici žádná nastavení";
+"WIDGET_SETTINGS_ENABLED_COUNT" = "%d povoleno";
+"WIDGET_SETTINGS_ENABLED" = "Povoleno";
+"WIDGET_SETTINGS_DISABLED" = "Zakázáno";
+"WIDGET_SETTINGS_REMOVE" = "Odstranit";
+"NO_ENABLED_ITEMS" = "Žádné povolené položky";
+"NO_DISABLED_ITEMS" = "Žádné zakázané položky";
+"OVERWRITE_MODE_BUTTON_TITLE" = "Export";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "Pro tento widget nebyl nalezen žádný soubor config.json.\n\nExport nastavení není možný.";
+"OVERWRITE_MODE_WARNING" = "Tímto přepíšete výchozí konfiguraci tohoto widgetu svými změnami.\n\nMusíte to udělat pouze v případě, že chcete tento widget znovu exportovat s vlastní konfigurací.\n\nJste si jistý, že chcete pokračovat?";
+"OVERWRITE_MODE_FAILED" = "Nepodařilo se přepsat výchozí konfiguraci.\n\nTo je pravděpodobně způsobeno nesprávnými oprávněními k tomuto widgetu.\n\nXen HTML to automaticky opraví, pokud vyladění znovu nainstalujete.";
+"OVERWRITE_MODE_SUCCESS" = "Výchozí konfigurace byla přepsána.";
+"RESTORABLE_TITLE" = "Obnovit nastavení";
+"RESTORABLE_MESSAGE" = "Chcete obnovit konfiguraci z doby, kdy jste naposledy použili tento widget?";
+"RED" = "Červená";
+"GREEN" = "Zelená";
+"BLUE" = "Modrá";
+"HEX" = "Hex";
+"HEXCODE" = "Hex kód";
+"OPACITY" = "Neprůhlednost";
+"BRIGHTNESS" = "Jas";
+"NEXT" = "další";
+"SETUP_INITIAL_TITLE" = "Instalace byla dokončena";
+"SETUP_INITIAL_FOOTER" = "Xen HTML byl úspěšně nainstalován.\nJe jen pár dalších kroků, které je třeba dodržet, a pak jste hotovi!";
+"SETUP_INITIAL_BUTTON" = "Pokračovat";
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Nastavení uzamčené obrazovky";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Co dělá import?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Import umožňuje přesunout stávající nastavení Lockscreen do Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Nastavení bez importu";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Import ze zámku HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Import z GroovyLock";
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Nastavení domovské obrazovky";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Co dělá import?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Import umožňuje přesunout stávající nastavení domovské obrazovky do Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Nastavení bez importu";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Import z SBHTML";
+"SETUP_FINAL_TITLE" = "Závěrečné doteky";
+"SETUP_FINAL_TITLE_POST_WORK" = "Vítejte v Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Začít";
+"SETUP_FINAL_RESTART_TITLE" = "Instalaci SpringBoard je třeba restartovat";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Uplatnění nastavení";
+"SETUP_FINAL_COFFEE" = "Přestávka na kávu";
+"SETUP_FINAL_CLEANUP" = "Čištění";
+"ADD_WIDGETS_14" = "Widgety Xen HTML nyní můžete nastavit pomocí tlačítka '+' při úpravě rozložení ikon nebo prostřednictvím aplikace Nastavení";

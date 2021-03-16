@@ -11,11 +11,9 @@
   is still in English - these lines need updating.
 */
 
-"TITLE" = "Donazioni";
-"INFO_FOOTER" = "Se ti piace Xen HTML, perfavore considera di fare una donazione!";
-"PAYPAL" = "Via PayPal";
-"PAYPAL_FOOTER" = "Tocca per copiare il mio indirizzo PayPal.";
-"BTC" = "Via Bitcoin (BTC)";
-"BTC_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Bitcoin.";
-"ETH" = "Via Ethereum (ETH)";
-"ETH_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Ethereum.";
+"LOCKSCREEN" = "Uzamknutá obrazovka";
+"HOMESCREEN" = "Domovská obrazovka";
+"MORE_WIDGETS" = "More Widgets";
+"SUPPORT" = "Podpora";
+"DONATE" = "Darovat";
+"ADVANCED" = "Pokročilý";

@@ -1,0 +1,42 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Viditelnost prvku";
+"ELEMENT_VISIBILITY_FOOTER" = "Skrýt prvky uzamčené obrazovky při použití Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Skrýt hodiny na uzamčené obrazovce";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Viditelné";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Na hlavní stránce";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Na všech stránkách";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Hodiny na uzamčené obrazovce lze skrýt buď pouze na hlavní stránce, nebo na všech stránkách včetně stránky Dnes.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Chcete-li odemknout, skryjte text";
+"ELEMENT_HOME_TO_UNLOCK" = "Skrýt „Stisknutím tlačítka Domů odemknete“ text";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Skrýt Odemknutí přejetím prstem nahoru Text";
+"ELEMENT_HIDE_OTHERS" = "Skrýt další prvky";
+"VISIBILITY_HEADER" = "Viditelnost widgetu";
+"VISIBILITY_MEDIA" = "Chování ovládacích prvků médií";
+"VISIBILITY_NOTIFICATIONS" = "Chování oznámení";
+"VISIBILITY_OPACITY" = "Při skrytí widgetu:";
+"MSIC_HEADER" = "Smíšený";
+"MISC_LS_STATUS_BAR_SIZE" = "Menší stavový řádek uzamčené obrazovky";
+"MISC_LS_IDLE_TIME" = "Doba nečinnosti uzamčené obrazovky";
+"MISC_LS_IDLE_TIME_7S" = "Výchozí";
+"MISC_LS_IDLE_TIME_10S" = "10 sekund";
+"MISC_LS_IDLE_TIME_15S" = "15 sekund";
+"MISC_LS_IDLE_TIME_20S" = "20 sekund";
+"MISC_LS_IDLE_TIME_30S" = "30 sekund";
+"MISC_LS_IDLE_TIME_60S" = "1 minuta";
+"MISC_LS_IDLE_TIME_120S" = "2 minuty";
+"ADVANCED" = "Pokročilý";
+"WIDGET_EDITOR_HEADER" = "Editor widgetů";
+"WIDGET_EDITOR_FOOTER" = "Přizpůsobte panel nastavení používaný k výběru widgetů k vykreslení na uzamčené obrazovce.";
+"WIDGET_EDITOR_SNAP" = "Přichytávání widgetů k ose Y.";

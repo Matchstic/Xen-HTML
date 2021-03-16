@@ -11,11 +11,10 @@
   is still in English - these lines need updating.
 */
 
-"TITLE" = "Donazioni";
-"INFO_FOOTER" = "Se ti piace Xen HTML, perfavore considera di fare una donazione!";
-"PAYPAL" = "Via PayPal";
-"PAYPAL_FOOTER" = "Tocca per copiare il mio indirizzo PayPal.";
-"BTC" = "Via Bitcoin (BTC)";
-"BTC_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Bitcoin.";
-"ETH" = "Via Ethereum (ETH)";
-"ETH_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Ethereum.";
+"TITLE" = "Ovládací prvky médií";
+"HIDE_FOREGROUND_HEADER" = "Skrýt widget popředí pro:";
+"HIDE_FOREGROUND_FOOTER" = "Nakonfigurujte chování vedle ovládacích prvků zásobních médií.";
+"HIDE_FOREGROUND_CONTROLS" = "Ovládá uživatelské rozhraní";
+"HIDE_FOREGROUND_ARTWORK" = "Obrázek alba";
+"MISC_HEADER" = "Smíšený";
+"HIDE_ARTWORK" = "Skrýt obrázek alba";

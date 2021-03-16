@@ -1,0 +1,29 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Viditelnost";
+"GRABBERS_HEADER" = "Grabbers";
+"GRABBERS_NOTIFICATION_CENTRE" = "Skrýt Grabber oznamovacího centra";
+"GRABBERS_CONTROL_CENTRE" = "Skrýt Grabber Control Center";
+"GRABBERS_CAMERA" = "Skrýt Grabber fotoaparátu";
+"GRABBERS_CAMERA_DISABLE" = "Zakázat Grabber fotoaparátu";
+"GRABBERS_HANDOFF" = "Skrýt Handoff Grabber";
+"D22_HEADER" = "Specifické pro iPhone X.";
+"D22_FACEID_PADLOCK" = "Skrýt visací zámek s ID obličeje";
+"D22_TORCH_CAMERA" = "Skrýt tlačítka hořáku a fotoaparátu";
+"D22_HOMEBAR" = "Skrýt domovskou lištu";
+"D22_CONTROL_CENTRE" = "Skrýt indikátor kontrolního centra";
+"MISC_HEADER" = "Smíšený";
+"MISC_LS_STATUS_BAR" = "Skrýt stavový řádek uzamknuté obrazovky";
+"MISC_CLOCK_STATUS_BAR" = "Zobrazit hodiny ve stavovém řádku";
+"MISC_PAGE_DOTS" = "Skrýt tečky stránek";

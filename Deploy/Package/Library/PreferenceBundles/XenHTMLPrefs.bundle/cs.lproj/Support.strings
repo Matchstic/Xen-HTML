@@ -11,11 +11,11 @@
   is still in English - these lines need updating.
 */
 
-"TITLE" = "Donazioni";
-"INFO_FOOTER" = "Se ti piace Xen HTML, perfavore considera di fare una donazione!";
-"PAYPAL" = "Via PayPal";
-"PAYPAL_FOOTER" = "Tocca per copiare il mio indirizzo PayPal.";
-"BTC" = "Via Bitcoin (BTC)";
-"BTC_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Bitcoin.";
-"ETH" = "Via Ethereum (ETH)";
-"ETH_FOOTER" = "Tocca per copiare il mio indirizzo pubblico Ethereum.";
+"TITLE" = "Podpora";
+"MESSAGE_FOOTER" = "Může trvat až několik dní, než dostanete odpověď.";
+"MESSAGE_HEADER" = "Poslat zprávu:";
+"MESSAGE_TWITTER" = "Přes Twitter";
+"MESSAGE_MAIL" = "E-mailem";
+"BUGS_FEATURES" = "Hlášení chyb a požadování funkcí";
+"RESET_FOOTER" = "Tím vymažete všechna nastavení Xen HTML.";
+"RESET_SETTINGS" = "Resetovat všechna nastavení";
