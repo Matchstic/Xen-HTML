@@ -253,7 +253,7 @@
     
     // Modern options is a key/pair dictionary. Convert to JSON and inject
     NSDictionary *modernOptions = [self.metadata objectForKey:@"options2"];
-    if (modernOptions) {
+    if (modernOptions && ![modernOptions isEqual:@{}]) {
         NSString *jsonOptions = [self _parseToJSON:modernOptions];
         [settingsInjection appendFormat:@"var config = %@;", jsonOptions];
     }
