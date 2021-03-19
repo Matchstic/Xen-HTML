@@ -15,7 +15,7 @@
 "SCROLL_PRIORITY_IOS10_FOOTER" = "U widgetů, které mají posouvatelné oblasti, vyřeší prioritizace dotyky problémy, které zabrání použití těchto oblastí.";
 "SCROLL_PRIORITY_IOS11_FOOTER" = "U widgetů s dotykovými oblastmi ve spodní části displeje umožní jejich zapnutí jejich použití.\n\nNebudete však moci přejetím prstem nahoru zobrazit minulá oznámení.";
 "SCROLL_PRIORITY_IOS10" = "Upřednostněte posouvání ve Widgetu";
-"SCROLL_PRIORITY_IOS11" = "Upřednostněte Touch in Widget";
+"SCROLL_PRIORITY_IOS11" = "Upřednostněte dotyk ve Widgetu";
 "BATTERY_MANAGEMENT_FOOTER" = "Zakázání správy baterie spotřebuje více baterie, ale může zabránit některým vizuálním problémům.";
 "BATTERY_MANAGEMENT" = "Použijte správu baterie";
 "PERSISTENT_MODE_FOOTER" = "Trvalý režim udržuje widgety Lockscreen vždy v paměti, takže se po uzamčení zařízení nemusí načítat.\n\nPoužití tohoto režimu může vést k většímu vybití baterie.";

@@ -11,9 +11,11 @@
   is still in English - these lines need updating.
 */
 
-"LOCKSCREEN" = "Uzamknutá obrazovka";
-"HOMESCREEN" = "Domovská obrazovka";
-"MORE_WIDGETS" = "Více widgetů";
-"SUPPORT" = "Podpora";
-"DONATE" = "Darovat";
-"ADVANCED" = "Pokročilý";
+"TITLE" = "Dotacja";
+"INFO_FOOTER" = "Jeśli podoba Ci się Xen HTML, proszę rozważ wsparcie finansowe!";
+"PAYPAL" = "Przez PayPal";
+"PAYPAL_FOOTER" = "Naciśnij by skopiować adres PayPal";
+"BTC" = "Przez Bitcoin (BTC)";
+"BTC_FOOTER" = "Naciśnij by skopiować adres Bitcoin (SegWit-włączone)";
+"ETH" = "Przez Ethereum (ETH)";
+"ETH_FOOTER" = "Naciśnij by skopiować publiczny adres Etherum";

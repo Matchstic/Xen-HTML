@@ -18,11 +18,11 @@
 "BATTERY_MANAGEMENT_OPTION_LOW" = "Rendah";
 "BATTERY_MANAGEMENT_OPTION_MED" = "Sedang";
 "BATTERY_MANAGEMENT_OPTION_HIGH" = "Tinggi";
-"BATTERY_MANAGEMENT_FOOTER" = "Manajemen baterai membantu mengurangi pemakaian baterai ketika widget tidak tampak.\n\nMode yang tersedia:\n\n• Rendah: mencegah pembaruan antarmuka pada widget, tapi tetap mengijinkan mereka untuk menjalankan kode di latar belakang.\n• Sedang: Menghentikan eksekusi kode pada widget (yakni, 'membekukan' mereka)\n• Tinggi: melepas pemuatan widget sama sekali\n\nA mode yang lebih tinggi cenderung mengurangi pemakaian baterai, namun dapat mengakibatkan masalah visual ketika widget dimuat ulang.";
+"BATTERY_MANAGEMENT_FOOTER" = "Manajemen baterai membantu mengurangi pemakaian baterai ketika widget tidak tampak.\n\nMode yang tersedia:\n\n• Rendah: mencegah pembaruan antarmuka pada widget, tapi tetap mengijinkan mereka untuk menjalankan kode di latar belakang.\n• Sedang: Menghentikan eksekusi kode pada widget (yakni, 'membekukan' mereka)\n• Tinggi: melepas pemuatan widget sama sekali\n\nMode yang lebih tinggi cenderung mengurangi pemakaian baterai, namun dapat mengakibatkan masalah visual ketika widget dimuat ulang.";
 "WW_OVERRIDE" = "Kesampingkan Cuaca Widget";
-"WW_OVERRIDE_FOOTER" = "Jika Cuaca Widget terpasang, Xen HTML akan mengikutinya ketika menyediakan kompatibilats mundur untuk data widget.\n\nOpsi ini memaksa Xen HTML untuk selalu mengenyampingkan output Cuaca Widget.";
+"WW_OVERRIDE_FOOTER" = "Jika Cuaca Widget terpasang, Xen HTML akan mengikutinya ketika menyediakan kompatibilitas mundur untuk data widget.\n\nOpsi ini memaksa Xen HTML untuk selalu mengenyampingkan output Cuaca Widget.";
 "WIDGET_LOGGING" = "Pencatatan Widget";
-"WIDGET_LOGGING_FOOTER" = "Opsi ini mengarah-ulangkan console.* Panggilan JavaScript dalam widgets kepada berkas sistem.\n\nCatatan dapat ditemukan di /var/mobile/Library/Logs/Xen-HTML";
+"WIDGET_LOGGING_FOOTER" = "Opsi ini mengarah-ulangkan konsol.* Panggilan JavaScript dalam widgets kepada berkas sistem.\n\nCatatan dapat ditemukan di /var/mobile/Library/Logs/Xen-HTML";
 "OVERWRITE_MODE" = "Mode Timpa";
 "OVERWRITE_MODE_FOOTER" = "Opsi ini menambahkan tombol, ketika mengkonfigurasi widget, untuk menimpa nilai-nilai dasarnya dengan pengaturan pilihan anda.\n\nIni hanya berguna ketika anda ingin merubah pengaturan widget, dan \"memanggang\" pengaturan tersebut ke dalam widget untuk mengekspor-ulangnya lagi.\n\nAnda tidak perlu mengaktifkan pengaturan ini untuk penggunaan secara umum.";
 "WEBKIT_DEV_OPTIONS" = "Opsi Pengembangan WebKit";

@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Προχωρημένο";
+"TITLE_DEV_OPTIONS" = "Επιλογές ανάπτυξης";
+"BATTERY_MANAGEMENT" = "Διαχείριση μπαταρίας";
+"BATTERY_MANAGEMENT_MODE" = "Τρόπος";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Χαμηλό";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Μέτριο";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Υψηλό";
+"BATTERY_MANAGEMENT_FOOTER" = "Η διαχείριση της μπαταρίας συμβάλλει στη μείωση της αποστράγγισης από widget όταν δεν είναι ορατά.\n\nΔιαθέσιμες λειτουργίες:\n\n• Χαμηλή: αποτρέπει τις ενημερώσεις διεπαφής χρήστη σε widget, αλλά τους επιτρέπει να συνεχίσουν να εκτελούν κώδικα στο παρασκήνιο\n• Μέτρια: παύση κώδικα εκτέλεση σε γραφικά στοιχεία (δηλαδή, «παγώνει»)\n• Υψηλή: ξεφορτώνει εντελώς widget\n\nΜια υψηλότερη λειτουργία οδηγεί σε λιγότερη αποστράγγιση, αλλά μπορεί να προκαλέσει οπτικά προβλήματα όταν τα γραφικά στοιχεία γίνουν ξανά ορατά.";
+"WW_OVERRIDE" = "Παράκαμψη καιρού Widget";
+"WW_OVERRIDE_FOOTER" = "Εάν είναι εγκατεστημένο το Widget καιρού, το Xen HTML θα το αναβάλει όταν παρέχει συμβατότητα προς τα πίσω για δεδομένα widget.\n\nΑυτή η επιλογή αναγκάζει το Xenhtml να παρακάμπτει πάντα την έξοδο του Widget καορού.";
+"WIDGET_LOGGING" = "Καταγραφή Widget";
+"WIDGET_LOGGING_FOOTER" = "Αυτή η επιλογή ανακατευθύνει την κονσόλα. * Κλήσεις JavaScript σε widgets στο σύστημα αρχείων.\n\nΜπορείτε να βρείτε αρχεία καταγραφής στο /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Λειτουργία αντικατάστασης";
+"OVERWRITE_MODE_FOOTER" = "Αυτή η επιλογή προσθέτει ένα κουμπί, κατά τη διαμόρφωση ενός γραφικού στοιχείου, για να αντικαταστήσει τις προεπιλεγμένες τιμές του με τις ρυθμίσεις που έχετε επιλέξει.\n\nΑυτό είναι χρήσιμο μόνο εάν θέλετε να κάνετε αλλαγές στις ρυθμίσεις ενός γραφικού στοιχείου και, στη συνέχεια, \"bake\" αυτές τις ρυθμίσεις στο widget για επανεξαγωγή του.\n\nΔεν απαιτείται ενεργοποιημένη αυτή η ρύθμιση για γενική χρήση.";
+"WEBKIT_DEV_OPTIONS" = "Επιλογές ανάπτυξης WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Επικάλυψη χρήσης πόρων";
+"COMPOSITING_BORDERS" = "Εμφάνιση συνόρων συνθέσεως";
+"RESPRING" = "Επαναφορά";
+"RESPRING_FOOTER" = "Πρέπει να ισχύουν οι επιλογές προγραμματιστή για την επαναφορά";

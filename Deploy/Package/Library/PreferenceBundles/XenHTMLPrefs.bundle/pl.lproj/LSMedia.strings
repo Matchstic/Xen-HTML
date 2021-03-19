@@ -11,9 +11,10 @@
   is still in English - these lines need updating.
 */
 
-"LOCKSCREEN" = "Uzamknutá obrazovka";
-"HOMESCREEN" = "Domovská obrazovka";
-"MORE_WIDGETS" = "Více widgetů";
-"SUPPORT" = "Podpora";
-"DONATE" = "Darovat";
-"ADVANCED" = "Pokročilý";
+"TITLE" = "Ustawienia Odtwarzacza";
+"HIDE_FOREGROUND_HEADER" = "Ukryj pierwszoplanowy Widżet dla:";
+"HIDE_FOREGROUND_FOOTER" = "Skonfiguruj zachowanie przy standardowych ustawieniach Odtwarzacza.";
+"HIDE_FOREGROUND_CONTROLS" = "Ustawienia Interfejsu Użytkownika";
+"HIDE_FOREGROUND_ARTWORK" = "Grafika";
+"MISC_HEADER" = "Różne";
+"HIDE_ARTWORK" = "Ukryj Grafikę";

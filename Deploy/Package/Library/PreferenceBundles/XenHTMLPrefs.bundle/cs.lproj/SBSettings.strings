@@ -15,10 +15,10 @@
 "ELEMENT_VISIBILITY_HS_FOOTER" = "Skrýt prvky domovské obrazovky při použití Xen HTML.";
 "ELEMENT_SB_DOCK_BLUR" = "Skrýt rozostření doku";
 "ELEMENT_SB_FOLDER_BLUR" = "Skrýt rozostření ikony složky";
-"ELEMENT_SB_ICON_LABELS" = "Skrýt štítky s ikonami";
-"ELEMENT_SB_PAGE_DOTS" = "Skrýt indikátory stránky";
+"ELEMENT_SB_ICON_LABELS" = "Skrýt popisky s ikonami";
+"ELEMENT_SB_PAGE_DOTS" = "Skrýt indikátory stránek";
 "MISC_HEADER" = "Smíšený";
-"MISC_SB_TOUCH" = "Povolit Touch na Widget";
+"MISC_SB_TOUCH" = "Povolit dotek na Widget";
 "MISC_SB_TOUCH2" = "Povolit dotek na pozadí";
 "WIDGET_EDITOR_HEADER" = "Editor widgetů";
 "WIDGET_EDITOR_HS_FOOTER" = "Přizpůsobte panel nastavení používaný k výběru widgetů k vykreslení na domovské obrazovce.";

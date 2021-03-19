@@ -1,0 +1,32 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Zaawansowane";
+"TITLE_DEV_OPTIONS" = "Opcje Programisty";
+"BATTERY_MANAGEMENT" = "Zarządzanie Baterią";
+"BATTERY_MANAGEMENT_MODE" = "Tryb";
+"BATTERY_MANAGEMENT_OPTION_LOW" = "Niski";
+"BATTERY_MANAGEMENT_OPTION_MED" = "Średni";
+"BATTERY_MANAGEMENT_OPTION_HIGH" = "Wysoki";
+"BATTERY_MANAGEMENT_FOOTER" = "Zarządzanie baterią pomaga zmniejszyć jej użycie przez widżety, które są niewidoczne.\n\nDostępcje opcje:\n\n• Niski: zapobiega aktualizacjom interfejsu użytkownika w widżetach, ale umożliwia im dalsze wykonywanie kodu w tle\n• Średni: wstrzymuje wykonywanie kodu w widżetach (i.e., 'zamraża' je)\n• Wysoki: całkowicie wyłącza widżety\n\nWyższy tryb prowadzi do mniejszego drenażu, ale może powodować problemy wizualne, gdy widżety staną się ponownie widoczne.";
+"WW_OVERRIDE" = "Nadpisanie Widżetu Pogoda";
+"WW_OVERRIDE_FOOTER" = "Jeśli Widżet Pogoda jest zainstalowany, Xen HTML będzie go opóźniał, zapewniając wsteczną kompatybilność danych widżetu.\n\nOpcja ta wymusza, aby Xen HTML zawsze nadpisywał dane wyjściowe Widżetu Pogoda.";
+"WIDGET_LOGGING" = "Rejestrowanie Widżetów";
+"WIDGET_LOGGING_FOOTER" = "Ta opcja przekierowuje konsolę.* JavaScript wczytuje widżety do systemu plików.\n\nLogi można znaleźć w /var/mobile/Library/Logs/Xen-HTML";
+"OVERWRITE_MODE" = "Tryb Nadpisywania";
+"OVERWRITE_MODE_FOOTER" = "Ta opcja dodaje przycisk, gdy konfigurujesz widżet, by nadpisać standardowe wartości twoimi ustawieniami.\n\nJest to przydatne tylko wtedy, gdy chcesz dokonać zmian w ustawieniach widżetu, a następnie \"wypalić\" te ustawienia w widżecie w celu ponownego wyeksportowania.\n\n Nie musisz włączać tej opcji do ogólnego użytku.";
+"WEBKIT_DEV_OPTIONS" = "Opcje Programowania WebKit";
+"RESOURCE_USAGE_OVERLAY" = "Nakładka Zużycia Zasobów";
+"COMPOSITING_BORDERS" = "Pokaż Granice Kompozycji";
+"RESPRING" = "Respring";
+"RESPRING_FOOTER" = "Opcje programistyczne wymagają Respring.";

@@ -19,7 +19,7 @@
 "ERROR" = "Chyba";
 "YES" = "Ano";
 "NO" = "Ne";
-"ROOT_SHARE_TEXT" = "Používám Xen HTML ke spouštění widgetů HTML na mé Lockscreen a Homescreen! Podívejte se na Cydii:";
+"ROOT_SHARE_TEXT" = "Používám Xen HTML ke spouštění widgetů HTML na mé Uzamknuté a Domovské obrazovce! Podívejte se na Cydii:";
 "MORE_REPOS_TITLE" = "Další úložiště";
 "MORE_REPOS_WIDGETS" = "Více widgetů";
 "MORE_REPOS_REFRESH" = "Obnovit";
@@ -29,7 +29,7 @@
 "DONATE_ADDRESS_COPIED" = "Adresa byla zkopírována do schránky!";
 "SUPPORT_RESPRING_NOTIFY" = "Vaše zařízení se nyní znovu pokusí použít změny";
 "SUPPORT_CONFIRM_RESET" = "Tím vymažete všechna nastavení Xen HTML.\n\nChcete pokračovat?";
-"SUPPORT_CONFIRM_OPTION" = "Go Nuclear";
+"SUPPORT_CONFIRM_OPTION" = "Ano, určitě";
 "WIDGETS_TITLE" = "Widgety";
 "WIDGETS_PREVIEW_HEADER" = "Náhled";
 "WIDGETS_PREVIEW_FOOTER" = "Posunutím upravíte úhel náhledu.";

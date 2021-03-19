@@ -11,9 +11,10 @@
   is still in English - these lines need updating.
 */
 
-"LOCKSCREEN" = "Uzamknutá obrazovka";
-"HOMESCREEN" = "Domovská obrazovka";
-"MORE_WIDGETS" = "Více widgetů";
-"SUPPORT" = "Podpora";
-"DONATE" = "Darovat";
-"ADVANCED" = "Pokročilý";
+"TITLE" = "Powiadomienia";
+"HIDE_FOREGROUND_NOTIF_HEADER" = "Ukryj pierwszoplanowy Widżet dla:";
+"HIDE_FOREGROUND_NOTIF_FOOTER" = "Skonfiguruj zachowanie przy powiadomieniach.";
+"HIDE_FOREGROUND_NOTIF" = "Powiadomienia";
+"OTHER_HEADER" = "Inne Ustawienia";
+"OTHER_FOOTER" = "Powiadomienia mogą być pokazywane na całym ekranie.";
+"FULLSCREEN_NOTIFICATIONS" = "Powiadomienia na całym ekranie";

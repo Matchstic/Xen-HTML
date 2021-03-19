@@ -14,7 +14,7 @@
 "TITLE" = "Popředí";
 "FOREGROUND_SB_PRIORITISE_TOUCH" = "Zabraňte dotyku za widgety";
 "FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Pokud widget pokrývá ikony aplikací, lze se jich obvykle dotknout.";
-"FOREGROUND_SB_USAGE" = "Přidání widgetů vedle ikon:\n• Podržením libovolné ikony přejdete do režimu úprav\n• Klepněte na „Přidat widget“ nad dokovací stanicí";
+"FOREGROUND_SB_USAGE" = "Přidání widgetů vedle ikon:\n• Podržením libovolné ikony přejdete do režimu úprav\n• Klepněte na „Přidat widget“ nad dokovací stanici";
 "FOREGROUND_SB_USAGE_14" = "Přidání widgetů vedle ikon:\n• Podržením libovolné ikony přejdete do režimu úprav\n• Klepněte na '+' podél stavového řádku\n• Klepněte na 'Xen HTML'";
 "FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgety pod ikonami aplikací poskytují vzhled vlastních tapet na stránku ikon.";
 "FOREGROUND_SB_BELOW_ICONS" = "Zobrazit widgety pod ikonami";

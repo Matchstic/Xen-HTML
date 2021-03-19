@@ -11,9 +11,11 @@
   is still in English - these lines need updating.
 */
 
-"LOCKSCREEN" = "Uzamknutá obrazovka";
-"HOMESCREEN" = "Domovská obrazovka";
-"MORE_WIDGETS" = "Více widgetů";
-"SUPPORT" = "Podpora";
-"DONATE" = "Darovat";
-"ADVANCED" = "Pokročilý";
+"TITLE" = "Wsparcie";
+"MESSAGE_FOOTER" = "Może minąć kilka dni zanim otrzymasz odpowiedź.";
+"MESSAGE_HEADER" = "Wyślij wiadomość:";
+"MESSAGE_TWITTER" = "Przez Twitter";
+"MESSAGE_MAIL" = "Przez Mail";
+"BUGS_FEATURES" = "Zgłoś błąd lub zaproponuj nowe opcje";
+"RESET_FOOTER" = "Ta opcja spowoduje usunięcie wszystkich ustawień Xen HTML.";
+"RESET_SETTINGS" = "Zresetuj Wszystkie Ustawień";

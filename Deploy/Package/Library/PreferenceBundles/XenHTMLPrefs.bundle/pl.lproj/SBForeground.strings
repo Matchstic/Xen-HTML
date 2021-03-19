@@ -1,0 +1,20 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Pierwszy Plan";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Nie pozwalaj na dotyk \"za\" Widżetem";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Jeśli widżet \"zachodzi\" na ikony aplikacji, ikony mogą być dotykane.";
+"FOREGROUND_SB_USAGE" = "Aby dodać Widżety obok ikon:\n• Przytrzymaj dowolną ikonę, aby przejść do trybu edycji\n• Dotknij \"Dodaj widżet\"";
+"FOREGROUND_SB_USAGE_14" = "Aby dodać Widżety obok ikon:\n• Przytrzymaj dowolną ikonę, aby przejść do trybu edycji\n• Dotknij '+' w górnym prawym rogu Pasku Statusu\n• Dotknij 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widżety \"pod\" ikonami aplikacji pozwalają widzieć tapety użytkowanika na każdej stronie.";
+"FOREGROUND_SB_BELOW_ICONS" = "Wyświetlaj Widżety \"pod\" ikonami";

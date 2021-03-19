@@ -1,13 +1,20 @@
-/* 
-  SBForeground.strings
-  Xen HTML
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
 */
 
-"TITLE" = "Foreground";
-
-"FOREGROUND_SB_PRIORITISE_TOUCH" = "Prevent Touch Behind Widgets";
-"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "If a widget covers application icons, those icons can normally still be touched.";
-"FOREGROUND_SB_USAGE" = "To add widgets alongside icons:\n• Hold any icon to enter editing mode\n• Tap 'Add widget' above the dock";
-
-"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Widgets below application icons give the appearance of custom wallpapers, per page of icons.";
-"FOREGROUND_SB_BELOW_ICONS" = "Display Widgets below Icons";
+"TITLE" = "Σε πρώτο πλάνο";
+"FOREGROUND_SB_PRIORITISE_TOUCH" = "Αποτρέψτε την αφή πίσω από τα γραφικά στοιχεία";
+"FOREGROUND_SB_PRIORITISE_TOUCH_FOOTER" = "Εάν ένα widget καλύπτει εικονίδια εφαρμογών, αυτά τα εικονίδια μπορούν κανονικά να αγγίζονται.";
+"FOREGROUND_SB_USAGE" = "Για να προσθέσετε widget μαζί με εικονίδια:\n• Κρατήστε οποιοδήποτε εικονίδιο για είσοδο στη λειτουργία επεξεργασίας\n• Πατήστε \"Προσθήκη widget\" πάνω από το dock";
+"FOREGROUND_SB_USAGE_14" = "Για να προσθέσετε widget παράλληλα με εικονίδια:\n• Κρατήστε οποιοδήποτε εικονίδιο για να μπείτε στη λειτουργία επεξεργασίας\n• Πατήστε '+' κατά μήκος της γραμμής κατάστασης\n• Πατήστε 'Xen HTML'";
+"FOREGROUND_SB_BELOW_ICONS_FOOTER" = "Τα widget κάτω από τα εικονίδια της εφαρμογής δίνουν την εμφάνιση προσαρμοσμένων ταπετσαριών, ανά σελίδα εικονιδίων.";
+"FOREGROUND_SB_BELOW_ICONS" = "Εμφάνιση Widget κάτω από τα εικονίδια";

@@ -1,0 +1,23 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Zaawansowane";
+"SCROLL_PRIORITY_IOS10_FOOTER" = "W przypadku widżetów, które mają przewijalne regiony, nadanie priorytetu dotknięciom rozwiąże problemy, które uniemożliwiają korzystanie z tych regionów.";
+"SCROLL_PRIORITY_IOS11_FOOTER" = "
+W przypadku widżetów z obszarami, które można dotykać u dołu ekranu, włączenie tej opcji umożliwi ich użycie.\n\nJednak nie będzie można przesuwać palcem w górę, aby zobaczyć wcześniejsze powiadomienia.";
+"SCROLL_PRIORITY_IOS10" = "Priorytet przewijania dla Widżetu";
+"SCROLL_PRIORITY_IOS11" = "Priorytet dotyku dla Widżetu";
+"BATTERY_MANAGEMENT_FOOTER" = "Wyłączenie zarządzania baterią spowoduje większe zużycie baterii, ale może zapobiec niektórym problemom wizualnym.";
+"BATTERY_MANAGEMENT" = "Używaj Zarządzania Baterią";
+"PERSISTENT_MODE_FOOTER" = "Tryb Stały utrzymuje widżety ekranu blokady w pamięci przez cały czas, więc nie trzeba ich ładować po zablokowaniu urządzenia.\n\nUżycie tego trybu może spowodować zwiększenie zużycia baterii.";
+"PERSISTENT_MODE" = "Tryb Stały";

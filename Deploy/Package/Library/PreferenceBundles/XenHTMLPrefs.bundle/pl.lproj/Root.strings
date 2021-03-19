@@ -11,9 +11,9 @@
   is still in English - these lines need updating.
 */
 
-"LOCKSCREEN" = "Uzamknutá obrazovka";
-"HOMESCREEN" = "Domovská obrazovka";
-"MORE_WIDGETS" = "Více widgetů";
-"SUPPORT" = "Podpora";
-"DONATE" = "Darovat";
-"ADVANCED" = "Pokročilý";
+"LOCKSCREEN" = "Ekran Blokady";
+"HOMESCREEN" = "Ekran Początkowy";
+"MORE_WIDGETS" = "Więcej Widżetów";
+"SUPPORT" = "Wsparcie";
+"DONATE" = "Dotacja";
+"ADVANCED" = "Zaawansowane";

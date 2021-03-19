@@ -1,0 +1,110 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"CANCEL" = "Anuluj";
+"OK" = "OK";
+"WARNING" = "Ostrzeżenie";
+"DONE" = "Gotowe";
+"BACK" = "Wróć";
+"ERROR" = "Błąd";
+"YES" = "Tak";
+"NO" = "Nie";
+"ROOT_SHARE_TEXT" = "Używam Xen HTML by uruchamiać Widżety HTML na Ekranie Blokady i Ekranie Początkowym! Sprawdź to w Cydii:";
+"MORE_REPOS_TITLE" = "Dodatkowe Repozytoria";
+"MORE_REPOS_WIDGETS" = "Więcej Widżetów";
+"MORE_REPOS_REFRESH" = "Odśwież";
+"MORE_REPOS_CONTACTING_SERVER" = "Łączenie z serwerem...";
+"MORE_REPOS_ADD_TO_CYDIA" = "Dodać repozytorium do Cydii?";
+"MORE_REPOS_OPEN_IN_CYDIA" = "Otworzyć repozytorium w Cydii?";
+"DONATE_ADDRESS_COPIED" = "Adres został skopiowany do schowka!";
+"SUPPORT_RESPRING_NOTIFY" = "Twoje urządzenie wykona Respring by zatwierdzić zmiany";
+"SUPPORT_CONFIRM_RESET" = "To wyczyści wszystkie ustawienia Xen HTML.\n\nCzy chcesz kontynuować?";
+"SUPPORT_CONFIRM_OPTION" = "Zatwierdź";
+"WIDGETS_TITLE" = "Widżety";
+"WIDGETS_PREVIEW_HEADER" = "Podgląd";
+"WIDGETS_PREVIEW_FOOTER" = "Przesuń, aby dostosować kąt podglądu.";
+"WIDGETS_BACKGROUND" = "Widżety w tle";
+"WIDGETS_FOREGROUND" = "Widżety pierwszego planu";
+"WIDGETS_LSBACKGROUND_DETAIL" = "Widżety w tle staną się częścią tapety";
+"WIDGETS_LSFOREGROUND_DETAIL" = "Widżety pierwszego planu to w pełni interaktywne dodatki do Ekranu Blokady";
+"WIDGETS_SBBACKGROUND_DETAIL" = "Widżety w tle to w pełni interktywne dodatki do tapety";
+"WIDGETS_SBFOREGROUND_DETAIL" = "Widżety na pierwszym planie poruszają się wraz z ikonami aplikacji";
+"WIDGETS_NONE_SELECTED" = "Nie wybrano Widżetu";
+"WIDGETS_ADD_NEW" = "Dodaj widżet";
+"WIDGETS_CONFIGURE" = "Konfiguruj:";
+"WIDGETS_LOCKSCREEN" = "Ekran Blokady";
+"WIDGETS_HOMESCREEN" = "Ekran Początkowy";
+"WIDGETS_BACKGROUND_PICKER" = "Tło";
+"WIDGETS_SETTINGS" = "Ustawienia";
+"WIDGET_EDITOR_NONE_SELECTED" = "Nie wybranu Widżetu";
+"WIDGET_EDITOR_ERROR_PARSING_CONFIGJS" = "Wystąpił błąd podczas analizowania pliku ustawień, może brakować niektórych opcji";
+"WIDGET_EDITOR_SAVE" = "Zapisz";
+"WIDGET_EDITOR_DRAGDROP" = "Przeciągnij i upuść, aby dostosować położenie";
+"WIDGET_EDITOR_DRAGDROP_IPAD" = "Przeciągnij i upuść, aby dostosować położenie\n\nObróć urządzenie, aby wyświetlać w różnych orientacjach";
+"WIDGET_PICKER_AVAILABLE_WIDGETS" = "Dostępne Widżety";
+"WIDGET_PICKER_CYDGET_FOREGROUND" = "Cydget (Pierwszy Plan)";
+"WIDGET_PICKER_CYDGET_BACKGROUND" = "Cydget (Tło)";
+"WIDGET_PICKER_NO_WIDGETS_AVAILABLE" = "Brak dostępnych Widżetów";
+"WIDGET_PICKER_NONE" = "Brak";
+"WIDGET_PICKER_LOADING" = "Ładowanie";
+"WIDGET_PICKER_PACKAGE_PREFIX" = "Pakiet:";
+"WIDGET_PICKER_UNKNOWN_AUTHOR" = "Nieznany Autor";
+"WIDGET_PICKER_UNKNOWN_PACKAGE" = "Nieznany / Lokalny";
+"WIDGET_SETTINGS_TITLE" = "Ustawienia Widżetu";
+"WIDGET_SETTINGS_ERROR_WRITE_CONFIGJS" = "Nie udało się zapisać ustawień Widżetu, sprawdź uprawnienia do pliku dla tego Widżetu";
+"WIDGET_SETTINGS_LEGACY_FOOTER" = "Widżety, które wykorzystują GroovyAPI, wymagają Trybu Starszego do prawidłowego działania.";
+"WIDGET_SETTINGS_LEGACY_MODE" = "Tryb Starszy";
+"WIDGET_SETTINGS_NONE" = "Brak ustawień";
+"WIDGET_SETTINGS_ENABLED_COUNT" = "%d włączone";
+"WIDGET_SETTINGS_ENABLED" = "Włączone";
+"WIDGET_SETTINGS_DISABLED" = "Wyłączone";
+"WIDGET_SETTINGS_REMOVE" = "Usuń";
+"NO_ENABLED_ITEMS" = "Wszystkie elementy są wyłączone";
+"NO_DISABLED_ITEMS" = "Wszystkie elementy są włączone";
+"OVERWRITE_MODE_BUTTON_TITLE" = "Eksport";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "Brak pliku config.json dla tego widżetu.\n\nEksportowanie ustawień nie jest możliwe.";
+"OVERWRITE_MODE_WARNING" = "Spowoduje to zastąpienie domyślnej konfiguracji tego widżetu twoimi zmianami.\n\nJest to potrzebne, gdy chcesz ponownie wyeksportować ten widżet z własną konfiguracją.\n\nCzy na pewno chcesz kontynuować?";
+"OVERWRITE_MODE_FAILED" = "Nie udało się zastąpić domyślnej konfiguracji.\n\nPrawdopodobnie jest to spowodowane nieprawidłowymi uprawnieniami tego widżetu.\n\nPrzeinstaluj Xen HTML, aby naprawić ten problem.";
+"OVERWRITE_MODE_SUCCESS" = "Standardowa konfiguracja została nadpisana.";
+"RESTORABLE_TITLE" = "Reset ustawień";
+"RESTORABLE_MESSAGE" = "Czy chcesz przywrócić konfigurację z czasu ostatniego użycia tego widżetu?";
+"RED" = "Czerwony";
+"GREEN" = "Zielony";
+"BLUE" = "Niebieski";
+"HEX" = "Hex";
+"HEXCODE" = "Kod HEX";
+"OPACITY" = "Nieprzezroczystość";
+"BRIGHTNESS" = "Jasność";
+"NEXT" = "Następny";
+"SETUP_INITIAL_TITLE" = "Instalacja zakończona";
+"SETUP_INITIAL_FOOTER" = "Xen HTML został pomyślnie zainstalowany.\nJest jeszcze tylko kilka kroków do wykonania i gotowe!";
+"SETUP_INITIAL_BUTTON" = "Kontynuuj";
+"SETUP_LOCKSCREEN_IMPORT_TITLE" = "Konfiguracja Ekranu Blokady";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_TITLE" = "Do czego służy importowanie?";
+"SETUP_LOCKSCREEN_IMPORT_FOOTER_BODY" = "Importowanie umożliwia przeniesienie istniejących ustawień Ekranu Blokady do Xen HTML.";
+"SETUP_LOCKSCREEN_IMPORT_NONE" = "Konfiguracja bez importowania";
+"SETUP_LOCKSCREEN_IMPORT_LOCKHTML" = "Importuj z Lock HTML";
+"SETUP_LOCKSCREEN_IMPORT_GROOVYLOCK" = "Importuj z GroovyLock";
+"SETUP_HOMESCREEN_IMPORT_TITLE" = "Konfiguracja Ekranu Początkowego";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_TITLE" = "Do czego służy importowanie?";
+"SETUP_HOMESCREEN_IMPORT_FOOTER_BODY" = "Importowanie umożliwia przeniesienie istniejących ustawień Ekranu Początkowego do Xen HTML.";
+"SETUP_HOMESCREEN_IMPORT_NONE" = "Konfiguracja bez importowania";
+"SETUP_HOMESCREEN_IMPORT_SBHTML" = "Importuj z SBHTML";
+"SETUP_FINAL_TITLE" = "Ostatnia prosta";
+"SETUP_FINAL_TITLE_POST_WORK" = "Witaj w Xen HTML";
+"SETUP_FINAL_RESTART_BUTTON" = "Zaczynajmy";
+"SETUP_FINAL_RESTART_TITLE" = "Musisz wykonać Respring aby ukończyć instalację";
+"SETUP_FINAL_APPLYING_SETTINGS" = "Zatwierdzanie twoich ustawień";
+"SETUP_FINAL_COFFEE" = "Przerwa na kawę";
+"SETUP_FINAL_CLEANUP" = "Czyszczenie";
+"ADD_WIDGETS_14" = "Możesz teraz ustawić widżety Xen HTML za pomocą przycisku „+” podczas edycji układu ikon lub w aplikacji Ustawienia";

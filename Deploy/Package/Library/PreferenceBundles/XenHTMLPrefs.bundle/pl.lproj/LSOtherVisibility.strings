@@ -1,0 +1,29 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"TITLE" = "Widoczność";
+"GRABBERS_HEADER" = "Wskaźniki";
+"GRABBERS_NOTIFICATION_CENTRE" = "Ukryj Wskaźnik Powiadomień";
+"GRABBERS_CONTROL_CENTRE" = "Ukryj Wskaźnik Pasku Stanu";
+"GRABBERS_CAMERA" = "Ukryj Wskaźnik Aparatu";
+"GRABBERS_CAMERA_DISABLE" = "Wyłącz Wskaźnik Aparatu";
+"GRABBERS_HANDOFF" = "Ukryj Wskaźnik Handoff";
+"D22_HEADER" = "Opcje dla Iphone X";
+"D22_FACEID_PADLOCK" = "Ukryj kłódkę Face ID";
+"D22_TORCH_CAMERA" = "Ukryj ikonę Latarki i Aparatu";
+"D22_HOMEBAR" = "Ukryj Wskaźnik Początowy";
+"D22_CONTROL_CENTRE" = "Ukryj Wskaźnik w Centrum Sterowania";
+"MISC_HEADER" = "Różne";
+"MISC_LS_STATUS_BAR" = "Ukryj Pasek Statusu na Ekranie Blokady";
+"MISC_CLOCK_STATUS_BAR" = "Pokaż Zegar na Pasku Statusu";
+"MISC_PAGE_DOTS" = "Ukryj Kropki Stron";

@@ -1,0 +1,42 @@
+/*
+  Make sure to:
+
+  a) Save this file as 'utf8'
+  b) Don't miss any " marks at the start or end of each item
+  c) Preserve any \n marks - this indicates a new line
+  d) Preserve any %d or %s marks - these are used to subtitute numbers etc into your translation
+     For example, "%d enabled" will have numbers placed like so: "2 enabled"
+
+  Much of the translation work is already done. Make sure to check *every* line for something that
+  is still in English - these lines need updating.
+*/
+
+"ELEMENT_VISIBILITY_HEADER" = "Widoczność Elementów";
+"ELEMENT_VISIBILITY_FOOTER" = "Ukryj elementy Ekranu Blokady, gdy używam Xen HTML.";
+"ELEMENT_LS_CLOCK" = "Ukryj Zegar na Ekrane Blokady";
+"ELEMENT_LS_CLOCK_IOS10_VISIBLE" = "Widoczny";
+"ELEMENT_LS_CLOCK_IOS10_MAIN_PAGE" = "Na Pierwszym Ekranie";
+"ELEMENT_LS_CLOCK_IOS10_ALL_PAGES" = "Na Wszystkich Ekranach";
+"ELEMENT_LS_CLOCK_IOS10_FOOTER" = "Zegar Ekranu Blokady może być ukryty tylko na Ekranie Głównym albo na wszystkich Ekranach włącznie z Ekranem Dnia Dzisiejszego.";
+"ELEMENT_SLIDE_TO_UNLOCK" = "Ukryj 'Przeciągnij aby odblokować'";
+"ELEMENT_HOME_TO_UNLOCK" = "Ukryj 'Naciśnij przycisk Początek by odblokować'";
+"ELEMENT_SWIPE_TO_UNLOCK" = "Ukryj 'Przeciągnij w górę aby odblokowć'";
+"ELEMENT_HIDE_OTHERS" = "Ukryj Inne Elementy";
+"VISIBILITY_HEADER" = "Widoczność Widżetu";
+"VISIBILITY_MEDIA" = "Odtwarzacz Muzyki";
+"VISIBILITY_NOTIFICATIONS" = "Powiadomienia";
+"VISIBILITY_OPACITY" = "Nieprzezroczystosć Widżetu gdy ukryty:";
+"MSIC_HEADER" = "Różne";
+"MISC_LS_STATUS_BAR_SIZE" = "Mniejszy Pasek Statusu na Ekrane Blokady";
+"MISC_LS_IDLE_TIME" = "Wygaśnięcie Ekranu Blokady";
+"MISC_LS_IDLE_TIME_7S" = "Standardowe";
+"MISC_LS_IDLE_TIME_10S" = "10 sekund";
+"MISC_LS_IDLE_TIME_15S" = "15 sekund";
+"MISC_LS_IDLE_TIME_20S" = "20 sekund";
+"MISC_LS_IDLE_TIME_30S" = "30 sekund";
+"MISC_LS_IDLE_TIME_60S" = "1 minuta";
+"MISC_LS_IDLE_TIME_120S" = "2 minuty";
+"ADVANCED" = "Zaawansowane";
+"WIDGET_EDITOR_HEADER" = "Edytor Widżetu";
+"WIDGET_EDITOR_FOOTER" = "Dostosuj panel ustawień do używania widżetów na Ekranie Blokady.";
+"WIDGET_EDITOR_SNAP" = "Przyciągaj Widżety do osi Y.";

@@ -73,8 +73,8 @@
 "NO_ENABLED_ITEMS" = "Nessun elemento abilitato";
 "NO_DISABLED_ITEMS" = "Nessun elemento disabilitato";
 "OVERWRITE_MODE_BUTTON_TITLE" = "Esporta";
-"OVERWRITE_MODE_NOT_AVAILABLE" = "No config.json file was found for this widget.\n\nExporting your settings is not possible.";
-"OVERWRITE_MODE_WARNING" = "Questo sovrascriverà la configurazione di default del widget con le tue modifiche.\n\nDEvo fare questo solo se vuoi re-esportare questo widget con le tue impostazioni.\n\nSei sicuro di voler continuare?";
+"OVERWRITE_MODE_NOT_AVAILABLE" = "Nessun config.json file è stato trovato per questo widget.\n\nEsportare le tue impostazioni non è possibile.";
+"OVERWRITE_MODE_WARNING" = "Questo sovrascriverà la configurazione di default del widget con le tue modifiche.\n\nDevo fare questo solo se vuoi re-esportare questo widget con le tue impostazioni.\n\nSei sicuro di voler continuare?";
 "OVERWRITE_MODE_FAILED" = "Fallita la sovrascrittura della configurazione di default.\n\nQuesto è probabilmente causato da un permesso errato su questo widget.\n\nXen HTML sistemaerà automaticamente il problema se reinstalli il tweak.";
 "OVERWRITE_MODE_SUCCESS" = "La configurazione di default è stata sovrascritta.";
 "RESTORABLE_TITLE" = "Ripristina Impostazioni";

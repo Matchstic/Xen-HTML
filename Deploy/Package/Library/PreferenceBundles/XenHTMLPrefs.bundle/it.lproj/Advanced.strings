@@ -22,7 +22,7 @@
 "WW_OVERRIDE" = "Sovrascrivi Widget Meteo";
 "WW_OVERRIDE_FOOTER" = "Se il widget meteo è installato, Xen HTML si riferià ad esso quando dovrà riportare i dati del widget.\n\nQuesta opzione forza Xen HTML a sovrascrivere sempre i dati del widget meteo.";
 "WIDGET_LOGGING" = "Widget Logs";
-"WIDGET_LOGGING_FOOTER" = "Questa opzione reindirizza la console.* JavaScript chiama i widget al filesystem.\n\nI logs possono essere trovati in /var/mobile/Library/Logs/Xen-HTML";
+"WIDGET_LOGGING_FOOTER" = "Questa opzione reindirizza la console.* JavaScript chiama i widget al filesystem.\n\n I logs possono essere trovati in /var/mobile/Library/Logs/Xen-HTML";
 "OVERWRITE_MODE" = "Modalità di sovrascrittura";
 "OVERWRITE_MODE_FOOTER" = "Questa opzione aggiunge un pulsante, quando si configura un widget, per sovrascrivere i suoi valori di default con quelli scelti nelle impostazioni.\n\nQuesto è utile solo se si modificano le impostazioni del widget, allora \"bake\" queste impostazioni nel widget per esportarle.\n\nNon serve abilitarla per l'ultilizzo normale.";
 "WEBKIT_DEV_OPTIONS" = "Opzioni Sviluppo WebKit";
