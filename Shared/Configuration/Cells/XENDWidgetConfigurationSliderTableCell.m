@@ -92,8 +92,6 @@
     NSNumber *max = [self.cell.properties objectForKey:@"max"];
     
     if (currentValue) {
-        self.slider.value = [currentValue floatValue];
-        
         if (!min || !max) {
             self.slider.minimumValue = 0.0;
             self.slider.maximumValue = 1.0;
@@ -115,6 +113,8 @@
             self.maxLabel.text = [NSString stringWithFormat:@"%.2f", max.floatValue];
             self.currentValueLabel.text = [NSString stringWithFormat:@"%.2f", currentValue.floatValue];
         }
+        
+        self.slider.value = [currentValue floatValue];
     }
 }
 
